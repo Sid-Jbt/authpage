@@ -2,21 +2,18 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { browserHistory, Route, Router } from 'react-router';
 import { PersistGate } from 'redux-persist/integration/react';
+import App from './App';
 
 class Routes extends React.Component {
+  render() {
+    return (
 
-    render() {
-        return (
-            <Provider store={store}>
-                <PersistGate loading={null} persistor={persistor}>
-                    <Router history={browserHistory}>
-                        <Route component={App}>
-                        </Route>
-                    </Router>
-                </PersistGate>
-            </Provider>
-        );
-    }
+          <Router history={browserHistory}>
+            <Route component={App} />
+          </Router>
+        
+    );
+  }
 }
 
 export default Routes;
