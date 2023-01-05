@@ -1,12 +1,12 @@
 const colors = {
   background: {
-    default: '#f8f9fa',
-    dark: '#172b4d'
+    default: '#051139',
+    dark: '#111c44'
   },
 
   text: {
-    main: '#67748e',
-    focus: '#67748e'
+    main: '#ffffffcc',
+    focus: '#ffffffcc'
   },
 
   transparent: {
@@ -55,8 +55,8 @@ const colors = {
   },
 
   light: {
-    main: '#e9ecef',
-    focus: '#e9ecef'
+    main: '#f0f2f566',
+    focus: '#f0f2f566'
   },
 
   dark: {
@@ -66,8 +66,8 @@ const colors = {
 
   grey: {
     100: '#f8f9fa',
-    200: '#e9ecef',
-    300: '#dee2e6',
+    200: '#f0f2f566',
+    300: '#ffffff26',
     400: '#ced4da',
     500: '#adb5bd',
     600: '#6c757d',
@@ -273,7 +273,7 @@ const colors = {
   },
 
   inputColors: {
-    borderColor: { main: '#d2d6da', focus: '#11cdef' },
+    borderColor: { main: '#f0f2f566', focus: '#11cdef' },
     error: '#f5365c',
     success: '#2dce89'
   },

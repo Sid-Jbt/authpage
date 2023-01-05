@@ -1,29 +1,5 @@
-/**
-=========================================================
-* Argon Dashboard 2 MUI - v3.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-material-ui
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-/**
- * The base typography styles for the Argon Dashboard 2 MUI.
- * You can add new typography style using this file.
- * You can customized the typography styles for the entire Argon Dashboard 2 MUI using thie file.
- */
-
-// Argon Dashboard 2 MUI Base Styles
-import colors from "assets/theme/base/colors";
-
-// Argon Dashboard 2 MUI Helper Functions
-import pxToRem from "assets/theme/functions/pxToRem";
+import colors from 'assets/theme/base/colors';
+import pxToRem from 'assets/theme/functions/pxToRem';
 
 const { dark } = colors;
 
@@ -38,20 +14,20 @@ const baseProperties = {
   fontSizeSM: pxToRem(14),
   fontSizeMD: pxToRem(16),
   fontSizeLG: pxToRem(18),
-  fontSizeXL: pxToRem(20),
+  fontSizeXL: pxToRem(20)
 };
 
 const baseHeadingProperties = {
   fontFamily: baseProperties.fontFamily,
   color: dark.main,
-  fontWeight: baseProperties.fontWeightMedium,
+  fontWeight: baseProperties.fontWeightMedium
 };
 
 const baseDisplayProperties = {
   fontFamily: baseProperties.fontFamily,
   color: dark.main,
   fontWeight: baseProperties.fontWeightLight,
-  lineHeight: 1.2,
+  lineHeight: 1.2
 };
 
 const typography = {
@@ -64,65 +40,65 @@ const typography = {
   h1: {
     fontSize: pxToRem(48),
     lineHeight: 1.25,
-    ...baseHeadingProperties,
+    ...baseHeadingProperties
   },
 
   h2: {
     fontSize: pxToRem(36),
     lineHeight: 1.3,
-    ...baseHeadingProperties,
+    ...baseHeadingProperties
   },
 
   h3: {
     fontSize: pxToRem(30),
     lineHeight: 1.375,
-    ...baseHeadingProperties,
+    ...baseHeadingProperties
   },
 
   h4: {
     fontSize: pxToRem(24),
     lineHeight: 1.375,
-    ...baseHeadingProperties,
+    ...baseHeadingProperties
   },
 
   h5: {
     fontSize: pxToRem(20),
     lineHeight: 1.375,
-    ...baseHeadingProperties,
+    ...baseHeadingProperties
   },
 
   h6: {
     fontSize: pxToRem(16),
     lineHeight: 1.625,
-    ...baseHeadingProperties,
+    ...baseHeadingProperties
   },
 
   subtitle1: {
     fontFamily: baseProperties.fontFamily,
     fontSize: baseProperties.fontSizeXL,
     fontWeight: baseProperties.fontWeightRegular,
-    lineHeight: 1.625,
+    lineHeight: 1.625
   },
 
   subtitle2: {
     fontFamily: baseProperties.fontFamily,
     fontSize: baseProperties.fontSizeMD,
     fontWeight: baseProperties.fontWeightMedium,
-    lineHeight: 1.6,
+    lineHeight: 1.6
   },
 
   body1: {
     fontFamily: baseProperties.fontFamily,
     fontSize: baseProperties.fontSizeXL,
     fontWeight: baseProperties.fontWeightRegular,
-    lineHeight: 1.625,
+    lineHeight: 1.625
   },
 
   body2: {
     fontFamily: baseProperties.fontFamily,
     fontSize: baseProperties.fontSizeMD,
     fontWeight: baseProperties.fontWeightRegular,
-    lineHeight: 1.6,
+    lineHeight: 1.6
   },
 
   button: {
@@ -130,48 +106,48 @@ const typography = {
     fontSize: baseProperties.fontSizeSM,
     fontWeight: baseProperties.fontWeightBold,
     lineHeight: 1.5,
-    textTransform: "uppercase",
+    textTransform: 'uppercase'
   },
 
   caption: {
     fontFamily: baseProperties.fontFamily,
     fontSize: baseProperties.fontSizeXS,
     fontWeight: baseProperties.fontWeightRegular,
-    lineHeight: 1.25,
+    lineHeight: 1.25
   },
 
   overline: {
-    fontFamily: baseProperties.fontFamily,
+    fontFamily: baseProperties.fontFamily
   },
 
   d1: {
     fontSize: pxToRem(80),
-    ...baseDisplayProperties,
+    ...baseDisplayProperties
   },
 
   d2: {
     fontSize: pxToRem(72),
-    ...baseDisplayProperties,
+    ...baseDisplayProperties
   },
 
   d3: {
     fontSize: pxToRem(64),
-    ...baseDisplayProperties,
+    ...baseDisplayProperties
   },
 
   d4: {
     fontSize: pxToRem(56),
-    ...baseDisplayProperties,
+    ...baseDisplayProperties
   },
 
   d5: {
     fontSize: pxToRem(48),
-    ...baseDisplayProperties,
+    ...baseDisplayProperties
   },
 
   d6: {
     fontSize: pxToRem(40),
-    ...baseDisplayProperties,
+    ...baseDisplayProperties
   },
 
   size: {
@@ -180,14 +156,14 @@ const typography = {
     sm: baseProperties.fontSizeSM,
     md: baseProperties.fontSizeMD,
     lg: baseProperties.fontSizeLG,
-    xl: baseProperties.fontSizeXL,
+    xl: baseProperties.fontSizeXL
   },
 
   lineHeight: {
     sm: 1.25,
     md: 1.5,
-    lg: 2,
-  },
+    lg: 2
+  }
 };
 
 export default typography;
