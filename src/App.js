@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
-import theme from './assets/theme';
+import theme from './Theme';
 import logo from './jbt-colored-logo.png';
 
 const App = () => (

@@ -1,5 +1,5 @@
-import colors from 'assets/theme/base/colors';
-import pxToRem from 'assets/theme/functions/pxToRem';
+import colors from 'src/Assets/theme/base/colors';
+import pxToRem from 'src/Assets/theme/functions/pxToRem';
 
 const { grey } = colors;
 
