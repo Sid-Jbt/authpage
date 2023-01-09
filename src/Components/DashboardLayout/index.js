@@ -4,14 +4,15 @@ import {
   Box,
   Drawer,
   List,
-  ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
-  Divider
+  Divider,
+  Typography,
+  ListItemButton
 } from '@mui/material';
-import { InboxOutlined, MailOutline, Menu, MenuOpen } from '@mui/icons-material';
+import { DashboardCustomizeTwoTone, LoginTwoTone, Menu, MenuOpen } from '@mui/icons-material';
 import { Outlet } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 256;
 
@@ -94,32 +95,38 @@ const DashboardLayout = () => {
         {/* Large and small Logo */}
         <DrawerHeader sx={{ justifyContent: 'center', color: 'black' }}>LOGO</DrawerHeader>
         <Divider sx={{ width: '60%', marginRight: 'auto', marginLeft: 'auto' }} />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center'
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxOutlined /> : <MailOutline />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+        <List sx={{ m: 1 }}>
+          <ListItemButton
+            component={Link}
+            to="/dashboard"
+            selected={window.location.pathname === '/dashboard'}
+            disableGutters
+            sx={{ borderRadius: 2, pl: 1.5, marginBottom: 1 }}
+          >
+            <ListItemIcon>
+              <DashboardCustomizeTwoTone />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography variant="button">Dashboard</Typography>
+            </ListItemText>
+          </ListItemButton>
+          <ListItemButton
+            component={Link}
+            to="/"
+            selected={window.location.pathname === '/'}
+            disableGutters
+            sx={{ borderRadius: 2, pl: 1.5, marginBottom: 1 }}
+          >
+            <ListItemIcon>
+              <LoginTwoTone />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography variant="button">Login</Typography>
+            </ListItemText>
+          </ListItemButton>
         </List>
       </SideDrawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, pt: 0 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, pt: 0, width: '100vw' }}>
         <DrawerHeader sx={{ paddingLeft: 0 }}>
           {open ? (
             <Menu cursor="pointer" onClick={handleDrawer} />
