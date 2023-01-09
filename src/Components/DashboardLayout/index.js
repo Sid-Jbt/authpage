@@ -8,10 +8,13 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Icon,
   Divider
 } from '@mui/material';
 import { InboxOutlined, MailOutline, Menu, MenuOpen } from '@mui/icons-material';
 import { Outlet } from 'react-router';
+import JbtFullLogo from '../../Assets/logo/jbt-full-logo.svg';
+import JbtLogo from '../../Assets/logo/jbt-logo.svg';
 
 const drawerWidth = 256;
 
@@ -92,7 +95,19 @@ const DashboardLayout = () => {
         }}
       >
         {/* Large and small Logo */}
-        <DrawerHeader sx={{ justifyContent: 'center', color: 'black' }}>LOGO</DrawerHeader>
+        <DrawerHeader
+          sx={{ height: open ? 100 : 'auto', justifyContent: 'center', color: 'black' }}
+        >
+          {open ? (
+            <Icon sx={{ width: '90%', height: '100%' }}>
+              <img alt="edit" src={JbtFullLogo} width="100%" />
+            </Icon>
+          ) : (
+            <Icon sx={{ width: '90%', height: '100%' }}>
+              <img alt="edit" src={JbtLogo} width="100%" />
+            </Icon>
+          )}
+        </DrawerHeader>
         <Divider sx={{ width: '60%', marginRight: 'auto', marginLeft: 'auto' }} />
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
