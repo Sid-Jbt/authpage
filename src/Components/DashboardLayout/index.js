@@ -69,7 +69,7 @@ const SideDrawer = styled(Drawer, { shouldForwardProp: (prop) => prop !== 'open'
   })
 );
 
-const MiniDrawer = () => {
+const DashboardLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
 
@@ -82,7 +82,7 @@ const MiniDrawer = () => {
       sx={{
         display: 'flex',
         height: '100vh',
-        backgroundImage: `linear-gradient(180deg, ${theme.palette.colors.gradients.primary.main} 35%, ${theme.palette.colors.background.default} 35%)`
+        backgroundImage: `linear-gradient(180deg, ${theme.palette.colors.gradients.primary.main} 300px, ${theme.palette.colors.background.default} 35%)`
       }}
     >
       <SideDrawer
@@ -132,4 +132,4 @@ const MiniDrawer = () => {
   );
 };
 
-export default MiniDrawer;
+export default DashboardLayout;
