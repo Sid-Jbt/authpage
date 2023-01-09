@@ -4,14 +4,13 @@ import {
   Box,
   Drawer,
   List,
-  IconButton,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Divider
 } from '@mui/material';
-import { MenuOutlined, InboxOutlined, MailOutline } from '@mui/icons-material';
+import { InboxOutlined, MailOutline, Menu, MenuOpen } from '@mui/icons-material';
 import { Outlet } from 'react-router';
 
 const drawerWidth = 256;
@@ -89,11 +88,11 @@ const DashboardLayout = () => {
         variant="permanent"
         open={open}
         PaperProps={{
-          elevation: 20
+          elevation: 10
         }}
       >
         {/* Large and small Logo */}
-        <DrawerHeader sx={{ justifyContent: 'center' }}>LOGO</DrawerHeader>
+        <DrawerHeader sx={{ justifyContent: 'center', color: 'black' }}>LOGO</DrawerHeader>
         <Divider sx={{ width: '60%', marginRight: 'auto', marginLeft: 'auto' }} />
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
@@ -122,9 +121,11 @@ const DashboardLayout = () => {
       </SideDrawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3, pt: 0 }}>
         <DrawerHeader sx={{ paddingLeft: 0 }}>
-          <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawer} edge="start">
-            <MenuOutlined />
-          </IconButton>
+          {open ? (
+            <Menu cursor="pointer" onClick={handleDrawer} />
+          ) : (
+            <MenuOpen cursor="pointer" onClick={handleDrawer} />
+          )}
         </DrawerHeader>
         <Outlet />
       </Box>
