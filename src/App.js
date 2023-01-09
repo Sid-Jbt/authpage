@@ -1,16 +1,19 @@
-import { CssBaseline, ThemeProvider } from '@material-ui/core';
-import theme from './Theme';
-import logo from './jbt-colored-logo.png';
+import { useSelector } from 'react-redux';
+import theme from 'Theme';
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline, StyledEngineProvider } from '@mui/material';
+import RootRoutes from './Routes/index';
 
-const App = () => (
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <div className="`App">
-      <h2>Welcome to JBT Timer Web Page...</h2>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
-    </div>
-  </ThemeProvider>
-);
+const App = () => {
+  const customization = useSelector((state) => state.customization);
+
+  return (
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme(customization)}>
+        <CssBaseline />
+        <RootRoutes name="app" path="/" handler={App} />
+      </ThemeProvider>
+    </StyledEngineProvider>
+  );
+};
 export default App;
