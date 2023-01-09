@@ -8,15 +8,17 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Divider
 } from '@mui/material';
 import { MenuOutlined, InboxOutlined, MailOutline } from '@mui/icons-material';
 import { Outlet } from 'react-router';
 
-const drawerWidth = 240;
+const drawerWidth = 256;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
+  height: 'calc(100vh - 2rem)',
   margin: 15,
   borderRadius: 10,
   transition: theme.transitions.create('width', {
@@ -35,6 +37,7 @@ const closedMixin = (theme) => ({
   }),
   overflowX: 'hidden',
   width: `calc(${theme.spacing(7)} + 1px)`,
+  height: 'calc(100vh - 2rem)',
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`
   }
@@ -51,6 +54,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const SideDrawer = styled(Drawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     width: drawerWidth,
+    height: 'calc(100vh - 2rem)',
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
@@ -90,6 +94,7 @@ const MiniDrawer = () => {
       >
         {/* Large and small Logo */}
         <DrawerHeader sx={{ justifyContent: 'center' }}>LOGO</DrawerHeader>
+        <Divider sx={{ width: '60%', marginRight: 'auto', marginLeft: 'auto' }} />
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
