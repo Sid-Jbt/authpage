@@ -1,3 +1,4 @@
+import { Switch } from '@mui/material';
 import Button from 'Elements/Button';
 import React from 'react';
 
@@ -6,6 +7,7 @@ const Login = () => (
     <Button variant="contained" color="info">
       Test
     </Button>
+    <Switch />
   </div>
 );
 

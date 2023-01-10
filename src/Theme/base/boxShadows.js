@@ -1,5 +1,5 @@
 import colors from './colors';
-import boxShadow from './functions/boxShadow';
+import boxShadow from '../functions/boxShadow';
 
 const { black, white, info, tabs, dark, text } = colors;
 

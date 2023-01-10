@@ -1,5 +1,5 @@
 import colors from './colors';
-import pxToRem from './functions/pxToRem';
+import pxToRem from '../functions/pxToRem';
 
 const { grey } = colors;
 
