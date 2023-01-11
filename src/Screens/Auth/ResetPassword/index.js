@@ -34,7 +34,7 @@ const RestPassword = () => (
     <Box mt={3} textAlign="center">
       <Typography variant="button" color="text" fontWeight="regular">
         Don&apos;t have an account?{' '}
-        <Typography component={Link} to="/login" variant="button" color="info" fontWeight="medium">
+        <Typography component={Link} to="/" variant="button" color="info" fontWeight="medium">
           Sign In
         </Typography>
       </Typography>
