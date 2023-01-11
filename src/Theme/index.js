@@ -1,30 +1,35 @@
 import { createTheme } from '@mui/material/styles';
+import colors from './base/colors';
+import breakpoints from './base/breakpoints';
+import typography from './base/typography';
+import boxShadows from './base/boxShadows';
+import borders from './base/borders';
+import boxShadow from './functions/boxShadow';
+import hexToRgb from './functions/hexToRgb';
+import linearGradient from './functions/linearGradient';
+import pxToRem from './functions/pxToRem';
+import rgba from './functions/rgba';
 import componentStyleOverrides from './compStyleOverride';
-import themeTypography from './typography';
-import colors from './colors';
 
 export const theme = (customization) => {
-  const color = colors;
-
-  const themeOption = {
-    colors: color,
+  const themeOptions = {
+    breakpoints: { ...breakpoints },
+    palette: { ...colors },
+    typography: { ...typography },
+    boxShadows: { ...boxShadows },
+    borders: { ...borders },
+    functions: {
+      boxShadow,
+      hexToRgb,
+      linearGradient,
+      pxToRem,
+      rgba
+    },
     customization
   };
 
-  const themeOptions = {
-    direction: 'ltr',
-    palette: themeOption,
-    mixins: {
-      toolbar: {
-        color: 'white',
-        padding: '16px'
-      }
-    },
-    typography: themeTypography(themeOption)
-  };
-
   const themes = createTheme(themeOptions);
-  themes.components = componentStyleOverrides(themeOption);
+  themes.components = componentStyleOverrides(themeOptions);
 
   return themes;
 };
