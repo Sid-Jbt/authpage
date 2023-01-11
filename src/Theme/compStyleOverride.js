@@ -12,7 +12,6 @@ export default function componentStyleOverrides(theme) {
       defaultProps: {
         color: 'transparent'
       },
-
       styleOverrides: {
         root: {
           boxShadow: 'none'
