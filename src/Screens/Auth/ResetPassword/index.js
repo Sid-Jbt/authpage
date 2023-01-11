@@ -5,29 +5,30 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { Link } from 'react-router-dom';
 
-const ForgotPassword = () => (
+const RestPassword = () => (
   <div style={{ margin: 10 }}>
     <>
       <Box mb={1}>
         <Typography variant="h4" fontWeight="bold">
-          Forgot Password
+          Create new password
         </Typography>
       </Box>
       <Typography variant="body2" fontWeight="regular" color="text">
-        Enter your email to get the link
+        Your new password must be different from previous used password.
       </Typography>
     </>
-    <Input type="email" placeholder="Email" size="large" sx={{ marginTop: 2 }} />
+    <Input type="password" placeholder="New Password" size="large" sx={{ marginTop: 2 }} />
+    <Input type="password" placeholder="Confirm Password" size="large" sx={{ marginTop: 2 }} />
     <Box mt={4} mb={1}>
       <Button
         variant="contained"
         color="info"
         size="large"
         fullWidth
-        component={Link}
-        to="/reset-password"
+        componet={Link}
+        to="/dashboard"
       >
-        Forgot Password Link
+        Reset Password
       </Button>
     </Box>
     <Box mt={3} textAlign="center">
@@ -41,4 +42,4 @@ const ForgotPassword = () => (
   </div>
 );
 
-export default ForgotPassword;
+export default RestPassword;

@@ -7,4 +7,5 @@ export const loginPattern = '/login';
 export const getLoginPattern = () => generatePath(loginPattern);
 
 export const forgotPasswordPattern = '/forgot-password';
+export const resetPasswordPattern = '/reset-password';
 export const getForgotPasswordPattern = () => generatePath(forgotPasswordPattern);

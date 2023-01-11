@@ -1,8 +1,9 @@
 import AuthLayout from 'Components/AuthLayout';
 import ForgotPassword from 'Screens/Auth/ForgotPassword';
+import ResetPassword from 'Screens/Auth/ResetPassword';
 import Login from 'Screens/Auth/Login';
 // eslint-disable-next-line import/named
-import { defaultPattern, forgotPasswordPattern } from './routeConfig';
+import { defaultPattern, forgotPasswordPattern, resetPasswordPattern } from './routeConfig';
 
 const AuthRoutes = {
   path: defaultPattern,
@@ -15,6 +16,10 @@ const AuthRoutes = {
     {
       path: forgotPasswordPattern,
       element: <ForgotPassword />
+    },
+    {
+      path: resetPasswordPattern,
+      element: <ResetPassword />
     }
     // {
     //   path: '/forgot-reset-password',
