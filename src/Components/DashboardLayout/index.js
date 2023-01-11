@@ -2,6 +2,7 @@ import Box from 'Elements/Box';
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router';
 import DashboardNavbar from './Navbar';
+import Sidenav from './Sidenav';
 
 const DashboardLayout = ({ bgColor, children, ...rest }) => {
   const background = bgColor;
@@ -16,6 +17,7 @@ const DashboardLayout = ({ bgColor, children, ...rest }) => {
       left={0}
       {...rest}
     >
+      <Sidenav />
       <Box
         sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
           p: 3,
