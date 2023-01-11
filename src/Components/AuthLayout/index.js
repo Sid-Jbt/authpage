@@ -7,8 +7,9 @@ import linearGradient from '../../Theme/functions/linearGradient';
 
 const AuthLayout = () => {
   const theme = useTheme();
-  console.log(theme);
+
   const bgImage = 'https://jarvisbitz.com/wp-content/uploads/2022/02/banner-shape-1.png';
+
   return (
     <>
       <Box
