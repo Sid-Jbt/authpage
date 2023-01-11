@@ -2,11 +2,13 @@ import React from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import { Outlet } from 'react-router';
-import { Grid } from '@mui/material';
+import { Grid, useTheme } from '@mui/material';
+import linearGradient from '../../Theme/functions/linearGradient';
 
-const AuthLayout = ({ color }) => {
-  const bgImage =
-    'https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg';
+const AuthLayout = () => {
+  const theme = useTheme();
+  console.log(theme);
+  const bgImage = 'https://jarvisbitz.com/wp-content/uploads/2022/02/banner-shape-1.png';
   return (
     <>
       <Box
@@ -18,8 +20,12 @@ const AuthLayout = ({ color }) => {
       >
         <Grid container>
           <Grid item xs={11} sm={8} md={6} lg={4} xl={3} sx={{ mx: 'auto' }}>
-            <Box mt={1}>Header</Box>
-            <Box display="flex" flexDirection="column" justifyContent="center" height="100vh">
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              height="calc(100vh - 2rem)"
+            >
               <Box p={3}>
                 <Outlet />
               </Box>
@@ -46,12 +52,14 @@ const AuthLayout = ({ color }) => {
                 alt="background"
                 width="100%"
                 position="absolute"
-                top={0}
+                top={50}
                 left={0}
               />
               <Box
-                bgColor={color}
-                variant="gradient"
+                bgColor={linearGradient(
+                  theme.palette.gradients.info.main,
+                  theme.palette.gradients.info.state
+                )}
                 width="100%"
                 height="100%"
                 position="absolute"
@@ -62,7 +70,7 @@ const AuthLayout = ({ color }) => {
               <Box position="relative">
                 <Box mt={6} mb={1}>
                   <Typography variant="h4" color="white" fontWeight="bold">
-                    Attention is the new currency
+                    JarvisBitz Tech
                   </Typography>
                 </Box>
 
@@ -76,7 +84,6 @@ const AuthLayout = ({ color }) => {
             </Box>
           </Grid>
         </Grid>
-        Footer
       </Box>
     </>
   );
