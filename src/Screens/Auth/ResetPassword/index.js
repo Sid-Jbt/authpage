@@ -25,7 +25,7 @@ const RestPassword = () => (
         color="info"
         size="large"
         fullWidth
-        componet={Link}
+        component={Link}
         to="/dashboard"
       >
         Reset Password
