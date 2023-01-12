@@ -2,22 +2,14 @@ import { Drawer, styled } from '@mui/material';
 
 export default styled(Drawer)(({ theme, ownerState }) => {
   const { palette, boxShadows, transitions, breakpoints, functions } = theme;
-  const { darkSidenav, miniSidenav, layout } = ownerState;
+  const { darkSidenav, miniSidenav } = ownerState;
 
   const sidebarWidth = 256;
-  const { white, background, transparent } = palette;
+  const { white, transparent } = palette;
   const { xxl } = boxShadows;
   const { pxToRem } = functions;
 
-  let bgColor;
-
-  if ((darkSidenav && layout === 'landing') || (!darkSidenav && layout === 'landing')) {
-    bgColor = transparent.main;
-  } else if (darkSidenav) {
-    bgColor = background.dark;
-  } else {
-    bgColor = white.main;
-  }
+  const bgColor = white.main;
 
   const drawerOpenStyles = () => ({
     transform: 'translateX(0)',
@@ -66,8 +58,10 @@ export default styled(Drawer)(({ theme, ownerState }) => {
     '& .MuiDrawer-paper': {
       boxShadow: xxl,
       border: 'none',
+      height: 'calc(100vh - 2rem)',
+      margin: pxToRem(20),
+      borderRadius: pxToRem(8),
       backgroundColor: transparent.main,
-
       ...(miniSidenav ? drawerCloseStyles() : drawerOpenStyles())
     }
   };

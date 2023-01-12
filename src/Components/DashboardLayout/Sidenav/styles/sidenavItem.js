@@ -1,9 +1,8 @@
 function item(theme, ownerState) {
-  const { palette, transitions, breakpoints, boxShadows, borders, functions } = theme;
-  const { active, darkSidenav, sidenavColor, miniSidenav } = ownerState;
+  const { palette, transitions, breakpoints, borders, functions } = theme;
+  const { active, sidenavColor, miniSidenav } = ownerState;
 
   const { dark, text, transparent, white } = palette;
-  const { xxl } = boxShadows;
   const { borderRadius } = borders;
   const { pxToRem, rgba } = functions;
 
@@ -14,7 +13,7 @@ function item(theme, ownerState) {
     color: () => {
       let result = text.main;
 
-      if ((active && sidenavColor) || (active && darkSidenav) || darkSidenav) {
+      if (active && sidenavColor) {
         result = white.main;
       } else if (active) {
         result = dark.main;
@@ -31,16 +30,10 @@ function item(theme, ownerState) {
     cursor: 'pointer',
     userSelect: 'none',
     whiteSpace: 'nowrap',
-    boxShadow: active && darkSidenav ? xxl : 'none',
+    boxShadow: 'none',
 
     [breakpoints.up('xl')]: {
-      boxShadow: () => {
-        if (active) {
-          return darkSidenav ? xxl : 'none';
-        }
-
-        return 'none';
-      },
+      boxShadow: 'none',
       transition: transitions.create('box-shadow', {
         easing: transitions.easing.easeInOut,
         duration: transitions.duration.shorter
@@ -97,6 +90,7 @@ function itemText(theme, ownerState) {
       opacity: miniSidenav ? 0 : 1,
       maxWidth: miniSidenav ? 0 : '100%',
       marginLeft: miniSidenav ? 0 : pxToRem(4),
+      marginBottom: miniSidenav ? 0 : pxToRem(4),
       transition: transitions.create(['opacity', 'margin'], {
         easing: transitions.easing.easeInOut,
         duration: transitions.duration.standard
@@ -105,6 +99,7 @@ function itemText(theme, ownerState) {
 
     '& span': {
       color: 'inherit',
+      textDecoration: 'none',
       fontWeight: active ? fontWeightMedium : fontWeightRegular,
       fontSize: size.sm,
       lineHeight: 0
