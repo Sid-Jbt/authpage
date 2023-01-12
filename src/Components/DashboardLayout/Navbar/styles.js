@@ -1,39 +1,23 @@
-function navbar(theme, ownerState) {
-  const { palette, boxShadows, functions, transitions, breakpoints, borders } = theme;
-  const { transparentNavbar, absolute, light } = ownerState;
+function navbar(theme) {
+  const { palette, functions, transitions, breakpoints, borders } = theme;
 
-  const { dark, white, text, transparent } = palette;
-  const { navbarBoxShadow } = boxShadows;
+  const { text, transparent } = palette;
   const { pxToRem } = functions;
   const { borderRadius } = borders;
 
   return {
-    boxShadow: transparentNavbar || absolute ? 'none' : navbarBoxShadow,
-    backgroundColor: transparentNavbar || absolute ? `${transparent.main} !important` : white.main,
-
-    color: () => {
-      let color;
-
-      if (light) {
-        color = white.main;
-      } else if (transparentNavbar) {
-        color = text.main;
-      } else {
-        color = dark.main;
-      }
-
-      return color;
-    },
-    top: absolute ? 0 : pxToRem(12),
+    boxShadow: 'none',
+    backgroundColor: `${transparent.main} !important`,
+    color: text.main,
+    top: pxToRem(12),
     minHeight: pxToRem(75),
     display: 'grid',
     alignItems: 'center',
     borderRadius: borderRadius.xl,
     paddingTop: pxToRem(8),
     paddingBottom: pxToRem(8),
-    paddingRight: absolute ? pxToRem(8) : 0,
-    paddingLeft: absolute ? pxToRem(16) : 0,
-
+    paddingRight: 0,
+    paddingLeft: 0,
     '& > *': {
       transition: transitions.create('all', {
         easing: transitions.easing.easeInOut,
@@ -58,14 +42,12 @@ const navbarContainer = ({ breakpoints }) => ({
   flexDirection: 'column',
   alignItems: 'flex-start',
   justifyContent: 'space-between',
-  pt: 0.5,
-  pb: 0.5,
-
+  p: '0 !important',
   [breakpoints.up('md')]: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: '0',
-    paddingBottom: '0'
+    p: 0,
+    minHeight: 'auto'
   }
 });
 
@@ -74,12 +56,10 @@ const navbarRow = ({ breakpoints }, { isMini }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '100%',
-
   [breakpoints.up('md')]: {
     justifyContent: isMini ? 'space-between' : 'stretch',
     width: isMini ? '100%' : 'max-content'
   },
-
   [breakpoints.up('xl')]: {
     justifyContent: 'stretch !important',
     width: 'max-content !important'
@@ -104,15 +84,6 @@ const navbarIconButton = ({ typography: { size }, breakpoints }) => ({
   }
 });
 
-const navbarDesktopMenu = ({ breakpoints }) => ({
-  display: 'none !important',
-  cursor: 'pointer',
-
-  [breakpoints.up('xl')]: {
-    display: 'inline-block !important'
-  }
-});
-
 const navbarMobileMenu = ({ breakpoints }) => ({
   display: 'inline-block',
   lineHeight: 0,
@@ -122,11 +93,4 @@ const navbarMobileMenu = ({ breakpoints }) => ({
   }
 });
 
-export {
-  navbar,
-  navbarContainer,
-  navbarRow,
-  navbarIconButton,
-  navbarDesktopMenu,
-  navbarMobileMenu
-};
+export { navbar, navbarContainer, navbarRow, navbarIconButton, navbarMobileMenu };

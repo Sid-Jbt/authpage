@@ -1,86 +1,91 @@
 import { AppBar, Icon, IconButton, Menu, Toolbar } from '@mui/material';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-// import { useLocation, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Box from 'Elements/Box';
-import {
-  navbar,
-  navbarContainer,
-  navbarRow,
-  navbarIconButton,
-  navbarDesktopMenu,
-  navbarMobileMenu
-} from './styles';
+import { MINI_SIDENAV } from 'Redux/actions/ui/actions';
+import { MenuOpenTwoTone, MenuTwoTone, Notifications } from '@mui/icons-material';
+import { useState } from 'react';
+import NotificationItem from 'Elements/Item';
 
-// eslint-disable-next-line arrow-body-style
-const DashboardNavbar = ({ absolute, light, isMini }) => {
-  //   const [navbarType, setNavbarType] = useState('static');
+import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
+
+const DashboardNavbar = ({ isMini }) => {
   const customization = useSelector((state) => state.customization);
+  const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(false);
-  //   const route = useLocation().pathname.split('/').slice(1);
 
-  //   const handleMiniSidenav = () => setMiniSidenav(dispatch, !customization.opened);
-  //   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
-  //   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
-  const handleCloseMenu = () => setOpenMenu(false);
+  const handleMiniSidenav = () =>
+    dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
+  const handleMenu = () => setOpenMenu(!openMenu);
 
   const renderMenu = () => (
     <Menu
       anchorEl={openMenu}
       anchorReference={null}
       anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left'
+        vertical: 'top',
+        horizontal: 'right'
       }}
       open={Boolean(openMenu)}
-      onClose={handleCloseMenu}
-      sx={{ mt: 2 }}
+      onClose={handleMenu}
+      sx={{ mt: 2, top: 77 }}
     >
-      Item
+      <NotificationItem
+        // image={<img src={team2} alt="person" />}
+        title={['New message', 'from Laur']}
+        date="13 minutes ago"
+        onClick={handleMenu}
+      />
+      <NotificationItem
+        // image={<img src={logoSpotify} alt="person" />}
+        title={['New album', 'by Travis Scott']}
+        date="1 day"
+        onClick={handleMenu}
+      />
+      <NotificationItem
+        color="secondary"
+        image={
+          <Icon fontSize="small" sx={{ color: ({ palette: { white } }) => white.main }}>
+            payment
+          </Icon>
+        }
+        title={['', 'Payment successfully completed']}
+        date="2 days"
+        onClick={handleMenu}
+      />
     </Menu>
   );
 
   return (
-    <AppBar position="absolute" color="inherit" sx={(theme) => navbar(theme, { absolute, light })}>
-      <Toolbar sx={(theme) => navbarContainer(theme)}>
+    <AppBar position="static" color="inherit" sx={(theme) => navbar(theme)}>
+      <Toolbar sx={(theme) => navbarContainer(theme, { position: 'static' })}>
         <Box color="white" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
+          {!customization.miniSidenav ? (
+            <MenuOpenTwoTone onClick={handleMiniSidenav} />
+          ) : (
+            <MenuTwoTone onClick={handleMiniSidenav} />
+          )}
           {/* <Breadcrumbs
-            icon="home"
-            title={route[route.length - 1]}
-            route={route}
-            light={transparentNavbar ? light : false}
-          /> */}
-          <Icon fontSize="medium" sx={navbarDesktopMenu}>
-            {!customization.opened ? 'menu_open' : 'menu'}
-          </Icon>
+          icon="home"
+          title={route[route.length - 1]}
+          route={route}
+          light={transparentNavbar ? light : false}
+        /> */}
         </Box>
-        {isMini ? null : (
-          <Box sx={(theme) => navbarRow(theme, { isMini })}>
-            <Box color="inherit">
-              <IconButton
-                size="small"
-                color="white"
-                sx={navbarMobileMenu}
-                // onClick={handleMiniSidenav}
-              >
-                <Icon>{!customization.opened ? 'menu_open' : 'menu'}</Icon>
-              </IconButton>
-              <IconButton
-                size="small"
-                color="dark"
-                sx={navbarIconButton}
-                aria-controls="notification-menu"
-                aria-haspopup="true"
-                variant="contained"
-                // onClick={handleOpenMenu}
-              >
-                <Icon>notifications</Icon>
-              </IconButton>
-              {renderMenu()}
-            </Box>
+        <Box sx={(theme) => navbarRow(theme, { isMini })}>
+          <Box color="white">
+            <IconButton
+              size="small"
+              color="white"
+              sx={navbarIconButton}
+              variant="contained"
+              onClick={handleMenu}
+            >
+              <Notifications />
+            </IconButton>
+            {renderMenu()}
           </Box>
-        )}
+        </Box>
       </Toolbar>
     </AppBar>
   );

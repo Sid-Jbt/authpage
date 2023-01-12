@@ -1,26 +1,20 @@
-import * as actionTypes from '../../actions/ui/actions';
+import { LAYOUT, MINI_SIDENAV } from 'Redux/actions/ui/actions';
 
 export const initialState = {
-  isOpen: [], // for active default menu
-  opened: true
+  miniSidenav: false
 };
 
 const customizationReducer = (state = initialState, action) => {
-  let id;
   switch (action.type) {
-    case actionTypes.MENU_OPEN:
-      id = action.id;
-      return {
-        ...state,
-        isOpen: [id]
-      };
-    case actionTypes.SET_MENU:
-      return {
-        ...state,
-        opened: action.opened
-      };
-    default:
-      return state;
+    case MINI_SIDENAV: {
+      return { ...state, miniSidenav: action.value };
+    }
+    case LAYOUT: {
+      return { ...state, layout: action.value };
+    }
+    default: {
+      return initialState;
+    }
   }
 };
 

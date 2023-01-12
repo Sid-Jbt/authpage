@@ -1,3 +1,4 @@
+import { DashboardRounded } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
@@ -8,7 +9,17 @@ const Profile = Loadable(lazy(() => import('../Screens/Profile')));
 
 const MainRoutes = [
   {
+    name: 'Dashboard',
+    icon: <DashboardRounded />,
     path: '/dashboard',
+    key: 'dashboard',
+    element: <DashboardDefault />
+  },
+  {
+    name: 'Profile',
+    icon: <DashboardRounded />,
+    path: '/profile',
+    key: 'profile',
     element: <DashboardDefault />
   },
   {
