@@ -1,6 +1,11 @@
 import React from 'react';
 import Box from 'Elements/Box';
+import Header from './components/Header';
 
-const Profile = () => <Box py={3}>Profile Default</Box>;
+const Profile = () => (
+  <Box>
+    <Header />
+  </Box>
+);
 
 export default Profile;
