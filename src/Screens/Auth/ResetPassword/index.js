@@ -19,7 +19,7 @@ const RestPassword = () => (
     </>
     <Input type="password" placeholder="New Password" size="large" sx={{ marginTop: 2 }} />
     <Input type="password" placeholder="Confirm Password" size="large" sx={{ marginTop: 2 }} />
-    <Box mt={4} mb={1}>
+    <Box mt={2} mb={1}>
       <Button
         variant="contained"
         color="info"
