@@ -18,12 +18,8 @@ const MainRoutes = [
   {
     name: 'Profile',
     icon: <DashboardRounded />,
-    path: '/profile',
-    key: 'profile',
-    element: <DashboardDefault />
-  },
-  {
     path: profilePattern,
+    key: 'profile',
     element: <Profile />
   }
 ];
