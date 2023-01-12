@@ -1,6 +1,6 @@
+import React, { forwardRef } from 'react';
 import styled from '@emotion/styled';
-import { InputBase } from '@mui/material';
-import { forwardRef } from 'react';
+import { FormControl, FormHelperText, InputBase, useTheme } from '@mui/material';
 
 const InputRoot = styled(InputBase)(({ theme, ownerState }) => {
   const { palette, functions, typography, borders, boxShadows } = theme;
@@ -97,8 +97,21 @@ const InputRoot = styled(InputBase)(({ theme, ownerState }) => {
   };
 });
 
-const TextField = forwardRef(({ size, error, success, disabled, ...rest }, ref) => (
-  <InputRoot {...rest} ref={ref} ownerState={{ size, error, success, disabled }} />
+const MyFormHelperText = ({ errorText }) => {
+  const theme = useTheme();
+
+  return (
+    <FormHelperText sx={{ mr: 0, ml: 0, color: theme.palette.error.main }}>
+      {errorText || ' '}
+    </FormHelperText>
+  );
+};
+
+const TextField = forwardRef(({ size, error, success, disabled, errorText, ...rest }, ref) => (
+  <FormControl sx={{ width: '100%' }}>
+    <InputRoot {...rest} ref={ref} ownerState={{ size, error, success, disabled }} />
+    <MyFormHelperText errorText={errorText} />
+  </FormControl>
 ));
 
 TextField.defaultProps = {

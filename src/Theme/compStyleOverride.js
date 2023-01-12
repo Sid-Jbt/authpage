@@ -4,7 +4,7 @@ export default function componentStyleOverrides(theme) {
     palette;
   const { size, fontWeightRegular, fontWeightBold } = typography;
   const { borderWidth, borderRadius } = borders;
-  const { md, buttonBoxShadow } = boxShadows;
+  const { md, buttonBoxShadow, lg } = boxShadows;
   const { pxToRem, rgba, linearGradient } = functions;
 
   return {
@@ -23,11 +23,9 @@ export default function componentStyleOverrides(theme) {
         root: {
           transition: 'all 200ms ease-in-out'
         },
-
         rounded: {
           borderRadius: borderRadius.lg
         },
-
         img: {
           height: 'auto'
         }
@@ -40,7 +38,6 @@ export default function componentStyleOverrides(theme) {
           minHeight: pxToRem(24),
           marginBottom: pxToRem(2)
         },
-
         label: {
           display: 'inline-block',
           fontSize: size.sm,
@@ -81,12 +78,10 @@ export default function componentStyleOverrides(theme) {
             border: 'none'
           }
         },
-
         input: {
           height: pxToRem(22),
           width: 'max-content !important'
         },
-
         inputSizeSmall: {
           height: pxToRem(14)
         }
@@ -112,7 +107,6 @@ export default function componentStyleOverrides(theme) {
           transition:
             'box-shadow 150ms ease, border-color 150ms ease, padding 150ms ease !important'
         },
-
         input: {
           width: '100% !important',
           height: pxToRem(22),
@@ -120,7 +114,6 @@ export default function componentStyleOverrides(theme) {
           paddingRight: '0 !important',
           paddingBottom: '0 !important',
           paddingLeft: pxToRem(6),
-
           '&::-webkit-input-placeholder': {
             color: `${dark.main} !important`
           }
@@ -402,7 +395,7 @@ export default function componentStyleOverrides(theme) {
           borderRadius: pxToRem(160),
           transition: 'transform 250ms ease-in'
         },
-        '&.MuiSwitch-switchBase': {
+        switchBase: {
           padding: 0,
           top: '50%',
           transform: `translate(${pxToRem(2)}, -50%)`,
@@ -422,24 +415,21 @@ export default function componentStyleOverrides(theme) {
             backgroundImage: linearGradient(gradients.info.main, gradients.info.state)
           }
         },
-
-        '&.MuiSwitch-thumb': {
+        thumb: {
           width: pxToRem(16),
           height: pxToRem(16),
           backgroundColor: white.main,
           boxShadow: md,
           top: '50%'
         },
-
-        '&.MuiSwitch-track': {
+        track: {
           backgroundColor: rgba(gradients.dark.state, 0.1),
           border: `${borderWidth[1]} solid ${light.main}`,
           borderRadius: pxToRem(160),
           opacity: 1,
           transition: `background-color 250ms ease, border-color 200ms ease`
         },
-
-        '&.Mui-checked': {}
+        checked: {}
       }
     },
     MuiSvgIcon: {
@@ -458,6 +448,47 @@ export default function componentStyleOverrides(theme) {
 
         fontSizeLarge: {
           fontSize: `${pxToRem(36)} !important`
+        }
+      }
+    },
+    MuiMenu: {
+      defaultProps: {
+        disableAutoFocusItem: true
+      },
+      styleOverrides: {
+        paper: {
+          minWidth: pxToRem(160),
+          boxShadow: `${lg} !important`,
+          padding: `${pxToRem(8)} ${pxToRem(8)}`,
+          fontSize: size.sm,
+          color: text.main,
+          textAlign: 'left',
+          backgroundColor: `${white.main} !important`,
+          borderRadius: `${borderRadius.md} !important`
+        }
+      }
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          padding: 0
+        }
+      }
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          minWidth: pxToRem(160),
+          minHeight: 'unset',
+          padding: `${pxToRem(4.8)} ${pxToRem(16)}`,
+          borderRadius: borderRadius.md,
+          fontSize: size.sm,
+          color: text.main,
+          transition: 'background-color 300ms ease, color 300ms ease',
+          '&:hover, &:focus, &.Mui-selected, &.Mui-selected:hover, &.Mui-selected:focus': {
+            backgroundColor: light.main,
+            color: dark.main
+          }
         }
       }
     }
