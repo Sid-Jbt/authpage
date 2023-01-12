@@ -5,7 +5,7 @@ import Typography from 'Elements/Typography';
 
 const PrivacyPolicy = () => (
   <Box style={{ margin: 10 }} align="center">
-    <Typography variant="h2" fontSize="x-large">
+    <Typography variant="h2" fontSize="2rem">
       TERMS OF SERVICE
     </Typography>
     <Box sx={{ background: 'black', width: '15%', borderRadius: '10px' }}>
