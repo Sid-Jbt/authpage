@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Switch } from '@mui/material';
+import { IconButton, InputAdornment, Switch } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
@@ -10,6 +12,13 @@ import validationSchema from 'Helpers/ValidationSchema';
 
 const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
@@ -61,7 +70,6 @@ const Login = () => {
 
                 <Box mb={0.5}>
                   <Input
-                    type="password"
                     placeholder="password"
                     size="large"
                     fullWidth
@@ -72,6 +80,19 @@ const Login = () => {
                     onBlur={handleBlur}
                     errorText={errors.password && touched.password && errors.password}
                     error={errors.password && touched.password}
+                    type={showPassword ? 'text' : 'password'}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
                   />
                 </Box>
                 <Box
