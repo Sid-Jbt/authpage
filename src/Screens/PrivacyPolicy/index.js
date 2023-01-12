@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import Box from 'Elements/Box';
-import Typography from '../../Elements/Typography';
+import Typography from 'Elements/Typography';
 
 const PrivacyPolicy = () => (
   <Box style={{ margin: 10 }} align="center">
