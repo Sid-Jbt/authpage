@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Switch } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
+import validationSchema from 'Helpers/ValidationSchema';
 
 const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
@@ -21,29 +24,89 @@ const Login = () => {
         Enter your email and password to sign in
       </Typography>
       <Box component="form" role="form">
-        <Box mb={2}>
-          <Input type="email" placeholder="Email" size="large" />
-        </Box>
+        <Formik
+          initialValues={{ email: '', password: '' }}
+          onSubmit={(values) => {
+            console.log('values', values);
+          }}
+          validationSchema={validationSchema}
+        >
+          {(props) => {
+            const {
+              values,
+              touched,
+              errors,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting
+            } = props;
+            return (
+              <form onSubmit={handleSubmit}>
+                <Box mb={0.5}>
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    size="large"
+                    fullWidth
+                    id="email"
+                    name="email"
+                    label="Email"
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.email && touched.email && errors.email}
+                    error={errors.email && touched.email}
+                  />
+                </Box>
 
-        <Box mb={2}>
-          <Input type="password" placeholder="Password" size="large" />
-        </Box>
-        <Box display="flex" alignItems="center">
-          <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-          <Typography
-            variant="button"
-            fontWeight="regular"
-            onClick={() => console.log('onPressRememberMe')}
-            sx={{ cursor: 'pointer', userSelect: 'none' }}
-          >
-            &nbsp;&nbsp;Remember me
-          </Typography>
-        </Box>
-        <Box mt={4} mb={1}>
-          <Button color="info" size="large" fullWidth onClick={() => console.log('onPressSignIn')}>
-            Sign In
-          </Button>
-        </Box>
+                <Box mb={0.5}>
+                  <Input
+                    type="password"
+                    placeholder="password"
+                    size="large"
+                    fullWidth
+                    id="password"
+                    name="password"
+                    label="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.password && touched.password && errors.password}
+                    error={errors.password && touched.password}
+                  />
+                </Box>
+                <Box display="flex" alignItems="center">
+                  <Switch checked={rememberMe} onChange={handleSetRememberMe} />
+                  <Typography
+                    variant="button"
+                    fontWeight="regular"
+                    onClick={() => console.log('onPressRememberMe')}
+                    sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  >
+                    &nbsp;&nbsp;Remember me
+                  </Typography>
+                </Box>
+                <Box mt={4} mb={1}>
+                  <Button color="info" size="large" fullWidth type="submit" disabled={isSubmitting}>
+                    Sign In
+                  </Button>
+                </Box>
+              </form>
+            );
+          }}
+        </Formik>
+      </Box>
+      <Box mt={3} textAlign="flex-start">
+        <Typography
+          component={Link}
+          to="/forgot-password"
+          variant="button"
+          color="info"
+          fontWeight="medium"
+        >
+          Forgot Password?
+        </Typography>
       </Box>
     </Box>
   );

@@ -8,3 +8,6 @@ export const getLoginPattern = () => generatePath(loginPattern);
 
 export const forgotPasswordPattern = '/forgot-password';
 export const getForgotPasswordPattern = () => generatePath(forgotPasswordPattern);
+
+export const profilePattern = '/profile';
+export const getProfilePattern = () => generatePath(profilePattern);
