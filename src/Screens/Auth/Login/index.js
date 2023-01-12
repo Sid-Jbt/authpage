@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { IconButton, InputAdornment, Switch } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
