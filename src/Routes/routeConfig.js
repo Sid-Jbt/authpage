@@ -12,4 +12,5 @@ export const resetPasswordPattern = '/reset-password';
 export const getForgotPasswordPattern = () => generatePath(forgotPasswordPattern);
 
 export const profilePattern = '/profile';
+export const privacyPolicyPattern = '/privacy-policy';
 export const getProfilePattern = () => generatePath(profilePattern);
