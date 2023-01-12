@@ -20,42 +20,43 @@ const ForgotPassword = () => (
       </Typography>
     </>
     <Formik
-      initialValues={{ email: '', password: '' }}
+      initialValues={{ email: '' }}
       onSubmit={(values) => {
         console.log('values', values);
       }}
       validationSchema={validationSchema}
     >
       {(props) => {
-        const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =
-          props;
+        // please add isSubmitting while api binding
+        const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
         return (
           <form onSubmit={handleSubmit}>
-            <Input
-              type="email"
-              placeholder="Email"
-              size="large"
-              sx={{ marginTop: 2 }}
-              id="email"
-              name="email"
-              label="Email"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              errorText={errors.email && touched.email && errors.email}
-              error={errors.email && touched.email}
-            />
+            <Box mt={2}>
+              <Input
+                type="email"
+                placeholder="Email"
+                size="large"
+                id="email"
+                name="email"
+                label="Email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorText={errors.email && touched.email && errors.email}
+                error={errors.email && touched.email}
+              />
+            </Box>
 
-            <Box mt={2} mb={1}>
+            <Box mb={1}>
               <Button
                 variant="contained"
                 color="info"
                 size="large"
                 fullWidth
-                // component={Link}
-                // to="/reset-password"
-                type="submit"
-                disabled={isSubmitting}
+                component={Link}
+                to="/reset-password"
+                // type="submit"
+                // disabled={isSubmitting}
               >
                 Forgot Password Link
               </Button>
