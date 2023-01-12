@@ -76,16 +76,36 @@ const Login = () => {
                     error={errors.password && touched.password}
                   />
                 </Box>
-                <Box display="flex" alignItems="center">
-                  <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-                  <Typography
-                    variant="button"
-                    fontWeight="regular"
-                    onClick={() => console.log('onPressRememberMe')}
-                    sx={{ cursor: 'pointer', userSelect: 'none' }}
-                  >
-                    &nbsp;&nbsp;Remember me
-                  </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <Box>
+                    <Switch checked={rememberMe} onChange={handleSetRememberMe} />
+                    <Typography
+                      variant="button"
+                      fontWeight="regular"
+                      onClick={() => console.log('onPressRememberMe')}
+                      sx={{ cursor: 'pointer', userSelect: 'none' }}
+                    >
+                      &nbsp;&nbsp;Remember me
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography
+                      component={Link}
+                      to="/forgot-password"
+                      variant="button"
+                      color="info"
+                      fontWeight="medium"
+                      underline
+                    >
+                      Forgot Password?
+                    </Typography>
+                  </Box>
                 </Box>
                 <Box mt={4} mb={1}>
                   <Button color="info" size="large" fullWidth type="submit" disabled={isSubmitting}>
@@ -96,17 +116,6 @@ const Login = () => {
             );
           }}
         </Formik>
-      </Box>
-      <Box mt={3} textAlign="flex-start">
-        <Typography
-          component={Link}
-          to="/forgot-password"
-          variant="button"
-          color="info"
-          fontWeight="medium"
-        >
-          Forgot Password?
-        </Typography>
       </Box>
     </Box>
   );
