@@ -38,7 +38,6 @@ const ForgotPassword = () => (
               sx={{ marginTop: 2 }}
               id="email"
               name="email"
-              label="Email"
               value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}

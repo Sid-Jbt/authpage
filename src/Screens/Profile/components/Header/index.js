@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import breakpoints from 'Theme/base/breakpoints';
+import borderRadius from 'Theme/base/borders';
 import profileImage from 'Assets/Images/bruce-mars.jpg';
 import { Avatar, Card, Grid, AppBar, Tab, Tabs } from '@mui/material';
 
@@ -24,11 +25,11 @@ const Header = () => {
 
   return (
     <Box position="relative">
-      <Box height="150px" />
       <Card
         sx={{
           py: 2,
           px: 2,
+          borderRadius: borderRadius.xl,
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >

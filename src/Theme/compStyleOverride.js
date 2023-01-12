@@ -73,7 +73,11 @@ export default function componentStyleOverrides(theme) {
     MuiFormLabel: {
       styleOverrides: {
         root: {
-          color: dark.main
+          color: dark.main,
+          fontSize: size.sm,
+          fontWeight: fontWeightBold,
+          lineHeight: 2,
+          marginLeft: pxToRem(6)
         }
       }
     },
@@ -586,8 +590,27 @@ export default function componentStyleOverrides(theme) {
           backgroundColor: white.main,
           backgroundClip: 'border-box',
           border: `${borderWidth[0]} solid ${rgba(black.main, 0.125)}`,
-          borderRadius: borderRadius.xl,
           boxShadow: cardBoxShadow
+        }
+      }
+    },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          marginTop: 0,
+          marginBottom: 0,
+          padding: `${pxToRem(8)} ${pxToRem(24)} ${pxToRem(24)}`
+        }
+      }
+    },
+    MuiCardMedia: {
+      styleOverrides: {
+        root: {
+          borderRadius: borderRadius.xl,
+          margin: `${pxToRem(16)} ${pxToRem(16)} 0`
+        },
+        media: {
+          width: 'auto'
         }
       }
     }

@@ -51,7 +51,6 @@ const Login = () => {
                     fullWidth
                     id="email"
                     name="email"
-                    label="Email"
                     value={values.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -68,7 +67,6 @@ const Login = () => {
                     fullWidth
                     id="password"
                     name="password"
-                    label="password"
                     value={values.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
