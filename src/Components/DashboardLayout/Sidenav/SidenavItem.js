@@ -8,7 +8,7 @@ const SidenavItem = ({ icon, name, active, open, ...rest }) => {
 
   return (
     <>
-      <ListItem component="li">
+      <ListItem component="li" sx={{ p: 0, pt: 1 }}>
         <Box
           {...rest}
           sx={(theme) => item(theme, { active, miniSidenav: customization.miniSidenav })}
