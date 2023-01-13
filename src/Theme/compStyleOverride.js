@@ -77,7 +77,10 @@ export default function componentStyleOverrides(theme) {
           fontSize: size.sm,
           fontWeight: fontWeightBold,
           lineHeight: 2,
-          marginLeft: pxToRem(6)
+          marginLeft: pxToRem(6),
+          '&.Mui-focused': {
+            color: dark.main
+          }
         }
       }
     },
