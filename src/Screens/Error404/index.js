@@ -1,43 +1,23 @@
 import Box from 'Elements/Box';
 import { Link } from 'react-router-dom';
 import Typography from 'Elements/Typography';
-import { Grid } from '@mui/material';
-import Button from '../../Elements/Button';
-import Error404Img from '../../Assets/images/404_page.png';
+import Button from 'Elements/Button';
 
 const Error404 = () => (
-  // <Box
-  //   style={{ margin: 40, border: '2px solid white', height: '1000px', background: 'white' }}
-  //   align="center"
-  // >
-  <Box style={{ margin: 10 }} align="center">
-    <Grid container>
-      <Grid
-        item
-        lg={12}
-        xl={12}
-        sx={{ mx: 'auto', background: 'white', borderRadius: '8px' }}
-        mt={3}
-      >
-        <Box textAlign="center">
-          <Box style={{ marginTop: '8%' }}>
-            <img src={Error404Img} alt="404page" />
-          </Box>
-
-          <Box style={{ marginTop: '2cm' }}>
-            <Typography>ERROR PAGE </Typography>
-            <Typography>Uh Oh!! you're lost.</Typography>
-            <Typography>
-              we are sorry but the page you were looking for was not found...!
-            </Typography>
-            <Button component={Link} to="/dashboard" type="btn">
-              Go Back to Home page
-            </Button>
-          </Box>
-        </Box>
-      </Grid>
-    </Grid>
+  <Box sx={{ m: 15, h: '500px', background: 'white', borderRadius: 4, textAlign: 'center' }}>
+    <Box style={{ padding: '150px', color: 'black' }}>
+      <Typography variant="h1" fontSize="200px" color="black">
+        404
+      </Typography>
+      <Typography>ERROR PAGE </Typography>
+      <Typography>Uh Oh!! you're lost.</Typography>
+      <Typography>
+        <strong>We are sorry but the page you were looking for was not found...!</strong>
+      </Typography>
+      <Button sx={{ mt: 5 }} component={Link} to="/dashboard" type="button" color="info">
+        Go Back to Home page
+      </Button>
+    </Box>
   </Box>
 );
-
 export default Error404;
