@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Grid, useTheme } from '@mui/material';
 import Typography from 'Elements/Typography';
 import { Formik } from 'formik';
@@ -9,17 +9,21 @@ import validationSchema from '../../../Helpers/ValidationSchema';
 
 const BankInfo = () => {
   const theme = useTheme();
+  const [isEdit, setIsEdit] = useState(true);
+
+  const handleIsEdit = () => setIsEdit(!isEdit);
+
   return (
     <Card>
-      <Grid container p={2}>
-        <Grid item xs={10} md={11} lg={11}>
+      <Grid container p={2} alignItems="center" justifyContent="space-between">
+        <Grid item>
           <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
-            Bank Info
+            Bank Account
           </Typography>
         </Grid>
         <Grid item>
-          <Button color="info" variant="contained">
-            Edit
+          <Button color="info" variant="contained" onClick={() => handleIsEdit()}>
+            {isEdit ? 'Edit' : 'Save'}
           </Button>
         </Grid>
       </Grid>
@@ -58,6 +62,7 @@ const BankInfo = () => {
                       onBlur={handleBlur}
                       errorText={errors.bankName && touched.bankName && errors.bankName}
                       error={errors.bankName && touched.bankName}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -76,6 +81,7 @@ const BankInfo = () => {
                       onBlur={handleBlur}
                       errorText={errors.branchName && touched.branchName && errors.branchName}
                       error={errors.branchName && touched.branchName}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -94,6 +100,7 @@ const BankInfo = () => {
                       onBlur={handleBlur}
                       errorText={errors.accountName && touched.accountName && errors.accountName}
                       error={errors.accountName && touched.accountName}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -114,6 +121,7 @@ const BankInfo = () => {
                         errors.accountNumber && touched.accountNumber && errors.accountNumber
                       }
                       error={errors.accountNumber && touched.accountNumber}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -132,6 +140,7 @@ const BankInfo = () => {
                       onBlur={handleBlur}
                       errorText={errors.ifscCode && touched.ifscCode && errors.ifscCode}
                       error={errors.ifscCode && touched.ifscCode}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -150,6 +159,7 @@ const BankInfo = () => {
                       onBlur={handleBlur}
                       errorText={errors.panNumber && touched.panNumber && errors.panNumber}
                       error={errors.panNumber && touched.panNumber}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>

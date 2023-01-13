@@ -9,7 +9,7 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
       py: 2,
       px: 2,
       background: ({ palette: { white } }) => white.main,
-      borderRadius: ({ borders: { borderRadius } }) => borderRadius.lg,
+      borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
       boxShadow: ({ boxShadows: { md } }) => md
     }}
   >

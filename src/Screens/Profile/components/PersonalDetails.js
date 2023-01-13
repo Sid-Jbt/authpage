@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   FormControlLabel,
@@ -17,6 +17,9 @@ import Button from 'Elements/Button';
 
 const PersonalDetails = () => {
   const theme = useTheme();
+  const [isEdit, setIsEdit] = useState(true);
+  const handleIsEdit = () => setIsEdit(!isEdit);
+
   return (
     <Card>
       <Grid container p={2} alignItems="center" justifyContent="space-between">
@@ -26,8 +29,8 @@ const PersonalDetails = () => {
           </Typography>
         </Grid>
         <Grid item>
-          <Button color="info" variant="contained">
-            Edit
+          <Button color="info" variant="contained" onClick={() => handleIsEdit()}>
+            {isEdit ? 'Edit' : 'Save'}
           </Button>
         </Grid>
       </Grid>
@@ -71,6 +74,7 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.firstName && touched.firstName && errors.firstName}
                       error={errors.firstName && touched.firstName}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -90,6 +94,7 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.lastName && touched.lastName && errors.lastName}
                       error={errors.lastName && touched.lastName}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -108,6 +113,7 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.fatherName && touched.fatherName && errors.fatherName}
                       error={errors.fatherName && touched.fatherName}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -126,6 +132,7 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.department && touched.department && errors.department}
                       error={errors.department && touched.department}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -144,6 +151,7 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.designation && touched.designation && errors.designation}
                       error={errors.designation && touched.designation}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -162,6 +170,7 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.empCode && touched.empCode && errors.empCode}
                       error={errors.empCode && touched.empCode}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -175,6 +184,7 @@ const PersonalDetails = () => {
                       id="dob"
                       name="dob"
                       label="Date Of Birth"
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -188,6 +198,7 @@ const PersonalDetails = () => {
                       id="doj"
                       name="doj"
                       label="Date Of Join"
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -201,6 +212,7 @@ const PersonalDetails = () => {
                       id="dol"
                       name="dol"
                       label="Date Of Leave"
+                      disabled
                     />
                   </Box>
                 </Grid>
@@ -219,6 +231,7 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
                       error={errors.phoneNumber && touched.phoneNumber}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -241,6 +254,7 @@ const PersonalDetails = () => {
                         errors.alternativeNumber
                       }
                       error={errors.alternativeNumber && touched.alternativeNumber}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -259,6 +273,7 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.pAdd && touched.pAdd && errors.pAdd}
                       error={errors.pAdd && touched.pAdd}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -271,24 +286,28 @@ const PersonalDetails = () => {
                     // value={fontFamily}
                     // onChange={(e) => setFontFamily(e.target.value)}
                     name="row-radio-buttons-group"
+                    defaultValue="male"
                   >
                     <FormControlLabel
-                      value="Male"
+                      value="male"
                       control={<Radio />}
                       label="Male"
                       sx={{
                         '& .MuiSvgIcon-root': { fontSize: 28 },
                         '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
                       }}
+                      defaultChecked
+                      disabled={isEdit}
                     />
                     <FormControlLabel
-                      value="Female"
+                      value="female"
                       control={<Radio />}
                       label="Female"
                       sx={{
                         '& .MuiSvgIcon-root': { fontSize: 28 },
                         '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
                       }}
+                      disabled={isEdit}
                     />
                   </RadioGroup>
                 </Grid>

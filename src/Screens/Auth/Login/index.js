@@ -43,7 +43,8 @@ const Login = () => {
         validationSchema={validationSchema}
       >
         {(props) => {
-          const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+          const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =
+            props;
           return (
             <form onSubmit={handleSubmit}>
               <Box mb={0.5}>
@@ -121,7 +122,15 @@ const Login = () => {
                 </Box>
               </Box>
               <Box mt={4} mb={1}>
-                <Button color="info" size="small" fullWidth type="submit">
+                <Button
+                  color="info"
+                  size="small"
+                  fullWidth
+                  type="submit"
+                  disabled={isSubmitting}
+                  component={Link}
+                  to="/dashboard"
+                >
                   Sign In
                 </Button>
               </Box>
