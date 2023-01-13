@@ -57,7 +57,7 @@ const DashboardNavbar = ({ isMini }) => {
   );
 
   return (
-    <AppBar position="static" color="inherit" sx={(theme) => navbar(theme)}>
+    <AppBar position="sticky" color="inherit" sx={(theme) => navbar(theme)}>
       <Toolbar sx={(theme) => navbarContainer(theme, { position: 'static' })}>
         <Box color="white" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
           {!customization.miniSidenav ? (

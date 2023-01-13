@@ -1,19 +1,17 @@
 function navbar(theme) {
-  const { palette, functions, transitions, breakpoints, borders } = theme;
+  const { palette, functions, transitions, breakpoints } = theme;
 
-  const { text, transparent } = palette;
+  const { text, info } = palette;
   const { pxToRem } = functions;
-  const { borderRadius } = borders;
 
   return {
     boxShadow: 'none',
-    backgroundColor: `${transparent.main} !important`,
+    backgroundColor: `${info.main} !important`,
     color: text.main,
-    top: pxToRem(12),
+    top: pxToRem(0),
     minHeight: pxToRem(75),
     display: 'grid',
     alignItems: 'center',
-    borderRadius: borderRadius.xl,
     paddingTop: pxToRem(8),
     paddingBottom: pxToRem(8),
     paddingRight: 0,

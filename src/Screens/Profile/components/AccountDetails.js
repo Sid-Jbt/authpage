@@ -1,20 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Card,
-  FormControl,
   FormControlLabel,
-  FormLabel,
   Grid,
   RadioGroup,
   Radio,
-  Stack,
-  TextField
+  useTheme,
+  FormLabel
 } from '@mui/material';
-import dayjs from 'dayjs';
 import { Formik } from 'formik';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import validationSchema from 'Helpers/ValidationSchema';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -22,21 +16,17 @@ import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 
 const AccountDetails = () => {
-  const [dateValue, setValue] = useState(dayjs('2014-08-18T21:11:54'));
-
-  const handleChangeDate = (newValue) => {
-    setValue(newValue);
-  };
+  const theme = useTheme();
   return (
     <Card>
-      <Grid container p={2}>
-        <Grid item xs={10} md={11} lg={11}>
+      <Grid container p={2} alignItems="center" justifyContent="space-between">
+        <Grid item>
           <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
             My Account
           </Typography>
         </Grid>
-        <Grid item xs={1} md={1} lg={1}>
-          <Button color="info" size="small" fullWidth type="button">
+        <Grid item>
+          <Button color="info" variant="contained">
             Edit
           </Button>
         </Grid>
@@ -62,10 +52,9 @@ const AccountDetails = () => {
         validationSchema={validationSchema}
       >
         {(props) => {
-          const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =
-            props;
+          const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
           return (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} style={{ background: theme.palette.grey[100] }}>
               <Grid container spacing={2} p={2}>
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
@@ -179,7 +168,7 @@ const AccountDetails = () => {
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
                     <Input
-                      type="text"
+                      type="date"
                       placeholder="Date Of Birth"
                       size="large"
                       fullWidth
@@ -192,7 +181,7 @@ const AccountDetails = () => {
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
                     <Input
-                      type="text"
+                      type="date"
                       placeholder="Date Of Join"
                       size="large"
                       fullWidth
@@ -204,19 +193,8 @@ const AccountDetails = () => {
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <Stack spacing={3}>
-                        <DesktopDatePicker
-                          label="Date desktop"
-                          inputFormat="MM/DD/YYYY"
-                          value={dateValue}
-                          onChange={handleChangeDate}
-                          renderInput={(params) => <TextField {...params} />}
-                        />
-                      </Stack>
-                    </LocalizationProvider>
                     <Input
-                      type="text"
+                      type="date"
                       placeholder="Date Of Leave"
                       size="large"
                       fullWidth
@@ -285,35 +263,36 @@ const AccountDetails = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box>
-                    <FormControl>
-                      <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        value="female"
-                        onChange={(event, value) => console.log('value', event, value)}
-                        name="radio-buttons-group"
-                      >
-                        <FormControlLabel value="female" control={<Radio />} label="Female" />
-                        <FormControlLabel value="male" control={<Radio />} label="Male" />
-                      </RadioGroup>
-                    </FormControl>
-                  </Box>
+                  <FormLabel>Gender</FormLabel>
+                  <RadioGroup
+                    row
+                    sx={{ p: 2, pt: 0, pb: 0 }}
+                    aria-label="font-family"
+                    // value={fontFamily}
+                    // onChange={(e) => setFontFamily(e.target.value)}
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="Roboto"
+                      control={<Radio />}
+                      label="Roboto"
+                      sx={{
+                        '& .MuiSvgIcon-root': { fontSize: 28 },
+                        '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
+                      }}
+                    />
+                    <FormControlLabel
+                      value="Poppins"
+                      control={<Radio />}
+                      label="Poppins"
+                      sx={{
+                        '& .MuiSvgIcon-root': { fontSize: 28 },
+                        '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
+                      }}
+                    />
+                  </RadioGroup>
                 </Grid>
               </Grid>
-              <Box
-                p={2}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                  justifyContent: 'flex-end'
-                }}
-              >
-                <Button color="info" size="small" type="submit" disabled={isSubmitting}>
-                  Save
-                </Button>
-              </Box>
             </form>
           );
         }}

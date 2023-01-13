@@ -9,19 +9,23 @@ const DashboardLayout = ({ bgColor, children, ...rest }) => {
   const background = bgColor;
   const customization = useSelector((state) => state.customization);
   return (
-    <Box
-      bgColor={background || 'info'}
-      height="300px"
-      width="100vw"
-      position="absolute"
-      top={0}
-      left={0}
-      {...rest}
-    >
-      <Sidenav brand={Logo} brandName="Jarvis Bitz" />
+    <Box>
+      <Box
+        bgColor={background || 'info'}
+        height="300px"
+        width="100vw"
+        position="fixed"
+        top={0}
+        left={0}
+        zIndex={-1}
+        {...rest}
+      >
+        <Sidenav brand={Logo} brandName="Jarvis Bitz" />
+      </Box>
       <Box
         sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
           p: 3,
+          pt: 0,
           [breakpoints.up('xl')]: {
             marginLeft: customization.miniSidenav ? pxToRem(120) : pxToRem(274),
             transition: transitions.create(['margin-left', 'margin-right'], {

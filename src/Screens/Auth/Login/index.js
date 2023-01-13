@@ -126,7 +126,7 @@ const Login = () => {
                   </Box>
                 </Box>
                 <Box mt={4} mb={1}>
-                  <Button color="info" size="large" fullWidth type="submit" disabled={isSubmitting}>
+                  <Button color="info" size="small" fullWidth type="submit" disabled={isSubmitting}>
                     Sign In
                   </Button>
                 </Box>
