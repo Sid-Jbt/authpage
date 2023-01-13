@@ -15,7 +15,7 @@ import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 
-const AccountDetails = () => {
+const PersonalDetails = () => {
   const theme = useTheme();
   return (
     <Card>
@@ -36,9 +36,9 @@ const AccountDetails = () => {
         initialValues={{
           email: '',
           password: '',
-          firstname: '',
-          lastname: '',
-          fathername: '',
+          firstName: '',
+          lastName: '',
+          fatherName: '',
           department: '',
           designation: '',
           empCode: '',
@@ -60,17 +60,17 @@ const AccountDetails = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="FirstName"
+                      placeholder="First Name"
                       size="large"
                       fullWidth
-                      id="firstname"
-                      name="firstname"
-                      label="FirstName"
-                      value={values.firstname}
+                      id="firstName"
+                      name="firstName"
+                      label="First Name"
+                      value={values.firstName}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      errorText={errors.firstname && touched.firstname && errors.firstname}
-                      error={errors.firstname && touched.firstname}
+                      errorText={errors.firstName && touched.firstName && errors.firstName}
+                      error={errors.firstName && touched.firstName}
                     />
                   </Box>
                 </Grid>
@@ -79,17 +79,17 @@ const AccountDetails = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="LastName"
+                      placeholder="Last Name"
                       size="large"
                       fullWidth
-                      id="lastname"
-                      name="lastname"
-                      label="lastname"
-                      value={values.lastname}
+                      id="lastName"
+                      name="lastName"
+                      label="Last Name"
+                      value={values.lastName}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      errorText={errors.lastname && touched.lastname && errors.lastname}
-                      error={errors.lastname && touched.lastname}
+                      errorText={errors.lastName && touched.lastName && errors.lastName}
+                      error={errors.lastName && touched.lastName}
                     />
                   </Box>
                 </Grid>
@@ -97,17 +97,17 @@ const AccountDetails = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="FatherName"
+                      placeholder="Father Name"
                       size="large"
                       fullWidth
-                      id="fathername"
-                      name="fathername"
-                      label="FatherName"
-                      value={values.fathername}
+                      id="fatherName"
+                      name="fatherName"
+                      label="Father Name"
+                      value={values.fatherName}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      errorText={errors.fathername && touched.fathername && errors.fathername}
-                      error={errors.fathername && touched.fathername}
+                      errorText={errors.fatherName && touched.fatherName && errors.fatherName}
+                      error={errors.fatherName && touched.fatherName}
                     />
                   </Box>
                 </Grid>
@@ -273,18 +273,18 @@ const AccountDetails = () => {
                     name="row-radio-buttons-group"
                   >
                     <FormControlLabel
-                      value="Roboto"
+                      value="Male"
                       control={<Radio />}
-                      label="Roboto"
+                      label="Male"
                       sx={{
                         '& .MuiSvgIcon-root': { fontSize: 28 },
                         '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
                       }}
                     />
                     <FormControlLabel
-                      value="Poppins"
+                      value="Female"
                       control={<Radio />}
-                      label="Poppins"
+                      label="Female"
                       sx={{
                         '& .MuiSvgIcon-root': { fontSize: 28 },
                         '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
@@ -301,4 +301,4 @@ const AccountDetails = () => {
   );
 };
 
-export default AccountDetails;
+export default PersonalDetails;

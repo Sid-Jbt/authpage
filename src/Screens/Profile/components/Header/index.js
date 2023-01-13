@@ -39,11 +39,11 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
           onChange={(event, value) => handleSetTabIndex(event, value)}
         >
           <Tab
-            label="Account"
+            label="Personal Details"
             icon={<i className="ni ni-app" style={{ marginTop: '6px', marginRight: '8px' }} />}
           />
           <Tab
-            label="Settings"
+            label="Bank Info"
             icon={<i className="ni ni-app" style={{ marginTop: '6px', marginRight: '8px' }} />}
           />
         </Tabs>
