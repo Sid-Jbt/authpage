@@ -1,11 +1,12 @@
-import { DashboardRounded } from '@mui/icons-material';
+import { DashboardRounded, PolicyRounded } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
-import { profilePattern } from './routeConfig';
+import { profilePattern, privacyPolicyPattern } from './routeConfig';
 
 const DashboardDefault = Loadable(lazy(() => import('../Screens/DashboardDefault')));
 const Profile = Loadable(lazy(() => import('../Screens/Profile')));
+const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
 
 const MainRoutes = [
   {
@@ -21,6 +22,13 @@ const MainRoutes = [
     path: profilePattern,
     key: 'profile',
     element: <Profile />
+  },
+  {
+    name: 'PrivacyPolicy',
+    icon: <PolicyRounded />,
+    path: privacyPolicyPattern,
+    key: 'privacyPolicy',
+    element: <PrivacyPolicy />
   }
 ];
 
