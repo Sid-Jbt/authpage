@@ -1,12 +1,13 @@
-import { DashboardRounded, ErrorRounded } from '@mui/icons-material';
+import { DashboardRounded, ErrorRounded, PeopleRounded } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
-import { profilePattern, errorPattern } from './routeConfig';
+import { profilePattern, errorPattern, employeeListPattern } from './routeConfig';
 
 const DashboardDefault = Loadable(lazy(() => import('../Screens/DashboardDefault')));
 const Profile = Loadable(lazy(() => import('../Screens/Profile')));
 const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
+const EmployeeList = Loadable(lazy(() => import('../Screens/EmployeeList')));
 
 const MainRoutes = [
   {
@@ -29,6 +30,13 @@ const MainRoutes = [
     path: errorPattern,
     key: 'error',
     element: <Error404 />
+  },
+  {
+    name: 'EmployeeList',
+    icon: <PeopleRounded />,
+    path: employeeListPattern,
+    key: 'employeeList',
+    element: <EmployeeList />
   }
 ];
 
