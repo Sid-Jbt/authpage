@@ -19,7 +19,6 @@ const RestPassword = () => (
         Your new password must be different from previous used password.
       </Typography>
     </>
-
     <Formik
       initialValues={{ password: '', confirmPassword: '' }}
       onSubmit={(values) => {

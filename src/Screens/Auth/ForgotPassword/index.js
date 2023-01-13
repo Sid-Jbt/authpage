@@ -46,7 +46,6 @@ const ForgotPassword = () => (
                 error={errors.email && touched.email}
               />
             </Box>
-
             <Box mb={1}>
               <Button
                 variant="contained"
