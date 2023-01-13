@@ -5,22 +5,20 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
-import validationSchema from '../../../Helpers/ValidationSchema';
+import validationSchema from 'Helpers/ValidationSchema';
 
 const ForgotPassword = () => (
-  <Box style={{ margin: 10 }}>
-    <>
-      <Box mb={1}>
-        <Typography variant="h4" fontWeight="bold">
-          Forgot Password
-        </Typography>
-      </Box>
-      <Typography variant="body2" fontWeight="regular" color="text">
-        Enter your email to get the link
+  <>
+    <Box mb={1}>
+      <Typography variant="h4" fontWeight="bold">
+        Forgot Password
       </Typography>
-    </>
+    </Box>
+    <Typography variant="body2" fontWeight="regular" color="text">
+      Enter your email to get the link
+    </Typography>
     <Formik
-      initialValues={{ email: '', password: '' }}
+      initialValues={{ email: '' }}
       onSubmit={(values) => {
         console.log('values', values);
       }}
@@ -71,6 +69,6 @@ const ForgotPassword = () => (
         </Typography>
       </Typography>
     </Box>
-  </Box>
+  </>
 );
 export default ForgotPassword;
