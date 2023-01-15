@@ -1,26 +1,14 @@
 function item(theme, ownerState) {
   const { palette, transitions, breakpoints, borders, functions } = theme;
-  const { active, sidenavColor, miniSidenav } = ownerState;
+  const { active, miniSidenav } = ownerState;
 
-  const { dark, text, transparent, white } = palette;
+  const { dark, transparent } = palette;
   const { borderRadius } = borders;
   const { pxToRem, rgba } = functions;
 
   return {
-    background: active
-      ? rgba(palette[sidenavColor ?? 'info'].main, sidenavColor ? 1 : 0.1)
-      : transparent.main,
-    color: () => {
-      let result = text.main;
-
-      if (active && sidenavColor) {
-        result = white.main;
-      } else if (active) {
-        result = dark.main;
-      }
-
-      return result;
-    },
+    background: active ? rgba(palette.info.main, 0.1) : transparent.main,
+    color: dark.main,
     display: miniSidenav ? 'block' : 'flex',
     alignItems: 'center',
     width: '100%',

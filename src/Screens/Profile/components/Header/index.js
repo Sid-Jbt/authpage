@@ -2,6 +2,7 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import profileImage from 'Assets/Images/bruce-mars.jpg';
 import { Avatar, Grid, Tab, Tabs } from '@mui/material';
+import { AccountBoxOutlined, PersonOutlined } from '@mui/icons-material';
 
 const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
   <Box
@@ -10,7 +11,7 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
       px: 2,
       background: ({ palette: { white } }) => white.main,
       borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
-      boxShadow: ({ boxShadows: { md } }) => md
+      boxShadow: ({ boxShadows: { sm } }) => sm
     }}
   >
     <Grid container spacing={3} alignItems="center">
@@ -38,14 +39,8 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
           value={tabIndex}
           onChange={(event, value) => handleSetTabIndex(event, value)}
         >
-          <Tab
-            label="Personal"
-            icon={<i className="ni ni-app" style={{ marginTop: '6px', marginRight: '8px' }} />}
-          />
-          <Tab
-            label="Bank Account"
-            icon={<i className="ni ni-app" style={{ marginTop: '6px', marginRight: '8px' }} />}
-          />
+          <Tab label="Personal" icon={<PersonOutlined style={{ marginRight: '8px' }} />} />
+          <Tab label="Bank Account" icon={<AccountBoxOutlined style={{ marginRight: '8px' }} />} />
         </Tabs>
       </Grid>
     </Grid>
