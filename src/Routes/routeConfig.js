@@ -14,5 +14,4 @@ export const getForgotPasswordPattern = () => generatePath(forgotPasswordPattern
 export const profilePattern = '/profile';
 export const privacyPolicyPattern = '/privacy-policy';
 export const errorPattern = '/error';
-export const employeeListPattern = '/employee-list';
 export const getProfilePattern = () => generatePath(profilePattern);
