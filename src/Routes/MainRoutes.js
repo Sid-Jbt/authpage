@@ -1,4 +1,4 @@
-import { DashboardRounded, PolicyRounded } from '@mui/icons-material';
+import { DashboardRounded, PolicyRounded, Person } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
@@ -18,7 +18,7 @@ const MainRoutes = [
   },
   {
     name: 'Profile',
-    icon: <DashboardRounded />,
+    icon: <Person />,
     path: profilePattern,
     key: 'profile',
     element: <Profile />

@@ -8,17 +8,10 @@ import Input from 'Elements/Input';
 import validationSchema from '../../../Helpers/ValidationSchema';
 
 const RestPassword = () => (
-  <div style={{ margin: 10 }}>
-    <>
-      <Box mb={1}>
-        <Typography variant="h4" fontWeight="bold">
-          Create new password
-        </Typography>
-      </Box>
-      <Typography variant="body2" fontWeight="regular" color="text">
-        Your new password must be different from previous used password.
-      </Typography>
-    </>
+  <>
+    <Typography variant="h4" fontWeight="bold">
+      Create new password
+    </Typography>
     <Formik
       initialValues={{ password: '', confirmPassword: '' }}
       onSubmit={(values) => {
@@ -44,7 +37,7 @@ const RestPassword = () => (
                 error={errors.password && touched.password}
               />
             </Box>
-            <Box mt={2}>
+            <Box mt={0.5}>
               <Input
                 type="password"
                 name="confirmPassword"
@@ -59,7 +52,7 @@ const RestPassword = () => (
                 error={errors.confirmPassword && touched.confirmPassword}
               />
             </Box>
-            <Box mb={1}>
+            <Box mt={1}>
               <Button
                 variant="contained"
                 color="info"
@@ -85,7 +78,7 @@ const RestPassword = () => (
         </Typography>
       </Typography>
     </Box>
-  </div>
+  </>
 );
 
 export default RestPassword;

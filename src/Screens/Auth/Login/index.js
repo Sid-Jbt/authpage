@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Switch } from '@mui/material';
+import { IconButton, InputAdornment, Switch } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
@@ -10,6 +11,13 @@ import validationSchema from 'Helpers/ValidationSchema';
 
 const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
@@ -23,100 +31,113 @@ const Login = () => {
       <Typography variant="body2" fontWeight="regular" color="text" mb={1}>
         Enter your email and password to sign in
       </Typography>
-      <Box component="form" role="form">
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          onSubmit={(values) => {
-            console.log('values', values);
-          }}
-          validationSchema={validationSchema}
-        >
-          {(props) => {
-            const {
-              values,
-              touched,
-              errors,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting
-            } = props;
-            return (
-              <form onSubmit={handleSubmit}>
-                <Box mb={0.5}>
-                  <Input
-                    type="email"
-                    placeholder="Email"
-                    size="large"
-                    fullWidth
-                    id="email"
-                    name="email"
-                    label="Email"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errorText={errors.email && touched.email && errors.email}
-                    error={errors.email && touched.email}
-                  />
-                </Box>
 
-                <Box mb={0.5}>
-                  <Input
-                    type="password"
-                    placeholder="password"
-                    size="large"
-                    fullWidth
-                    id="password"
-                    name="password"
-                    label="password"
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errorText={errors.password && touched.password && errors.password}
-                    error={errors.password && touched.password}
-                  />
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        onSubmit={(values, actions) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            actions.setSubmitting(false);
+          }, 1000);
+        }}
+        validationSchema={validationSchema}
+      >
+        {(props) => {
+          const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =
+            props;
+          return (
+            <form onSubmit={handleSubmit}>
+              <Box mb={0.5}>
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  size="large"
+                  fullWidth
+                  id="email"
+                  name="email"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errorText={errors.email && touched.email && errors.email}
+                  error={errors.email && touched.email}
+                />
+              </Box>
+
+              <Box mb={0.5}>
+                <Input
+                  placeholder="password"
+                  size="large"
+                  fullWidth
+                  id="password"
+                  name="password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errorText={errors.password && touched.password && errors.password}
+                  error={errors.password && touched.password}
+                  type={showPassword ? 'text' : 'password'}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <Box>
+                  <Switch checked={rememberMe} onChange={handleSetRememberMe} />
+                  <Typography
+                    variant="button"
+                    fontWeight="regular"
+                    onClick={() => console.log('onPressRememberMe')}
+                    sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  >
+                    &nbsp;&nbsp;Remember me
+                  </Typography>
                 </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
+                <Box>
+                  <Typography
+                    component={Link}
+                    to="/forgot-password"
+                    variant="button"
+                    color="info"
+                    fontWeight="medium"
+                    underline
+                  >
+                    Forgot Password?
+                  </Typography>
+                </Box>
+              </Box>
+              <Box mt={4} mb={1}>
+                <Button
+                  color="info"
+                  size="small"
+                  fullWidth
+                  type="submit"
+                  disabled={isSubmitting}
+                  component={Link}
+                  to="/dashboard"
                 >
-                  <Box>
-                    <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-                    <Typography
-                      variant="button"
-                      fontWeight="regular"
-                      onClick={() => console.log('onPressRememberMe')}
-                      sx={{ cursor: 'pointer', userSelect: 'none' }}
-                    >
-                      &nbsp;&nbsp;Remember me
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      component={Link}
-                      to="/forgot-password"
-                      variant="button"
-                      color="info"
-                      fontWeight="medium"
-                      underline
-                    >
-                      Forgot Password?
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box mt={4} mb={1}>
-                  <Button color="info" size="large" fullWidth type="submit" disabled={isSubmitting}>
-                    Sign In
-                  </Button>
-                </Box>
-              </form>
-            );
-          }}
-        </Formik>
-      </Box>
+                  Sign In
+                </Button>
+              </Box>
+            </form>
+          );
+        }}
+      </Formik>
     </Box>
   );
 };

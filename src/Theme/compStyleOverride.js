@@ -1,10 +1,21 @@
 export default function componentStyleOverrides(theme) {
   const { palette, typography, borders, boxShadows, functions } = theme;
-  const { inputColors, transparent, dark, white, grey, gradients, light, text, info, secondary } =
-    palette;
+  const {
+    inputColors,
+    transparent,
+    dark,
+    white,
+    grey,
+    gradients,
+    light,
+    text,
+    info,
+    secondary,
+    black
+  } = palette;
   const { size, fontWeightRegular, fontWeightBold } = typography;
-  const { borderWidth, borderRadius } = borders;
-  const { md, buttonBoxShadow, lg } = boxShadows;
+  const { borderWidth, borderRadius, borderColor } = borders;
+  const { md, buttonBoxShadow, lg, tabsBoxShadow, cardBoxShadow } = boxShadows;
   const { pxToRem, rgba, linearGradient } = functions;
 
   return {
@@ -62,7 +73,14 @@ export default function componentStyleOverrides(theme) {
     MuiFormLabel: {
       styleOverrides: {
         root: {
-          color: dark.main
+          color: dark.main,
+          fontSize: size.sm,
+          fontWeight: fontWeightBold,
+          lineHeight: 2,
+          marginLeft: pxToRem(6),
+          '&.Mui-focused': {
+            color: dark.main
+          }
         }
       }
     },
@@ -165,7 +183,7 @@ export default function componentStyleOverrides(theme) {
             fontSize: pxToRem(15),
             marginTop: pxToRem(-2)
           },
-          ...((ownerState.variant === 'contained' && {
+          ...(ownerState.variant === 'contained' && {
             backgroundColor: white.main,
             minHeight: pxToRem(40),
             color: text.main,
@@ -194,15 +212,13 @@ export default function componentStyleOverrides(theme) {
               fontSize: `${pxToRem(16)} !important`
             },
             small: {
-              minHeight: pxToRem(32),
+              minHeight: pxToRem(3),
               padding: `${pxToRem(8)} ${pxToRem(32)}`,
               fontSize: size.xs,
-
               '& .material-icon, .material-icons-round, svg': {
                 fontSize: `${pxToRem(12)} !important`
               }
             },
-
             large: {
               minHeight: pxToRem(47),
               padding: `${pxToRem(14)} ${pxToRem(64)}`,
@@ -212,173 +228,167 @@ export default function componentStyleOverrides(theme) {
                 fontSize: `${pxToRem(22)} !important`
               }
             },
-
             primary: {
               backgroundColor: info.main,
-
               '&:hover': {
                 backgroundColor: info.main
               },
-
               '&:focus:not(:hover)': {
                 backgroundColor: info.focus,
                 boxShadow: buttonBoxShadow.stateOfNotHover
               }
             },
-
             secondary: {
               backgroundColor: secondary.main,
-
               '&:hover': {
                 backgroundColor: secondary.main
               },
-
               '&:focus:not(:hover)': {
                 backgroundColor: secondary.focus,
                 boxShadow: buttonBoxShadow.stateOfNotHover
               }
             }
-          }) ||
-            (ownerState.variant === 'outlined' && {
-              minHeight: pxToRem(42),
-              color: light.main,
-              borderColor: light.main,
-              padding: `${pxToRem(10)} ${pxToRem(20)}`,
+          }),
+          ...(ownerState.variant === 'outlined' && {
+            minHeight: pxToRem(42),
+            color: light.main,
+            borderColor: light.main,
+            padding: `${pxToRem(10)} ${pxToRem(20)}`,
+
+            '&:hover': {
+              opacity: 0.75,
+              backgroundColor: transparent.main
+            },
+
+            '&:focus:not(:hover)': {
+              boxShadow: buttonBoxShadow.stateOfNotHover
+            },
+
+            '& .material-icon, .material-icons-round, svg': {
+              fontSize: `${pxToRem(16)} !important`
+            },
+            small: {
+              minHeight: pxToRem(34),
+              padding: `${pxToRem(8)} ${pxToRem(32)}`,
+              fontSize: size.xs,
+
+              '& .material-icon, .material-icons-round, svg': {
+                fontSize: `${pxToRem(12)} !important`
+              }
+            },
+            large: {
+              minHeight: pxToRem(49),
+              padding: `${pxToRem(14)} ${pxToRem(64)}`,
+              fontSize: size.sm,
+
+              '& .material-icon, .material-icons-round, svg': {
+                fontSize: `${pxToRem(22)} !important`
+              }
+            },
+            primary: {
+              backgroundColor: transparent.main,
+              borderColor: info.main,
 
               '&:hover': {
-                opacity: 0.75,
                 backgroundColor: transparent.main
               },
 
               '&:focus:not(:hover)': {
                 boxShadow: buttonBoxShadow.stateOfNotHover
-              },
-
-              '& .material-icon, .material-icons-round, svg': {
-                fontSize: `${pxToRem(16)} !important`
-              },
-              small: {
-                minHeight: pxToRem(34),
-                padding: `${pxToRem(8)} ${pxToRem(32)}`,
-                fontSize: size.xs,
-
-                '& .material-icon, .material-icons-round, svg': {
-                  fontSize: `${pxToRem(12)} !important`
-                }
-              },
-              large: {
-                minHeight: pxToRem(49),
-                padding: `${pxToRem(14)} ${pxToRem(64)}`,
-                fontSize: size.sm,
-
-                '& .material-icon, .material-icons-round, svg': {
-                  fontSize: `${pxToRem(22)} !important`
-                }
-              },
-              primary: {
-                backgroundColor: transparent.main,
-                borderColor: info.main,
-
-                '&:hover': {
-                  backgroundColor: transparent.main
-                },
-
-                '&:focus:not(:hover)': {
-                  boxShadow: buttonBoxShadow.stateOfNotHover
-                }
-              },
-              secondary: {
-                backgroundColor: transparent.main,
-                borderColor: secondary.main,
-
-                '&:hover': {
-                  backgroundColor: transparent.main
-                },
-
-                '&:focus:not(:hover)': {
-                  boxShadow: buttonBoxShadow.stateOfNotHover
-                }
               }
-            }) ||
-            (ownerState.variant === 'text' && {
+            },
+            secondary: {
               backgroundColor: transparent.main,
-              height: 'max-content',
-              color: info.main,
-              boxShadow: 'none',
-              padding: `${pxToRem(6)} ${pxToRem(12)}`,
+              borderColor: secondary.main,
 
               '&:hover': {
-                backgroundColor: transparent.main,
-                boxShadow: 'none',
-                color: info.focus
+                backgroundColor: transparent.main
               },
 
-              '&:focus': {
-                boxShadow: 'none',
-                color: info.focus
-              },
+              '&:focus:not(:hover)': {
+                boxShadow: buttonBoxShadow.stateOfNotHover
+              }
+            }
+          }),
+          ...(ownerState.variant === 'text' && {
+            backgroundColor: transparent.main,
+            height: 'max-content',
+            color: info.main,
+            boxShadow: 'none',
+            padding: `${pxToRem(6)} ${pxToRem(12)}`,
 
-              '&:active, &:active:focus, &:active:hover': {
-                opacity: 0.85,
-                boxShadow: 'none'
-              },
+            '&:hover': {
+              backgroundColor: transparent.main,
+              boxShadow: 'none',
+              color: info.focus
+            },
 
-              '&:disabled': {
-                color: grey[600],
-                boxShadow: 'none'
-              },
+            '&:focus': {
+              boxShadow: 'none',
+              color: info.focus
+            },
+
+            '&:active, &:active:focus, &:active:hover': {
+              opacity: 0.85,
+              boxShadow: 'none'
+            },
+
+            '&:disabled': {
+              color: grey[600],
+              boxShadow: 'none'
+            },
+
+            '& .material-icons, .material-icons-round, svg, span': {
+              fontSize: `${pxToRem(16)} !important`
+            },
+            small: {
+              fontSize: size.xs,
 
               '& .material-icons, .material-icons-round, svg, span': {
-                fontSize: `${pxToRem(16)} !important`
-              },
-              small: {
-                fontSize: size.xs,
-
-                '& .material-icons, .material-icons-round, svg, span': {
-                  fontSize: `${pxToRem(12)} !important`
-                }
-              },
-
-              large: {
-                fontSize: size.sm,
-
-                '& .material-icons, .material-icons-round, svg, span': {
-                  fontSize: `${pxToRem(22)} !important`
-                }
-              },
-
-              primary: {
-                color: info.main,
-                backgroundColor: transparent.main,
-
-                '&:hover': {
-                  color: info.focus,
-                  backgroundColor: transparent.main
-                },
-
-                '&:focus:not(:hover)': {
-                  color: info.focus,
-                  backgroundColor: transparent.focus,
-                  boxShadow: 'none'
-                }
-              },
-
-              secondary: {
-                color: secondary.focus,
-                backgroundColor: transparent.main,
-
-                '&:hover': {
-                  color: secondary.focus,
-                  backgroundColor: transparent.main
-                },
-
-                '&:focus:not(:hover)': {
-                  color: secondary.focus,
-                  backgroundColor: transparent.focus,
-                  boxShadow: 'none'
-                }
+                fontSize: `${pxToRem(12)} !important`
               }
-            }))
+            },
+
+            large: {
+              fontSize: size.sm,
+
+              '& .material-icons, .material-icons-round, svg, span': {
+                fontSize: `${pxToRem(22)} !important`
+              }
+            },
+
+            primary: {
+              color: info.main,
+              backgroundColor: transparent.main,
+
+              '&:hover': {
+                color: info.focus,
+                backgroundColor: transparent.main
+              },
+
+              '&:focus:not(:hover)': {
+                color: info.focus,
+                backgroundColor: transparent.focus,
+                boxShadow: 'none'
+              }
+            },
+
+            secondary: {
+              color: secondary.focus,
+              backgroundColor: transparent.main,
+
+              '&:hover': {
+                color: secondary.focus,
+                backgroundColor: transparent.main
+              },
+
+              '&:focus:not(:hover)': {
+                color: secondary.focus,
+                backgroundColor: transparent.focus,
+                boxShadow: 'none'
+              }
+            }
+          })
         })
       }
     },
@@ -488,6 +498,175 @@ export default function componentStyleOverrides(theme) {
           '&:hover, &:focus, &.Mui-selected, &.Mui-selected:hover, &.Mui-selected:focus': {
             backgroundColor: light.main,
             color: dark.main
+          }
+        }
+      }
+    },
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          position: 'relative',
+          backgroundColor: grey[100],
+          borderRadius: borderRadius.lg,
+          minHeight: 'unset',
+          padding: pxToRem(4)
+        },
+
+        flexContainer: {
+          height: '100%',
+          position: 'relative',
+          zIndex: 10
+        },
+
+        fixed: {
+          overflow: 'unset !important',
+          overflowX: 'unset !important'
+        },
+
+        vertical: {
+          '& .MuiTabs-indicator': {
+            width: '100%'
+          }
+        },
+
+        indicator: {
+          height: '100%',
+          borderRadius: borderRadius.md,
+          backgroundColor: white.main,
+          transition: 'all 500ms ease',
+          boxShadow: tabsBoxShadow.indicator
+        }
+      }
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'row',
+          flex: '1 1 auto',
+          textAlign: 'center',
+          maxWidth: 'unset !important',
+          minWidth: 'unset !important',
+          minHeight: 'unset !important',
+          fontSize: size.md,
+          fontWeight: fontWeightRegular,
+          textTransform: 'none',
+          lineHeight: 'inherit',
+          padding: pxToRem(4),
+          borderRadius: borderRadius.md,
+          color: `${dark.main} !important`,
+          opacity: '1 !important',
+
+          '& .material-icons, .material-icons-round': {
+            marginBottom: '0 !important',
+            marginRight: pxToRem(4)
+          },
+
+          '& svg': {
+            marginBottom: '0 !important',
+            marginRight: pxToRem(6)
+          }
+        },
+
+        labelIcon: {
+          paddingTop: pxToRem(4)
+        }
+      }
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'relative',
+          minWidth: 0,
+          wordWrap: 'break-word',
+          backgroundColor: white.main,
+          backgroundClip: 'border-box',
+          border: `${borderWidth[0]} solid ${rgba(black.main, 0.125)}`,
+          borderRadius: borderRadius.xl,
+          boxShadow: cardBoxShadow
+        }
+      }
+    },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          marginTop: 0,
+          marginBottom: 0,
+          padding: `${pxToRem(8)} ${pxToRem(24)} ${pxToRem(24)}`
+        }
+      }
+    },
+    MuiCardMedia: {
+      styleOverrides: {
+        root: {
+          borderRadius: borderRadius.xl,
+          margin: `${pxToRem(16)} ${pxToRem(16)} 0`
+        },
+        media: {
+          width: 'auto'
+        }
+      }
+    },
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          backgroundPosition: 'center',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          width: pxToRem(20),
+          height: pxToRem(20),
+          marginRight: pxToRem(6),
+          padding: 0,
+          color: transparent.main,
+          border: `${borderWidth[1]} solid ${borderColor}`,
+          borderRadius: '50%',
+          transition: 'all 250ms ease',
+
+          '&:hover': {
+            backgroundColor: transparent.main
+          },
+
+          '& .MuiSvgIcon-root': {
+            fill: transparent.main
+          },
+
+          '&.Mui-focusVisible': {
+            border: `${borderWidth[2]} solid ${info.main} !important`
+          }
+        },
+
+        colorPrimary: {
+          backgroundColor: transparent.main,
+
+          '&.Mui-checked': {
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='15px' width='15px'%3E%3Ccircle cx='50%' cy='50%' r='3' fill='%23fff' /%3E%3C/svg%3E"), ${linearGradient(
+              gradients.info.main,
+              gradients.info.state
+            )}`,
+            borderColor: gradients.info.state
+          },
+
+          '&:hover': {
+            backgroundColor: transparent.main
+          }
+        },
+
+        colorSecondary: {
+          backgroundColor: transparent.main,
+
+          '&.Mui-checked': {
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='15px' width='15px'%3E%3Ccircle cx='50%' cy='50%' r='3' fill='%23fff' /%3E%3C/svg%3E"), ${linearGradient(
+              gradients.info.main,
+              gradients.info.state
+            )}`,
+            borderColor: gradients.info.state
+          },
+
+          '&:hover': {
+            backgroundColor: transparent.main
           }
         }
       }
