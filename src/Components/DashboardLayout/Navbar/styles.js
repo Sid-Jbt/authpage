@@ -1,6 +1,5 @@
 function navbar(theme) {
   const { palette, functions, transitions, breakpoints, borders } = theme;
-
   const { text, transparent } = palette;
   const { pxToRem } = functions;
   const { borderRadius } = borders;
