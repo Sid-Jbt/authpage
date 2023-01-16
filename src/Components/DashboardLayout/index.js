@@ -19,9 +19,9 @@ const DashboardLayout = ({ bgColor, children, ...rest }) => {
         left={0}
         zIndex={-1}
         {...rest}
-      >
-        <Sidenav brand={Logo} brandName="Jarvis Bitz" />
-      </Box>
+      />
+      <Sidenav brand={Logo} brandName="Jarvis Bitz" />
+
       <Box
         sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
           p: 3,
