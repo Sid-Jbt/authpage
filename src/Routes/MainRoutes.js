@@ -32,7 +32,7 @@ const MainRoutes = [
     element: <Error404 />
   },
   {
-    name: 'EmployeeList',
+    name: 'Employee',
     icon: <PeopleRounded />,
     path: employeeListPattern,
     key: 'employeeList',
