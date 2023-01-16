@@ -6,11 +6,11 @@ const accNumberRegx = /^\d{9,18}$/;
 const ifscCodeRegx = /^[A-Z]{4}0[A-Z0-9]{6}$/;
 
 const validationSchema = yup.object().shape({
-  email: yup.string('Enter your email').email('Enter a valid email').required('Required'),
+  email: yup.string().email('Enter a valid email').required('Required'),
   password: yup
-    .string('Enter your password')
+    .string()
     .min(8, 'Password should be of minimum 8 characters length')
-    .required('Password is required'),
+    .required('Required'),
   confirmPassword: yup
     .string()
     .when('password', {

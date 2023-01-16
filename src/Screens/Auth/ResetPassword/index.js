@@ -72,7 +72,7 @@ const RestPassword = () => (
     </Formik>
     <Box mt={3} textAlign="center">
       <Typography variant="button" color="text" fontWeight="regular">
-        Don&apos;t have an account?{' '}
+        Already have an account?&nbsp;
         <Typography component={Link} to="/" variant="button" color="info" fontWeight="medium">
           Sign In
         </Typography>

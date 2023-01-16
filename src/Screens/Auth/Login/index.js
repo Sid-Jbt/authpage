@@ -65,7 +65,7 @@ const Login = () => {
 
               <Box mb={0.5}>
                 <Input
-                  placeholder="password"
+                  placeholder="Password"
                   size="large"
                   fullWidth
                   id="password"
@@ -102,7 +102,7 @@ const Login = () => {
                   <Typography
                     variant="button"
                     fontWeight="regular"
-                    onClick={() => console.log('onPressRememberMe')}
+                    onClick={handleSetRememberMe}
                     sx={{ cursor: 'pointer', userSelect: 'none' }}
                   >
                     &nbsp;&nbsp;Remember me
