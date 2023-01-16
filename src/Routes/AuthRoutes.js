@@ -20,10 +20,6 @@ const AuthRoutes = {
       path: resetPasswordPattern,
       element: <ResetPassword />
     }
-    // {
-    //   path: '/forgot-reset-password',
-    //   element: <ForgotResetPassword />
-    // }
   ]
 };
 

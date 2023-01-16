@@ -19,6 +19,7 @@ export const profilePattern = '/profile';
 export const getProfilePattern = () => generatePath(profilePattern);
 
 export const errorPattern = '/error';
+export const getErrorPattern = () => generatePath(errorPattern);
 
 export const employeeListPattern = '/employee-list';
 export const getEmployeeListPattern = () => generatePath(employeeListPattern);
