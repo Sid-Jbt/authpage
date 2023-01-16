@@ -9,7 +9,7 @@ function navbar(theme) {
     backgroundColor: `${info.main} !important`,
     color: text.main,
     top: pxToRem(0),
-    minHeight: pxToRem(75),
+    minHeight: pxToRem(100),
     display: 'grid',
     alignItems: 'center',
     paddingTop: pxToRem(8),
@@ -66,14 +66,12 @@ const navbarRow = ({ breakpoints }, { isMini }) => ({
 
 const navbarIconButton = ({ typography: { size }, breakpoints }) => ({
   px: 0.75,
-
   '& .material-icons, .material-icons-round': {
-    fontSize: `${size.md} !important`
+    fontSize: `${size.xs} !important`
   },
-
+  mr: 2,
   '& .MuiTypography-root': {
     display: 'none',
-
     [breakpoints.up('sm')]: {
       display: 'inline-block',
       lineHeight: 1.2,

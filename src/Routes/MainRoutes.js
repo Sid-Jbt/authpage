@@ -1,8 +1,13 @@
-import { DashboardRounded, PolicyRounded, Person, ErrorRounded } from '@mui/icons-material';
+import { PolicyRounded, Person, ErrorRounded, TvRounded } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
-import { profilePattern, privacyPolicyPattern, errorPattern } from './routeConfig';
+import {
+  profilePattern,
+  privacyPolicyPattern,
+  errorPattern,
+  dashboardPattern
+} from './routeConfig';
 import colors from '../Theme/base/colors';
 
 const DashboardDefault = Loadable(lazy(() => import('../Screens/DashboardDefault')));
@@ -14,13 +19,13 @@ const MainRoutes = [
   {
     name: 'Dashboard',
     icon: (
-      <DashboardRounded
+      <TvRounded
         sx={{
-          color: colors.black.dark
+          color: colors.primary.main
         }}
       />
     ),
-    path: '/dashboard',
+    path: dashboardPattern,
     key: 'dashboard',
     element: <DashboardDefault />
   },
@@ -41,7 +46,7 @@ const MainRoutes = [
       />
     ),
     path: privacyPolicyPattern,
-    key: 'privacyPolicy',
+    key: 'privacy',
     element: <PrivacyPolicy />
   },
   {

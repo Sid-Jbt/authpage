@@ -7,11 +7,19 @@ export const loginPattern = '/login';
 export const getLoginPattern = () => generatePath(loginPattern);
 
 export const dashboardPattern = '/dashboard';
+export const getDashboardPattern = () => generatePath(dashboardPattern);
+
 export const forgotPasswordPattern = '/forgot-password';
-export const resetPasswordPattern = '/reset-password';
 export const getForgotPasswordPattern = () => generatePath(forgotPasswordPattern);
 
+export const resetPasswordPattern = '/reset-password';
+export const getResetPasswordPattern = () => generatePath(resetPasswordPattern);
+
 export const profilePattern = '/profile';
-export const privacyPolicyPattern = '/privacy-policy';
-export const errorPattern = '/error';
 export const getProfilePattern = () => generatePath(profilePattern);
+
+export const privacyPolicyPattern = '/privacy';
+export const getPrivacyPolicyPattern = () => generatePath(privacyPolicyPattern);
+
+export const errorPattern = '/error';
+export const getErrorPattern = () => generatePath(errorPattern);

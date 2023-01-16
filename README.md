@@ -1,6 +1,6 @@
 ### jbt-timer-web
-------------------------------
 
+---
 
 ## React version
 
@@ -26,11 +26,11 @@ with Node.js when you install it on your system.
 
 Once you have npm installed you can run the following both to install and upgrade Yarn:
 
-```npm install --global yarn || npm install yarn```
+`npm install --global yarn || npm install yarn`
 
 -> To install packages to below:
 
-```yarn install```
+`yarn install`
 
 -> Follow the below step to create a config.js.
 
@@ -40,8 +40,8 @@ Step 2: Please update the 'config.js' file from 'config.test.js'
 
 -> After all installation done you can run
 
-```yarn start```
+`yarn start`
 
 -> Generating build
 
-```yarn build```
+`yarn build`

@@ -1,9 +1,16 @@
-import { AppBar, Avatar, Icon, IconButton, Menu, Toolbar } from '@mui/material';
+import { AppBar, Avatar, Divider, Icon, IconButton, Menu, Toolbar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Box from 'Elements/Box';
 import { MINI_SIDENAV } from 'Redux/actions/ui/actions';
-import { MenuOpenTwoTone, MenuTwoTone, Notifications, Person } from '@mui/icons-material';
+import {
+  Logout,
+  MenuOpenTwoTone,
+  MenuTwoTone,
+  Notifications,
+  Person,
+  Settings
+} from '@mui/icons-material';
 import { useState } from 'react';
 import NotificationItem from 'Elements/Item';
 
@@ -33,16 +40,16 @@ const DashboardNavbar = ({ isMini }) => {
       }}
       open={Boolean(openMenu)}
       onClose={handleMenu}
-      sx={{ mt: 2, top: 30 }}
+      sx={{ mt: 1, top: 50, left: -90 }}
     >
       <NotificationItem
-        // image={<img src={team2} alt="person" />}
+        image={<Person />}
         title={['New message', 'from Laur']}
         date="13 minutes ago"
         onClick={handleMenu}
       />
       <NotificationItem
-        // image={<img src={logoSpotify} alt="person" />}
+        image={<Person />}
         title={['New album', 'by Travis Scott']}
         date="1 day"
         onClick={handleMenu}
@@ -71,19 +78,36 @@ const DashboardNavbar = ({ isMini }) => {
       }}
       open={Boolean(openProfileMenu)}
       onClose={handleProfileMenu}
-      sx={{ mt: 2, top: 30 }}
+      sx={{ mt: 2, top: 50, left: -10 }}
     >
-      <NotificationItem image={<Person />} title={['Profile']} onClick={handleProfileMenu} />
       <NotificationItem
         color="secondary"
-        image={
-          <Icon fontSize="small" sx={{ color: ({ palette: { white } }) => white.main }}>
-            payment
-          </Icon>
-        }
-        title={['', 'Payment successfully completedasfdsfdsf']}
-        date="2 days"
+        title={['Hello,', 'Username']}
+        disabled
         onClick={handleProfileMenu}
+        width={200}
+      />
+      <Divider sx={{ width: 100, ml: 'auto', mr: 'auto' }} />
+      <NotificationItem
+        color="secondary"
+        image={<Person />}
+        title={['Profile']}
+        onClick={handleProfileMenu}
+        width={200}
+      />
+      <NotificationItem
+        color="secondary"
+        image={<Settings />}
+        title={['Settings']}
+        onClick={handleProfileMenu}
+        width={200}
+      />
+      <NotificationItem
+        color="secondary"
+        image={<Logout />}
+        title={['Logout']}
+        onClick={handleProfileMenu}
+        width={200}
       />
     </Menu>
   );
@@ -93,45 +117,52 @@ const DashboardNavbar = ({ isMini }) => {
       <Toolbar sx={(theme) => navbarContainer(theme, { position: 'static' })}>
         <Box color="white" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
           {!customization.miniSidenav ? (
-            <MenuTwoTone onClick={handleMiniSidenav} style={{ cursor: 'pointer' }} />
+            <IconButton
+              size="large"
+              color="white"
+              sx={navbarIconButton}
+              variant="contained"
+              onClick={handleMiniSidenav}
+            >
+              <MenuTwoTone />
+            </IconButton>
           ) : (
-            <MenuOpenTwoTone onClick={handleMiniSidenav} style={{ cursor: 'pointer' }} />
+            <IconButton
+              size="large"
+              color="white"
+              sx={navbarIconButton}
+              variant="contained"
+              onClick={handleMiniSidenav}
+            >
+              <MenuOpenTwoTone />
+            </IconButton>
           )}
           {/* <Breadcrumbs
-          icon="home"
-          title={route[route.length - 1]}
-          route={route}
-          light={transparentNavbar ? light : false}
-        /> */}
+            icon="home"
+            title={route[route.length - 1]}
+            route={route}
+            light={transparentNavbar ? light : false}
+          /> */}
         </Box>
         <Box sx={(theme) => navbarRow(theme, { isMini })}>
-          <Box color="white">
-            <IconButton
-              size="medium"
-              color="white"
-              sx={navbarIconButton}
-              variant="contained"
-              onClick={handleProfileMenu}
-            >
-              <Avatar
-                src={profileImage}
-                alt="profile-image"
-                variant="rounded"
-                sx={{ width: 25, height: 25, borderRadius: 12 }}
-              />
-            </IconButton>
-            <IconButton
-              size="medium"
-              color="white"
-              sx={navbarIconButton}
-              variant="contained"
-              onClick={handleMenu}
-            >
-              <Notifications />
-            </IconButton>
-            {renderMenu()}
-            {renderProfileMenu()}
-          </Box>
+          <IconButton
+            size="large"
+            color="white"
+            sx={navbarIconButton}
+            variant="contained"
+            onClick={handleMenu}
+          >
+            <Notifications />
+          </IconButton>
+          <Avatar
+            src={profileImage}
+            alt="profile-image"
+            variant="rounded"
+            onClick={handleProfileMenu}
+            sx={{ width: 50, height: 50, borderRadius: 12 }}
+          />
+          {renderMenu()}
+          {renderProfileMenu()}
         </Box>
       </Toolbar>
     </AppBar>
