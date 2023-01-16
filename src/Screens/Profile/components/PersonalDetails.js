@@ -9,6 +9,7 @@ import {
   FormLabel
 } from '@mui/material';
 import { Formik } from 'formik';
+import moment from 'moment';
 import validationSchema from 'Helpers/ValidationSchema';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -36,9 +37,8 @@ const PersonalDetails = () => {
       </Grid>
 
       <Formik
+        enableReinitialize
         initialValues={{
-          email: '',
-          password: '',
           firstName: '',
           lastName: '',
           fatherName: '',
@@ -47,7 +47,10 @@ const PersonalDetails = () => {
           empCode: '',
           pAdd: '',
           alternativeNumber: '',
-          phoneNumber: ''
+          phoneNumber: '',
+          dob: moment().format('DD/MM/YYYY'),
+          doj: '',
+          dol: ''
         }}
         onSubmit={(values) => {
           console.log('values', values);
@@ -191,21 +194,22 @@ const PersonalDetails = () => {
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
                     <Input
-                      type="date"
+                      type="text"
                       placeholder="Date Of Join"
                       size="large"
                       fullWidth
                       id="doj"
                       name="doj"
                       label="Date Of Join"
-                      disabled={isEdit}
+                      disabled
+                      value={values.doj}
                     />
                   </Box>
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
                     <Input
-                      type="date"
+                      type="text"
                       placeholder="Date Of Leave"
                       size="large"
                       fullWidth
@@ -213,6 +217,7 @@ const PersonalDetails = () => {
                       name="dol"
                       label="Date Of Leave"
                       disabled
+                      value={values.dol}
                     />
                   </Box>
                 </Grid>
