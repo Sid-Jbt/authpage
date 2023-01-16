@@ -21,18 +21,20 @@ const EmployeeList = () => {
     >
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} p={2} pb={0}>
         <Typography variant="h6">Employee</Typography>
-        <Button color="info" variant="contained" size="small">
-          <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
-            <Add />{' '}
-          </Icon>
-          Add
-        </Button>
-        <Button color="info" variant="contained" size="small">
-          <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
-            <ImportExportRounded />{' '}
-          </Icon>
-          Export
-        </Button>
+        <Box>
+          <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
+            <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
+              <Add />{' '}
+            </Icon>
+            Add
+          </Button>
+          <Button color="info" variant="contained" size="small">
+            <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
+              <ImportExportRounded />{' '}
+            </Icon>
+            Export
+          </Button>
+        </Box>
       </Box>
       <Box
         display="flex"
