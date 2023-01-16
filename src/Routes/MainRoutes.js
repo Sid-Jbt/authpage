@@ -3,6 +3,7 @@ import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
 import { profilePattern, privacyPolicyPattern, errorPattern } from './routeConfig';
+import colors from '../Theme/base/colors';
 
 const DashboardDefault = Loadable(lazy(() => import('../Screens/DashboardDefault')));
 const Profile = Loadable(lazy(() => import('../Screens/Profile')));
@@ -12,7 +13,13 @@ const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
 const MainRoutes = [
   {
     name: 'Dashboard',
-    icon: <DashboardRounded />,
+    icon: (
+      <DashboardRounded
+        sx={{
+          color: colors.gradients.primary.main
+        }}
+      />
+    ),
     path: '/dashboard',
     key: 'dashboard',
     element: <DashboardDefault />
@@ -26,14 +33,20 @@ const MainRoutes = [
   },
   {
     name: 'PrivacyPolicy',
-    icon: <PolicyRounded />,
+    icon: (
+      <PolicyRounded
+        sx={{
+          color: colors.black.light
+        }}
+      />
+    ),
     path: privacyPolicyPattern,
     key: 'privacyPolicy',
     element: <PrivacyPolicy />
   },
   {
     name: 'Error',
-    icon: <ErrorRounded />,
+    icon: <ErrorRounded sx={{ color: colors.error.main }} />,
     path: errorPattern,
     key: 'error',
     element: <Error404 />

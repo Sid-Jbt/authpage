@@ -61,9 +61,9 @@ const DashboardNavbar = ({ isMini }) => {
       <Toolbar sx={(theme) => navbarContainer(theme, { position: 'static' })}>
         <Box color="white" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
           {!customization.miniSidenav ? (
-            <MenuOpenTwoTone onClick={handleMiniSidenav} />
+            <MenuOpenTwoTone onClick={handleMiniSidenav} style={{ cursor: 'pointer' }} />
           ) : (
-            <MenuTwoTone onClick={handleMiniSidenav} />
+            <MenuTwoTone onClick={handleMiniSidenav} style={{ cursor: 'pointer' }} />
           )}
           {/* <Breadcrumbs
           icon="home"
