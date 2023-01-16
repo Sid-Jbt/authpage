@@ -16,7 +16,7 @@ const MainRoutes = [
     icon: (
       <DashboardRounded
         sx={{
-          color: colors.gradients.primary.main
+          color: colors.black.dark
         }}
       />
     ),
