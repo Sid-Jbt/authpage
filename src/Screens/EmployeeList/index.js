@@ -37,7 +37,12 @@ const EmployeeList = () => {
           <Grid container justifyContent="space-between">
             <Typography variant="h6">Employee</Typography>
             <Box>
-              <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
+              <Button
+                color="info"
+                variant="contained"
+                size="small"
+                sx={{ marginRight: '10px', marginLeft: '40px' }}
+              >
                 <Icon sx={{ mr: '2px' }}>
                   <Add />
                 </Icon>
