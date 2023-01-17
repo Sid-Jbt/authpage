@@ -1,12 +1,14 @@
-import { PolicyRounded, Person, ErrorRounded, TvRounded } from '@mui/icons-material';
+import { PolicyRounded, Person, ErrorRounded, TvRounded, PeopleRounded } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
+import EmployeeList from 'Screens/EmployeeList';
 import {
   profilePattern,
   privacyPolicyPattern,
   errorPattern,
-  dashboardPattern
+  dashboardPattern,
+  employeeListPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -55,6 +57,13 @@ const MainRoutes = [
     path: errorPattern,
     key: 'error',
     element: <Error404 />
+  },
+  {
+    name: 'Employee',
+    icon: <PeopleRounded />,
+    path: employeeListPattern,
+    key: 'employee',
+    element: <EmployeeList />
   }
 ];
 

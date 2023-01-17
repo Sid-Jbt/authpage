@@ -23,3 +23,6 @@ export const getPrivacyPolicyPattern = () => generatePath(privacyPolicyPattern);
 
 export const errorPattern = '/error';
 export const getErrorPattern = () => generatePath(errorPattern);
+
+export const employeeListPattern = '/employee';
+export const getEmployeeListPattern = () => generatePath(employeeListPattern);
