@@ -4,12 +4,25 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 
 const Error404 = () => (
-  <Box sx={{ m: 15, h: '500px', background: 'white', borderRadius: 4, textAlign: 'center' }}>
-    <Box style={{ padding: '150px', color: 'black' }}>
-      <Typography variant="h1" fontSize="200px" color="black">
+  <Box
+    xl={12}
+    lg={12}
+    sm={12}
+    sx={{
+      m: 'auto',
+      marginTop: '100px',
+      textAlign: 'center',
+      background: 'white',
+      borderRadius: 7
+    }}
+  >
+    <Box sx={{ padding: '50px' }}>
+      <Typography variant="h1" fontWeight="bold">
         404
       </Typography>
-      <Typography>ERROR PAGE </Typography>
+      <Typography sx={{ fontWeight: 'bold', fontSize: '3.2vw', color: 'black' }}>
+        ERROR PAGE
+      </Typography>
       <Typography>Uh Oh!! you're lost.</Typography>
       <Typography>
         <strong>We are sorry but the page you were looking for was not found...!</strong>
