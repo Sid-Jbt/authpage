@@ -2,11 +2,22 @@ import breakpoints from './base/breakpoints';
 
 export default function componentStyleOverrides(theme) {
   const { palette, typography, borders, boxShadows, functions } = theme;
-  const { inputColors, transparent, dark, white, grey, gradients, light, text, info, secondary } =
-    palette;
+  const {
+    inputColors,
+    transparent,
+    dark,
+    white,
+    grey,
+    gradients,
+    light,
+    text,
+    info,
+    secondary,
+    black
+  } = palette;
   const { size, fontWeightRegular, fontWeightBold } = typography;
   const { borderWidth, borderRadius, borderColor } = borders;
-  const { md, buttonBoxShadow, lg, cardBoxShadow } = boxShadows;
+  const { md, buttonBoxShadow, lg, cardBoxShadow, tabsBoxShadow } = boxShadows;
   const { values } = breakpoints;
   const { pxToRem, rgba, linearGradient } = functions;
 
@@ -992,6 +1003,127 @@ export default function componentStyleOverrides(theme) {
           '&:hover': {
             backgroundColor: transparent.main
           }
+        }
+      }
+    },
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          position: 'relative',
+          backgroundColor: grey[100],
+          borderRadius: borderRadius.lg,
+          minHeight: 'unset',
+          padding: pxToRem(4)
+        },
+
+        flexContainer: {
+          height: '100%',
+          position: 'relative',
+          zIndex: 10
+        },
+
+        fixed: {
+          overflow: 'unset !important',
+          overflowX: 'unset !important'
+        },
+
+        vertical: {
+          '& .MuiTabs-indicator': {
+            width: '100%'
+          }
+        },
+
+        indicator: {
+          height: '100%',
+          borderRadius: borderRadius.md,
+          backgroundColor: white.main,
+          boxShadow: tabsBoxShadow.indicator,
+          transition: 'all 500ms ease'
+        }
+      }
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'row',
+          flex: '1 1 auto',
+          textAlign: 'center',
+          maxWidth: 'unset !important',
+          minWidth: 'unset !important',
+          minHeight: 'unset !important',
+          fontSize: size.md,
+          fontWeight: fontWeightRegular,
+          textTransform: 'none',
+          lineHeight: 'inherit',
+          padding: pxToRem(4),
+          borderRadius: borderRadius.md,
+          color: `${dark.main} !important`,
+          opacity: '1 !important',
+
+          '& .material-icons, .material-icons-round': {
+            marginBottom: '0 !important',
+            marginRight: pxToRem(4)
+          },
+
+          '& svg': {
+            marginBottom: '0 !important',
+            marginRight: pxToRem(6)
+          }
+        },
+
+        labelIcon: {
+          paddingTop: pxToRem(4)
+        }
+      }
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'relative',
+          minWidth: 0,
+          wordWrap: 'break-word',
+          backgroundColor: white.main,
+          backgroundClip: 'border-box',
+          border: `${borderWidth[0]} solid ${rgba(black.main, 0.125)}`,
+          borderRadius: borderRadius.xl,
+          boxShadow: cardBoxShadow
+        }
+      }
+    },
+    MuiCardMedia: {
+      styleOverrides: {
+        root: {
+          borderRadius: borderRadius.xl,
+          margin: `${pxToRem(16)} ${pxToRem(16)} 0`
+        },
+
+        media: {
+          width: 'auto'
+        }
+      }
+    },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          marginTop: 0,
+          marginBottom: 0,
+          padding: `${pxToRem(8)} ${pxToRem(24)} ${pxToRem(24)}`
+        }
+      }
+    },
+    MuiBreadcrumbs: {
+      styleOverrides: {
+        li: {
+          lineHeight: 0
+        },
+
+        separator: {
+          fontSize: size.sm,
+          color: grey[600]
         }
       }
     }

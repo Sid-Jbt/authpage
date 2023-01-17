@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Table as MuiTable, TableBody, TableContainer, TableRow } from '@mui/material';
+import { Table as MuiTable, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
+import Paginations from 'Elements/Pagination';
 
 const Table = ({ columns, rows }) => {
   const { size, fontWeightBold } = typography;
@@ -84,10 +85,10 @@ const Table = ({ columns, rows }) => {
             component="td"
             p={1}
             textAlign={align}
-            verticalAlign="middle"
             lineHeight={0.65}
             sx={({ palette: { light } }) => ({
-              borderBottom: row.hasBorder ? `${borderWidth[1]} solid ${light.main}` : null
+              borderBottom: row.hasBorder ? `${borderWidth[1]} solid ${light.main}` : null,
+              verticalAlign: 'middle'
             })}
           >
             <Typography
@@ -116,6 +117,9 @@ const Table = ({ columns, rows }) => {
             <TableRow>{renderColumns}</TableRow>
           </Box>
           <TableBody>{renderRows}</TableBody>
+          <TableCell colSpan={renderColumns.length}>
+            <Paginations rows={renderRows.length} />
+          </TableCell>
         </MuiTable>
       </TableContainer>
     ),

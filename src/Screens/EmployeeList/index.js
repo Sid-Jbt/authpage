@@ -12,7 +12,6 @@ import {
   FilterListRounded
 } from '@mui/icons-material';
 import Input from 'Elements/Input';
-import Paginations from 'Components/Pagination/index';
 import employeeListData from './data/employeeListData';
 
 const EmployeeList = () => {
@@ -136,7 +135,6 @@ const EmployeeList = () => {
         >
           <Table columns={prCols} rows={prRows} />
         </Box>
-        <Paginations rows={prRows.length} />
       </Card>
     </Card>
   );
