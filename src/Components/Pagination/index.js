@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import TablePagination from '@mui/material/TablePagination';
 
-const Paginations = () => {
-  const [page, setPage] = React.useState(2);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+const Paginations = (rows) => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -17,10 +17,11 @@ const Paginations = () => {
   return (
     <TablePagination
       component="div"
-      count={100}
+      count={rows.rows}
       page={page}
       onPageChange={handleChangePage}
       rowsPerPage={rowsPerPage}
+      rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
       onRowsPerPageChange={handleChangeRowsPerPage}
     />
   );

@@ -66,6 +66,55 @@ const empListData = {
       dob: '01/02/2023',
       dol: '01/02/2023',
       action
+    },
+
+    {
+      empcode: 'empcode-1',
+      name: [logoSpotify, 'Spotift'],
+      role: 'Developer',
+      dob: '01/02/2023',
+      dol: '01/02/2023',
+      action
+    },
+    {
+      empcode: 'empcode-2',
+      name: [logoSpotify, 'Spotift'],
+      role: 'HR',
+      dob: '01/02/2023',
+      dol: '01/02/2023',
+      action
+    },
+    {
+      empcode: 'empcode-3',
+      name: [logoSpotify, 'Spotift'],
+      role: 'CEO',
+      dob: '01/02/2023',
+      dol: '01/02/2023',
+      action
+    },
+    {
+      empcode: 'empcode-4',
+      name: [logoSpotify, 'Spotift'],
+      role: 'Admin',
+      dob: '01/02/2023',
+      dol: '01/02/2023',
+      action
+    },
+    {
+      empcode: 'empcode-5',
+      name: [logoSpotify, 'Spotift'],
+      role: 'Super Admin',
+      dob: '01/02/2023',
+      dol: '01/02/2023',
+      action
+    },
+    {
+      empcode: 'empcode-6',
+      name: [logoSpotify, 'Spotift'],
+      role: 'Developer',
+      dob: '01/02/2023',
+      dol: '01/02/2023',
+      action
     }
   ]
 };

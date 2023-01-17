@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Icon, MenuItem, Select, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -11,11 +11,12 @@ import employeeListData from './data/employeeListData';
 
 const EmployeeList = () => {
   const { columns: prCols, rows: prRows } = employeeListData;
-  const [role, setRole] = React.useState('');
+  const [role, setRole] = useState('');
 
   const handleChangeRole = (event) => {
     setRole(event.target.value);
   };
+
   return (
     <Card
       mb={3}
@@ -116,7 +117,7 @@ const EmployeeList = () => {
         >
           <Table columns={prCols} rows={prRows} />
         </Box>
-        <Paginations />
+        <Paginations rows={prRows.length} />
       </Card>
     </Card>
   );
