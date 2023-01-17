@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, FormControl, Icon, InputLabel, MenuItem, Select } from '@mui/material';
+import { Card, Icon, MenuItem, Select, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Table from 'Elements/Table';
@@ -16,7 +16,7 @@ const EmployeeList = () => {
   const handleChangeRole = (event) => {
     setRole(event.target.value);
   };
-  console.log('Role --> ', role);
+
   return (
     <Card
       mb={3}
@@ -26,90 +26,71 @@ const EmployeeList = () => {
         boxShadow: ({ boxShadows: { md } }) => md
       }}
     >
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} p={2} pb={0}>
-        <Typography variant="h6">Employee</Typography>
-        <Box>
-          <Button color="info" variant="contained" size="medium" sx={{ marginRight: '10px' }}>
-            <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
-              <Add />{' '}
+      <Grid container spacing={2} p={2}>
+        <Grid item sm={12}>
+          <Grid container justifyContent="space-between">
+            <Typography variant="h6">Employee</Typography>
+            <Box>
+              <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
+                <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
+                  <Add />{' '}
+                </Icon>
+                Add
+              </Button>
+              <Button color="info" variant="contained" size="small">
+                <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
+                  <ImportExportRounded />{' '}
+                </Icon>
+                Export
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid item sm={12} md={4} lg={2}>
+          <Input
+            type="date"
+            placeholder="From Date"
+            size="small"
+            fullWidth
+            id="fromDate"
+            name="fromDate"
+          />
+        </Grid>
+        <Grid item sm={12} md={4} lg={2}>
+          <Input
+            type="date"
+            placeholder="To Date"
+            size="small"
+            fullWidth
+            id="toDate"
+            name="toDate"
+          />
+        </Grid>
+        <Grid item sm={12} md={4} lg={2}>
+          <Select id="selectRole" value={role} onChange={handleChangeRole}>
+            <MenuItem value="Super Admin">Super Admin</MenuItem>
+            <MenuItem value="Admin">Admin</MenuItem>
+            <MenuItem value="Developer">Developer</MenuItem>
+            <MenuItem value="HR">HR</MenuItem>
+            <MenuItem value="QA">QA</MenuItem>
+            <MenuItem value="Tester">Tester</MenuItem>
+          </Select>
+        </Grid>
+        <Grid item sm={12} md={4} lg={6}>
+          <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
+            <Icon sx={{}}>
+              <SearchRounded />
             </Icon>
-            Add
+            Search
           </Button>
-          <Button color="info" variant="contained" size="medium">
+          <Button color="info" variant="contained" size="small">
             <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
-              <ImportExportRounded />{' '}
+              <ClearRounded />{' '}
             </Icon>
-            Export
+            Clear
           </Button>
-        </Box>
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={2}
-        p={2}
-        pb={0}
-        pt={0}
-      >
-        <Box display="flex" justifyContent="space-between">
-          <Box mr={2}>
-            <Input
-              type="date"
-              placeholder="From Date"
-              size="small"
-              fullWidth
-              id="fromDate"
-              name="fromDate"
-            />
-          </Box>
-          <Box mr={3}>
-            <Input
-              type="date"
-              placeholder="To Date"
-              size="small"
-              fullWidth
-              id="toDate"
-              name="toDate"
-            />
-          </Box>
-          <Box sx={{ minWidth: 130 }} mr={5}>
-            <FormControl fullWidth>
-              <InputLabel id="select-role-label" size="large" pb={3}>
-                Role
-              </InputLabel>
-              <Select
-                labelId="select-role-label"
-                id="selectRole"
-                value={role}
-                label="Select Role"
-                displayEmpty
-                onChange={handleChangeRole}
-                sx={{ borderRadius: '8px' }}
-              >
-                <MenuItem value={10}>Super Admin</MenuItem>
-                <MenuItem value={20}>Admin</MenuItem>
-                <MenuItem value={30}>Developer</MenuItem>
-                <MenuItem value={40}>HR</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box>
-            <Button color="info" variant="contained" size="medium" sx={{ marginRight: '10px' }}>
-              <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
-                <SearchRounded />{' '}
-              </Icon>
-              Search
-            </Button>
-            <Button color="info" variant="contained" size="medium">
-              <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
-                <ClearRounded />{' '}
-              </Icon>
-              Clear
-            </Button>
-          </Box>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
       <Card
         sx={{
           background: ({ palette: { white } }) => white.main,

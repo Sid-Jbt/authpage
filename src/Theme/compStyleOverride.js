@@ -87,6 +87,29 @@ export default function componentStyleOverrides(theme) {
         }
       }
     },
+    MuiSelect: {
+      styleOverrides: {
+        select: {
+          display: 'grid',
+          alignItems: 'center',
+          padding: `0 ${pxToRem(12)} !important`,
+
+          '& .Mui-selected': {
+            backgroundColor: transparent.main
+          }
+        },
+        selectMenu: {
+          background: 'none',
+          height: 'none',
+          minHeight: 'none',
+          overflow: 'unset'
+        },
+
+        icon: {
+          display: 'none'
+        }
+      }
+    },
     MuiInputBase: {
       styleOverrides: {
         root: {
@@ -193,9 +216,9 @@ export default function componentStyleOverrides(theme) {
             '& .material-icon, .material-icons-round, svg': {
               fontSize: `${pxToRem(16)} !important`
             },
-            small: {
+            '&.MuiButton-containedSizeSmall': {
               minHeight: pxToRem(32),
-              padding: `${pxToRem(8)} ${pxToRem(32)}`,
+              padding: `${pxToRem(8)} ${pxToRem(15)}`,
               fontSize: size.xs,
 
               '& .material-icon, .material-icons-round, svg': {
@@ -203,7 +226,7 @@ export default function componentStyleOverrides(theme) {
               }
             },
 
-            large: {
+            '&.MuiButton-containedSizeLarge': {
               minHeight: pxToRem(47),
               padding: `${pxToRem(14)} ${pxToRem(64)}`,
               fontSize: size.sm,
@@ -257,7 +280,7 @@ export default function componentStyleOverrides(theme) {
               '& .material-icon, .material-icons-round, svg': {
                 fontSize: `${pxToRem(16)} !important`
               },
-              small: {
+              '&.MuiButton-outlinedSizeSmall': {
                 minHeight: pxToRem(34),
                 padding: `${pxToRem(8)} ${pxToRem(32)}`,
                 fontSize: size.xs,
@@ -266,7 +289,7 @@ export default function componentStyleOverrides(theme) {
                   fontSize: `${pxToRem(12)} !important`
                 }
               },
-              large: {
+              '&.MuiButton-outlinedSizeLarge': {
                 minHeight: pxToRem(49),
                 padding: `${pxToRem(14)} ${pxToRem(64)}`,
                 fontSize: size.sm,
