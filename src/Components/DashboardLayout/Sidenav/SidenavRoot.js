@@ -17,7 +17,19 @@ export default styled(Drawer)(({ theme, ownerState }) => {
       easing: transitions.easing.sharp,
       duration: transitions.duration.shorter
     }),
-
+    [breakpoints.up('xs')]: {
+      backgroundColor: bgColor,
+      boxShadow: darkSidenav ? 'none' : xxl,
+      marginBottom: darkSidenav ? 0 : 'inherit',
+      left: '0',
+      top: 50,
+      width: sidebarWidth,
+      transform: 'translateX(0)',
+      transition: transitions.create(['width', 'background-color'], {
+        easing: transitions.easing.sharp,
+        duration: transitions.duration.enteringScreen
+      })
+    },
     [breakpoints.up('xl')]: {
       backgroundColor: bgColor,
       boxShadow: darkSidenav ? 'none' : xxl,
@@ -38,7 +50,20 @@ export default styled(Drawer)(({ theme, ownerState }) => {
       easing: transitions.easing.sharp,
       duration: transitions.duration.shorter
     }),
-
+    [breakpoints.up('xs')]: {
+      backgroundColor: bgColor,
+      boxShadow: darkSidenav ? 'none' : xxl,
+      marginBottom: darkSidenav ? 0 : 'inherit',
+      left: '0',
+      width: 0,
+      top: 50,
+      overflowX: 'hidden',
+      transform: 'translateX(0)',
+      transition: transitions.create(['width', 'background-color'], {
+        easing: transitions.easing.sharp,
+        duration: transitions.duration.shorter
+      })
+    },
     [breakpoints.up('xl')]: {
       backgroundColor: bgColor,
       boxShadow: darkSidenav ? 'none' : xxl,

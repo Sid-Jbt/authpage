@@ -8,6 +8,7 @@ import Sidenav from './Sidenav';
 const DashboardLayout = ({ bgColor, children, ...rest }) => {
   const background = bgColor;
   const customization = useSelector((state) => state.customization);
+  console.log('customization', customization);
   return (
     <Box>
       <Box
@@ -20,6 +21,7 @@ const DashboardLayout = ({ bgColor, children, ...rest }) => {
         zIndex={-1}
         {...rest}
       />
+
       <Sidenav brand={Logo} brandName="Jarvis Bitz" />
 
       <Box

@@ -82,9 +82,18 @@ const AuthLayout = () => {
                 opacity={0.7}
               />
               <Box position="relative">
-                <Box mt={6} mb={1}>
+                <Box
+                  mt={6}
+                  mb={1}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
                   <Box component="img" src={Logo} alt="Logo" width="2rem" mr={0.25} />
-                  <Typography variant="h4" color="white" fontWeight="bold">
+                  <Typography variant="h4" color="white" fontWeight="bold" ml={1}>
                     JarvisBitz Tech
                   </Typography>
                 </Box>

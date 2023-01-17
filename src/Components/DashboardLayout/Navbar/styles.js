@@ -37,7 +37,7 @@ function navbar(theme) {
 }
 
 const navbarContainer = ({ breakpoints }) => ({
-  flexDirection: 'column',
+  flexDirection: 'row',
   alignItems: 'flex-start',
   justifyContent: 'space-between',
   p: '0 !important',
@@ -54,8 +54,8 @@ const navbarRow = ({ breakpoints }, { isMini }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '100%',
-  [breakpoints.up('md')]: {
-    justifyContent: isMini ? 'space-between' : 'stretch',
+  [breakpoints.down('xl')]: {
+    justifyContent: isMini ? 'flex-end' : 'stretch',
     width: isMini ? '100%' : 'max-content'
   },
   [breakpoints.up('xl')]: {
