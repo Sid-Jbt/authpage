@@ -14,8 +14,8 @@ function navbar(theme) {
     alignItems: 'center',
     paddingTop: pxToRem(8),
     paddingBottom: pxToRem(8),
-    paddingRight: 0,
-    paddingLeft: 0,
+    paddingRight: 3,
+    paddingLeft: 3,
     '& > *': {
       transition: transitions.create('all', {
         easing: transitions.easing.easeInOut,

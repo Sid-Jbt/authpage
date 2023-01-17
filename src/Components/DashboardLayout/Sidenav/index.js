@@ -46,7 +46,7 @@ const Sidenav = ({ color, brand, brandName, ...rest }) => {
           </Box>
         </Box>
       </Box>
-      <Divider width="50%" sx={{ ml: 'auto', mr: 'auto' }} />
+      <Divider width="100%" sx={{ ml: 'auto', mr: 'auto' }} />
       <List>{renderRoutes}</List>
     </SidenavRoot>
   );

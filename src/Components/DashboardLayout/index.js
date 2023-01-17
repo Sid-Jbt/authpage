@@ -24,8 +24,6 @@ const DashboardLayout = ({ bgColor, children, ...rest }) => {
 
       <Box
         sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
-          p: 3,
-          pt: 0,
           [breakpoints.up('xl')]: {
             marginLeft: customization.miniSidenav ? pxToRem(120) : pxToRem(274),
             transition: transitions.create(['margin-left', 'margin-right'], {
@@ -36,7 +34,9 @@ const DashboardLayout = ({ bgColor, children, ...rest }) => {
         })}
       >
         <DashboardNavbar />
-        <Outlet />
+        <Box sx={{ p: 3 }}>
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );

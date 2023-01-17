@@ -3,7 +3,9 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import { Outlet } from 'react-router';
 import { Grid, useTheme } from '@mui/material';
-import linearGradient from '../../Theme/functions/linearGradient';
+import linearGradient from 'Theme/functions/linearGradient';
+import LogoWithName from 'Assets/logo/jbt-colored-logo.png';
+import Logo from 'Assets/logo/jbt-logo.svg';
 
 const AuthLayout = () => {
   const theme = useTheme();
@@ -21,6 +23,17 @@ const AuthLayout = () => {
       >
         <Grid container>
           <Grid item xs={11} sm={8} md={6} lg={4} xl={3} sx={{ mx: 'auto' }}>
+            <Box
+              pt={3}
+              sx={({ breakpoints }) => ({
+                [breakpoints.up('lg')]: {
+                  display: 'none'
+                }
+              })}
+            >
+              <Box component="img" src={LogoWithName} alt="Logo" width="10rem" mr={0.25} />
+            </Box>
+
             <Box
               display="flex"
               flexDirection="column"
@@ -70,6 +83,7 @@ const AuthLayout = () => {
               />
               <Box position="relative">
                 <Box mt={6} mb={1}>
+                  <Box component="img" src={Logo} alt="Logo" width="2rem" mr={0.25} />
                   <Typography variant="h4" color="white" fontWeight="bold">
                     JarvisBitz Tech
                   </Typography>
