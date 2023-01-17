@@ -4,7 +4,13 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Table from 'Elements/Table';
 import Button from 'Elements/Button';
-import { Add, ImportExportRounded, SearchRounded, ClearRounded } from '@mui/icons-material';
+import {
+  Add,
+  ImportExportRounded,
+  SearchRounded,
+  ClearRounded,
+  FilterListRounded
+} from '@mui/icons-material';
 import Input from 'Elements/Input';
 import Paginations from 'Components/Pagination/index';
 import employeeListData from './data/employeeListData';
@@ -32,13 +38,13 @@ const EmployeeList = () => {
             <Typography variant="h6">Employee</Typography>
             <Box>
               <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
-                <Icon>
+                <Icon sx={{ mr: '2px' }}>
                   <Add />
                 </Icon>
                 Add
               </Button>
               <Button color="info" variant="contained" size="small">
-                <Icon>
+                <Icon sx={{ mr: '2px' }}>
                   <ImportExportRounded />
                 </Icon>
                 Export
@@ -46,56 +52,64 @@ const EmployeeList = () => {
             </Box>
           </Grid>
         </Grid>
-        <Grid item sm={12} md={4} lg={2}>
-          <Input
-            type="date"
-            placeholder="From Date"
-            size="small"
-            fullWidth
-            id="fromDate"
-            name="fromDate"
-          />
+        <Grid container spacing={2} p={2} pl={4}>
+          <Icon>
+            <FilterListRounded />
+          </Icon>
+          <Typography variant="h6">Filter</Typography>
         </Grid>
-        <Grid item sm={12} md={4} lg={2}>
-          <Input
-            type="date"
-            placeholder="To Date"
-            size="small"
-            fullWidth
-            id="toDate"
-            name="toDate"
-          />
-        </Grid>
-        <Grid item sm={12} md={4} lg={2}>
-          <Select
-            id="selectRole"
-            value={role}
-            onChange={handleChangeRole}
-            displayEmpty
-            height="10px"
-            renderValue={role !== '' ? undefined : () => 'Select Role'}
-          >
-            <MenuItem value="superAdmin">Super Admin</MenuItem>
-            <MenuItem value="admin">Admin</MenuItem>
-            <MenuItem value="developer">Developer</MenuItem>
-            <MenuItem value="hR">HR</MenuItem>
-            <MenuItem value="qA">QA</MenuItem>
-            <MenuItem value="tester">Tester</MenuItem>
-          </Select>
-        </Grid>
-        <Grid item sm={12} md={4} lg={6}>
-          <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
-            <Icon>
-              <SearchRounded />
-            </Icon>
-            Search
-          </Button>
-          <Button color="info" variant="contained" size="small">
-            <Icon>
-              <ClearRounded />
-            </Icon>
-            Clear
-          </Button>
+        <Grid container justifyContent="space-between" spacing={2} p={2} pt={0}>
+          <Grid item sm={12} md={4} lg={2}>
+            <Input
+              type="date"
+              placeholder="from date"
+              label="From Date"
+              size="small"
+              fullWidth
+              id="fromDate"
+              name="fromDate"
+            />
+          </Grid>
+          <Grid item sm={12} md={4} lg={2}>
+            <Input
+              type="date"
+              placeholder="To Date"
+              size="small"
+              fullWidth
+              id="toDate"
+              name="toDate"
+            />
+          </Grid>
+          <Grid item sm={12} md={4} lg={2}>
+            <Select
+              id="selectRole"
+              value={role}
+              onChange={handleChangeRole}
+              displayEmpty
+              renderValue={role !== '' ? undefined : () => 'Select Role'}
+            >
+              <MenuItem value="superAdmin">Super Admin</MenuItem>
+              <MenuItem value="admin">Admin</MenuItem>
+              <MenuItem value="developer">Developer</MenuItem>
+              <MenuItem value="hR">HR</MenuItem>
+              <MenuItem value="qA">QA</MenuItem>
+              <MenuItem value="tester">Tester</MenuItem>
+            </Select>
+          </Grid>
+          <Grid item sm={12} md={4} lg={6}>
+            <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
+              <Icon sx={{ mr: '2px' }}>
+                <SearchRounded />
+              </Icon>
+              Search
+            </Button>
+            <Button color="error" variant="contained" size="small">
+              <Icon sx={{ mr: '2px' }}>
+                <ClearRounded />
+              </Icon>
+              Clear
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
       <Card

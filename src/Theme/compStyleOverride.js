@@ -89,13 +89,18 @@ export default function componentStyleOverrides(theme) {
     },
     MuiSelect: {
       styleOverrides: {
+        root: {
+          padding: `${pxToRem(8)} ${pxToRem(12)}`,
+          borderRadius: `${borderRadius.md}`,
+          border: 0
+        },
         select: {
           display: 'grid',
           alignItems: 'center',
-          padding: `0 ${pxToRem(12)} !important`,
-
+          padding: 0,
           '& .Mui-selected': {
-            backgroundColor: transparent.main
+            backgroundColor: transparent.main,
+            border: 0
           }
         },
         selectMenu: {
@@ -104,9 +109,8 @@ export default function componentStyleOverrides(theme) {
           minHeight: 'none',
           overflow: 'unset'
         },
-
         icon: {
-          display: 'none'
+          display: 'inline'
         }
       }
     },
