@@ -1,5 +1,5 @@
 import Icon from '@mui/material/Icon';
-import logoSpotify from 'Assets/images/logo-spotify.svg';
+import logoSpotify from 'Assets/logo/jbt-logo.svg';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const action = (
