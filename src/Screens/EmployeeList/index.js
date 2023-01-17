@@ -16,7 +16,6 @@ const EmployeeList = () => {
   const handleChangeRole = (event) => {
     setRole(event.target.value);
   };
-
   return (
     <Card
       mb={3}
@@ -32,14 +31,14 @@ const EmployeeList = () => {
             <Typography variant="h6">Employee</Typography>
             <Box>
               <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
-                <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
-                  <Add />{' '}
+                <Icon>
+                  <Add />
                 </Icon>
                 Add
               </Button>
               <Button color="info" variant="contained" size="small">
-                <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
-                  <ImportExportRounded />{' '}
+                <Icon>
+                  <ImportExportRounded />
                 </Icon>
                 Export
               </Button>
@@ -67,25 +66,32 @@ const EmployeeList = () => {
           />
         </Grid>
         <Grid item sm={12} md={4} lg={2}>
-          <Select id="selectRole" value={role} onChange={handleChangeRole}>
-            <MenuItem value="Super Admin">Super Admin</MenuItem>
-            <MenuItem value="Admin">Admin</MenuItem>
-            <MenuItem value="Developer">Developer</MenuItem>
-            <MenuItem value="HR">HR</MenuItem>
-            <MenuItem value="QA">QA</MenuItem>
-            <MenuItem value="Tester">Tester</MenuItem>
+          <Select
+            id="selectRole"
+            value={role}
+            onChange={handleChangeRole}
+            displayEmpty
+            height="10px"
+            renderValue={role !== '' ? undefined : () => 'Select Role'}
+          >
+            <MenuItem value="superAdmin">Super Admin</MenuItem>
+            <MenuItem value="admin">Admin</MenuItem>
+            <MenuItem value="developer">Developer</MenuItem>
+            <MenuItem value="hR">HR</MenuItem>
+            <MenuItem value="qA">QA</MenuItem>
+            <MenuItem value="tester">Tester</MenuItem>
           </Select>
         </Grid>
         <Grid item sm={12} md={4} lg={6}>
           <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
-            <Icon sx={{}}>
+            <Icon>
               <SearchRounded />
             </Icon>
             Search
           </Button>
           <Button color="info" variant="contained" size="small">
-            <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
-              <ClearRounded />{' '}
+            <Icon>
+              <ClearRounded />
             </Icon>
             Clear
           </Button>

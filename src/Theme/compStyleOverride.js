@@ -115,7 +115,7 @@ export default function componentStyleOverrides(theme) {
         root: {
           display: 'flex !important',
           alignItems: 'center !important',
-          width: '100% !important',
+          // width: '100% !important',
           height: 'auto !important',
           padding: `${pxToRem(8)} ${pxToRem(12)}`,
           fontSize: `${size.sm} !important`,

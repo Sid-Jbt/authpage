@@ -3,8 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { Table as MuiTable, TableBody, TableContainer, TableRow } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
-
-// Argon Dashboard 2 MUI base styles
 import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
 
@@ -123,12 +121,6 @@ const Table = ({ columns, rows }) => {
     ),
     [columns, rows]
   );
-};
-
-// Setting default values for the props of Table
-Table.defaultProps = {
-  columns: [],
-  rows: [{}]
 };
 
 export default Table;
