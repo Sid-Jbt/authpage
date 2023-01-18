@@ -4,12 +4,12 @@ import {
   ErrorRounded,
   TvRounded,
   PeopleRounded,
-  CurrencyRupee
+  CurrencyRupee,
+  CurrencyRupeeOutlined
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
-import EmployeeList from 'Screens/EmployeeList';
 import {
   profilePattern,
   privacyPolicyPattern,
@@ -24,6 +24,8 @@ const DashboardDefault = Loadable(lazy(() => import('../Screens/DashboardDefault
 const Profile = Loadable(lazy(() => import('../Screens/Profile')));
 const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
 const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
+const EmployeeList = Loadable(lazy(() => import('../Screens/EmployeeList')));
+const Expense = Loadable(lazy(() => import('../Screens/Expense')));
 
 const MainRoutes = [
   {
@@ -79,6 +81,13 @@ const MainRoutes = [
     path: expensePattern,
     key: 'expense',
     element: <EmployeeList />
+  },
+  {
+    name: 'Expense',
+    icon: <CurrencyRupeeOutlined />,
+    path: expensePattern,
+    key: 'expenses',
+    element: <Expense />
   }
 ];
 
