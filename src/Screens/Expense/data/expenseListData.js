@@ -1,4 +1,4 @@
-import ArgonBadge from 'Elements/ArgonBadge';
+import Badge from 'Elements/Badge';
 
 const expenseListData = {
   columns: [
@@ -21,13 +21,7 @@ const expenseListData = {
         </ArgonTypography>
       ), */
       status: (
-        <ArgonBadge
-          variant="gradient"
-          badgeContent="approved"
-          color="success"
-          size="xs"
-          container
-        />
+        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       )
     },
     {
@@ -36,13 +30,7 @@ const expenseListData = {
       'purchase Date': '01/02/2023',
       amount: '500',
       status: (
-        <ArgonBadge
-          variant="gradient"
-          badgeContent="approved"
-          color="success"
-          size="xs"
-          container
-        />
+        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       )
       /* status: (
         <ArgonTypography variant="caption" color="success" fontWeight="medium">
@@ -56,13 +44,7 @@ const expenseListData = {
       'purchase Date': '01/02/2023',
       amount: '1000',
       status: (
-        <ArgonBadge
-          variant="gradient"
-          badgeContent="approved"
-          color="success"
-          size="xs"
-          container
-        />
+        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       )
       /* status: (
         <ArgonTypography variant="caption" color="success" fontWeight="medium">
@@ -76,13 +58,7 @@ const expenseListData = {
       'purchase Date': '01/02/2023',
       amount: '350',
       status: (
-        <ArgonBadge
-          variant="gradient"
-          badgeContent="approved"
-          color="success"
-          size="xs"
-          container
-        />
+        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       )
       /* status: (
         <ArgonTypography variant="caption" color="success" fontWeight="medium">
@@ -96,13 +72,7 @@ const expenseListData = {
       'purchase Date': '01/02/2023',
       amount: '500',
       status: (
-        <ArgonBadge
-          variant="gradient"
-          badgeContent="approved"
-          color="success"
-          size="xs"
-          container
-        />
+        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       )
       /* status: (
         <ArgonTypography variant="caption" color="success" fontWeight="medium">
@@ -116,13 +86,7 @@ const expenseListData = {
       'purchase Date': '01/02/2023',
       amount: '1000',
       status: (
-        <ArgonBadge
-          variant="gradient"
-          badgeContent="approved"
-          color="success"
-          size="xs"
-          container
-        />
+        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       )
       /* status: (
         <ArgonTypography variant="caption" color="warning" fontWeight="medium">
