@@ -23,7 +23,6 @@ export default styled(Drawer)(({ theme, ownerState }) => {
       marginBottom: darkSidenav ? 0 : 'inherit',
       left: '0',
       top: 50,
-      width: sidebarWidth,
       transform: 'translateX(0)',
       transition: transitions.create(['width', 'background-color'], {
         easing: transitions.easing.sharp,
