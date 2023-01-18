@@ -44,10 +44,13 @@ const PersonalDetails = () => {
           fatherName: '',
           department: '',
           designation: '',
+          empCode: '',
           pAdd: '',
           alternativeNumber: '',
           phoneNumber: '',
-          dob: moment().format('DD/MM/YYYY')
+          dob: moment().format('DD/MM/YYYY'),
+          doj: '',
+          dol: ''
         }}
         onSubmit={(values) => {
           console.log('values', values);
@@ -58,12 +61,12 @@ const PersonalDetails = () => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
           return (
             <form onSubmit={handleSubmit} style={{ background: theme.palette.grey[100] }}>
-              <Grid container spacing={2} p={2}>
+              <Grid container spacing={1} p={2}>
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
                     <Input
                       type="text"
-                      placeholder="Alen"
+                      placeholder="First Name"
                       size="large"
                       fullWidth
                       id="firstName"
@@ -74,7 +77,6 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.firstName && touched.firstName && errors.firstName}
                       error={errors.firstName && touched.firstName}
-                      success={!errors.firstName && touched.firstName}
                       disabled={isEdit}
                     />
                   </Box>
@@ -84,7 +86,7 @@ const PersonalDetails = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="Prior"
+                      placeholder="Last Name"
                       size="large"
                       fullWidth
                       id="lastName"
@@ -95,7 +97,6 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.lastName && touched.lastName && errors.lastName}
                       error={errors.lastName && touched.lastName}
-                      success={!errors.lastName && touched.lastName}
                       disabled={isEdit}
                     />
                   </Box>
@@ -104,7 +105,7 @@ const PersonalDetails = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="Alec"
+                      placeholder="Father Name"
                       size="large"
                       fullWidth
                       id="fatherName"
@@ -115,7 +116,6 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.fatherName && touched.fatherName && errors.fatherName}
                       error={errors.fatherName && touched.fatherName}
-                      success={!errors.fatherName && touched.fatherName}
                       disabled={isEdit}
                     />
                   </Box>
@@ -124,7 +124,7 @@ const PersonalDetails = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="eg. Development"
+                      placeholder="Department"
                       size="large"
                       fullWidth
                       id="department"
@@ -135,7 +135,6 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.department && touched.department && errors.department}
                       error={errors.department && touched.department}
-                      success={!errors.department && touched.department}
                       disabled={isEdit}
                     />
                   </Box>
@@ -144,7 +143,7 @@ const PersonalDetails = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="ex. Web Developer"
+                      placeholder="Designation"
                       size="large"
                       fullWidth
                       id="designation"
@@ -155,7 +154,6 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.designation && touched.designation && errors.designation}
                       error={errors.designation && touched.designation}
-                      success={!errors.designation && touched.designation}
                       disabled={isEdit}
                     />
                   </Box>
@@ -164,18 +162,18 @@ const PersonalDetails = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="Emp001"
+                      placeholder="Employee Code"
                       size="large"
                       fullWidth
                       id="empCode"
                       name="empCode"
                       label="Employee Code"
                       value={values.empCode}
-                      // onChange={handleChange}
-                      // onBlur={handleBlur}
-                      // errorText={errors.empCode && touched.empCode && errors.empCode}
-                      // error={errors.empCode && touched.empCode}
-                      disabled
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      errorText={errors.empCode && touched.empCode && errors.empCode}
+                      error={errors.empCode && touched.empCode}
+                      disabled={isEdit}
                     />
                   </Box>
                 </Grid>
@@ -197,7 +195,7 @@ const PersonalDetails = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="10/04/2021"
+                      placeholder="Date Of Join"
                       size="large"
                       fullWidth
                       id="doj"
@@ -212,7 +210,7 @@ const PersonalDetails = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="10/10/2021"
+                      placeholder="Date Of Leave"
                       size="large"
                       fullWidth
                       id="dol"
@@ -227,20 +225,17 @@ const PersonalDetails = () => {
                   <Box>
                     <Input
                       type="number"
-                      placeholder="+91 925 532 5324"
+                      placeholder="Phone Number"
                       size="large"
                       fullWidth
                       id="phoneNumber"
                       name="phoneNumber"
                       label="Phone Number"
-                      minlength="9"
-                      maxlength="14"
                       value={values.phoneNumber}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
                       error={errors.phoneNumber && touched.phoneNumber}
-                      success={!errors.phoneNumber && touched.phoneNumber}
                       disabled={isEdit}
                     />
                   </Box>
@@ -248,8 +243,8 @@ const PersonalDetails = () => {
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
                     <Input
-                      type="number"
-                      placeholder="+91 925 532 5325"
+                      type="text"
+                      placeholder="Alternative Number"
                       size="large"
                       fullWidth
                       id="alternativeNumber"
@@ -264,7 +259,6 @@ const PersonalDetails = () => {
                         errors.alternativeNumber
                       }
                       error={errors.alternativeNumber && touched.alternativeNumber}
-                      success={!errors.alternativeNumber && touched.alternativeNumber}
                       disabled={isEdit}
                     />
                   </Box>
@@ -273,7 +267,7 @@ const PersonalDetails = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
+                      placeholder="Permanent Address"
                       size="large"
                       fullWidth
                       id="pAdd"
@@ -284,7 +278,6 @@ const PersonalDetails = () => {
                       onBlur={handleBlur}
                       errorText={errors.pAdd && touched.pAdd && errors.pAdd}
                       error={errors.pAdd && touched.pAdd}
-                      success={!errors.pAdd && touched.pAdd}
                       disabled={isEdit}
                     />
                   </Box>

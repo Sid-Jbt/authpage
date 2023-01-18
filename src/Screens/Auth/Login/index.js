@@ -50,7 +50,7 @@ const Login = () => {
               <Box mb={0.5}>
                 <Input
                   type="email"
-                  placeholder="mickey@abc.com"
+                  placeholder="Email"
                   size="large"
                   fullWidth
                   id="email"
@@ -66,7 +66,7 @@ const Login = () => {
 
               <Box mb={0.5}>
                 <Input
-                  placeholder="********"
+                  placeholder="Password"
                   size="large"
                   fullWidth
                   id="password"
@@ -76,7 +76,6 @@ const Login = () => {
                   onBlur={handleBlur}
                   errorText={errors.password && touched.password && errors.password}
                   error={errors.password && touched.password}
-                  success={!errors.password && touched.password}
                   type={showPassword ? 'text' : 'password'}
                   endAdornment={
                     <InputAdornment position="end">
@@ -123,11 +122,10 @@ const Login = () => {
                   </Typography>
                 </Box>
               </Box>
-              <Box mt={2} mb={1}>
+              <Box mt={4} mb={1}>
                 <Button
-                  variant="contained"
                   color="info"
-                  size="large"
+                  size="small"
                   fullWidth
                   type="submit"
                   disabled={isSubmitting}

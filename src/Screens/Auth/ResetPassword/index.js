@@ -35,7 +35,6 @@ const RestPassword = () => (
                 onBlur={handleBlur}
                 errorText={errors.password && touched.password && errors.password}
                 error={errors.password && touched.password}
-                success={!errors.password && touched.password}
               />
             </Box>
             <Box mt={0.5}>
@@ -51,7 +50,6 @@ const RestPassword = () => (
                   errors.confirmPassword && touched.confirmPassword && errors.confirmPassword
                 }
                 error={errors.confirmPassword && touched.confirmPassword}
-                success={!errors.confirmPassword && touched.confirmPassword}
               />
             </Box>
             <Box mt={1}>

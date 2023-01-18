@@ -46,12 +46,12 @@ const BankInfo = () => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
           return (
             <form onSubmit={handleSubmit} style={{ background: theme.palette.grey[100] }}>
-              <Grid container spacing={2} p={2}>
+              <Grid container spacing={1} p={2}>
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
                     <Input
                       type="text"
-                      placeholder="eg. State Bank Of India"
+                      placeholder="Bank Name"
                       size="large"
                       fullWidth
                       id="bankName"
@@ -62,7 +62,6 @@ const BankInfo = () => {
                       onBlur={handleBlur}
                       errorText={errors.bankName && touched.bankName && errors.bankName}
                       error={errors.bankName && touched.bankName}
-                      success={!errors.bankName && touched.bankName}
                       disabled={isEdit}
                     />
                   </Box>
@@ -71,7 +70,7 @@ const BankInfo = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="eg. Iscon Cross"
+                      placeholder="Branch Name"
                       size="large"
                       fullWidth
                       id="branchName"
@@ -82,7 +81,6 @@ const BankInfo = () => {
                       onBlur={handleBlur}
                       errorText={errors.branchName && touched.branchName && errors.branchName}
                       error={errors.branchName && touched.branchName}
-                      success={!errors.branchName && touched.branchName}
                       disabled={isEdit}
                     />
                   </Box>
@@ -91,7 +89,7 @@ const BankInfo = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="eg. Alen Prior"
+                      placeholder="Account Name"
                       size="large"
                       fullWidth
                       id="accountName"
@@ -102,7 +100,6 @@ const BankInfo = () => {
                       onBlur={handleBlur}
                       errorText={errors.accountName && touched.accountName && errors.accountName}
                       error={errors.accountName && touched.accountName}
-                      success={!errors.accountName && touched.accountName}
                       disabled={isEdit}
                     />
                   </Box>
@@ -111,7 +108,7 @@ const BankInfo = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="eg. 0123456789012345"
+                      placeholder="Account Number"
                       size="large"
                       fullWidth
                       id="accountNumber"
@@ -124,7 +121,6 @@ const BankInfo = () => {
                         errors.accountNumber && touched.accountNumber && errors.accountNumber
                       }
                       error={errors.accountNumber && touched.accountNumber}
-                      success={!errors.accountNumber && touched.accountNumber}
                       disabled={isEdit}
                     />
                   </Box>
@@ -133,7 +129,7 @@ const BankInfo = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="eg. SBIN0005943"
+                      placeholder="IFSC Code"
                       size="large"
                       fullWidth
                       id="ifscCode"
@@ -144,7 +140,6 @@ const BankInfo = () => {
                       onBlur={handleBlur}
                       errorText={errors.ifscCode && touched.ifscCode && errors.ifscCode}
                       error={errors.ifscCode && touched.ifscCode}
-                      success={!errors.ifscCode && touched.ifscCode}
                       disabled={isEdit}
                     />
                   </Box>
@@ -153,7 +148,7 @@ const BankInfo = () => {
                   <Box>
                     <Input
                       type="text"
-                      placeholder="eg. ABCTY1234D"
+                      placeholder="PAN Number"
                       size="large"
                       fullWidth
                       id="panNumber"
@@ -164,7 +159,6 @@ const BankInfo = () => {
                       onBlur={handleBlur}
                       errorText={errors.panNumber && touched.panNumber && errors.panNumber}
                       error={errors.panNumber && touched.panNumber}
-                      success={!errors.panNumber && touched.panNumber}
                       disabled={isEdit}
                     />
                   </Box>

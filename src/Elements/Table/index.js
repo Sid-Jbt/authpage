@@ -1,5 +1,12 @@
 import { useMemo } from 'react';
-import { Table as MuiTable, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import {
+  Table as MuiTable,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Avatar
+} from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import typography from 'Theme/base/typography';
@@ -64,7 +71,7 @@ const Table = ({ columns, rows }) => {
           >
             <Box display="flex" alignItems="center" py={0.5} px={1}>
               <Box mr={2}>
-                {/* <ArgonAvatar src={row[name][0]} name={row[name][1]} variant="rounded" size="sm" /> */}
+                <Avatar src={row[name][0]} name={row[name][1]} variant="rounded" size="sm" />
               </Box>
               <Typography
                 variant="button"

@@ -24,7 +24,7 @@ const Profile = Loadable(lazy(() => import('../Screens/Profile')));
 const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
 const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
 const EmployeeList = Loadable(lazy(() => import('../Screens/EmployeeList')));
-const ExpenseList = Loadable(lazy(() => import('../Screens/Expense')));
+const Expense = Loadable(lazy(() => import('../Screens/Expense')));
 
 const MainRoutes = [
   {
@@ -79,7 +79,7 @@ const MainRoutes = [
     icon: <CurrencyRupee />,
     path: expensePattern,
     key: 'expense',
-    element: <ExpenseList />
+    element: <Expense />
   }
 ];
 
