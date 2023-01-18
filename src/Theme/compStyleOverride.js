@@ -284,6 +284,14 @@ export default function componentStyleOverrides(theme) {
           paddingLeft: pxToRem(6),
           '&::-webkit-input-placeholder': {
             color: `${dark.main} !important`
+          },
+          '&::-webkit-outer-spin-button': {
+            '-webkit-appearance': 'none',
+            margin: 0
+          },
+          '&::-webkit-inner-spin-button': {
+            '-webkit-appearance': 'none',
+            margin: 0
           }
         }
       }
