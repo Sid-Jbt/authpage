@@ -2,6 +2,7 @@ import Box from 'Elements/Box';
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router';
 import Logo from 'Assets/logo/jbt-logo.svg';
+import FullLogo from 'Assets/logo/jbt-full-logo.svg';
 import DashboardNavbar from './Navbar';
 import Sidenav from './Sidenav';
 
@@ -21,7 +22,7 @@ const DashboardLayout = ({ bgColor, children, ...rest }) => {
         {...rest}
       />
 
-      <Sidenav brand={Logo} brandName="Jarvis Bitz" />
+      <Sidenav brandFullLogo={FullLogo} brandSmallLogo={Logo} brandName="Jarvis Bitz" />
 
       <Box
         sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
