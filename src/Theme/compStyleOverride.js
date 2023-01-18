@@ -202,8 +202,8 @@ export default function componentStyleOverrides(theme) {
           }
         },
         input: {
-          height: pxToRem(22),
-          width: 'max-content !important'
+          height: pxToRem(22)
+          // width: 'max-content !important'
         },
         inputSizeSmall: {
           height: pxToRem(14)
