@@ -1,11 +1,12 @@
-import { Card, Icon } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import { Card, Grid, Icon } from '@mui/material';
+import { Add, ClearRounded, SearchRounded } from '@mui/icons-material';
 import React from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Table from '../../Elements/Table';
 import expenseListData from './data/expenseListData';
+import Input from '../../Elements/Input';
 
 const Expense = () => {
   const { columns: prCols, rows: prRows } = expenseListData;
@@ -19,48 +20,49 @@ const Expense = () => {
         boxShadow: ({ boxShadows: { md } }) => md
       }}
     >
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} p={2} pb={0}>
-        <Typography variant="h6">Expense List</Typography>
-        <Box>
+      <Grid container spacing={2} p={2} pb={0}>
+        <Grid container item sm={12} alignItems="center" justifyContent="space-between">
+          <Typography variant="h3">Expense List</Typography>
+          <Box>
+            <Button
+              color="info"
+              variant="contained"
+              size="small"
+              sx={{ marginRight: '10px', marginLeft: '40px' }}
+            >
+              <Icon sx={{ mr: '2px' }}>
+                <Add />
+              </Icon>
+              Add
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item sm={10} md={4} lg={2}>
+          <Input
+            type="text"
+            placeholder="Search"
+            size="large"
+            fullWidth
+            id="search"
+            name="search"
+          />
+        </Grid>
+        <Grid item sm={12} md={4} lg={6}>
           <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
-            <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
-              <Add />{' '}
+            <Icon sx={{ mr: '2px' }}>
+              <SearchRounded />
             </Icon>
-            Add
+            Search
           </Button>
-        </Box>
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={2}
-        p={2}
-        pb={0}
-        pt={0}
-      >
-        Filter
-      </Box>
-      <Card
-        sx={{
-          background: ({ palette: { white } }) => white.main,
-          borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
-          boxShadow: ({ boxShadows: { xl } }) => xl
-        }}
-      >
-        <Box
-          sx={{
-            '& .MuiTableRow-root:not(:last-child)': {
-              '& td': {
-                borderBottom: ({ borders: { borderWidth, borderColor } }) =>
-                  `${borderWidth[1]} solid ${borderColor}`
-              }
-            }
-          }}
-        >
-          <Table columns={prCols} rows={prRows} />
-        </Box>
-      </Card>
+          <Button color="error" variant="contained" size="small">
+            <Icon sx={{ mr: '2px' }}>
+              <ClearRounded />
+            </Icon>
+            Clear
+          </Button>
+        </Grid>
+      </Grid>
+      <Table columns={prCols} rows={prRows} />
     </Card>
   );
 };
