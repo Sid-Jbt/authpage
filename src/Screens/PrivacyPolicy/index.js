@@ -1,14 +1,14 @@
 import React from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Card } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 
 const PrivacyPolicy = () => (
-  <Box align="center">
+  <Card align="center">
     <Typography variant="h1" fontSize="3rem">
       TERMS OF SERVICE
     </Typography>
-    <Box sx={{ background: 'black', width: '15%', borderRadius: '10px' }}>
+    <Box sx={{ background: 'black', width: '15%', borderRadius: '10px', alignSelf: 'center' }}>
       <Typography variant="body2" fontWeight="regular" color="white" fontSize="0.7rem">
         Updated 12 Jan, 2023
       </Typography>
@@ -86,7 +86,7 @@ const PrivacyPolicy = () => (
         </Box>
       </Grid>
     </Grid>
-  </Box>
+  </Card>
 );
 
 export default PrivacyPolicy;
