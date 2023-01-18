@@ -251,7 +251,7 @@ export default function componentStyleOverrides(theme) {
         },
 
         icon: {
-          display: 'none'
+          display: 'inline'
         }
       }
     },
