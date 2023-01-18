@@ -5,11 +5,11 @@ import Typography from 'Elements/Typography';
 
 const PrivacyPolicy = () => (
   <Card align="center">
-    <Typography variant="h1" fontSize="3rem">
+    <Typography variant="h1" fontWeights="bold">
       TERMS OF SERVICE
     </Typography>
     <Box sx={{ background: 'black', width: '15%', borderRadius: '10px', alignSelf: 'center' }}>
-      <Typography variant="body2" fontWeight="regular" color="white" fontSize="0.7rem">
+      <Typography variant="body2" fontWeight="light" color="white" fontSize="0.7rem">
         Updated 12 Jan, 2023
       </Typography>
     </Box>

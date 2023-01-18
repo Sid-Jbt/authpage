@@ -48,7 +48,7 @@ const MainRoutes = [
     element: <Profile />
   },
   {
-    name: 'PrivacyPolicy',
+    name: 'Privacy Policy',
     icon: (
       <PolicyRounded
         sx={{
