@@ -6,7 +6,6 @@
   "extends": [
     "plugin:react/recommended",
     "airbnb",
-    "airbnb-base",
     "plugin:prettier/recommended"
   ],
   "parserOptions": {
