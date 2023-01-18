@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import { Card } from '@mui/material';
+import { getDashboardPattern } from 'Routes/routeConfig';
 
 const Error404 = () => (
   <Card xl={12} lg={12} sm={12}>
@@ -13,7 +14,7 @@ const Error404 = () => (
       <Typography fontWeight="bold">
         We are sorry but the page you were looking for was not found...!
       </Typography>
-      <Button sx={{ mt: 5 }} component={Link} to="/dashboard" type="button" color="info">
+      <Button sx={{ mt: 5 }} component={Link} to={getDashboardPattern()} type="button" color="info">
         Go Back to Home page
       </Button>
     </Box>

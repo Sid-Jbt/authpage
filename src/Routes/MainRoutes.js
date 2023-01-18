@@ -1,4 +1,11 @@
-import { PolicyRounded, Person, ErrorRounded, TvRounded, PeopleRounded } from '@mui/icons-material';
+import {
+  PolicyRounded,
+  Person,
+  ErrorRounded,
+  TvRounded,
+  PeopleRounded,
+  CurrencyRupee
+} from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
@@ -8,7 +15,8 @@ import {
   privacyPolicyPattern,
   errorPattern,
   dashboardPattern,
-  employeeListPattern
+  employeeListPattern,
+  expensePattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -63,6 +71,13 @@ const MainRoutes = [
     icon: <PeopleRounded />,
     path: employeeListPattern,
     key: 'employee',
+    element: <EmployeeList />
+  },
+  {
+    name: 'Expense',
+    icon: <CurrencyRupee />,
+    path: expensePattern,
+    key: 'expense',
     element: <EmployeeList />
   }
 ];
