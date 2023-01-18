@@ -6,6 +6,7 @@
   "extends": [
     "plugin:react/recommended",
     "airbnb",
+    "airbnb-base",
     "plugin:prettier/recommended"
   ],
   "parserOptions": {
@@ -16,7 +17,6 @@
     "sourceType": "module"
   },
   "plugins": [
-    "react",
     "prettier"
   ],
   "ignorePatterns": [
@@ -36,6 +36,9 @@
         "tsx": "never"
       }
     ],
+    "prefer-destructuring": "off",
+    "no-restricted-syntax": "off",
+    "no-prototype-builtins": "off",
     "semi": 2,
     "prettier/prettier": "error",
     "array-callback-return": 0,
@@ -56,6 +59,7 @@
         "unnamedComponents": "arrow-function"
       }
     ],
+    "consistent-return": "off",
     "import/prefer-default-export": 0,
     "react/state-in-constructor": "off",
     "arrow-body-style": [
@@ -78,8 +82,16 @@
     "react/react-in-jsx-scope": 0,
     "react/jsx-no-useless-fragment": 0,
     "jsx-a11y/media-has-caption": 0,
-    "no-restricted-syntax": 0,
-    "no-underscore-dangle": 0,
-    "import/no-cycle": 0
+    "react/jsx-no-script-url": 0,
+    "no-script-url": 0,
+    "jsx-a11y/anchor-is-valid": 0,
+    "no-new": 0,
+    "import/no-unresolved": 0,
+    "jsx-a11y/control-has-associated-label": 0,
+    "jsx-a11y/img-redundant-alt": 0,
+    "jsx-a11y/role-supports-aria-props": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "react/destructuring-assignment": 0,
+    "no-plusplus": 0
   }
 }
