@@ -10,7 +10,7 @@ const action = (
 
 const empListData = {
   columns: [
-    { name: 'name', align: 'left' },
+    { name: 'name', align: 'center' },
     { name: 'empcode', align: 'center' },
     { name: 'role', align: 'center' },
     { name: 'dob', align: 'center' },

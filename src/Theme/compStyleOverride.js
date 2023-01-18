@@ -233,6 +233,9 @@ export default function componentStyleOverrides(theme) {
     },
     MuiSelect: {
       styleOverrides: {
+        root: {
+          height: `1.999rem !important`
+        },
         select: {
           display: 'grid',
           alignItems: 'center',
@@ -251,7 +254,7 @@ export default function componentStyleOverrides(theme) {
         },
 
         icon: {
-          display: 'none'
+          display: 'inline'
         }
       }
     },

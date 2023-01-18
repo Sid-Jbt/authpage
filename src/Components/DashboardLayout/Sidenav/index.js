@@ -1,52 +1,56 @@
 import { Divider, List } from '@mui/material';
 import { NavLink, useLocation } from 'react-router-dom';
 import Box from 'Elements/Box';
-import Typography from 'Elements/Typography';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DashboardRoutes from 'Routes/MainRoutes';
 import SidenavItem from './SidenavItem';
 import SidenavRoot from './SidenavRoot';
-import sidenavLogoLabel from './styles/sidenav';
+import { MINI_SIDENAV } from '../../../Redux/actions/ui/actions';
 
-const Sidenav = ({ color, brand, brandName, ...rest }) => {
+const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) => {
   const customization = useSelector((state) => state.customization);
+  const miniSidenav = customization.miniSidenav;
+  const dispatch = useDispatch();
   const location = useLocation();
   const { pathname } = location;
   const itemName = pathname.split('/').slice(1)[0];
 
+  const handleMiniSidenav = () =>
+    dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
+
   const renderRoutes = DashboardRoutes.children.map(({ name, icon, key, path }) => (
-    <NavLink to={path} key={key} style={{ textDecoration: 'none' }}>
+    <NavLink
+      to={path}
+      key={key}
+      style={{ textDecoration: 'none' }}
+      onClick={() => handleMiniSidenav()}
+    >
       <SidenavItem name={name} icon={icon} active={key === itemName} />
     </NavLink>
   ));
 
   return (
-    <SidenavRoot
-      {...rest}
-      variant="permanent"
-      ownerState={{ miniSidenav: customization.miniSidenav }}
-    >
-      <Box pt={2} pb={2} px={3} textAlign="center">
+    <SidenavRoot {...rest} variant="permanent" ownerState={{ miniSidenav }}>
+      <Box pb={2} pt={2} textAlign="center">
         <Box
           component={NavLink}
-          to="/"
+          to="/dashboard"
           display="flex"
           alignItems="center"
           justifyContent="center"
           sx={{ textDecoration: 'none' }}
         >
-          {brand && <Box component="img" src={brand} alt="Logo" width="2rem" mr={0.25} />}
-          <Box
-            width={!brandName && '100%'}
-            sx={(theme) => sidenavLogoLabel(theme, { miniSidenav: customization.miniSidenav })}
-          >
-            <Typography variant="h5" textAlign="start" fontWeight="medium" color="dark">
-              {brandName}
-            </Typography>
-          </Box>
+          {brandFullLogo && brandSmallLogo && (
+            <Box
+              component="img"
+              src={miniSidenav ? brandSmallLogo : brandFullLogo}
+              alt="Logo"
+              width={miniSidenav ? '2rem' : '10rem'}
+            />
+          )}
         </Box>
       </Box>
-      <Divider width="100%" sx={{ ml: 'auto', mr: 'auto' }} />
+      <Divider sx={{ m: 0, mb: 2 }} />
       <List>{renderRoutes}</List>
     </SidenavRoot>
   );
