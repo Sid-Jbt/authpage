@@ -1,5 +1,21 @@
-import { Card, Grid, Icon, Menu } from '@mui/material';
-import { Add, ClearRounded, SearchRounded } from '@mui/icons-material';
+import {
+  Card,
+  Drawer,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Grid,
+  Icon,
+  MenuItem,
+  Select
+} from '@mui/material';
+import {
+  Add,
+  ClearRounded,
+  FilterListSharp,
+  ImportExportRounded,
+  SearchRounded
+} from '@mui/icons-material';
 import React, { useState } from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -14,17 +30,7 @@ const Expense = () => {
   const handleMenu = () => setOpenMenu(!openMenu);
 
   const renderMenu = () => (
-    <Menu
-      anchorEl={openMenu}
-      anchorReference={null}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right'
-      }}
-      open={Boolean(openMenu)}
-      onClose={handleMenu}
-      sx={{ mt: 1, top: 160, left: -70 }}
-    >
+    <Drawer anchor="right" open={Boolean(openMenu)} onClose={handleMenu}>
       <Box mb={0.5}>
         <Input
           placeholder="Item name"
@@ -96,7 +102,7 @@ const Expense = () => {
           Clear
         </Button>
       </Grid>
-    </Menu>
+    </Drawer>
   );
 
   return (
@@ -108,7 +114,7 @@ const Expense = () => {
         boxShadow: ({ boxShadows: { md } }) => md
       }}
     >
-      <Grid container spacing={2} p={2} pb={0}>
+      <Grid container alignItems="center" spacing={2} p={2} pb={0}>
         <Grid container item sm={12} alignItems="center" justifyContent="space-between">
           <Typography variant="h3">Expense List</Typography>
           <Box>
@@ -126,17 +132,24 @@ const Expense = () => {
             </Button>
           </Box>
         </Grid>
-        <Grid item sm={10} md={4} lg={2}>
+        <Grid container item xs={12}>
+          <Icon>
+            <FilterListSharp />
+          </Icon>
+          <Typography variant="h6">Filter</Typography>
+        </Grid>
+        <Grid item sm={12} md={4} lg={2}>
           <Input
-            type="text"
             placeholder="Search"
-            size="large"
+            type="text"
+            label="Search"
+            size="small"
             fullWidth
             id="search"
             name="search"
           />
         </Grid>
-        <Grid item sm={12} md={4} lg={6}>
+        <Grid item sm={12} md={4} lg={4}>
           <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
             <Icon sx={{ mr: '2px' }}>
               <SearchRounded />
