@@ -63,7 +63,6 @@ const EmployeeList = () => {
         <Grid item sm={12} md={4} lg={2}>
           <Input
             type="date"
-            placeholder="from date"
             label="From Date"
             size="small"
             fullWidth
@@ -72,16 +71,9 @@ const EmployeeList = () => {
           />
         </Grid>
         <Grid item sm={12} md={4} lg={2}>
-          <Input
-            type="date"
-            placeholder="To Date"
-            size="small"
-            fullWidth
-            id="toDate"
-            name="toDate"
-          />
+          <Input type="date" label="To Date" size="small" fullWidth id="toDate" name="toDate" />
         </Grid>
-        <Grid item sm={12} md={4} lg={2}>
+        <Grid item sm={12} md={4} lg={2} alignSelf="center">
           <Select
             id="selectRole"
             value={role}
@@ -97,7 +89,7 @@ const EmployeeList = () => {
             <MenuItem value="tester">Tester</MenuItem>
           </Select>
         </Grid>
-        <Grid item sm={12} md={4} lg={6}>
+        <Grid item sm={12} md={4} lg={6} alignSelf="center">
           <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
             <Icon sx={{ mr: '2px' }}>
               <SearchRounded />

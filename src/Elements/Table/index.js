@@ -1,6 +1,12 @@
 import { useMemo } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { Table as MuiTable, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import {
+  Table as MuiTable,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Avatar
+} from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import typography from 'Theme/base/typography';
@@ -36,7 +42,7 @@ const Table = ({ columns, rows }) => {
         pl={align === 'left' ? pl : 3}
         pr={align === 'right' ? pr : 3}
         textAlign={align}
-        fontSize={size.xxs}
+        fontSize={size.xs}
         fontWeight={fontWeightBold}
         color="secondary"
         opacity={0.7}
@@ -56,7 +62,7 @@ const Table = ({ columns, rows }) => {
       if (Array.isArray(row[name])) {
         template = (
           <Box
-            key={uuidv4()}
+            key={key}
             component="td"
             p={1}
             sx={({ palette: { light } }) => ({
@@ -65,7 +71,7 @@ const Table = ({ columns, rows }) => {
           >
             <Box display="flex" alignItems="center" py={0.5} px={1}>
               <Box mr={2}>
-                {/* <ArgonAvatar src={row[name][0]} name={row[name][1]} variant="rounded" size="sm" /> */}
+                <Avatar src={row[name][0]} name={row[name][1]} variant="rounded" size="sm" />
               </Box>
               <Typography
                 variant="button"
@@ -81,7 +87,7 @@ const Table = ({ columns, rows }) => {
       } else {
         template = (
           <Box
-            key={uuidv4()}
+            key={key}
             component="td"
             p={1}
             textAlign={align}
