@@ -40,7 +40,17 @@ const DashboardNavbar = ({ isMini }) => {
       }}
       open={Boolean(openMenu)}
       onClose={handleMenu}
-      sx={{ mt: 1, top: 50, left: -90 }}
+      sx={({ breakpoints }) => ({
+        mt: 1,
+        [breakpoints.down('sm')]: {
+          top: 60,
+          left: 0
+        },
+        [breakpoints.up('md')]: {
+          top: 50,
+          left: -90
+        }
+      })}
     >
       <NotificationItem
         image={<Person />}

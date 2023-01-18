@@ -1,20 +1,30 @@
 import { Divider, List } from '@mui/material';
 import { NavLink, useLocation } from 'react-router-dom';
 import Box from 'Elements/Box';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DashboardRoutes from 'Routes/MainRoutes';
 import SidenavItem from './SidenavItem';
 import SidenavRoot from './SidenavRoot';
+import { MINI_SIDENAV } from '../../../Redux/actions/ui/actions';
 
 const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) => {
   const customization = useSelector((state) => state.customization);
   const miniSidenav = customization.miniSidenav;
+  const dispatch = useDispatch();
   const location = useLocation();
   const { pathname } = location;
   const itemName = pathname.split('/').slice(1)[0];
 
+  const handleMiniSidenav = () =>
+    dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
+
   const renderRoutes = DashboardRoutes.children.map(({ name, icon, key, path }) => (
-    <NavLink to={path} key={key} style={{ textDecoration: 'none' }}>
+    <NavLink
+      to={path}
+      key={key}
+      style={{ textDecoration: 'none' }}
+      onClick={() => handleMiniSidenav()}
+    >
       <SidenavItem name={name} icon={icon} active={key === itemName} />
     </NavLink>
   ));
