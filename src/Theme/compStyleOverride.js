@@ -1126,6 +1126,15 @@ export default function componentStyleOverrides(theme) {
           color: grey[600]
         }
       }
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          '&:not(:last-child)': {
+            borderBottom: `${borderWidth[1]} solid ${borderColor}`
+          }
+        }
+      }
     }
   };
 }

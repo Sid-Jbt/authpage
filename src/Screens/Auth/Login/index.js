@@ -60,6 +60,7 @@ const Login = () => {
                   onBlur={handleBlur}
                   errorText={errors.email && touched.email && errors.email}
                   error={errors.email && touched.email}
+                  success={!errors.email && touched.email}
                 />
               </Box>
 
