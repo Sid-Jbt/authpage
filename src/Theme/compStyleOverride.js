@@ -236,7 +236,7 @@ export default function componentStyleOverrides(theme) {
         select: {
           display: 'grid',
           alignItems: 'center',
-          padding: `0 ${pxToRem(12)} !important`,
+          padding: `0 !important`,
 
           '& .Mui-selected': {
             backgroundColor: transparent.main
@@ -277,7 +277,7 @@ export default function componentStyleOverrides(theme) {
         },
         input: {
           width: '100% !important',
-          height: pxToRem(22),
+          height: pxToRem(27),
           paddingTop: '0 !important',
           paddingRight: '0 !important',
           paddingBottom: '0 !important',

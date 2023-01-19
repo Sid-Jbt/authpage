@@ -42,26 +42,23 @@ const EmployeeList = () => {
     >
       <Grid container alignItems="center" spacing={2} p={2} pb={0}>
         <Grid container item sm={12} alignItems="center" justifyContent="space-between">
-          <Typography variant="h3">Employee</Typography>
-          <Box>
-            <Button
-              color="info"
-              variant="contained"
-              size="small"
-              sx={{ marginRight: '10px', marginLeft: '40px' }}
-            >
-              <Icon sx={{ mr: '2px' }}>
+          <Grid item xs={6}>
+            <Typography variant="h3">Employee</Typography>
+          </Grid>
+          <Grid container item xs={6} justifyContent="end" sx={{ gap: 2 }}>
+            <Button color="info" variant="contained" size="small">
+              <Icon>
                 <Add />
               </Icon>
               Add
             </Button>
             <Button color="info" variant="contained" size="small">
-              <Icon sx={{ mr: '2px' }}>
+              <Icon>
                 <ImportExportRounded />
               </Icon>
               Export
             </Button>
-          </Box>
+          </Grid>
         </Grid>
         <Grid container item xs={12}>
           <Icon>
