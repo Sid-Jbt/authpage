@@ -1,36 +1,24 @@
-import {
-  Card,
-  Drawer,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Grid,
-  Icon,
-  MenuItem,
-  Select
-} from '@mui/material';
-import {
-  Add,
-  ClearRounded,
-  FilterListSharp,
-  ImportExportRounded,
-  SearchRounded
-} from '@mui/icons-material';
+import { Card, Grid, Icon } from '@mui/material';
+import { Add, ClearRounded, FilterListSharp, SearchRounded } from '@mui/icons-material';
 import React, { useState } from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
-import Table from '../../Elements/Table';
+import Table from 'Elements/Table';
 import expenseListData from './data/expenseListData';
-import Input from '../../Elements/Input';
+import Input from 'Elements/Input';
+import DialogMenu from 'Elements/Dialog';
 
 const Expense = () => {
   const { columns: prCols, rows: prRows } = expenseListData;
-  const [openMenu, setOpenMenu] = useState(false);
-  const handleMenu = () => setOpenMenu(!openMenu);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const renderMenu = () => (
-    <Drawer anchor="right" open={Boolean(openMenu)} onClose={handleMenu}>
+  const handleDialog = () => {
+    setIsDialogOpen(!isDialogOpen);
+  };
+
+  const renderDialogContent = () => (
+    <>
       <Box mb={0.5}>
         <Input
           placeholder="Item name"
@@ -82,27 +70,24 @@ const Expense = () => {
           name="select_document"
         />
       </Box>
-      <Grid item sm={12} md={4} lg={6}>
-        <Button
-          color="info"
-          variant="contained"
-          size="small"
-          sx={{ marginRight: '10px' }}
-          onClick={handleMenu}
-        >
-          <Icon sx={{ mr: '2px' }}>
-            <Add />
-          </Icon>
-          Add
-        </Button>
-        <Button color="error" variant="contained" size="small" onClick={handleMenu}>
-          <Icon sx={{ mr: '2px' }}>
-            <ClearRounded />
-          </Icon>
-          Clear
-        </Button>
-      </Grid>
-    </Drawer>
+    </>
+  );
+
+  const renderDialogActions = () => (
+    <Grid item sm={12} md={4} lg={6}>
+      <Button
+        color="info"
+        variant="contained"
+        size="small"
+        sx={{ marginRight: '10px' }}
+        onClick={handleDialog}
+      >
+        Save
+      </Button>
+      <Button color="error" variant="contained" size="small" onClick={handleDialog}>
+        Clear
+      </Button>
+    </Grid>
   );
 
   return (
@@ -123,7 +108,7 @@ const Expense = () => {
               variant="contained"
               size="small"
               sx={{ marginRight: '10px', marginLeft: '40px' }}
-              onClick={handleMenu}
+              onClick={handleDialog}
             >
               <Icon sx={{ mr: '2px' }}>
                 <Add />
@@ -165,7 +150,13 @@ const Expense = () => {
         </Grid>
       </Grid>
       <Table columns={prCols} rows={prRows} />
-      {renderMenu()}
+      <DialogMenu
+        isOpen={isDialogOpen}
+        onClose={handleDialog}
+        dialogContent={renderDialogContent()}
+        dialogActions={renderDialogActions()}
+        dialogTitle={'Add Expense'}
+      />
     </Card>
   );
 };
