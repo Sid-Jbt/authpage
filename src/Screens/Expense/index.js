@@ -1,4 +1,4 @@
-import { Card, Grid, Icon, useTheme, Drawer } from '@mui/material';
+import { Card, Grid, Icon, useTheme } from '@mui/material';
 import {
   Add,
   ClearRounded,
@@ -17,6 +17,7 @@ import { Formik } from 'formik';
 import moment from 'moment';
 import validationSchema from 'Helpers/ValidationSchema';
 import expenseListData from './data/expenseListData';
+import DialogMenu from 'Elements/Dialog';
 
 const Expense = () => {
   const theme = useTheme();
@@ -29,16 +30,7 @@ const Expense = () => {
 
   const renderDialogContent = () => (
     <>
-      <Drawer
-        anchor="right"
-        open={Boolean(isDialogOpen)}
-        onClose={handleDialog}
-        PaperProps={{
-          sx: {
-            width: 500
-          }
-        }}
-      >
+      <DialogMenu open={Boolean(isDialogOpen)} onClose={handleDialog} title="ADD NEW EXPENSE">
         <Formik
           enableReinitialize
           initialValues={{
@@ -59,9 +51,6 @@ const Expense = () => {
             const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
             return (
               <form onSubmit={handleSubmit} style={{ background: theme.palette.grey[100] }}>
-                <Typography variant="h4" sx={{ p: 1, ml: 1 }}>
-                  ADD NEW EXPENSE
-                </Typography>
                 <Box mb={0.5} p={1} ml={1}>
                   <Input
                     placeholder="Item name"
@@ -201,7 +190,7 @@ const Expense = () => {
             );
           }}
         </Formik>
-      </Drawer>
+      </DialogMenu>
     </>
   );
 
