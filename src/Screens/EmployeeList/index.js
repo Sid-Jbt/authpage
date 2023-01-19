@@ -92,7 +92,7 @@ const EmployeeList = () => {
         </Grid>
         <Grid item sm={12} md={4} lg={2}>
           <FormControl sx={{ width: '100%' }}>
-            <FormLabel sx={{ visibility: 'hidden' }}>Role</FormLabel>
+            <FormLabel>Select Role</FormLabel>
             <Select
               id="selectRole"
               value={role}
