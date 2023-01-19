@@ -3,7 +3,7 @@ import { Drawer, Slide } from '@mui/material';
 import Typography from 'Elements/Typography';
 import Box from 'Elements/Box';
 
-const DialogMenu = ({ children, anchor = 'right', open, onClose, title }) => (
+const SideDrawer = ({ children, anchor = 'right', open, onClose, title }) => (
   <Drawer
     anchor={anchor}
     open={open}
@@ -26,4 +26,4 @@ const DialogMenu = ({ children, anchor = 'right', open, onClose, title }) => (
   </Drawer>
 );
 
-export default DialogMenu;
+export default SideDrawer;

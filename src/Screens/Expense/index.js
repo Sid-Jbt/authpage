@@ -17,7 +17,7 @@ import { Formik } from 'formik';
 import moment from 'moment';
 import validationSchema from 'Helpers/ValidationSchema';
 import expenseListData from './data/expenseListData';
-import DialogMenu from 'Elements/Dialog';
+import SideDrawer from 'Elements/SideDrawer';
 
 const Expense = () => {
   const theme = useTheme();
@@ -30,7 +30,7 @@ const Expense = () => {
 
   const renderDialogContent = () => (
     <>
-      <DialogMenu open={Boolean(isDialogOpen)} onClose={handleDialog} title="ADD NEW EXPENSE">
+      <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title="ADD NEW EXPENSE">
         <Formik
           enableReinitialize
           initialValues={{
@@ -50,8 +50,8 @@ const Expense = () => {
           {(props) => {
             const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
             return (
-              <form onSubmit={handleSubmit} style={{ background: theme.palette.grey[100] }}>
-                <Box mb={0.5} p={1} ml={1}>
+              <form onSubmit={handleSubmit}>
+                <Box mb={0.5}>
                   <Input
                     placeholder="Item name"
                     label="ITEM NAME"
@@ -67,7 +67,7 @@ const Expense = () => {
                     success={!errors.itemName && touched.itemName}
                   />
                 </Box>
-                <Box mb={0.5} p={1} ml={1}>
+                <Box mb={0.5}>
                   <Input
                     placeholder="Item title"
                     label="ITEM TITLE"
@@ -83,7 +83,7 @@ const Expense = () => {
                     success={!errors.itemTitle && touched.itemTitle}
                   />
                 </Box>
-                <Box mb={0.5} p={1} ml={1}>
+                <Box mb={0.5}>
                   <Input
                     placeholder="Purchase from"
                     label="PURCHASE FROM"
@@ -99,7 +99,7 @@ const Expense = () => {
                     success={!errors.purchaseFrom && touched.purchaseFrom}
                   />
                 </Box>
-                <Box mb={0.5} p={1} ml={1}>
+                <Box mb={0.5}>
                   <Input
                     placeholder="Purchase date"
                     label="PURCHASE DATE"
@@ -115,7 +115,7 @@ const Expense = () => {
                     success={!errors.purchaseDate && touched.purchaseDate}
                   />
                 </Box>
-                <Box mb={0.5} p={1} ml={1}>
+                <Box mb={0.5}>
                   <Input
                     placeholder="Amount"
                     label="AMOUNT"
@@ -131,7 +131,7 @@ const Expense = () => {
                     success={!errors.amount && touched.amount}
                   />
                 </Box>
-                <Box mb={0.5} p={1} ml={1}>
+                <Box mb={0.5}>
                   <Input
                     type="file"
                     placeholder="Password"
@@ -155,10 +155,7 @@ const Expense = () => {
                   lg={6}
                   sx={{
                     display: 'flex',
-                    alignItems: 'center',
-                    flexDirection: 'row-reverse',
-                    p: 1,
-                    m: 1
+                    alignItems: 'center'
                   }}
                 >
                   <Button
@@ -190,7 +187,7 @@ const Expense = () => {
             );
           }}
         </Formik>
-      </DialogMenu>
+      </SideDrawer>
     </>
   );
 
