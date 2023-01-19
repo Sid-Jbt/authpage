@@ -2,7 +2,7 @@ import Box from 'Elements/Box';
 import { Link } from 'react-router-dom';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
-import { Card, Grid } from '@mui/material';
+import { Card } from '@mui/material';
 import { getDashboardPattern } from 'Routes/routeConfig';
 
 const Error404 = () => (

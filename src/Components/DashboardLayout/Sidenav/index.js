@@ -3,10 +3,10 @@ import { NavLink, useLocation } from 'react-router-dom';
 import Box from 'Elements/Box';
 import { useDispatch, useSelector } from 'react-redux';
 import DashboardRoutes from 'Routes/MainRoutes';
-import SidenavItem from './SidenavItem';
-import SidenavRoot from './SidenavRoot';
 import { MINI_SIDENAV } from 'Redux/actions/ui/actions';
 import breakpoints from 'Theme/base/breakpoints';
+import SidenavItem from './SidenavItem';
+import SidenavRoot from './SidenavRoot';
 
 const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) => {
   const customization = useSelector((state) => state.customization);
