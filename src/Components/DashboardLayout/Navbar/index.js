@@ -16,6 +16,7 @@ import NotificationItem from 'Elements/Item';
 
 import profileImage from 'Assets/Images/bruce-mars.jpg';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
+import { Link } from 'react-router-dom';
 
 const DashboardNavbar = ({ isMini }) => {
   const customization = useSelector((state) => state.customization);
@@ -103,6 +104,8 @@ const DashboardNavbar = ({ isMini }) => {
         image={<Person />}
         title={['Profile']}
         onClick={handleProfileMenu}
+        component={Link}
+        to="/profile"
         width={200}
       />
       <NotificationItem
@@ -110,6 +113,8 @@ const DashboardNavbar = ({ isMini }) => {
         image={<Settings />}
         title={['Settings']}
         onClick={handleProfileMenu}
+        component={Link}
+        to="/setting"
         width={200}
       />
       <NotificationItem
@@ -117,6 +122,8 @@ const DashboardNavbar = ({ isMini }) => {
         image={<Logout />}
         title={['Logout']}
         onClick={handleProfileMenu}
+        component={Link}
+        to="/"
         width={200}
       />
     </Menu>
@@ -163,7 +170,7 @@ const DashboardNavbar = ({ isMini }) => {
             alt="profile-image"
             variant="rounded"
             onClick={handleProfileMenu}
-            sx={{ width: 50, height: 50, borderRadius: 12 }}
+            sx={{ width: 50, height: 50, borderRadius: 12, cursor: 'pointer' }}
           />
           {renderMenu()}
           {renderProfileMenu()}
