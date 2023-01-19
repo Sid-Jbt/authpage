@@ -137,7 +137,7 @@ const EmployeeList = () => {
                     <Box>
                       <Input
                         type="email"
-                        placeholder="Email"
+                        placeholder="eg. alen@abc.com"
                         size="large"
                         id="email"
                         name="email"
@@ -154,7 +154,7 @@ const EmployeeList = () => {
                   <Grid item xs={12}>
                     <Box>
                       <Input
-                        placeholder="Password"
+                        placeholder="********"
                         size="large"
                         fullWidth
                         id="password"
