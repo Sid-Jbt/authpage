@@ -36,12 +36,12 @@ const validationSchema = yup.object().shape({
     .matches(numberRegx, 'Alternative number is not valid')
     .required('Alternative number is required'),
   pAdd: yup.string().required('Permanent Address is required'),
-  bankName: yup.string().required('Required'),
-  branchName: yup.string().required('Required'),
-  accountName: yup.string().matches(holderNameRegx, '').required('Required'),
-  accountNumber: yup.string().matches(accNumberRegx, '').required('Required'),
-  ifscCode: yup.string().matches(ifscCodeRegx, '').required('Required'),
-  panNumber: yup.string().required('Required')
+  bankName: yup.string().required('Bank name is required'),
+  branchName: yup.string().required('Branch name is required'),
+  accountName: yup.string().matches(holderNameRegx, '').required('Account name is required'),
+  accountNumber: yup.string().matches(accNumberRegx, '').required('Account number is required'),
+  ifscCode: yup.string().matches(ifscCodeRegx, '').required('IFSC code is required'),
+  panNumber: yup.string().required('PAN number required')
 });
 
 export default validationSchema;
