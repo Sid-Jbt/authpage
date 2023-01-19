@@ -4,7 +4,8 @@ import {
   ErrorRounded,
   TvRounded,
   PeopleRounded,
-  CurrencyRupee
+  CurrencyRupee,
+  DateRangeTwoTone
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -15,7 +16,8 @@ import {
   errorPattern,
   dashboardPattern,
   employeeListPattern,
-  expensePattern
+  expensePattern,
+  attendancePattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -25,6 +27,7 @@ const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
 const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
 const EmployeeList = Loadable(lazy(() => import('../Screens/EmployeeList')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
+const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
 
 const MainRoutes = [
   {
@@ -80,6 +83,13 @@ const MainRoutes = [
     path: expensePattern,
     key: 'expense',
     element: <Expense />
+  },
+  {
+    name: 'Attendance',
+    icon: <DateRangeTwoTone sx={{ color: colors.primary.main }} />,
+    path: attendancePattern,
+    key: 'attendance',
+    element: <Attendance />
   }
 ];
 
