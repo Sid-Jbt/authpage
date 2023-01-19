@@ -1,13 +1,7 @@
-import { Card, Icon } from '@mui/material';
+import Icon from '@mui/material/Icon';
 import logoSpotify from 'Assets/logo/jbt-logo.svg';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Typography from 'Elements/Typography';
 
-const menu = (
-  <Card>
-    <Typography>Edit</Typography>
-  </Card>
-);
 const action = (
   <Icon sx={{ cursor: 'pointer', fontWeight: 'bold' }} fontSize="small">
     <MoreVertIcon />
@@ -16,12 +10,12 @@ const action = (
 
 const empListData = {
   columns: [
-    { id: 'name', name: 'name', align: 'center' },
-    { id: 'empcode', name: 'empcode', align: 'center' },
-    { id: 'role', name: 'role', align: 'center' },
-    { id: 'dob', name: 'dob', align: 'center' },
-    { id: 'dol', name: 'dol', align: 'center' },
-    { id: 'action', name: 'action', align: 'center' }
+    { id: 'name', name: 'name', align: 'center', headerName: 'Name' },
+    { id: 'empcode', name: 'empcode', align: 'center', headerName: 'Emp Code' },
+    { id: 'role', name: 'role', align: 'center', headerName: 'Role' },
+    { id: 'dob', name: 'dob', align: 'center', headerName: 'Date Of Birth' },
+    { id: 'dol', name: 'dol', align: 'center', headerName: 'Date Of Leave' },
+    { id: 'action', name: 'action', align: 'center', headerName: 'Action' }
   ],
 
   rows: [
