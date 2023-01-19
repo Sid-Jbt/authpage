@@ -10,12 +10,12 @@ const action = (
 
 const empListData = {
   columns: [
-    { name: 'name', align: 'center' },
-    { name: 'empcode', align: 'center' },
-    { name: 'role', align: 'center' },
-    { name: 'dob', align: 'center' },
-    { name: 'dol', align: 'center' },
-    { name: 'action', align: 'center' }
+    { name: 'name', align: 'center', headerName: 'Name' },
+    { name: 'empcode', align: 'center', headerName: 'Emp Code' },
+    { name: 'role', align: 'center', headerName: 'Role' },
+    { name: 'dob', align: 'center', headerName: 'Date Of Birth' },
+    { name: 'dol', align: 'center', headerName: 'Date Of Leave' },
+    { name: 'action', align: 'center', headerName: 'Action' }
   ],
 
   rows: [

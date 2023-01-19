@@ -2,11 +2,11 @@ import Badge from 'Elements/Badge';
 
 const expenseListData = {
   columns: [
-    { name: 'name', align: 'left' },
-    { name: 'purchase From', align: 'center' },
-    { name: 'purchase Date', align: 'center' },
-    { name: 'amount', align: 'center' },
-    { name: 'status', align: 'center' }
+    { name: 'name', align: 'left', headerName: 'Name' },
+    { name: 'purchase From', align: 'center', headerName: 'Purchase From' },
+    { name: 'purchase Date', align: 'center', headerName: 'Purchase Date' },
+    { name: 'amount', align: 'center', headerName: 'Amount' },
+    { name: 'status', align: 'center', headerName: 'Status' }
   ],
 
   rows: [

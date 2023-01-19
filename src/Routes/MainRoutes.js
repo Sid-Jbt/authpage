@@ -4,7 +4,8 @@ import {
   ErrorRounded,
   TvRounded,
   PeopleRounded,
-  CurrencyRupee
+  CurrencyRupee,
+  DirectionsRun
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -15,7 +16,8 @@ import {
   errorPattern,
   dashboardPattern,
   employeeListPattern,
-  expensePattern
+  expensePattern,
+  leavePattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -25,6 +27,7 @@ const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
 const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
 const EmployeeList = Loadable(lazy(() => import('../Screens/EmployeeList')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
+const LeaveList = Loadable(lazy(() => import('../Screens/LeaveList')));
 
 const MainRoutes = [
   {
@@ -80,6 +83,13 @@ const MainRoutes = [
     path: expensePattern,
     key: 'expense',
     element: <Expense />
+  },
+  {
+    name: 'Leave',
+    icon: <DirectionsRun />,
+    path: leavePattern,
+    key: 'leave',
+    element: <LeaveList />
   }
 ];
 
