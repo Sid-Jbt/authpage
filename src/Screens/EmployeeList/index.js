@@ -110,7 +110,17 @@ const EmployeeList = () => {
             <FormHelperText sx={{ mr: 0, ml: 0, color: 'red' }}> </FormHelperText>
           </FormControl>
         </Grid>
-        <Grid item sm={12} md={4} lg={4}>
+        <Grid
+          item
+          sm={12}
+          md={8}
+          lg={4}
+          sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
+            [breakpoints.down('lg' && 'md')]: {
+              marginBottom: 2
+            }
+          })}
+        >
           <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
             <Icon sx={{ mr: '2px' }}>
               <SearchRounded />
