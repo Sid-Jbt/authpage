@@ -42,9 +42,9 @@ const Table = ({ columns, rows }) => {
         pl={align === 'left' ? pl : 3}
         pr={align === 'right' ? pr : 3}
         textAlign={align}
-        fontSize={size.xs}
+        fontSize={size.sm}
         fontWeight={fontWeightBold}
-        color="secondary"
+        color="dark"
         opacity={0.7}
         sx={({ palette: { light } }) => ({ borderBottom: `${borderWidth[1]} solid ${light.main}` })}
       >
@@ -75,7 +75,7 @@ const Table = ({ columns, rows }) => {
               </Box>
               <Typography
                 variant="button"
-                fontWeight="regular"
+                fontWeight="medium"
                 color="secondary"
                 sx={{ width: 'max-content' }}
               >

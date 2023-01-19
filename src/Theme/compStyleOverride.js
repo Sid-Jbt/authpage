@@ -202,8 +202,8 @@ export default function componentStyleOverrides(theme) {
           }
         },
         input: {
-          height: pxToRem(22),
-          width: 'max-content !important'
+          height: pxToRem(22)
+          // width: 'max-content !important'
         },
         inputSizeSmall: {
           height: pxToRem(14)
@@ -233,13 +233,10 @@ export default function componentStyleOverrides(theme) {
     },
     MuiSelect: {
       styleOverrides: {
-        root: {
-          height: `1.999rem !important`
-        },
         select: {
           display: 'grid',
           alignItems: 'center',
-          padding: `0 ${pxToRem(12)} !important`,
+          padding: `0 !important`,
 
           '& .Mui-selected': {
             backgroundColor: transparent.main
@@ -280,13 +277,21 @@ export default function componentStyleOverrides(theme) {
         },
         input: {
           width: '100% !important',
-          height: pxToRem(22),
+          height: pxToRem(27),
           paddingTop: '0 !important',
           paddingRight: '0 !important',
           paddingBottom: '0 !important',
           paddingLeft: pxToRem(6),
           '&::-webkit-input-placeholder': {
             color: `${dark.main} !important`
+          },
+          '&::-webkit-outer-spin-button': {
+            '-webkit-appearance': 'none',
+            margin: 0
+          },
+          '&::-webkit-inner-spin-button': {
+            '-webkit-appearance': 'none',
+            margin: 0
           }
         }
       }

@@ -124,8 +124,9 @@ const Login = () => {
               </Box>
               <Box mt={4} mb={1}>
                 <Button
+                  variant="contained"
                   color="info"
-                  size="small"
+                  size="large"
                   fullWidth
                   type="submit"
                   disabled={isSubmitting}

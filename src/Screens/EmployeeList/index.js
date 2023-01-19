@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Card, Icon, MenuItem, Select, Grid } from '@mui/material';
+import {
+  Card,
+  Icon,
+  MenuItem,
+  Select,
+  Grid,
+  FormLabel,
+  FormControl,
+  FormHelperText
+} from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Table from 'Elements/Table';
@@ -9,7 +18,7 @@ import {
   ImportExportRounded,
   SearchRounded,
   ClearRounded,
-  FilterListRounded
+  FilterListSharp
 } from '@mui/icons-material';
 import Input from 'Elements/Input';
 import employeeListData from './data/employeeListData';
@@ -31,32 +40,29 @@ const EmployeeList = () => {
         boxShadow: ({ boxShadows: { md } }) => md
       }}
     >
-      <Grid container spacing={2} p={2} pb={0}>
+      <Grid container alignItems="center" spacing={2} p={2} pb={0}>
         <Grid container item sm={12} alignItems="center" justifyContent="space-between">
-          <Typography variant="h3">Employee</Typography>
-          <Box>
-            <Button
-              color="info"
-              variant="contained"
-              size="small"
-              sx={{ marginRight: '10px', marginLeft: '40px' }}
-            >
-              <Icon sx={{ mr: '2px' }}>
+          <Grid item xs={6}>
+            <Typography variant="h3">Employee</Typography>
+          </Grid>
+          <Grid container item xs={6} justifyContent="end" sx={{ gap: 2 }}>
+            <Button color="info" variant="contained" size="small">
+              <Icon>
                 <Add />
               </Icon>
               Add
             </Button>
             <Button color="info" variant="contained" size="small">
-              <Icon sx={{ mr: '2px' }}>
+              <Icon>
                 <ImportExportRounded />
               </Icon>
               Export
             </Button>
-          </Box>
+          </Grid>
         </Grid>
         <Grid container item xs={12}>
           <Icon>
-            <FilterListRounded />
+            <FilterListSharp />
           </Icon>
           <Typography variant="h6">Filter</Typography>
         </Grid>
@@ -73,23 +79,38 @@ const EmployeeList = () => {
         <Grid item sm={12} md={4} lg={2}>
           <Input type="date" label="To Date" size="small" fullWidth id="toDate" name="toDate" />
         </Grid>
-        <Grid item sm={12} md={4} lg={2} alignSelf="center">
-          <Select
-            id="selectRole"
-            value={role}
-            onChange={handleChangeRole}
-            displayEmpty
-            renderValue={role !== '' ? undefined : () => 'Select Role'}
-          >
-            <MenuItem value="superAdmin">Super Admin</MenuItem>
-            <MenuItem value="admin">Admin</MenuItem>
-            <MenuItem value="developer">Developer</MenuItem>
-            <MenuItem value="hR">HR</MenuItem>
-            <MenuItem value="qA">QA</MenuItem>
-            <MenuItem value="tester">Tester</MenuItem>
-          </Select>
+        <Grid item sm={12} md={4} lg={2}>
+          <Input
+            placeholder="Search"
+            type="text"
+            label="Search"
+            size="small"
+            fullWidth
+            id="search"
+            name="search"
+          />
         </Grid>
-        <Grid item sm={12} md={4} lg={6} alignSelf="center">
+        <Grid item sm={12} md={4} lg={2}>
+          <FormControl sx={{ width: '100%' }}>
+            <FormLabel>Select Role</FormLabel>
+            <Select
+              id="selectRole"
+              value={role}
+              onChange={handleChangeRole}
+              displayEmpty
+              renderValue={role !== '' ? undefined : () => 'Select Role'}
+            >
+              <MenuItem value="superAdmin">Super Admin</MenuItem>
+              <MenuItem value="admin">Admin</MenuItem>
+              <MenuItem value="developer">Developer</MenuItem>
+              <MenuItem value="hR">HR</MenuItem>
+              <MenuItem value="qA">QA</MenuItem>
+              <MenuItem value="tester">Tester</MenuItem>
+            </Select>
+            <FormHelperText sx={{ mr: 0, ml: 0, color: 'red' }}> </FormHelperText>
+          </FormControl>
+        </Grid>
+        <Grid item sm={12} md={4} lg={4}>
           <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
             <Icon sx={{ mr: '2px' }}>
               <SearchRounded />
