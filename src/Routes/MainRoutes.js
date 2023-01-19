@@ -35,6 +35,7 @@ const Setting = Loadable(lazy(() => import('../Screens/Setting')));
 
 const MainRoutes = [
   {
+    type: 'route',
     name: 'Dashboard',
     icon: (
       <TvRounded
@@ -48,6 +49,7 @@ const MainRoutes = [
     element: <DashboardDefault />
   },
   {
+    type: 'unroute',
     name: 'Profile',
     icon: <Person />,
     path: profilePattern,
@@ -55,6 +57,7 @@ const MainRoutes = [
     element: <Profile />
   },
   {
+    type: 'unroute',
     name: 'Privacy Policy',
     icon: (
       <PolicyRounded
@@ -68,13 +71,7 @@ const MainRoutes = [
     element: <PrivacyPolicy />
   },
   {
-    name: 'Error',
-    icon: <ErrorRounded sx={{ color: colors.error.main }} />,
-    path: errorPattern,
-    key: 'error',
-    element: <Error404 />
-  },
-  {
+    type: 'route',
     name: 'Employee',
     icon: <PeopleRounded sx={{ color: colors.primary.main }} />,
     path: employeeListPattern,
@@ -82,6 +79,7 @@ const MainRoutes = [
     element: <EmployeeList />
   },
   {
+    type: 'route',
     name: 'Expense',
     icon: <CurrencyRupee sx={{ color: '#DAA520' }} />,
     path: expensePattern,
@@ -89,11 +87,21 @@ const MainRoutes = [
     element: <Expense />
   },
   {
+    type: 'route',
     name: 'Leave',
     icon: <DirectionsRun />,
     path: leavePattern,
     key: 'leave',
     element: <LeaveList />
+  },
+  // Keep this route at the end to keep this flow ready
+  {
+    type: 'unroute',
+    name: 'Error',
+    icon: <ErrorRounded sx={{ color: colors.error.main }} />,
+    path: errorPattern,
+    key: 'error',
+    element: <Error404 />
   }
   /* {
     name: 'Setting',

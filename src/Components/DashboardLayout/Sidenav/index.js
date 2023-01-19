@@ -22,16 +22,19 @@ const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) =
     }
   };
 
-  const renderRoutes = DashboardRoutes.children.map(({ name, icon, key, path }) => (
-    <NavLink
-      to={path}
-      key={key}
-      style={{ textDecoration: 'none' }}
-      onClick={() => handleMiniSidenav()}
-    >
-      <SidenavItem name={name} icon={icon} active={key === itemName} />
-    </NavLink>
-  ));
+  const renderRoutes = DashboardRoutes.children.map(
+    ({ name, icon, key, path, type }) =>
+      type === 'route' && (
+        <NavLink
+          to={path}
+          key={key}
+          style={{ textDecoration: 'none' }}
+          onClick={() => handleMiniSidenav()}
+        >
+          <SidenavItem name={name} icon={icon} active={key === itemName} />
+        </NavLink>
+      )
+  );
 
   return (
     <SidenavRoot {...rest} variant="permanent" ownerState={{ miniSidenav }}>
