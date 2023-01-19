@@ -10,6 +10,7 @@ const action = (
 
 const expenseListData = {
   columns: [
+    { name: 'id', align: 'center' },
     { name: 'name', align: 'center' },
     { name: 'title', align: 'center' },
     { name: 'purchase From', align: 'center' },
@@ -21,6 +22,7 @@ const expenseListData = {
 
   rows: [
     {
+      id: '101',
       title: 'Water bill',
       name: 'Sonika',
       'purchase From': 'local',
@@ -32,6 +34,7 @@ const expenseListData = {
       action
     },
     {
+      id: '102',
       title: 'Birthday decoration',
       name: 'Hinal',
       'purchase From': 'local store',
@@ -43,6 +46,7 @@ const expenseListData = {
       action
     },
     {
+      id: '103',
       title: 'Office cleaning',
       name: 'Hetali',
       'purchase From': 'Other',
@@ -54,6 +58,7 @@ const expenseListData = {
       action
     },
     {
+      id: '104',
       title: 'Water bill',
       name: 'Hiren',
       'purchase From': 'local',
@@ -65,6 +70,7 @@ const expenseListData = {
       action
     },
     {
+      id: '105',
       title: 'Birthday decoration',
       name: 'Bhavy',
       'purchase From': 'local store',
@@ -76,6 +82,7 @@ const expenseListData = {
       action
     },
     {
+      id: '106',
       title: 'Office cleaning',
       name: 'Mridul',
       'purchase From': 'Other',
