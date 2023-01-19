@@ -147,12 +147,6 @@ const DashboardNavbar = ({ isMini }) => {
               <MenuOpenTwoTone />
             </IconButton>
           )}
-          {/* <Breadcrumbs
-            icon="home"
-            title={route[route.length - 1]}
-            route={route}
-            light={transparentNavbar ? light : false}
-          /> */}
         </Box>
         <Box sx={(theme) => navbarRow(theme, { isMini })}>
           <IconButton
