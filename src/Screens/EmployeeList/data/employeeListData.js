@@ -14,6 +14,7 @@ const empListData = {
     { id: 'empcode', name: 'empcode', align: 'center', headerName: 'Emp Code' },
     { id: 'role', name: 'role', align: 'center', headerName: 'Role' },
     { id: 'dob', name: 'dob', align: 'center', headerName: 'Date Of Birth' },
+    { id: 'doj', name: 'doj', align: 'center', headerName: 'Date Of Join' },
     { id: 'dol', name: 'dol', align: 'center', headerName: 'Date Of Leave' },
     { id: 'action', name: 'action', align: 'center', headerName: 'Action' }
   ],
@@ -25,6 +26,7 @@ const empListData = {
       name: [logoSpotify, 'Spotift'],
       role: 'Developer',
       dob: '01/02/2023',
+      doj: '01/02/2023',
       dol: '01/02/2023',
       action
     },
@@ -34,6 +36,7 @@ const empListData = {
       name: [logoSpotify, 'Spotift'],
       role: 'HR',
       dob: '01/02/2023',
+      doj: '01/02/2023',
       dol: '01/02/2023',
       action
     },
@@ -43,6 +46,7 @@ const empListData = {
       name: [logoSpotify, 'Spotift'],
       role: 'CEO',
       dob: '01/02/2023',
+      doj: '01/02/2023',
       dol: '01/02/2023',
       action
     },
@@ -52,6 +56,7 @@ const empListData = {
       name: [logoSpotify, 'Spotift'],
       role: 'Admin',
       dob: '01/02/2023',
+      doj: '01/02/2023',
       dol: '01/02/2023',
       action
     },
@@ -61,6 +66,7 @@ const empListData = {
       name: [logoSpotify, 'Spotift'],
       role: 'Super Admin',
       dob: '01/02/2023',
+      doj: '01/02/2023',
       dol: '01/02/2023',
       action
     },
@@ -70,6 +76,7 @@ const empListData = {
       name: [logoSpotify, 'Spotift'],
       role: 'Developer',
       dob: '01/02/2023',
+      doj: '01/02/2023',
       dol: '01/02/2023',
       action
     },
@@ -80,6 +87,7 @@ const empListData = {
       name: [logoSpotify, 'Spotift'],
       role: 'Developer',
       dob: '01/02/2023',
+      doj: '01/02/2023',
       dol: '01/02/2023',
       action
     },
@@ -89,6 +97,7 @@ const empListData = {
       name: [logoSpotify, 'Spotift'],
       role: 'HR',
       dob: '01/02/2023',
+      doj: '01/02/2023',
       dol: '01/02/2023',
       action
     },
@@ -98,6 +107,7 @@ const empListData = {
       name: [logoSpotify, 'Spotift'],
       role: 'CEO',
       dob: '01/02/2023',
+      doj: '01/02/2023',
       dol: '01/02/2023',
       action
     },
@@ -107,6 +117,7 @@ const empListData = {
       name: [logoSpotify, 'Spotift'],
       role: 'Admin',
       dob: '01/02/2023',
+      doj: '01/02/2023',
       dol: '01/02/2023',
       action
     },
@@ -116,6 +127,7 @@ const empListData = {
       name: [logoSpotify, 'Spotift'],
       role: 'Super Admin',
       dob: '01/02/2023',
+      doj: '01/02/2023',
       dol: '01/02/2023',
       action
     },
@@ -125,6 +137,7 @@ const empListData = {
       name: [logoSpotify, 'Spotift'],
       role: 'Developer',
       dob: '01/02/2023',
+      doj: '01/02/2023',
       dol: '01/02/2023',
       action
     }

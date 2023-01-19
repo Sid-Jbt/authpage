@@ -5,7 +5,8 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  Avatar
+  Avatar,
+  TableSortLabel
 } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -48,7 +49,13 @@ const Table = ({ columns, rows }) => {
         opacity={0.7}
         sx={({ palette: { light } }) => ({ borderBottom: `${borderWidth[1]} solid ${light.main}` })}
       >
-        {headerName.toUpperCase()}
+        <TableSortLabel
+          active={headerName.toUpperCase() !== 'ACTION' && headerName.toUpperCase() !== 'ID'}
+          hideSortIcon={headerName.toUpperCase() === 'ACTION' && headerName.toUpperCase() === 'ID'}
+          direction="desc"
+        >
+          {headerName.toUpperCase()}
+        </TableSortLabel>
       </Box>
     );
   });
