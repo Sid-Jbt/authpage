@@ -3,9 +3,10 @@ import { NavLink, useLocation } from 'react-router-dom';
 import Box from 'Elements/Box';
 import { useDispatch, useSelector } from 'react-redux';
 import DashboardRoutes from 'Routes/MainRoutes';
+import { MINI_SIDENAV } from 'Redux/actions/ui/actions';
+import breakpoints from 'Theme/base/breakpoints';
 import SidenavItem from './SidenavItem';
 import SidenavRoot from './SidenavRoot';
-import { MINI_SIDENAV } from '../../../Redux/actions/ui/actions';
 
 const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) => {
   const customization = useSelector((state) => state.customization);
@@ -15,8 +16,11 @@ const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) =
   const { pathname } = location;
   const itemName = pathname.split('/').slice(1)[0];
 
-  const handleMiniSidenav = () =>
-    dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
+  const handleMiniSidenav = () => {
+    if (window.innerWidth < breakpoints.values.xl) {
+      dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
+    }
+  };
 
   const renderRoutes = DashboardRoutes.children.map(({ name, icon, key, path }) => (
     <NavLink
@@ -38,7 +42,7 @@ const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) =
           display="flex"
           alignItems="center"
           justifyContent="center"
-          sx={{ textDecoration: 'none' }}
+          sx={{ textDecoration: 'none', cursor: 'pointer' }}
         >
           {brandFullLogo && brandSmallLogo && (
             <Box

@@ -10,14 +10,14 @@ const action = (
 
 const expenseListData = {
   columns: [
-    { name: 'id', align: 'center' },
-    { name: 'name', align: 'center' },
-    { name: 'title', align: 'center' },
-    { name: 'purchase From', align: 'center' },
-    { name: 'purchase Date', align: 'center' },
-    { name: 'amount', align: 'center' },
-    { name: 'status', align: 'center' },
-    { name: 'action', align: 'center' }
+    { name: 'id', align: 'center', headerName: 'Id' },
+    { name: 'title', align: 'center', headerName: 'Title' },
+    { name: 'name', align: 'left', headerName: 'Name' },
+    { name: 'purchase From', align: 'center', headerName: 'Purchase From' },
+    { name: 'purchase Date', align: 'center', headerName: 'Purchase Date' },
+    { name: 'amount', align: 'center', headerName: 'Amount' },
+    { name: 'status', align: 'center', headerName: 'Status' },
+    { name: 'action', align: 'center', headerName: 'Action' }
   ],
 
   rows: [

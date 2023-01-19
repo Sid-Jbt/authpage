@@ -17,7 +17,7 @@ const Table = ({ columns, rows }) => {
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
 
-  const renderColumns = columns.map(({ name, align, width }, key) => {
+  const renderColumns = columns.map(({ headerName, align, width }, key) => {
     let pl;
     let pr;
 
@@ -34,7 +34,7 @@ const Table = ({ columns, rows }) => {
 
     return (
       <Box
-        key={name}
+        key={headerName}
         component="th"
         width={width || 'auto'}
         pt={1.5}
@@ -48,7 +48,7 @@ const Table = ({ columns, rows }) => {
         opacity={0.7}
         sx={({ palette: { light } }) => ({ borderBottom: `${borderWidth[1]} solid ${light.main}` })}
       >
-        {name.toUpperCase()}
+        {headerName.toUpperCase()}
       </Box>
     );
   });
