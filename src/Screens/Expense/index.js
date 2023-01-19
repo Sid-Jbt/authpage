@@ -40,10 +40,10 @@ const Expense = () => {
         }
       }}
     >
-      <Typography variant="h4" sx={{ p: 1 }}>
-        Expense List
+      <Typography variant="h4" sx={{ p: 1, ml: 1 }}>
+        ADD NEW EXPENSE
       </Typography>
-      <Box mb={0.5} p={1}>
+      <Box mb={0.5} p={1} ml={1}>
         <Input
           placeholder="Item name"
           label="ITEM NAME"
@@ -53,7 +53,7 @@ const Expense = () => {
           name="item_name"
         />
       </Box>
-      <Box mb={0.5} p={1}>
+      <Box mb={0.5} p={1} ml={1}>
         <Input
           placeholder="Purchase from"
           label="PURCHASE FROM"
@@ -63,7 +63,7 @@ const Expense = () => {
           name="purchase_from"
         />
       </Box>
-      <Box mb={0.5} p={1}>
+      <Box mb={0.5} p={1} ml={1}>
         <Input
           placeholder="Purchase date"
           label="PURCHASE DATE"
@@ -73,7 +73,7 @@ const Expense = () => {
           name="purchase_date"
         />
       </Box>
-      <Box mb={0.5} p={1}>
+      <Box mb={0.5} p={1} ml={1}>
         <Input
           placeholder="Amount"
           label="AMOUNT"
@@ -83,7 +83,7 @@ const Expense = () => {
           name="amount"
         />
       </Box>
-      <Box mb={0.5} p={1}>
+      <Box mb={0.5} p={1} ml={1}>
         <Input
           type="file"
           placeholder="Password"
