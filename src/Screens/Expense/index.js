@@ -30,8 +30,20 @@ const Expense = () => {
   const handleMenu = () => setOpenMenu(!openMenu);
 
   const renderMenu = () => (
-    <Drawer anchor="right" open={Boolean(openMenu)} onClose={handleMenu}>
-      <Box mb={0.5}>
+    <Drawer
+      anchor="right"
+      open={Boolean(openMenu)}
+      onClose={handleMenu}
+      PaperProps={{
+        sx: {
+          width: 500
+        }
+      }}
+    >
+      <Typography variant="h4" sx={{ p: 1 }}>
+        Expense List
+      </Typography>
+      <Box mb={0.5} p={1}>
         <Input
           placeholder="Item name"
           label="ITEM NAME"
@@ -41,7 +53,7 @@ const Expense = () => {
           name="item_name"
         />
       </Box>
-      <Box mb={0.5}>
+      <Box mb={0.5} p={1}>
         <Input
           placeholder="Purchase from"
           label="PURCHASE FROM"
@@ -51,7 +63,7 @@ const Expense = () => {
           name="purchase_from"
         />
       </Box>
-      <Box mb={0.5}>
+      <Box mb={0.5} p={1}>
         <Input
           placeholder="Purchase date"
           label="PURCHASE DATE"
@@ -61,7 +73,7 @@ const Expense = () => {
           name="purchase_date"
         />
       </Box>
-      <Box mb={0.5}>
+      <Box mb={0.5} p={1}>
         <Input
           placeholder="Amount"
           label="AMOUNT"
@@ -71,7 +83,7 @@ const Expense = () => {
           name="amount"
         />
       </Box>
-      <Box mb={0.5}>
+      <Box mb={0.5} p={1}>
         <Input
           type="file"
           placeholder="Password"
@@ -82,7 +94,19 @@ const Expense = () => {
           name="select_document"
         />
       </Box>
-      <Grid item sm={12} md={4} lg={6}>
+      <Grid
+        item
+        sm={12}
+        md={4}
+        lg={6}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'row-reverse',
+          p: 1,
+          m: 1
+        }}
+      >
         <Button
           color="info"
           variant="contained"
@@ -95,7 +119,13 @@ const Expense = () => {
           </Icon>
           Add
         </Button>
-        <Button color="error" variant="contained" size="small" onClick={handleMenu}>
+        <Button
+          color="error"
+          sx={{ marginRight: '10px' }}
+          variant="contained"
+          size="small"
+          onClick={handleMenu}
+        >
           <Icon sx={{ mr: '2px' }}>
             <ClearRounded />
           </Icon>
