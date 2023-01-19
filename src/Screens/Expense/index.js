@@ -1,14 +1,209 @@
-import { Card, Icon } from '@mui/material';
-import { Add } from '@mui/icons-material';
-import React from 'react';
+import { Card, Grid, Icon, useTheme, Drawer } from '@mui/material';
+import {
+  Add,
+  ClearRounded,
+  FilterListSharp,
+  ImportExportRounded,
+  SearchRounded
+} from '@mui/icons-material';
+import React, { useState } from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
-import Table from '../../Elements/Table';
+import Table from 'Elements/Table';
+import Input from 'Elements/Input';
+// import DialogMenu from 'Elements/Dialog';
+import { Formik } from 'formik';
+import moment from 'moment';
+import validationSchema from 'Helpers/ValidationSchema';
 import expenseListData from './data/expenseListData';
 
 const Expense = () => {
+  const theme = useTheme();
   const { columns: prCols, rows: prRows } = expenseListData;
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleDialog = () => {
+    setIsDialogOpen(!isDialogOpen);
+  };
+
+  const renderDialogContent = () => (
+    <>
+      <Drawer
+        anchor="right"
+        open={Boolean(isDialogOpen)}
+        onClose={handleDialog}
+        PaperProps={{
+          sx: {
+            width: 500
+          }
+        }}
+      >
+        <Formik
+          enableReinitialize
+          initialValues={{
+            itemName: '',
+            itemTitle: '',
+            purchaseFrom: moment().format('DD/MM/YYYY'),
+            purchaseDate: moment().format('DD/MM/YYYY'),
+            amount: '',
+            selectDoc: ''
+          }}
+          onSubmit={(values) => {
+            console.log('ON SUBMIT');
+            console.log('values===========', values);
+          }}
+          validationSchema={validationSchema}
+        >
+          {(props) => {
+            const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+            return (
+              <form onSubmit={handleSubmit} style={{ background: theme.palette.grey[100] }}>
+                <Typography variant="h4" sx={{ p: 1, ml: 1 }}>
+                  ADD NEW EXPENSE
+                </Typography>
+                <Box mb={0.5} p={1} ml={1}>
+                  <Input
+                    placeholder="Item name"
+                    label="ITEM NAME"
+                    size="large"
+                    fullWidth
+                    id="itemName"
+                    name="itemName"
+                    value={values.itemName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.itemName && touched.itemName && errors.itemName}
+                    error={errors.itemName && touched.itemName}
+                    success={!errors.itemName && touched.itemName}
+                  />
+                </Box>
+                <Box mb={0.5} p={1} ml={1}>
+                  <Input
+                    placeholder="Item title"
+                    label="ITEM TITLE"
+                    size="large"
+                    fullWidth
+                    id="itemTitle"
+                    name="itemTitle"
+                    value={values.itemTitle}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.itemTitle && touched.itemTitle && errors.itemTitle}
+                    error={errors.itemTitle && touched.itemTitle}
+                    success={!errors.itemTitle && touched.itemTitle}
+                  />
+                </Box>
+                <Box mb={0.5} p={1} ml={1}>
+                  <Input
+                    placeholder="Purchase from"
+                    label="PURCHASE FROM"
+                    size="large"
+                    fullWidth
+                    id="purchaseFrom"
+                    name="purchaseFrom"
+                    value={values.purchaseFrom}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.purchaseFrom && touched.purchaseFrom && errors.purchaseFrom}
+                    error={errors.purchaseFrom && touched.purchaseFrom}
+                    success={!errors.purchaseFrom && touched.purchaseFrom}
+                  />
+                </Box>
+                <Box mb={0.5} p={1} ml={1}>
+                  <Input
+                    placeholder="Purchase date"
+                    label="PURCHASE DATE"
+                    size="large"
+                    fullWidth
+                    id="purchaseDate"
+                    name="purchaseDate"
+                    value={values.purchaseDate}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.purchaseDate && touched.purchaseDate && errors.purchaseDate}
+                    error={errors.purchaseDate && touched.purchaseDate}
+                    success={!errors.purchaseDate && touched.purchaseDate}
+                  />
+                </Box>
+                <Box mb={0.5} p={1} ml={1}>
+                  <Input
+                    placeholder="Amount"
+                    label="AMOUNT"
+                    size="large"
+                    fullWidth
+                    id="amount"
+                    name="amount"
+                    value={values.amount}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.amount && touched.amount && errors.amount}
+                    error={errors.amount && touched.amount}
+                    success={!errors.amount && touched.amount}
+                  />
+                </Box>
+                <Box mb={0.5} p={1} ml={1}>
+                  <Input
+                    type="file"
+                    placeholder="Password"
+                    label="SELECT DOCUMENT"
+                    size="large"
+                    fullWidth
+                    id="selectDoc"
+                    name="selectDoc"
+                    value={values.selectDoc}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.selectDoc && touched.selectDoc && errors.selectDoc}
+                    error={errors.selectDoc && touched.selectDoc}
+                    success={!errors.selectDoc && touched.selectDoc}
+                  />
+                </Box>
+                <Grid
+                  item
+                  sm={12}
+                  md={4}
+                  lg={6}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row-reverse',
+                    p: 1,
+                    m: 1
+                  }}
+                >
+                  <Button
+                    type="submit"
+                    color="info"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginRight: '10px' }}
+                  >
+                    <Icon sx={{ mr: '2px' }}>
+                      <Add />
+                    </Icon>
+                    Add
+                  </Button>
+                  <Button
+                    color="error"
+                    sx={{ marginRight: '10px' }}
+                    variant="contained"
+                    size="small"
+                    onClick={handleDialog}
+                  >
+                    <Icon sx={{ mr: '2px' }}>
+                      <ClearRounded />
+                    </Icon>
+                    Clear
+                  </Button>
+                </Grid>
+              </form>
+            );
+          }}
+        </Formik>
+      </Drawer>
+    </>
+  );
 
   return (
     <Card
@@ -19,48 +214,64 @@ const Expense = () => {
         boxShadow: ({ boxShadows: { md } }) => md
       }}
     >
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} p={2} pb={0}>
-        <Typography variant="h6">Expense List</Typography>
-        <Box>
+      <Grid container alignItems="center" spacing={2} p={2} pb={0}>
+        <Grid container item sm={12} alignItems="center" justifyContent="space-between">
+          <Typography variant="h3">Expense List</Typography>
+          <Box>
+            <Button
+              color="info"
+              variant="contained"
+              size="small"
+              sx={{ marginRight: '10px', marginLeft: '40px' }}
+              onClick={handleDialog}
+            >
+              <Icon sx={{ mr: '2px' }}>
+                <Add />
+              </Icon>
+              Add
+            </Button>
+            <Button color="info" variant="contained" size="small">
+              <Icon>
+                <ImportExportRounded />
+              </Icon>
+              Export
+            </Button>
+          </Box>
+        </Grid>
+        <Grid container item xs={12}>
+          <Icon>
+            <FilterListSharp />
+          </Icon>
+          <Typography variant="h6">Filter</Typography>
+        </Grid>
+        <Grid item sm={12} md={4} lg={2}>
+          <Input
+            placeholder="Search"
+            type="text"
+            label="Search"
+            size="small"
+            fullWidth
+            id="search"
+            name="search"
+          />
+        </Grid>
+        <Grid item sm={12} md={4} lg={4}>
           <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
-            <Icon sx={{ fontWeight: 'bold', paddingRight: '20px' }}>
-              <Add />{' '}
+            <Icon sx={{ mr: '2px' }}>
+              <SearchRounded />
             </Icon>
-            Add
+            Search
           </Button>
-        </Box>
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={2}
-        p={2}
-        pb={0}
-        pt={0}
-      >
-        Filter
-      </Box>
-      <Card
-        sx={{
-          background: ({ palette: { white } }) => white.main,
-          borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
-          boxShadow: ({ boxShadows: { xl } }) => xl
-        }}
-      >
-        <Box
-          sx={{
-            '& .MuiTableRow-root:not(:last-child)': {
-              '& td': {
-                borderBottom: ({ borders: { borderWidth, borderColor } }) =>
-                  `${borderWidth[1]} solid ${borderColor}`
-              }
-            }
-          }}
-        >
-          <Table columns={prCols} rows={prRows} />
-        </Box>
-      </Card>
+          <Button color="error" variant="contained" size="small">
+            <Icon sx={{ mr: '2px' }}>
+              <ClearRounded />
+            </Icon>
+            Clear
+          </Button>
+        </Grid>
+      </Grid>
+      <Table columns={prCols} rows={prRows} />
+      {renderDialogContent()}
     </Card>
   );
 };
