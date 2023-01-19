@@ -79,7 +79,7 @@ const MainRoutes = [
   },
   {
     name: 'Expense',
-    icon: <CurrencyRupee />,
+    icon: <CurrencyRupee sx={{ color: '#DAA520' }} />,
     path: expensePattern,
     key: 'expense',
     element: <Expense />
