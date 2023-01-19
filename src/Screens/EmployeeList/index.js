@@ -9,7 +9,6 @@ import {
   FormControl,
   FormHelperText
 } from '@mui/material';
-import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Table from 'Elements/Table';
 import Button from 'Elements/Button';
@@ -98,8 +97,9 @@ const EmployeeList = () => {
               value={role}
               onChange={handleChangeRole}
               displayEmpty
-              renderValue={role !== '' ? undefined : () => 'Select Role'}
+              renderValue={role !== '' ? undefined : () => 'All'}
             >
+              <MenuItem value="All">All</MenuItem>
               <MenuItem value="superAdmin">Super Admin</MenuItem>
               <MenuItem value="admin">Admin</MenuItem>
               <MenuItem value="developer">Developer</MenuItem>
@@ -110,7 +110,17 @@ const EmployeeList = () => {
             <FormHelperText sx={{ mr: 0, ml: 0, color: 'red' }}> </FormHelperText>
           </FormControl>
         </Grid>
-        <Grid item sm={12} md={4} lg={4}>
+        <Grid
+          item
+          sm={12}
+          md={8}
+          lg={4}
+          sx={({ breakpoints }) => ({
+            [breakpoints.down('lg' && 'md')]: {
+              marginBottom: 2
+            }
+          })}
+        >
           <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
             <Icon sx={{ mr: '2px' }}>
               <SearchRounded />

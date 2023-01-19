@@ -72,14 +72,14 @@ const MainRoutes = [
   },
   {
     name: 'Employee',
-    icon: <PeopleRounded />,
+    icon: <PeopleRounded sx={{ color: colors.primary.main }} />,
     path: employeeListPattern,
     key: 'employee',
     element: <EmployeeList />
   },
   {
     name: 'Expense',
-    icon: <CurrencyRupee />,
+    icon: <CurrencyRupee sx={{ color: '#DAA520' }} />,
     path: expensePattern,
     key: 'expense',
     element: <Expense />
