@@ -287,7 +287,7 @@ const colors = {
   },
 
   tabs: {
-    indicator: { boxShadow: '#ddd' }
+    indicator: { boxShadow: '#d9d9d9' }
   }
 };
 

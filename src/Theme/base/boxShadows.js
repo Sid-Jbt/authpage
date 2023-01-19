@@ -53,7 +53,7 @@ const boxShadows = {
     thumb: boxShadow([0, 1], [13, 0], black.main, 0.2)
   },
   tabsBoxShadow: {
-    indicator: boxShadow([0, 1], [5, 1], tabs.indicator.boxShadow, 0.15)
+    indicator: boxShadow([0, 1], [5, 1], tabs.indicator.boxShadow, 0.5)
   }
 };
 
