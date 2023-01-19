@@ -1,16 +1,14 @@
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import profileImage from 'Assets/Images/bruce-mars.jpg';
-import { Avatar, Grid, Tab, Tabs } from '@mui/material';
+import { Avatar, Card, Grid, Tab, Tabs } from '@mui/material';
 import { AccountBoxOutlined, PersonOutlined } from '@mui/icons-material';
 
 const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
-  <Box
+  <Card
     sx={{
       py: 2,
       px: 2,
-      background: ({ palette: { white } }) => white.main,
-      borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
       boxShadow: ({ boxShadows: { sm } }) => sm
     }}
   >
@@ -24,14 +22,12 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
         />
       </Grid>
       <Grid item>
-        <Box height="100%" mt={0.5} lineHeight={1}>
-          <Typography variant="h5" fontWeight="medium">
-            Suresh Borad
-          </Typography>
-          <Typography variant="button" color="text" fontWeight="medium">
-            CEO / Co-Founder
-          </Typography>
-        </Box>
+        <Typography variant="h4" fontWeight="medium">
+          Suresh Borad
+        </Typography>
+        <Typography variant="subtitle2" color="text" fontWeight="light">
+          CEO / Co-Founder
+        </Typography>
       </Grid>
       <Grid item xs={12} md={6} lg={4} sx={{ ml: 'auto' }}>
         <Tabs
@@ -44,7 +40,7 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
         </Tabs>
       </Grid>
     </Grid>
-  </Box>
+  </Card>
 );
 
 export default Header;

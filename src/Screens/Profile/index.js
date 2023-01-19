@@ -24,7 +24,7 @@ const Profile = () => {
 
   return (
     <Box>
-      <Box height="150px" />
+      <Box height="8rem" />
       <Header
         tabsOrientation={tabsOrientation}
         tabIndex={tabIndex}
