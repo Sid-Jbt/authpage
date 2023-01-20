@@ -47,7 +47,7 @@ const PersonalDetails = () => {
           pAdd: '',
           alternativeNumber: '',
           phoneNumber: '',
-          dob: moment().format('DD/MM/YYYY')
+          dateOfBirth: moment().format('DD/MM/YYYY')
         }}
         onSubmit={(values) => {
           console.log('values', values);
@@ -186,8 +186,8 @@ const PersonalDetails = () => {
                       placeholder="Date Of Birth"
                       size="large"
                       fullWidth
-                      id="dob"
-                      name="dob"
+                      id="dateOfBirth"
+                      name="dateOfBirth"
                       label="Date Of Birth"
                       disabled={isEdit}
                     />

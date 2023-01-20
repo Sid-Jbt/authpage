@@ -21,7 +21,7 @@ export const getProfilePattern = () => generatePath(profilePattern);
 export const privacyPolicyPattern = '/privacy';
 export const getPrivacyPolicyPattern = () => generatePath(privacyPolicyPattern);
 
-export const errorPattern = '/error';
+export const errorPattern = '*';
 export const getErrorPattern = () => generatePath(errorPattern);
 
 export const employeeListPattern = '/employee';
@@ -32,3 +32,6 @@ export const getExpensePattern = () => generatePath(expensePattern);
 
 export const leavePattern = '/leave';
 export const getLeavePattern = () => generatePath(leavePattern);
+
+export const settingPattern = '/setting';
+export const getSettingPattern = () => generatePath(settingPattern);

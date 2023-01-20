@@ -5,7 +5,9 @@ import {
   TvRounded,
   PeopleRounded,
   CurrencyRupee,
-  DirectionsRun
+  DirectionsRun,
+  SettingsAccessibilityRounded,
+  SettingsRounded
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -17,7 +19,8 @@ import {
   dashboardPattern,
   employeeListPattern,
   expensePattern,
-  leavePattern
+  leavePattern,
+  settingPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -28,9 +31,11 @@ const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
 const EmployeeList = Loadable(lazy(() => import('../Screens/EmployeeList')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
 const LeaveList = Loadable(lazy(() => import('../Screens/LeaveList')));
+const Setting = Loadable(lazy(() => import('../Screens/Setting')));
 
 const MainRoutes = [
   {
+    type: 'route',
     name: 'Dashboard',
     icon: (
       <TvRounded
@@ -44,6 +49,7 @@ const MainRoutes = [
     element: <DashboardDefault />
   },
   {
+    type: 'unroute',
     name: 'Profile',
     icon: <Person />,
     path: profilePattern,
@@ -51,6 +57,7 @@ const MainRoutes = [
     element: <Profile />
   },
   {
+    type: 'unroute',
     name: 'Privacy Policy',
     icon: (
       <PolicyRounded
@@ -64,13 +71,7 @@ const MainRoutes = [
     element: <PrivacyPolicy />
   },
   {
-    name: 'Error',
-    icon: <ErrorRounded sx={{ color: colors.error.main }} />,
-    path: errorPattern,
-    key: 'error',
-    element: <Error404 />
-  },
-  {
+    type: 'route',
     name: 'Employee',
     icon: <PeopleRounded sx={{ color: colors.primary.main }} />,
     path: employeeListPattern,
@@ -78,6 +79,7 @@ const MainRoutes = [
     element: <EmployeeList />
   },
   {
+    type: 'route',
     name: 'Expense',
     icon: <CurrencyRupee sx={{ color: '#DAA520' }} />,
     path: expensePattern,
@@ -85,12 +87,29 @@ const MainRoutes = [
     element: <Expense />
   },
   {
+    type: 'route',
     name: 'Leave',
     icon: <DirectionsRun />,
     path: leavePattern,
     key: 'leave',
     element: <LeaveList />
+  },
+  // Keep this route at the end to keep this flow ready
+  {
+    type: 'unroute',
+    name: 'Error',
+    icon: <ErrorRounded sx={{ color: colors.error.main }} />,
+    path: errorPattern,
+    key: 'error',
+    element: <Error404 />
   }
+  /* {
+    name: 'Setting',
+    icon: <SettingsRounded sx={{ color: colors.primary.main }} />,
+    path: settingPattern,
+    key: 'setting',
+    element: <Setting />
+  } */
 ];
 
 // const roleList = ''; // for future if we need to config and show selected list in dashboard to user then we will store here from the local storage

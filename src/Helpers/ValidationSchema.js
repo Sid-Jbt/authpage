@@ -26,7 +26,10 @@ const validationSchema = yup.object().shape({
   lastName: yup.string().required('Last name is required'),
   fatherName: yup.string().required('Father name is required'),
   designation: yup.string().required('Designation is required'),
-  // empCode: yup.string().required('Required'),
+  empCode: yup.string().required('Employee code is required'),
+  dateOfBirth: yup.string().required('Date of birth is required'),
+  dateOfJoin: yup.string().required('Date of join is required'),
+  dateOfLeave: yup.string().required('Date of leave is required'),
   phoneNumber: yup
     .string()
     .matches(numberRegx, 'Phone number is not valid')
