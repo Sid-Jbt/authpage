@@ -41,6 +41,7 @@ const ForgotPassword = () => (
               onBlur={handleBlur}
               errorText={errors.email && touched.email && errors.email}
               error={errors.email && touched.email}
+              success={!errors.email && touched.email}
             />
 
             <Box mt={2} mb={1}>

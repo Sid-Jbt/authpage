@@ -76,6 +76,7 @@ const Login = () => {
                   onBlur={handleBlur}
                   errorText={errors.password && touched.password && errors.password}
                   error={errors.password && touched.password}
+                  success={!errors.password && touched.password}
                   type={showPassword ? 'text' : 'password'}
                   endAdornment={
                     <InputAdornment position="end">

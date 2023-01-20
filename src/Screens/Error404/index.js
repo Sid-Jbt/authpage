@@ -6,15 +6,30 @@ import { Card } from '@mui/material';
 import { getDashboardPattern } from 'Routes/routeConfig';
 
 const Error404 = () => (
-  <Card xl={12} lg={12} sm={12}>
-    <Box sx={{ p: 10 }} textAlign="center">
+  <Card
+    sx={{
+      p: '50px',
+      textAlign: 'center',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '80vh',
+      m: 'auto'
+    }}
+  >
+    <Box>
       <Typography variant="h1">404</Typography>
-      <Typography variant="h1">ERROR PAGE</Typography>
+      <Typography variant="h3">ERROR PAGE</Typography>
       <Typography>Uh Oh!! you're lost.</Typography>
-      <Typography fontWeight="bold">
-        We are sorry but the page you were looking for was not found...!
-      </Typography>
-      <Button sx={{ mt: 5 }} component={Link} to={getDashboardPattern()} type="button" color="info">
+      <Typography fontWeight="bold">This page could not be found.</Typography>
+      <Button
+        sx={{ width: 'max-content', m: 'auto', mt: 2 }}
+        component={Link}
+        to={getDashboardPattern()}
+        type="button"
+        size="small"
+        color="info"
+      >
         Go Back to Home page
       </Button>
     </Box>

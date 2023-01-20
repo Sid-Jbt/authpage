@@ -26,7 +26,10 @@ const validationSchema = yup.object().shape({
   lastName: yup.string().required('Last name is required'),
   fatherName: yup.string().required('Father name is required'),
   designation: yup.string().required('Designation is required'),
-  // empCode: yup.string().required('Required'),
+  empCode: yup.string().required('Employee code is required'),
+  dateOfBirth: yup.string().required('Date of birth is required'),
+  dateOfJoin: yup.string().required('Date of join is required'),
+  dateOfLeave: yup.string().required('Date of leave is required'),
   phoneNumber: yup
     .string()
     .matches(numberRegx, 'Phone number is not valid')
@@ -41,7 +44,13 @@ const validationSchema = yup.object().shape({
   accountName: yup.string().matches(holderNameRegx, '').required('Account name is required'),
   accountNumber: yup.string().matches(accNumberRegx, '').required('Account number is required'),
   ifscCode: yup.string().matches(ifscCodeRegx, '').required('IFSC code is required'),
-  panNumber: yup.string().required('PAN number required')
+  panNumber: yup.string().required('PAN number required'),
+  itemName: yup.string().required('Item name is required'),
+  itemTitle: yup.string().required('Item title is required'),
+  purchaseFrom: yup.string().required('Purchase from is required'),
+  purchaseDate: yup.string().required('Purchase date is required'),
+  amount: yup.string().required('Amount is required'),
+  selectDoc: yup.string().required('Select document is required')
 });
 
 export default validationSchema;
