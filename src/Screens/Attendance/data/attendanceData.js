@@ -27,7 +27,14 @@ const attendanceData = {
       overtime: '0H',
       production: '8H',
       status: (
-        <Badge variant="gradient" badgeContent="Present" color="success" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="Present"
+          color="success"
+          size="xs"
+          container
+          customWidth={100}
+        />
       )
     },
     {
@@ -40,7 +47,16 @@ const attendanceData = {
       'early Leaving': '0.5H',
       overtime: '0H',
       production: '8H',
-      status: <Badge variant="gradient" badgeContent="Absent" color="error" size="xs" container />
+      status: (
+        <Badge
+          variant="gradient"
+          badgeContent="Absent"
+          color="error"
+          size="xs"
+          container
+          customWidth={100}
+        />
+      )
     },
     {
       id: 3,
@@ -52,7 +68,16 @@ const attendanceData = {
       'early Leaving': '0.5H',
       overtime: '0H',
       production: '8H',
-      status: <Badge variant="gradient" badgeContent="Late" color="warning" size="xs" container />
+      status: (
+        <Badge
+          variant="gradient"
+          badgeContent="Late"
+          color="warning"
+          size="xs"
+          container
+          customWidth={100}
+        />
+      )
     },
     {
       id: 4,
@@ -64,7 +89,16 @@ const attendanceData = {
       'early Leaving': '0.5H',
       overtime: '0H',
       production: '8H',
-      status: <Badge variant="gradient" badgeContent="Overtime" color="info" size="xs" container />
+      status: (
+        <Badge
+          variant="gradient"
+          badgeContent="Overtime"
+          color="info"
+          size="xs"
+          container
+          customWidth={100}
+        />
+      )
     },
     {
       id: 5,
@@ -77,7 +111,14 @@ const attendanceData = {
       overtime: '0H',
       production: '8H',
       status: (
-        <Badge variant="gradient" badgeContent="Present" color="success" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="Present"
+          color="success"
+          size="xs"
+          container
+          customWidth={100}
+        />
       )
     },
     {
@@ -90,7 +131,16 @@ const attendanceData = {
       'early Leaving': '0.5H',
       overtime: '0H',
       production: '8H',
-      status: <Badge variant="gradient" badgeContent="Absent" color="error" size="xs" container />
+      status: (
+        <Badge
+          variant="gradient"
+          badgeContent="Absent"
+          color="error"
+          size="xs"
+          container
+          customWidth={100}
+        />
+      )
     },
     {
       id: 7,
@@ -102,7 +152,16 @@ const attendanceData = {
       'early Leaving': '0.5H',
       overtime: '0H',
       production: '8H',
-      status: <Badge variant="gradient" badgeContent="late" color="warning" size="xs" container />
+      status: (
+        <Badge
+          variant="gradient"
+          badgeContent="late"
+          color="warning"
+          size="xs"
+          container
+          customWidth={100}
+        />
+      )
     },
     {
       id: 8,
@@ -114,7 +173,16 @@ const attendanceData = {
       'early Leaving': '0.5H',
       overtime: '0H',
       production: '8H',
-      status: <Badge variant="gradient" badgeContent="Overtime" color="info" size="xs" container />
+      status: (
+        <Badge
+          variant="gradient"
+          badgeContent="Overtime"
+          color="info"
+          size="xs"
+          container
+          customWidth={100}
+        />
+      )
     },
     {
       id: 9,
@@ -127,7 +195,14 @@ const attendanceData = {
       overtime: '0H',
       production: '8H',
       status: (
-        <Badge variant="gradient" badgeContent="Present" color="success" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="Present"
+          color="success"
+          size="xs"
+          container
+          customWidth={100}
+        />
       )
     },
     {
@@ -140,7 +215,16 @@ const attendanceData = {
       'early Leaving': '0.5H',
       overtime: '0H',
       production: '8H',
-      status: <Badge variant="gradient" badgeContent="Absent" color="error" size="xs" container />
+      status: (
+        <Badge
+          variant="gradient"
+          badgeContent="Absent"
+          color="error"
+          size="xs"
+          container
+          customWidth={100}
+        />
+      )
     }
   ]
 };
