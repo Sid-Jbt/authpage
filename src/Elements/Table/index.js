@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Table as MuiTable,
   TableBody,
@@ -6,7 +6,8 @@ import {
   TableContainer,
   TableRow,
   Avatar,
-  TableSortLabel
+  TableSortLabel,
+  Checkbox
 } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -14,9 +15,34 @@ import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
 
-const Table = ({ columns, rows }) => {
+const Table = ({ columns, rows, isChecked = false }) => {
+  console.log('isChecked', isChecked);
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
+  const [selectedIds, setSelectedIds] = useState([]);
+
+  const _onSelectAll = (isCheckSelectAll) => {
+    let selectedIds = [];
+    if (isCheckSelectAll === false) {
+      rows.map(({ id }) => {
+        selectedIds.push(id);
+      });
+    } else {
+      selectedIds = [];
+    }
+    setSelectedIds(selectedIds);
+  };
+
+  const _onSelectedIds = (id) => {
+    const isSelectedId = selectedIds.includes(id);
+    if (isSelectedId) {
+      const indexOfUser = selectedIds.findIndex((item) => id === item);
+      selectedIds.splice(indexOfUser, 1);
+    } else {
+      selectedIds.push(id);
+    }
+    setSelectedIds([...selectedIds]);
+  };
 
   const renderColumns = columns.map(({ headerName, align, width }, key) => {
     let pl;
@@ -119,7 +145,20 @@ const Table = ({ columns, rows }) => {
       return template;
     });
 
-    return <TableRow key={rowKey}>{tableRow}</TableRow>;
+    console.log('selectedIds======', selectedIds);
+
+    return (
+      <TableRow key={rowKey}>
+        {isChecked && (
+          <Checkbox
+            sx={{ ml: 2 }}
+            onClick={() => _onSelectedIds(row.id)}
+            checked={selectedIds.includes(row.id)}
+          />
+        )}
+        {tableRow}
+      </TableRow>
+    );
   });
 
   return useMemo(
@@ -127,7 +166,18 @@ const Table = ({ columns, rows }) => {
       <TableContainer>
         <MuiTable>
           <Box component="thead">
-            <TableRow>{renderColumns}</TableRow>
+            <TableRow>
+              {isChecked && (
+                <TableCell>
+                  <Checkbox
+                    onClick={() => _onSelectAll(selectedIds.length === rows.length)}
+                    checked={selectedIds.length === rows.length}
+                    id="selectedAll"
+                  />
+                </TableCell>
+              )}
+              {renderColumns}
+            </TableRow>
           </Box>
           <TableBody>{renderRows}</TableBody>
           <TableCell colSpan={renderColumns.length}>
@@ -136,7 +186,7 @@ const Table = ({ columns, rows }) => {
         </MuiTable>
       </TableContainer>
     ),
-    [columns, rows]
+    [columns, rows, selectedIds]
   );
 };
 
