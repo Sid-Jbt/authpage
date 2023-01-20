@@ -7,7 +7,8 @@ import {
   CurrencyRupee,
   DirectionsRun,
   SettingsAccessibilityRounded,
-  SettingsRounded
+  SettingsRounded,
+  PaymentRounded
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -20,7 +21,8 @@ import {
   employeeListPattern,
   expensePattern,
   leavePattern,
-  settingPattern
+  settingsPattern,
+  payslipPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -31,7 +33,8 @@ const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
 const EmployeeList = Loadable(lazy(() => import('../Screens/EmployeeList')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
 const LeaveList = Loadable(lazy(() => import('../Screens/LeaveList')));
-const Setting = Loadable(lazy(() => import('../Screens/Setting')));
+const Settings = Loadable(lazy(() => import('../Screens/Settings')));
+const Payslip = Loadable(lazy(() => import('../Screens/Payslip')));
 
 const MainRoutes = [
   {
@@ -93,6 +96,15 @@ const MainRoutes = [
     path: leavePattern,
     key: 'leave',
     element: <LeaveList />
+  },
+  ,
+  {
+    type: 'route',
+    name: 'Payslip',
+    icon: <PaymentRounded sx={{ color: colors.success.main }} />,
+    path: payslipPattern,
+    key: 'payslip',
+    element: <Payslip />
   },
   { type: 'title', title: 'Testing Pages', key: 'testing-pages' },
   {
