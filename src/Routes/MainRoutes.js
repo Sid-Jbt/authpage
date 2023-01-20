@@ -94,6 +94,27 @@ const MainRoutes = [
     key: 'leave',
     element: <LeaveList />
   },
+  { type: 'title', title: 'Testing Pages', key: 'testing-pages' },
+  {
+    type: 'collapse',
+    name: 'Dashboard',
+    key: 'time',
+    icon: <CurrencyRupee sx={{ color: '#DAA520' }} />,
+    children: [
+      {
+        name: 'Analytics',
+        key: 'analytics',
+        path: '/time/leave',
+        element: <LeaveList />
+      },
+      {
+        name: 'Sales',
+        key: 'sales',
+        path: '/time/expense',
+        element: <Expense />
+      }
+    ]
+  },
   // Keep this route at the end to keep this flow ready
   {
     type: 'unroute',
@@ -103,13 +124,6 @@ const MainRoutes = [
     key: 'error',
     element: <Error404 />
   }
-  /* {
-    name: 'Setting',
-    icon: <SettingsRounded sx={{ color: colors.primary.main }} />,
-    path: settingPattern,
-    key: 'setting',
-    element: <Setting />
-  } */
 ];
 
 // const roleList = ''; // for future if we need to config and show selected list in dashboard to user then we will store here from the local storage
