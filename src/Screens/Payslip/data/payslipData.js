@@ -1,9 +1,13 @@
 import Icon from '@mui/material/Icon';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
+const onClickAction = () => {
+  alert('Downloading coming soon...');
+};
+
 const action = (
   <Icon sx={{ cursor: 'pointer', fontWeight: 'bold' }} fontSize="small">
-    <FileDownloadIcon />
+    <FileDownloadIcon onClick={onClickAction} />
   </Icon>
 );
 
