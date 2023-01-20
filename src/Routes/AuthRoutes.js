@@ -9,7 +9,7 @@ const AuthRoutes = {
   element: <AuthLayout />,
   children: [
     {
-      path: defaultPattern,
+      index: true,
       element: <Login />
     },
     {
