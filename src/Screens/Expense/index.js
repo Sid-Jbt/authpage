@@ -256,7 +256,7 @@ const Expense = () => {
           </Button>
         </Grid>
       </Grid>
-      <Table columns={prCols} rows={prRows} />
+      <Table columns={prCols} rows={prRows} isChecked={true} />
       {renderDialogContent()}
     </Card>
   );
