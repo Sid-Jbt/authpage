@@ -19,7 +19,8 @@ const SideDrawer = ({ children, anchor = 'right', open, onClose, title }) => (
             white: { main }
           },
           functions: { rgba }
-        }) => rgba(main, 0.85)
+        }) => rgba(main, 0.8),
+        backdropFilter: 'blur(20px)'
       }
     }}
   >
