@@ -1,13 +1,10 @@
-import { AppBar, Avatar, Divider, Icon, IconButton, Menu, Toolbar } from '@mui/material';
+import { AppBar, Divider, Icon, IconButton, Menu, Toolbar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Box from 'Elements/Box';
 import { MINI_SIDENAV } from 'Redux/actions/ui/actions';
 import {
   Home,
-  HomeMax,
-  HomeMini,
-  HomeOutlined,
   Logout,
   MenuOpenTwoTone,
   MenuTwoTone,
@@ -21,6 +18,7 @@ import NotificationItem from 'Elements/Item';
 import profileImage from 'Assets/Images/bruce-mars.jpg';
 import { Link, useLocation } from 'react-router-dom';
 import Breadcrumbs from 'Elements/Breadcrumbs';
+import Avatar from 'Elements/Avatar';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
 const DashboardNavbar = ({ isMini }) => {
@@ -181,10 +179,10 @@ const DashboardNavbar = ({ isMini }) => {
           </IconButton>
           <Avatar
             src={profileImage}
-            alt="profile-image"
-            variant="rounded"
+            alt={profileImage}
+            size="lg"
+            variant="circle"
             onClick={handleProfileMenu}
-            sx={{ width: 50, height: 50, borderRadius: 12, cursor: 'pointer' }}
           />
           {renderMenu()}
           {renderProfileMenu()}
