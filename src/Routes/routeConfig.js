@@ -33,5 +33,8 @@ export const getExpensePattern = () => generatePath(expensePattern);
 export const leavePattern = '/leave';
 export const getLeavePattern = () => generatePath(leavePattern);
 
-export const settingPattern = '/setting';
-export const getSettingPattern = () => generatePath(settingPattern);
+export const settingsPattern = '/settings';
+export const getSettingsPattern = () => generatePath(settingsPattern);
+
+export const payslipPattern = '/payslip';
+export const getPayslipPattern = () => generatePath(payslipPattern);
