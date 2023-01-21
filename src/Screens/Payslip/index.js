@@ -44,7 +44,7 @@ const Payslip = () => {
         boxShadow: ({ boxShadows: { md } }) => md
       }}
     >
-      <Grid container alignItems="center" spacing={2} p={2} pb={0}>
+      <Grid container alignItems="center" spacing={2} p={2} pb={0} mb={2}>
         <Grid container item sm={12} alignItems="center" justifyContent="space-between">
           <Grid item xs={6}>
             <Typography variant="h3">Payslip</Typography>
@@ -80,7 +80,6 @@ const Payslip = () => {
                 </MenuItem>
               ))}
             </Select>
-            <FormHelperText sx={{ mr: 0, ml: 0, color: 'red' }}> </FormHelperText>
           </FormControl>
         </Grid>
         <Grid item sm={12} md={4} lg={2}>
@@ -99,7 +98,6 @@ const Payslip = () => {
                 </MenuItem>
               ))}
             </Select>
-            <FormHelperText sx={{ mr: 0, ml: 0, color: 'red' }}> </FormHelperText>
           </FormControl>
         </Grid>
         <Grid item sm={12} md={4} lg={2}>
