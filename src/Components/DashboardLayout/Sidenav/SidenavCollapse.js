@@ -35,7 +35,6 @@ const SidenavCollapse = ({
             icon
           )}
         </ListItemIcon>
-        {console.log(miniSidenav)}
 
         <ListItemText primary={name} sx={(theme) => collapseText(theme, { miniSidenav, active })} />
 

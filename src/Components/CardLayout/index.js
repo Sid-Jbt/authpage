@@ -113,7 +113,6 @@ const DetailedStaticsCard = ({
   </Card>
 );
 
-// Setting default values for the props of DetailedStaticsCard
 DetailedStaticsCard.defaultProps = {
   bgColor: 'white',
   percentage: {

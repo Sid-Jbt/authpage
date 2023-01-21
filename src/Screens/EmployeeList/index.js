@@ -7,27 +7,17 @@ import {
   Grid,
   FormLabel,
   FormControl,
-  FormHelperText,
   InputAdornment,
   IconButton
 } from '@mui/material';
-import {
-  Add,
-  ImportExportRounded,
-  SearchRounded,
-  ClearRounded,
-  FilterListSharp,
-  VisibilityOff,
-  Visibility,
-  Save
-} from '@mui/icons-material';
-import Typography from 'Elements/Typography';
-import Table from 'Elements/Table';
+import { Add, ImportExportRounded, VisibilityOff, Visibility, Save } from '@mui/icons-material';
+import Table from 'Elements/Tables/Table';
 import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import SideDrawer from 'Elements/SideDrawer';
 import { Formik } from 'formik';
+import FilterLayout from 'Components/FilterLayout';
 import employeeListData from './data/employeeListData';
 import validationSchema from '../../Helpers/ValidationSchema';
 
@@ -75,7 +65,7 @@ const EmployeeList = () => {
             const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
             return (
               <form onSubmit={handleSubmit}>
-                <Grid container spacing={1} justifyContent="space-between">
+                <Grid container justifyContent="space-between">
                   <Grid item xs={12}>
                     <Box>
                       <Input
@@ -95,43 +85,45 @@ const EmployeeList = () => {
                       />
                     </Box>
                   </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Box>
-                      <Input
-                        type="text"
-                        placeholder="Alen"
-                        size="large"
-                        id="firstName"
-                        name="firstName"
-                        label="First Name"
-                        fullWidth
-                        value={values.firstName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.firstName && touched.firstName && errors.firstName}
-                        error={errors.firstName && touched.firstName}
-                        success={!errors.firstName && touched.firstName}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Box>
-                      <Input
-                        type="text"
-                        placeholder="Prior"
-                        size="large"
-                        fullWidth
-                        id="lastName"
-                        name="lastName"
-                        label="Last Name"
-                        value={values.lastName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.lastName && touched.lastName && errors.lastName}
-                        error={errors.lastName && touched.lastName}
-                        success={!errors.lastName && touched.lastName}
-                      />
-                    </Box>
+                  <Grid container item spacing={2}>
+                    <Grid item xs={12} md={6}>
+                      <Box>
+                        <Input
+                          type="text"
+                          placeholder="Alen"
+                          size="large"
+                          id="firstName"
+                          name="firstName"
+                          label="First Name"
+                          fullWidth
+                          value={values.firstName}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          errorText={errors.firstName && touched.firstName && errors.firstName}
+                          error={errors.firstName && touched.firstName}
+                          success={!errors.firstName && touched.firstName}
+                        />
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Box>
+                        <Input
+                          type="text"
+                          placeholder="Prior"
+                          size="large"
+                          fullWidth
+                          id="lastName"
+                          name="lastName"
+                          label="Last Name"
+                          value={values.lastName}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          errorText={errors.lastName && touched.lastName && errors.lastName}
+                          error={errors.lastName && touched.lastName}
+                          success={!errors.lastName && touched.lastName}
+                        />
+                      </Box>
+                    </Grid>
                   </Grid>
                   <Grid item xs={12}>
                     <Box>
@@ -182,47 +174,43 @@ const EmployeeList = () => {
                       />
                     </Box>
                   </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Box>
-                      <Input
-                        type="date"
-                        placeholder="Date Of Join"
-                        size="large"
-                        fullWidth
-                        id="dateOfJoin"
-                        name="dateOfJoin"
-                        label="Date Of Join"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.dateOfJoin && touched.dateOfJoin && errors.dateOfJoin}
-                        error={errors.dateOfJoin && touched.dateOfJoin}
-                        success={!errors.dateOfJoin && touched.dateOfJoin}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Box>
-                      <Input
-                        type="date"
-                        placeholder="Date Of Leave"
-                        size="large"
-                        fullWidth
-                        id="dateOfLeave"
-                        name="dateOfLeave"
-                        label="Date Of Leave"
-                        success={!errors.dateOfLeave && touched.dateOfLeave}
-                      />
-                    </Box>
+                  <Grid container item spacing={2}>
+                    <Grid item xs={12} md={6}>
+                      <Box>
+                        <Input
+                          type="date"
+                          placeholder="Date Of Join"
+                          size="large"
+                          fullWidth
+                          id="dateOfJoin"
+                          name="dateOfJoin"
+                          label="Date Of Join"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          errorText={errors.dateOfJoin && touched.dateOfJoin && errors.dateOfJoin}
+                          error={errors.dateOfJoin && touched.dateOfJoin}
+                          success={!errors.dateOfJoin && touched.dateOfJoin}
+                        />
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Box>
+                        <Input
+                          type="date"
+                          placeholder="Date Of Leave"
+                          size="large"
+                          fullWidth
+                          id="dateOfLeave"
+                          name="dateOfLeave"
+                          label="Date Of Leave"
+                          success={!errors.dateOfLeave && touched.dateOfLeave}
+                        />
+                      </Box>
+                    </Grid>
                   </Grid>
                   <Grid item sm={12} md={4} lg={6}>
-                    <Button
-                      type="submit"
-                      color="info"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginRight: '10px' }}
-                    >
-                      <Icon sx={{ mr: '2px' }}>
+                    <Button type="submit" color="info" variant="contained" size="medium">
+                      <Icon sx={{ mr: 1 }}>
                         <Save />
                       </Icon>
                       Save
@@ -238,113 +226,92 @@ const EmployeeList = () => {
   );
 
   return (
-    <Card
-      mb={3}
-      sx={{
-        background: ({ palette: { grey } }) => grey[100],
-        borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
-        boxShadow: ({ boxShadows: { md } }) => md
-      }}
-    >
-      <Grid container alignItems="center" spacing={2} p={2} pb={0}>
-        <Grid container item sm={12} alignItems="center" justifyContent="space-between">
-          <Grid item xs={6}>
-            <Typography variant="h3">Employee</Typography>
-          </Grid>
-          <Grid container item xs={6} justifyContent="end" sx={{ gap: 2 }}>
-            <Button color="info" variant="contained" size="small" onClick={handleDialog}>
-              <Icon>
-                <Add />
-              </Icon>
-              Add
-            </Button>
-            <Button color="info" variant="contained" size="small">
-              <Icon>
-                <ImportExportRounded />
-              </Icon>
-              Export
-            </Button>
-          </Grid>
-        </Grid>
-        <Grid container item xs={12}>
-          <Icon>
-            <FilterListSharp />
-          </Icon>
-          <Typography variant="h6">Filter</Typography>
-        </Grid>
-        <Grid item sm={12} md={4} lg={2}>
-          <Input
-            type="date"
-            label="From Date"
-            size="small"
-            fullWidth
-            id="fromDate"
-            name="fromDate"
-          />
-        </Grid>
-        <Grid item sm={12} md={4} lg={2}>
-          <Input type="date" label="To Date" size="small" fullWidth id="toDate" name="toDate" />
-        </Grid>
-        <Grid item sm={12} md={4} lg={2}>
-          <Input
-            placeholder="Search"
-            type="text"
-            label="Search"
-            size="small"
-            fullWidth
-            id="search"
-            name="search"
-          />
-        </Grid>
-        <Grid item sm={12} md={4} lg={2}>
-          <FormControl sx={{ width: '100%' }}>
-            <FormLabel>Select Role</FormLabel>
-            <Select
-              id="selectRole"
-              value={role}
-              onChange={handleChangeRole}
-              displayEmpty
-              renderValue={role !== '' ? undefined : () => 'All'}
-            >
-              <MenuItem value="All">All</MenuItem>
-              <MenuItem value="superAdmin">Super Admin</MenuItem>
-              <MenuItem value="admin">Admin</MenuItem>
-              <MenuItem value="developer">Developer</MenuItem>
-              <MenuItem value="hR">HR</MenuItem>
-              <MenuItem value="qA">QA</MenuItem>
-              <MenuItem value="tester">Tester</MenuItem>
-            </Select>
-            <FormHelperText sx={{ mr: 0, ml: 0, color: 'red' }}> </FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid
-          item
-          sm={12}
-          md={8}
-          lg={4}
-          sx={({ breakpoints }) => ({
-            [breakpoints.down('lg' && 'md')]: {
-              marginBottom: 2
-            }
-          })}
-        >
-          <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
-            <Icon sx={{ mr: '2px' }}>
-              <SearchRounded />
+    <>
+      <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
+        <Grid item xs={12} md="auto">
+          <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
+            <Icon sx={{ mr: 1 }}>
+              <Add />
             </Icon>
-            Search
+            Add
           </Button>
-          <Button color="error" variant="contained" size="small">
-            <Icon sx={{ mr: '2px' }}>
-              <ClearRounded />
+        </Grid>
+        <Grid item xs={12} md="auto">
+          <Button color="white" variant="outlined" size="small">
+            <Icon sx={{ mr: 1 }}>
+              <ImportExportRounded />
             </Icon>
-            Clear
+            Export
           </Button>
         </Grid>
       </Grid>
-      <Table columns={prCols} rows={prRows} />
-      {renderAddEmployeeDialog()}
-    </Card>
+      <Card
+        sx={{
+          background: ({ palette: { grey } }) => grey[100],
+          borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
+          boxShadow: ({ boxShadows: { md } }) => md
+        }}
+      >
+        <FilterLayout>
+          <Grid item sm={12} md={4} lg={2}>
+            <Input
+              type="date"
+              label="From Date"
+              size="small"
+              fullWidth
+              id="fromDate"
+              name="fromDate"
+              errorFalse
+            />
+          </Grid>
+          <Grid item sm={12} md={4} lg={2}>
+            <Input
+              type="date"
+              label="To Date"
+              size="small"
+              fullWidth
+              id="toDate"
+              name="toDate"
+              errorFalse
+            />
+          </Grid>
+          <Grid item sm={12} md={4} lg={2}>
+            <Input
+              placeholder="Search"
+              type="text"
+              label="Search"
+              size="small"
+              fullWidth
+              id="search"
+              name="search"
+              errorFalse
+            />
+          </Grid>
+          <Grid item sm={12} md={4} lg={2}>
+            <FormControl sx={{ width: '100%' }}>
+              <FormLabel>Select Role</FormLabel>
+              <Select
+                id="selectRole"
+                value={role}
+                onChange={handleChangeRole}
+                displayEmpty
+                renderValue={role !== '' ? undefined : () => 'All'}
+              >
+                <MenuItem value="All">All</MenuItem>
+                <MenuItem value="superAdmin">Super Admin</MenuItem>
+                <MenuItem value="admin">Admin</MenuItem>
+                <MenuItem value="developer">Developer</MenuItem>
+                <MenuItem value="hR">HR</MenuItem>
+                <MenuItem value="qA">QA</MenuItem>
+                <MenuItem value="tester">Tester</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </FilterLayout>
+        <Table columns={prCols} rows={prRows} />
+        {renderAddEmployeeDialog()}
+      </Card>
+    </>
   );
 };
 

@@ -5,6 +5,7 @@ import Logo from 'Assets/logo/jbt-logo.svg';
 import FullLogo from 'Assets/logo/jbt-full-logo.svg';
 import DashboardNavbar from './Navbar';
 import Sidenav from './Sidenav';
+import Footer from './Footer';
 
 const DashboardLayout = ({ bgColor, children, ...rest }) => {
   const background = bgColor;
@@ -34,9 +35,10 @@ const DashboardLayout = ({ bgColor, children, ...rest }) => {
         })}
       >
         <DashboardNavbar />
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 3, pt: 0 }}>
           <Outlet />
         </Box>
+        <Footer />
       </Box>
     </Box>
   );

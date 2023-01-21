@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Icon, Grid } from '@mui/material';
 import Typography from 'Elements/Typography';
-import Table from 'Elements/Table';
+import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
 import DetailedStatisticsCard from 'Components/CardLayout';

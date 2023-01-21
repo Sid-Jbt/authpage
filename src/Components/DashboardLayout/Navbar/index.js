@@ -4,6 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Box from 'Elements/Box';
 import { MINI_SIDENAV } from 'Redux/actions/ui/actions';
 import {
+  Home,
+  HomeMax,
+  HomeMini,
+  HomeOutlined,
   Logout,
   MenuOpenTwoTone,
   MenuTwoTone,
@@ -15,7 +19,8 @@ import { useState } from 'react';
 import NotificationItem from 'Elements/Item';
 
 import profileImage from 'Assets/Images/bruce-mars.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import Breadcrumbs from 'Elements/Breadcrumbs';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
 const DashboardNavbar = ({ isMini }) => {
@@ -23,6 +28,7 @@ const DashboardNavbar = ({ isMini }) => {
   const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(false);
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
+  const route = useLocation().pathname.split('/').slice(1);
 
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
@@ -154,6 +160,14 @@ const DashboardNavbar = ({ isMini }) => {
               <MenuOpenTwoTone />
             </IconButton>
           )}
+        </Box>
+        <Box sx={{ flex: 1 }}>
+          <Breadcrumbs
+            icon={<Home />}
+            title={route[route.length - 1]}
+            route={route}
+            light={false}
+          />
         </Box>
         <Box sx={(theme) => navbarRow(theme, { isMini })}>
           <IconButton

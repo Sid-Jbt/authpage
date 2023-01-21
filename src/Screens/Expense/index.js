@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
-import Table from 'Elements/Table';
+import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
 import { Formik } from 'formik';
 import moment from 'moment';
@@ -190,73 +190,70 @@ const Expense = () => {
   );
 
   return (
-    <Card
-      mb={3}
-      sx={{
-        background: ({ palette: { grey } }) => grey[100],
-        borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
-        boxShadow: ({ boxShadows: { md } }) => md
-      }}
-    >
-      <Grid container alignItems="center" spacing={2} p={2} pb={0}>
-        <Grid container item sm={12} alignItems="center" justifyContent="space-between">
-          <Typography variant="h3">Expense List</Typography>
-          <Box>
-            <Button
-              color="info"
-              variant="contained"
-              size="small"
-              sx={{ marginRight: '10px', marginLeft: '40px' }}
-              onClick={handleDialog}
-            >
-              <Icon sx={{ mr: '2px' }}>
-                <Add />
-              </Icon>
-              Add
-            </Button>
-            <Button color="info" variant="contained" size="small">
-              <Icon>
-                <ImportExportRounded />
-              </Icon>
-              Export
-            </Button>
-          </Box>
-        </Grid>
-        <Grid container item xs={12}>
-          <Icon>
-            <FilterListSharp />
-          </Icon>
-          <Typography variant="h6">Filter</Typography>
-        </Grid>
-        <Grid item sm={12} md={4} lg={2}>
-          <Input
-            placeholder="Search"
-            type="text"
-            label="Search"
-            size="small"
-            fullWidth
-            id="search"
-            name="search"
-          />
-        </Grid>
-        <Grid item sm={12} md={4} lg={4}>
-          <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
-            <Icon sx={{ mr: '2px' }}>
-              <SearchRounded />
+    <>
+      <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
+        <Grid item xs={12} md="auto">
+          <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
+            <Icon sx={{ mr: 1 }}>
+              <Add />
             </Icon>
-            Search
+            Add
           </Button>
-          <Button color="error" variant="contained" size="small">
-            <Icon sx={{ mr: '2px' }}>
-              <ClearRounded />
+        </Grid>
+        <Grid item xs={12} md="auto">
+          <Button color="white" variant="outlined" size="small">
+            <Icon sx={{ mr: 1 }}>
+              <ImportExportRounded />
             </Icon>
-            Clear
+            Export
           </Button>
         </Grid>
       </Grid>
-      <Table columns={prCols} rows={prRows} isChecked />
-      {renderDialogContent()}
-    </Card>
+      <Card
+        mb={3}
+        sx={{
+          background: ({ palette: { grey } }) => grey[100],
+          borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
+          boxShadow: ({ boxShadows: { md } }) => md
+        }}
+      >
+        <Grid container alignItems="center" spacing={2} p={2} pb={0}>
+          <Grid container item xs={12}>
+            <Icon>
+              <FilterListSharp />
+            </Icon>
+            <Typography variant="h6">Filter</Typography>
+          </Grid>
+          <Grid item sm={12} md={4} lg={2}>
+            <Input
+              placeholder="Search"
+              type="text"
+              label="Search"
+              size="small"
+              fullWidth
+              id="search"
+              name="search"
+            />
+          </Grid>
+          <Grid item sm={12} md={4} lg={4}>
+            <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
+              <Icon sx={{ mr: '2px' }}>
+                <SearchRounded />
+              </Icon>
+              Search
+            </Button>
+            <Button color="error" variant="contained" size="small">
+              <Icon sx={{ mr: '2px' }}>
+                <ClearRounded />
+              </Icon>
+              Clear
+            </Button>
+          </Grid>
+        </Grid>
+        <Table columns={prCols} rows={prRows} isChecked />
+        {renderDialogContent()}
+      </Card>
+    </>
   );
 };
 export default Expense;

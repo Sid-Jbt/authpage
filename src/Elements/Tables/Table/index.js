@@ -175,10 +175,12 @@ const Table = ({ columns, rows, isChecked = false }) => {
               {renderColumns}
             </TableRow>
           </Box>
-          <TableBody>{renderRows}</TableBody>
-          <TableCell colSpan={renderColumns.length}>
-            <Paginations rows={renderRows.length} />
-          </TableCell>
+          <TableBody>
+            {renderRows}
+            <TableCell colSpan={renderColumns.length}>
+              <Paginations rows={renderRows.length} />
+            </TableCell>
+          </TableBody>
         </MuiTable>
       </TableContainer>
     ),

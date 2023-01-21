@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Icon, MenuItem, Select, Grid, FormLabel, FormControl } from '@mui/material';
 import Typography from 'Elements/Typography';
-import Table from 'Elements/Table';
+import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import {
   ImportExportRounded,
