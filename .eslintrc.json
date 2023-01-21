@@ -75,6 +75,7 @@
     "react/no-array-index-key": 0,
     "no-restricted-globals": 0,
     "no-nested-ternary": 0,
+    "no-sparse-arrays": 0,
     "react/no-unescaped-entities": 0,
     "jsx-a11y/no-redundant-roles": 0,
     "react/no-danger": 0,
