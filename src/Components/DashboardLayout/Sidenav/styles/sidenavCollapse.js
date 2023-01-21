@@ -1,7 +1,6 @@
 function collapseItem(theme, ownerState) {
   const { palette, transitions, breakpoints, boxShadows, borders, functions } = theme;
   const { active, darkSidenav, sidenavColor, miniSidenav } = ownerState;
-  console.log(miniSidenav);
 
   const { dark, text, transparent, white } = palette;
   const { xxl } = boxShadows;
@@ -114,7 +113,7 @@ function collapseText(theme, ownerState) {
 
 function collapseArrow(theme, ownerState) {
   const { typography, transitions, breakpoints, functions } = theme;
-  const { noCollapse, darkSidenav, miniSidenav, open } = ownerState;
+  const { noCollapse, miniSidenav, open } = ownerState;
 
   const { size } = typography;
   const { pxToRem } = functions;

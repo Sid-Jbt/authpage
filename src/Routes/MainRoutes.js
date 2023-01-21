@@ -5,9 +5,7 @@ import {
   TvRounded,
   PeopleRounded,
   CurrencyRupee,
-  DirectionsRun,
-  SettingsAccessibilityRounded,
-  SettingsRounded
+  DirectionsRun
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -19,8 +17,7 @@ import {
   dashboardPattern,
   employeeListPattern,
   expensePattern,
-  leavePattern,
-  settingPattern
+  leavePattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -31,7 +28,6 @@ const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
 const EmployeeList = Loadable(lazy(() => import('../Screens/EmployeeList')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
 const LeaveList = Loadable(lazy(() => import('../Screens/LeaveList')));
-const Setting = Loadable(lazy(() => import('../Screens/Setting')));
 
 const MainRoutes = [
   {

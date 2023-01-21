@@ -2,9 +2,9 @@ import { useSelector } from 'react-redux';
 import theme from 'Theme';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
-import RootRoutes from './Routes/index';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
+import RootRoutes from './Routes/index';
 
 const App = () => {
   const customization = useSelector((state) => state.customization);

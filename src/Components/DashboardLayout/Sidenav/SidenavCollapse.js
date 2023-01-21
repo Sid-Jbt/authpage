@@ -6,6 +6,7 @@ import Icon from '@mui/material/Icon';
 
 import Box from 'Elements/Box';
 
+import { ArrowDropUp } from '@mui/icons-material';
 import {
   collapseItem,
   collapseIconBox,
@@ -13,7 +14,6 @@ import {
   collapseText,
   collapseArrow
 } from './styles/sidenavCollapse';
-import { ArrowDropUp } from '@mui/icons-material';
 
 const SidenavCollapse = ({
   icon,

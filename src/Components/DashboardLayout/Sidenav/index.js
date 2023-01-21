@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import DashboardRoutes from 'Routes/MainRoutes';
 import { MINI_SIDENAV } from 'Redux/actions/ui/actions';
 import breakpoints from 'Theme/base/breakpoints';
+import { useEffect, useState } from 'react';
 import SidenavItem from './SidenavItem';
 import SidenavRoot from './SidenavRoot';
-import { useEffect, useState } from 'react';
 import SidenavList from './SidenavList';
 import SidenavCollapse from './SidenavCollapse';
 
@@ -151,7 +151,7 @@ const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) =
         returnValue = (
           <Typography
             key={key}
-            color={'dark'}
+            color="dark"
             display="block"
             variant="caption"
             fontWeight="bold"

@@ -5,9 +5,9 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
-import validationSchema from '../../../Helpers/ValidationSchema';
 import { IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import validationSchema from '../../../Helpers/ValidationSchema';
 
 const RestPassword = () => {
   const [showPassword, setShowPassword] = React.useState(false);
