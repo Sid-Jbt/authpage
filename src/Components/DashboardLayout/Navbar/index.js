@@ -15,8 +15,8 @@ import { useState } from 'react';
 import NotificationItem from 'Elements/Item';
 
 import profileImage from 'Assets/Images/bruce-mars.jpg';
-import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 import { Link } from 'react-router-dom';
+import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
 const DashboardNavbar = ({ isMini }) => {
   const customization = useSelector((state) => state.customization);

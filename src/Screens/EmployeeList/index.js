@@ -27,8 +27,8 @@ import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import SideDrawer from 'Elements/SideDrawer';
-import employeeListData from './data/employeeListData';
 import { Formik } from 'formik';
+import employeeListData from './data/employeeListData';
 import validationSchema from '../../Helpers/ValidationSchema';
 
 const EmployeeList = () => {

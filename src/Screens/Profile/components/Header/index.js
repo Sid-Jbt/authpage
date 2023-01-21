@@ -1,4 +1,3 @@
-import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import profileImage from 'Assets/Images/bruce-mars.jpg';
 import { Avatar, Card, Grid, Tab, Tabs } from '@mui/material';

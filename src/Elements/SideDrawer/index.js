@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer, Slide } from '@mui/material';
+import { Drawer } from '@mui/material';
 import Typography from 'Elements/Typography';
 import Box from 'Elements/Box';
 

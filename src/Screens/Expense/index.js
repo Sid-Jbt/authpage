@@ -1,4 +1,4 @@
-import { Card, Grid, Icon, useTheme } from '@mui/material';
+import { Card, Grid, Icon } from '@mui/material';
 import {
   Add,
   ClearRounded,
@@ -12,15 +12,13 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Table from 'Elements/Table';
 import Input from 'Elements/Input';
-// import DialogMenu from 'Elements/Dialog';
 import { Formik } from 'formik';
 import moment from 'moment';
 import validationSchema from 'Helpers/ValidationSchema';
-import expenseListData from './data/expenseListData';
 import SideDrawer from 'Elements/SideDrawer';
+import expenseListData from './data/expenseListData';
 
 const Expense = () => {
-  const theme = useTheme();
   const { columns: prCols, rows: prRows } = expenseListData;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
