@@ -35,7 +35,9 @@ const Setting = Loadable(lazy(() => import('../Screens/Setting')));
 
 const MainRoutes = [
   {
-    type: 'route',
+    type: 'collapse',
+    noCollapse: true,
+    route: dashboardPattern,
     name: 'Dashboard',
     icon: (
       <TvRounded
@@ -49,7 +51,6 @@ const MainRoutes = [
     element: <DashboardDefault />
   },
   {
-    type: 'unroute',
     name: 'Profile',
     icon: <Person />,
     path: profilePattern,
@@ -57,7 +58,6 @@ const MainRoutes = [
     element: <Profile />
   },
   {
-    type: 'unroute',
     name: 'Privacy Policy',
     icon: (
       <PolicyRounded
@@ -71,7 +71,9 @@ const MainRoutes = [
     element: <PrivacyPolicy />
   },
   {
-    type: 'route',
+    type: 'collapse',
+    noCollapse: true,
+    route: employeeListPattern,
     name: 'Employee',
     icon: <PeopleRounded sx={{ color: colors.primary.main }} />,
     path: employeeListPattern,
@@ -79,7 +81,9 @@ const MainRoutes = [
     element: <EmployeeList />
   },
   {
-    type: 'route',
+    type: 'collapse',
+    noCollapse: true,
+    route: expensePattern,
     name: 'Expense',
     icon: <CurrencyRupee sx={{ color: '#DAA520' }} />,
     path: expensePattern,
@@ -87,7 +91,9 @@ const MainRoutes = [
     element: <Expense />
   },
   {
-    type: 'route',
+    type: 'collapse',
+    noCollapse: true,
+    route: leavePattern,
     name: 'Leave',
     icon: <DirectionsRun />,
     path: leavePattern,
@@ -97,20 +103,22 @@ const MainRoutes = [
   { type: 'title', title: 'Testing Pages', key: 'testing-pages' },
   {
     type: 'collapse',
-    name: 'Dashboard',
+    name: 'Testing',
     key: 'time',
     icon: <CurrencyRupee sx={{ color: '#DAA520' }} />,
     children: [
       {
         name: 'Analytics',
-        key: 'analytics',
+        key: 'leave',
         path: '/time/leave',
+        route: '/time/leave',
         element: <LeaveList />
       },
       {
         name: 'Sales',
-        key: 'sales',
+        key: 'expense',
         path: '/time/expense',
+        route: '/time/expense',
         element: <Expense />
       }
     ]

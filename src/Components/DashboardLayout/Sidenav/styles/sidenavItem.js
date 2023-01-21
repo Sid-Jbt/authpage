@@ -1,98 +1,85 @@
-function item(theme, ownerState) {
-  const { palette, transitions, breakpoints, borders, functions } = theme;
-  const { active, miniSidenav } = ownerState;
+const item = {
+  width: '100%',
+  padding: 0,
+  cursor: 'pointer'
+};
 
-  const { dark, transparent } = palette;
-  const { borderRadius } = borders;
+function itemContent(theme, ownerState) {
+  const { palette, typography, transitions, functions } = theme;
+  const { active, miniSidenav, name, nested } = ownerState;
+
+  const { dark } = palette;
+  const { size, fontWeightMedium, fontWeightRegular } = typography;
   const { pxToRem, rgba } = functions;
 
   return {
-    background: active ? rgba(palette.info.main, 0.1) : transparent.main,
-    color: dark.main,
-    display: miniSidenav ? 'block' : 'flex',
+    display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
     width: '100%',
-    padding: `${pxToRem(10.8)} ${pxToRem(16)} ${pxToRem(10.8)} ${pxToRem(16)}`,
-    margin: `0 ${pxToRem(8)}`,
-    borderRadius: borderRadius.md,
-    cursor: 'pointer',
+    padding: `${pxToRem(7.2)} ${pxToRem(16)}`,
+    margin: `0 ${pxToRem(10)} 0 ${pxToRem(6)}`,
     userSelect: 'none',
-    whiteSpace: 'nowrap',
-    boxShadow: 'none',
+    position: 'relative',
+    color: active ? rgba(dark.main, 1) : rgba(dark.main, 0.8),
 
-    [breakpoints.up('xl')]: {
-      boxShadow: 'none',
-      transition: transitions.create('box-shadow', {
-        easing: transitions.easing.easeInOut,
-        duration: transitions.duration.shorter
-      })
-    }
-  };
-}
-
-function itemIconBox(theme, ownerState) {
-  const { transitions, borders, functions } = theme;
-  const { darkSidenav, sidenavColor, active } = ownerState;
-
-  const { borderRadius } = borders;
-  const { pxToRem } = functions;
-
-  return {
-    color: 'inherit',
-    minWidth: pxToRem(32),
-    minHeight: pxToRem(32),
-    borderRadius: borderRadius.md,
-    display: 'grid',
-    placeItems: 'center',
-    transition: transitions.create('margin', {
-      easing: transitions.easing.easeInOut,
-      duration: transitions.duration.standard
-    }),
-
-    '& svg, svg g': {
-      fill: 'currentColor'
-    },
-
-    '& i': {
-      color: active && (darkSidenav || sidenavColor) ? 'inherit' : null
-    }
-  };
-}
-
-const itemIcon = ({ palette: { white, gradients } }, { active }) => ({
-  color: active ? white.main : gradients.dark.state
-});
-
-function itemText(theme, ownerState) {
-  const { typography, transitions, breakpoints, functions } = theme;
-  const { miniSidenav, active } = ownerState;
-
-  const { size, fontWeightMedium, fontWeightRegular } = typography;
-  const { pxToRem } = functions;
-
-  return {
-    color: 'inherit',
-    marginLeft: pxToRem(4),
-
-    [breakpoints.up('xl')]: {
+    '& span': {
+      color: 'inherit',
+      fontWeight: active ? fontWeightMedium : fontWeightRegular,
+      fontSize: size.sm,
       opacity: miniSidenav ? 0 : 1,
-      maxWidth: miniSidenav ? 0 : '100%',
-      marginLeft: miniSidenav ? 0 : pxToRem(4),
-      marginBottom: miniSidenav ? 0 : pxToRem(4),
-      transition: transitions.create(['opacity', 'margin'], {
+      transition: transitions.create(['opacity', 'color'], {
         easing: transitions.easing.easeInOut,
         duration: transitions.duration.standard
       })
     },
 
-    '& span': {
+    '&::before': {
+      content: () => {
+        if (nested) {
+          return nested && miniSidenav && `"${name[0]}"`;
+        }
+        return miniSidenav ? `"${name[0]}"` : '""';
+      },
       color: 'inherit',
-      textDecoration: 'none',
       fontWeight: active ? fontWeightMedium : fontWeightRegular,
-      fontSize: size.sm,
-      lineHeight: 0
+      display: 'flex',
+      alignItems: 'center',
+      position: 'absolute',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      left: pxToRem(-18),
+      opacity: 1,
+      borderRadius: '50%',
+      fontSize: size.sm
     }
   };
 }
 
-export { item, itemIconBox, itemIcon, itemText };
+function itemArrow(theme, ownerState) {
+  const { typography, transitions, functions } = theme;
+  const { open, miniSidenav } = ownerState;
+
+  const { size } = typography;
+  const { pxToRem } = functions;
+
+  return {
+    fontSize: `${size.md} !important`,
+    fontWeight: 700,
+    marginRight: pxToRem(-2.5),
+    transform: () => {
+      if (open) {
+        return miniSidenav ? `translateX(${pxToRem(-24)}) rotate(0)` : 'rotate(0)';
+      }
+
+      return miniSidenav ? `translateX(${pxToRem(-24)}) rotate(-180deg)` : 'rotate(-180deg)';
+    },
+    color: 'inherit',
+    transition: transitions.create(['color', 'transform'], {
+      easing: transitions.easing.easeInOut,
+      duration: transitions.duration.shorter
+    })
+  };
+}
+
+export { item, itemContent, itemArrow };

@@ -21,9 +21,7 @@ const DashboardLayout = ({ bgColor, children, ...rest }) => {
         zIndex={-1}
         {...rest}
       />
-
       <Sidenav brandFullLogo={FullLogo} brandSmallLogo={Logo} brandName="Jarvis Bitz" />
-
       <Box
         sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
           [breakpoints.up('xl')]: {
