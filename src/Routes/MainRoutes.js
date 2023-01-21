@@ -6,7 +6,9 @@ import {
   PeopleRounded,
   CurrencyRupee,
   DirectionsRun,
-  PaymentRounded
+  PaymentRounded,
+  SettingsRounded,
+  DateRangeTwoTone
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -19,7 +21,9 @@ import {
   employeeListPattern,
   expensePattern,
   leavePattern,
-  payslipPattern
+  payslipPattern,
+  settingPattern,
+  attendancePattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -31,6 +35,8 @@ const EmployeeList = Loadable(lazy(() => import('../Screens/EmployeeList')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
 const LeaveList = Loadable(lazy(() => import('../Screens/LeaveList')));
 const Payslip = Loadable(lazy(() => import('../Screens/Payslip')));
+const Setting = Loadable(lazy(() => import('../Screens/Settings')));
+const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
 
 const MainRoutes = [
   {
@@ -99,7 +105,16 @@ const MainRoutes = [
     key: 'leave',
     element: <LeaveList />
   },
-  ,
+  {
+    type: 'collapse',
+    noCollapse: true,
+    route: settingPattern,
+    name: 'Leave',
+    icon: <SettingsRounded />,
+    path: settingPattern,
+    key: 'leave',
+    element: <Setting />
+  },
   {
     type: 'route',
     name: 'Payslip',
@@ -139,6 +154,13 @@ const MainRoutes = [
     path: errorPattern,
     key: 'error',
     element: <Error404 />
+  },
+  {
+    name: 'Attendance',
+    icon: <DateRangeTwoTone sx={{ color: colors.primary.main }} />,
+    path: attendancePattern,
+    key: 'attendance',
+    element: <Attendance />
   }
 ];
 

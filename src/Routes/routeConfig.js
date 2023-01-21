@@ -38,3 +38,8 @@ export const getSettingsPattern = () => generatePath(settingsPattern);
 
 export const payslipPattern = '/payslip';
 export const getPayslipPattern = () => generatePath(payslipPattern);
+export const settingPattern = '/setting';
+export const getSettingPattern = () => generatePath(settingPattern);
+
+export const attendancePattern = '/attendance';
+export const getAttendancePattern = () => generatePath(attendancePattern);

@@ -3,7 +3,8 @@ import { forwardRef } from 'react';
 
 const BadgeRoot = styled(Badge)(({ theme, ownerState }) => {
   const { palette, typography, borders, functions } = theme;
-  const { color, circular, border, size, indicator, variant, container, children } = ownerState;
+  const { color, circular, border, size, indicator, variant, container, children, customWidth } =
+    ownerState;
 
   const { white, dark, gradients, badgeColors } = palette;
   const { size: fontSize, fontWeightBold } = typography;
@@ -66,7 +67,6 @@ const BadgeRoot = styled(Badge)(({ theme, ownerState }) => {
       ? badgeColors[colorProp].background
       : badgeColors.info.background;
     let colorValue = badgeColors[colorProp] ? badgeColors[colorProp].text : badgeColors.info.text;
-
     if (colorProp === 'light') {
       colorValue = dark.main;
     }
@@ -91,6 +91,7 @@ const BadgeRoot = styled(Badge)(({ theme, ownerState }) => {
   return {
     '& .MuiBadge-badge': {
       height: 'auto',
+      width: customWidth ? customWidth : 'inherit',
       padding: paddings[size] || paddings.xs,
       fontSize: fontSizeValue,
       fontWeight: fontWeightBold,
@@ -110,11 +111,36 @@ const BadgeRoot = styled(Badge)(({ theme, ownerState }) => {
   };
 });
 
+// eslint-disable-next-line react/display-name
 const CustomBadge = forwardRef(
-  ({ color, variant, size, circular, indicator, border, container, children, ...rest }, ref) => (
+  (
+    {
+      color,
+      variant,
+      size,
+      circular,
+      indicator,
+      border,
+      container,
+      children,
+      customWidth,
+      ...rest
+    },
+    ref
+  ) => (
     <BadgeRoot
       {...rest}
-      ownerState={{ color, variant, size, circular, indicator, border, container, children }}
+      ownerState={{
+        color,
+        variant,
+        size,
+        circular,
+        indicator,
+        border,
+        container,
+        children,
+        customWidth
+      }}
       ref={ref}
       color="default"
     >
