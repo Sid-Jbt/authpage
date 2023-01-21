@@ -106,22 +106,34 @@ const MainRoutes = [
     element: <LeaveList />
   },
   {
-    type: 'collapse',
+    type: 'unroute',
     noCollapse: true,
     route: settingPattern,
-    name: 'Leave',
+    name: 'Settings',
     icon: <SettingsRounded />,
     path: settingPattern,
-    key: 'leave',
+    key: 'settings',
     element: <Setting />
   },
   {
-    type: 'route',
+    type: 'collapse',
+    noCollapse: true,
+    route: payslipPattern,
     name: 'Payslip',
     icon: <PaymentRounded sx={{ color: colors.success.main }} />,
     path: payslipPattern,
     key: 'payslip',
     element: <Payslip />
+  },
+  {
+    type: 'collapse',
+    noCollapse: true,
+    route: attendancePattern,
+    name: 'Attendance',
+    icon: <DateRangeTwoTone sx={{ color: colors.primary.main }} />,
+    path: attendancePattern,
+    key: 'attendance',
+    element: <Attendance />
   },
   { type: 'title', title: 'Testing Pages', key: 'testing-pages' },
   {
@@ -154,13 +166,6 @@ const MainRoutes = [
     path: errorPattern,
     key: 'error',
     element: <Error404 />
-  },
-  {
-    name: 'Attendance',
-    icon: <DateRangeTwoTone sx={{ color: colors.primary.main }} />,
-    path: attendancePattern,
-    key: 'attendance',
-    element: <Attendance />
   }
 ];
 

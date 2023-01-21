@@ -7,9 +7,7 @@ import {
   Grid,
   FormLabel,
   FormControl,
-  FormHelperText,
-  InputAdornment,
-  IconButton
+  FormHelperText
 } from '@mui/material';
 import {
   ImportExportRounded,
@@ -19,11 +17,10 @@ import {
 } from '@mui/icons-material';
 import Typography from 'Elements/Typography';
 import Table from 'Elements/Table';
-import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
+import { Months, Years } from 'Helpers/Globle';
 import payslipData from './data/payslipData';
-import { Months, years as Years } from '../../Helpers/Globle';
 
 const Payslip = () => {
   const { columns: prCols, rows: prRows } = payslipData;
@@ -37,9 +34,6 @@ const Payslip = () => {
   const handleChangeYear = (event) => {
     setYear(event.target.value);
   };
-
-  console.log('Months --> ', Months, month);
-  console.log('Years --> ', Years);
 
   return (
     <Card
@@ -81,11 +75,10 @@ const Payslip = () => {
               renderValue={month !== '' ? undefined : () => 'All'}
             >
               {Months.map((m, key) => (
-                <MenuItem key={m} value={m}>
+                <MenuItem key={key} value={m}>
                   {m}
                 </MenuItem>
               ))}
-              ;
             </Select>
             <FormHelperText sx={{ mr: 0, ml: 0, color: 'red' }}> </FormHelperText>
           </FormControl>
@@ -101,11 +94,10 @@ const Payslip = () => {
               renderValue={year !== '' ? undefined : () => 'All'}
             >
               {Years.map((y, key) => (
-                <MenuItem key={y} value={y}>
+                <MenuItem key={key} value={y}>
                   {y}
                 </MenuItem>
               ))}
-              ;
             </Select>
             <FormHelperText sx={{ mr: 0, ml: 0, color: 'red' }}> </FormHelperText>
           </FormControl>
@@ -119,7 +111,7 @@ const Payslip = () => {
             fullWidth
             id="search"
             name="search"
-            errorFalse={true}
+            errorFalse
           />
         </Grid>
         <Grid

@@ -1,18 +1,17 @@
 import Badge from 'Elements/Badge';
-import colors from 'Theme/base/colors';
 
 const attendanceData = {
   columns: [
-    { name: 'id', align: 'center' },
-    { name: 'date', align: 'center' },
-    { name: 'username', align: 'center' },
-    { name: 'punch In', align: 'center' },
-    { name: 'punch Out', align: 'center' },
-    { name: 'late', align: 'center' },
-    { name: 'early Leaving', align: 'center' },
-    { name: 'overtime', align: 'center' },
-    { name: 'production', align: 'center' },
-    { name: 'status', align: 'center' }
+    { name: 'id', align: 'center', headerName: 'Id' },
+    { name: 'date', align: 'center', headerName: 'Date' },
+    { name: 'username', align: 'center', headerName: 'Username' },
+    { name: 'punch In', align: 'center', headerName: 'Punch In' },
+    { name: 'punch Out', align: 'center', headerName: 'Punch Out' },
+    { name: 'late', align: 'center', headerName: 'Late' },
+    { name: 'early Leaving', align: 'center', headerName: 'Early Leaving' },
+    { name: 'overtime', align: 'center', headerName: 'Overtime' },
+    { name: 'production', align: 'center', headerName: 'Production' },
+    { name: 'status', align: 'center', headerName: 'Status' }
   ],
 
   rows: [

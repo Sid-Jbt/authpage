@@ -1,4 +1,4 @@
-//Get array of months
+// Get array of months
 export const Months = [
   'January',
   'February',
@@ -14,10 +14,10 @@ export const Months = [
   'December'
 ];
 
-//Get array of years
+// Get array of years
 const rangeOfYears = (start, end) =>
   Array(end - start + 1)
     .fill(start)
     .map((year, index) => year + index);
 
-export let years = rangeOfYears(new Date('Jan 1 2020').getFullYear(), new Date().getFullYear());
+export const Years = rangeOfYears(new Date('Jan 1 2020').getFullYear(), new Date().getFullYear());

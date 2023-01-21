@@ -16,24 +16,23 @@ import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
 
 const Table = ({ columns, rows, isChecked = false }) => {
-  console.log('isChecked', isChecked);
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
 
-  const _onSelectAll = (isCheckSelectAll) => {
-    let selectedIds = [];
+  const onSelectAll = (isCheckSelectAll) => {
+    let selectedId = [];
     if (isCheckSelectAll === false) {
       rows.map(({ id }) => {
-        selectedIds.push(id);
+        selectedId.push(id);
       });
     } else {
-      selectedIds = [];
+      selectedId = [];
     }
-    setSelectedIds(selectedIds);
+    setSelectedIds(selectedId);
   };
 
-  const _onSelectedIds = (id) => {
+  const onSelectedIds = (id) => {
     const isSelectedId = selectedIds.includes(id);
     if (isSelectedId) {
       const indexOfUser = selectedIds.findIndex((item) => id === item);
@@ -141,18 +140,15 @@ const Table = ({ columns, rows, isChecked = false }) => {
           </Box>
         );
       }
-
       return template;
     });
-
-    console.log('selectedIds======', selectedIds);
 
     return (
       <TableRow key={rowKey}>
         {isChecked && (
           <Checkbox
             sx={{ ml: 2 }}
-            onClick={() => _onSelectedIds(row.id)}
+            onClick={() => onSelectedIds(row.id)}
             checked={selectedIds.includes(row.id)}
           />
         )}
@@ -170,7 +166,7 @@ const Table = ({ columns, rows, isChecked = false }) => {
               {isChecked && (
                 <TableCell>
                   <Checkbox
-                    onClick={() => _onSelectAll(selectedIds.length === rows.length)}
+                    onClick={() => onSelectAll(selectedIds.length === rows.length)}
                     checked={selectedIds.length === rows.length}
                     id="selectedAll"
                   />

@@ -10,6 +10,7 @@ import {
   FilterListSharp
 } from '@mui/icons-material';
 import Input from 'Elements/Input';
+import { Months, Years } from 'Helpers/Globle';
 import attendanceData from './data/attendanceData';
 
 const AttendanceList = () => {
@@ -18,26 +19,17 @@ const AttendanceList = () => {
   const [status, setStatus] = useState('');
   const [year, setYear] = useState('');
 
-  const handleChangeMonth = (event) => {
-    setMonth(event.target.value);
-  };
-
   const handleChangeStatus = (event) => {
     setStatus(event.target.value);
+  };
+
+  const handleChangeMonth = (event) => {
+    setMonth(event.target.value);
   };
 
   const handleChangeYear = (event) => {
     setYear(event.target.value);
   };
-
-  //Get array of years
-  const rangeOfYears = (start, end) =>
-    Array(end - start + 1)
-      .fill(start)
-      .map((year, index) => year + index);
-
-  let years = rangeOfYears(new Date('Jan 1 2010').getFullYear(), new Date().getFullYear());
-  console.log('getYear --> ', years);
 
   return (
     <Card
@@ -76,7 +68,7 @@ const AttendanceList = () => {
             fullWidth
             id="date"
             name="Date"
-            errorFalse={true}
+            errorFalse
           />
         </Grid>
         <Grid item sm={12} md={4} lg={2}>
@@ -87,20 +79,13 @@ const AttendanceList = () => {
               value={month}
               onChange={handleChangeMonth}
               displayEmpty
-              renderValue={month !== '' ? undefined : () => 'Select Month'}
+              renderValue={month !== '' ? undefined : () => 'All'}
             >
-              <MenuItem value="jan">January</MenuItem>
-              <MenuItem value="feb">February</MenuItem>
-              <MenuItem value="mar">March</MenuItem>
-              <MenuItem value="april">April</MenuItem>
-              <MenuItem value="may">May</MenuItem>
-              <MenuItem value="june">June</MenuItem>
-              <MenuItem value="july">July</MenuItem>
-              <MenuItem value="aug">August</MenuItem>
-              <MenuItem value="sept">September</MenuItem>
-              <MenuItem value="oct">October</MenuItem>
-              <MenuItem value="nov">November</MenuItem>
-              <MenuItem value="dec">December</MenuItem>
+              {Months.map((m, key) => (
+                <MenuItem key={key} value={m}>
+                  {m}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
@@ -114,8 +99,8 @@ const AttendanceList = () => {
               displayEmpty
               renderValue={year !== '' ? undefined : () => 'Select Year'}
             >
-              {years.map((y) => (
-                <MenuItem key="" value={y}>
+              {Years.map((y, key) => (
+                <MenuItem key={key} value={y}>
                   {y}
                 </MenuItem>
               ))}
@@ -149,7 +134,7 @@ const AttendanceList = () => {
             fullWidth
             id="search"
             name="search"
-            errorFalse={true}
+            errorFalse
           />
         </Grid>
         <Grid sx={{ mb: 2 }} item sm={12} md={4} lg={3}>
