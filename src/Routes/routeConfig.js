@@ -9,9 +9,6 @@ export const getLoginPattern = () => generatePath(loginPattern);
 export const dashboardPattern = '/dashboard';
 export const getDashboardPattern = () => generatePath(dashboardPattern);
 
-export const timeSheetPattern = '/timesheet';
-export const getTimeSheetPattern = () => generatePath(timeSheetPattern);
-
 export const forgotPasswordPattern = '/forgot-password';
 export const getForgotPasswordPattern = () => generatePath(forgotPasswordPattern);
 
