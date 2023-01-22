@@ -1,12 +1,42 @@
 import Icon from '@mui/material/Icon';
 import logoSpotify from 'Assets/logo/jbt-logo.svg';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Menu, MenuItem } from '@mui/material';
+import { useState } from 'react';
 
-const action = (
-  <Icon sx={{ cursor: 'pointer', fontWeight: 'bold' }} fontSize="small">
-    <MoreVertIcon />
-  </Icon>
-);
+const Action = ({ id }) => {
+  const [openMenu, setOpenMenu] = useState(null);
+  const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
+  const handleCloseMenu = () => setOpenMenu(null);
+
+  const renderMenu = () => (
+    <Menu
+      anchorEl={openMenu}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={Boolean(openMenu)}
+      onClose={handleCloseMenu}
+      keepMounted
+    >
+      <MenuItem onClick={handleCloseMenu}>Action</MenuItem>
+      <MenuItem onClick={handleCloseMenu}>Another action</MenuItem>
+      <MenuItem onClick={handleCloseMenu}>Something else here</MenuItem>
+    </Menu>
+  );
+  return (
+    <>
+      <Icon
+        id={id}
+        sx={{ cursor: 'pointer', fontWeight: 'bold' }}
+        fontSize="small"
+        onClick={handleOpenMenu}
+      >
+        <MoreVertIcon />
+      </Icon>
+      {renderMenu()}
+    </>
+  );
+};
 
 const empListData = {
   columns: [
@@ -28,7 +58,7 @@ const empListData = {
       dob: '01/02/2023',
       doj: '01/02/2023',
       dol: '01/02/2023',
-      action
+      action: <Action id={1} />
     },
     {
       id: '2',
@@ -38,7 +68,7 @@ const empListData = {
       dob: '01/02/2023',
       doj: '01/02/2023',
       dol: '01/02/2023',
-      action
+      action: <Action id={2} />
     },
     {
       id: '3',
@@ -48,7 +78,7 @@ const empListData = {
       dob: '01/02/2023',
       doj: '01/02/2023',
       dol: '01/02/2023',
-      action
+      action: <Action id={3} />
     },
     {
       id: '4',
@@ -58,7 +88,7 @@ const empListData = {
       dob: '01/02/2023',
       doj: '01/02/2023',
       dol: '01/02/2023',
-      action
+      action: <Action id={4} />
     },
     {
       id: '5',
@@ -68,78 +98,7 @@ const empListData = {
       dob: '01/02/2023',
       doj: '01/02/2023',
       dol: '01/02/2023',
-      action
-    },
-    {
-      id: '6',
-      empcode: 'empcode-6',
-      name: [logoSpotify, 'Spotift'],
-      role: 'Developer',
-      dob: '01/02/2023',
-      doj: '01/02/2023',
-      dol: '01/02/2023',
-      action
-    },
-
-    {
-      id: '7',
-      empcode: 'empcode-1',
-      name: [logoSpotify, 'Spotift'],
-      role: 'Developer',
-      dob: '01/02/2023',
-      doj: '01/02/2023',
-      dol: '01/02/2023',
-      action
-    },
-    {
-      id: '8',
-      empcode: 'empcode-2',
-      name: [logoSpotify, 'Spotift'],
-      role: 'HR',
-      dob: '01/02/2023',
-      doj: '01/02/2023',
-      dol: '01/02/2023',
-      action
-    },
-    {
-      id: '9',
-      empcode: 'empcode-3',
-      name: [logoSpotify, 'Spotift'],
-      role: 'CEO',
-      dob: '01/02/2023',
-      doj: '01/02/2023',
-      dol: '01/02/2023',
-      action
-    },
-    {
-      id: '10',
-      empcode: 'empcode-4',
-      name: [logoSpotify, 'Spotift'],
-      role: 'Admin',
-      dob: '01/02/2023',
-      doj: '01/02/2023',
-      dol: '01/02/2023',
-      action
-    },
-    {
-      id: '11',
-      empcode: 'empcode-5',
-      name: [logoSpotify, 'Spotift'],
-      role: 'Super Admin',
-      dob: '01/02/2023',
-      doj: '01/02/2023',
-      dol: '01/02/2023',
-      action
-    },
-    {
-      id: '12',
-      empcode: 'empcode-6',
-      name: [logoSpotify, 'Spotift'],
-      role: 'Developer',
-      dob: '01/02/2023',
-      doj: '01/02/2023',
-      dol: '01/02/2023',
-      action
+      action: <Action id={5} />
     }
   ]
 };
