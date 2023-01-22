@@ -7,6 +7,7 @@ import {
 import { Accordion, AccordionDetails, AccordionSummary, Grid, Icon } from '@mui/material';
 import Button from 'Elements/Button';
 import Typography from 'Elements/Typography';
+import Input from 'Elements/Input';
 import React, { useState } from 'react';
 
 const FilterLayout = ({ children }) => {
@@ -36,6 +37,18 @@ const FilterLayout = ({ children }) => {
         <AccordionDetails>
           <Grid container alignItems="flex-end" spacing={2}>
             {children}
+            <Grid item sm={12} md={4} lg={2}>
+              <Input
+                placeholder="Search"
+                type="text"
+                label="Search"
+                size="small"
+                fullWidth
+                id="search"
+                name="search"
+                errorFalse
+              />
+            </Grid>
             <Grid
               item
               sm={12}

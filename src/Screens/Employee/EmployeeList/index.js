@@ -236,18 +236,6 @@ const EmployeeList = () => {
             />
           </Grid>
           <Grid item sm={12} md={4} lg={2}>
-            <Input
-              placeholder="Search"
-              type="text"
-              label="Search"
-              size="small"
-              fullWidth
-              id="search"
-              name="search"
-              errorFalse
-            />
-          </Grid>
-          <Grid item sm={12} md={4} lg={2}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Role</FormLabel>
               <Select
