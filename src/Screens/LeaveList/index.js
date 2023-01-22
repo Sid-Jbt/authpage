@@ -4,7 +4,7 @@ import Typography from 'Elements/Typography';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
-import DetailedStatisticsCard from 'Components/CardLayout';
+import LeaveCard from 'Components/CardLayouts/LeaveCard';
 import leaveListData from './data/leaveListData';
 
 const LeaveList = () => {
@@ -14,7 +14,7 @@ const LeaveList = () => {
     <>
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} md={6} lg={3}>
-          <DetailedStatisticsCard
+          <LeaveCard
             title="Total Leave"
             count="12"
             icon={{ color: 'info', component: <CalendarMonth /> }}
@@ -22,7 +22,7 @@ const LeaveList = () => {
           />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-          <DetailedStatisticsCard
+          <LeaveCard
             title="Medical Leave"
             count="3"
             icon={{ color: 'warning', component: <Vaccines /> }}
@@ -30,7 +30,7 @@ const LeaveList = () => {
           />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-          <DetailedStatisticsCard
+          <LeaveCard
             title="Other Leave"
             count="4"
             icon={{ color: 'primary', component: <Celebration /> }}
@@ -38,7 +38,7 @@ const LeaveList = () => {
           />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-          <DetailedStatisticsCard
+          <LeaveCard
             title="Remaining Leave"
             count="5"
             icon={{ color: 'success', component: <DirectionsRun /> }}

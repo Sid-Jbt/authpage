@@ -2,7 +2,7 @@ import { Card, Icon, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 
-const DetailedStaticsCard = ({
+const LeaveCard = ({
   bgColor,
   title,
   count,
@@ -113,7 +113,7 @@ const DetailedStaticsCard = ({
   </Card>
 );
 
-DetailedStaticsCard.defaultProps = {
+LeaveCard.defaultProps = {
   bgColor: 'white',
   percentage: {
     color: 'success',
@@ -122,4 +122,4 @@ DetailedStaticsCard.defaultProps = {
   },
   direction: 'right'
 };
-export default DetailedStaticsCard;
+export default LeaveCard;

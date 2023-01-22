@@ -19,7 +19,7 @@ export default function componentStyleOverrides(theme) {
   const { borderWidth, borderRadius, borderColor } = borders;
   const { md, buttonBoxShadow, lg, cardBoxShadow, tabsBoxShadow } = boxShadows;
   const { values } = breakpoints;
-  const { pxToRem, rgba, linearGradient } = functions;
+  const { pxToRem, rgba, linearGradient, boxShadow } = functions;
 
   return {
     MuiCssBaseline: {
@@ -1140,6 +1140,104 @@ export default function componentStyleOverrides(theme) {
         root: {
           '&:not(:last-child)': {
             borderBottom: `${borderWidth[1]} solid ${borderColor}`
+          }
+        }
+      }
+    },
+    MuiStepper: {
+      styleOverrides: {
+        root: {
+          margin: `${pxToRem(48)} 0`,
+          padding: `0 ${pxToRem(12)}`,
+
+          '&.MuiPaper-root': {
+            backgroundColor: transparent.main
+          }
+        }
+      }
+    },
+    MuiStep: {
+      styleOverrides: {
+        root: {
+          padding: `0 ${pxToRem(6)}`
+        }
+      }
+    },
+    MuiStepConnector: {
+      styleOverrides: {
+        root: {
+          color: borderColor,
+          transition: 'all 200ms linear',
+
+          '&.Mui-active': {
+            color: dark.main
+          },
+
+          '&.Mui-completed': {
+            color: dark.main
+          }
+        },
+
+        alternativeLabel: {
+          top: '14%',
+          left: '-50%',
+          right: '50%'
+        },
+
+        line: {
+          borderWidth: `${borderWidth[2]} !important`,
+          borderColor: 'currentColor'
+        }
+      }
+    },
+    MuiStepIcon: {
+      styleOverrides: {
+        root: {
+          background: white.main,
+          fill: white.main,
+          stroke: white.main,
+          strokeWidth: pxToRem(10),
+          width: pxToRem(13),
+          height: pxToRem(13),
+          border: `${borderWidth[2]} solid ${borderColor}`,
+          borderRadius: '50%',
+          zIndex: 99,
+          transition: 'all 200ms linear',
+
+          '&.Mui-active': {
+            background: dark.main,
+            fill: dark.main,
+            stroke: dark.main,
+            borderColor: dark.main,
+            boxShadow: boxShadow([0, 0], [0, 2], dark.main, 1)
+          },
+
+          '&.Mui-completed': {
+            background: dark.main,
+            fill: dark.main,
+            stroke: dark.main,
+            borderColor: dark.main,
+            boxShadow: boxShadow([0, 0], [0, 2], dark.main, 1)
+          }
+        }
+      }
+    },
+    MuiStepLabel: {
+      styleOverrides: {
+        label: {
+          marginTop: `${pxToRem(8)} !important`,
+          fontWeight: fontWeightRegular,
+          fontSize: size.md,
+          color: grey[300],
+
+          '&.Mui-active': {
+            fontWeight: `${fontWeightRegular} !important`,
+            color: `${dark.main} !important`
+          },
+
+          '&.Mui-completed': {
+            fontWeight: `${fontWeightRegular} !important`,
+            color: `${secondary.main} !important`
           }
         }
       }

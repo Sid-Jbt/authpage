@@ -19,7 +19,7 @@ import SideDrawer from 'Elements/SideDrawer';
 import { Formik } from 'formik';
 import FilterLayout from 'Components/FilterLayout';
 import employeeListData from './data/employeeListData';
-import validationSchema from '../../Helpers/ValidationSchema';
+import validationSchema from '../../../Helpers/ValidationSchema';
 
 const EmployeeList = () => {
   const { columns: prCols, rows: prRows } = employeeListData;
@@ -84,46 +84,6 @@ const EmployeeList = () => {
                         success={!errors.empCode && touched.empCode}
                       />
                     </Box>
-                  </Grid>
-                  <Grid container item spacing={2}>
-                    <Grid item xs={12} md={6}>
-                      <Box>
-                        <Input
-                          type="text"
-                          placeholder="Alen"
-                          size="large"
-                          id="firstName"
-                          name="firstName"
-                          label="First Name"
-                          fullWidth
-                          value={values.firstName}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          errorText={errors.firstName && touched.firstName && errors.firstName}
-                          error={errors.firstName && touched.firstName}
-                          success={!errors.firstName && touched.firstName}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <Box>
-                        <Input
-                          type="text"
-                          placeholder="Prior"
-                          size="large"
-                          fullWidth
-                          id="lastName"
-                          name="lastName"
-                          label="Last Name"
-                          value={values.lastName}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          errorText={errors.lastName && touched.lastName && errors.lastName}
-                          error={errors.lastName && touched.lastName}
-                          success={!errors.lastName && touched.lastName}
-                        />
-                      </Box>
-                    </Grid>
                   </Grid>
                   <Grid item xs={12}>
                     <Box>
