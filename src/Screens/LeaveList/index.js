@@ -61,10 +61,10 @@ const LeaveList = () => {
             </Grid>
             <Grid container item xs={6} justifyContent="end" sx={{ gap: 2 }}>
               <Button color="info" variant="contained" size="small">
-                <Icon>
+                <Icon sx={{ mr: 1 }}>
                   <Add />
                 </Icon>
-                Add
+                Apply
               </Button>
             </Grid>
           </Grid>
