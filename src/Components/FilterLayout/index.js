@@ -1,10 +1,7 @@
 import {
   ClearRounded,
   ExpandMoreTwoTone,
-  Filter2Outlined,
-  FilterListSharp,
   FilterListTwoTone,
-  FilterOutlined,
   SearchRounded
 } from '@mui/icons-material';
 import { Accordion, AccordionDetails, AccordionSummary, Grid, Icon } from '@mui/material';

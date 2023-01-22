@@ -91,7 +91,7 @@ const BadgeRoot = styled(Badge)(({ theme, ownerState }) => {
   return {
     '& .MuiBadge-badge': {
       height: 'auto',
-      width: customWidth ? customWidth : 'inherit',
+      width: customWidth || 'inherit',
       padding: paddings[size] || paddings.xs,
       fontSize: fontSizeValue,
       fontWeight: fontWeightBold,
