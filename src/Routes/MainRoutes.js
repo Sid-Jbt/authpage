@@ -207,8 +207,7 @@ const MainRoutes = [
       }
     ]
   },
-  { type: 'title', title: 'Other Pages', key: 'other-pages' },
-  // Keep this route at the end to keep this flow ready
+  // { type: 'title', title: 'Other Pages', key: 'other-pages' },
   {
     type: 'unroute',
     name: 'Reports',
@@ -218,7 +217,7 @@ const MainRoutes = [
     element: <Navigate to={allReportPattern} />
   },
   {
-    type: 'collapse',
+    type: 'unroute',
     noCollapse: true,
     name: 'Profile Setup',
     icon: <VerifiedUserOutlined sx={{ color: colors.error.main }} />,
@@ -227,6 +226,7 @@ const MainRoutes = [
     key: 'profilesetup',
     element: <ProfileSetup />
   },
+  // Keep this route at the end to keep this flow ready
   {
     type: 'unroute',
     name: 'Error',

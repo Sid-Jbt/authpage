@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router';
 import Logo from 'Assets/logo/jbt-logo.svg';
 import FullLogo from 'Assets/logo/jbt-full-logo.svg';
-import { profilePattern } from 'Routes/routeConfig';
+import { profilePattern, profileSetupPattern } from 'Routes/routeConfig';
 import Images from 'Assets/Images/team-4-800x800.jpg';
 import DashboardNavbar from './Navbar';
 import Sidenav from './Sidenav';
@@ -36,11 +36,18 @@ const DashboardLayout = ({ children, ...rest }) => {
         }
         {...rest}
       />
-      <Sidenav brandFullLogo={FullLogo} brandSmallLogo={Logo} brandName="Jarvis Bitz" />
+      {pathname !== profileSetupPattern ? (
+        <Sidenav brandFullLogo={FullLogo} brandSmallLogo={Logo} brandName="Jarvis Bitz" />
+      ) : null}
       <Box
         sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
           [breakpoints.up('xl')]: {
-            marginLeft: customization.miniSidenav ? pxToRem(120) : pxToRem(274),
+            marginLeft:
+              pathname !== profileSetupPattern
+                ? customization.miniSidenav
+                  ? pxToRem(120)
+                  : pxToRem(274)
+                : 0,
             transition: transitions.create(['margin-left', 'margin-right'], {
               easing: transitions.easing.easeInOut,
               duration: transitions.duration.standard

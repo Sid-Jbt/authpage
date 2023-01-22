@@ -3,6 +3,8 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import { Card, Grid, Step, StepLabel, Stepper } from '@mui/material';
+import { getDashboardPattern } from 'Routes/routeConfig';
+import { useNavigate } from 'react-router';
 import Basic from './component/Basic';
 
 function getSteps() {
@@ -24,10 +26,12 @@ function getStepContent(stepIndex) {
 
 const ProfileSetup = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const navigate = useNavigate();
   const steps = getSteps();
   const isLastStep = activeStep === steps.length - 1;
 
-  const handleNext = () => setActiveStep(activeStep + 1);
+  const handleNext = () =>
+    !isLastStep ? setActiveStep(activeStep + 1) : navigate(getDashboardPattern());
   const handleBack = () => setActiveStep(activeStep - 1);
 
   return (
@@ -65,12 +69,8 @@ const ProfileSetup = () => {
                         Back
                       </Button>
                     )}
-                    <Button
-                      variant="gradient"
-                      color="dark"
-                      onClick={!isLastStep ? handleNext : undefined}
-                    >
-                      {isLastStep ? 'Send' : 'Next'}
+                    <Button variant="gradient" color="dark" onClick={handleNext}>
+                      {isLastStep ? 'Continue' : 'Next'}
                     </Button>
                   </Box>
                 </Box>
