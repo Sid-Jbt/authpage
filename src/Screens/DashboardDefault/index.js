@@ -1,10 +1,14 @@
 import React from 'react';
 import Box from 'Elements/Box';
-import CustomSelect from 'Elements/Select';
+import Select from 'Elements/Select';
+import Dropzone from 'Elements/Dropzone';
+import Editor from 'Elements/Editor';
 
 const DashboardDefault = () => (
   <Box py={3}>
-    Dashboard Default <CustomSelect />
+    Dashboard Default <Select />
+    <Dropzone />
+    <Editor />
   </Box>
 );
 
