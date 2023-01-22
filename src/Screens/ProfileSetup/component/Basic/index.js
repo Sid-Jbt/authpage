@@ -48,12 +48,12 @@ const Basic = () => (
                 <FormField type="text" label="last name" placeholder="Eg. Tomson" />
               </Box>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={12} md={10}>
               <Box>
                 <FormField type="text" label="father name" placeholder="Eg. Tomson" />
               </Box>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={12} md={10}>
               <Box>
                 <FormField type="text" label="designation" placeholder="Eg. Tomson" />
               </Box>
