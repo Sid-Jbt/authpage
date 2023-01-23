@@ -11,6 +11,7 @@ import validationSchema from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
 import expenseListData from './data/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
+import Dropzone from '../../Elements/Dropzone';
 
 const Expense = () => {
   const { columns: prCols, rows: prRows } = expenseListData;
@@ -45,7 +46,7 @@ const Expense = () => {
               <form onSubmit={handleSubmit}>
                 <Grid container justifyContent="space-between">
                   <Grid item xs={12}>
-                    <Box mb={0.5}>
+                    <Box>
                       <Input
                         placeholder="Item name"
                         label="ITEM NAME"
@@ -63,7 +64,7 @@ const Expense = () => {
                     </Box>
                   </Grid>
                   <Grid item xs={12}>
-                    <Box mb={0.5}>
+                    <Box>
                       <Input
                         placeholder="Item title"
                         label="ITEM TITLE"
@@ -81,7 +82,7 @@ const Expense = () => {
                     </Box>
                   </Grid>
                   <Grid item xs={12}>
-                    <Box mb={0.5}>
+                    <Box>
                       <Input
                         placeholder="Purchase from"
                         label="PURCHASE FROM"
@@ -101,7 +102,7 @@ const Expense = () => {
                     </Box>
                   </Grid>
                   <Grid item xs={12}>
-                    <Box mb={0.5}>
+                    <Box>
                       <Input
                         type="date"
                         placeholder="Purchase date"
@@ -121,7 +122,7 @@ const Expense = () => {
                     </Box>
                   </Grid>
                   <Grid item xs={12}>
-                    <Box mb={0.5}>
+                    <Box>
                       <Input
                         placeholder="Amount"
                         label="AMOUNT"
@@ -139,28 +140,17 @@ const Expense = () => {
                     </Box>
                   </Grid>
                   <Grid item xs={12}>
-                    <Box mb={0.5}>
-                      <Input
-                        type="file"
-                        placeholder="Password"
-                        label="SELECT DOCUMENT"
-                        size="large"
-                        fullWidth
-                        id="selectDoc"
-                        name="selectDoc"
-                        value={values.selectDoc}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.selectDoc && touched.selectDoc && errors.selectDoc}
-                        error={errors.selectDoc && touched.selectDoc}
-                        success={!errors.selectDoc && touched.selectDoc}
-                      />
+                    <Box className="MuiFormLabel-root MuiFormLabel-colorPrimary css-1yxgojd-MuiFormLabel-root">
+                      SELECT DOCUMENT
                     </Box>
+                    <Dropzone />
                   </Grid>
                   <Grid
                     item
+                    xs={12}
                     sm={12}
                     md={4}
+                    mt={2}
                     lg={6}
                     sx={{
                       display: 'flex',
