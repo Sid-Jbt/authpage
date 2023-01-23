@@ -1,14 +1,7 @@
 import { Card, Grid, Icon } from '@mui/material';
-import {
-  Add,
-  ClearRounded,
-  FilterListSharp,
-  ImportExportRounded,
-  SearchRounded
-} from '@mui/icons-material';
+import { Add, ClearRounded, ImportExportRounded } from '@mui/icons-material';
 import React, { useState } from 'react';
 import Box from 'Elements/Box';
-import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
@@ -17,6 +10,7 @@ import moment from 'moment';
 import validationSchema from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
 import expenseListData from './data/expenseListData';
+import FilterLayout from '../../Components/FilterLayout';
 
 const Expense = () => {
   const { columns: prCols, rows: prRows } = expenseListData;
@@ -34,7 +28,7 @@ const Expense = () => {
           initialValues={{
             itemName: '',
             itemTitle: '',
-            purchaseFrom: moment().format('DD/MM/YYYY'),
+            purchaseFrom: '',
             purchaseDate: moment().format('DD/MM/YYYY'),
             amount: '',
             selectDoc: ''
@@ -49,137 +43,155 @@ const Expense = () => {
             const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
             return (
               <form onSubmit={handleSubmit}>
-                <Box mb={0.5}>
-                  <Input
-                    placeholder="Item name"
-                    label="ITEM NAME"
-                    size="large"
-                    fullWidth
-                    id="itemName"
-                    name="itemName"
-                    value={values.itemName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errorText={errors.itemName && touched.itemName && errors.itemName}
-                    error={errors.itemName && touched.itemName}
-                    success={!errors.itemName && touched.itemName}
-                  />
-                </Box>
-                <Box mb={0.5}>
-                  <Input
-                    placeholder="Item title"
-                    label="ITEM TITLE"
-                    size="large"
-                    fullWidth
-                    id="itemTitle"
-                    name="itemTitle"
-                    value={values.itemTitle}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errorText={errors.itemTitle && touched.itemTitle && errors.itemTitle}
-                    error={errors.itemTitle && touched.itemTitle}
-                    success={!errors.itemTitle && touched.itemTitle}
-                  />
-                </Box>
-                <Box mb={0.5}>
-                  <Input
-                    placeholder="Purchase from"
-                    label="PURCHASE FROM"
-                    size="large"
-                    fullWidth
-                    id="purchaseFrom"
-                    name="purchaseFrom"
-                    value={values.purchaseFrom}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errorText={errors.purchaseFrom && touched.purchaseFrom && errors.purchaseFrom}
-                    error={errors.purchaseFrom && touched.purchaseFrom}
-                    success={!errors.purchaseFrom && touched.purchaseFrom}
-                  />
-                </Box>
-                <Box mb={0.5}>
-                  <Input
-                    placeholder="Purchase date"
-                    label="PURCHASE DATE"
-                    size="large"
-                    fullWidth
-                    id="purchaseDate"
-                    name="purchaseDate"
-                    value={values.purchaseDate}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errorText={errors.purchaseDate && touched.purchaseDate && errors.purchaseDate}
-                    error={errors.purchaseDate && touched.purchaseDate}
-                    success={!errors.purchaseDate && touched.purchaseDate}
-                  />
-                </Box>
-                <Box mb={0.5}>
-                  <Input
-                    placeholder="Amount"
-                    label="AMOUNT"
-                    size="large"
-                    fullWidth
-                    id="amount"
-                    name="amount"
-                    value={values.amount}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errorText={errors.amount && touched.amount && errors.amount}
-                    error={errors.amount && touched.amount}
-                    success={!errors.amount && touched.amount}
-                  />
-                </Box>
-                <Box mb={0.5}>
-                  <Input
-                    type="file"
-                    placeholder="Password"
-                    label="SELECT DOCUMENT"
-                    size="large"
-                    fullWidth
-                    id="selectDoc"
-                    name="selectDoc"
-                    value={values.selectDoc}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errorText={errors.selectDoc && touched.selectDoc && errors.selectDoc}
-                    error={errors.selectDoc && touched.selectDoc}
-                    success={!errors.selectDoc && touched.selectDoc}
-                  />
-                </Box>
-                <Grid
-                  item
-                  sm={12}
-                  md={4}
-                  lg={6}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}
-                >
-                  <Button
-                    type="submit"
-                    color="info"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginRight: '10px' }}
+                <Grid container justifyContent="space-between">
+                  <Grid item xs={12}>
+                    <Box mb={0.5}>
+                      <Input
+                        placeholder="Item name"
+                        label="ITEM NAME"
+                        size="large"
+                        fullWidth
+                        id="itemName"
+                        name="itemName"
+                        value={values.itemName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={errors.itemName && touched.itemName && errors.itemName}
+                        error={errors.itemName && touched.itemName}
+                        success={!errors.itemName && touched.itemName}
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Box mb={0.5}>
+                      <Input
+                        placeholder="Item title"
+                        label="ITEM TITLE"
+                        size="large"
+                        fullWidth
+                        id="itemTitle"
+                        name="itemTitle"
+                        value={values.itemTitle}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={errors.itemTitle && touched.itemTitle && errors.itemTitle}
+                        error={errors.itemTitle && touched.itemTitle}
+                        success={!errors.itemTitle && touched.itemTitle}
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Box mb={0.5}>
+                      <Input
+                        placeholder="Purchase from"
+                        label="PURCHASE FROM"
+                        size="large"
+                        fullWidth
+                        id="purchaseFrom"
+                        name="purchaseFrom"
+                        value={values.purchaseFrom}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={
+                          errors.purchaseFrom && touched.purchaseFrom && errors.purchaseFrom
+                        }
+                        error={errors.purchaseFrom && touched.purchaseFrom}
+                        success={!errors.purchaseFrom && touched.purchaseFrom}
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Box mb={0.5}>
+                      <Input
+                        type="date"
+                        placeholder="Purchase date"
+                        label="PURCHASE DATE"
+                        size="large"
+                        fullWidth
+                        id="purchaseDate"
+                        name="purchaseDate"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={
+                          errors.purchaseDate && touched.purchaseDate && errors.purchaseDate
+                        }
+                        error={errors.purchaseDate && touched.purchaseDate}
+                        success={!errors.purchaseDate && touched.purchaseDate}
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Box mb={0.5}>
+                      <Input
+                        placeholder="Amount"
+                        label="AMOUNT"
+                        size="large"
+                        fullWidth
+                        id="amount"
+                        name="amount"
+                        value={values.amount}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={errors.amount && touched.amount && errors.amount}
+                        error={errors.amount && touched.amount}
+                        success={!errors.amount && touched.amount}
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Box mb={0.5}>
+                      <Input
+                        type="file"
+                        placeholder="Password"
+                        label="SELECT DOCUMENT"
+                        size="large"
+                        fullWidth
+                        id="selectDoc"
+                        name="selectDoc"
+                        value={values.selectDoc}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={errors.selectDoc && touched.selectDoc && errors.selectDoc}
+                        error={errors.selectDoc && touched.selectDoc}
+                        success={!errors.selectDoc && touched.selectDoc}
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid
+                    item
+                    sm={12}
+                    md={4}
+                    lg={6}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
                   >
-                    <Icon sx={{ mr: '2px' }}>
-                      <Add />
-                    </Icon>
-                    Add
-                  </Button>
-                  <Button
-                    color="error"
-                    sx={{ marginRight: '10px' }}
-                    variant="contained"
-                    size="small"
-                    onClick={handleDialog}
-                  >
-                    <Icon sx={{ mr: '2px' }}>
-                      <ClearRounded />
-                    </Icon>
-                    Clear
-                  </Button>
+                    <Button
+                      type="submit"
+                      color="info"
+                      variant="contained"
+                      size="small"
+                      sx={{ marginRight: '10px' }}
+                    >
+                      <Icon sx={{ mr: '2px' }}>
+                        <Add />
+                      </Icon>
+                      Add
+                    </Button>
+                    <Button
+                      color="error"
+                      sx={{ marginRight: '10px' }}
+                      variant="contained"
+                      size="small"
+                      onClick={handleDialog}
+                    >
+                      <Icon sx={{ mr: '2px' }}>
+                        <ClearRounded />
+                      </Icon>
+                      Clear
+                    </Button>
+                  </Grid>
                 </Grid>
               </form>
             );
@@ -210,46 +222,13 @@ const Expense = () => {
         </Grid>
       </Grid>
       <Card
-        mb={3}
         sx={{
           background: ({ palette: { grey } }) => grey[100],
           borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >
-        <Grid container alignItems="center" spacing={2} p={2} pb={0}>
-          <Grid container item xs={12}>
-            <Icon>
-              <FilterListSharp />
-            </Icon>
-            <Typography variant="h6">Filter</Typography>
-          </Grid>
-          <Grid item sm={12} md={4} lg={2}>
-            <Input
-              placeholder="Search"
-              type="text"
-              label="Search"
-              size="small"
-              fullWidth
-              id="search"
-              name="search"
-            />
-          </Grid>
-          <Grid item sm={12} md={4} lg={4}>
-            <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}>
-              <Icon sx={{ mr: '2px' }}>
-                <SearchRounded />
-              </Icon>
-              Search
-            </Button>
-            <Button color="error" variant="contained" size="small">
-              <Icon sx={{ mr: '2px' }}>
-                <ClearRounded />
-              </Icon>
-              Clear
-            </Button>
-          </Grid>
-        </Grid>
+        <FilterLayout />
         <Table columns={prCols} rows={prRows} isChecked />
         {renderDialogContent()}
       </Card>
