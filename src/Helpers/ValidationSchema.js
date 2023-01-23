@@ -52,7 +52,13 @@ const validationSchema = yup.object().shape({
   amount: yup.string().required('Amount is required'),
   selectDoc: yup.string().required('Select document is required'),
   holidayName: yup.string().required('Holiday name is required'),
-  holidayDate: yup.string().required('Holiday date is required')
+  holidayDate: yup.string().required('Holiday date is required'),
+  fromDate: yup.string().required('From date is required'),
+  toDate: yup.string().required('To date is required'),
+  noOfDays: yup
+    .string()
+    .matches(numberRegx, 'No of days is not valid')
+    .required('No of days is required')
 });
 
 export default validationSchema;

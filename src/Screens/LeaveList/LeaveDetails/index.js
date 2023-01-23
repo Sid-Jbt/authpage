@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Icon, Grid } from '@mui/material';
-import Typography from 'Elements/Typography';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
 import LeaveCard from 'Components/CardLayouts/LeaveCard';
-import leaveListData from './data/leaveListData';
+import Input from 'Elements/Input';
+import FilterLayout from 'Components/FilterLayout';
+import leaveListData from '../data/leaveListData';
+import AddLeaveForm from './AddLeaveForm';
 
 const LeaveList = () => {
   const { columns: prCols, rows: prRows } = leaveListData;
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleDialog = () => {
+    setIsDialogOpen(!isDialogOpen);
+  };
 
   return (
     <>
@@ -46,30 +54,59 @@ const LeaveList = () => {
           />
         </Grid>
       </Grid>
+      <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
+        <Grid item xs={12} md="auto">
+          <Button
+            sx={({ breakpoints, palette: { dark } }) => ({
+              [breakpoints.down('xl' && 'lg')]: {
+                color: dark.main,
+                borderColor: dark.main
+              }
+            })}
+            variant="outlined"
+            size="small"
+            onClick={handleDialog}
+          >
+            <Icon sx={{ mr: 1 }}>
+              <Add />
+            </Icon>
+            Apply
+          </Button>
+        </Grid>
+      </Grid>
       <Card
-        mb={3}
         sx={{
           background: ({ palette: { grey } }) => grey[100],
           borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >
-        <Grid container alignItems="center" spacing={2} p={2} pb={2}>
-          <Grid container item sm={12} alignItems="center" justifyContent="space-between">
-            <Grid item xs={6}>
-              <Typography variant="h3">Leaves</Typography>
-            </Grid>
-            <Grid container item xs={6} justifyContent="end" sx={{ gap: 2 }}>
-              <Button color="info" variant="contained" size="small">
-                <Icon sx={{ mr: 1 }}>
-                  <Add />
-                </Icon>
-                Apply
-              </Button>
-            </Grid>
+        <FilterLayout>
+          <Grid item sm={12} md={4} lg={3}>
+            <Input
+              type="date"
+              label="From Date"
+              size="small"
+              fullWidth
+              id="fromDate"
+              name="fromDate"
+              errorFalse
+            />
           </Grid>
-        </Grid>
+          <Grid item sm={12} md={4} lg={3}>
+            <Input
+              type="date"
+              label="To Date"
+              size="small"
+              fullWidth
+              id="toDate"
+              name="toDate"
+              errorFalse
+            />
+          </Grid>
+        </FilterLayout>
         <Table columns={prCols} rows={prRows} />
+        <AddLeaveForm isDialogOpen={isDialogOpen} handleDialog={handleDialog} />
       </Card>
     </>
   );
