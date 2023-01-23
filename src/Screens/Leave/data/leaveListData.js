@@ -1,41 +1,5 @@
-import Icon from '@mui/material/Icon';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Menu, MenuItem } from '@mui/material';
-import { useState } from 'react';
 import logoSpotify from 'Assets/logo/jbt-logo.svg';
 import Badge from 'Elements/Badge';
-
-const Action = ({ id }) => {
-  const [openMenu, setOpenMenu] = useState(null);
-  const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
-  const handleCloseMenu = () => setOpenMenu(null);
-
-  const renderMenu = () => (
-    <Menu
-      anchorEl={openMenu}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={Boolean(openMenu)}
-      onClose={handleCloseMenu}
-      keepMounted
-    >
-      <MenuItem onClick={handleCloseMenu}>Edit</MenuItem>
-    </Menu>
-  );
-  return (
-    <>
-      <Icon
-        id={id}
-        sx={{ cursor: 'pointer', fontWeight: 'bold' }}
-        fontSize="small"
-        onClick={handleOpenMenu}
-      >
-        <MoreVertIcon />
-      </Icon>
-      {renderMenu()}
-    </>
-  );
-};
 
 const leaveListData = {
   columns: [
@@ -46,8 +10,7 @@ const leaveListData = {
     { name: 'noOfDays', align: 'center', headerName: 'No Of Days' },
     { name: 'reason', align: 'center', headerName: 'Reason' },
     { name: 'status', align: 'center', headerName: 'Status' },
-    { name: 'approvedBy', align: 'center', headerName: 'Approved By' },
-    { name: 'action', align: 'center', headerName: 'Action' }
+    { name: 'approvedBy', align: 'center', headerName: 'Approved By' }
   ],
 
   rows: [
@@ -61,8 +24,7 @@ const leaveListData = {
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       ),
-      approvedBy: [logoSpotify, 'Suresh Borad'],
-      action: <Action id={1} />
+      approvedBy: [logoSpotify, 'Suresh Borad']
     },
     {
       id: 1,
@@ -74,8 +36,7 @@ const leaveListData = {
       status: (
         <Badge variant="gradient" badgeContent="rejected" color="error" size="xs" container />
       ),
-      approvedBy: [logoSpotify, 'Suresh Borad'],
-      action: <Action id={1} />
+      approvedBy: [logoSpotify, 'Suresh Borad']
     },
     {
       id: 2,
@@ -87,8 +48,7 @@ const leaveListData = {
       status: (
         <Badge variant="gradient" badgeContent="pending" color="warning" size="xs" container />
       ),
-      approvedBy: [logoSpotify, 'Suresh Borad'],
-      action: <Action id={1} />
+      approvedBy: [logoSpotify, 'Suresh Borad']
     },
     {
       id: 3,
@@ -100,8 +60,7 @@ const leaveListData = {
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       ),
-      approvedBy: [logoSpotify, 'Suresh Borad'],
-      action: <Action id={1} />
+      approvedBy: [logoSpotify, 'Suresh Borad']
     },
     {
       id: 4,
@@ -113,8 +72,7 @@ const leaveListData = {
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       ),
-      approvedBy: [logoSpotify, 'Suresh Borad'],
-      action: <Action id={1} />
+      approvedBy: [logoSpotify, 'Suresh Borad']
     }
   ]
 };

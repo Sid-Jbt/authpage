@@ -11,7 +11,6 @@ import AddLeaveForm from './AddLeaveForm';
 
 const LeaveList = () => {
   const { columns: prCols, rows: prRows } = leaveListData;
-
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDialog = () => {
@@ -105,8 +104,12 @@ const LeaveList = () => {
             />
           </Grid>
         </FilterLayout>
-        <Table columns={prCols} rows={prRows} />
-        <AddLeaveForm isDialogOpen={isDialogOpen} handleDialog={handleDialog} />
+        <Table columns={prCols} rows={prRows} isAction />
+        <AddLeaveForm
+          isDialogOpen={isDialogOpen}
+          handleDialog={handleDialog}
+          title="ADD NEW LEAVE"
+        />
       </Card>
     </>
   );

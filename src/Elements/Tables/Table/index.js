@@ -6,7 +6,10 @@ import {
   TableContainer,
   TableRow,
   TableSortLabel,
-  Checkbox
+  Checkbox,
+  MenuItem,
+  Menu,
+  IconButton
 } from '@mui/material';
 import Avatar from 'Elements/Avatar';
 import Box from 'Elements/Box';
@@ -14,11 +17,15 @@ import Typography from 'Elements/Typography';
 import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-const Table = ({ columns, rows, isChecked = false }) => {
+const Table = ({ columns, rows, isChecked = false, isAction = false }) => {
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
+  const [openMenu, setOpenMenu] = useState(null);
+  const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
+  const handleCloseMenu = () => setOpenMenu(null);
 
   const onSelectAll = (isCheckSelectAll) => {
     let selectedId = [];
@@ -153,6 +160,32 @@ const Table = ({ columns, rows, isChecked = false }) => {
           />
         )}
         {tableRow}
+        {isAction && (
+          <>
+            <IconButton
+              id={row.id}
+              sx={{ cursor: 'pointer', fontWeight: 'bold' }}
+              fontSize="small"
+              onClick={handleOpenMenu}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              anchorEl={openMenu}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+              open={Boolean(openMenu)}
+              onClose={handleCloseMenu}
+              keepMounted
+            >
+              {['None', 'Atria', 'Pyxis'].map((option) => (
+                <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleCloseMenu}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Menu>
+          </>
+        )}
       </TableRow>
     );
   });
@@ -173,6 +206,27 @@ const Table = ({ columns, rows, isChecked = false }) => {
                 </TableCell>
               )}
               {renderColumns}
+              {isAction && (
+                <Box
+                  key="action"
+                  component="th"
+                  width="auto"
+                  pt={1.5}
+                  pb={1.25}
+                  pl={3}
+                  pr={3}
+                  textAlign="center"
+                  fontSize={size.sm}
+                  fontWeight={fontWeightBold}
+                  color="dark"
+                  opacity={0.7}
+                  sx={({ palette: { light } }) => ({
+                    borderBottom: `${borderWidth[1]} solid ${light.main}`
+                  })}
+                >
+                  <TableSortLabel direction="desc">ACTION</TableSortLabel>
+                </Box>
+              )}
             </TableRow>
           </Box>
           <TableBody>
