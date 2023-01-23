@@ -1,20 +1,35 @@
-function navbar(theme) {
-  const { palette, functions, transitions, breakpoints } = theme;
-  const { text, info } = palette;
-  const { pxToRem } = functions;
+function navbar(theme, ownerState) {
+  const { palette, functions, transitions, breakpoints, boxShadows } = theme;
+  const { text, transparent, dark, white } = palette;
+  const { pxToRem, rgba } = functions;
+  const { navbarBoxShadow } = boxShadows;
+  const { transparentNavbar } = ownerState;
 
   return {
-    boxShadow: 'none',
-    backgroundColor: `${info.main} !important`,
-    color: text.main,
-    top: pxToRem(0),
+    boxShadow: !transparentNavbar ? 'none' : navbarBoxShadow,
+    backgroundColor: !transparentNavbar ? `${transparent.main} !important` : rgba(white.main, 0.5),
+    backdropFilter: transparentNavbar ? 'blur(20px)' : 'blur(0px)',
+    color: () => {
+      let color;
+
+      if (transparentNavbar) {
+        color = text.main;
+      } else {
+        color = dark.main;
+      }
+
+      return color;
+    },
+    top: 10,
     minHeight: pxToRem(100),
+    width: 'auto',
     display: 'grid',
     alignItems: 'center',
-    paddingTop: pxToRem(8),
-    paddingBottom: pxToRem(8),
-    paddingRight: 3,
-    paddingLeft: 3,
+    marginBottom: pxToRem(8),
+    marginRight: 3,
+    marginLeft: 3,
+    paddingRight: 1,
+    borderRadius: 4,
     '& > *': {
       transition: transitions.create('all', {
         easing: transitions.easing.easeInOut,

@@ -8,6 +8,7 @@ import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import validationSchema from 'Helpers/ValidationSchema';
+import { getProfileSetupPattern } from 'Routes/routeConfig';
 
 const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
@@ -133,7 +134,7 @@ const Login = () => {
                   type="submit"
                   disabled={isSubmitting}
                   component={Link}
-                  to="/dashboard"
+                  to={getProfileSetupPattern()}
                 >
                   Sign In
                 </Button>

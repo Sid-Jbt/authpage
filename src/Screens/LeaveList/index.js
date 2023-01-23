@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Card, Icon, Grid } from '@mui/material';
 import Typography from 'Elements/Typography';
-import Table from 'Elements/Table';
+import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
+import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
+import LeaveCard from 'Components/CardLayouts/LeaveCard';
 import {
   Add,
   DirectionsRun,
@@ -199,7 +201,7 @@ const LeaveList = () => {
     <>
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} md={6} lg={3}>
-          <DetailedStatisticsCard
+          <LeaveCard
             title="Total Leave"
             count="12"
             icon={{ color: 'info', component: <CalendarMonth /> }}
@@ -207,7 +209,7 @@ const LeaveList = () => {
           />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-          <DetailedStatisticsCard
+          <LeaveCard
             title="Medical Leave"
             count="3"
             icon={{ color: 'warning', component: <Vaccines /> }}
@@ -215,7 +217,7 @@ const LeaveList = () => {
           />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-          <DetailedStatisticsCard
+          <LeaveCard
             title="Other Leave"
             count="4"
             icon={{ color: 'primary', component: <Celebration /> }}
@@ -223,7 +225,7 @@ const LeaveList = () => {
           />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-          <DetailedStatisticsCard
+          <LeaveCard
             title="Remaining Leave"
             count="5"
             icon={{ color: 'success', component: <DirectionsRun /> }}
@@ -245,17 +247,11 @@ const LeaveList = () => {
               <Typography variant="h3">Leaves</Typography>
             </Grid>
             <Grid container item xs={6} justifyContent="end" sx={{ gap: 2 }}>
-              <Button
-                color="info"
-                variant="contained"
-                size="small"
-                sx={{ marginRight: '10px', marginLeft: '40px' }}
-                onClick={handleDialog}
-              >
-                <Icon sx={{ mr: '2px' }}>
+              <Button color="info" variant="contained" size="small">
+                <Icon sx={{ mr: 1 }}>
                   <Add />
                 </Icon>
-                Add
+                Apply
               </Button>
             </Grid>
           </Grid>

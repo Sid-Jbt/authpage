@@ -1,9 +1,10 @@
-import { AppBar, Avatar, Divider, Icon, IconButton, Menu, Toolbar } from '@mui/material';
+import { AppBar, Divider, Icon, IconButton, Menu, Toolbar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Box from 'Elements/Box';
 import { MINI_SIDENAV } from 'Redux/actions/ui/actions';
 import {
+  Home,
   Logout,
   MenuOpenTwoTone,
   MenuTwoTone,
@@ -15,14 +16,22 @@ import { useState } from 'react';
 import NotificationItem from 'Elements/Item';
 
 import profileImage from 'Assets/Images/bruce-mars.jpg';
+import { Link, useLocation } from 'react-router-dom';
+import Breadcrumbs from 'Elements/Breadcrumbs';
+import Avatar from 'Elements/Avatar';
+import useWindowPosition from 'Hooks/useWindowPosition';
+import { profileSetupPattern } from 'Routes/routeConfig';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
-import { Link } from 'react-router-dom';
 
 const DashboardNavbar = ({ isMini }) => {
   const customization = useSelector((state) => state.customization);
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
   const [openMenu, setOpenMenu] = useState(false);
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
+  const route = pathname.split('/').slice(1);
+  const position = useWindowPosition();
+  const profileSetup = pathname !== profileSetupPattern;
 
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
@@ -93,30 +102,34 @@ const DashboardNavbar = ({ isMini }) => {
     >
       <NotificationItem
         color="secondary"
-        title={['Hello,', 'Username']}
+        title={['Hello,', `${profileSetup ? 'Username' : 'Welcome'}`]}
         disabled
         onClick={handleProfileMenu}
         width={200}
       />
-      <Divider sx={{ width: 100, ml: 'auto', mr: 'auto' }} />
-      <NotificationItem
-        color="secondary"
-        image={<Person />}
-        title={['Profile']}
-        onClick={handleProfileMenu}
-        component={Link}
-        to="/profile"
-        width={200}
-      />
-      <NotificationItem
-        color="secondary"
-        image={<Settings />}
-        title={['Settings']}
-        onClick={handleProfileMenu}
-        component={Link}
-        to="/setting"
-        width={200}
-      />
+      <Divider />
+      {profileSetup ? (
+        <>
+          <NotificationItem
+            color="secondary"
+            image={<Person />}
+            title={['Profile']}
+            onClick={handleProfileMenu}
+            component={Link}
+            to="/profile"
+            width={200}
+          />
+          <NotificationItem
+            color="secondary"
+            image={<Settings />}
+            title={['Settings']}
+            onClick={handleProfileMenu}
+            component={Link}
+            to="/setting"
+            width={200}
+          />
+        </>
+      ) : null}
       <NotificationItem
         color="secondary"
         image={<Logout />}
@@ -130,47 +143,66 @@ const DashboardNavbar = ({ isMini }) => {
   );
 
   return (
-    <AppBar position="sticky" color="inherit" sx={(theme) => navbar(theme)}>
+    <AppBar
+      position="sticky"
+      color="inherit"
+      sx={(theme) => navbar(theme, { transparentNavbar: position > 10 })}
+      blur={10}
+    >
       <Toolbar sx={(theme) => navbarContainer(theme, { position: 'static' })}>
         <Box color="white" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
-          {!customization.miniSidenav ? (
-            <IconButton
-              size="large"
-              color="white"
-              sx={navbarIconButton}
-              variant="contained"
-              onClick={handleMiniSidenav}
-            >
-              <MenuTwoTone />
-            </IconButton>
-          ) : (
-            <IconButton
-              size="large"
-              color="white"
-              sx={navbarIconButton}
-              variant="contained"
-              onClick={handleMiniSidenav}
-            >
-              <MenuOpenTwoTone />
-            </IconButton>
-          )}
+          {profileSetup ? (
+            !customization.miniSidenav ? (
+              <IconButton
+                size="large"
+                color={position > 10 ? 'dark' : 'white'}
+                sx={navbarIconButton}
+                variant="contained"
+                onClick={handleMiniSidenav}
+              >
+                <MenuTwoTone />
+              </IconButton>
+            ) : (
+              <IconButton
+                size="large"
+                color={position > 10 ? 'dark' : 'white'}
+                sx={navbarIconButton}
+                variant="contained"
+                onClick={handleMiniSidenav}
+              >
+                <MenuOpenTwoTone />
+              </IconButton>
+            )
+          ) : null}
+        </Box>
+        <Box sx={{ flex: 1 }}>
+          {profileSetup ? (
+            <Breadcrumbs
+              icon={<Home />}
+              title={route[route.length - 1]}
+              route={route}
+              light={false}
+            />
+          ) : null}
         </Box>
         <Box sx={(theme) => navbarRow(theme, { isMini })}>
-          <IconButton
-            size="large"
-            color="white"
-            sx={navbarIconButton}
-            variant="contained"
-            onClick={handleMenu}
-          >
-            <Notifications />
-          </IconButton>
+          {profileSetup ? (
+            <IconButton
+              size="large"
+              color={position > 10 ? 'dark' : 'white'}
+              sx={navbarIconButton}
+              variant="contained"
+              onClick={handleMenu}
+            >
+              <Notifications />
+            </IconButton>
+          ) : null}
           <Avatar
             src={profileImage}
-            alt="profile-image"
-            variant="rounded"
+            alt={profileImage}
+            size="lg"
+            variant="circle"
             onClick={handleProfileMenu}
-            sx={{ width: 50, height: 50, borderRadius: 12, cursor: 'pointer' }}
           />
           {renderMenu()}
           {renderProfileMenu()}

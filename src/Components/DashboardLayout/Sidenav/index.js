@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import DashboardRoutes from 'Routes/MainRoutes';
 import { MINI_SIDENAV } from 'Redux/actions/ui/actions';
 import breakpoints from 'Theme/base/breakpoints';
+import { useEffect, useState } from 'react';
 import SidenavItem from './SidenavItem';
 import SidenavRoot from './SidenavRoot';
-import { useState } from 'react';
+import SidenavList from './SidenavList';
+import SidenavCollapse from './SidenavCollapse';
 
 const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) => {
   const customization = useSelector((state) => state.customization);
@@ -16,38 +18,140 @@ const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) =
   const dispatch = useDispatch();
   const location = useLocation();
   const { pathname } = location;
-  const itemName = pathname.split('/').slice(1)[0];
-  const itemNameSub = pathname.split('/').slice(1)[1];
+  const [openCollapse, setOpenCollapse] = useState(false);
+  const [openNestedCollapse, setOpenNestedCollapse] = useState(false);
+  const [onMouseEnter, setOnMouseEnter] = useState(false);
+  const collapseName = pathname.split('/').slice(1)[0];
+  const itemName = pathname.split('/').slice(1)[1];
 
-  const handleMiniSidenav = () => {
-    if (window.innerWidth < breakpoints.values.xl) {
-      dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
+  useEffect(() => {
+    function handleMiniSidenav() {
+      if (window.innerWidth < breakpoints.values.xl) {
+        dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
+      }
+    }
+
+    window.addEventListener('resize', handleMiniSidenav);
+
+    handleMiniSidenav();
+
+    return () => window.removeEventListener('resize', handleMiniSidenav);
+  }, [dispatch, location]);
+
+  const handleOnMouseEnter = () => {
+    if (miniSidenav && !onMouseEnter) {
+      dispatch({ type: MINI_SIDENAV, value: false });
+      setOnMouseEnter(true);
     }
   };
 
-  const renderRoutes = DashboardRoutes.children.map(
-    ({ type, name, icon, title, key, href, path, children }) => {
+  const handleOnMouseLeave = () => {
+    if (onMouseEnter) {
+      dispatch({ type: MINI_SIDENAV, value: true });
+      setOnMouseEnter(false);
+    }
+  };
+
+  const renderNestedCollapse = (collapse) => {
+    const template = collapse.map(({ name, route, key, href }) =>
+      href ? (
+        <Link key={key} href={href} target="_blank" rel="noreferrer">
+          <SidenavItem name={name} nested />
+        </Link>
+      ) : (
+        <NavLink to={route} key={key}>
+          <SidenavItem name={name} active={route === pathname} nested />
+        </NavLink>
+      )
+    );
+    return template;
+  };
+
+  const renderCollapse = (collapses) =>
+    collapses.map(({ name, collapse, route, href, key }) => {
       let returnValue;
 
-      if (type === 'route') {
+      if (collapse) {
+        returnValue = (
+          <SidenavItem
+            key={key}
+            name={name}
+            active={key === itemName}
+            open={openNestedCollapse === name}
+            onClick={() =>
+              openNestedCollapse === name
+                ? setOpenNestedCollapse(false)
+                : setOpenNestedCollapse(name)
+            }
+          >
+            {renderNestedCollapse(collapse)}
+          </SidenavItem>
+        );
+      } else {
+        returnValue = href ? (
+          <Link href={href} key={key} target="_blank" rel="noreferrer">
+            <SidenavItem name={name} active={key === itemName} />
+          </Link>
+        ) : (
+          <NavLink to={route} key={key}>
+            <SidenavItem name={name} active={key === itemName} />
+          </NavLink>
+        );
+      }
+      return <SidenavList key={key}>{returnValue}</SidenavList>;
+    });
+
+  const renderRoutes = DashboardRoutes.children.map(
+    ({ type, name, icon, title, children, noCollapse, key, href, route }) => {
+      let returnValue;
+
+      if (type === 'collapse') {
         if (href) {
           returnValue = (
             <Link href={href} key={key} target="_blank" rel="noreferrer">
-              <SidenavItem name={name} icon={icon} active={key === itemName} />
+              <SidenavCollapse
+                name={name}
+                icon={icon}
+                active={key === collapseName}
+                noCollapse={noCollapse}
+                miniSidenav={miniSidenav}
+              />
             </Link>
+          );
+        } else if (noCollapse && route) {
+          returnValue = (
+            <NavLink to={route} key={key}>
+              <SidenavCollapse
+                name={name}
+                icon={icon}
+                noCollapse={noCollapse}
+                active={key === collapseName}
+                miniSidenav={miniSidenav}
+              >
+                {children ? renderCollapse(children) : null}
+              </SidenavCollapse>
+            </NavLink>
           );
         } else {
           returnValue = (
-            <NavLink to={path} key={key} onClick={() => handleMiniSidenav()}>
-              <SidenavItem name={name} icon={icon} active={key === itemName} />
-            </NavLink>
+            <SidenavCollapse
+              key={key}
+              name={name}
+              icon={icon}
+              active={key === collapseName}
+              open={openCollapse === key}
+              miniSidenav={miniSidenav}
+              onClick={() => (openCollapse === key ? setOpenCollapse(false) : setOpenCollapse(key))}
+            >
+              {children ? renderCollapse(children) : null}
+            </SidenavCollapse>
           );
         }
-      } else if (type === 'title') {
+      } else if (type === 'title' && !miniSidenav) {
         returnValue = (
           <Typography
             key={key}
-            color={'dark'}
+            color="dark"
             display="block"
             variant="caption"
             fontWeight="bold"
@@ -62,19 +166,7 @@ const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) =
           </Typography>
         );
       } else if (type === 'divider') {
-        returnValue = <Divider key={key} light />;
-      } else if (type === 'collapse') {
-        returnValue = (
-          <Box key={key}>
-            <SidenavItem
-              name={name}
-              icon={icon}
-              active={key === itemName}
-              type={type}
-              child={children}
-            />
-          </Box>
-        );
+        returnValue = <Divider key={key} light={false} />;
       }
 
       return returnValue;
@@ -82,7 +174,13 @@ const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) =
   );
 
   return (
-    <SidenavRoot {...rest} variant="permanent" ownerState={{ miniSidenav }}>
+    <SidenavRoot
+      {...rest}
+      variant="permanent"
+      ownerState={{ miniSidenav }}
+      onMouseEnter={handleOnMouseEnter}
+      onMouseLeave={handleOnMouseLeave}
+    >
       <Box pb={2} pt={2} textAlign="center">
         <Box
           component={NavLink}

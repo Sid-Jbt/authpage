@@ -6,12 +6,17 @@ import {
   PeopleRounded,
   CurrencyRupee,
   DirectionsRun,
-  SettingsAccessibilityRounded,
-  SettingsRounded
+  PaymentRounded,
+  SettingsRounded,
+  DateRangeTwoTone,
+  ReportOutlined,
+  ListAltTwoTone,
+  VerifiedUserOutlined
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
+import { Navigate } from 'react-router';
 import {
   profilePattern,
   privacyPolicyPattern,
@@ -20,22 +25,38 @@ import {
   employeeListPattern,
   expensePattern,
   leavePattern,
-  settingPattern
+  payslipPattern,
+  settingPattern,
+  attendancePattern,
+  allReportPattern,
+  reportPattern,
+  profileSetupPattern,
+  employeeDetailsPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
 const DashboardDefault = Loadable(lazy(() => import('../Screens/DashboardDefault')));
 const Profile = Loadable(lazy(() => import('../Screens/Profile')));
+const ProfileSetup = Loadable(lazy(() => import('../Screens/ProfileSetup')));
 const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
 const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
-const EmployeeList = Loadable(lazy(() => import('../Screens/EmployeeList')));
+const EmployeeList = Loadable(lazy(() => import('../Screens/Employee/EmployeeList')));
+const EmployeeDeatils = Loadable(lazy(() => import('../Screens/Employee/EmployeeDetails')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
 const LeaveList = Loadable(lazy(() => import('../Screens/LeaveList')));
-const Setting = Loadable(lazy(() => import('../Screens/Setting')));
+const Payslip = Loadable(lazy(() => import('../Screens/Payslip')));
+const Setting = Loadable(lazy(() => import('../Screens/Settings')));
+const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
+
+// Report
+const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
+const TimeActivity = Loadable(lazy(() => import('../Screens/Reports/TimeActivity')));
 
 const MainRoutes = [
   {
-    type: 'route',
+    type: 'collapse',
+    noCollapse: true,
+    route: dashboardPattern,
     name: 'Dashboard',
     icon: (
       <TvRounded
@@ -49,7 +70,6 @@ const MainRoutes = [
     element: <DashboardDefault />
   },
   {
-    type: 'unroute',
     name: 'Profile',
     icon: <Person />,
     path: profilePattern,
@@ -57,7 +77,6 @@ const MainRoutes = [
     element: <Profile />
   },
   {
-    type: 'unroute',
     name: 'Privacy Policy',
     icon: (
       <PolicyRounded
@@ -71,7 +90,9 @@ const MainRoutes = [
     element: <PrivacyPolicy />
   },
   {
-    type: 'route',
+    type: 'collapse',
+    noCollapse: true,
+    route: employeeListPattern,
     name: 'Employee',
     icon: <PeopleRounded sx={{ color: colors.primary.main }} />,
     path: employeeListPattern,
@@ -79,7 +100,19 @@ const MainRoutes = [
     element: <EmployeeList />
   },
   {
-    type: 'route',
+    type: 'unroute',
+    noCollapse: true,
+    route: employeeDetailsPattern,
+    name: 'Employee',
+    icon: <PeopleRounded sx={{ color: colors.primary.main }} />,
+    path: employeeDetailsPattern,
+    key: 'employee',
+    element: <EmployeeDeatils />
+  },
+  {
+    type: 'collapse',
+    noCollapse: true,
+    route: expensePattern,
     name: 'Expense',
     icon: <CurrencyRupee sx={{ color: '#DAA520' }} />,
     path: expensePattern,
@@ -87,33 +120,92 @@ const MainRoutes = [
     element: <Expense />
   },
   {
-    type: 'route',
+    type: 'collapse',
+    noCollapse: true,
+    route: leavePattern,
     name: 'Leave',
     icon: <DirectionsRun />,
     path: leavePattern,
     key: 'leave',
     element: <LeaveList />
   },
-  { type: 'title', title: 'Testing Pages', key: 'testing-pages' },
+  {
+    type: 'unroute',
+    noCollapse: true,
+    route: settingPattern,
+    name: 'Settings',
+    icon: <SettingsRounded />,
+    path: settingPattern,
+    key: 'settings',
+    element: <Setting />
+  },
   {
     type: 'collapse',
-    name: 'Dashboard',
-    key: 'time',
-    icon: <CurrencyRupee sx={{ color: '#DAA520' }} />,
+    noCollapse: true,
+    route: payslipPattern,
+    name: 'Payslip',
+    icon: <PaymentRounded sx={{ color: colors.success.main }} />,
+    path: payslipPattern,
+    key: 'payslip',
+    element: <Payslip />
+  },
+  {
+    type: 'collapse',
+    noCollapse: true,
+    route: attendancePattern,
+    name: 'Attendance',
+    icon: <DateRangeTwoTone sx={{ color: colors.primary.main }} />,
+    path: attendancePattern,
+    key: 'attendance',
+    element: <Attendance />
+  },
+  {
+    type: 'collapse',
+    name: 'Reports',
+    key: 'report',
+    icon: <ListAltTwoTone sx={{ color: '#DAA520' }} />,
     children: [
       {
-        name: 'Analytics',
-        key: 'analytics',
-        path: '/time/leave',
-        element: <LeaveList />
+        name: 'All Reports',
+        key: 'allreport',
+        path: allReportPattern,
+        route: allReportPattern,
+        element: <AllReport />
       },
       {
-        name: 'Sales',
-        key: 'sales',
-        path: '/time/expense',
-        element: <Expense />
+        name: 'Time & Activity',
+        key: 'timeactivity',
+        path: '/report/timeactivity',
+        route: '/report/timeactivity',
+        element: <TimeActivity />
+      },
+      {
+        name: 'Weekly Limit',
+        key: 'weeklylimit',
+        path: '/report/weeklylimit',
+        route: '/report/weeklylimit',
+        element: <TimeActivity />
       }
     ]
+  },
+  // { type: 'title', title: 'Other Pages', key: 'other-pages' },
+  {
+    type: 'unroute',
+    name: 'Reports',
+    icon: <ReportOutlined sx={{ color: colors.error.main }} />,
+    path: reportPattern,
+    key: 'report',
+    element: <Navigate to={allReportPattern} />
+  },
+  {
+    type: 'unroute',
+    noCollapse: true,
+    name: 'Profile Setup',
+    icon: <VerifiedUserOutlined sx={{ color: colors.error.main }} />,
+    path: profileSetupPattern,
+    route: profileSetupPattern,
+    key: 'profilesetup',
+    element: <ProfileSetup />
   },
   // Keep this route at the end to keep this flow ready
   {

@@ -1,4 +1,4 @@
-import { LAYOUT, MINI_SIDENAV } from 'Redux/actions/ui/actions';
+import { LAYOUT, MINI_SIDENAV } from 'Redux/actions';
 
 export const initialState = {
   miniSidenav: false

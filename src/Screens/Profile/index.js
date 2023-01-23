@@ -30,7 +30,7 @@ const Profile = () => {
         tabIndex={tabIndex}
         handleSetTabIndex={(event, value) => handleSetTabIndex(event, value)}
       />
-      <Box mt={5} mb={3}>
+      <Box mt={3}>
         {tabIndex === 0 && <PersonalDetails />}
         {tabIndex === 1 && <BankInfo />}
       </Box>

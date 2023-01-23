@@ -1,8 +1,8 @@
-import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import profileImage from 'Assets/Images/bruce-mars.jpg';
-import { Avatar, Card, Grid, Tab, Tabs } from '@mui/material';
+import { Card, Grid, Tab, Tabs } from '@mui/material';
 import { AccountBoxOutlined, PersonOutlined } from '@mui/icons-material';
+import Avatar from 'Elements/Avatar';
 
 const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
   <Card
@@ -14,12 +14,7 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
   >
     <Grid container spacing={3} alignItems="center">
       <Grid item>
-        <Avatar
-          src={profileImage}
-          alt="profile-image"
-          variant="rounded"
-          sx={{ width: 70, height: 70 }}
-        />
+        <Avatar src={profileImage} alt="profile-image" variant="rounded" size="xl" />
       </Grid>
       <Grid item>
         <Typography variant="h4" fontWeight="medium">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer, Grid } from '@mui/material';
+import { Drawer } from '@mui/material';
 import Typography from 'Elements/Typography';
 import Box from 'Elements/Box';
 
@@ -10,24 +10,26 @@ const SideDrawer = ({ children, anchor = 'right', open, onClose, title }) => (
     onClose={onClose}
     PaperProps={{
       sx: {
-        width: '100vw',
+        width: 500,
         borderRadius: 0,
         m: 0,
         height: '100%',
-        p: 2
+        background: ({
+          palette: {
+            white: { main }
+          },
+          functions: { rgba }
+        }) => rgba(main, 0.8),
+        backdropFilter: 'blur(20px)'
       }
     }}
   >
-    <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}>
-      <Typography variant="h4" color="dark" xs={6}>
+    <Box sx={{ p: 2 }}>
+      <Typography variant="h3" color="dark" fontWeight="bold">
         {title}
       </Typography>
-      <Typography variant="h4" color="dark" xs={6}>
-        x
-      </Typography>
-    </Grid>
-
-    <Box sx={{ mt: 2 }}>{children}</Box>
+    </Box>
+    <Box sx={{ p: 2, height: '100%' }}>{children}</Box>
   </Drawer>
 );
 

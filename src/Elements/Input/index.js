@@ -107,12 +107,13 @@ const MyFormHelperText = ({ errorText }) => {
   );
 };
 
+// eslint-disable-next-line react/display-name
 const TextField = forwardRef(
-  ({ size, error, success, disabled, errorText, label = '', ...rest }, ref) => (
+  ({ size, error, success, disabled, errorText, errorFalse, label = '', ...rest }, ref) => (
     <FormControl sx={{ width: '100%' }}>
       <FormLabel>{label}</FormLabel>
       <InputRoot {...rest} ref={ref} ownerState={{ size, error, success, disabled }} />
-      <MyFormHelperText errorText={errorText} />
+      {!errorFalse && <MyFormHelperText errorText={errorText} />}
     </FormControl>
   )
 );
