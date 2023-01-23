@@ -50,7 +50,9 @@ const validationSchema = yup.object().shape({
   purchaseFrom: yup.string().required('Purchase from is required'),
   purchaseDate: yup.string().required('Purchase date is required'),
   amount: yup.string().required('Amount is required'),
-  selectDoc: yup.string().required('Select document is required')
+  selectDoc: yup.string().required('Select document is required'),
+  holidayName: yup.string().required('Holiday name is required'),
+  holidayDate: yup.string().required('Holiday date is required')
 });
 
 export default validationSchema;
