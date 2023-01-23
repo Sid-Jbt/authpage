@@ -1241,6 +1241,16 @@ export default function componentStyleOverrides(theme) {
           }
         }
       }
+    },
+    MuiPopover: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: transparent.main,
+          boxShadow: lg,
+          padding: pxToRem(8),
+          borderRadius: borderRadius.lg
+        }
+      }
     }
   };
 }
