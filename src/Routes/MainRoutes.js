@@ -10,7 +10,8 @@ import {
   DateRangeTwoTone,
   ReportOutlined,
   ListAltTwoTone,
-  VerifiedUserOutlined
+  VerifiedUserOutlined,
+  HolidayVillage
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -29,7 +30,8 @@ import {
   allReportPattern,
   reportPattern,
   profileSetupPattern,
-  employeeDetailsPattern
+  employeeDetailsPattern,
+  holidayPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -44,6 +46,7 @@ const LeaveList = Loadable(lazy(() => import('../Screens/LeaveList/LeaveDetails'
 const Payslip = Loadable(lazy(() => import('../Screens/Payslip')));
 const Setting = Loadable(lazy(() => import('../Screens/Settings')));
 const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
+const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
 
 // Report
 const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
@@ -203,6 +206,16 @@ const MainRoutes = [
     route: profileSetupPattern,
     key: 'profilesetup',
     element: <ProfileSetup />
+  },
+  {
+    type: 'collapse',
+    noCollapse: true,
+    route: holidayPattern,
+    name: 'Holiday',
+    icon: <HolidayVillage sx={{ color: '#DAA520' }} />,
+    path: holidayPattern,
+    key: 'holiday',
+    element: <Holiday />
   }
 ];
 

@@ -55,3 +55,6 @@ export const getReportPattern = generatePath(reportPattern);
 
 export const allReportPattern = `${reportPattern}/allreport`;
 export const getAllReportPattern = generatePath(allReportPattern);
+
+export const holidayPattern = '/holiday';
+export const getHolidayPattern = () => generatePath(holidayPattern);
