@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTitle, Icon, IconButton, Slide } from '@mu
 import { Close } from '@mui/icons-material';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="left" ref={ref} {...props} />;
+  return <Slide direction="down" ref={ref} {...props} />;
 });
 
 const DialogMenu = ({ isOpen, onClose, dialogTitle, dialogContent }) => (
