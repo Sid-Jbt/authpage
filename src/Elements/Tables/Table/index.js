@@ -177,7 +177,7 @@ const Table = ({ columns, rows, isChecked = false }) => {
           </Box>
           <TableBody>
             {renderRows}
-            <TableCell colSpan={renderColumns.length}>
+            <TableCell colSpan={isChecked ? renderColumns.length + 1 : renderColumns.length}>
               <Paginations rows={renderRows.length} />
             </TableCell>
           </TableBody>
