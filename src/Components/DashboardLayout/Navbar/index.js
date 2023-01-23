@@ -109,26 +109,26 @@ const DashboardNavbar = ({ isMini }) => {
       />
       <Divider />
       {profileSetup ? (
-        <>
-          <NotificationItem
-            color="secondary"
-            image={<Person />}
-            title={['Profile']}
-            onClick={handleProfileMenu}
-            component={Link}
-            to="/profile"
-            width={200}
-          />
-          <NotificationItem
-            color="secondary"
-            image={<Settings />}
-            title={['Settings']}
-            onClick={handleProfileMenu}
-            component={Link}
-            to="/setting"
-            width={200}
-          />
-        </>
+        <NotificationItem
+          color="secondary"
+          image={<Person />}
+          title={['Profile']}
+          onClick={handleProfileMenu}
+          component={Link}
+          to="/profile"
+          width={200}
+        />
+      ) : null}
+      {profileSetup ? (
+        <NotificationItem
+          color="secondary"
+          image={<Settings />}
+          title={['Settings']}
+          onClick={handleProfileMenu}
+          component={Link}
+          to="/setting"
+          width={200}
+        />
       ) : null}
       <NotificationItem
         color="secondary"

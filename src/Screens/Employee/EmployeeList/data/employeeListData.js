@@ -3,6 +3,7 @@ import logoSpotify from 'Assets/logo/jbt-logo.svg';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Action = ({ id }) => {
   const [openMenu, setOpenMenu] = useState(null);
@@ -18,35 +19,43 @@ const Action = ({ id }) => {
       onClose={handleCloseMenu}
       keepMounted
     >
-      <MenuItem onClick={handleCloseMenu}>Action</MenuItem>
-      <MenuItem onClick={handleCloseMenu}>Another action</MenuItem>
-      <MenuItem onClick={handleCloseMenu}>Something else here</MenuItem>
+      <MenuItem onClick={handleCloseMenu} variant="contained" component={Link} to="/employee/1">
+        View
+      </MenuItem>
+      <MenuItem onClick={handleCloseMenu} variant="contained" component={Link} to="/employee/1">
+        Edit
+      </MenuItem>
+      <MenuItem onClick={handleCloseMenu}>Delete</MenuItem>
     </Menu>
   );
   return (
-    <>
-      <Icon
-        id={id}
-        sx={{ cursor: 'pointer', fontWeight: 'bold' }}
-        fontSize="small"
-        onClick={handleOpenMenu}
-      >
-        <MoreVertIcon />
-      </Icon>
+    <Icon
+      id={id}
+      sx={{ cursor: 'pointer', fontWeight: 'bold' }}
+      fontSize="small"
+      onClick={handleOpenMenu}
+    >
+      <MoreVertIcon />
       {renderMenu()}
-    </>
+    </Icon>
   );
 };
 
 const empListData = {
   columns: [
-    { id: 'name', name: 'name', align: 'center', headerName: 'Name' },
-    { id: 'empcode', name: 'empcode', align: 'center', headerName: 'Emp Code' },
-    { id: 'role', name: 'role', align: 'center', headerName: 'Role' },
-    { id: 'dob', name: 'dob', align: 'center', headerName: 'Date Of Birth' },
-    { id: 'doj', name: 'doj', align: 'center', headerName: 'Date Of Join' },
-    { id: 'dol', name: 'dol', align: 'center', headerName: 'Date Of Leave' },
-    { id: 'action', name: 'action', align: 'center', headerName: 'Action' }
+    { id: 'name', name: 'name', align: 'center', headerName: 'Name', mobileHeader: 'Name' },
+    {
+      id: 'empcode',
+      name: 'empcode',
+      align: 'center',
+      headerName: 'Emp Code',
+      mobileHeader: 'ECode'
+    },
+    { id: 'role', name: 'role', align: 'center', headerName: 'Role', mobileHeader: 'Role' },
+    { id: 'dob', name: 'dob', align: 'center', headerName: 'Date Of Birth', mobileHeader: 'Dob' },
+    { id: 'doj', name: 'doj', align: 'center', headerName: 'Date Of Join', mobileHeader: 'Doj' },
+    { id: 'dol', name: 'dol', align: 'center', headerName: 'Date Of Leave', mobileHeader: 'Dol' },
+    { id: 'action', name: 'action', align: 'center', headerName: 'Action', mobileHeader: 'Action' }
   ],
 
   rows: [

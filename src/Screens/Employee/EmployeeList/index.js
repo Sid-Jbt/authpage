@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import {
   Card,
-  Icon,
-  MenuItem,
-  Select,
-  Grid,
-  FormLabel,
   FormControl,
+  FormLabel,
+  Icon,
+  Grid,
   InputAdornment,
   IconButton
 } from '@mui/material';
@@ -18,8 +16,10 @@ import Input from 'Elements/Input';
 import SideDrawer from 'Elements/SideDrawer';
 import { Formik } from 'formik';
 import FilterLayout from 'Components/FilterLayout';
+import Select from 'Elements/Select';
+import { Roles } from 'Helpers/Globle';
+import validationSchema from 'Helpers/ValidationSchema';
 import employeeListData from './data/employeeListData';
-import validationSchema from '../../../Helpers/ValidationSchema';
 
 const EmployeeList = () => {
   const { columns: prCols, rows: prRows } = employeeListData;
@@ -27,9 +27,10 @@ const EmployeeList = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
 
-  const handleChangeRole = (event) => {
-    setRole(event.target.value);
+  const handleChangeRole = (value) => {
+    setRole(value.value);
   };
+  console.log('Selected Role --> ', role);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -39,6 +40,10 @@ const EmployeeList = () => {
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const onClickExport = () => {
+    alert('Export coming soon...');
   };
 
   const renderAddEmployeeDialog = () => (
@@ -188,7 +193,7 @@ const EmployeeList = () => {
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs={12} md="auto">
+        <Grid item xs="auto">
           <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
             <Icon sx={{ mr: 1 }}>
               <Add />
@@ -196,8 +201,8 @@ const EmployeeList = () => {
             Add
           </Button>
         </Grid>
-        <Grid item xs={12} md="auto">
-          <Button color="white" variant="outlined" size="small">
+        <Grid item xs="auto">
+          <Button color="white" variant="outlined" size="small" onClick={onClickExport}>
             <Icon sx={{ mr: 1 }}>
               <ImportExportRounded />
             </Icon>
@@ -213,7 +218,7 @@ const EmployeeList = () => {
         }}
       >
         <FilterLayout>
-          <Grid item sm={12} md={4} lg={2}>
+          <Grid item sm={12} md={4} lg={3}>
             <Input
               type="date"
               label="From Date"
@@ -224,7 +229,7 @@ const EmployeeList = () => {
               errorFalse
             />
           </Grid>
-          <Grid item sm={12} md={4} lg={2}>
+          <Grid item sm={12} md={4} lg={3}>
             <Input
               type="date"
               label="To Date"
@@ -235,24 +240,10 @@ const EmployeeList = () => {
               errorFalse
             />
           </Grid>
-          <Grid item sm={12} md={4} lg={2}>
+          <Grid item sm={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Role</FormLabel>
-              <Select
-                id="selectRole"
-                value={role}
-                onChange={handleChangeRole}
-                displayEmpty
-                renderValue={role !== '' ? undefined : () => 'All'}
-              >
-                <MenuItem value="All">All</MenuItem>
-                <MenuItem value="superAdmin">Super Admin</MenuItem>
-                <MenuItem value="admin">Admin</MenuItem>
-                <MenuItem value="developer">Developer</MenuItem>
-                <MenuItem value="hR">HR</MenuItem>
-                <MenuItem value="qA">QA</MenuItem>
-                <MenuItem value="tester">Tester</MenuItem>
-              </Select>
+              <Select options={Roles} onChange={(value) => handleChangeRole(value)} />
             </FormControl>
           </Grid>
         </FilterLayout>
