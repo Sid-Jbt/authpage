@@ -6,7 +6,7 @@ import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/i
 import LeaveCard from 'Components/CardLayouts/LeaveCard';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
-import leaveListData from '../data/leaveListData';
+import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 
 const LeaveList = () => {
@@ -82,7 +82,7 @@ const LeaveList = () => {
         }}
       >
         <FilterLayout>
-          <Grid item sm={12} md={4} lg={3}>
+          <Grid item xs={6} md={4} lg={3}>
             <Input
               type="date"
               label="From Date"
@@ -93,7 +93,7 @@ const LeaveList = () => {
               errorFalse
             />
           </Grid>
-          <Grid item sm={12} md={4} lg={3}>
+          <Grid item xs={6} md={4} lg={3}>
             <Input
               type="date"
               label="To Date"

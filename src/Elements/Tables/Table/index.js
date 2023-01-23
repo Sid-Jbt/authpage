@@ -76,8 +76,16 @@ const Table = ({ columns, rows, isChecked = false }) => {
         sx={({ palette: { light } }) => ({ borderBottom: `${borderWidth[1]} solid ${light.main}` })}
       >
         <TableSortLabel
-          active={headerName.toUpperCase() !== 'ACTION' && headerName.toUpperCase() !== 'ID'}
-          hideSortIcon={headerName.toUpperCase() === 'ACTION' && headerName.toUpperCase() === 'ID'}
+          active={
+            window.innerWidth < breakpoints.values.xl
+              ? mobileHeader.toUpperCase() !== 'ACTION' && mobileHeader.toUpperCase() !== 'ID'
+              : headerName.toUpperCase() !== 'ACTION' && headerName.toUpperCase() !== 'ID'
+          }
+          hideSortIcon={
+            window.innerWidth < breakpoints.values.xl
+              ? mobileHeader.toUpperCase() === 'ACTION' && mobileHeader.toUpperCase() === 'ID'
+              : headerName.toUpperCase() === 'ACTION' && headerName.toUpperCase() === 'ID'
+          }
           direction="desc"
         >
           {window.innerWidth < breakpoints.values.xl

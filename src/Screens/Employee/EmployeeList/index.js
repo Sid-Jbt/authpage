@@ -56,7 +56,7 @@ const EmployeeList = () => {
         }}
       >
         <FilterLayout>
-          <Grid item sm={12} md={4} lg={3}>
+          <Grid item xs={6} md={4} lg={3}>
             <Input
               type="date"
               label="From Date"
@@ -67,7 +67,7 @@ const EmployeeList = () => {
               errorFalse
             />
           </Grid>
-          <Grid item sm={12} md={4} lg={3}>
+          <Grid item xs={6} md={4} lg={3}>
             <Input
               type="date"
               label="To Date"
@@ -78,7 +78,7 @@ const EmployeeList = () => {
               errorFalse
             />
           </Grid>
-          <Grid item sm={12} md={4} lg={3}>
+          <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Role</FormLabel>
               <Select options={Roles} onChange={(value) => handleChangeRole(value)} />
