@@ -43,7 +43,7 @@ const ExpenseInfoDetails = ({ info, onClose }) => {
   return (
     <>
       <Box sx={{ height: '100%' }}>
-        <Box p={1}>
+        <Box>
           <Grid container spacing={3} alignItems="center">
             <Grid item>
               <Box spacing={3}>{renderItems}</Box>
@@ -61,7 +61,7 @@ const ExpenseInfoDetails = ({ info, onClose }) => {
           <Box
             component="form"
             sx={{
-              '& .MuiTextField-root': { width: '32ch' }
+              '& .MuiTextField-root': { width: '100%' }
             }}
             noValidate
             autoComplete="off"
