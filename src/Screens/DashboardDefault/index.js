@@ -6,7 +6,14 @@ import Editor from 'Elements/Editor';
 
 const DashboardDefault = () => (
   <Box py={3}>
-    Dashboard Default <Select />
+    Dashboard Default{' '}
+    <Select
+      options={[
+        { value: 'sickLeave', label: 'Sick Leave' },
+        { value: 'hospitalisation', label: 'Hospitalisation' },
+        { value: 'maternityLeave', label: 'Maternity Leave' }
+      ]}
+    />
     <Dropzone />
     <Editor />
   </Box>
