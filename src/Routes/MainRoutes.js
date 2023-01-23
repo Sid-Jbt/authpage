@@ -1,7 +1,6 @@
 import {
   PolicyRounded,
   Person,
-  ErrorRounded,
   TvRounded,
   PeopleRounded,
   CurrencyRupee,
@@ -20,7 +19,6 @@ import { Navigate } from 'react-router';
 import {
   profilePattern,
   privacyPolicyPattern,
-  errorPattern,
   dashboardPattern,
   employeeListPattern,
   expensePattern,
@@ -39,7 +37,6 @@ const DashboardDefault = Loadable(lazy(() => import('../Screens/DashboardDefault
 const Profile = Loadable(lazy(() => import('../Screens/Profile')));
 const ProfileSetup = Loadable(lazy(() => import('../Screens/ProfileSetup')));
 const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
-const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
 const EmployeeList = Loadable(lazy(() => import('../Screens/Employee/EmployeeList')));
 const EmployeeDeatils = Loadable(lazy(() => import('../Screens/Employee/EmployeeDetails')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
@@ -206,15 +203,6 @@ const MainRoutes = [
     route: profileSetupPattern,
     key: 'profilesetup',
     element: <ProfileSetup />
-  },
-  // Keep this route at the end to keep this flow ready
-  {
-    type: 'unroute',
-    name: 'Error',
-    icon: <ErrorRounded sx={{ color: colors.error.main }} />,
-    path: errorPattern,
-    key: 'error',
-    element: <Error404 />
   }
 ];
 
