@@ -20,7 +20,12 @@ const rangeOfYears = (start, end) =>
     .fill(start)
     .map((year, index) => year + index);
 
-export const Years = rangeOfYears(new Date('Jan 1 2020').getFullYear(), new Date().getFullYear());
+const yearsArray = rangeOfYears(new Date('Jan 1 2020').getFullYear(), new Date().getFullYear());
+const setYears = (item) => {
+  const year = { value: item, label: item };
+  return year;
+};
+export const Years = yearsArray.map(setYears);
 
 export const Roles = [
   { value: 'all', label: 'All' },

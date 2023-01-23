@@ -3,25 +3,24 @@ import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
 import { ImportExportRounded } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
+import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Months, Years } from 'Helpers/Globle';
-import Select from 'Elements/Select';
 import payslipData from './data/payslipData';
 
 const Payslip = () => {
   const { columns: prCols, rows: prRows } = payslipData;
   const [month, setMonth] = useState('');
-  // const [year, setYear] = useState('');
+  const [year, setYear] = useState('');
 
   const handleChangeMonth = (value) => {
     setMonth(value.value);
   };
-  console.log('Month --> ', month, Years);
 
-  /* const handleChangeYear = (value) => {
+  const handleChangeYear = (value) => {
     setYear(value.value);
-  }; */
-  // console.log('Month & Year --> ', month, Years);
+  };
+  console.log('Month & Year --> ', month, year);
 
   return (
     <>
@@ -53,10 +52,9 @@ const Payslip = () => {
           <Grid item sm={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Year</FormLabel>
-              <Select />
+              <Select options={Years} onChange={(value) => handleChangeYear(value)} />
             </FormControl>
           </Grid>
-          {/* </Grid> */}
         </FilterLayout>
         <Table columns={prCols} rows={prRows} />
       </Card>
