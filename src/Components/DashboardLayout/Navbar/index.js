@@ -1,4 +1,4 @@
-import { AppBar, Divider, Icon, IconButton, Menu, Toolbar } from '@mui/material';
+import { AppBar, Divider, Icon, IconButton, Menu, Toolbar, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Box from 'Elements/Box';
@@ -25,6 +25,7 @@ import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
 const DashboardNavbar = ({ isMini }) => {
   const customization = useSelector((state) => state.customization);
+  const themes = useTheme();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [openMenu, setOpenMenu] = useState(false);
@@ -200,7 +201,7 @@ const DashboardNavbar = ({ isMini }) => {
           <Avatar
             src={profileImage}
             alt={profileImage}
-            size="lg"
+            size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'lg'}
             variant="circle"
             onClick={handleProfileMenu}
           />

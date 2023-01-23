@@ -9,7 +9,6 @@ const PrivacyPolicy = () => {
   const [isCheck, setIsCheck] = useState(false);
 
   const handleIsChecked = () => setIsCheck(!isCheck);
-  console.log('isCheck --> ', isCheck);
 
   return (
     <>

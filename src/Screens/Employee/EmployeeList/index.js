@@ -61,7 +61,6 @@ const EmployeeList = () => {
             dateOfLeave: ''
           }}
           onSubmit={(values) => {
-            console.log('ON SUBMIT');
             console.log('values===========', values);
           }}
           validationSchema={validationSchema}

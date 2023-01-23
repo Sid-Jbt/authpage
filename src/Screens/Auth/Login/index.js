@@ -34,6 +34,7 @@ const Login = () => {
       </Typography>
 
       <Formik
+        enableReinitialize
         initialValues={{ email: '', password: '' }}
         onSubmit={(values, actions) => {
           setTimeout(() => {

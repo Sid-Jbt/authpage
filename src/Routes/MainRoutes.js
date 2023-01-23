@@ -40,7 +40,7 @@ const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
 const EmployeeList = Loadable(lazy(() => import('../Screens/Employee/EmployeeList')));
 const EmployeeDeatils = Loadable(lazy(() => import('../Screens/Employee/EmployeeDetails')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
-const LeaveList = Loadable(lazy(() => import('../Screens/LeaveList')));
+const LeaveList = Loadable(lazy(() => import('../Screens/LeaveList/LeaveDetails')));
 const Payslip = Loadable(lazy(() => import('../Screens/Payslip')));
 const Setting = Loadable(lazy(() => import('../Screens/Settings')));
 const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));

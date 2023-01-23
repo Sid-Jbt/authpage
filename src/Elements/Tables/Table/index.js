@@ -5,10 +5,10 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  Avatar,
   TableSortLabel,
   Checkbox
 } from '@mui/material';
+import Avatar from 'Elements/Avatar';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import typography from 'Theme/base/typography';

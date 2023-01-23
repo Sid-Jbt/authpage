@@ -1,15 +1,27 @@
 import { styled } from '@mui/material/styles';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import Typography from '../Typography';
 
 const EditorRoot = styled('div')(({ theme }) => {
-  const { palette, borders, typography } = theme;
+  const { palette, borders, typography, functions } = theme;
 
   const { borderRadius } = borders;
-  const { size } = typography;
-  const { text } = palette;
+  const { size, fontWeightBold } = typography;
+  const { text, dark } = palette;
+  const { pxToRem } = functions;
 
   return {
+    '& .typography': {
+      color: dark.main,
+      fontSize: size.sm,
+      fontWeight: fontWeightBold,
+      lineHeight: 2,
+      marginLeft: pxToRem(6),
+      '&.Mui-focused': {
+        color: dark.main
+      }
+    },
     '& .ql-toolbar': {
       borderRadius: `${borderRadius.md} ${borderRadius.md} 0 0`
     },
@@ -33,6 +45,7 @@ const EditorRoot = styled('div')(({ theme }) => {
 
 const Editor = (props) => (
   <EditorRoot>
+    <Typography className="typography">Leave Reason</Typography>
     <ReactQuill theme="snow" {...props} />
   </EditorRoot>
 );
