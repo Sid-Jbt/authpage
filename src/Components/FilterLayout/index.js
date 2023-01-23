@@ -37,7 +37,7 @@ const FilterLayout = ({ children }) => {
         <AccordionDetails>
           <Grid container alignItems="flex-end" spacing={2}>
             {children}
-            <Grid item sm={12} md={4} lg={2}>
+            <Grid item sm={12} md={4} lg={2.4}>
               <Input
                 placeholder="Search"
                 type="text"

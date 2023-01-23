@@ -47,6 +47,7 @@ const LeaveList = Loadable(lazy(() => import('../Screens/LeaveList')));
 const Payslip = Loadable(lazy(() => import('../Screens/Payslip')));
 const Setting = Loadable(lazy(() => import('../Screens/Settings')));
 const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
+// const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket')));
 
 // Report
 const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
@@ -216,6 +217,16 @@ const MainRoutes = [
     key: 'error',
     element: <Error404 />
   }
+  // {
+  //   type: 'collapse',
+  //   noCollapse: true,
+  //   route: supportTicketPattern,
+  //   name: 'Support Ticket',
+  //   icon: <SupportAgent sx={{ color: colors.secondary.main }} />,
+  //   path: supportTicketPattern,
+  //   key: 'supportTicket',
+  //   element: <SupportTicket />
+  // }
 ];
 
 // const roleList = ''; // for future if we need to config and show selected list in dashboard to user then we will store here from the local storage

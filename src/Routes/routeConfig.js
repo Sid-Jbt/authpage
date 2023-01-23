@@ -55,3 +55,6 @@ export const getReportPattern = generatePath(reportPattern);
 
 export const allReportPattern = `${reportPattern}/allreport`;
 export const getAllReportPattern = generatePath(allReportPattern);
+
+// export const supportTicketPattern = `/support-ticket`;
+// export const getSupportTicketPattern = () => generatePath(supportTicketPattern);

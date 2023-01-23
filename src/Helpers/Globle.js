@@ -20,4 +20,4 @@ const rangeOfYears = (start, end) =>
     .fill(start)
     .map((year, index) => year + index);
 
-export const Years = rangeOfYears(new Date('Jan 1 2020').getFullYear(), new Date().getFullYear());
+export const Years = rangeOfYears(new Date('Jan 1 2018').getFullYear(), new Date().getFullYear());
