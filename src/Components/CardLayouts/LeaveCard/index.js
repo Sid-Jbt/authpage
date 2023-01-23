@@ -2,15 +2,7 @@ import { Card, Icon, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 
-const LeaveCard = ({
-  bgColor,
-  title,
-  count,
-  isPercentage = true,
-  percentage,
-  icon,
-  direction
-}) => (
+const LeaveCard = ({ bgColor, title, count, isPercentage = true, percentage, icon, direction }) => (
   <Card>
     <Box bgColor={bgColor} variant="gradient">
       <Box p={2}>

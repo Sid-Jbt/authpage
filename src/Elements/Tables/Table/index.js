@@ -14,6 +14,7 @@ import Typography from 'Elements/Typography';
 import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
+import breakpoints from 'Theme/base/breakpoints';
 
 const Table = ({ columns, rows, isChecked = false }) => {
   const { size, fontWeightBold } = typography;
@@ -43,7 +44,7 @@ const Table = ({ columns, rows, isChecked = false }) => {
     setSelectedIds([...selectedIds]);
   };
 
-  const renderColumns = columns.map(({ headerName, align, width }, key) => {
+  const renderColumns = columns.map(({ headerName, mobileHeader, align, width }, key) => {
     let pl;
     let pr;
 
@@ -79,7 +80,10 @@ const Table = ({ columns, rows, isChecked = false }) => {
           hideSortIcon={headerName.toUpperCase() === 'ACTION' && headerName.toUpperCase() === 'ID'}
           direction="desc"
         >
-          {headerName.toUpperCase()}
+          {window.innerWidth < breakpoints.values.xl
+            ? mobileHeader.toUpperCase()
+            : headerName.toUpperCase()}
+          {/* {headerName.toUpperCase()} */}
         </TableSortLabel>
       </Box>
     );
