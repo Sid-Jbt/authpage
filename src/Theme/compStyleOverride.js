@@ -17,7 +17,7 @@ export default function componentStyleOverrides(theme) {
   } = palette;
   const { size, fontWeightRegular, fontWeightBold } = typography;
   const { borderWidth, borderRadius, borderColor } = borders;
-  const { md, buttonBoxShadow, lg, cardBoxShadow, tabsBoxShadow } = boxShadows;
+  const { md, buttonBoxShadow, lg, cardBoxShadow, tabsBoxShadow, xxl } = boxShadows;
   const { values } = breakpoints;
   const { pxToRem, rgba, linearGradient, boxShadow } = functions;
 
@@ -1249,6 +1249,55 @@ export default function componentStyleOverrides(theme) {
           boxShadow: lg,
           padding: pxToRem(8),
           borderRadius: borderRadius.lg
+        }
+      }
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          borderRadius: borderRadius.lg,
+          boxShadow: xxl
+        },
+
+        paperFullScreen: {
+          borderRadius: 0
+        }
+      }
+    },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          padding: pxToRem(16),
+          fontSize: size.xl
+        }
+      }
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          padding: pxToRem(16),
+          fontSize: size.md,
+          color: text.main
+        },
+
+        dividers: {
+          borderTop: `${borderWidth[1]} solid ${borderColor}`,
+          borderBottom: `${borderWidth[1]} solid ${borderColor}`
+        }
+      }
+    },
+    MuiDialogContentText: {
+      styleOverrides: {
+        root: {
+          fontSize: size.md,
+          color: text.main
+        }
+      }
+    },
+    MuiDialogAction: {
+      styleOverrides: {
+        root: {
+          padding: pxToRem(16)
         }
       }
     }
