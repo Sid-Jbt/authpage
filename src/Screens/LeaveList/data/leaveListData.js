@@ -9,6 +9,7 @@ const action = (
 
 const leaveListData = {
   columns: [
+    { name: 'id', align: 'center', headerName: 'Id' },
     { name: 'leaveType', align: 'center', headerName: 'Leave Type' },
     { name: 'from', align: 'center', headerName: 'From' },
     { name: 'to', align: 'center', headerName: 'To' },
@@ -21,6 +22,7 @@ const leaveListData = {
 
   rows: [
     {
+      id: 0,
       leaveType: 'Medical Leave',
       from: '27 Feb 2019',
       to: '27 Feb 2019',

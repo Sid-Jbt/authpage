@@ -7,7 +7,6 @@ const DetailedStaticsCard = ({
   title,
   count,
   isPercentage = true,
-  isIcon = true,
   percentage,
   icon,
   direction
@@ -16,31 +15,6 @@ const DetailedStaticsCard = ({
     <Box bgColor={bgColor} variant="gradient">
       <Box p={2}>
         <Grid container>
-          {direction === 'left' && isIcon ? (
-            <Grid item>
-              <Box
-                variant="gradient"
-                bgColor={bgColor === 'white' ? icon.color : 'white'}
-                color={bgColor === 'white' ? 'white' : 'dark'}
-                width="3rem"
-                height="3rem"
-                borderRadius="section"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                {typeof icon.component === 'string' ? (
-                  <Icon fontSize="small" color="inherit">
-                    {icon.component}
-                  </Icon>
-                ) : (
-                  <Box fontSize="1.125rem" display="grid" placeItems="center" color="inherit">
-                    {icon.component}
-                  </Box>
-                )}
-              </Box>
-            </Grid>
-          ) : null}
           <Grid item xs={8}>
             <Box ml={direction === 'left' ? 2 : 0} lineHeight={1}>
               <Typography
@@ -61,32 +35,31 @@ const DetailedStaticsCard = ({
               </Typography>
             </Box>
           </Grid>
-          {direction === 'right' && isIcon ? (
-            <Grid item xs={4}>
-              <Box
-                variant="gradient"
-                bgColor={bgColor === 'white' ? icon.color : 'white'}
-                color={bgColor === 'white' ? 'white' : 'dark'}
-                width="3rem"
-                height="3rem"
-                borderRadius="section"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                ml="auto"
-              >
-                {typeof icon.component === 'string' ? (
-                  <Icon fontSize="small" color="inherit">
-                    {icon.component}
-                  </Icon>
-                ) : (
-                  <Box fontSize="1.75rem" display="grid" placeItems="center" color="inherit">
-                    {icon.component}
-                  </Box>
-                )}
-              </Box>
-            </Grid>
-          ) : null}
+
+          <Grid item xs={4}>
+            <Box
+              variant="gradient"
+              bgColor={bgColor === 'white' ? icon.color : 'white'}
+              color={bgColor === 'white' ? 'white' : 'dark'}
+              width="3rem"
+              height="3rem"
+              borderRadius="section"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              ml="auto"
+            >
+              {typeof icon.component === 'string' ? (
+                <Icon fontSize="small" color="inherit">
+                  {icon.component}
+                </Icon>
+              ) : (
+                <Box fontSize="1.75rem" display="grid" placeItems="center" color="inherit">
+                  {icon.component}
+                </Box>
+              )}
+            </Box>
+          </Grid>
         </Grid>
         {isPercentage && (
           <Typography
