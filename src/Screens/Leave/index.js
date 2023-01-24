@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, Icon, Grid } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
@@ -6,18 +6,12 @@ import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/i
 import LeaveCard from 'Components/CardLayouts/LeaveCard';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
-import { useLocation } from 'react-router';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 
 const LeaveList = () => {
   const { columns: prCols, rows: prRows } = leaveListData;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const location = useLocation();
-
-  useEffect(() => {
-    console.log(location);
-  });
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
