@@ -4,6 +4,7 @@ import breakpoints from 'Theme/base/breakpoints';
 import Header from './components/Header';
 import PersonalDetails from './components/PersonalDetails';
 import BankInfo from './components/BankInfo';
+import Salary from './components/Salary';
 
 const Profile = () => {
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
@@ -33,6 +34,7 @@ const Profile = () => {
       <Box mt={3}>
         {tabIndex === 0 && <PersonalDetails />}
         {tabIndex === 1 && <BankInfo />}
+        {tabIndex === 2 && <Salary />}
       </Box>
     </Box>
   );
