@@ -5,7 +5,8 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
-import { validationSchema } from 'Helpers/ValidationSchema';
+import { forgotPasswordSchema } from 'Helpers/ValidationSchema';
+import { getResetPasswordPattern } from 'Routes/routeConfig';
 
 const ForgotPassword = () => (
   <>
@@ -19,14 +20,17 @@ const ForgotPassword = () => (
     </Typography>
     <Formik
       initialValues={{ email: '' }}
-      onSubmit={(values) => {
-        console.log('values', values);
+      onSubmit={(values, actions) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          actions.setSubmitting(false);
+        }, 1000);
       }}
-      validationSchema={validationSchema}
+      validationSchema={forgotPasswordSchema}
     >
       {(props) => {
-        // please add isSubmitting while api binding
-        const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+        const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =
+          props;
         return (
           <form onSubmit={handleSubmit}>
             <Input
@@ -51,9 +55,8 @@ const ForgotPassword = () => (
                 size="large"
                 fullWidth
                 component={Link}
-                to="/reset-password"
-                // type="submit"
-                // disabled={isSubmitting}
+                disabled={isSubmitting}
+                to={getResetPasswordPattern()}
               >
                 Forgot Password Link
               </Button>

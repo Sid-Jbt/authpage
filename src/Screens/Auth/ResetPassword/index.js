@@ -7,7 +7,8 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { validationSchema } from '../../../Helpers/ValidationSchema';
+import { resetPasswordSchema } from '../../../Helpers/ValidationSchema';
+import { getDashboardPattern } from '../../../Routes/routeConfig';
 
 const RestPassword = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -28,11 +29,11 @@ const RestPassword = () => {
         onSubmit={(values) => {
           console.log('values', values);
         }}
-        validationSchema={validationSchema}
+        validationSchema={resetPasswordSchema}
       >
         {(props) => {
-          // please add isSubmitting while api binding
-          const { values, touched, errors, handleSubmit, handleChange, handleBlur } = props;
+          const { values, touched, errors, handleSubmit, handleChange, handleBlur, isSubmitting } =
+            props;
           return (
             <form onSubmit={handleSubmit}>
               <Box mt={2}>
@@ -96,9 +97,9 @@ const RestPassword = () => {
                   size="large"
                   fullWidth
                   component={Link}
-                  to="/dashboard"
-                  // type="submit"
-                  // disabled={isSubmitting}
+                  type="submit"
+                  disabled={isSubmitting}
+                  to={getDashboardPattern()}
                 >
                   Reset Password
                 </Button>
