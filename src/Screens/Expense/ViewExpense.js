@@ -2,9 +2,9 @@ import { React, useState } from 'react';
 import { Grid, Menu } from '@mui/material';
 import Icon from '@mui/material/Icon';
 import { RemoveRedEye } from '@mui/icons-material';
+import image from 'Assets/Images/bruce-mars.jpg';
+import DialogMenu from 'Elements/Dialog';
 import ExpenseInfoDetails from './ExpenseInfoDetails';
-import image from '../../Assets/Images/bruce-mars.jpg';
-import DialogMenu from '../../Elements/Dialog';
 
 const ViewExpense = ({ id }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
