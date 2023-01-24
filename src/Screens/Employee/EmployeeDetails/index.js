@@ -1,72 +1,34 @@
 import React from 'react';
-import {
-  Card,
-  Grid,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText
-} from '@mui/material';
-import { DetailsRounded, DeleteRounded, PasswordRounded } from '@mui/icons-material';
+import { Grid } from '@mui/material';
+import Box from 'Elements/Box';
 import Header from './components/Header';
 import BasicInfo from './components/BasicInfo';
 import ChangePassword from './components/ChangePassword';
 import DeleteAccount from './components/DeleteAccount';
 
 const EmployeeDetails = () => (
-  <Grid container spacing={2}>
-    <Grid item xs={12} md={6} lg={4}>
-      <Card
-        sx={{
-          py: 2,
-          px: 2,
-          boxShadow: ({ boxShadows: { sm } }) => sm
-        }}
-      >
-        <nav aria-label="main mailbox folders">
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton sx={{ borderRadius: '10px' }}>
-                <ListItemIcon>
-                  <DetailsRounded />
-                </ListItemIcon>
-                <ListItemText primary="Basic Info" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton sx={{ borderRadius: '10px' }}>
-                <ListItemIcon>
-                  <PasswordRounded />
-                </ListItemIcon>
-                <ListItemText primary="Change Password" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton sx={{ borderRadius: '10px' }}>
-                <ListItemIcon>
-                  <DeleteRounded />
-                </ListItemIcon>
-                <ListItemText primary="Delete Account" />
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </nav>
-      </Card>
+  <Box mt={4}>
+    <Grid container spacing={3}>
+      <Grid item xs={12} lg={3}>
+        <Header />
+      </Grid>
+      <Grid item xs={12} lg={9}>
+        <Box mb={3}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <BasicInfo />
+            </Grid>
+            <Grid item xs={12}>
+              <ChangePassword />
+            </Grid>
+            <Grid item xs={12}>
+              <DeleteAccount />
+            </Grid>
+          </Grid>
+        </Box>
+      </Grid>
     </Grid>
-    <Grid item>
-      <Header />
-    </Grid>
-    <Grid item>
-      <BasicInfo />
-    </Grid>
-    <Grid item>
-      <ChangePassword />
-    </Grid>
-    <Grid item>
-      <DeleteAccount />
-    </Grid>
-  </Grid>
+  </Box>
 );
 
 export default EmployeeDetails;

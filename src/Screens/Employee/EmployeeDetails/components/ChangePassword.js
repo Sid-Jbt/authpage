@@ -1,130 +1,77 @@
-import React from 'react';
+import { Card, Grid } from '@mui/material';
 import Box from 'Elements/Box';
-import { Card, Grid, useTheme } from '@mui/material';
-import { Formik } from 'formik';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
-import { resetPasswordSchema } from 'Helpers/ValidationSchema';
 import Input from 'Elements/Input';
 
 const ChangePassword = () => {
-  const theme = useTheme();
+  const passwordRequirements = [
+    'One special characters',
+    'Min 6 characters',
+    'One number (2 are recommended)',
+    'Change it often'
+  ];
+
+  const renderPasswordRequirements = passwordRequirements.map((item, key) => {
+    const itemKey = `element-${key}`;
+
+    return (
+      <Box key={itemKey} component="li" color="text" fontSize="1.25rem" lineHeight={1}>
+        <Typography variant="button" color="text" fontWeight="regular" verticalAlign="middle">
+          {item}
+        </Typography>
+      </Box>
+    );
+  });
 
   return (
-    <Card id="changePassword">
-      <Grid container p={2} alignItems="center" justifyContent="space-between">
-        <Grid item>
-          <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
-            Change Password
-          </Typography>
+    <Card id="change-password">
+      <Box p={3}>
+        <Typography variant="h5">Change Password</Typography>
+      </Box>
+      <Box component="form" pb={3} px={3}>
+        <Grid container spacing={0}>
+          <Grid item xs={12}>
+            <Input
+              label="Current password"
+              placeholder="Current Password"
+              inputProps={{ type: 'password', autoComplete: '' }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Input
+              label="New password"
+              placeholder="New Password"
+              inputProps={{ type: 'password', autoComplete: '' }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Input
+              label="Confirm New Password"
+              placeholder="Confirm Password"
+              inputProps={{ type: 'password', autoComplete: '' }}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-
-      <Formik
-        enableReinitialize
-        initialValues={{
-          currentPassword: '',
-          password: '',
-          confirmNewPassword: ''
-        }}
-        onSubmit={(values) => {
-          console.log('values', values);
-        }}
-        validationSchema={resetPasswordSchema}
-      >
-        {(props) => {
-          const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =
-            props;
-          return (
-            <form onSubmit={handleSubmit} style={{ background: theme.palette.grey[100] }}>
-              <Grid container spacing={1} p={2}>
-                <Grid item xs={12} md={6} lg={12}>
-                  <Box>
-                    <Input
-                      type="text"
-                      placeholder="********"
-                      size="large"
-                      fullWidth
-                      id="currentPassword"
-                      name="currentPassword"
-                      label="Current Password"
-                      value={values.currentPassword}
-                      onChange={handleChange}
-                    />
-                  </Box>
-                </Grid>
-
-                <Grid item xs={12} md={6} lg={12}>
-                  <Box>
-                    <Input
-                      type="text"
-                      placeholder="********"
-                      size="large"
-                      fullWidth
-                      id="password"
-                      name="password"
-                      label="New Password"
-                      value={values.newPassword}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      errorText={errors.password && touched.password && errors.password}
-                      error={errors.password && touched.password}
-                      success={!errors.password && touched.password}
-                    />
-                  </Box>
-                </Grid>
-                <Grid item xs={12} md={6} lg={12}>
-                  <Box>
-                    <Input
-                      type="text"
-                      placeholder="********"
-                      size="large"
-                      fullWidth
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      label="Confirm New Password"
-                      value={values.confirmPassword}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      errorText={
-                        errors.confirmPassword && touched.confirmPassword && errors.confirmPassword
-                      }
-                      error={errors.confirmPassword && touched.confirmPassword}
-                      success={!errors.confirmPassword && touched.confirmPassword}
-                    />
-                  </Box>
-                </Grid>
-                <Grid item xs={12} md={6} lg={12}>
-                  <Grid container p={2} alignItems="end" justifyContent="space-between">
-                    <Grid item>
-                      <Typography variant="h4" fontWeight="medium">
-                        Password requirements
-                      </Typography>
-                      <Typography variant="h6" fontWeight="regular">
-                        Please follow this guide for a strong password One
-                      </Typography>
-                      <Typography variant="h6" fontWeight="regular">
-                        One special characters
-                      </Typography>
-                      <Typography variant="h6" fontWeight="regular">
-                        Minimum 8 characters
-                      </Typography>
-                      <Typography variant="h6" fontWeight="regular">
-                        At least one upper case letters
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Button color="info" variant="contained" disabled={isSubmitting}>
-                        Update Password
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </form>
-          );
-        }}
-      </Formik>
+        <Box mt={2} mb={1}>
+          <Typography variant="h5">Password requirements</Typography>
+        </Box>
+        <Box mb={1}>
+          <Typography variant="body2" color="text">
+            Please follow this guide for a strong password
+          </Typography>
+        </Box>
+        <Box display="flex" justifyContent="space-between" alignItems="flex-end" flexWrap="wrap">
+          <Box component="ul" m={0} pl={3.25} mb={{ xs: 8, sm: 0 }}>
+            {renderPasswordRequirements}
+          </Box>
+          <Box ml="auto">
+            <Button variant="gradient" color="dark" size="small">
+              Update Password
+            </Button>
+          </Box>
+        </Box>
+      </Box>
     </Card>
   );
 };

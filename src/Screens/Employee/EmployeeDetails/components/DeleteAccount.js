@@ -1,54 +1,50 @@
-import React, { useState } from 'react';
-import { Card, Grid, Switch } from '@mui/material';
+import { Card, Switch } from '@mui/material';
+
+import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 
-const DeleteAccount = () => {
-  const [isConfirm, setIsConfirm] = useState(false);
-
-  const handleIsConfirmSwitch = () => setIsConfirm(!isConfirm);
-
-  return (
-    <Card id="changePassword">
-      <Grid container p={2} alignItems="center" justifyContent="space-between">
-        <Grid item>
-          <Typography variant="h4" fontWeight="medium">
+const DeleteAccount = () => (
+  <Card id="delete-account">
+    <Box p={3} lineHeight={1}>
+      <Box mb={1}>
+        <Typography variant="h5">Delete Account</Typography>
+      </Box>
+      <Typography variant="button" color="text" fontWeight="regular">
+        Once you delete your account, there is no going back. Please be certain.
+      </Typography>
+    </Box>
+    <Box
+      pb={3}
+      px={3}
+      display="flex"
+      justifyContent="space-between"
+      alignItems={{ xs: 'flex-start', sm: 'center' }}
+      flexDirection={{ xs: 'column', sm: 'row' }}
+    >
+      <Box display="flex" alignItems="center" mb={{ xs: 3, sm: 0 }}>
+        <Switch />
+        <Box ml={2} lineHeight={0}>
+          <Typography display="block" variant="button" fontWeight="medium">
+            Confirm
+          </Typography>
+          <Typography variant="caption" color="text">
+            I want to delete my account.
+          </Typography>
+        </Box>
+      </Box>
+      <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }}>
+        <Button variant="outlined" color="secondary">
+          Deactivate
+        </Button>
+        <Box ml={{ xs: 0, sm: 1 }} mt={{ xs: 1, sm: 0 }}>
+          <Button variant="gradient" color="error" sx={{ height: '100%' }}>
             Delete Account
-          </Typography>
-          <Typography variant="h6" fontWeight="regular">
-            Once you delete your account, there is no going back. Please be certain.
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} p={2}>
-        <Grid item xs={12} md={6} lg={12}>
-          <Grid item alignItems="center">
-            <Switch checked={isConfirm} onChange={handleIsConfirmSwitch} />
-            <Typography
-              variant="button"
-              fontWeight="regular"
-              onClick={handleIsConfirmSwitch}
-              sx={{ cursor: 'pointer', userSelect: 'none', ml: '1%', display: 'inline-block' }}
-            >
-              Confirm <br /> I want to delete my account.
-            </Typography>
-          </Grid>
-          <Grid container spacing={2} p={2} alignItems="end" justifyContent="flex-end">
-            <Grid item>
-              <Button color="info" variant="outlined">
-                Deactivate
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button color="error" variant="contained">
-                Delete
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Card>
-  );
-};
+          </Button>
+        </Box>
+      </Box>
+    </Box>
+  </Card>
+);
 
 export default DeleteAccount;

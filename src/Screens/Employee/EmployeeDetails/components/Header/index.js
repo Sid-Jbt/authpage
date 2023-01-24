@@ -1,46 +1,78 @@
-import React, { useState } from 'react';
+import { DeleteOutlineTwoTone, InfoTwoTone, PasswordTwoTone } from '@mui/icons-material';
+import Card from '@mui/material/Card';
+import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
-import profileImage from 'Assets/Images/bruce-mars.jpg';
-import { Card, Grid, Switch } from '@mui/material';
-import Avatar from 'Elements/Avatar';
 
 const Header = () => {
-  const [invisible, setInvisible] = useState(false);
+  const sidenavItems = [
+    { icon: <InfoTwoTone />, label: 'basic info', href: 'basic-info' },
+    { icon: <PasswordTwoTone />, label: 'change password', href: 'change-password' },
+    {
+      icon: <DeleteOutlineTwoTone />,
+      label: 'delete account',
+      href: 'delete-account'
+    }
+  ];
 
-  const handleInvisibleSwitch = () => setInvisible(!invisible);
+  const renderSidenavItems = sidenavItems.map(({ icon, label, href }, key) => {
+    const itemKey = `item-${key}`;
+
+    return (
+      <Box key={itemKey} component="li" pt={key === 0 ? 0 : 1}>
+        <Typography
+          component="a"
+          href={`#${href}`}
+          variant="button"
+          fontWeight="regular"
+          color="text"
+          textTransform="capitalize"
+          sx={({
+            borders: { borderRadius },
+            functions: { pxToRem, rgba },
+            palette: { light },
+            transitions
+          }) => ({
+            display: 'flex',
+            alignItems: 'center',
+            borderRadius: borderRadius.md,
+            padding: `${pxToRem(10)} ${pxToRem(16)}`,
+            transition: transitions.create('background-color', {
+              easing: transitions.easing.easeInOut,
+              duration: transitions.duration.shorter
+            }),
+
+            '&:hover': {
+              backgroundColor: rgba(light.main, 1)
+            }
+          })}
+        >
+          <Box fontSize="16px" color="secondary" mr={1.5} lineHeight={0}>
+            {icon}
+          </Box>
+          {label}
+        </Typography>
+      </Box>
+    );
+  });
 
   return (
     <Card
       sx={{
-        py: 2,
-        px: 2,
-        boxShadow: ({ boxShadows: { sm } }) => sm
+        borderRadius: ({ borders: { borderRadius } }) => borderRadius.lg,
+        position: 'sticky',
+        top: '12%'
       }}
     >
-      <Grid container spacing={3} alignItems="center">
-        <Grid item>
-          <Avatar src={profileImage} alt="profile-image" variant="rounded" size="xl" />
-        </Grid>
-        <Grid item>
-          <Typography variant="h4" fontWeight="medium">
-            Suresh Borad
-          </Typography>
-          <Typography variant="subtitle2" color="text" fontWeight="light">
-            CEO / Co-Founder
-          </Typography>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4} sx={{ ml: 'auto' }}>
-          <Typography
-            variant="button"
-            fontWeight="regular"
-            onClick={handleInvisibleSwitch}
-            sx={{ cursor: 'pointer', userSelect: 'none' }}
-          >
-            Switch to invisible &nbsp;&nbsp;
-          </Typography>
-          <Switch checked={invisible} onChange={handleInvisibleSwitch} />
-        </Grid>
-      </Grid>
+      <Box
+        component="ul"
+        display="flex"
+        flexDirection="column"
+        p={2}
+        m={0}
+        sx={{ listStyle: 'none' }}
+      >
+        {renderSidenavItems}
+      </Box>
     </Card>
   );
 };
