@@ -4,22 +4,19 @@ import React, { useState } from 'react';
 import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
-import Input from 'Elements/Input';
-import { Formik } from 'formik';
-import moment from 'moment';
-import validationSchema from 'Helpers/ValidationSchema';
-import SideDrawer from 'Elements/SideDrawer';
 import Typography from 'Elements/Typography';
 import holidayListData from './data/holidayListData';
 import FilterLayout from '../../Components/FilterLayout';
 import DialogMenu from '../../Elements/Dialog';
 import Dropzone from '../../Elements/Dropzone';
+import ManageHolidayForm from './ManageHolidayForm';
 
 const Holiday = () => {
   const { columns: prCols, rows: prRows } = holidayListData;
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHover(true);
@@ -35,6 +32,7 @@ const Holiday = () => {
 
   const handleDrawerClose = () => {
     setIsDrawerOpen(false);
+    setIsEdit(false);
   };
 
   const handleDialog = () => {
@@ -45,13 +43,16 @@ const Holiday = () => {
     setIsDialogOpen(false);
   };
 
+  const onOpenEdit = (value, id) => {
+    handleDrawer();
+    console.log('id', id);
+    setIsEdit(value === 'edit');
+  };
+
   const renderDialogContent = () => (
     <>
       <Box sx={{ height: '100%', p: 1 }}>
         <Grid container direction="row" alignItems="center">
-          {/* <Typography variant="button" fontWeight="bold" textTransform="capitalize" mr={30}>
-            Download CVS file from <a href="/">here</a>
-          </Typography> */}
           <Typography variant="h5" noWrap to="/" color="textPrimary" mr={30}>
             Download CVS file from{' '}
             <a
@@ -89,95 +90,6 @@ const Holiday = () => {
     </>
   );
 
-  const renderDrawerContent = () => (
-    <>
-      <SideDrawer open={Boolean(isDrawerOpen)} onClose={handleDrawerClose} title="ADD HOLIDAY">
-        <Formik
-          enableReinitialize
-          initialValues={{
-            holidayName: '',
-            holidayDate: moment().format('DD/MM/YYYY')
-          }}
-          onSubmit={(values) => {
-            console.log('ON SUBMIT');
-            console.log('values===========', values);
-          }}
-          validationSchema={validationSchema}
-        >
-          {(props) => {
-            const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
-            return (
-              <form onSubmit={handleSubmit}>
-                <Box mb={0.5}>
-                  <Input
-                    placeholder="Holiday name"
-                    label="HOLIDAY NAME"
-                    size="large"
-                    fullWidth
-                    id="holidayName"
-                    name="holidayName"
-                    value={values.holidayName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errorText={errors.holidayName && touched.holidayName && errors.holidayName}
-                    error={errors.holidayName && touched.holidayName}
-                    success={!errors.holidayName && touched.holidayName}
-                  />
-                </Box>
-                <Box mb={0.5}>
-                  <Input
-                    type="date"
-                    placeholder="Holiday Date"
-                    label="HOLIDAY DATE"
-                    size="large"
-                    fullWidth
-                    id="holidayDate"
-                    name="holidayDate"
-                    value={values.holidayDate}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errorText={errors.holidayDate && touched.holidayDate && errors.holidayDate}
-                    error={errors.holidayDate && touched.holidayDate}
-                    success={!errors.holidayDate && touched.holidayDate}
-                  />
-                </Box>
-                <Grid
-                  item
-                  sm={12}
-                  md={4}
-                  lg={6}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}
-                >
-                  <Button
-                    type="submit"
-                    color="info"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginRight: '10px' }}
-                  >
-                    Submit
-                  </Button>
-                  <Button
-                    color="error"
-                    sx={{ marginRight: '10px' }}
-                    variant="contained"
-                    size="small"
-                    onClick={handleDrawerClose}
-                  >
-                    Clear
-                  </Button>
-                </Grid>
-              </form>
-            );
-          }}
-        </Formik>
-      </SideDrawer>
-    </>
-  );
-
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
@@ -207,8 +119,16 @@ const Holiday = () => {
         }}
       >
         <FilterLayout />
-        <Table columns={prCols} rows={prRows} />
-        {renderDrawerContent()}
+        <Table
+          columns={prCols}
+          rows={prRows}
+          onClickAction={(value, id) => onOpenEdit(value, id)}
+          isAction
+          options={[
+            { title: 'Edit', value: 'edit' },
+            { title: 'Delete', value: 'delete' }
+          ]}
+        />
         <DialogMenu
           isOpen={isDialogOpen}
           onClose={handleDialogClose}
@@ -216,6 +136,11 @@ const Holiday = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           dialogContent={renderDialogContent()}
+        />
+        <ManageHolidayForm
+          isDrawerOpen={Boolean(isDrawerOpen)}
+          handleDrawerClose={handleDrawerClose}
+          title={isEdit ? 'EDIT HOLIDAY' : 'ADD HOLIDAY'}
         />
       </Card>
     </>
