@@ -27,12 +27,12 @@ const AttendanceList = () => {
     setYear(event.target.value);
   };
 
-  const Array = Years;
-  Array.push({
-    value: '',
-    label: ''
-  });
-  console.log(Array);
+  // const Array = Years;
+  // Array.push({
+  //   value: '',
+  //   label: ''
+  // });
+  // console.log(Array);
 
   return (
     <>

@@ -1,7 +1,6 @@
 import {
   PolicyRounded,
   Person,
-  ErrorRounded,
   TvRounded,
   PeopleRounded,
   CurrencyRupee,
@@ -11,7 +10,8 @@ import {
   DateRangeTwoTone,
   ReportOutlined,
   ListAltTwoTone,
-  VerifiedUserOutlined
+  VerifiedUserOutlined,
+  HolidayVillage
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -20,7 +20,6 @@ import { Navigate } from 'react-router';
 import {
   profilePattern,
   privacyPolicyPattern,
-  errorPattern,
   dashboardPattern,
   employeeListPattern,
   expensePattern,
@@ -31,7 +30,8 @@ import {
   allReportPattern,
   reportPattern,
   profileSetupPattern,
-  employeeDetailsPattern
+  employeeDetailsPattern,
+  holidayPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -39,7 +39,6 @@ const DashboardDefault = Loadable(lazy(() => import('../Screens/DashboardDefault
 const Profile = Loadable(lazy(() => import('../Screens/Profile')));
 const ProfileSetup = Loadable(lazy(() => import('../Screens/ProfileSetup')));
 const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
-const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
 const EmployeeList = Loadable(lazy(() => import('../Screens/Employee/EmployeeList')));
 const EmployeeDeatils = Loadable(lazy(() => import('../Screens/Employee/EmployeeDetails')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
@@ -47,6 +46,7 @@ const LeaveList = Loadable(lazy(() => import('../Screens/LeaveList')));
 const Payslip = Loadable(lazy(() => import('../Screens/Payslip')));
 const Setting = Loadable(lazy(() => import('../Screens/Settings')));
 const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
+const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
 // const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket')));
 
 // Report
@@ -210,12 +210,14 @@ const MainRoutes = [
   },
   // Keep this route at the end to keep this flow ready
   {
-    type: 'unroute',
-    name: 'Error',
-    icon: <ErrorRounded sx={{ color: colors.error.main }} />,
-    path: errorPattern,
-    key: 'error',
-    element: <Error404 />
+    type: 'collapse',
+    noCollapse: true,
+    route: holidayPattern,
+    name: 'Holiday',
+    icon: <HolidayVillage sx={{ color: '#DAA520' }} />,
+    path: holidayPattern,
+    key: 'holiday',
+    element: <Holiday />
   }
   // {
   //   type: 'collapse',

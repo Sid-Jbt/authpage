@@ -5,15 +5,16 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  Avatar,
   TableSortLabel,
   Checkbox
 } from '@mui/material';
+import Avatar from 'Elements/Avatar';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
+import breakpoints from 'Theme/base/breakpoints';
 
 const Table = ({ columns, rows, isChecked = false }) => {
   const { size, fontWeightBold } = typography;
@@ -43,7 +44,7 @@ const Table = ({ columns, rows, isChecked = false }) => {
     setSelectedIds([...selectedIds]);
   };
 
-  const renderColumns = columns.map(({ headerName, align, width }, key) => {
+  const renderColumns = columns.map(({ headerName, mobileHeader, align, width }, key) => {
     let pl;
     let pr;
 
@@ -75,11 +76,21 @@ const Table = ({ columns, rows, isChecked = false }) => {
         sx={({ palette: { light } }) => ({ borderBottom: `${borderWidth[1]} solid ${light.main}` })}
       >
         <TableSortLabel
-          active={headerName.toUpperCase() !== 'ACTION' && headerName.toUpperCase() !== 'ID'}
-          hideSortIcon={headerName.toUpperCase() === 'ACTION' && headerName.toUpperCase() === 'ID'}
+          active={
+            window.innerWidth < breakpoints.values.xl
+              ? mobileHeader.toUpperCase() !== 'ACTION' && mobileHeader.toUpperCase() !== 'ID'
+              : headerName.toUpperCase() !== 'ACTION' && headerName.toUpperCase() !== 'ID'
+          }
+          hideSortIcon={
+            window.innerWidth < breakpoints.values.xl
+              ? mobileHeader.toUpperCase() === 'ACTION' && mobileHeader.toUpperCase() === 'ID'
+              : headerName.toUpperCase() === 'ACTION' && headerName.toUpperCase() === 'ID'
+          }
           direction="desc"
         >
-          {headerName.toUpperCase()}
+          {window.innerWidth < breakpoints.values.xl
+            ? mobileHeader.toUpperCase()
+            : headerName.toUpperCase()}
         </TableSortLabel>
       </Box>
     );
@@ -177,7 +188,7 @@ const Table = ({ columns, rows, isChecked = false }) => {
           </Box>
           <TableBody>
             {renderRows}
-            <TableCell colSpan={renderColumns.length}>
+            <TableCell colSpan={isChecked ? renderColumns.length + 1 : renderColumns.length}>
               <Paginations rows={renderRows.length} />
             </TableCell>
           </TableBody>

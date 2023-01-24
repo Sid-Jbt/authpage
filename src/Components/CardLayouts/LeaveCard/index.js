@@ -2,45 +2,11 @@ import { Card, Icon, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 
-const LeaveCard = ({
-  bgColor,
-  title,
-  count,
-  isPercentage = true,
-  isIcon = true,
-  percentage,
-  icon,
-  direction
-}) => (
+const LeaveCard = ({ bgColor, title, count, isPercentage = true, percentage, icon, direction }) => (
   <Card>
     <Box bgColor={bgColor} variant="gradient">
       <Box p={2}>
         <Grid container>
-          {direction === 'left' && isIcon ? (
-            <Grid item>
-              <Box
-                variant="gradient"
-                bgColor={bgColor === 'white' ? icon.color : 'white'}
-                color={bgColor === 'white' ? 'white' : 'dark'}
-                width="3rem"
-                height="3rem"
-                borderRadius="section"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                {typeof icon.component === 'string' ? (
-                  <Icon fontSize="small" color="inherit">
-                    {icon.component}
-                  </Icon>
-                ) : (
-                  <Box fontSize="1.125rem" display="grid" placeItems="center" color="inherit">
-                    {icon.component}
-                  </Box>
-                )}
-              </Box>
-            </Grid>
-          ) : null}
           <Grid item xs={8}>
             <Box ml={direction === 'left' ? 2 : 0} lineHeight={1}>
               <Typography
@@ -61,32 +27,31 @@ const LeaveCard = ({
               </Typography>
             </Box>
           </Grid>
-          {direction === 'right' && isIcon ? (
-            <Grid item xs={4}>
-              <Box
-                variant="gradient"
-                bgColor={bgColor === 'white' ? icon.color : 'white'}
-                color={bgColor === 'white' ? 'white' : 'dark'}
-                width="3rem"
-                height="3rem"
-                borderRadius="section"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                ml="auto"
-              >
-                {typeof icon.component === 'string' ? (
-                  <Icon fontSize="small" color="inherit">
-                    {icon.component}
-                  </Icon>
-                ) : (
-                  <Box fontSize="1.75rem" display="grid" placeItems="center" color="inherit">
-                    {icon.component}
-                  </Box>
-                )}
-              </Box>
-            </Grid>
-          ) : null}
+
+          <Grid item xs={4}>
+            <Box
+              variant="gradient"
+              bgColor={bgColor === 'white' ? icon.color : 'white'}
+              color={bgColor === 'white' ? 'white' : 'dark'}
+              width="3rem"
+              height="3rem"
+              borderRadius="section"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              ml="auto"
+            >
+              {typeof icon.component === 'string' ? (
+                <Icon fontSize="small" color="inherit">
+                  {icon.component}
+                </Icon>
+              ) : (
+                <Box fontSize="1.75rem" display="grid" placeItems="center" color="inherit">
+                  {icon.component}
+                </Box>
+              )}
+            </Box>
+          </Grid>
         </Grid>
         {isPercentage && (
           <Typography

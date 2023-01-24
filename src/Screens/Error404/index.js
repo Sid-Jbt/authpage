@@ -17,12 +17,12 @@ const Error404 = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '80vh',
+        height: '100vh',
         m: 'auto'
       }}
     >
       <Box
-        minHeight="80vh"
+        minHeight="100vh"
         sx={{
           width: '100%',
           display: 'grid',
