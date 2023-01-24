@@ -30,8 +30,8 @@ const ManageHolidayForm = ({ isDrawerOpen, handleDrawerClose, title }) => (
             <form onSubmit={handleSubmit}>
               <Box mb={0.5}>
                 <Input
-                  placeholder="Holiday name"
-                  label="HOLIDAY NAME"
+                  placeholder="Name"
+                  label="NAME"
                   size="large"
                   fullWidth
                   id="holidayName"
@@ -47,8 +47,8 @@ const ManageHolidayForm = ({ isDrawerOpen, handleDrawerClose, title }) => (
               <Box mb={0.5}>
                 <Input
                   type="date"
-                  placeholder="Holiday Date"
-                  label="HOLIDAY DATE"
+                  placeholder="Date"
+                  label="DATE"
                   size="large"
                   fullWidth
                   dateformat="yyyy-MM-dd"
