@@ -8,6 +8,7 @@ const Action = ({ id }) => {
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(null);
   const handleEdit = () => {
+    // child props to parent props data pass
     handleCloseMenu();
   };
 
