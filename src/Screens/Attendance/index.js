@@ -3,7 +3,6 @@ import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, ImportExportRounded, MoreTime, WatchOff } from '@mui/icons-material';
-// import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import { Months, Years, Status } from 'Helpers/Globle';
 import FilterLayout from 'Components/FilterLayout';
@@ -64,7 +63,7 @@ const AttendanceList = () => {
       </Grid>
 
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs={12} md="auto">
+        <Grid item xs="auto">
           <Button
             color="white"
             variant="outlined"
@@ -82,7 +81,7 @@ const AttendanceList = () => {
             Add
           </Button>
         </Grid>
-        <Grid item xs={12} md="auto">
+        <Grid item xs="auto">
           <Button
             color="white"
             variant="outlined"

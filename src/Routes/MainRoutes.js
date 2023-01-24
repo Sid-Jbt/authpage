@@ -11,7 +11,8 @@ import {
   ReportOutlined,
   ListAltTwoTone,
   VerifiedUserOutlined,
-  HolidayVillage
+  HolidayVillage,
+  SupportAgent
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -31,7 +32,8 @@ import {
   reportPattern,
   profileSetupPattern,
   employeeDetailsPattern,
-  holidayPattern
+  holidayPattern,
+  supportTicketPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -47,7 +49,7 @@ const Payslip = Loadable(lazy(() => import('../Screens/Payslip')));
 const Setting = Loadable(lazy(() => import('../Screens/Settings')));
 const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
 const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
-// const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket')));
+const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket')));
 
 // Report
 const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
@@ -162,6 +164,16 @@ const MainRoutes = [
   },
   {
     type: 'collapse',
+    noCollapse: true,
+    route: supportTicketPattern,
+    name: 'Support Ticket',
+    icon: <SupportAgent sx={{ color: colors.secondary.main }} />,
+    path: supportTicketPattern,
+    key: 'supportTicket',
+    element: <SupportTicket />
+  },
+  {
+    type: 'collapse',
     name: 'Reports',
     key: 'report',
     icon: <ListAltTwoTone sx={{ color: '#DAA520' }} />,
@@ -219,16 +231,6 @@ const MainRoutes = [
     key: 'holiday',
     element: <Holiday />
   }
-  // {
-  //   type: 'collapse',
-  //   noCollapse: true,
-  //   route: supportTicketPattern,
-  //   name: 'Support Ticket',
-  //   icon: <SupportAgent sx={{ color: colors.secondary.main }} />,
-  //   path: supportTicketPattern,
-  //   key: 'supportTicket',
-  //   element: <SupportTicket />
-  // }
 ];
 
 // const roleList = ''; // for future if we need to config and show selected list in dashboard to user then we will store here from the local storage
