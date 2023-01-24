@@ -39,10 +39,20 @@ export const Roles = [
 
 export const leaveTypes = [
   { value: 'sickLeave', label: 'Sick Leave' },
+  { value: 'medicalLeave', label: 'Medical Leave' },
   { value: 'hospitalisation', label: 'Hospitalisation' },
   { value: 'maternityLeave', label: 'Maternity Leave' },
   { value: 'casualLeave', label: 'Casual Leave' },
   { value: 'paternityLeave', label: 'Paternity Leave' },
   { value: 'lossOfPayLeave', label: 'Loss Of Pay Leave' },
   { value: 'earnedLeave', label: 'Earned Leave' }
+];
+// export const Year = rangeOfYears(new Date('Jan 1 2018').getFullYear(), new Date().getFullYear());\
+
+export const Status = [
+  { value: 'all', label: 'All' },
+  { value: 'present', label: 'Present' },
+  { value: 'absent', label: 'Absent' },
+  { value: 'late', label: 'Late' },
+  { value: 'overtime', label: 'Overtime' }
 ];

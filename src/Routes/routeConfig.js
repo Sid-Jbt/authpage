@@ -31,7 +31,7 @@ export const employeeListPattern = '/employee';
 export const getEmployeeListPattern = () => generatePath(employeeListPattern);
 
 export const employeeDetailsPattern = '/employee/:id';
-export const getEmployeeDetailsPattern = (id) => generatePath(employeeListPattern, { id });
+export const getEmployeeDetailsPattern = (id) => generatePath(employeeDetailsPattern, { id });
 
 export const expensePattern = '/expense';
 export const getExpensePattern = () => generatePath(expensePattern);
@@ -58,3 +58,6 @@ export const getAllReportPattern = generatePath(allReportPattern);
 
 export const holidayPattern = '/holiday';
 export const getHolidayPattern = () => generatePath(holidayPattern);
+
+// export const supportTicketPattern = `/support-ticket`;
+// export const getSupportTicketPattern = () => generatePath(supportTicketPattern);

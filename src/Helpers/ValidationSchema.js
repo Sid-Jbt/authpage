@@ -5,7 +5,21 @@ const holderNameRegx = /^[a-zA-Z0-9\s]*$/g;
 const accNumberRegx = /^\d{9,18}$/;
 const ifscCodeRegx = /^[A-Z]{4}0[A-Z0-9]{6}$/;
 
-const validationSchema = yup.object().shape({
+export const loginSchema = yup.object().shape({
+  email: yup.string().email('Enter a valid email').required('Email is required'),
+  password: yup
+    .string()
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required')
+});
+
+export const leaveFormSchema = yup.object().shape({
+  fromDate: yup.string().required('From date is required'),
+  toDate: yup.string().required('To date is required'),
+  noOfDays: yup.string().required('No of days is required')
+});
+
+export const validationSchema = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   password: yup
     .string()
@@ -52,13 +66,5 @@ const validationSchema = yup.object().shape({
   amount: yup.string().required('Amount is required'),
   selectDoc: yup.string().required('Select document is required'),
   holidayName: yup.string().required('Holiday name is required'),
-  holidayDate: yup.string().required('Holiday date is required'),
-  fromDate: yup.string().required('From date is required'),
-  toDate: yup.string().required('To date is required'),
-  noOfDays: yup
-    .string()
-    .matches(numberRegx, 'No of days is not valid')
-    .required('No of days is required')
+  holidayDate: yup.string().required('Holiday date is required')
 });
-
-export default validationSchema;

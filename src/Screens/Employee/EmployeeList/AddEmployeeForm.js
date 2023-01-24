@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import { Grid, Icon, IconButton, InputAdornment } from '@mui/material';
 import { Save, Visibility, VisibilityOff } from '@mui/icons-material';
 import SideDrawer from '../../../Elements/SideDrawer';
-import validationSchema from '../../../Helpers/ValidationSchema';
+import { validationSchema } from '../../../Helpers/ValidationSchema';
 import Box from '../../../Elements/Box';
 import Input from '../../../Elements/Input';
 import Button from '../../../Elements/Button';

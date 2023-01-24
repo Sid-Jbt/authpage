@@ -1,45 +1,4 @@
-import Icon from '@mui/material/Icon';
 import logoSpotify from 'Assets/logo/jbt-logo.svg';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Menu, MenuItem } from '@mui/material';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-
-const Action = ({ id }) => {
-  const [openMenu, setOpenMenu] = useState(null);
-  const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
-  const handleCloseMenu = () => setOpenMenu(null);
-
-  const renderMenu = () => (
-    <Menu
-      anchorEl={openMenu}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={Boolean(openMenu)}
-      onClose={handleCloseMenu}
-      keepMounted
-    >
-      <MenuItem onClick={handleCloseMenu} variant="contained" component={Link} to="/employee/1">
-        View
-      </MenuItem>
-      <MenuItem onClick={handleCloseMenu} variant="contained" component={Link} to="/employee/1">
-        Edit
-      </MenuItem>
-      <MenuItem onClick={handleCloseMenu}>Delete</MenuItem>
-    </Menu>
-  );
-  return (
-    <Icon
-      id={id}
-      sx={{ cursor: 'pointer', fontWeight: 'bold' }}
-      fontSize="small"
-      onClick={handleOpenMenu}
-    >
-      <MoreVertIcon />
-      {renderMenu()}
-    </Icon>
-  );
-};
 
 const empListData = {
   columns: [
@@ -54,8 +13,8 @@ const empListData = {
     { id: 'role', name: 'role', align: 'center', headerName: 'Role', mobileHeader: 'Role' },
     { id: 'dob', name: 'dob', align: 'center', headerName: 'Date Of Birth', mobileHeader: 'Dob' },
     { id: 'doj', name: 'doj', align: 'center', headerName: 'Date Of Join', mobileHeader: 'Doj' },
-    { id: 'dol', name: 'dol', align: 'center', headerName: 'Date Of Leave', mobileHeader: 'Dol' },
-    { id: 'action', name: 'action', align: 'center', headerName: 'Action', mobileHeader: 'Action' }
+    { id: 'dol', name: 'dol', align: 'center', headerName: 'Date Of Leave', mobileHeader: 'Dol' }
+    // { id: 'action', name: 'action', align: 'center', headerName: 'Action', mobileHeader: 'Action' }
   ],
 
   rows: [
@@ -66,8 +25,8 @@ const empListData = {
       role: 'Developer',
       dob: '01/02/2023',
       doj: '01/02/2023',
-      dol: '01/02/2023',
-      action: <Action id={1} />
+      dol: '01/02/2023'
+      // action: <Action id={1} />
     },
     {
       id: '2',
@@ -76,8 +35,8 @@ const empListData = {
       role: 'HR',
       dob: '01/02/2023',
       doj: '01/02/2023',
-      dol: '01/02/2023',
-      action: <Action id={2} />
+      dol: '01/02/2023'
+      // action: <Action id={2} />
     },
     {
       id: '3',
@@ -86,8 +45,8 @@ const empListData = {
       role: 'CEO',
       dob: '01/02/2023',
       doj: '01/02/2023',
-      dol: '01/02/2023',
-      action: <Action id={3} />
+      dol: '01/02/2023'
+      // action: <Action id={3} />
     },
     {
       id: '4',
@@ -96,8 +55,8 @@ const empListData = {
       role: 'Admin',
       dob: '01/02/2023',
       doj: '01/02/2023',
-      dol: '01/02/2023',
-      action: <Action id={4} />
+      dol: '01/02/2023'
+      // action: <Action id={4} />
     },
     {
       id: '5',
@@ -106,8 +65,8 @@ const empListData = {
       role: 'Super Admin',
       dob: '01/02/2023',
       doj: '01/02/2023',
-      dol: '01/02/2023',
-      action: <Action id={5} />
+      dol: '01/02/2023'
+      // action: <Action id={5} />
     }
   ]
 };
