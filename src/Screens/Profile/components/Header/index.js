@@ -1,7 +1,7 @@
 import Typography from 'Elements/Typography';
 import profileImage from 'Assets/Images/bruce-mars.jpg';
 import { Card, Grid, Tab, Tabs } from '@mui/material';
-import { AccountBoxOutlined, PersonOutlined } from '@mui/icons-material';
+import { AccountBalance, CurrencyRupeeOutlined, PersonOutlined } from '@mui/icons-material';
 import Avatar from 'Elements/Avatar';
 
 const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
@@ -31,7 +31,8 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
           onChange={(event, value) => handleSetTabIndex(event, value)}
         >
           <Tab label="Personal" icon={<PersonOutlined style={{ marginRight: '8px' }} />} />
-          <Tab label="Bank Account" icon={<AccountBoxOutlined style={{ marginRight: '8px' }} />} />
+          <Tab label="Account" icon={<AccountBalance style={{ marginRight: '8px' }} />} />
+          <Tab label="Salary" icon={<CurrencyRupeeOutlined style={{ marginRight: '8px' }} />} />
         </Tabs>
       </Grid>
     </Grid>
