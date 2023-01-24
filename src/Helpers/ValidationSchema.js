@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 
+const passwordRegx = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 const numberRegx = /^((\+*)((0[ -]*)*|((91 )*))((\d{12})+|(\d{10})+))|\d{5}([- ]*)\d{6}/;
 const holderNameRegx = /^[a-zA-Z0-9\s]*$/g;
 const accNumberRegx = /^\d{9,18}$/;
@@ -9,6 +10,7 @@ export const loginSchema = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   password: yup
     .string()
+    .matches(passwordRegx, '')
     .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required')
 });
@@ -26,6 +28,7 @@ export const forgotPasswordSchema = yup.object().shape({
 export const resetPasswordSchema = yup.object().shape({
   password: yup
     .string()
+    .matches(passwordRegx, '')
     .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required'),
   confirmPassword: yup
@@ -34,8 +37,9 @@ export const resetPasswordSchema = yup.object().shape({
       is: (val) => !!(val && val.length > 0),
       then: yup
         .string()
+        .matches(passwordRegx, '')
         .min(8, 'Password should be of minimum 8 characters length')
-        .oneOf([yup.ref('password')], 'new password and confirmed password should be the same')
+        .oneOf([yup.ref('password')], 'New password and Confirmed password should be the same')
     })
     .required('Confirm Password is required')
 });
@@ -68,6 +72,33 @@ export const bankAccountSchema = yup.object().shape({
   accountNumber: yup.string().matches(accNumberRegx, '').required('Account number is required'),
   ifscCode: yup.string().matches(ifscCodeRegx, '').required('IFSC code is required'),
   panNumber: yup.string().required('PAN number required')
+});
+
+export const BasicInfoSchema = yup.object().shape({
+  firstName: yup.string().required('First name is required'),
+  lastName: yup.string().required('Last name is required'),
+  gender: yup.string().required('Gender is required'),
+  month: yup.string().required('Month is required'),
+  day: yup.string().required('Day is required'),
+  year: yup.string().required('Year is required'),
+  email: yup.string().email('Enter a valid email').required('Email is required'),
+  confirmationEmail: yup
+    .string()
+    .when('email', {
+      is: (val) => !!(val && val.length > 6),
+      then: yup
+        .string()
+        .oneOf([yup.ref('email')], 'Email and Confirmation Email should be the same')
+    })
+    .required('Confirmation Email is required'),
+  // dateOfBirth: yup.string().required('Date of birth is required'),
+  // dateOfJoin: yup.string().required('Date of join is required'),
+  // dateOfLeave: yup.string().required('Date of leave is required'),
+  phoneNumber: yup
+    .string()
+    .matches(numberRegx, 'Phone number is not valid')
+    .required('Phone number is required'),
+  pAdd: yup.string().required('Permanent Address is required')
 });
 
 export const validationSchema = yup.object().shape({
