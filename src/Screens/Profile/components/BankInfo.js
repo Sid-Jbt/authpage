@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import Button from 'Elements/Button';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
-import validationSchema from '../../../Helpers/ValidationSchema';
+import { validationSchema } from '../../../Helpers/ValidationSchema';
 
 const BankInfo = () => {
   const theme = useTheme();

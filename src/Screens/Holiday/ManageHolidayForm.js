@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
-import validationSchema from 'Helpers/ValidationSchema';
+import { holidayFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
 import { Grid } from '@mui/material';
 import Box from 'Elements/Box';
@@ -22,7 +22,7 @@ const ManageHolidayForm = ({ isDrawerOpen, handleDrawerClose, title }) => (
           console.log('values===========', values);
           handleDrawerClose();
         }}
-        validationSchema={validationSchema}
+        validationSchema={holidayFormSchema}
       >
         {(props) => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;

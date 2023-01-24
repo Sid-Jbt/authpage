@@ -47,6 +47,7 @@ const Payslip = Loadable(lazy(() => import('../Screens/Payslip')));
 const Setting = Loadable(lazy(() => import('../Screens/Settings')));
 const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
 const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
+// const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket')));
 
 // Report
 const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
@@ -207,6 +208,7 @@ const MainRoutes = [
     key: 'profilesetup',
     element: <ProfileSetup />
   },
+  // Keep this route at the end to keep this flow ready
   {
     type: 'collapse',
     noCollapse: true,
@@ -217,6 +219,16 @@ const MainRoutes = [
     key: 'holiday',
     element: <Holiday />
   }
+  // {
+  //   type: 'collapse',
+  //   noCollapse: true,
+  //   route: supportTicketPattern,
+  //   name: 'Support Ticket',
+  //   icon: <SupportAgent sx={{ color: colors.secondary.main }} />,
+  //   path: supportTicketPattern,
+  //   key: 'supportTicket',
+  //   element: <SupportTicket />
+  // }
 ];
 
 // const roleList = ''; // for future if we need to config and show selected list in dashboard to user then we will store here from the local storage

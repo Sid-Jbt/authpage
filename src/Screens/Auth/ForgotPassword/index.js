@@ -5,7 +5,7 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
-import validationSchema from 'Helpers/ValidationSchema';
+import { validationSchema } from 'Helpers/ValidationSchema';
 
 const ForgotPassword = () => (
   <>

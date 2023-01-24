@@ -7,7 +7,7 @@ import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
 import { Formik } from 'formik';
 import moment from 'moment';
-import validationSchema from 'Helpers/ValidationSchema';
+import { expenseFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
 import expenseListData from './data/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
@@ -37,7 +37,7 @@ const Expense = () => {
           onSubmit={(values) => {
             console.log('values===========', values);
           }}
-          validationSchema={validationSchema}
+          validationSchema={expenseFormSchema}
         >
           {(props) => {
             const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;

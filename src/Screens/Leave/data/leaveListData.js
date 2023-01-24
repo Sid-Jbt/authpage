@@ -7,7 +7,7 @@ const leaveListData = {
     { name: 'from', align: 'center', headerName: 'From', mobileHeader: 'From' },
     { name: 'to', align: 'center', headerName: 'To', mobileHeader: 'To' },
     { name: 'noOfDays', align: 'center', headerName: 'No Of Days', mobileHeader: 'NOD' },
-    { name: 'reason', align: 'center', headerName: 'Reason', mobileHeader: 'Reason' },
+    { name: 'leaveReason', align: 'center', headerName: 'Reason', mobileHeader: 'Reason' },
     { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' },
     { name: 'approvedBy', align: 'center', headerName: 'Approved By', mobileHeader: 'Approved By' }
   ],
@@ -18,8 +18,8 @@ const leaveListData = {
       leaveType: 'Sick Leave',
       from: '27 Feb 2019',
       to: '27 Feb 2019',
-      noOfDays: '1 day',
-      reason: 'Going To Hospital',
+      noOfDays: 1,
+      leaveReason: 'Going To Hospital',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       ),
@@ -31,8 +31,8 @@ const leaveListData = {
       leaveType: 'Loss Of Pay Leave',
       from: '27 Feb 2019',
       to: '27 Feb 2019',
-      noOfDays: '1 day',
-      reason: 'Going To Hospital',
+      noOfDays: 2,
+      leaveReason: 'Going To Hospital',
       status: (
         <Badge variant="gradient" badgeContent="rejected" color="error" size="xs" container />
       ),
@@ -43,8 +43,8 @@ const leaveListData = {
       leaveType: 'Medical Leave',
       from: '27 Feb 2019',
       to: '27 Feb 2019',
-      noOfDays: '1 day',
-      reason: 'Going To Hospital',
+      noOfDays: 3,
+      leaveReason: 'Going To Hospital',
       status: (
         <Badge variant="gradient" badgeContent="pending" color="warning" size="xs" container />
       ),
@@ -55,8 +55,8 @@ const leaveListData = {
       leaveType: 'Medical Leave',
       from: '27 Feb 2019',
       to: '27 Feb 2019',
-      noOfDays: '1 day',
-      reason: 'Going To Hospital',
+      noOfDays: 4,
+      leaveReason: 'Going To Hospital',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       ),
@@ -67,8 +67,8 @@ const leaveListData = {
       leaveType: 'Medical Leave',
       from: '27 Feb 2019',
       to: '27 Feb 2019',
-      noOfDays: '1 day',
-      reason: 'Going To Hospital',
+      noOfDays: 5,
+      leaveReason: 'Going To Hospital',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       ),
