@@ -7,7 +7,7 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
-import validationSchema from 'Helpers/ValidationSchema';
+import { loginSchema } from 'Helpers/ValidationSchema';
 import { getProfileSetupPattern } from 'Routes/routeConfig';
 
 const Login = () => {
@@ -42,7 +42,7 @@ const Login = () => {
             actions.setSubmitting(false);
           }, 1000);
         }}
-        validationSchema={validationSchema}
+        validationSchema={loginSchema}
       >
         {(props) => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =

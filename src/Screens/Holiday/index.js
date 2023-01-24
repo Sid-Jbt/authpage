@@ -7,7 +7,7 @@ import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
 import { Formik } from 'formik';
 import moment from 'moment';
-import validationSchema from 'Helpers/ValidationSchema';
+import { validationSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
 import holidayListData from './data/holidayListData';
 import FilterLayout from '../../Components/FilterLayout';

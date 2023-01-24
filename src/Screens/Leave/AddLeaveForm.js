@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
-import validationSchema from 'Helpers/ValidationSchema';
+import { leaveFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
 import { FormControl, FormLabel, Grid } from '@mui/material';
 import Box from 'Elements/Box';
@@ -11,11 +11,39 @@ import Editor from 'Elements/Editor';
 import Button from 'Elements/Button';
 import { leaveTypes } from 'Helpers/Globle';
 
-const renderDialogContent = ({ isDialogOpen, handleDialog, title }) => {
+const initialValues = {
+  fromDate: moment().format('YYYY-MM-DD'),
+  toDate: moment().format('YYYY-MM-DD'),
+  noOfDays: '',
+  leaveReason: ''
+};
+
+const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData }) => {
   const [leaveType, setLeaveType] = useState(leaveTypes[0]);
+  const [title, setTitle] = useState('ADD NEW LEAVE');
 
   const handleChangeLeave = (selectedLeaveType) => {
     setLeaveType(selectedLeaveType);
+  };
+
+  useEffect(() => {
+    if (selectedData !== null) {
+      setTitle('EDIT LEAVE');
+      Object.keys(initialValues).map((key) => {
+        initialValues[key] = selectedData[key];
+        if (key === 'fromDate') {
+          initialValues[key] = moment(selectedData.from).format('YYYY-MM-DD');
+        }
+        if (key === 'toDate') {
+          initialValues[key] = moment(selectedData.to).format('YYYY-MM-DD');
+        }
+      });
+      setLeaveType(leaveTypes.find((leave) => leave.label === selectedData.leaveType));
+    }
+  }, [selectedData]);
+
+  const onSubmit = (formData) => {
+    console.log('formData', formData);
   };
 
   return (
@@ -23,17 +51,11 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, title }) => {
       <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title={title}>
         <Formik
           enableReinitialize
-          initialValues={{
-            fromDate: moment().format('DD/MM/YYYY'),
-            toDate: moment().format('DD/MM/YYYY'),
-            noOfDays: '',
-            remainingLeaves: 13,
-            leaveReason: ''
+          initialValues={initialValues}
+          onSubmit={(formData) => {
+            onSubmit(formData);
           }}
-          onSubmit={(values) => {
-            console.log('values===========', values);
-          }}
-          validationSchema={validationSchema}
+          validationSchema={leaveFormSchema}
         >
           {(props) => {
             const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
@@ -81,6 +103,7 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, title }) => {
                         id="fromDate"
                         name="fromDate"
                         label="From Date"
+                        defaultValue={values.fromDate}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         errorText={errors.fromDate && touched.fromDate && errors.fromDate}
@@ -99,6 +122,11 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, title }) => {
                         id="toDate"
                         name="toDate"
                         label="To Date"
+                        defaultValue={values.toDate}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={errors.toDate && touched.toDate && errors.toDate}
+                        error={errors.toDate && touched.toDate}
                         success={!errors.toDate && touched.toDate}
                       />
                     </Box>

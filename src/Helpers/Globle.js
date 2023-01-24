@@ -39,6 +39,7 @@ export const Roles = [
 
 export const leaveTypes = [
   { value: 'sickLeave', label: 'Sick Leave' },
+  { value: 'medicalLeave', label: 'Medical Leave' },
   { value: 'hospitalisation', label: 'Hospitalisation' },
   { value: 'maternityLeave', label: 'Maternity Leave' },
   { value: 'casualLeave', label: 'Casual Leave' },

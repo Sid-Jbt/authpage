@@ -7,7 +7,7 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import validationSchema from '../../../Helpers/ValidationSchema';
+import { validationSchema } from '../../../Helpers/ValidationSchema';
 
 const RestPassword = () => {
   const [showPassword, setShowPassword] = React.useState(false);
