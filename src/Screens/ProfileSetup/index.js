@@ -6,6 +6,8 @@ import { Card, Grid, Step, StepLabel, Stepper } from '@mui/material';
 import { getDashboardPattern } from 'Routes/routeConfig';
 import { useNavigate } from 'react-router';
 import Basic from './component/Basic';
+import Address from './component/Address';
+import Account from './component/Account';
 
 function getSteps() {
   return ['Basic', 'Address', 'Account'];
@@ -15,10 +17,10 @@ function getStepContent(stepIndex) {
   switch (stepIndex) {
     case 0:
       return <Basic />;
-    // case 1:
-    //   return <Address />;
-    // case 2:
-    //   return <Account />;
+    case 1:
+      return <Address />;
+    case 2:
+      return <Account />;
     default:
       return null;
   }

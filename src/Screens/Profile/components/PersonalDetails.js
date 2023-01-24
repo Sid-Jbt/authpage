@@ -10,11 +10,23 @@ import {
 } from '@mui/material';
 import { Formik } from 'formik';
 import moment from 'moment';
-import { validationSchema } from 'Helpers/ValidationSchema';
+import { profileFormSchema } from 'Helpers/ValidationSchema';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
+
+const initialValues = {
+  firstName: '',
+  lastName: '',
+  fatherName: '',
+  department: '',
+  designation: '',
+  pAdd: '',
+  alternativeNumber: '',
+  phoneNumber: '',
+  dateOfBirth: moment().format('YYYY-MM-DD')
+};
 
 const PersonalDetails = () => {
   const theme = useTheme();
@@ -38,21 +50,11 @@ const PersonalDetails = () => {
 
       <Formik
         enableReinitialize
-        initialValues={{
-          firstName: '',
-          lastName: '',
-          fatherName: '',
-          department: '',
-          designation: '',
-          pAdd: '',
-          alternativeNumber: '',
-          phoneNumber: '',
-          dateOfBirth: moment().format('DD/MM/YYYY')
-        }}
+        initialValues={initialValues}
         onSubmit={(values) => {
           console.log('values', values);
         }}
-        validationSchema={validationSchema}
+        validationSchema={profileFormSchema}
       >
         {(props) => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
@@ -189,6 +191,12 @@ const PersonalDetails = () => {
                       id="dateOfBirth"
                       name="dateOfBirth"
                       label="Date Of Birth"
+                      defaultValue={values.dateOfBirth}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      errorText={errors.dateOfBirth && touched.dateOfBirth && errors.dateOfBirth}
+                      error={errors.dateOfBirth && touched.dateOfBirth}
+                      success={!errors.dateOfBirth && touched.dateOfBirth}
                       disabled={isEdit}
                     />
                   </Box>
