@@ -9,7 +9,7 @@ import Select from 'Elements/Select';
 import Input from 'Elements/Input';
 import Editor from 'Elements/Editor';
 import Button from 'Elements/Button';
-import { leaveTypes } from '../../../Helpers/Globle';
+import { leaveTypes } from 'Helpers/Globle';
 
 const renderDialogContent = ({ isDialogOpen, handleDialog, title }) => {
   const [leaveType, setLeaveType] = useState(leaveTypes[0]);

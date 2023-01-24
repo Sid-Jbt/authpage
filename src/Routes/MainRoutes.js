@@ -43,7 +43,7 @@ const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
 const EmployeeList = Loadable(lazy(() => import('../Screens/Employee/EmployeeList')));
 const EmployeeDeatils = Loadable(lazy(() => import('../Screens/Employee/EmployeeDetails')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
-const LeaveList = Loadable(lazy(() => import('../Screens/Leave/LeaveDetails')));
+const LeaveList = Loadable(lazy(() => import('../Screens/Leave')));
 const Payslip = Loadable(lazy(() => import('../Screens/Payslip')));
 const Setting = Loadable(lazy(() => import('../Screens/Settings')));
 const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
