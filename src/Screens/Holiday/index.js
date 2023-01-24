@@ -1,119 +1,73 @@
 import { Card, Grid, Icon } from '@mui/material';
-import { Add, ImportExportRounded } from '@mui/icons-material';
+import { Add, ImportContacts } from '@mui/icons-material';
 import React, { useState } from 'react';
-import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
-import Input from 'Elements/Input';
-import { Formik } from 'formik';
-import moment from 'moment';
-import { validationSchema } from 'Helpers/ValidationSchema';
-import SideDrawer from 'Elements/SideDrawer';
 import holidayListData from './data/holidayListData';
 import FilterLayout from '../../Components/FilterLayout';
+import DialogMenu from '../../Elements/Dialog';
+import ManageHolidayForm from './ManageHolidayForm';
+import DeleteDialog from '../../Components/DeleteDialog';
+import ImportDialog from './ImportDialog';
 
 const Holiday = () => {
   const { columns: prCols, rows: prRows } = holidayListData;
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isHover, setIsHover] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [selectedId, setSelectedId] = useState('');
 
-  const handleDialog = () => {
-    setIsDialogOpen(!isDialogOpen);
+  const handleMouseEnter = () => {
+    setIsHover(true);
   };
 
-  const renderDialogContent = () => (
-    <>
-      <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title="ADD HOLIDAY">
-        <Formik
-          enableReinitialize
-          initialValues={{
-            holidayName: '',
-            holidayDate: moment().format('DD/MM/YYYY')
-          }}
-          onSubmit={(values) => {
-            console.log('ON SUBMIT');
-            console.log('values===========', values);
-          }}
-          validationSchema={validationSchema}
-        >
-          {(props) => {
-            const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
-            return (
-              <form onSubmit={handleSubmit}>
-                <Box mb={0.5}>
-                  <Input
-                    placeholder="Holiday name"
-                    label="HOLIDAY NAME"
-                    size="large"
-                    fullWidth
-                    id="holidayName"
-                    name="holidayName"
-                    value={values.itemName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errorText={errors.holidayName && touched.holidayName && errors.holidayName}
-                    error={errors.holidayName && touched.holidayName}
-                    success={!errors.holidayName && touched.holidayName}
-                  />
-                </Box>
-                <Box mb={0.5}>
-                  <Input
-                    type="date"
-                    placeholder="Holiday Date"
-                    label="HOLIDAY DATE"
-                    size="large"
-                    fullWidth
-                    id="holidayDate"
-                    name="holidayDate"
-                    value={values.itemTitle}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errorText={errors.holidayDate && touched.holidayDate && errors.holidayDate}
-                    error={errors.holidayDate && touched.holidayDate}
-                    success={!errors.holidayDate && touched.holidayDate}
-                  />
-                </Box>
-                <Grid
-                  item
-                  sm={12}
-                  md={4}
-                  lg={6}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}
-                >
-                  <Button
-                    type="submit"
-                    color="info"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginRight: '10px' }}
-                  >
-                    Submit
-                  </Button>
-                  <Button
-                    color="error"
-                    sx={{ marginRight: '10px' }}
-                    variant="contained"
-                    size="small"
-                    onClick={handleDialog}
-                  >
-                    Clear
-                  </Button>
-                </Grid>
-              </form>
-            );
-          }}
-        </Formik>
-      </SideDrawer>
-    </>
-  );
+  const handleMouseLeave = () => {
+    setIsHover(false);
+  };
+
+  const handleDrawer = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+    setIsEdit(false);
+  };
+
+  const handleDialog = () => {
+    setIsDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+    setIsEdit(false);
+  };
+
+  const onOpenEdit = (value, id) => {
+    if (value === 'edit') {
+      setIsEdit(value === 'edit');
+      handleDrawer();
+    } else if (value === 'delete') {
+      setIsEdit(value === 'delete');
+      handleDialog();
+    } else {
+      setIsEdit(false);
+      handleDialog();
+    }
+    setSelectedId(id);
+  };
+
+  const onDelete = (id) => {
+    console.log('id selectedID', id);
+    handleDialogClose();
+  };
 
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
         <Grid item xs={12} md="auto">
-          <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
+          <Button color="white" variant="outlined" size="small" onClick={handleDrawer}>
             <Icon sx={{ mr: 1 }}>
               <Add />
             </Icon>
@@ -121,11 +75,11 @@ const Holiday = () => {
           </Button>
         </Grid>
         <Grid item xs={12} md="auto">
-          <Button color="white" variant="outlined" size="small">
+          <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
             <Icon sx={{ mr: 1 }}>
-              <ImportExportRounded />
+              <ImportContacts />
             </Icon>
-            Export
+            Import
           </Button>
         </Grid>
       </Grid>
@@ -138,8 +92,43 @@ const Holiday = () => {
         }}
       >
         <FilterLayout />
-        <Table columns={prCols} rows={prRows} />
-        {renderDialogContent()}
+        <Table
+          columns={prCols}
+          rows={prRows}
+          onClickAction={(value, id) => onOpenEdit(value, id)}
+          isAction
+          options={[
+            { title: 'Edit', value: 'edit' },
+            { title: 'Delete', value: 'delete' }
+          ]}
+        />
+        <DialogMenu
+          isOpen={isDialogOpen}
+          onClose={handleDialogClose}
+          dialogTitle={isEdit ? 'Delete' : 'Import Files'}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          dialogContent={
+            isEdit ? (
+              <DeleteDialog
+                handleDialogClose={handleDialogClose}
+                selectedId={selectedId}
+                deleteItem={onDelete}
+              />
+            ) : (
+              <ImportDialog
+                isHover={isHover}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
+              />
+            )
+          }
+        />
+        <ManageHolidayForm
+          isDrawerOpen={Boolean(isDrawerOpen)}
+          handleDrawerClose={handleDrawerClose}
+          title={isEdit ? 'EDIT HOLIDAY' : 'ADD HOLIDAY'}
+        />
       </Card>
     </>
   );

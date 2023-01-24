@@ -16,8 +16,17 @@ import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
 import breakpoints from 'Theme/base/breakpoints';
 import { Action } from 'Elements/Tables/Action';
+import ViewExpense from '../../../Screens/Expense/ViewExpense';
 
-const Table = ({ columns, rows, isChecked = false, isAction = false, options, onClickAction }) => {
+const Table = ({
+  columns,
+  rows,
+  isChecked = false,
+  isAction = false,
+  options,
+  onClickAction,
+  isView = false
+}) => {
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
@@ -174,6 +183,16 @@ const Table = ({ columns, rows, isChecked = false, isAction = false, options, on
             />
           </TableCell>
         )}
+        {isView && (
+          <TableCell sx={{ textAlign: 'center' }}>
+            <ViewExpense
+              id={row.id}
+              isAction={isAction}
+              options={options}
+              onClickAction={(value) => onClickAction(value, row.id)}
+            />
+          </TableCell>
+        )}
       </TableRow>
     );
   });
@@ -194,7 +213,7 @@ const Table = ({ columns, rows, isChecked = false, isAction = false, options, on
                 </TableCell>
               )}
               {renderColumns}
-              {isAction && (
+              {(isAction || isView) && (
                 <TableCell>
                   <Box
                     key="action"
