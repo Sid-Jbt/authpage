@@ -1,15 +1,14 @@
 import { Card, Grid, Icon } from '@mui/material';
 import { Add, ImportContacts } from '@mui/icons-material';
 import React, { useState } from 'react';
-import Box from 'Elements/Box';
 import Button from 'Elements/Button';
-import Typography from 'Elements/Typography';
 import Table from 'Elements/Tables/Table';
 import holidayListData from './data/holidayListData';
 import FilterLayout from '../../Components/FilterLayout';
 import DialogMenu from '../../Elements/Dialog';
-import Dropzone from '../../Elements/Dropzone';
 import ManageHolidayForm from './ManageHolidayForm';
+import DeleteDialog from '../../Components/DeleteDialog';
+import ImportDialog from './ImportDialog';
 
 const Holiday = () => {
   const { columns: prCols, rows: prRows } = holidayListData;
@@ -17,6 +16,7 @@ const Holiday = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [selectedId, setSelectedId] = useState('');
 
   const handleMouseEnter = () => {
     setIsHover(true);
@@ -44,51 +44,20 @@ const Holiday = () => {
   };
 
   const onOpenEdit = (value, id) => {
-    handleDrawer();
-    console.log('id', id);
-    setIsEdit(value === 'edit');
+    if (value === 'edit') {
+      setIsEdit(value === 'edit');
+      handleDrawer();
+    } else if (value === 'delete') {
+      setIsEdit(value === 'delete');
+      handleDialog();
+    }
+    setSelectedId(id);
   };
 
-  const renderDialogContent = () => (
-    <>
-      <Box sx={{ height: '100%', p: 1 }}>
-        <Grid container direction="row" alignItems="center">
-          <Typography variant="h5" noWrap to="/" color="textPrimary" mr={30}>
-            Download CVS file from{' '}
-            <a
-              href="/files/CV.csv"
-              target="_blank"
-              style={{ color: isHover ? 'red' : 'skyblue' }}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              download
-            >
-              here
-            </a>
-          </Typography>
-        </Grid>
-        <Grid mt={2}>
-          <Typography variant="button" fontWeight="bold" textTransform="capitalize">
-            Upload Updated CSV:
-          </Typography>
-          <Dropzone />
-        </Grid>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            alignItems: 'center',
-            justifyContent: 'center',
-            mt: 3
-          }}
-        >
-          <Button type="submit" color="info" variant="contained" size="large">
-            Upload
-          </Button>
-        </Box>
-      </Box>
-    </>
-  );
+  const onDelete = (id) => {
+    console.log('id selectedID', id);
+    handleDialogClose();
+  };
 
   return (
     <>
@@ -132,10 +101,24 @@ const Holiday = () => {
         <DialogMenu
           isOpen={isDialogOpen}
           onClose={handleDialogClose}
-          dialogTitle="Import Files"
+          dialogTitle={isEdit ? 'Delete' : 'Import Files'}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
-          dialogContent={renderDialogContent()}
+          dialogContent={
+            isEdit ? (
+              <DeleteDialog
+                handleDialogClose={handleDialogClose}
+                selectedId={selectedId}
+                deleteItem={onDelete}
+              />
+            ) : (
+              <ImportDialog
+                isHover={isHover}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
+              />
+            )
+          }
         />
         <ManageHolidayForm
           isDrawerOpen={Boolean(isDrawerOpen)}
