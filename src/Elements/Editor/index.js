@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Typography from '../Typography';
 
-const EditorRoot = styled('div')(({ theme }) => {
+const EditorRoot = styled('div')(({ theme, backgroundContainerColor }) => {
   const { palette, borders, typography, functions } = theme;
 
   const { borderRadius } = borders;
@@ -27,7 +27,9 @@ const EditorRoot = styled('div')(({ theme }) => {
     },
 
     '& .ql-container': {
-      borderRadius: `0 0 ${borderRadius.md} ${borderRadius.md}`
+      borderRadius: `0 0 ${borderRadius.md} ${borderRadius.md}`,
+      background: backgroundContainerColor,
+      height: 100
     },
 
     '& .ql-editor': {
@@ -44,7 +46,7 @@ const EditorRoot = styled('div')(({ theme }) => {
 });
 
 const Editor = (props) => (
-  <EditorRoot>
+  <EditorRoot {...props}>
     <Typography className="typography">Leave Reason</Typography>
     <ReactQuill theme="snow" {...props} />
   </EditorRoot>

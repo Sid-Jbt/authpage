@@ -15,8 +15,9 @@ import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
 import breakpoints from 'Theme/base/breakpoints';
+import { Action } from '../../../Screens/Leave/data/leaveListData';
 
-const Table = ({ columns, rows, isChecked = false }) => {
+const Table = ({ columns, rows, isChecked = false, isAction = false, options, onClickAction }) => {
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
@@ -98,7 +99,6 @@ const Table = ({ columns, rows, isChecked = false }) => {
 
   const renderRows = rows.map((row, key) => {
     const rowKey = `row-${key}`;
-
     const tableRow = columns.map(({ name, align }) => {
       let template;
 
@@ -164,6 +164,16 @@ const Table = ({ columns, rows, isChecked = false }) => {
           />
         )}
         {tableRow}
+        {isAction && (
+          <TableCell sx={{ textAlign: 'center' }}>
+            <Action
+              id={row.id}
+              isAction={isAction}
+              options={options}
+              onClickAction={(value) => onClickAction(value, row.id)}
+            />
+          </TableCell>
+        )}
       </TableRow>
     );
   });
@@ -184,6 +194,24 @@ const Table = ({ columns, rows, isChecked = false }) => {
                 </TableCell>
               )}
               {renderColumns}
+              {isAction && (
+                <TableCell>
+                  <Box
+                    key="action"
+                    component="th"
+                    width="auto"
+                    pt={1.5}
+                    pb={1.25}
+                    textAlign="center"
+                    fontSize={size.sm}
+                    fontWeight={fontWeightBold}
+                    color="dark"
+                    opacity={0.7}
+                  >
+                    ACTION
+                  </Box>
+                </TableCell>
+              )}
             </TableRow>
           </Box>
           <TableBody>
