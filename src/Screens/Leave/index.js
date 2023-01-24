@@ -110,7 +110,16 @@ const LeaveList = () => {
             />
           </Grid>
         </FilterLayout>
-        <Table columns={prCols} rows={prRows} isAction />
+        <Table
+          columns={prCols}
+          rows={prRows}
+          onClickAction={(value, id) => console.log('onClickAction', value, id)}
+          isAction
+          options={[
+            { title: 'Edit', value: 'edit' },
+            { title: 'Delete', value: 'delete' }
+          ]}
+        />
         <AddLeaveForm
           isDialogOpen={isDialogOpen}
           handleDialog={handleDialog}

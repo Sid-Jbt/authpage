@@ -1,16 +1,12 @@
+import { useState } from 'react';
 import { MoreVertTwoTone } from '@mui/icons-material';
 import { Icon, Menu, MenuItem } from '@mui/material';
 import Badge from 'Elements/Badge';
-import { useState } from 'react';
 
-const Action = ({ id }) => {
+export const Action = ({ id, options, onClickAction }) => {
   const [openMenu, setOpenMenu] = useState(null);
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(null);
-  const handleEdit = () => {
-    // child props to parent props data pass
-    handleCloseMenu();
-  };
 
   const renderMenu = () => (
     <Menu
@@ -21,9 +17,18 @@ const Action = ({ id }) => {
       onClose={handleCloseMenu}
       keepMounted
     >
-      <MenuItem onClick={handleEdit}>Edit</MenuItem>
-      <MenuItem onClick={handleCloseMenu}>Another action</MenuItem>
-      <MenuItem onClick={handleCloseMenu}>Something else here</MenuItem>
+      {options &&
+        options.map(({ title, value }, index) => (
+          <MenuItem
+            key={index}
+            onClick={() => {
+              onClickAction(value);
+              handleCloseMenu();
+            }}
+          >
+            {title}
+          </MenuItem>
+        ))}
     </Menu>
   );
   return (
@@ -43,15 +48,14 @@ const Action = ({ id }) => {
 
 const leaveListData = {
   columns: [
-    { name: 'id', align: 'center', headerName: 'Id' },
-    { name: 'leaveType', align: 'center', headerName: 'Leave Type' },
-    { name: 'from', align: 'center', headerName: 'From' },
-    { name: 'to', align: 'center', headerName: 'To' },
-    { name: 'noOfDays', align: 'center', headerName: 'No Of Days' },
-    { name: 'reason', align: 'center', headerName: 'Reason' },
-    { name: 'status', align: 'center', headerName: 'Status' },
-    { name: 'approvedBy', align: 'center', headerName: 'Approved By' },
-    { name: 'action', align: 'center', headerName: 'Action' }
+    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    { name: 'leaveType', align: 'center', headerName: 'Leave Type', mobileHeader: 'Leave Type' },
+    { name: 'from', align: 'center', headerName: 'From', mobileHeader: 'From' },
+    { name: 'to', align: 'center', headerName: 'To', mobileHeader: 'To' },
+    { name: 'noOfDays', align: 'center', headerName: 'No Of Days', mobileHeader: 'NOD' },
+    { name: 'reason', align: 'center', headerName: 'Reason', mobileHeader: 'Reason' },
+    { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' },
+    { name: 'approvedBy', align: 'center', headerName: 'Approved By', mobileHeader: 'Approved By' }
   ],
 
   rows: [
@@ -65,8 +69,8 @@ const leaveListData = {
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       ),
-      approvedBy: 'Suresh Borad',
-      action: <Action id={1} />
+      approvedBy: 'Suresh Borad'
+      // action: <Action id={1} />
     },
     {
       id: 2,
