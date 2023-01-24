@@ -12,9 +12,17 @@ import AddLeaveForm from './AddLeaveForm';
 const LeaveList = () => {
   const { columns: prCols, rows: prRows } = leaveListData;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
+  };
+
+  const onClickAction = (key, index) => {
+    if (key === 'edit') {
+      setSelectedData(prRows.find((o) => o.id === index));
+      handleDialog();
+    }
   };
 
   return (
@@ -107,7 +115,7 @@ const LeaveList = () => {
         <Table
           columns={prCols}
           rows={prRows}
-          onClickAction={(value, id) => console.log('onClickAction', value, id)}
+          onClickAction={(value, id) => onClickAction(value, id)}
           isAction
           options={[
             { title: 'Edit', value: 'edit' },
@@ -117,7 +125,7 @@ const LeaveList = () => {
         <AddLeaveForm
           isDialogOpen={isDialogOpen}
           handleDialog={handleDialog}
-          title="ADD NEW LEAVE"
+          selectedData={selectedData}
         />
       </Card>
     </>
