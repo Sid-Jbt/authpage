@@ -7,12 +7,15 @@ import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import Select from 'Elements/Select';
 import { Roles } from 'Helpers/Globle';
+import { useNavigate } from 'react-router';
 import employeeListData from './data/employeeListData';
 import AddEmployeeForm from './AddEmployeeForm';
+import { getEmployeeDetailsPattern } from '../../../Routes/routeConfig';
 
 const EmployeeList = () => {
   const { columns: prCols, rows: prRows } = employeeListData;
   const [role, setRole] = useState('');
+  const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleChangeRole = (value) => {
@@ -26,6 +29,13 @@ const EmployeeList = () => {
 
   const onClickExport = () => {
     alert('Export coming soon...');
+  };
+
+  const onClickAction = (value, id) => {
+    if (value === 'details') {
+      return navigate(getEmployeeDetailsPattern(id));
+    }
+    alert(` ${id} deleted`);
   };
 
   return (
@@ -85,7 +95,16 @@ const EmployeeList = () => {
             </FormControl>
           </Grid>
         </FilterLayout>
-        <Table columns={prCols} rows={prRows} />
+        <Table
+          columns={prCols}
+          rows={prRows}
+          onClickAction={(value, id) => onClickAction(value, id)}
+          isAction
+          options={[
+            { title: 'Details', value: 'details' },
+            { title: 'Delete', value: 'delete' }
+          ]}
+        />
         <AddEmployeeForm isDialogOpen={isDialogOpen} handleDialog={handleDialog} />
       </Card>
     </>
