@@ -1,44 +1,99 @@
 import React, { useState } from 'react';
-import { Card, Icon, MenuItem, Select, Grid, FormLabel, FormControl } from '@mui/material';
+import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
-import { ImportExportRounded } from '@mui/icons-material';
-import Input from 'Elements/Input';
-// import Select from 'Elements/Select';
-import { Months, Years } from 'Helpers/Globle';
+import { Add, DirectionsRun, ImportExportRounded, MoreTime, WatchOff } from '@mui/icons-material';
+// import Input from 'Elements/Input';
+import Select from 'Elements/Select';
+import { Months, Years, Status } from 'Helpers/Globle';
 import FilterLayout from 'Components/FilterLayout';
 import attendanceData from './data/attendanceData';
+import LeaveCard from '../../Components/CardLayouts/LeaveCard';
 
 const AttendanceList = () => {
   const { columns: prCols, rows: prRows } = attendanceData;
   const [month, setMonth] = useState('');
-  const [status, setStatus] = useState('');
   const [year, setYear] = useState('');
+  const [status, setStatus] = useState('');
+  const [user, setUser] = useState('');
 
-  const handleChangeStatus = (event) => {
-    setStatus(event.target.value);
+  const handleChangeStatus = (value) => {
+    setStatus(value.value);
   };
 
-  const handleChangeMonth = (event) => {
-    setMonth(event.target.value);
+  const handleChangeMonth = (value) => {
+    setMonth(value.value);
   };
 
-  const handleChangeYear = (event) => {
-    setYear(event.target.value);
+  const handleChangeYear = (value) => {
+    setYear(value.value);
   };
 
-  // const Array = Years;
-  // Array.push({
-  //   value: '',
-  //   label: ''
-  // });
-  // console.log(Array);
+  const handleChangeUser = (value) => {
+    setUser(value.value);
+  };
+  console.log('Month, Year, Status --> ', month, year, status);
 
   return (
     <>
+      <Grid container spacing={3} mb={3}>
+        <Grid item xs={12} md={6} lg={4}>
+          <LeaveCard
+            title="Total Late Coming"
+            count="12"
+            icon={{ color: 'error', component: <WatchOff /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={4}>
+          <LeaveCard
+            title="Total Early Leaving"
+            count="3"
+            icon={{ color: 'info', component: <DirectionsRun /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={4}>
+          <LeaveCard
+            title="Total Overtime"
+            count="4"
+            icon={{ color: 'warning', component: <MoreTime /> }}
+            isPercentage={false}
+          />
+        </Grid>
+      </Grid>
+
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs="auto">
-          <Button color="white" variant="outlined" size="small">
+        <Grid item xs={12} md="auto">
+          <Button
+            color="white"
+            variant="outlined"
+            size="small"
+            sx={({ breakpoints, palette: { dark } }) => ({
+              [breakpoints.down('xl' && 'lg')]: {
+                color: dark.main,
+                borderColor: dark.main
+              }
+            })}
+          >
+            <Icon sx={{ mr: 1 }}>
+              <Add />
+            </Icon>
+            Add
+          </Button>
+        </Grid>
+        <Grid item xs={12} md="auto">
+          <Button
+            color="white"
+            variant="outlined"
+            size="small"
+            sx={({ breakpoints, palette: { dark } }) => ({
+              [breakpoints.down('xl' && 'lg')]: {
+                color: dark.main,
+                borderColor: dark.main
+              }
+            })}
+          >
             <Icon sx={{ mr: 1 }}>
               <ImportExportRounded />
             </Icon>
@@ -56,132 +111,54 @@ const AttendanceList = () => {
       >
         <FilterLayout>
           <Grid item sm={12} md={4} lg={2.4}>
-            <Input
-              type="date"
-              label="Select Date"
-              size="small"
-              fullWidth
-              id="date"
-              name="Date"
-              errorFalse
-            />
+            <FormControl sx={{ width: '100%' }}>
+              <FormLabel>Select User</FormLabel>
+              <Select
+                value={user}
+                onChange={handleChangeUser}
+                displayEmpty
+                renderValue={user !== '' ? undefined : () => 'Select...'}
+              />
+            </FormControl>
           </Grid>
-          <Grid item sm={12} md={4} lg={2.4}>
+
+          <Grid item xs={12} md={4} lg={2.4}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Month</FormLabel>
-              {/* <Select options={Months} onChange={(value) => handleChangeMonth(value)} /> */}
-              <Select
-                value={month}
-                onChange={handleChangeMonth}
-                displayEmpty
-                renderValue={month !== '' ? undefined : () => 'All'}
-              >
-                {Months.map((m, key) => (
-                  <MenuItem key={key} value={m}>
-                    {m}
-                  </MenuItem>
-                ))}
-              </Select>
+              <Select options={Months} onChange={(value) => handleChangeMonth(value)} />
             </FormControl>
           </Grid>
-          <Grid item sm={12} md={4} lg={2.4}>
+          <Grid item xs={12} md={4} lg={2.4}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Year</FormLabel>
-              {/* <Select options={Years} onChange={(value) => handleChangeYear(value)} /> */}
-              <Select
-                id="selectYear"
-                value={year}
-                onChange={handleChangeYear}
-                displayEmpty
-                renderValue={year !== '' ? undefined : () => '2023'}
-              >
-                {Years.map((y, key) => (
-                  <MenuItem key={key} value={y}>
-                    {y}
-                  </MenuItem>
-                ))}
-              </Select>
+              <Select options={Years} onChange={(value) => handleChangeYear(value)} />
             </FormControl>
           </Grid>
-          <Grid item sm={12} md={4} lg={2.4}>
+          <Grid item xs={12} md={4} lg={2.4}>
             <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Status</FormLabel>
-              <Select
-                id="selectStatus"
-                value={status}
-                onChange={handleChangeStatus}
-                displayEmpty
-                renderValue={status !== '' ? undefined : () => 'All'}
-              >
-                <MenuItem value="all">All</MenuItem>
-                <MenuItem value="pre">Present</MenuItem>
-                <MenuItem value="abs">Absent</MenuItem>
-                <MenuItem value="late">Late</MenuItem>
-                <MenuItem value="ovt">Overtime</MenuItem>
-              </Select>
+              <FormLabel>Select Status</FormLabel>
+              <Select options={Status} onChange={(value) => handleChangeStatus(value)} />
             </FormControl>
           </Grid>
+          {/* <Grid item sm={12} md={4} lg={2.4}> */}
+          {/*  <FormControl sx={{ width: '100%' }}> */}
+          {/*    <FormLabel>Status</FormLabel> */}
+          {/*    <Select */}
+          {/*      id="selectStatus" */}
+          {/*      value={status} */}
+          {/*      onChange={handleChangeStatus} */}
+          {/*      displayEmpty */}
+          {/*      renderValue={status !== '' ? undefined : () => 'All'} */}
+          {/*    > */}
+          {/*      <MenuItem value="all">All</MenuItem> */}
+          {/*      <MenuItem value="pre">Present</MenuItem> */}
+          {/*      <MenuItem value="abs">Absent</MenuItem> */}
+          {/*      <MenuItem value="late">Late</MenuItem> */}
+          {/*      <MenuItem value="ovt">Overtime</MenuItem> */}
+          {/*    </Select> */}
+          {/*  </FormControl> */}
+          {/* </Grid> */}
         </FilterLayout>
-        {/* <Grid container alignItems="center" spacing={2} p={2} pb={0} mb={2}> */}
-        {/*  <Grid container item sm={10} alignItems="center" justifyContent="space-between"> */}
-        {/*    <Grid item xs={6}> */}
-        {/*      <Typography variant="h3">Attendance</Typography> */}
-        {/*    </Grid> */}
-        {/*    <Grid container item xs={6} justifyContent="end" sx={{ gap: 2 }}> */}
-        {/*      <Button color="info" variant="contained" size="small"> */}
-        {/*        <Icon> */}
-        {/*          <ImportExportRounded /> */}
-        {/*        </Icon> */}
-        {/*        Export */}
-        {/*      </Button> */}
-        {/*    </Grid> */}
-        {/*  </Grid> */}
-        {/* <Grid container alignItems="center" spacing={2} p={2} pb={0} mb={2}> */}
-        {/*  <Grid container item xs={12}> */}
-        {/*    <Icon> */}
-        {/*      <FilterListSharp /> */}
-        {/*    </Icon> */}
-        {/*    <Typography variant="h6">Filter</Typography> */}
-        {/*  </Grid> */}
-        {/*  <Grid item sm={12} md={4} lg={2}> */}
-        {/*    <Input */}
-        {/*      placeholder="Search" */}
-        {/*      type="text" */}
-        {/*      label="Search" */}
-        {/*      size="small" */}
-        {/*      fullWidth */}
-        {/*      id="search" */}
-        {/*      name="search" */}
-        {/*      errorFalse */}
-        {/*    /> */}
-        {/*  </Grid> */}
-        {/*  <Grid */}
-        {/*    item */}
-        {/*    sm={12} */}
-        {/*    md={8} */}
-        {/*    lg={4} */}
-        {/*    pt={4} */}
-        {/*    sx={({ breakpoints }) => ({ */}
-        {/*      [breakpoints.down('lg' && 'md')]: { */}
-        {/*        marginBottom: 2 */}
-        {/*      } */}
-        {/*    })} */}
-        {/*  > */}
-        {/*    /!* <Grid sx={{ mb: 2 }} item sm={12} md={4} lg={3}> *!/ */}
-        {/*    <Button color="info" variant="contained" size="small" sx={{ marginRight: '10px' }}> */}
-        {/*      <Icon sx={{ mr: '2px' }}> */}
-        {/*        <SearchRounded /> */}
-        {/*      </Icon> */}
-        {/*      Search */}
-        {/*    </Button> */}
-        {/*    <Button color="error" variant="contained" size="small"> */}
-        {/*      <Icon sx={{ mr: '2px' }}> */}
-        {/*        <ClearRounded /> */}
-        {/*      </Icon> */}
-        {/*      Clear */}
-        {/*    </Button> */}
-        {/*  </Grid> */}
-        {/* </Grid> */}
         <Table columns={prCols} rows={prRows} />
       </Card>
     </>
