@@ -91,7 +91,6 @@ const Table = ({ columns, rows, isChecked = false }) => {
           {window.innerWidth < breakpoints.values.xl
             ? mobileHeader.toUpperCase()
             : headerName.toUpperCase()}
-          {/* {headerName.toUpperCase()} */}
         </TableSortLabel>
       </Box>
     );
