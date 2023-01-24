@@ -15,7 +15,7 @@ import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
 import breakpoints from 'Theme/base/breakpoints';
-import { Action } from '../../../Screens/Leave/data/leaveListData';
+import { Action } from 'Elements/Tables/Action';
 
 const Table = ({ columns, rows, isChecked = false, isAction = false, options, onClickAction }) => {
   const { size, fontWeightBold } = typography;
