@@ -1,12 +1,3 @@
-import Icon from '@mui/material/Icon';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-
-const action = (
-  <Icon sx={{ cursor: 'pointer', fontWeight: 'bold' }} fontSize="small">
-    <MoreVertIcon />
-  </Icon>
-);
-
 const holidayListData = {
   columns: [
     { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
@@ -49,8 +40,7 @@ const holidayListData = {
       id: '105',
       title: 'New Year',
       holidayDate: '1 Jan 2021',
-      day: 'Sunday',
-      action
+      day: 'Sunday'
     },
     {
       id: '106',

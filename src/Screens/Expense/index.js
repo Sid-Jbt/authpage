@@ -43,7 +43,7 @@ const Expense = () => {
         }}
       >
         <FilterLayout />
-        <Table columns={prCols} rows={prRows} isChecked />
+        <Table columns={prCols} rows={prRows} isChecked isView />
         <ManageExpenseForm
           isDrawerOpen={Boolean(isDialogOpen)}
           handleDrawerClose={handleDialog}
