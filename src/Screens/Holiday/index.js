@@ -41,6 +41,7 @@ const Holiday = () => {
 
   const handleDialogClose = () => {
     setIsDialogOpen(false);
+    setIsEdit(false);
   };
 
   const onOpenEdit = (value, id) => {
@@ -49,6 +50,9 @@ const Holiday = () => {
       handleDrawer();
     } else if (value === 'delete') {
       setIsEdit(value === 'delete');
+      handleDialog();
+    } else {
+      setIsEdit(false);
       handleDialog();
     }
     setSelectedId(id);
