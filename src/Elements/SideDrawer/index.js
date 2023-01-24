@@ -6,6 +6,7 @@ import { Close } from '@mui/icons-material';
 
 const SideDrawer = ({ children, anchor = 'right', open, onClose, title }) => {
   const theme = useTheme();
+
   return (
     <Drawer
       anchor={anchor}
@@ -32,7 +33,7 @@ const SideDrawer = ({ children, anchor = 'right', open, onClose, title }) => {
         <Typography variant="h4" color="dark" fontWeight="bold">
           {title}
         </Typography>
-        <IconButton edge="end" onClick={onClose}>
+        <IconButton edge="end" onClick={onClose} size="medium">
           <Close />
         </IconButton>
       </Box>
