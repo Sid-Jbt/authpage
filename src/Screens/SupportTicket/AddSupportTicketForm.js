@@ -85,7 +85,7 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, selectedData }) =>
                   <Grid item xs={12}>
                     <Box>
                       <Editor
-                        title="Message"
+                        title="MESSAGE"
                         value={values.message}
                         label="MESSAGE"
                         backgroundContainerColor="white"
