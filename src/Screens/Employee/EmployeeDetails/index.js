@@ -5,6 +5,7 @@ import Header from './components/Header';
 import BasicInfo from './components/BasicInfo';
 import ChangePassword from './components/ChangePassword';
 import DeleteAccount from './components/DeleteAccount';
+import BankDetails from './components/BankDetails';
 
 const EmployeeDetails = () => (
   <Box mt={4}>
@@ -17,6 +18,9 @@ const EmployeeDetails = () => (
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <BasicInfo />
+            </Grid>
+            <Grid item xs={12}>
+              <BankDetails />
             </Grid>
             <Grid item xs={12}>
               <ChangePassword />

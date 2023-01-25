@@ -78,9 +78,6 @@ export const BasicInfoSchema = yup.object().shape({
   firstName: yup.string().required('First name is required'),
   lastName: yup.string().required('Last name is required'),
   gender: yup.string().required('Gender is required'),
-  month: yup.string().required('Month is required'),
-  day: yup.string().required('Day is required'),
-  year: yup.string().required('Year is required'),
   email: yup.string().email('Enter a valid email').required('Email is required'),
   confirmationEmail: yup
     .string()
@@ -91,14 +88,38 @@ export const BasicInfoSchema = yup.object().shape({
         .oneOf([yup.ref('email')], 'Email and Confirmation Email should be the same')
     })
     .required('Confirmation Email is required'),
-  // dateOfBirth: yup.string().required('Date of birth is required'),
-  // dateOfJoin: yup.string().required('Date of join is required'),
-  // dateOfLeave: yup.string().required('Date of leave is required'),
   phoneNumber: yup
     .string()
     .matches(numberRegx, 'Phone number is not valid')
     .required('Phone number is required'),
   pAdd: yup.string().required('Permanent Address is required')
+  // dateOfBirth: yup.string().required('Date of birth is required'),
+  // dateOfJoin: yup.string().required('Date of join is required'),
+  // dateOfLeave: yup.string().required('Date of leave is required'),
+});
+
+export const changePasswordSchema = yup.object().shape({
+  currentPassword: yup
+    .string()
+    .matches(passwordRegx, '')
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+  newPassword: yup
+    .string()
+    .matches(passwordRegx, '')
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+  confirmNewPassword: yup
+    .string()
+    .when('password', {
+      is: (val) => !!(val && val.length > 0),
+      then: yup
+        .string()
+        .matches(passwordRegx, '')
+        .min(8, 'Password should be of minimum 8 characters length')
+        .oneOf([yup.ref('password')], 'New password and Confirmed password should be the same')
+    })
+    .required('Confirm Password is required')
 });
 
 export const validationSchema = yup.object().shape({
