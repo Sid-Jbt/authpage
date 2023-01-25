@@ -1,12 +1,4 @@
 import Badge from 'Elements/Badge';
-// import Icon from '@mui/material/Icon';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
-
-// const action = (
-//   <Icon sx={{ cursor: 'pointer', fontWeight: 'bold' }} fontSize="small">
-//     <MoreVertIcon />
-//   </Icon>
-// );
 
 const supportTicketData = {
   columns: [

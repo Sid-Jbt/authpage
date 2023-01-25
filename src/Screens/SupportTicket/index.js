@@ -8,7 +8,7 @@ import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import supportTicketData from './data/SupportTicketData';
 import FilterLayout from '../../Components/FilterLayout';
-import AddTicketForm from './AddSupportTicketForm';
+import AddSupportTicketForm from './AddSupportTicketForm';
 
 const supportTicket = () => {
   const { columns: prCols, rows: prRows } = supportTicketData;
@@ -30,6 +30,10 @@ const supportTicket = () => {
   };
   console.log('Status, Priority --> ', status, priority);
 
+  const onClickExport = () => {
+    alert('Export coming soon...');
+  };
+
   const onClickAction = (key, index) => {
     if (key === 'edit') {
       setSelectedData(prRows.find((o) => o.id === index));
@@ -40,7 +44,7 @@ const supportTicket = () => {
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs={12} md="auto">
+        <Grid item xs="auto">
           <Button
             sx={({ breakpoints, palette: { dark } }) => ({
               [breakpoints.down('xl' && 'lg')]: {
@@ -58,7 +62,7 @@ const supportTicket = () => {
             Add
           </Button>
         </Grid>
-        <Grid item xs={12} md="auto">
+        <Grid item xs="auto">
           <Button
             sx={({ breakpoints, palette: { dark } }) => ({
               [breakpoints.down('xl' && 'lg')]: {
@@ -68,6 +72,7 @@ const supportTicket = () => {
             })}
             variant="outlined"
             size="small"
+            onClick={onClickExport}
           >
             <Icon sx={{ mr: 1 }}>
               <ImportExportRounded />
@@ -77,7 +82,6 @@ const supportTicket = () => {
         </Grid>
       </Grid>
       <Card
-        // mb={3}
         sx={{
           background: ({ palette: { grey } }) => grey[100],
           borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
@@ -85,7 +89,7 @@ const supportTicket = () => {
         }}
       >
         <FilterLayout>
-          <Grid item sm={12} md={4} lg={3}>
+          <Grid item xs={12} md={4} lg={3}>
             <Input
               type="date"
               label="Select Date"
@@ -120,7 +124,7 @@ const supportTicket = () => {
             { title: 'Delete', value: 'delete' }
           ]}
         />
-        <AddTicketForm
+        <AddSupportTicketForm
           isDialogOpen={isDialogOpen}
           handleDialog={handleDialog}
           selectedData={selectedData}

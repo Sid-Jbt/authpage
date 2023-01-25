@@ -47,7 +47,7 @@ const EditorRoot = styled('div')(({ theme, backgroundContainerColor }) => {
 
 const Editor = (props) => (
   <EditorRoot {...props}>
-    <Typography className="typography">Leave Reason</Typography>
+    <Typography className="typography">{props.title}</Typography>
     <ReactQuill theme="snow" {...props} />
   </EditorRoot>
 );
