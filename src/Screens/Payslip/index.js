@@ -5,7 +5,7 @@ import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
-import { Months, Years } from 'Helpers/Globle';
+import { Months, Years } from 'Helpers/Global';
 import payslipData from './data/payslipData';
 
 const Payslip = () => {

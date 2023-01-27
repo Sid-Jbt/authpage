@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { Formik } from 'formik';
 import moment from 'moment';
-import { profileFormSchema } from 'Helpers/ValidationSchema';
+import { profileSchema } from 'Helpers/ValidationSchema';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
@@ -54,7 +54,7 @@ const PersonalDetails = () => {
         onSubmit={(values) => {
           console.log('values', values);
         }}
-        validationSchema={profileFormSchema}
+        validationSchema={profileSchema}
       >
         {(props) => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
