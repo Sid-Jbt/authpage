@@ -6,7 +6,7 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import Select from 'Elements/Select';
-import { Roles } from 'Helpers/Globle';
+import { Roles } from 'Helpers/Global';
 import { useNavigate } from 'react-router';
 import employeeListData from './data/employeeListData';
 import AddEmployeeForm from './AddEmployeeForm';

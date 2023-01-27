@@ -5,7 +5,7 @@ import Button from 'Elements/Button';
 import { Add, DirectionsRun, ImportExportRounded, MoreTime, WatchOff } from '@mui/icons-material';
 // import Input from 'Elements/Input';
 import Select from 'Elements/Select';
-import { Months, Years, Status } from 'Helpers/Globle';
+import { Months, Years, Status } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import attendanceData from './data/attendanceData';
 import LeaveCard from '../../Components/CardLayouts/LeaveCard';
