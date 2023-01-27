@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { FormControlLabel, Grid, RadioGroup, Radio, useTheme, FormLabel } from '@mui/material';
 import Icon from '@mui/material/Icon';
 import Box from 'Elements/Box';
@@ -24,6 +25,17 @@ const initialValues = {
 
 const Basic = () => {
   const theme = useTheme();
+  const [profilePicUrl, setProfilePicUrl] = useState('');
+
+  const profilePicUpload = () => {
+    document.querySelector('input').onchange = (e) => {
+      const file = e.target.files[0];
+      const url = URL.createObjectURL(file);
+      document.querySelector('img').src = url;
+      setProfilePicUrl(url);
+    };
+  };
+
   return (
     <Box>
       <Box width="80%" textAlign="center" mx="auto" mb={4}>
@@ -52,7 +64,12 @@ const Basic = () => {
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={3} container justifyContent="center">
                     <Box position="relative" height="max-content" mx="auto">
-                      <Avatar src={team2} alt="profile picture" size="xxl" variant="rounded" />
+                      <Avatar
+                        src={profilePicUrl === '' ? team2 : profilePicUrl}
+                        alt="profile picture"
+                        size="xxl"
+                        variant="rounded"
+                      />
                       <Box
                         alt="spotify logo"
                         position="absolute"
@@ -61,7 +78,13 @@ const Basic = () => {
                         mr={-1}
                         mb={-1}
                       >
-                        <Button variant="gradient" color="light" component="label" iconOnly>
+                        <Button
+                          variant="gradient"
+                          color="light"
+                          component="label"
+                          onClick={profilePicUpload}
+                          iconOnly
+                        >
                           <Icon>
                             <Edit />
                             <Input type="file" hidden />

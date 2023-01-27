@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FormControl, FormLabel, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -19,22 +19,28 @@ const initialValues = {
 };
 const Organisation = () => {
   const [workingHours, setWorkingHours] = useState('');
+  const [smallLogoUrl, setSmallLogoUrl] = useState('');
+  const [largeLogoUrl, setLargeLogoUrl] = useState('');
 
   const handleChangWorkingHours = (event) => {
     setWorkingHours(event.target.value.value);
   };
   console.log('Selected workingHours --> ', workingHours);
 
-  useEffect(() => {
-    const openImageSelector = async () => {
-      const uploadFile = await document.getElementById('uploadDGREle');
-      if (uploadFile !== null && uploadFile !== undefined && uploadFile.value.length) {
-        console.log('Selected Image --> ', uploadFile);
+  const logoUpload = (value) => {
+    document.querySelector('input').onchange = (e) => {
+      const file = e.target.files[0];
+      const url = URL.createObjectURL(file);
+      if (value === 'small') {
+        document.querySelector('img').src = url;
+        setSmallLogoUrl(url);
+      }
+      if (value === 'large') {
+        document.querySelector('img').src = url;
+        setLargeLogoUrl(url);
       }
     };
-
-    openImageSelector();
-  }, []);
+  };
 
   return (
     <Box>
@@ -67,7 +73,12 @@ const Organisation = () => {
                       <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
                         Small Logo
                       </Typography>
-                      <Avatar src={team2} alt="profile picture" size="xxl" variant="rounded" />
+                      <Avatar
+                        src={smallLogoUrl === '' ? team2 : smallLogoUrl}
+                        alt="small picture"
+                        size="xxl"
+                        variant="rounded"
+                      />
                       <Box
                         alt="spotify logo"
                         position="absolute"
@@ -81,11 +92,12 @@ const Organisation = () => {
                           variant="gradient"
                           color="light"
                           component="label"
+                          onClick={() => logoUpload('small')}
                           iconOnly
                         >
                           <Icon>
                             <Edit />
-                            <Input id="uploadInput" type="file" hidden />
+                            <Input id="smallLogoUpload" type="file" hidden />
                           </Icon>
                         </Button>
                       </Box>
@@ -96,7 +108,12 @@ const Organisation = () => {
                       <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
                         Large Logo
                       </Typography>
-                      <Avatar src={team2} alt="profile picture" size="xxl" variant="rounded" />
+                      <Avatar
+                        src={largeLogoUrl === '' ? team2 : largeLogoUrl}
+                        alt="large picture"
+                        size="xxl"
+                        variant="rounded"
+                      />
                       <Box
                         alt="spotify logo"
                         position="absolute"
@@ -110,11 +127,12 @@ const Organisation = () => {
                           variant="gradient"
                           color="light"
                           component="label"
+                          onClick={() => logoUpload('large')}
                           iconOnly
                         >
                           <Icon>
                             <Edit />
-                            <Input type="file" hidden />
+                            <Input id="LargeLogoUpload" type="file" hidden />
                           </Icon>
                         </Button>
                       </Box>

@@ -1,13 +1,6 @@
 import { Grid } from '@mui/material';
-import Icon from '@mui/material/Icon';
-
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
-import Avatar from 'Elements/Avatar';
-import Button from 'Elements/Button';
-
-import team2 from 'Assets/Images/team-4-800x800.jpg';
-import { Edit } from '@mui/icons-material';
 import { Formik } from 'formik';
 import Input from 'Elements/Input';
 import { bankFormSchema } from 'Helpers/ValidationSchema';
@@ -46,29 +39,10 @@ const Basic = () => (
         return (
           <form onSubmit={handleSubmit}>
             <Box mt={2}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={3} container justifyContent="center">
-                  <Box position="relative" height="max-content" mx="auto">
-                    <Avatar src={team2} alt="profile picture" size="xxl" variant="rounded" />
-                    <Box
-                      alt="spotify logo"
-                      position="absolute"
-                      right={0}
-                      bottom={0}
-                      mr={-1}
-                      mb={-1}
-                    >
-                      <Button variant="gradient" color="light" size="small" iconOnly>
-                        <Icon>
-                          <Edit />
-                        </Icon>
-                      </Button>
-                    </Box>
-                  </Box>
-                </Grid>
+              <Grid container spacing={3} justifyContent="center">
                 <Grid item xs={12} sm={8}>
                   <Grid container spacing={1} rowSpacing={0}>
-                    <Grid item xs={12} md={5}>
+                    <Grid item xs={12} md={6}>
                       <Box>
                         <Input
                           type="text"
@@ -87,7 +61,7 @@ const Basic = () => (
                         />
                       </Box>
                     </Grid>
-                    <Grid item xs={12} md={5}>
+                    <Grid item xs={12} md={6}>
                       <Box>
                         <Input
                           type="text"
@@ -106,7 +80,7 @@ const Basic = () => (
                         />
                       </Box>
                     </Grid>
-                    <Grid item xs={12} md={5}>
+                    <Grid item xs={12} md={6}>
                       <Box>
                         <Input
                           type="text"
@@ -127,7 +101,7 @@ const Basic = () => (
                         />
                       </Box>
                     </Grid>
-                    <Grid item xs={12} md={5}>
+                    <Grid item xs={12} md={6}>
                       <Box>
                         <Input
                           type="text"
@@ -149,7 +123,7 @@ const Basic = () => (
                       </Box>
                     </Grid>
 
-                    <Grid item xs={12} md={5}>
+                    <Grid item xs={12} md={6}>
                       <Box>
                         <Input
                           type="text"
@@ -169,7 +143,7 @@ const Basic = () => (
                       </Box>
                     </Grid>
 
-                    <Grid item xs={12} md={5}>
+                    <Grid item xs={12} md={6}>
                       <Box>
                         <Input
                           type="text"
