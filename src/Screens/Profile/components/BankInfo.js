@@ -5,7 +5,16 @@ import { Formik } from 'formik';
 import Button from 'Elements/Button';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
-import { bankAccountSchema } from '../../../Helpers/ValidationSchema';
+import { bankFormSchema } from 'Helpers/ValidationSchema';
+
+const initialValues = {
+  bankName: '',
+  branchName: '',
+  accountName: '',
+  accountNumber: '',
+  ifscCode: '',
+  panNumber: ''
+};
 
 const BankInfo = () => {
   const theme = useTheme();
@@ -29,18 +38,11 @@ const BankInfo = () => {
       </Grid>
 
       <Formik
-        initialValues={{
-          bankName: '',
-          branchName: '',
-          accountName: '',
-          accountNumber: '',
-          ifscCode: '',
-          panNumber: ''
-        }}
+        initialValues={initialValues}
         onSubmit={(values) => {
           console.log('values', values);
         }}
-        validationSchema={bankAccountSchema}
+        validationSchema={bankFormSchema}
       >
         {(props) => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;

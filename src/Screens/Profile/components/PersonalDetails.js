@@ -16,6 +16,18 @@ import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 
+const initialValues = {
+  firstName: '',
+  lastName: '',
+  fatherName: '',
+  department: '',
+  designation: '',
+  pAdd: '',
+  alternativeNumber: '',
+  phoneNumber: '',
+  dateOfBirth: moment().format('YYYY-MM-DD')
+};
+
 const PersonalDetails = () => {
   const theme = useTheme();
   const [isEdit, setIsEdit] = useState(true);
@@ -38,17 +50,7 @@ const PersonalDetails = () => {
 
       <Formik
         enableReinitialize
-        initialValues={{
-          firstName: '',
-          lastName: '',
-          fatherName: '',
-          department: '',
-          designation: '',
-          pAdd: '',
-          alternativeNumber: '',
-          phoneNumber: '',
-          dateOfBirth: moment().format('DD/MM/YYYY')
-        }}
+        initialValues={initialValues}
         onSubmit={(values) => {
           console.log('values', values);
         }}
@@ -189,6 +191,12 @@ const PersonalDetails = () => {
                       id="dateOfBirth"
                       name="dateOfBirth"
                       label="Date Of Birth"
+                      defaultValue={values.dateOfBirth}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      errorText={errors.dateOfBirth && touched.dateOfBirth && errors.dateOfBirth}
+                      error={errors.dateOfBirth && touched.dateOfBirth}
+                      success={!errors.dateOfBirth && touched.dateOfBirth}
                       disabled={isEdit}
                     />
                   </Box>

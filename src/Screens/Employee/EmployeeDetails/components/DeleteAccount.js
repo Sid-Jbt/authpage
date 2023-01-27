@@ -5,10 +5,11 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 
 const DeleteAccount = () => {
-  const [visibility, setVisibility] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
 
-  const handleSetVisibility = () => setVisibility(!visibility);
+  const handleSetIsVisible = () => setIsVisible(!isVisible);
+  console.log('isVisible --> ', isVisible);
   const handleSetDelete = () => setIsDelete(!isDelete);
 
   return (
@@ -30,10 +31,10 @@ const DeleteAccount = () => {
         flexDirection={{ xs: 'column', sm: 'row' }}
       >
         <Box display="flex" alignItems="center" mb={{ xs: 3, sm: 0 }}>
-          <Switch checked={visibility} onChange={handleSetVisibility} />
-          <Box ml={2} lineHeight={0} sx={{ cursor: 'pointer' }} onClick={handleSetVisibility}>
+          <Switch checked={isVisible} onChange={handleSetIsVisible} />
+          <Box ml={2} lineHeight={0} sx={{ cursor: 'pointer' }} onClick={handleSetIsVisible}>
             <Typography display="block" variant="button" fontWeight="medium">
-              Visibility
+              {!isVisible ? 'Switch to visible' : 'Switch to invisible'}
             </Typography>
             <Typography variant="caption" color="text">
               User Visibility switch.
