@@ -1300,6 +1300,13 @@ export default function componentStyleOverrides(theme) {
           padding: pxToRem(16)
         }
       }
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          width: '100%'
+        }
+      }
     }
   };
 }

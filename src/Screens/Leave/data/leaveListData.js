@@ -8,8 +8,8 @@ const leaveListData = {
     { name: 'to', align: 'center', headerName: 'To', mobileHeader: 'To' },
     { name: 'noOfDays', align: 'center', headerName: 'No Of Days', mobileHeader: 'NOD' },
     { name: 'leaveReason', align: 'center', headerName: 'Reason', mobileHeader: 'Reason' },
-    { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' },
-    { name: 'approvedBy', align: 'center', headerName: 'Approved By', mobileHeader: 'Approved By' }
+    { name: 'approvedBy', align: 'center', headerName: 'Approved By', mobileHeader: 'Approved By' },
+    { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
   ],
 
   rows: [
@@ -24,7 +24,6 @@ const leaveListData = {
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       ),
       approvedBy: 'Suresh Borad'
-      // action: <Action id={1} />
     },
     {
       id: 2,
