@@ -64,7 +64,7 @@ const CompleteProfileCard = ({ color, image, title, description, action }) => (
 );
 
 CompleteProfileCard.defaultProps = {
-  color: 'error'
+  color: 'primary'
 };
 
 export default CompleteProfileCard;
