@@ -36,7 +36,7 @@ const Address = () => (
           <form onSubmit={handleSubmit}>
             <Box mt={2} display="flex">
               <Grid container justifyContent="center">
-                <Grid item xs={12} md={12}>
+                <Grid item xs={12} md={8}>
                   <Box>
                     <Input
                       type="text"
@@ -55,7 +55,7 @@ const Address = () => (
                     />
                   </Box>
                 </Grid>
-                <Grid item xs={12} md={12}>
+                <Grid item xs={12} md={8}>
                   <Box>
                     <Input
                       type="text"
