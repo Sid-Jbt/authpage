@@ -24,17 +24,15 @@ const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) =
   const collapseName = pathname.split('/').slice(1)[0];
   const itemName = pathname.split('/').slice(1)[1];
 
-  useEffect(() => {
-    function handleMiniSidenav() {
-      if (window.innerWidth < breakpoints.values.xl) {
-        dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
-      }
+  function handleMiniSidenav() {
+    if (window.innerWidth < breakpoints.values.xl) {
+      dispatch({ type: MINI_SIDENAV, value: customization.miniSidenav });
     }
+  }
 
+  useEffect(() => {
     window.addEventListener('resize', handleMiniSidenav);
-
     handleMiniSidenav();
-
     return () => window.removeEventListener('resize', handleMiniSidenav);
   }, [dispatch, location]);
 

@@ -66,7 +66,7 @@ const calendarEventsData = [
 const DashboardDefault = () => (
   <Box mb={3}>
     <Grid container spacing={3}>
-      <Grid item xs={12} lg={7} xl={8}>
+      <Grid order={{ xs: 1, lg: 0 }} item xs={12} lg={7} xl={8}>
         {useMemo(
           () => (
             <Calendar
