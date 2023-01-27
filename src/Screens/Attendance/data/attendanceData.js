@@ -7,13 +7,13 @@ const attendanceData = {
     { name: 'username', align: 'center', headerName: 'Username', mobileHeader: 'Username' },
     { name: 'punch In', align: 'center', headerName: 'Punch In', mobileHeader: 'In' },
     { name: 'punch Out', align: 'center', headerName: 'Punch Out', mobileHeader: 'Out' },
-    { name: 'late', align: 'center', headerName: 'Late', mobileHeader: 'Late' },
-    {
-      name: 'early Leaving',
-      align: 'center',
-      headerName: 'Early Leaving',
-      mobileHeader: 'Ear.Lea'
-    },
+    // { name: 'late', align: 'center', headerName: 'Late', mobileHeader: 'Late' },
+    // {
+    //   name: 'early Leaving',
+    //   align: 'center',
+    //   headerName: 'Early Leaving',
+    //   mobileHeader: 'Ear.Lea'
+    // },
     { name: 'overtime', align: 'center', headerName: 'Overtime', mobileHeader: 'Overtime' },
     { name: 'production', align: 'center', headerName: 'Production', mobileHeader: 'Production' },
     { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
