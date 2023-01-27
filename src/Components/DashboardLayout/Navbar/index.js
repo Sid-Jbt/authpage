@@ -151,7 +151,7 @@ const DashboardNavbar = ({ isMini }) => {
       blur={10}
     >
       <Toolbar sx={(theme) => navbarContainer(theme, { position: 'static' })}>
-        <Box color="white" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
+        <Box color="white" sx={(theme) => navbarRow(theme, { isMini })}>
           {profileSetup ? (
             !customization.miniSidenav ? (
               <IconButton

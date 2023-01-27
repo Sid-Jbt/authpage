@@ -30,6 +30,13 @@ function navbar(theme, ownerState) {
     marginLeft: 3,
     paddingRight: 1,
     borderRadius: 4,
+    [breakpoints.down('sm')]: {
+      top: 0,
+      marginRight: 0,
+      marginLeft: 0,
+      borderTopRightRadius: 0,
+      borderTopLeftRadius: 0
+    },
     '& > *': {
       transition: transitions.create('all', {
         easing: transitions.easing.easeInOut,

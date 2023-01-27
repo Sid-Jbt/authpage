@@ -56,7 +56,12 @@ const DashboardLayout = ({ children, ...rest }) => {
         })}
       >
         <DashboardNavbar />
-        <Box sx={{ p: 3, pt: 0 }}>
+        <Box
+          sx={({ breakpoints }) => ({
+            [breakpoints.down('md')]: { p: 1, pt: 0 },
+            [breakpoints.up('md')]: { p: 3, pt: 0 }
+          })}
+        >
           <Outlet />
         </Box>
         <Footer />
