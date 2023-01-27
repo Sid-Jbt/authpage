@@ -8,18 +8,21 @@ import { useNavigate } from 'react-router';
 import Basic from './component/Basic';
 import Address from './component/Address';
 import Account from './component/Account';
+import Organisation from './component/Organisation';
 
 function getSteps() {
-  return ['Basic', 'Address', 'Account'];
+  return ['Organisation', 'Basic', 'Address', 'Account'];
 }
 
 function getStepContent(stepIndex) {
   switch (stepIndex) {
     case 0:
-      return <Basic />;
+      return <Organisation />;
     case 1:
-      return <Address />;
+      return <Basic />;
     case 2:
+      return <Address />;
+    case 3:
       return <Account />;
     default:
       return null;

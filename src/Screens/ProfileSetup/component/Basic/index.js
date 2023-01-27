@@ -12,7 +12,6 @@ import { Formik } from 'formik';
 import moment from 'moment';
 import Input from 'Elements/Input';
 import { validationSchema } from 'Helpers/ValidationSchema';
-import Dropzone from '../../../../Elements/Dropzone';
 
 const initialValues = {
   firstName: '',
@@ -36,7 +35,7 @@ const Basic = () => {
           </Typography>
         </Box>
         <Typography variant="body2" fontWeight="regular" color="text">
-          Let us know your name and father name.
+          Let us know more about you.
         </Typography>
       </Box>
       <Formik
@@ -71,7 +70,6 @@ const Basic = () => {
                         </Button>
                       </Box>
                     </Box>
-                    <Dropzone />
                   </Grid>
                   <Grid item xs={12} sm={8}>
                     <Grid container spacing={1} rowSpacing={0}>
