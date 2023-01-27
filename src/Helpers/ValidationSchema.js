@@ -141,6 +141,11 @@ export const addressSchema = yup.object().shape({
   currentAdd: yup.string().required('Current Address is required')
 });
 
+export const organisationDetailsSchema = yup.object().shape({
+  permanentAdd: yup.string().required('Permanent Address is required'),
+  workingHours: yup.string().required('Working hours is required')
+});
+
 export const validationSchema = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   password: yup
