@@ -61,10 +61,10 @@ const Organisation = () => {
           return (
             <form onSubmit={handleSubmit}>
               <Box mt={2}>
-                <Grid container spacing={3}>
-                  <Grid item xs={6} sm={3} lg={4} container justifyContent="center">
+                <Grid container spacing={3} justifyContent="center">
+                  <Grid item xs={6} sm={3} lg={4} container>
                     <Box position="relative" height="max-content" mx="auto">
-                      <Typography variant="h6" fontWeight="small" color="label">
+                      <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
                         Small Logo
                       </Typography>
                       <Avatar src={team2} alt="profile picture" size="xxl" variant="rounded" />
@@ -91,9 +91,9 @@ const Organisation = () => {
                       </Box>
                     </Box>
                   </Grid>
-                  <Grid item xs={6} sm={3} lg={4} container justifyContent="center">
+                  <Grid item xs={6} sm={3} lg={4} container>
                     <Box position="relative" height="max-content" mx="auto">
-                      <Typography variant="h6" fontWeight="small" color="label">
+                      <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
                         Large Logo
                       </Typography>
                       <Avatar src={team2} alt="profile picture" size="xxl" variant="rounded" />
@@ -121,28 +121,7 @@ const Organisation = () => {
                     </Box>
                   </Grid>
 
-                  <Grid item xs={12} md={12} lg={9}>
-                    <Box position="relative" height="max-content" mx="auto">
-                      <Input
-                        type="text"
-                        placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
-                        size="medium"
-                        fullWidth
-                        id="permanentAdd"
-                        name="permanentAdd"
-                        label="Permanent Address"
-                        value={values.pAdd}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={
-                          errors.permanentAdd && touched.permanentAdd && errors.permanentAdd
-                        }
-                        error={errors.permanentAdd && touched.permanentAdd}
-                        success={!errors.permanentAdd && touched.permanentAdd}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} md={4} lg={3}>
+                  <Grid item xs={12} md={12} lg={10} container sx={{ paddingTop: '0 !important' }}>
                     <FormControl sx={{ width: '100%' }}>
                       <FormLabel>Select Working Hours</FormLabel>
                       <Select
@@ -163,6 +142,27 @@ const Organisation = () => {
                         }}
                       />
                     </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={12} lg={12} container justifyContent="center">
+                    <Box sx={{ width: '82%' }}>
+                      <Input
+                        type="text"
+                        placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
+                        size="medium"
+                        fullWidth
+                        id="permanentAdd"
+                        name="permanentAdd"
+                        label="Permanent Address"
+                        value={values.pAdd}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={
+                          errors.permanentAdd && touched.permanentAdd && errors.permanentAdd
+                        }
+                        error={errors.permanentAdd && touched.permanentAdd}
+                        success={!errors.permanentAdd && touched.permanentAdd}
+                      />
+                    </Box>
                   </Grid>
                 </Grid>
               </Box>

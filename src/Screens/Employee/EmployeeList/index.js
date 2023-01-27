@@ -8,9 +8,9 @@ import FilterLayout from 'Components/FilterLayout';
 import Select from 'Elements/Select';
 import { Roles } from 'Helpers/Global';
 import { useNavigate } from 'react-router';
+import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
 import employeeListData from './data/employeeListData';
 import AddEmployeeForm from './AddEmployeeForm';
-import { getEmployeeDetailsPattern } from '../../../Routes/routeConfig';
 
 const EmployeeList = () => {
   const { columns: prCols, rows: prRows } = employeeListData;
