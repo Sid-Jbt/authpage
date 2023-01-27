@@ -138,8 +138,7 @@ const Organisation = () => {
                       </Box>
                     </Box>
                   </Grid>
-
-                  <Grid item xs={12} md={12} lg={10} container sx={{ paddingTop: '0 !important' }}>
+                  <Grid item xs={12} md={10} lg={8}>
                     <FormControl sx={{ width: '100%' }}>
                       <FormLabel>Select Working Hours</FormLabel>
                       <Select
@@ -161,8 +160,8 @@ const Organisation = () => {
                       />
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} md={12} lg={12} container justifyContent="center">
-                    <Box sx={{ width: '82%' }}>
+                  <Grid item xs={12} md={10} lg={8}>
+                    <Box>
                       <Input
                         type="text"
                         placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
@@ -191,7 +190,5 @@ const Organisation = () => {
     </Box>
   );
 };
-
-/* <div>Organisation things we need here Small,Large Logo, Working hours, location.</div> */
 
 export default Organisation;

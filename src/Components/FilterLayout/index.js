@@ -37,8 +37,7 @@ const FilterLayout = ({ children }) => {
         <AccordionDetails sx={{ pt: 0, pb: 0 }}>
           <Grid container alignItems="flex-end" spacing={1}>
             {children}
-            {/* <Grid item xs={12} md={4} lg={3}> */}
-            <Grid item sm={12} md={4} lg={2.4}>
+            <Grid item sm={12} md={4} lg={3}>
               <Input
                 placeholder="Search"
                 type="text"
@@ -54,7 +53,7 @@ const FilterLayout = ({ children }) => {
               item
               sm={12}
               md={8}
-              lg={4}
+              lg={3}
               sx={({ breakpoints }) => ({
                 [breakpoints.down('lg' && 'md')]: {
                   marginBottom: 2

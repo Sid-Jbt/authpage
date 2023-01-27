@@ -110,7 +110,7 @@ const AttendanceList = () => {
         }}
       >
         <FilterLayout>
-          <Grid item sm={12} md={4} lg={2.4}>
+          <Grid item sm={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select User</FormLabel>
               <Select
@@ -121,43 +121,24 @@ const AttendanceList = () => {
               />
             </FormControl>
           </Grid>
-
-          <Grid item xs={12} md={4} lg={2.4}>
+          <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Month</FormLabel>
               <Select options={Months} onChange={(value) => handleChangeMonth(value)} />
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={4} lg={2.4}>
+          <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Year</FormLabel>
               <Select options={Years} onChange={(value) => handleChangeYear(value)} />
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={4} lg={2.4}>
+          <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Status</FormLabel>
               <Select options={Status} onChange={(value) => handleChangeStatus(value)} />
             </FormControl>
           </Grid>
-          {/* <Grid item sm={12} md={4} lg={2.4}> */}
-          {/*  <FormControl sx={{ width: '100%' }}> */}
-          {/*    <FormLabel>Status</FormLabel> */}
-          {/*    <Select */}
-          {/*      id="selectStatus" */}
-          {/*      value={status} */}
-          {/*      onChange={handleChangeStatus} */}
-          {/*      displayEmpty */}
-          {/*      renderValue={status !== '' ? undefined : () => 'All'} */}
-          {/*    > */}
-          {/*      <MenuItem value="all">All</MenuItem> */}
-          {/*      <MenuItem value="pre">Present</MenuItem> */}
-          {/*      <MenuItem value="abs">Absent</MenuItem> */}
-          {/*      <MenuItem value="late">Late</MenuItem> */}
-          {/*      <MenuItem value="ovt">Overtime</MenuItem> */}
-          {/*    </Select> */}
-          {/*  </FormControl> */}
-          {/* </Grid> */}
         </FilterLayout>
         <Table columns={prCols} rows={prRows} />
       </Card>

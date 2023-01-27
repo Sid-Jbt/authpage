@@ -1,11 +1,11 @@
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
-import Button from 'Elements/Button';
 import Avatar from 'Elements/Avatar';
-import { TextField, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import React from 'react';
+import FormField from 'Elements/FormField';
 
-const ExpenseInfoDetails = ({ info, onClose }) => {
+const ExpenseInfoDetails = ({ info }) => {
   const labels = [];
   const values = [];
 
@@ -42,61 +42,22 @@ const ExpenseInfoDetails = ({ info, onClose }) => {
 
   return (
     <>
-      <Box sx={{ height: '100%' }}>
-        <Box>
-          <Grid container spacing={3} alignItems="center">
-            <Grid item>
-              <Box spacing={3}>{renderItems}</Box>
-            </Grid>
-            <Grid item>
-              <Avatar
-                src={info.image}
-                alt="profile-image"
-                variant="rounded"
-                size="xxl"
-                shadow="xxl"
-              />
-            </Grid>
-          </Grid>
-          <Box
-            component="form"
-            sx={{
-              '& .MuiTextField-root': { width: '100%' }
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField id="outlined-multiline-static" placeholder="Message" multiline rows={6} />
-          </Box>
-          <Grid
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              mt: 2
-            }}
-          >
-            <Button
-              type="submit"
-              color="info"
-              variant="contained"
-              size="small"
-              sx={{ marginRight: '10px', alignItems: 'center' }}
-              onClick={onClose}
-            >
-              Approved
-            </Button>
-            <Button
-              color="error"
-              sx={{ marginRight: '10px', alignItems: 'center' }}
-              variant="contained"
-              size="small"
-              onClick={onClose}
-            >
-              Reject
-            </Button>
-          </Grid>
-        </Box>
-      </Box>
+      <Grid container spacing={2} alignItems="center" justifyContent="space-between">
+        <Grid item>{renderItems}</Grid>
+        <Grid item>
+          <Avatar src={info.image} alt="profile-image" variant="rounded" size="xxl" shadow="lg" />
+        </Grid>
+        <Grid item xs={12}>
+          <FormField
+            type="textarea"
+            placeholder="Please Enter the reason of approve or reject"
+            label="Reason"
+            multiline
+            rows={5}
+            errorFalse
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

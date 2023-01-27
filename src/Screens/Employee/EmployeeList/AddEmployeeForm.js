@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { Grid, Icon, IconButton, InputAdornment } from '@mui/material';
-import { Save, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Grid, IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import SideDrawer from '../../../Elements/SideDrawer';
 import { validationSchema } from '../../../Helpers/ValidationSchema';
 import Box from '../../../Elements/Box';
@@ -142,10 +142,7 @@ const renderAddEmployeeDialog = ({ isDialogOpen, handleDialog }) => {
                   </Grid>
                   <Grid item sm={12} md={4} lg={6}>
                     <Button type="submit" color="info" variant="contained" size="medium">
-                      <Icon sx={{ mr: 1 }}>
-                        <Save />
-                      </Icon>
-                      Save
+                      Add Employee
                     </Button>
                   </Grid>
                 </Grid>

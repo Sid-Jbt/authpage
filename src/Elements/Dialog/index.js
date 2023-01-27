@@ -1,13 +1,21 @@
 import React from 'react';
-import { Dialog, DialogContent, DialogTitle, Icon, IconButton, Slide } from '@mui/material';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Icon,
+  IconButton,
+  Slide
+} from '@mui/material';
 import { Close } from '@mui/icons-material';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const DialogMenu = ({ isOpen, onClose, dialogTitle, dialogContent }) => (
-  <Dialog open={isOpen} onClose TransitionComponent={Transition}>
+const DialogMenu = ({ isOpen, onClose, dialogTitle, dialogContent, dialogAction }) => (
+  <Dialog open={isOpen} onClose TransitionComponent={Transition} scroll="paper">
     <DialogTitle>
       {dialogTitle}
       {isOpen && (
@@ -27,6 +35,7 @@ const DialogMenu = ({ isOpen, onClose, dialogTitle, dialogContent }) => (
       )}
     </DialogTitle>
     <DialogContent>{dialogContent}</DialogContent>
+    <DialogActions>{dialogAction}</DialogActions>
   </Dialog>
 );
 

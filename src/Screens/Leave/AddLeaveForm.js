@@ -76,21 +76,14 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData }) => {
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <Box>
-                      <Input
-                        type="text"
-                        placeholder="3"
-                        size="medium"
-                        id="noOfDays"
-                        name="noOfDays"
-                        label="No Of Days"
-                        fullWidth
-                        value={values.noOfDays}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.noOfDays && touched.noOfDays && errors.noOfDays}
-                        error={errors.noOfDays && touched.noOfDays}
-                        success={!errors.noOfDays && touched.noOfDays}
-                      />
+                      <FormControl sx={{ width: '100%' }}>
+                        <FormLabel>Select Type</FormLabel>
+                        <Select
+                          value={leaveType}
+                          options={leaveTypes}
+                          onChange={(value) => handleChangeLeave(value)}
+                        />
+                      </FormControl>
                     </Box>
                   </Grid>
                   <Grid item xs={12} md={6}>
@@ -131,7 +124,6 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData }) => {
                       />
                     </Box>
                   </Grid>
-
                   <Grid item xs={12}>
                     <Box>
                       <Editor
@@ -141,7 +133,6 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData }) => {
                       />
                     </Box>
                   </Grid>
-
                   <Grid
                     item
                     sm={12}
@@ -152,8 +143,8 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData }) => {
                       marginRight: '10px'
                     }}
                   >
-                    <Button type="submit" color="info" variant="contained" size="small">
-                      Save
+                    <Button type="submit" color="info" variant="contained" size="medium">
+                      Add Leave
                     </Button>
                   </Grid>
                 </Grid>
