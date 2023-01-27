@@ -1,16 +1,14 @@
 import { FormControlLabel, Grid, RadioGroup, Radio, useTheme, FormLabel } from '@mui/material';
 import Icon from '@mui/material/Icon';
-
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Avatar from 'Elements/Avatar';
 import Button from 'Elements/Button';
-
+import Input from 'Elements/Input';
 import team2 from 'Assets/Images/team-4-800x800.jpg';
 import { Edit } from '@mui/icons-material';
 import { Formik } from 'formik';
 import moment from 'moment';
-import Input from 'Elements/Input';
 import { validationSchema } from 'Helpers/ValidationSchema';
 
 const initialValues = {
@@ -63,9 +61,10 @@ const Basic = () => {
                         mr={-1}
                         mb={-1}
                       >
-                        <Button variant="gradient" color="light" size="small" iconOnly>
+                        <Button variant="gradient" color="light" component="label" iconOnly>
                           <Icon>
                             <Edit />
+                            <Input type="file" hidden />
                           </Icon>
                         </Button>
                       </Box>

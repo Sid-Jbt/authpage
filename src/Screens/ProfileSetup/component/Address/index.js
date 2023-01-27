@@ -34,51 +34,45 @@ const Address = () => (
         const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
         return (
           <form onSubmit={handleSubmit}>
-            <Box mt={2}>
+            <Box mt={2} display="flex">
               <Grid container justifyContent="center">
-                <Grid item xs={12} sm={8}>
-                  <Grid container spacing={1} rowSpacing={0}>
-                    <Grid item xs={12} md={12}>
-                      <Box>
-                        <Input
-                          type="text"
-                          placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
-                          size="medium"
-                          fullWidth
-                          id="permanentAdd"
-                          name="permanentAdd"
-                          label="Permanent Address"
-                          value={values.pAdd}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          errorText={
-                            errors.permanentAdd && touched.permanentAdd && errors.permanentAdd
-                          }
-                          error={errors.permanentAdd && touched.permanentAdd}
-                          success={!errors.permanentAdd && touched.permanentAdd}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                      <Box>
-                        <Input
-                          type="text"
-                          placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
-                          size="medium"
-                          fullWidth
-                          id="currentAdd"
-                          name="currentAdd"
-                          label="Current Address"
-                          value={values.currentAdd}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          errorText={errors.currentAdd && touched.currentAdd && errors.currentAdd}
-                          error={errors.currentAdd && touched.currentAdd}
-                          success={!errors.currentAdd && touched.currentAdd}
-                        />
-                      </Box>
-                    </Grid>
-                  </Grid>
+                <Grid item xs={12} md={12}>
+                  <Box>
+                    <Input
+                      type="text"
+                      placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
+                      size="medium"
+                      fullWidth
+                      id="permanentAdd"
+                      name="permanentAdd"
+                      label="Permanent Address"
+                      value={values.pAdd}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      errorText={errors.permanentAdd && touched.permanentAdd && errors.permanentAdd}
+                      error={errors.permanentAdd && touched.permanentAdd}
+                      success={!errors.permanentAdd && touched.permanentAdd}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <Box>
+                    <Input
+                      type="text"
+                      placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
+                      size="medium"
+                      fullWidth
+                      id="currentAdd"
+                      name="currentAdd"
+                      label="Current Address"
+                      value={values.currentAdd}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      errorText={errors.currentAdd && touched.currentAdd && errors.currentAdd}
+                      error={errors.currentAdd && touched.currentAdd}
+                      success={!errors.currentAdd && touched.currentAdd}
+                    />
+                  </Box>
                 </Grid>
               </Grid>
             </Box>
