@@ -30,7 +30,7 @@ const Basic = () => (
         </Typography>
       </Box>
       <Typography variant="body2" fontWeight="regular" color="text">
-        Let us know your name and father name.
+        Let us know your bank account details.
       </Typography>
     </Box>
     <Formik

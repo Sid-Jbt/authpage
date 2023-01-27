@@ -136,6 +136,11 @@ export const expenseFormSchema = yup.object().shape({
   selectDoc: yup.string().required('Select document is required')
 });
 
+export const addressSchema = yup.object().shape({
+  permanentAdd: yup.string().required('Permanent Address is required'),
+  currentAdd: yup.string().required('Current Address is required')
+});
+
 export const validationSchema = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   password: yup

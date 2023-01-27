@@ -2,11 +2,12 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import { Formik } from 'formik';
 import Input from 'Elements/Input';
-import { validationSchema } from 'Helpers/ValidationSchema';
+import { addressSchema } from 'Helpers/ValidationSchema';
 import { Grid } from '@mui/material';
 
 const initialValues = {
-  pAdd: ''
+  permanentAdd: '',
+  currentAdd: ''
 };
 
 const Address = () => (
@@ -18,7 +19,7 @@ const Address = () => (
         </Typography>
       </Box>
       <Typography variant="body2" fontWeight="regular" color="text">
-        Let us know your name and father name.
+        Let us know your address in details.
       </Typography>
     </Box>
     <Formik
@@ -27,7 +28,7 @@ const Address = () => (
       onSubmit={(values) => {
         console.log('values', values);
       }}
-      validationSchema={validationSchema}
+      validationSchema={addressSchema}
     >
       {(props) => {
         const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
@@ -44,15 +45,36 @@ const Address = () => (
                           placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
                           size="medium"
                           fullWidth
-                          id="pAdd"
-                          name="pAdd"
+                          id="permanentAdd"
+                          name="permanentAdd"
                           label="Permanent Address"
                           value={values.pAdd}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          errorText={errors.pAdd && touched.pAdd && errors.pAdd}
-                          error={errors.pAdd && touched.pAdd}
-                          success={!errors.pAdd && touched.pAdd}
+                          errorText={
+                            errors.permanentAdd && touched.permanentAdd && errors.permanentAdd
+                          }
+                          error={errors.permanentAdd && touched.permanentAdd}
+                          success={!errors.permanentAdd && touched.permanentAdd}
+                        />
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                      <Box>
+                        <Input
+                          type="text"
+                          placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
+                          size="medium"
+                          fullWidth
+                          id="currentAdd"
+                          name="currentAdd"
+                          label="Current Address"
+                          value={values.currentAdd}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          errorText={errors.currentAdd && touched.currentAdd && errors.currentAdd}
+                          error={errors.currentAdd && touched.currentAdd}
+                          success={!errors.currentAdd && touched.currentAdd}
                         />
                       </Box>
                     </Grid>
