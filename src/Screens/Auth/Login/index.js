@@ -28,7 +28,7 @@ const Login = () => {
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
   return (
-    <Box>
+    <>
       <Box mb={1}>
         <Typography variant="h4" fontWeight="bold">
           Sign In
@@ -154,7 +154,7 @@ const Login = () => {
           );
         }}
       </Formik>
-    </Box>
+    </>
   );
 };
 
