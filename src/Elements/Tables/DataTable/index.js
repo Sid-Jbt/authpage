@@ -10,9 +10,9 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Select from 'Elements/Select';
 import Input from 'Elements/Input';
-import Pagination from 'Elements/Pagination';
-
 import { useMemo, useEffect, useState } from 'react';
+import { ChevronLeftOutlined, ChevronRightOutlined } from '@mui/icons-material';
+import Pagination from './Pagination';
 import DataTableHeadCell from './DataTableHeadCell';
 import DataTableBodyCell from './DataTableBodyCell';
 
@@ -202,7 +202,9 @@ const DataTable = ({
           >
             {canPreviousPage && (
               <Pagination item onClick={() => previousPage()}>
-                <Icon sx={{ fontWeight: 'bold' }}>chevron_left</Icon>
+                <Icon sx={{ fontWeight: 'bold' }}>
+                  <ChevronLeftOutlined />
+                </Icon>
               </Pagination>
             )}
             {renderPagination.length > 6 ? (
@@ -218,7 +220,9 @@ const DataTable = ({
             )}
             {canNextPage && (
               <Pagination item onClick={() => nextPage()}>
-                <Icon sx={{ fontWeight: 'bold' }}>chevron_right</Icon>
+                <Icon sx={{ fontWeight: 'bold' }}>
+                  <ChevronRightOutlined />
+                </Icon>
               </Pagination>
             )}
           </Pagination>
