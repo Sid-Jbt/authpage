@@ -6,11 +6,12 @@ import { Grid, useTheme } from '@mui/material';
 import linearGradient from 'Theme/functions/linearGradient';
 import LogoWithName from 'Assets/logo/jbt-colored-logo.png';
 import Logo from 'Assets/logo/jbt-logo.svg';
+import LogoTest from 'Assets/Illustrations/404.svg';
 
 const AuthLayout = () => {
   const theme = useTheme();
 
-  const bgImage = 'https://jarvisbitz.com/wp-content/uploads/2022/02/banner-shape-1.png';
+  const bgImage = LogoTest;
 
   return (
     <>
@@ -65,9 +66,8 @@ const AuthLayout = () => {
                 src={bgImage}
                 alt="background"
                 width="100%"
+                height="100%"
                 position="absolute"
-                top={50}
-                left={0}
               />
               <Box
                 bgColor={linearGradient(
@@ -92,16 +92,18 @@ const AuthLayout = () => {
                     justifyContent: 'center'
                   }}
                 >
-                  <Box component="img" src={Logo} alt="Logo" width="2rem" mr={0.25} />
-                  <Typography variant="h4" color="white" fontWeight="bold" ml={1}>
+                  <Box component="img" src={Logo} alt="Logo" width={100} />
+                  <Typography variant="h1" color="white" fontWeight="bold" ml={1}>
                     JarvisBitz Tech
                   </Typography>
                 </Box>
 
                 <Box mb={1}>
-                  <Typography variant="body2" color="white">
-                    The more effortless the writing looks, the more effort the writer actually put
-                    into the process.
+                  <Typography variant="body1" color="white">
+                    Our goal is to convert our clients' digital experiences into cost-effective,
+                    functional, user-centric, and creative technological solutions. JarvisBitz is
+                    quick to identify and adapt to changes in the digital world, allowing companies
+                    to improve their market presence.
                   </Typography>
                 </Box>
               </Box>
