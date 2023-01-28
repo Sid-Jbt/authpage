@@ -5,13 +5,18 @@ import Button from 'Elements/Button';
 import { Card, Grid, Step, StepLabel, Stepper } from '@mui/material';
 import { getDashboardPattern } from 'Routes/routeConfig';
 import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
 import Basic from './component/Basic';
 import Address from './component/Address';
 import Account from './component/Account';
 import Organisation from './component/Organisation';
 
 function getSteps() {
-  return ['Organisation', 'Basic', 'Address', 'Account'];
+  const customization = useSelector((state) => state.customization);
+
+  return customization.role === 'admin'
+    ? ['Organisation', 'Basic', 'Address']
+    : ['Basic', 'Address', 'Account'];
 }
 
 function getStepContent(stepIndex) {

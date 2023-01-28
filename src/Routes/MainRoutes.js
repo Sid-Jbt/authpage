@@ -11,7 +11,8 @@ import {
   ReportOutlined,
   ListAltTwoTone,
   VerifiedUserOutlined,
-  HolidayVillage
+  HolidayVillage,
+  ViewArrayOutlined
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -31,7 +32,8 @@ import {
   reportPattern,
   profileSetupPattern,
   employeeDetailsPattern,
-  holidayPattern
+  holidayPattern,
+  rolePattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -48,6 +50,7 @@ const Setting = Loadable(lazy(() => import('../Screens/Settings')));
 const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
 const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
 // const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket')));
+const Role = Loadable(lazy(() => import('../Screens/Role')));
 
 // Report
 const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
@@ -162,6 +165,16 @@ const MainRoutes = [
   },
   {
     type: 'collapse',
+    noCollapse: true,
+    route: rolePattern,
+    name: 'Role',
+    icon: <ViewArrayOutlined sx={{ color: colors.dark.main }} />,
+    path: rolePattern,
+    key: 'role',
+    element: <Role />
+  },
+  {
+    type: 'collapse',
     name: 'Reports',
     key: 'report',
     icon: <ListAltTwoTone sx={{ color: '#DAA520' }} />,
@@ -231,9 +244,9 @@ const MainRoutes = [
   // }
 ];
 
-// const roleList = ''; // for future if we need to config and show selected list in dashboard to user then we will store here from the local storage
+// const roleList = JSON.parse(localStorage?.getItem('ROLE_LIST'));
+// const childrenList = MainRoutes.filter((item) => roleList?.find((data) => data === item.key));
 const childrenList = MainRoutes;
-// filter of that role list according to the above mainRoutes using array filter method
 
 const DashboardRoutes = {
   path: '/',

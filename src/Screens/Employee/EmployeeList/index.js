@@ -9,19 +9,21 @@ import Select from 'Elements/Select';
 import { Roles } from 'Helpers/Global';
 import { useNavigate } from 'react-router';
 import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
+import { useSelector } from 'react-redux';
 import employeeListData from './data/employeeListData';
 import AddEmployeeForm from './AddEmployeeForm';
 
 const EmployeeList = () => {
+  const { role } = useSelector((state) => state.customization);
   const { columns: prCols, rows: prRows } = employeeListData;
-  const [role, setRole] = useState('');
+  const [selectedRole, setSelectedRole] = useState('');
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleChangeRole = (value) => {
-    setRole(value.value);
+    setSelectedRole(value.value);
   };
-  console.log('Selected Role --> ', role);
+  console.log('Selected selectedRole --> ', selectedRole);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -41,22 +43,26 @@ const EmployeeList = () => {
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs="auto">
-          <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
-            <Icon sx={{ mr: 1 }}>
-              <Add />
-            </Icon>
-            Add
-          </Button>
-        </Grid>
-        <Grid item xs="auto">
-          <Button color="white" variant="outlined" size="small" onClick={onClickExport}>
-            <Icon sx={{ mr: 1 }}>
-              <ImportExportRounded />
-            </Icon>
-            Export
-          </Button>
-        </Grid>
+        {role === 'admin' ? (
+          <>
+            <Grid item xs="auto">
+              <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
+                <Icon sx={{ mr: 1 }}>
+                  <Add />
+                </Icon>
+                Add
+              </Button>
+            </Grid>
+            <Grid item xs="auto">
+              <Button color="white" variant="outlined" size="small" onClick={onClickExport}>
+                <Icon sx={{ mr: 1 }}>
+                  <ImportExportRounded />
+                </Icon>
+                Export
+              </Button>
+            </Grid>
+          </>
+        ) : null}
       </Grid>
       <Card
         sx={{
@@ -90,7 +96,7 @@ const EmployeeList = () => {
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Role</FormLabel>
+              <FormLabel>Select selectedRole</FormLabel>
               <Select options={Roles} onChange={(value) => handleChangeRole(value)} />
             </FormControl>
           </Grid>

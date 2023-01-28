@@ -64,3 +64,6 @@ export const getHolidayPattern = () => generatePath(holidayPattern);
 
 export const organisationSignupPattern = `/organisation/signup`;
 export const getOrganisationSignupPattern = () => generatePath(organisationSignupPattern);
+
+export const rolePattern = `/role`;
+export const getRolePattern = () => generatePath(rolePattern);

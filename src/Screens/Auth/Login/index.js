@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IconButton, InputAdornment, Switch } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -9,10 +9,15 @@ import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { loginSchema } from 'Helpers/ValidationSchema';
 import { getProfileSetupPattern } from 'Routes/routeConfig';
+import { useDispatch } from 'react-redux';
+import { ROLE } from 'Redux/actions';
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -37,10 +42,18 @@ const Login = () => {
         enableReinitialize
         initialValues={{ email: '', password: '' }}
         onSubmit={(values, actions) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-          }, 1000);
+          const { email } = values;
+          if (email === 'admin@gmail.com') {
+            dispatch({ type: ROLE, value: 'admin' });
+            // localStorage.setItem(
+            //   'ROLE_LIST',
+            //   JSON.stringify(['dashboard', 'employee', 'profilesetup'])
+            // );
+          } else {
+            dispatch({ type: ROLE, value: 'user' });
+          }
+          actions.setSubmitting(false);
+          navigate(getProfileSetupPattern());
         }}
         validationSchema={loginSchema}
       >
@@ -133,8 +146,6 @@ const Login = () => {
                   fullWidth
                   type="submit"
                   disabled={isSubmitting}
-                  component={Link}
-                  to={getProfileSetupPattern()}
                 >
                   Sign In
                 </Button>
