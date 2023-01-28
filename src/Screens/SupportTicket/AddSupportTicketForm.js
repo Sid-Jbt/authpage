@@ -8,7 +8,7 @@ import Select from 'Elements/Select';
 import Input from 'Elements/Input';
 import Editor from 'Elements/Editor';
 import Button from 'Elements/Button';
-import { Department } from 'Helpers/Globle';
+import { Department } from 'Helpers/Global';
 
 const initialValues = {
   subject: '',

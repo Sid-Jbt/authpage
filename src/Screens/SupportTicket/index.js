@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
 import { Add, ImportExportRounded } from '@mui/icons-material';
-import { Priority, Status } from 'Helpers/Globle';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
+import FilterLayout from 'Components/FilterLayout';
+import { Priority, Status } from 'Helpers/Global';
 import supportTicketData from './data/SupportTicketData';
-import FilterLayout from '../../Components/FilterLayout';
 import AddSupportTicketForm from './AddSupportTicketForm';
 
 const supportTicket = () => {
