@@ -127,6 +127,7 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData }) => {
                   <Grid item xs={12}>
                     <Box>
                       <Editor
+                        title="Leave Reason"
                         label="Leave Reason"
                         value={values.leaveReason}
                         backgroundContainerColor="white"

@@ -108,3 +108,16 @@ export const WorkingHours = [
   { value: '11:30', label: '11:30' },
   { value: '12:00', label: '12:00' }
 ];
+
+export const Priority = [
+  { value: 'high', label: 'High' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'low', label: 'Low' },
+  { value: 'no', label: 'No' }
+];
+
+export const Department = [
+  { value: 'HR', label: 'HR' },
+  { value: 'manager', label: 'Manager' },
+  { value: 'team leader', label: 'Team Leader' }
+];

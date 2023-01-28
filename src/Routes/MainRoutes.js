@@ -12,7 +12,8 @@ import {
   ListAltTwoTone,
   VerifiedUserOutlined,
   HolidayVillage,
-  ViewArrayOutlined
+  ViewArrayOutlined,
+  SupportAgent
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -33,7 +34,8 @@ import {
   profileSetupPattern,
   employeeDetailsPattern,
   holidayPattern,
-  rolePattern
+  rolePattern,
+  supportTicketPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -49,7 +51,7 @@ const Payslip = Loadable(lazy(() => import('../Screens/Payslip')));
 const Setting = Loadable(lazy(() => import('../Screens/Settings')));
 const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
 const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
-// const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket')));
+const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket')));
 const Role = Loadable(lazy(() => import('../Screens/Role')));
 
 // Report
@@ -175,6 +177,16 @@ const MainRoutes = [
   },
   {
     type: 'collapse',
+    noCollapse: true,
+    route: supportTicketPattern,
+    name: 'Support Ticket',
+    icon: <SupportAgent sx={{ color: colors.secondary.main }} />,
+    path: supportTicketPattern,
+    key: 'supportTicket',
+    element: <SupportTicket />
+  },
+  {
+    type: 'collapse',
     name: 'Reports',
     key: 'report',
     icon: <ListAltTwoTone sx={{ color: '#DAA520' }} />,
@@ -232,16 +244,6 @@ const MainRoutes = [
     key: 'holiday',
     element: <Holiday />
   }
-  // {
-  //   type: 'collapse',
-  //   noCollapse: true,
-  //   route: supportTicketPattern,
-  //   name: 'Support Ticket',
-  //   icon: <SupportAgent sx={{ color: colors.secondary.main }} />,
-  //   path: supportTicketPattern,
-  //   key: 'supportTicket',
-  //   element: <SupportTicket />
-  // }
 ];
 
 // const roleList = JSON.parse(localStorage?.getItem('ROLE_LIST'));

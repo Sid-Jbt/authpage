@@ -222,3 +222,7 @@ export const bankFormSchema = yup.object().shape({
   ifscCode: yup.string().matches(ifscCodeRegx, '').required('IFSC code is required'),
   panNumber: yup.string().required('PAN number required')
 });
+
+export const supportTicketFormSchema = yup.object().shape({
+  subject: yup.string().required('Subject is required')
+});
