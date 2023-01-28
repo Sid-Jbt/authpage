@@ -13,6 +13,7 @@
     "@mui/icons-material": "5.8.2",
     "@mui/material": "5.8.2",
     "@mui/styled-engine": "5.8.0",
+    "@pathofdev/react-tag-input": "1.0.7",
     "dropzone": "5.9.3",
     "formik": "2.2.9",
     "moment": "2.29.4",
