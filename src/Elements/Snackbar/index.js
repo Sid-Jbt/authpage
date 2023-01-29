@@ -1,5 +1,5 @@
 import { Close } from '@mui/icons-material';
-import { styled, Icon, Fade, IconButton, Divider } from '@mui/material';
+import { styled, Icon, Fade, IconButton, Divider, Snackbar } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import typography from 'Theme/base/typography';
@@ -33,7 +33,7 @@ const RootSnackbar = styled(Icon)(({ theme, ownerState }) => {
   };
 });
 
-const Snackbar = ({ color, icon, title, dateTime, content, close, bgWhite, ...rest }) => {
+const CustomSnackbar = ({ color, icon, title, dateTime, content, close, bgWhite, ...rest }) => {
   const { size } = typography;
   let titleColor;
   let dateTimeColor;
@@ -64,7 +64,9 @@ const Snackbar = ({ color, icon, title, dateTime, content, close, bgWhite, ...re
       {...rest}
       action={
         <IconButton size="small" aria-label="close" color="inherit" onClick={close}>
-          <Icon fontSize="small">close</Icon>
+          <Icon fontSize="small">
+            <Close />
+          </Icon>
         </IconButton>
       }
     >
@@ -119,9 +121,9 @@ const Snackbar = ({ color, icon, title, dateTime, content, close, bgWhite, ...re
   );
 };
 
-Snackbar.defaultProps = {
+CustomSnackbar.defaultProps = {
   bgWhite: false,
   color: 'info'
 };
 
-export default Snackbar;
+export default CustomSnackbar;

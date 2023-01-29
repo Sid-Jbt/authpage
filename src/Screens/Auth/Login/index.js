@@ -50,7 +50,7 @@ const Login = () => {
             //   JSON.stringify(['dashboard', 'employee', 'profilesetup'])
             // );
           } else {
-            dispatch({ type: ROLE, value: 'user' });
+            dispatch({ type: ROLE, value: 'employee' });
           }
           actions.setSubmitting(false);
           navigate(getProfileSetupPattern());
