@@ -14,9 +14,9 @@ import Typography from 'Elements/Typography';
 import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
-import breakpoints from 'Theme/base/breakpoints';
 import { Action } from 'Elements/Tables/Action';
 import ViewExpense from '../../../Screens/Expense/ViewExpense';
+import breakpoints from '../../../Theme/base/breakpoints';
 
 const Table = ({
   columns,
@@ -25,7 +25,10 @@ const Table = ({
   isAction = false,
   options,
   onClickAction,
-  isView = false
+  isView = false,
+  order,
+  orderBy,
+  handleRequestSort
 }) => {
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
@@ -54,7 +57,7 @@ const Table = ({
     setSelectedIds([...selectedIds]);
   };
 
-  const renderColumns = columns.map(({ headerName, mobileHeader, align, width }, key) => {
+  const renderColumns = columns.map(({ headerName, mobileHeader, align, width, name }, key) => {
     let pl;
     let pr;
 
@@ -85,23 +88,30 @@ const Table = ({
         opacity={0.7}
         sx={({ palette: { light } }) => ({ borderBottom: `${borderWidth[1]} solid ${light.main}` })}
       >
-        <TableSortLabel
-          active={
-            window.innerWidth < breakpoints.values.xl
-              ? mobileHeader.toUpperCase() !== 'ACTION' && mobileHeader.toUpperCase() !== 'ID'
-              : headerName.toUpperCase() !== 'ACTION' && headerName.toUpperCase() !== 'ID'
-          }
-          hideSortIcon={
-            window.innerWidth < breakpoints.values.xl
-              ? mobileHeader.toUpperCase() === 'ACTION' && mobileHeader.toUpperCase() === 'ID'
-              : headerName.toUpperCase() === 'ACTION' && headerName.toUpperCase() === 'ID'
-          }
-          direction="desc"
+        <TableCell
+          key={name}
+          sortDirection={orderBy === name ? order : false}
+          sx={{ borderBottom: 0 }}
         >
-          {window.innerWidth < breakpoints.values.xl
-            ? mobileHeader.toUpperCase()
-            : headerName.toUpperCase()}
-        </TableSortLabel>
+          <TableSortLabel
+            active={
+              window.innerWidth < breakpoints.values.xl
+                ? mobileHeader.toUpperCase() !== 'ACTION' && mobileHeader.toUpperCase() !== 'ID'
+                : headerName.toUpperCase() !== 'ACTION' && headerName.toUpperCase() !== 'ID'
+            }
+            direction={orderBy === name ? order : 'asc'}
+            onClick={(e) => handleRequestSort(e, name, order === 'asc' ? 'desc' : 'asc')}
+            hideSortIcon={
+              window.innerWidth < breakpoints.values.xl
+                ? mobileHeader.toUpperCase() === 'ACTION' && mobileHeader.toUpperCase() === 'ID'
+                : headerName.toUpperCase() === 'ACTION' && headerName.toUpperCase() === 'ID'
+            }
+          >
+            {window.innerWidth < breakpoints.values.xl
+              ? mobileHeader.toUpperCase()
+              : headerName.toUpperCase()}
+          </TableSortLabel>
+        </TableCell>
       </Box>
     );
   });
