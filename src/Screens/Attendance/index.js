@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
-import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, ImportExportRounded, MoreTime, WatchOff } from '@mui/icons-material';
 import Select from 'Elements/Select';
@@ -8,6 +7,7 @@ import { Months, Years, Status } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import attendanceData from './data/attendanceData';
 import LeaveCard from '../../Components/CardLayouts/LeaveCard';
+import DataTable from '../../Elements/Tables/DataTable';
 
 const AttendanceList = () => {
   const { columns: prCols, rows: prRows } = attendanceData;
@@ -139,7 +139,13 @@ const AttendanceList = () => {
             </FormControl>
           </Grid>
         </FilterLayout>
-        <Table columns={prCols} rows={prRows} />
+        <DataTable
+          table={{ columns: prCols, rows: prRows }}
+          canSearch
+          entriesPerPage
+          showTotalEntries
+          noEndBorder
+        />
       </Card>
     </>
   );

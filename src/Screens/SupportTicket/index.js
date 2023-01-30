@@ -16,6 +16,7 @@ const supportTicket = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
+  const [order, setOrder] = useState('ASC');
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -38,6 +39,23 @@ const supportTicket = () => {
     if (key === 'edit') {
       setSelectedData(prRows.find((o) => o.id === index));
       handleDialog();
+    }
+  };
+
+  const sorting = (col) => {
+    if (order === 'ASC') {
+      const sorted = [...selectedData].sort((a, b) =>
+        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
+      );
+      setSelectedData(sorted);
+      setOrder('DSC');
+    }
+    if (order === 'DSC') {
+      const sorted = [...selectedData].sort((a, b) =>
+        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
+      );
+      setSelectedData(sorted);
+      setOrder('ASC');
     }
   };
 
@@ -115,6 +133,7 @@ const supportTicket = () => {
         </FilterLayout>
 
         <Table
+          onClick={() => sorting('selectedData')}
           columns={prCols}
           rows={prRows}
           onClickAction={(value, id) => onClickAction(value, id)}
