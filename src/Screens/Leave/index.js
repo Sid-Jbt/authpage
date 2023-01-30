@@ -6,25 +6,13 @@ import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/i
 import LeaveCard from 'Components/CardLayouts/LeaveCard';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
-import _ from 'lodash';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 
 const LeaveList = () => {
   const { columns: prCols, rows: prRows } = leaveListData;
-  const [data, setData] = useState(prRows);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const [order, setOrder] = useState('desc');
-  const [orderBy, setOrderBy] = useState('leaveType');
-
-  const handleRequestSort = (event, property, orderKey) => {
-    setOrder(orderKey);
-    setOrderBy(property);
-    const sortData = _.orderBy(prRows, [property], [orderKey]);
-    setData(sortData);
-    console.log('data', sortData, property, orderKey);
-  };
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -126,18 +114,13 @@ const LeaveList = () => {
         </FilterLayout>
         <Table
           columns={prCols}
-          rows={data}
+          rows={prRows}
           onClickAction={(value, id) => onClickAction(value, id)}
           isAction
           options={[
             { title: 'Edit', value: 'edit' },
             { title: 'Delete', value: 'delete' }
           ]}
-          order={order}
-          orderBy={orderBy}
-          handleRequestSort={(event, property, orderKey) =>
-            handleRequestSort(event, property, orderKey)
-          }
         />
         <AddLeaveForm
           isDialogOpen={isDialogOpen}

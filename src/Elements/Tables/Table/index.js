@@ -15,8 +15,9 @@ import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
 import { Action } from 'Elements/Tables/Action';
-import ViewExpense from '../../../Screens/Expense/ViewExpense';
-import breakpoints from '../../../Theme/base/breakpoints';
+import _ from 'lodash';
+import ViewExpense from 'Screens/Expense/ViewExpense';
+import breakpoints from 'Theme/base/breakpoints';
 
 const Table = ({
   columns,
@@ -25,14 +26,21 @@ const Table = ({
   isAction = false,
   options,
   onClickAction,
-  isView = false,
-  order,
-  orderBy,
-  handleRequestSort
+  isView = false
 }) => {
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
+  const [data, setData] = useState(rows);
+  const [order, setOrder] = useState('desc');
+  const [orderBy, setOrderBy] = useState('');
+
+  const handleRequestSort = (event, property, orderKey) => {
+    setOrder(orderKey);
+    setOrderBy(property);
+    const sortData = _.orderBy(data, [property], [orderKey]);
+    setData(sortData);
+  };
 
   const onSelectAll = (isCheckSelectAll) => {
     let selectedId = [];
@@ -76,22 +84,28 @@ const Table = ({
       <Box
         key={headerName}
         component="th"
-        width={width || 'auto'}
-        pt={1.5}
-        pb={1.25}
-        pl={align === 'left' ? pl : 3}
-        pr={align === 'right' ? pr : 3}
-        textAlign={align}
-        fontSize={size.sm}
-        fontWeight={fontWeightBold}
-        color="dark"
-        opacity={0.7}
         sx={({ palette: { light } }) => ({ borderBottom: `${borderWidth[1]} solid ${light.main}` })}
       >
         <TableCell
           key={name}
           sortDirection={orderBy === name ? order : false}
-          sx={{ borderBottom: 0 }}
+          pt={1.5}
+          pb={1.25}
+          pl={align === 'left' ? pl : 3}
+          pr={align === 'right' ? pr : 3}
+          sx={{
+            width: width || 'auto',
+            color: 'dark',
+            opacity: 0.7,
+            borderBottom: 0,
+            fontSize: size.sm,
+            textAlign: align,
+            fontWeight: fontWeightBold,
+            pt: 1.5,
+            pb: 1.25,
+            pl: align === 'left' ? pl : 3,
+            pr: align === 'right' ? pr : 3
+          }}
         >
           <TableSortLabel
             active={
@@ -116,7 +130,7 @@ const Table = ({
     );
   });
 
-  const renderRows = rows.map((row, key) => {
+  const renderRows = data.map((row, key) => {
     const rowKey = `row-${key}`;
     const tableRow = columns.map(({ name, align }) => {
       let template;
@@ -252,7 +266,7 @@ const Table = ({
         </MuiTable>
       </TableContainer>
     ),
-    [columns, rows, selectedIds]
+    [columns, data, selectedIds]
   );
 };
 
