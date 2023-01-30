@@ -20,15 +20,15 @@ function getSteps() {
 }
 
 function getStepContent(stepIndex) {
+  const customization = useSelector((state) => state.customization);
+
   switch (stepIndex) {
     case 0:
-      return <Organisation />;
+      return customization.role === 'admin' ? <Organisation /> : <Basic />;
     case 1:
-      return <Basic />;
+      return customization.role === 'admin' ? <Basic /> : <Address />;
     case 2:
-      return <Address />;
-    case 3:
-      return <Account />;
+      return customization.role === 'admin' ? <Address /> : <Account />;
     default:
       return null;
   }
