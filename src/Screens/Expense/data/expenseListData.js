@@ -4,6 +4,16 @@ const expenseListData = {
   columns: [
     { name: 'id', align: 'center', headerName: 'Id' },
     { name: 'title', align: 'center', headerName: 'Title' },
+    // { name: 'name', align: 'left', headerName: 'Name' },
+    { name: 'purchaseFrom', align: 'center', headerName: 'Purchase From' },
+    { name: 'purchaseDate', align: 'center', headerName: 'Purchase Date' },
+    { name: 'amount', align: 'center', headerName: 'Amount' },
+    { name: 'status', align: 'center', headerName: 'Status' }
+  ],
+
+  adminColumns: [
+    { name: 'id', align: 'center', headerName: 'Id' },
+    { name: 'title', align: 'center', headerName: 'Title' },
     { name: 'name', align: 'left', headerName: 'Name' },
     { name: 'purchaseFrom', align: 'center', headerName: 'Purchase From' },
     { name: 'purchaseDate', align: 'center', headerName: 'Purchase Date' },

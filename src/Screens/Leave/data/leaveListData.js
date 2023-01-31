@@ -8,6 +8,16 @@ const leaveListData = {
     { name: 'to', align: 'center', headerName: 'To', mobileHeader: 'To' },
     { name: 'noOfDays', align: 'center', headerName: 'No Of Days', mobileHeader: 'NOD' },
     { name: 'leaveReason', align: 'center', headerName: 'Reason', mobileHeader: 'Reason' },
+    // { name: 'approvedBy', align: 'center', headerName: 'Approved By', mobileHeader: 'Approved By' },
+    { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
+  ],
+  adminColumns: [
+    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    { name: 'leaveType', align: 'center', headerName: 'Leave Type', mobileHeader: 'Leave Type' },
+    { name: 'from', align: 'center', headerName: 'From', mobileHeader: 'From' },
+    { name: 'to', align: 'center', headerName: 'To', mobileHeader: 'To' },
+    { name: 'noOfDays', align: 'center', headerName: 'No Of Days', mobileHeader: 'NOD' },
+    { name: 'leaveReason', align: 'center', headerName: 'Reason', mobileHeader: 'Reason' },
     { name: 'approvedBy', align: 'center', headerName: 'Approved By', mobileHeader: 'Approved By' },
     { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
   ],
