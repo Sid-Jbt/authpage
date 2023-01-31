@@ -19,7 +19,7 @@ const Basic = () => (
     <Box width="80%" textAlign="center" mx="auto" mb={4}>
       <Box mb={1}>
         <Typography variant="h5" fontWeight="regular">
-          Let&apos;s start with the basic information
+          Let&apos;s start with the bank information
         </Typography>
       </Box>
       <Typography variant="body2" fontWeight="regular" color="text">

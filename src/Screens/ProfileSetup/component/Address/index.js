@@ -15,7 +15,7 @@ const Address = () => (
     <Box width="80%" textAlign="center" mx="auto" mb={4}>
       <Box mb={1}>
         <Typography variant="h5" fontWeight="regular">
-          Let&apos;s start with the basic information
+          Let&apos;s start with the contact information
         </Typography>
       </Box>
       <Typography variant="body2" fontWeight="regular" color="text">
