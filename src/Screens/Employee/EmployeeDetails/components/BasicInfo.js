@@ -14,11 +14,10 @@ const BasicInfo = () => {
   const handleChangeIsGender = (event) => {
     setGender(event.target.value.value);
   };
-
-  console.log('Selected gender is: --> ', gender);
+  console.log('gender', gender);
 
   return (
-    <Card id="basicInfo">
+    <Card id="basic-info">
       <Box p={3} pb={0}>
         <Typography variant="h5">Basic Info</Typography>
       </Box>

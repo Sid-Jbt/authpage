@@ -5,11 +5,11 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 
 const DeleteAccount = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  // const [isVisible, setIsVisible] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
 
-  const handleSetIsVisible = () => setIsVisible(!isVisible);
-  console.log('isVisible --> ', isVisible);
+  // const handleSetIsVisible = () => setIsVisible(!isVisible);
+  // console.log('isVisible --> ', isVisible);
   const handleSetDelete = () => setIsDelete(!isDelete);
 
   return (
@@ -30,7 +30,7 @@ const DeleteAccount = () => {
         alignItems={{ xs: 'flex-start', sm: 'center' }}
         flexDirection={{ xs: 'column', sm: 'row' }}
       >
-        <Box display="flex" alignItems="center" mb={{ xs: 3, sm: 0 }}>
+        {/* <Box display="flex" alignItems="center" mb={{ xs: 3, sm: 0 }}>
           <Switch checked={isVisible} onChange={handleSetIsVisible} />
           <Box ml={2} lineHeight={0} sx={{ cursor: 'pointer' }} onClick={handleSetIsVisible}>
             <Typography display="block" variant="button" fontWeight="medium">
@@ -40,7 +40,7 @@ const DeleteAccount = () => {
               User Visibility switch.
             </Typography>
           </Box>
-        </Box>
+        </Box> */}
         <Box display="flex" alignItems="center" mb={{ xs: 3, sm: 0 }}>
           <Switch checked={isDelete} onChange={handleSetDelete} />
           <Box ml={2} lineHeight={0} sx={{ cursor: 'pointer' }} onClick={handleSetDelete}>
