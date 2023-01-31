@@ -31,7 +31,10 @@ export const forgotPasswordSchema = yup.object().shape({
 export const resetPasswordSchema = yup.object().shape({
   password: yup
     .string()
-    .matches(passwordRegx, '')
+    .matches(
+      passwordRegx,
+      'One special characters, One upper character, Min 8 characters, One number'
+    )
     .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required'),
   confirmPassword: yup
@@ -40,7 +43,10 @@ export const resetPasswordSchema = yup.object().shape({
       is: (val) => !!(val && val.length > 0),
       then: yup
         .string()
-        .matches(passwordRegx, '')
+        .matches(
+          passwordRegx,
+          'One special characters, One upper character, Min 8 characters, One number'
+        )
         .min(8, 'Password should be of minimum 8 characters length')
         .oneOf([yup.ref('password')], 'New password and Confirmed password should be the same')
     })
@@ -104,12 +110,18 @@ export const BasicInfoSchema = yup.object().shape({
 export const changePasswordSchema = yup.object().shape({
   currentPassword: yup
     .string()
-    .matches(passwordRegx, '')
+    .matches(
+      passwordRegx,
+      'One special characters, One upper character, Min 8 characters, One number'
+    )
     .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required'),
   newPassword: yup
     .string()
-    .matches(passwordRegx, '')
+    .matches(
+      passwordRegx,
+      'One special characters, One upper character, Min 8 characters, One number'
+    )
     .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required'),
   confirmNewPassword: yup
@@ -118,7 +130,10 @@ export const changePasswordSchema = yup.object().shape({
       is: (val) => !!(val && val.length > 0),
       then: yup
         .string()
-        .matches(passwordRegx, '')
+        .matches(
+          passwordRegx,
+          'One special characters, One upper character, Min 8 characters, One number'
+        )
         .min(8, 'Password should be of minimum 8 characters length')
         .oneOf([yup.ref('password')], 'New password and Confirmed password should be the same')
     })
