@@ -31,17 +31,22 @@ const App = () => {
       <ThemeProvider theme={theme(customization)}>
         <CssBaseline />
         <RootRoutes name="app" path="/" handler={App} />
-        <Snackbar
-          color="success"
-          icon={<Check color="success" />}
-          title="Testing Title"
-          content="Hello, world! This is a notification message"
-          dateTime="11 mins ago"
-          open={openSB}
-          onClose={handleCloseSB}
-          close={handleCloseSB}
-          bgWhite
-        />
+        {customization &&
+          customization.snackbarData &&
+          customization.snackbarData.map((item, index) => (
+            <Snackbar
+              key={index}
+              color={item.type}
+              icon={<Check color="white" />}
+              title={item.title}
+              content={item.content}
+              dateTime={item.time ? item.time : false}
+              open={openSB}
+              onClose={handleCloseSB}
+              close={handleCloseSB}
+              bgWhite={item.bg}
+            />
+          ))}
       </ThemeProvider>
     </StyledEngineProvider>
   );
