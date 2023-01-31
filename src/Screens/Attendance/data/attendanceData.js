@@ -22,7 +22,7 @@ const attendanceData = {
   rows: [
     {
       id: 1,
-      date: '1/1/2023',
+      date: '01 Jan 2023',
       username: 'Jarvisbitz',
       'punch In': '10:00',
       'punch Out': '7:00',
@@ -43,7 +43,7 @@ const attendanceData = {
     },
     {
       id: 2,
-      date: '1/1/2023',
+      date: '02 Jan 2023',
       username: 'Jarvisbitz',
       'punch In': '10:00',
       'punch Out': '7:00',
@@ -64,7 +64,7 @@ const attendanceData = {
     },
     {
       id: 3,
-      date: '1/1/2023',
+      date: '03 Jan 2023',
       username: 'Jarvisbitz',
       'punch In': '10:00',
       'punch Out': '7:00',
@@ -85,7 +85,7 @@ const attendanceData = {
     },
     {
       id: 4,
-      date: '1/1/2023',
+      date: '04 Jan 2023',
       username: 'Jarvisbitz',
       'punch In': '10:00',
       'punch Out': '7:00',
@@ -106,7 +106,7 @@ const attendanceData = {
     },
     {
       id: 5,
-      date: '1/1/2023',
+      date: '05 Jan 2023',
       username: 'Jarvisbitz',
       'punch In': '10:00',
       'punch Out': '7:00',
@@ -127,7 +127,7 @@ const attendanceData = {
     },
     {
       id: 6,
-      date: '1/1/2023',
+      date: '06 Jan 2023',
       username: 'Jarvisbitz',
       'punch In': '10:00',
       'punch Out': '7:00',
@@ -148,9 +148,9 @@ const attendanceData = {
     },
     {
       id: 7,
-      date: '1/1/2023',
+      date: '07 Jan 2023',
       username: 'Jarvisbitz',
-      'punch In': '10:00',
+      'punch In': '09:30',
       'punch Out': '7:00',
       late: '0H',
       'early Leaving': '0.5H',
@@ -169,10 +169,10 @@ const attendanceData = {
     },
     {
       id: 8,
-      date: '1/1/2023',
+      date: '08 Jan 2023',
       username: 'Jarvisbitz',
-      'punch In': '10:00',
-      'punch Out': '7:00',
+      'punch In': '11:00',
+      'punch Out': '8:00',
       late: '0H',
       'early Leaving': '0.5H',
       overtime: '0H',
@@ -190,10 +190,10 @@ const attendanceData = {
     },
     {
       id: 9,
-      date: '1/1/2023',
+      date: '09 Jan 2023',
       username: 'Jarvisbitz',
-      'punch In': '10:00',
-      'punch Out': '7:00',
+      'punch In': '10:30',
+      'punch Out': '7:30',
       late: '0H',
       'early Leaving': '0.5H',
       overtime: '0H',
@@ -211,10 +211,10 @@ const attendanceData = {
     },
     {
       id: 10,
-      date: '1/1/2023',
+      date: '10 Jan 2023',
       username: 'Jarvisbitz',
-      'punch In': '10:00',
-      'punch Out': '7:00',
+      'punch In': '11:00',
+      'punch Out': '5:00',
       late: '0H',
       'early Leaving': '0.5H',
       overtime: '0H',

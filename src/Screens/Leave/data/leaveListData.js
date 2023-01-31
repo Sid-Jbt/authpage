@@ -28,8 +28,8 @@ const leaveListData = {
     {
       id: 2,
       leaveType: 'Loss Of Pay Leave',
-      from: '27 Feb 2019',
-      to: '27 Feb 2019',
+      from: '05 March 2019',
+      to: '07 March 2019',
       noOfDays: 2,
       leaveReason: 'Going To Hospital',
       status: (
@@ -40,8 +40,8 @@ const leaveListData = {
     {
       id: 3,
       leaveType: 'Medical Leave',
-      from: '27 Feb 2019',
-      to: '27 Feb 2019',
+      from: '15 June 2019',
+      to: '17 June 2019',
       noOfDays: 3,
       leaveReason: 'Going To Hospital',
       status: (
@@ -52,8 +52,8 @@ const leaveListData = {
     {
       id: 4,
       leaveType: 'Medical Leave',
-      from: '27 Feb 2019',
-      to: '27 Feb 2019',
+      from: '20 Sep 2019',
+      to: '20 Sep 2019',
       noOfDays: 4,
       leaveReason: 'Going To Hospital',
       status: (
@@ -64,8 +64,8 @@ const leaveListData = {
     {
       id: 5,
       leaveType: 'Medical Leave',
-      from: '27 Feb 2019',
-      to: '27 Feb 2019',
+      from: '31 Dec 2022',
+      to: '01 Jan 2023',
       noOfDays: 5,
       leaveReason: 'Going To Hospital',
       status: (

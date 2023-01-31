@@ -52,7 +52,7 @@ const empListData = {
       paymentMonth: 'October, 2020',
       paymentDate: '10 Oct 2020',
       paidAmount: 25000,
-      paymentType: 'Bank Transfer',
+      paymentType: 'Cheque',
       action
     },
     {
@@ -60,7 +60,7 @@ const empListData = {
       sl: '2',
       paymentMonth: 'November, 2020',
       paymentDate: '10 Nov 2020',
-      paidAmount: 25000,
+      paidAmount: 30000,
       paymentType: 'Bank Transfer',
       action
     },
@@ -78,7 +78,7 @@ const empListData = {
       sl: '4',
       paymentMonth: 'January, 2021',
       paymentDate: '10 Jan 2020',
-      paidAmount: 25000,
+      paidAmount: 15000,
       paymentType: 'Bank Transfer',
       action
     },
@@ -96,8 +96,8 @@ const empListData = {
       sl: '6',
       paymentMonth: 'March, 2021',
       paymentDate: '10 Mar 2020',
-      paidAmount: 25000,
-      paymentType: 'Bank Transfer',
+      paidAmount: 35000,
+      paymentType: 'Cash',
       action
     },
 
@@ -106,8 +106,8 @@ const empListData = {
       sl: '7',
       paymentMonth: 'April, 2021',
       paymentDate: '10 Apr 2020',
-      paidAmount: 25000,
-      paymentType: 'Bank Transfer',
+      paidAmount: 37500,
+      paymentType: 'Cheque',
       action
     },
     {
@@ -115,8 +115,8 @@ const empListData = {
       sl: '8',
       paymentMonth: 'May, 2021',
       paymentDate: '10 May 2020',
-      paidAmount: 25000,
-      paymentType: 'Bank Transfer',
+      paidAmount: 25500,
+      paymentType: 'Cash',
       action
     }
   ]

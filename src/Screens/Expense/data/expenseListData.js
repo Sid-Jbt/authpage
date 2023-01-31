@@ -17,7 +17,7 @@ const expenseListData = {
       title: 'Water bill',
       name: 'Sonika',
       purchaseFrom: 'local',
-      purchaseDate: '01/02/2023',
+      purchaseDate: '25/02/2023',
       amount: '350',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
@@ -39,7 +39,7 @@ const expenseListData = {
       title: 'Office cleaning',
       name: 'Hetali',
       purchaseFrom: 'Other',
-      purchaseDate: '01/02/2023',
+      purchaseDate: '10/05/2023',
       amount: '1000',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
@@ -50,7 +50,7 @@ const expenseListData = {
       title: 'Water bill',
       name: 'Hiren',
       purchaseFrom: 'local',
-      purchaseDate: '01/02/2023',
+      purchaseDate: '01/10/2023',
       amount: '350',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
@@ -61,7 +61,7 @@ const expenseListData = {
       title: 'Birthday decoration',
       name: 'Bhavy',
       purchaseFrom: 'local store',
-      purchaseDate: '01/02/2023',
+      purchaseDate: '28/02/2023',
       amount: '500',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
@@ -72,7 +72,7 @@ const expenseListData = {
       title: 'Office cleaning',
       name: 'Mridul',
       purchaseFrom: 'Other',
-      purchaseDate: '01/02/2023',
+      purchaseDate: '10/09/2023',
       amount: '1000',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
