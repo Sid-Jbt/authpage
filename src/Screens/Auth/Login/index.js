@@ -10,7 +10,7 @@ import Button from 'Elements/Button';
 import { loginSchema } from 'Helpers/ValidationSchema';
 import { getProfileSetupPattern } from 'Routes/routeConfig';
 import { useDispatch } from 'react-redux';
-import { ROLE } from 'Redux/actions';
+import { ROLE, SNACKBAR } from 'Redux/actions';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -45,6 +45,10 @@ const Login = () => {
           const { email } = values;
           if (email === 'admin@gmail.com') {
             dispatch({ type: ROLE, value: 'admin' });
+            dispatch({
+              type: SNACKBAR,
+              value: [{ title: 'Success', type: 'success', content: 'Logged in Successfully' }]
+            });
             // localStorage.setItem(
             //   'ROLE_LIST',
             //   JSON.stringify(['dashboard', 'employee', 'profilesetup'])
