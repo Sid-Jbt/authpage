@@ -1,5 +1,6 @@
 import {
   AccountBox,
+  CurrencyRupeeTwoTone,
   DeleteOutlineTwoTone,
   InfoTwoTone,
   PasswordTwoTone
@@ -12,7 +13,7 @@ const Header = () => {
   const sidenavItems = [
     { icon: <InfoTwoTone />, label: 'basic info', href: 'basic-info' },
     { icon: <AccountBox />, label: 'bank details', href: 'account-info' },
-    // { icon: <CurrencyRupeeTwoTone />, label: 'salary details', href: 'salary-info' },
+    { icon: <CurrencyRupeeTwoTone />, label: 'salary details', href: 'salary-info' },
     { icon: <PasswordTwoTone />, label: 'change password', href: 'change-password' },
     {
       icon: <DeleteOutlineTwoTone />,
@@ -42,6 +43,7 @@ const Header = () => {
             display: 'flex',
             alignItems: 'center',
             borderRadius: borderRadius.md,
+            overflow: 'visible',
             padding: `${pxToRem(10)} ${pxToRem(16)}`,
             transition: transitions.create('background-color', {
               easing: transitions.easing.easeInOut,
@@ -67,7 +69,7 @@ const Header = () => {
       sx={{
         borderRadius: ({ borders: { borderRadius } }) => borderRadius.lg,
         position: 'sticky',
-        top: '12%'
+        top: '16%'
       }}
     >
       <Box
