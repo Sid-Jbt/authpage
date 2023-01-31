@@ -7,16 +7,18 @@ import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Priority, Status } from 'Helpers/Global';
+import { useSelector } from 'react-redux';
 import supportTicketData from './data/SupportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
 
 const supportTicket = () => {
-  const { columns: prCols, rows: prRows } = supportTicketData;
+  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = supportTicketData;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
-  const [order, setOrder] = useState('ASC');
+  const { role } = useSelector((state) => state.customization);
+  console.log(role);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -39,23 +41,6 @@ const supportTicket = () => {
     if (key === 'edit') {
       setSelectedData(prRows.find((o) => o.id === index));
       handleDialog();
-    }
-  };
-
-  const sorting = (col) => {
-    if (order === 'ASC') {
-      const sorted = [...selectedData].sort((a, b) =>
-        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-      );
-      setSelectedData(sorted);
-      setOrder('DSC');
-    }
-    if (order === 'DSC') {
-      const sorted = [...selectedData].sort((a, b) =>
-        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-      );
-      setSelectedData(sorted);
-      setOrder('ASC');
     }
   };
 
@@ -133,8 +118,8 @@ const supportTicket = () => {
         </FilterLayout>
 
         <Table
-          onClick={() => sorting('selectedData')}
-          columns={prCols}
+          // onClick={() => sorting('selectedData')}
+          columns={role === 'admin' ? adminPrCol : prCols}
           rows={prRows}
           onClickAction={(value, id) => onClickAction(value, id)}
           isAction
@@ -143,6 +128,7 @@ const supportTicket = () => {
             { title: 'Delete', value: 'delete' }
           ]}
         />
+
         <AddSupportTicketForm
           isDialogOpen={isDialogOpen}
           handleDialog={handleDialog}

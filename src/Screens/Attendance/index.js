@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
+import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, ImportExportRounded, MoreTime, WatchOff } from '@mui/icons-material';
 import Select from 'Elements/Select';
 import { Months, Years, Status } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
+import { useSelector } from 'react-redux';
 import attendanceData from './data/attendanceData';
 import LeaveCard from '../../Components/CardLayouts/LeaveCard';
-import DataTable from '../../Elements/Tables/DataTable';
 
 const AttendanceList = () => {
-  const { columns: prCols, rows: prRows } = attendanceData;
+  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = attendanceData;
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [status, setStatus] = useState('');
   const [user, setUser] = useState('');
+  const { role } = useSelector((state) => state.customization);
 
   const handleChangeStatus = (value) => {
     setStatus(value.value);
@@ -31,7 +33,7 @@ const AttendanceList = () => {
   const handleChangeUser = (value) => {
     setUser(value.value);
   };
-  console.log('Month, Year, Status --> ', month, year, status);
+  console.log('Month, Year, Status, User --> ', month, year, status, user);
 
   return (
     <>
@@ -139,13 +141,7 @@ const AttendanceList = () => {
             </FormControl>
           </Grid>
         </FilterLayout>
-        <DataTable
-          table={{ columns: prCols, rows: prRows }}
-          canSearch
-          entriesPerPage
-          showTotalEntries
-          noEndBorder
-        />
+        <Table columns={role === 'admin' ? adminPrCol : prCols} rows={prRows} />
       </Card>
     </>
   );

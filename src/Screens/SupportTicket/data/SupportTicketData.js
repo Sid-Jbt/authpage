@@ -3,7 +3,15 @@ import Badge from 'Elements/Badge';
 const supportTicketData = {
   columns: [
     { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
-    { name: 'email', align: 'center', headerName: 'Email', mobileHeader: 'Email' },
+    { name: 'subject', align: 'center', headerName: 'Subject', mobileHeader: 'Subject' },
+    { name: 'date', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
+    { name: 'priority', align: 'center', headerName: 'Priority', mobileHeader: 'Priority' },
+    { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
+  ],
+
+  adminColumns: [
+    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    { name: 'username', align: 'center', headerName: 'User Name', mobileHeader: 'Name' },
     { name: 'subject', align: 'center', headerName: 'Subject', mobileHeader: 'Subject' },
     { name: 'date', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
     { name: 'priority', align: 'center', headerName: 'Priority', mobileHeader: 'Priority' },
@@ -14,7 +22,7 @@ const supportTicketData = {
   rows: [
     {
       id: '1',
-      email: 'abc@jarvisbitz.com',
+      username: 'jarvisbitz',
       subject: 'System requirement',
       date: '1/1/2023',
       priority: 'High',
@@ -26,83 +34,85 @@ const supportTicketData = {
     },
     {
       id: '2',
-      email: 'abc@jarvisbitz.com',
+      username: 'CognitionTeam',
       subject: 'Internet Issue',
       date: '2/1/2023',
       priority: 'medium',
       assign: 'Jackey',
-      status: <Badge variant="gradient" badgeContent="approved" color="error" size="xs" container />
+      status: <Badge variant="gradient" badgeContent="rejected" color="error" size="xs" container />
     },
     {
       id: '3',
-      email: 'abc@jarvisbitz.com',
+      username: 'jarvisbitz',
       subject: 'Cleaning',
       date: '3/1/2023',
       priority: 'low',
       assign: 'Ramesh',
       status: (
-        <Badge variant="gradient" badgeContent="approved" color="warning" size="xs" container />
+        <Badge variant="gradient" badgeContent="pending" color="warning" size="xs" container />
       )
     },
     {
       id: '4',
-      email: 'abc@jarvisbitz.com',
+      username: 'CognitionTeam',
       subject: 'Mouse issue',
       date: '4/1/2023',
       priority: 'low',
       assign: 'harish',
-      status: <Badge variant="gradient" badgeContent="approved" color="info" size="xs" container />
-    },
-    {
-      id: '5',
-      email: 'abc@jarvisbitz.com',
-      subject: 'AC Cleaning',
-      date: '5/1/2023',
-      priority: 'medium',
-      assign: 'kanihyaa',
-      status: (
-        <Badge variant="gradient" badgeContent="approved" color="secondary" size="xs" container />
-      )
-    },
-    {
-      id: '6',
-      email: 'abc@jarvisbitz.com',
-      subject: 'System requirement',
-      date: '1/1/2023',
-      priority: 'High',
-      assign: 'Devam',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
       )
     },
     {
+      id: '5',
+      username: 'jarvisbitz',
+      subject: 'AC Cleaning',
+      date: '5/1/2023',
+      priority: 'medium',
+      assign: 'kanihyaa',
+      status: <Badge variant="gradient" badgeContent="rejected" color="error" size="xs" container />
+    },
+    {
+      id: '6',
+      username: 'CognitionTeam',
+      subject: 'System requirement',
+      date: '1/1/2023',
+      priority: 'High',
+      assign: 'Devam',
+      status: (
+        <Badge variant="gradient" badgeContent="pending" color="warning" size="xs" container />
+      )
+    },
+    {
       id: '7',
-      email: 'abc@jarvisbitz.com',
+      username: 'jarvisbitz',
       subject: 'Internet Issue',
       date: '2/1/2023',
       priority: 'High',
       assign: 'Harsh',
-      status: <Badge variant="gradient" badgeContent="approved" color="error" size="xs" container />
+      status: (
+        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
+      )
     },
     {
       id: '8',
-      email: 'abc@jarvisbitz.com',
+      username: 'CognitionTeam',
       subject: 'Cleaning',
       date: '3/1/2023',
       priority: 'medium',
       assign: 'mahesh',
-      status: (
-        <Badge variant="gradient" badgeContent="approved" color="warning" size="xs" container />
-      )
+      status: <Badge variant="gradient" badgeContent="rejected" color="error" size="xs" container />
     },
     {
       id: '9',
-      email: 'abc@jarvisbitz.com',
+      username: 'jarvisbitz',
       subject: 'Mouse issue',
       date: '4/1/2023',
       priority: 'low',
       assign: 'smit',
-      status: <Badge variant="gradient" badgeContent="approved" color="info" size="xs" container />
+      status: (
+        <Badge variant="gradient" badgeContent="pending" color="warning" size="xs" container />
+      )
     }
   ]
 };

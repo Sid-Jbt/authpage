@@ -6,13 +6,15 @@ import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/i
 import LeaveCard from 'Components/CardLayouts/LeaveCard';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
+import { useSelector } from 'react-redux';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 
 const LeaveList = () => {
-  const { columns: prCols, rows: prRows } = leaveListData;
+  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
+  const { role } = useSelector((state) => state.customization);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -113,7 +115,7 @@ const LeaveList = () => {
           </Grid>
         </FilterLayout>
         <Table
-          columns={prCols}
+          columns={role === 'admin' ? adminPrCol : prCols}
           rows={prRows}
           onClickAction={(value, id) => onClickAction(value, id)}
           isAction
