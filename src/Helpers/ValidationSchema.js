@@ -10,7 +10,10 @@ export const loginSchema = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   password: yup
     .string()
-    .matches(passwordRegx, '')
+    .matches(
+      passwordRegx,
+      'One special characters, One upper character, Min 8 characters, One number'
+    )
     .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required')
 });
