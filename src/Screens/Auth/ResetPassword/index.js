@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -8,10 +8,13 @@ import Input from 'Elements/Input';
 import { IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { resetPasswordSchema } from '../../../Helpers/ValidationSchema';
-import { getDashboardPattern } from '../../../Routes/routeConfig';
+import { getDefaultPattern } from '../../../Routes/routeConfig';
+// import { useDispatch } from "react-redux";
 
 const RestPassword = () => {
   const [showPassword, setShowPassword] = React.useState(false);
+  // const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -26,8 +29,10 @@ const RestPassword = () => {
       </Typography>
       <Formik
         initialValues={{ password: '', confirmPassword: '' }}
-        onSubmit={(values) => {
-          console.log('values', values);
+        onSubmit={(values, actions) => {
+          alert(`Password successfully reset. Please login with`);
+          actions.setSubmitting(false);
+          navigate(getDefaultPattern());
         }}
         validationSchema={resetPasswordSchema}
       >
@@ -96,10 +101,8 @@ const RestPassword = () => {
                   color="info"
                   size="large"
                   fullWidth
-                  component={Link}
                   type="submit"
                   disabled={isSubmitting}
-                  to={getDashboardPattern()}
                 >
                   Reset Password
                 </Button>
