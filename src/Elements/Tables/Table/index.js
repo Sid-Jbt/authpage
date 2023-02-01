@@ -134,11 +134,10 @@ const Table = ({
     const rowKey = `row-${key}`;
     const tableRow = columns.map(({ name, align }) => {
       let template;
-
       if (Array.isArray(row[name])) {
         template = (
           <Box
-            key={key}
+            key={`${name}_${key}`}
             component="td"
             p={1}
             sx={({ palette: { light } }) => ({
@@ -163,7 +162,7 @@ const Table = ({
       } else {
         template = (
           <Box
-            key={key}
+            key={`${name}_${key}`}
             component="td"
             p={1}
             textAlign={align}
