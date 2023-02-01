@@ -4,6 +4,9 @@ import { Grid } from '@mui/material';
 import CompleteProfileCard from 'Components/CardLayouts/CompleteProfileCard';
 import Calendar from 'Components/Calendar';
 import ivancik from 'Assets/shapes/pattern-left.png';
+import { Watch, WatchLater, WatchRounded } from '@mui/icons-material';
+import LeaveCard from '../../Components/CardLayouts/LeaveCard';
+import Countdown from './timer';
 
 const calendarEventsData = [
   {
@@ -66,21 +69,47 @@ const calendarEventsData = [
 const DashboardDefault = () => (
   <Box mb={3}>
     <Grid container spacing={3}>
-      <Grid order={{ xs: 1, lg: 0 }} item xs={12} lg={7} xl={8}>
-        {useMemo(
-          () => (
-            <Calendar
-              header={{ title: 'calendar', date: 'Monday, 2021' }}
-              headerToolbar={false}
-              initialView="dayGridMonth"
-              initialDate="2021-08-10"
-              events={calendarEventsData}
-              selectable
-              editable
-            />
-          ),
-          [calendarEventsData]
-        )}
+      <Grid container order={{ xs: 1, lg: 0 }} spacing={3} item xs={12} lg={7} xl={8}>
+        <Grid item xs={12} md={6} lg={4}>
+          <LeaveCard
+            title="Today"
+            count={<Countdown />}
+            icon={{ color: 'success', component: <Watch /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={4}>
+          <LeaveCard
+            title="This week"
+            count="45 hours "
+            icon={{ color: 'secondary', component: <WatchRounded /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={4}>
+          <LeaveCard
+            title="This month"
+            count="160 hours"
+            icon={{ color: 'info', component: <WatchLater /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          {useMemo(
+            () => (
+              <Calendar
+                header={{ title: 'calendar', date: 'Monday, 2021' }}
+                headerToolbar={false}
+                initialView="dayGridMonth"
+                initialDate="2021-08-10"
+                events={calendarEventsData}
+                selectable
+                editable
+              />
+            ),
+            [calendarEventsData]
+          )}
+        </Grid>
       </Grid>
       <Grid item xs={12} lg={5} xl={4}>
         <Grid container spacing={3}>
