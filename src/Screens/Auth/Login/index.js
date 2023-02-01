@@ -89,7 +89,6 @@ const Login = () => {
                 'payslip',
                 'attendance',
                 'profile',
-                'role',
                 'supportTicket',
                 'report',
                 'allreport',
