@@ -16,11 +16,11 @@ import { useState } from 'react';
 import NotificationItem from 'Elements/Item';
 
 import profileImage from 'Assets/Images/bruce-mars.jpg';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Breadcrumbs from 'Elements/Breadcrumbs';
 import Avatar from 'Elements/Avatar';
 import useWindowPosition from 'Hooks/useWindowPosition';
-import { profileSetupPattern } from 'Routes/routeConfig';
+import { profileSetupPattern, getLoginPattern } from 'Routes/routeConfig';
 import { LOGOUT } from 'Redux/actions';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
@@ -28,6 +28,7 @@ const DashboardNavbar = ({ isMini }) => {
   const customization = useSelector((state) => state.customization);
   const themes = useTheme();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const [openMenu, setOpenMenu] = useState(false);
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
@@ -137,8 +138,9 @@ const DashboardNavbar = ({ isMini }) => {
         image={<Logout />}
         title={['Logout']}
         onClick={() => {
-          dispatch({ type: LOGOUT, value: null });
           handleProfileMenu();
+          navigate(getLoginPattern());
+          dispatch({ type: LOGOUT });
         }}
         width={200}
       />

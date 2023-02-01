@@ -248,8 +248,12 @@ const MainRoutes = [
 
 const Route = () => {
   const { roleList } = useSelector((state) => state.route);
-  const childrenList = MainRoutes.filter((item) => roleList?.find((data) => data === item.key));
+  const childrenList = MainRoutes.filter((item) => {
+    console.log(item.key, roleList, roleList && roleList.includes(item.key));
+    return roleList && roleList.includes(item.key);
+  });
   // const childrenList = MainRoutes;
+  console.log(childrenList);
 
   const DashboardRoutes = {
     path: '/',
