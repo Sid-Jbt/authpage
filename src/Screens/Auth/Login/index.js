@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { IconButton, InputAdornment, Switch } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,16 +10,17 @@ import Button from 'Elements/Button';
 import { loginSchema } from 'Helpers/ValidationSchema';
 import { getProfileSetupPattern } from 'Routes/routeConfig';
 import { useDispatch } from 'react-redux';
-import { ROLE, SNACKBAR, ROLELIST } from 'Redux/actions';
+import { ROLE, ROLELIST } from 'Redux/actions';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const Login = () => {
   const dispatchRole = useDispatch();
   const dispatchRoleList = useDispatch();
-  const dispatchSnackbar = useDispatch();
 
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { setSnack } = useContext(SnackbarContext);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -45,11 +46,8 @@ const Login = () => {
         initialValues={{ email: '', password: '' }}
         onSubmit={(values, actions) => {
           const { email } = values;
+          setSnack({ title: 'hello', message: 'hello', time: false, color: 'success', open: true });
           if (email === 'admin@gmail.com') {
-            dispatchSnackbar({
-              type: SNACKBAR,
-              value: [{ title: 'Success', type: 'success', content: 'Logged in Successfully' }]
-            });
             dispatchRoleList({
               type: ROLELIST,
               value: [
