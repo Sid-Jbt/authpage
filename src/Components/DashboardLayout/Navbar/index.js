@@ -21,6 +21,7 @@ import Breadcrumbs from 'Elements/Breadcrumbs';
 import Avatar from 'Elements/Avatar';
 import useWindowPosition from 'Hooks/useWindowPosition';
 import { profileSetupPattern } from 'Routes/routeConfig';
+import { LOGOUT } from 'Redux/actions';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
 const DashboardNavbar = ({ isMini }) => {
@@ -135,9 +136,10 @@ const DashboardNavbar = ({ isMini }) => {
         color="secondary"
         image={<Logout />}
         title={['Logout']}
-        onClick={handleProfileMenu}
-        component={Link}
-        to="/"
+        onClick={() => {
+          dispatch({ type: LOGOUT, value: null });
+          handleProfileMenu();
+        }}
         width={200}
       />
     </Menu>

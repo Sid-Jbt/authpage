@@ -99,7 +99,7 @@ const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) =
       return <SidenavList key={key}>{returnValue}</SidenavList>;
     });
 
-  const renderRoutes = DashboardRoutes.children.map(
+  const renderRoutes = DashboardRoutes().children.map(
     ({ type, name, icon, title, children, noCollapse, key, href, route }) => {
       let returnValue;
 

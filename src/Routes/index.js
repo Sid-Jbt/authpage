@@ -16,7 +16,7 @@ const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
 export default function RootRoutes() {
   return useRoutes([
     AuthRoutes,
-    DashboardRoutes,
+    DashboardRoutes(),
     {
       path: errorPattern,
       element: <Error404 />

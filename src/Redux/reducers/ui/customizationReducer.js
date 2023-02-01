@@ -1,8 +1,7 @@
-import { ROLE, MINI_SIDENAV, SNACKBAR } from 'Redux/actions';
+import { MINI_SIDENAV, SNACKBAR } from 'Redux/actions';
 
 export const initialState = {
   miniSidenav: false,
-  role: 'employee',
   snackbarData: false
 };
 
@@ -10,9 +9,6 @@ const customizationReducer = (state = initialState, action) => {
   switch (action.type) {
     case MINI_SIDENAV: {
       return { ...state, miniSidenav: action.value };
-    }
-    case ROLE: {
-      return { ...state, role: action.value };
     }
     case SNACKBAR: {
       return { ...state, snackbarData: action.value };
