@@ -14,7 +14,7 @@ const customizationReducer = (state = initialState, action) => {
       return { ...state, snackbarData: action.value };
     }
     default: {
-      return initialState;
+      return state;
     }
   }
 };
