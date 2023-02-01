@@ -1,8 +1,8 @@
 import { ROLE, ROLELIST, LOGOUT } from 'Redux/actions';
 
 export const initialState = {
-  role: null,
-  roleList: []
+  role: '',
+  roleList: null
 };
 
 const routeReducer = (state = initialState, action) => {

@@ -14,7 +14,7 @@ import { ROLE, SNACKBAR, ROLELIST } from 'Redux/actions';
 
 const Login = () => {
   const dispatchRole = useDispatch();
-  const dispatchRoute = useDispatch();
+  const dispatchRoleList = useDispatch();
   const dispatchSnackbar = useDispatch();
 
   const [rememberMe, setRememberMe] = useState(false);
@@ -46,8 +46,11 @@ const Login = () => {
         onSubmit={(values, actions) => {
           const { email } = values;
           if (email === 'admin@gmail.com') {
-            dispatchRole({ type: ROLE, value: 'admin' });
-            dispatchRoute({
+            dispatchSnackbar({
+              type: SNACKBAR,
+              value: [{ title: 'Success', type: 'success', content: 'Logged in Successfully' }]
+            });
+            dispatchRoleList({
               type: ROLELIST,
               value: [
                 'dashboard',
@@ -71,12 +74,9 @@ const Login = () => {
                 'holiday'
               ]
             });
-            dispatchSnackbar({
-              type: SNACKBAR,
-              value: [{ title: 'Success', type: 'success', content: 'Logged in Successfully' }]
-            });
+            dispatchRole({ type: ROLE, value: 'admin' });
           } else {
-            dispatchRoute({
+            dispatchRoleList({
               type: ROLELIST,
               value: [
                 'dashboard',
