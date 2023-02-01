@@ -46,7 +46,13 @@ const Login = () => {
         initialValues={{ email: '', password: '' }}
         onSubmit={(values, actions) => {
           const { email } = values;
-          setSnack({ title: 'hello', message: 'hello', time: false, color: 'success', open: true });
+          setSnack({
+            title: 'Success',
+            message: 'Logged in successfully',
+            time: false,
+            color: 'success',
+            open: true
+          });
           if (email === 'admin@gmail.com') {
             dispatchRoleList({
               type: ROLELIST,

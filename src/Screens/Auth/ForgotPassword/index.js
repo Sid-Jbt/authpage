@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
@@ -7,10 +7,10 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { forgotPasswordSchema } from 'Helpers/ValidationSchema';
 import { getResetPasswordPattern } from 'Routes/routeConfig';
-// import { useDispatch } from 'react-redux';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const ForgotPassword = () => {
-  // const dispatch = useDispatch();
+  const { setSnack } = useContext(SnackbarContext);
   const navigate = useNavigate();
 
   return (
@@ -27,16 +27,13 @@ const ForgotPassword = () => {
         initialValues={{ email: '' }}
         onSubmit={(values, actions) => {
           const { email } = values;
-          /* if (email === 'admin@gmail.com') {
-            dispatch({ type: ROLE, value: 'admin' });
-            // localStorage.setItem(
-            //   'ROLE_LIST',
-            //   JSON.stringify(['dashboard', 'employee', 'profilesetup'])
-            // );
-          } else {
-            dispatch({ type: ROLE, value: 'employee' });
-          } */
-          alert(`Please check your email ${email} for reset password link`);
+          setSnack({
+            title: 'Success',
+            message: `Please check your email '${email}' for reset password link`,
+            time: false,
+            color: 'success',
+            open: true
+          });
           actions.setSubmitting(false);
           navigate(getResetPasswordPattern());
         }}

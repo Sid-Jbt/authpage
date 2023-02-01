@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Box from 'Elements/Box';
 import { Card, FormControl, FormLabel, Grid } from '@mui/material';
 import { Formik } from 'formik';
@@ -8,11 +8,14 @@ import { BasicInfoSchema } from 'Helpers/ValidationSchema';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import { Gender } from 'Helpers/Global';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const BasicInfo = () => {
   const [gender, setGender] = useState('');
-  const handleChangeIsGender = (event) => {
-    setGender(event.target.value.value);
+  const { setSnack } = useContext(SnackbarContext);
+
+  const handleChangeIsGender = (value) => {
+    setGender(value.value);
   };
   console.log('gender', gender);
 
@@ -26,14 +29,20 @@ const BasicInfo = () => {
         initialValues={{
           firstName: '',
           lastName: '',
-          gender: '',
           email: '',
           confirmationEmail: '',
           pAdd: '',
           phoneNumber: ''
         }}
-        onSubmit={(values) => {
-          console.log('values', values);
+        onSubmit={(values, actions) => {
+          setSnack({
+            title: 'Success',
+            message: 'Basic info updated successfully',
+            time: false,
+            color: 'success',
+            open: true
+          });
+          actions.setSubmitting(false);
         }}
         validationSchema={BasicInfoSchema}
       >
@@ -84,16 +93,7 @@ const BasicInfo = () => {
                       id="gender"
                       name="gender"
                       options={Gender}
-                      errorText={errors.gender && touched.gender && errors.gender}
-                      error={errors.gender && touched.gender}
-                      success={!errors.gender && touched.gender}
-                      onChange={(selectedOption) => {
-                        const event = { target: { name: 'gender', value: selectedOption } };
-                        handleChangeIsGender(event);
-                      }}
-                      onBlur={() => {
-                        handleBlur({ target: { name: 'gender' } });
-                      }}
+                      onChange={(value) => handleChangeIsGender(value)}
                     />
                   </FormControl>
                 </Grid>
@@ -160,7 +160,7 @@ const BasicInfo = () => {
                       id="email"
                       name="email"
                       label="Email"
-                      value={values.designation}
+                      value={values.email}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       errorText={errors.email && touched.email && errors.email}
@@ -177,7 +177,7 @@ const BasicInfo = () => {
                       id="email"
                       name="confirmationEmail"
                       label="Confirmation Email"
-                      value={values.designation}
+                      value={values.confirmationEmail}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       errorText={
