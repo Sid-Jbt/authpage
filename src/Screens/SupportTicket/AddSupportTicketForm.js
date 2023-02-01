@@ -16,7 +16,7 @@ const initialValues = {
 };
 
 const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, selectedData }) => {
-  const [title, setTitle] = useState('ADD NEW SUPPORT TICKET');
+  const [title, setTitle] = useState('');
   const [department, setDepartment] = useState(Department[0]);
 
   const handleChangeDepartment = (selectedDepartment) => {
@@ -30,8 +30,16 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, selectedData }) =>
   useEffect(() => {
     if (selectedData !== null) {
       setTitle('EDIT YOUR SUPPORT TICKET');
+    } else if (selectedData == null) {
+      setTitle('ADD NEW SUPPORT TICKET');
     }
   }, [selectedData]);
+
+  // useEffect(() => {
+  //   selectedData == null
+  //     ? setTitle('ADD NEW SUPPORT TICKET')
+  //     : setTitle('EDIT YOUR SUPPORT TICKET');
+  // }, [selectedData]);
 
   return (
     <>

@@ -3,13 +3,15 @@ import { Add, ImportExportRounded } from '@mui/icons-material';
 import React, { useState } from 'react';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
+import { useSelector } from 'react-redux';
 import expenseListData from './data/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
 import ManageExpenseForm from './ManageExpenseForm';
 
 const Expense = () => {
-  const { columns: prCols, rows: prRows } = expenseListData;
+  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = expenseListData;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { role } = useSelector((state) => state.customization);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -43,7 +45,7 @@ const Expense = () => {
         }}
       >
         <FilterLayout />
-        <Table columns={prCols} rows={prRows} isChecked isView />
+        <Table columns={role === 'admin' ? adminPrCol : prCols} rows={prRows} isChecked isView />
         <ManageExpenseForm
           isDrawerOpen={Boolean(isDialogOpen)}
           handleDrawerClose={handleDialog}
