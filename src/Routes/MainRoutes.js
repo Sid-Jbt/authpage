@@ -19,6 +19,7 @@ import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
 import { Navigate } from 'react-router';
+import { useSelector } from 'react-redux';
 import {
   profilePattern,
   privacyPolicyPattern,
@@ -112,7 +113,7 @@ const MainRoutes = [
     name: 'Employee',
     icon: <PeopleRounded sx={{ color: colors.primary.main }} />,
     path: employeeDetailsPattern,
-    key: 'employee',
+    key: 'employeeDetails',
     element: <EmployeeDeatils />
   },
   {
@@ -214,6 +215,16 @@ const MainRoutes = [
       }
     ]
   },
+  {
+    type: 'collapse',
+    noCollapse: true,
+    route: holidayPattern,
+    name: 'Holiday',
+    icon: <HolidayVillage sx={{ color: '#DAA520' }} />,
+    path: holidayPattern,
+    key: 'holiday',
+    element: <Holiday />
+  },
   // { type: 'title', title: 'Other Pages', key: 'other-pages' },
   {
     type: 'unroute',
@@ -232,28 +243,21 @@ const MainRoutes = [
     route: profileSetupPattern,
     key: 'profilesetup',
     element: <ProfileSetup />
-  },
-  // Keep this route at the end to keep this flow ready
-  {
-    type: 'collapse',
-    noCollapse: true,
-    route: holidayPattern,
-    name: 'Holiday',
-    icon: <HolidayVillage sx={{ color: '#DAA520' }} />,
-    path: holidayPattern,
-    key: 'holiday',
-    element: <Holiday />
   }
 ];
 
-// const roleList = JSON.parse(localStorage?.getItem('ROLE_LIST'));
-// const childrenList = MainRoutes.filter((item) => roleList?.find((data) => data === item.key));
-const childrenList = MainRoutes;
+const Route = () => {
+  const { roleList } = useSelector((state) => state.route);
+  const childrenList = MainRoutes.filter((item) => roleList?.find((data) => data === item.key));
+  // const childrenList = MainRoutes;
 
-const DashboardRoutes = {
-  path: '/',
-  element: <DashboardLayout />,
-  children: childrenList
+  const DashboardRoutes = {
+    path: '/',
+    element: <DashboardLayout />,
+    children: childrenList
+  };
+
+  return DashboardRoutes;
 };
 
-export default DashboardRoutes;
+export default Route;

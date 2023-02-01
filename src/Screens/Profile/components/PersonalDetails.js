@@ -241,8 +241,8 @@ const PersonalDetails = () => {
                       id="phoneNumber"
                       name="phoneNumber"
                       label="Phone Number"
-                      minlength="9"
-                      maxlength="14"
+                      minLength="9"
+                      maxLength="14"
                       value={values.phoneNumber}
                       onChange={handleChange}
                       onBlur={handleBlur}

@@ -10,13 +10,15 @@ import Button from 'Elements/Button';
 import { loginSchema } from 'Helpers/ValidationSchema';
 import { getProfileSetupPattern } from 'Routes/routeConfig';
 import { useDispatch } from 'react-redux';
-import { ROLE, SNACKBAR } from 'Redux/actions';
+import { ROLE, SNACKBAR, ROLELIST } from 'Redux/actions';
 
 const Login = () => {
-  const dispatch = useDispatch();
+  const dispatchRole = useDispatch();
+  const dispatchRoute = useDispatch();
+  const dispatchSnackbar = useDispatch();
 
   const [rememberMe, setRememberMe] = useState(false);
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -44,17 +46,57 @@ const Login = () => {
         onSubmit={(values, actions) => {
           const { email } = values;
           if (email === 'admin@gmail.com') {
-            dispatch({ type: ROLE, value: 'admin' });
-            dispatch({
+            dispatchRole({ type: ROLE, value: 'admin' });
+            dispatchRoute({
+              type: ROLELIST,
+              value: [
+                'dashboard',
+                'profilesetup',
+                'employee',
+                'profile',
+                'privacy',
+                'employeeDetails',
+                'expense',
+                'leave',
+                'settings',
+                'payslip',
+                'attendance',
+                'profile',
+                'role',
+                'supportTicket',
+                'report',
+                'allreport',
+                'timeactivity',
+                'weeklylimit',
+                'holiday'
+              ]
+            });
+            dispatchSnackbar({
               type: SNACKBAR,
               value: [{ title: 'Success', type: 'success', content: 'Logged in Successfully' }]
             });
-            // localStorage.setItem(
-            //   'ROLE_LIST',
-            //   JSON.stringify(['dashboard', 'employee', 'profilesetup'])
-            // );
           } else {
-            dispatch({ type: ROLE, value: 'employee' });
+            dispatchRoute({
+              type: ROLELIST,
+              value: [
+                'dashboard',
+                'profilesetup',
+                'profile',
+                'privacy',
+                'expense',
+                'leave',
+                'settings',
+                'payslip',
+                'attendance',
+                'profile',
+                'supportTicket',
+                'report',
+                'allreport',
+                'timeactivity',
+                'weeklylimit'
+              ]
+            });
+            dispatchRole({ type: ROLE, value: 'employee' });
           }
           actions.setSubmitting(false);
           navigate(getProfileSetupPattern());
