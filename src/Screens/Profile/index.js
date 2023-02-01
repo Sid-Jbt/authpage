@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Box from 'Elements/Box';
 import breakpoints from 'Theme/base/breakpoints';
+import { useSelector } from 'react-redux';
 import Header from './components/Header';
 import PersonalDetails from './components/PersonalDetails';
 import BankInfo from './components/BankInfo';
-import Salary from './components/Salary';
+import SalaryDetails from './components/SalaryDetails';
 
 const Profile = () => {
+  const { role } = useSelector((state) => state.route);
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
   const [tabIndex, setTabIndex] = useState(0);
+
+  console.log('role --> ', role);
 
   useEffect(() => {
     function handleTabsOrientation() {
@@ -32,9 +36,18 @@ const Profile = () => {
         handleSetTabIndex={(event, value) => handleSetTabIndex(event, value)}
       />
       <Box mt={3}>
-        {tabIndex === 0 && <PersonalDetails />}
+        {role === 'admin' ? (
+          tabIndex === 0 && <PersonalDetails />
+        ) : (
+          <>
+            {tabIndex === 0 && <PersonalDetails />}
+            {tabIndex === 1 && <BankInfo />}
+            {tabIndex === 2 && <SalaryDetails />}
+          </>
+        )}
+        {/* {tabIndex === 0 && <PersonalDetails />}
         {tabIndex === 1 && <BankInfo />}
-        {tabIndex === 2 && <Salary />}
+        {tabIndex === 2 && <SalaryDetails />} */}
       </Box>
     </Box>
   );
