@@ -15,7 +15,6 @@ import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
 import { Action } from 'Elements/Tables/Action';
-import _ from 'lodash';
 import ViewExpense from 'Screens/Expense/ViewExpense';
 import breakpoints from 'Theme/base/breakpoints';
 
@@ -31,16 +30,6 @@ const Table = ({
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
-  const [data, setData] = useState(rows);
-  const [order, setOrder] = useState('desc');
-  const [orderBy, setOrderBy] = useState('');
-
-  const handleRequestSort = (event, property, orderKey) => {
-    setOrder(orderKey);
-    setOrderBy(property);
-    const sortData = _.orderBy(data, [property], [orderKey]);
-    setData(sortData);
-  };
 
   const onSelectAll = (isCheckSelectAll) => {
     let selectedId = [];
@@ -88,7 +77,7 @@ const Table = ({
       >
         <TableCell
           key={name}
-          sortDirection={orderBy === name ? order : false}
+          // sortDirection={orderBy === name ? order : false}
           pt={1.5}
           pb={1.25}
           pl={align === 'left' ? pl : 3}
@@ -113,8 +102,9 @@ const Table = ({
                 ? mobileHeader.toUpperCase() !== 'ACTION' && mobileHeader.toUpperCase() !== 'ID'
                 : headerName.toUpperCase() !== 'ACTION' && headerName.toUpperCase() !== 'ID'
             }
-            direction={orderBy === name ? order : 'asc'}
-            onClick={(e) => handleRequestSort(e, name, order === 'asc' ? 'desc' : 'asc')}
+            direction="asc"
+            // direction={orderBy === name ? order : 'asc'}
+            // onClick={(e) => handleRequestSort(e, name, order === 'asc' ? 'desc' : 'asc')}
             hideSortIcon={
               window.innerWidth < breakpoints.values.xl
                 ? mobileHeader.toUpperCase() === 'ACTION' && mobileHeader.toUpperCase() === 'ID'
@@ -130,7 +120,7 @@ const Table = ({
     );
   });
 
-  const renderRows = data.map((row, key) => {
+  const renderRows = rows.map((row, key) => {
     const rowKey = `row-${key}`;
     const tableRow = columns.map(({ name, align }) => {
       let template;
@@ -265,7 +255,7 @@ const Table = ({
         </MuiTable>
       </TableContainer>
     ),
-    [columns, data, selectedIds]
+    [columns, rows, selectedIds]
   );
 };
 
