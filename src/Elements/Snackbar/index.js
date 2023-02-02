@@ -56,7 +56,7 @@ const CustomSnackbar = ({ color, icon, title, dateTime, content, close, bgWhite,
   return (
     <Snackbar
       TransitionComponent={Fade}
-      autoHideDuration={5000}
+      autoHideDuration={2500}
       anchorOrigin={{
         vertical: 'bottom',
         horizontal: 'right'
