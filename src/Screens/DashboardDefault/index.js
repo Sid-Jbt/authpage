@@ -6,7 +6,6 @@ import Calendar from 'Components/Calendar';
 import ivancik from 'Assets/shapes/pattern-left.png';
 import { Watch, WatchLater, WatchRounded } from '@mui/icons-material';
 import LeaveCard from '../../Components/CardLayouts/LeaveCard';
-import Countdown from './timer';
 
 const calendarEventsData = [
   {
@@ -73,7 +72,7 @@ const DashboardDefault = () => (
         <Grid item xs={12} md={6} lg={4}>
           <LeaveCard
             title="Today"
-            count={<Countdown />}
+            count="07:15:34"
             icon={{ color: 'success', component: <Watch /> }}
             isPercentage={false}
           />
