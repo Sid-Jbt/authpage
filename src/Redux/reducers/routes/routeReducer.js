@@ -17,7 +17,7 @@ const routeReducer = (state = initialState, action) => {
       return { ...state, roleList: initialState.roleList, role: initialState.role };
     }
     default: {
-      return initialState;
+      return state;
     }
   }
 };
