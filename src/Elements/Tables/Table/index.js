@@ -14,9 +14,9 @@ import Typography from 'Elements/Typography';
 import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
-import breakpoints from 'Theme/base/breakpoints';
 import { Action } from 'Elements/Tables/Action';
-import ViewExpense from '../../../Screens/Expense/ViewExpense';
+import ViewExpense from 'Screens/Expense/ViewExpense';
+import breakpoints from 'Theme/base/breakpoints';
 
 const Table = ({
   columns,
@@ -54,7 +54,7 @@ const Table = ({
     setSelectedIds([...selectedIds]);
   };
 
-  const renderColumns = columns.map(({ headerName, mobileHeader, align, width }, key) => {
+  const renderColumns = columns.map(({ headerName, mobileHeader, align, width, name }, key) => {
     let pl;
     let pr;
 
@@ -73,35 +73,49 @@ const Table = ({
       <Box
         key={headerName}
         component="th"
-        width={width || 'auto'}
-        pt={1.5}
-        pb={1.25}
-        pl={align === 'left' ? pl : 3}
-        pr={align === 'right' ? pr : 3}
-        textAlign={align}
-        fontSize={size.sm}
-        fontWeight={fontWeightBold}
-        color="dark"
-        opacity={0.7}
         sx={({ palette: { light } }) => ({ borderBottom: `${borderWidth[1]} solid ${light.main}` })}
       >
-        <TableSortLabel
-          active={
-            window.innerWidth < breakpoints.values.xl
-              ? mobileHeader.toUpperCase() !== 'ACTION' && mobileHeader.toUpperCase() !== 'ID'
-              : headerName.toUpperCase() !== 'ACTION' && headerName.toUpperCase() !== 'ID'
-          }
-          hideSortIcon={
-            window.innerWidth < breakpoints.values.xl
-              ? mobileHeader.toUpperCase() === 'ACTION' && mobileHeader.toUpperCase() === 'ID'
-              : headerName.toUpperCase() === 'ACTION' && headerName.toUpperCase() === 'ID'
-          }
-          direction="desc"
+        <TableCell
+          key={name}
+          // sortDirection={orderBy === name ? order : false}
+          pt={1.5}
+          pb={1.25}
+          pl={align === 'left' ? pl : 3}
+          pr={align === 'right' ? pr : 3}
+          sx={{
+            width: width || 'auto',
+            color: 'dark',
+            opacity: 0.7,
+            borderBottom: 0,
+            fontSize: size.sm,
+            textAlign: align,
+            fontWeight: fontWeightBold,
+            pt: 1.5,
+            pb: 1.25,
+            pl: align === 'left' ? pl : 3,
+            pr: align === 'right' ? pr : 3
+          }}
         >
-          {window.innerWidth < breakpoints.values.xl
-            ? mobileHeader.toUpperCase()
-            : headerName.toUpperCase()}
-        </TableSortLabel>
+          <TableSortLabel
+            active={
+              window.innerWidth < breakpoints.values.xl
+                ? mobileHeader.toUpperCase() !== 'ACTION' && mobileHeader.toUpperCase() !== 'ID'
+                : headerName.toUpperCase() !== 'ACTION' && headerName.toUpperCase() !== 'ID'
+            }
+            direction="asc"
+            // direction={orderBy === name ? order : 'asc'}
+            // onClick={(e) => handleRequestSort(e, name, order === 'asc' ? 'desc' : 'asc')}
+            hideSortIcon={
+              window.innerWidth < breakpoints.values.xl
+                ? mobileHeader.toUpperCase() === 'ACTION' && mobileHeader.toUpperCase() === 'ID'
+                : headerName.toUpperCase() === 'ACTION' && headerName.toUpperCase() === 'ID'
+            }
+          >
+            {window.innerWidth < breakpoints.values.xl
+              ? mobileHeader.toUpperCase()
+              : headerName.toUpperCase()}
+          </TableSortLabel>
+        </TableCell>
       </Box>
     );
   });
@@ -110,11 +124,10 @@ const Table = ({
     const rowKey = `row-${key}`;
     const tableRow = columns.map(({ name, align }) => {
       let template;
-
       if (Array.isArray(row[name])) {
         template = (
           <Box
-            key={key}
+            key={`${name}_${key}`}
             component="td"
             p={1}
             sx={({ palette: { light } }) => ({
@@ -139,7 +152,7 @@ const Table = ({
       } else {
         template = (
           <Box
-            key={key}
+            key={`${name}_${key}`}
             component="td"
             p={1}
             textAlign={align}

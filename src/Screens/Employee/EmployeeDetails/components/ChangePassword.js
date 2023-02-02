@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { Card, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -5,8 +6,10 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { Formik } from 'formik';
 import { changePasswordSchema } from 'Helpers/ValidationSchema';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const ChangePassword = () => {
+  const { setSnack } = useContext(SnackbarContext);
   const passwordRequirements = [
     'One special characters',
     'One upper character',
@@ -39,8 +42,15 @@ const ChangePassword = () => {
           newPassword: '',
           confirmNewPassword: ''
         }}
-        onSubmit={(values) => {
-          console.log('values', values);
+        onSubmit={(values, actions) => {
+          setSnack({
+            title: 'Success',
+            message: 'Password changed successfully',
+            time: false,
+            color: 'success',
+            open: true
+          });
+          actions.setSubmitting(false);
         }}
         validationSchema={changePasswordSchema}
       >
@@ -54,9 +64,10 @@ const ChangePassword = () => {
                   <Grid item xs={12}>
                     <Input
                       name="currentPassword"
-                      label="Current password"
                       placeholder="Current Password"
-                      inputProps={{ type: 'password', autoComplete: '' }}
+                      label="Current Password"
+                      size="large"
+                      type="password"
                       value={values.currentPassword}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -70,10 +81,11 @@ const ChangePassword = () => {
                   <Grid item xs={12}>
                     <Input
                       name="newPassword"
-                      label="New password"
                       placeholder="New Password"
-                      inputProps={{ type: 'password', autoComplete: '' }}
-                      value={values.currentPassword}
+                      label="New Password"
+                      size="large"
+                      type="password"
+                      value={values.newPassword}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       errorText={errors.newPassword && touched.newPassword && errors.newPassword}
@@ -84,10 +96,11 @@ const ChangePassword = () => {
                   <Grid item xs={12}>
                     <Input
                       name="confirmNewPassword"
+                      placeholder="Confirm New Password"
                       label="Confirm New Password"
-                      placeholder="Confirm Password"
-                      inputProps={{ type: 'password', autoComplete: '' }}
-                      value={values.currentPassword}
+                      size="large"
+                      type="password"
+                      value={values.confirmNewPassword}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       errorText={
