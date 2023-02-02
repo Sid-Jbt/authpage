@@ -1,5 +1,5 @@
 import { Grid, Tab, Tabs } from '@mui/material';
-import { AccountBoxOutlined, NotificationsActiveOutlined, Password } from '@mui/icons-material';
+import { NotificationsActiveOutlined, Password } from '@mui/icons-material';
 
 const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
   <Grid container spacing={3} alignItems="center">
@@ -14,7 +14,6 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => (
           label="Notification"
           icon={<NotificationsActiveOutlined style={{ marginRight: '8px' }} />}
         />
-        <Tab label="Account" icon={<AccountBoxOutlined style={{ marginRight: '8px' }} />} />
       </Tabs>
     </Grid>
   </Grid>

@@ -13,7 +13,8 @@ import {
   VerifiedUserOutlined,
   HolidayVillage,
   ViewArrayOutlined,
-  SupportAgent
+  SupportAgent,
+  AnnouncementRounded
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -36,7 +37,8 @@ import {
   employeeDetailsPattern,
   holidayPattern,
   rolePattern,
-  supportTicketPattern
+  supportTicketPattern,
+  noticePattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -54,6 +56,7 @@ const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
 const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
 const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket')));
 const Role = Loadable(lazy(() => import('../Screens/Role')));
+const NoticeBoard = Loadable(lazy(() => import('../Screens/NoticeBoard')));
 
 // Report
 const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
@@ -243,6 +246,16 @@ const MainRoutes = [
     route: profileSetupPattern,
     key: 'profilesetup',
     element: <ProfileSetup />
+  },
+  {
+    type: 'collapse',
+    noCollapse: true,
+    route: noticePattern,
+    name: 'Notice',
+    icon: <AnnouncementRounded sx={{ color: colors.error.main }} />,
+    path: noticePattern,
+    key: 'notice',
+    element: <NoticeBoard />
   }
 ];
 

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Box from 'Elements/Box';
 import breakpoints from 'Theme/base/breakpoints';
 import Header from './components/Header';
+import ChangePasswordSetting from './components/ChangePasswordSetting';
+import NotificationSetting from './components/NotificationSetting';
 
 const Setting = () => {
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
@@ -28,9 +30,8 @@ const Setting = () => {
         handleSetTabIndex={(event, value) => handleSetTabIndex(event, value)}
       />
       <Box mt={3}>
-        {/* {tabIndex === 0 && <PersonalDetails />}
-        {tabIndex === 1 && <BankInfo />}
-        {tabIndex === 2 && <Salary />} */}
+        {tabIndex === 0 && <ChangePasswordSetting />}
+        {tabIndex === 1 && <NotificationSetting />}
       </Box>
     </Box>
   );

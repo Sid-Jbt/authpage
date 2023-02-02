@@ -10,58 +10,51 @@ import LeaveCard from '../../Components/CardLayouts/LeaveCard';
 const calendarEventsData = [
   {
     title: 'All day conference',
-    start: '2021-08-01',
-    end: '2021-08-01',
+    start: '2023-02-01',
+    end: '2023-02-01',
     className: 'success'
   },
 
   {
     title: 'Meeting with Mary',
-    start: '2021-08-03',
-    end: '2021-08-03',
+    start: '2023-02-05',
+    end: '2023-02-05',
     className: 'info'
   },
 
   {
-    title: 'Cyber Week',
-    start: '2021-08-04',
-    end: '2021-08-04',
+    title: 'Cyber Day',
+    start: '2023-02-10',
+    end: '2023-02-10',
     className: 'warning'
   },
 
   {
     title: 'Winter Hackaton',
-    start: '2021-08-05',
-    end: '2021-08-05',
+    start: '2023-02-15',
+    end: '2023-02-15',
     className: 'error'
   },
 
   {
     title: 'Digital event',
-    start: '2021-08-09',
-    end: '2021-08-11',
+    start: '2023-02-18',
+    end: '2023-02-18',
     className: 'warning'
   },
 
   {
     title: 'Marketing event',
-    start: '2021-08-12',
-    end: '2021-08-12',
+    start: '2023-02-21',
+    end: '2023-02-21',
     className: 'primary'
   },
 
   {
     title: 'Dinner with Family',
-    start: '2021-08-21',
-    end: '2021-08-21',
+    start: '2023-02-28',
+    end: '2023-02-28',
     className: 'error'
-  },
-
-  {
-    title: 'Black Friday',
-    start: '2021-08-25',
-    end: '2021-08-25',
-    className: 'info'
   }
 ];
 
@@ -97,10 +90,10 @@ const DashboardDefault = () => (
           {useMemo(
             () => (
               <Calendar
-                header={{ title: 'calendar', date: 'Monday, 2021' }}
+                header={{ title: 'calendar', date: 'Thursday, 2023' }}
                 headerToolbar={false}
                 initialView="dayGridMonth"
-                initialDate="2021-08-10"
+                initialDate="2023-02-02"
                 events={calendarEventsData}
                 selectable
                 editable

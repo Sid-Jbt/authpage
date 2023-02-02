@@ -76,7 +76,8 @@ const Login = () => {
                 'allreport',
                 'timeactivity',
                 'weeklylimit',
-                'holiday'
+                'holiday',
+                'notice'
               ]
             });
             dispatchRole({ type: ROLE, value: 'admin' });

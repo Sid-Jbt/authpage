@@ -14,7 +14,7 @@ const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const { role } = useSelector((state) => state.customization);
+  const { role } = useSelector((state) => state.route);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);

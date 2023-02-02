@@ -16,7 +16,7 @@ const AttendanceList = () => {
   const [year, setYear] = useState('');
   const [status, setStatus] = useState('');
   const [user, setUser] = useState('');
-  const { role } = useSelector((state) => state.customization);
+  const { role } = useSelector((state) => state.route);
 
   const handleChangeStatus = (value) => {
     setStatus(value.value);

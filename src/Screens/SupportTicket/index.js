@@ -17,8 +17,7 @@ const supportTicket = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
-  const { role } = useSelector((state) => state.customization);
-  console.log(role);
+  const { role } = useSelector((state) => state.route);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
