@@ -74,6 +74,11 @@ export const profileSchema = yup.object().shape({
   pAdd: yup.string().required('Permanent Address is required')
 });
 
+export const basicProfileSetupSchema = yup.object().shape({
+  firstName: yup.string().required('First name is required'),
+  lastName: yup.string().required('Last name is required')
+});
+
 export const bankAccountSchema = yup.object().shape({
   bankName: yup.string().required('Bank name is required'),
   branchName: yup.string().required('Branch name is required'),

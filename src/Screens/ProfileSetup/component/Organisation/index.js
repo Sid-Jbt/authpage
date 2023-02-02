@@ -17,6 +17,7 @@ const initialValues = {
   permanentAdd: '',
   workingHours: ''
 };
+
 const Organisation = () => {
   const [workingHours, setWorkingHours] = useState('');
   const [smallLogoUrl, setSmallLogoUrl] = useState('');
@@ -25,7 +26,6 @@ const Organisation = () => {
   const handleChangWorkingHours = (event) => {
     setWorkingHours(event.target.value.value);
   };
-  console.log('Selected workingHours --> ', workingHours);
 
   const logoUpload = (value) => {
     document.querySelector('input').onchange = (e) => {
@@ -42,6 +42,7 @@ const Organisation = () => {
     };
   };
 
+  console.log(workingHours);
   return (
     <Box>
       <Box width="80%" textAlign="center" mx="auto" mb={4}>
@@ -151,12 +152,13 @@ const Organisation = () => {
                         error={errors.workingHours && touched.workingHours}
                         success={!errors.workingHours && touched.workingHours}
                         onChange={(selectedOption) => {
-                          const event = { target: { name: 'gender', value: selectedOption } };
+                          const event = { target: { name: 'workingHours', value: selectedOption } };
                           handleChangWorkingHours(event);
                         }}
-                        onBlur={() => {
-                          handleBlur({ target: { name: 'gender' } });
-                        }}
+                        onBlur={handleBlur}
+                        // onBlur={() => {
+                        //   handleBlur({ target: { name: 'workingHours' } });
+                        // }}
                       />
                     </FormControl>
                   </Grid>

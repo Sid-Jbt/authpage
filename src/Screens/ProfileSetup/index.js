@@ -10,6 +10,7 @@ import Basic from './component/Basic';
 import Address from './component/Address';
 import Account from './component/Account';
 import Organisation from './component/Organisation';
+// import { basicProfileSetupSchema } from '../../Helpers/ValidationSchema';
 
 function getSteps() {
   const customization = useSelector((state) => state.route);

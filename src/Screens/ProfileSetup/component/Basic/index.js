@@ -10,7 +10,7 @@ import team2 from 'Assets/Images/team-4-800x800.jpg';
 import { Edit } from '@mui/icons-material';
 import { Formik } from 'formik';
 import moment from 'moment';
-import { validationSchema } from 'Helpers/ValidationSchema';
+import { basicProfileSetupSchema } from 'Helpers/ValidationSchema';
 
 const initialValues = {
   firstName: '',
@@ -54,7 +54,8 @@ const Basic = () => {
         onSubmit={(values) => {
           console.log('values', values);
         }}
-        validationSchema={validationSchema}
+        // validationSchema={validationSchema}
+        validationSchema={basicProfileSetupSchema}
       >
         {(props) => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
@@ -297,6 +298,9 @@ const Basic = () => {
                           </RadioGroup>
                         </Box>
                       </Grid>
+                      {/* <button type="submit" disabled={!formik.isValid}> */}
+                      {/*  Skip */}
+                      {/* </button> */}
                     </Grid>
                   </Grid>
                 </Grid>
