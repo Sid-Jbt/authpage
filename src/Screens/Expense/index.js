@@ -11,7 +11,7 @@ import ManageExpenseForm from './ManageExpenseForm';
 const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = expenseListData;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { role } = useSelector((state) => state.customization);
+  const { role } = useSelector((state) => state.route);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);

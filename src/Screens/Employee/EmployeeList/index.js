@@ -14,7 +14,7 @@ import employeeListData from './data/employeeListData';
 import AddEmployeeForm from './AddEmployeeForm';
 
 const EmployeeList = () => {
-  const { role } = useSelector((state) => state.customization);
+  const { role } = useSelector((state) => state.route);
   const { columns: prCols, rows: prRows } = employeeListData;
   const [selectedRole, setSelectedRole] = useState('');
   const navigate = useNavigate();
