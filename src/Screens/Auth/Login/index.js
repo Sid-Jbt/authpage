@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { IconButton, InputAdornment, Switch } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Check, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
@@ -50,6 +50,7 @@ const Login = () => {
             title: 'Success',
             message: 'Logged in successfully',
             time: false,
+            icon: <Check color="white" />,
             color: 'success',
             open: true
           });
