@@ -36,7 +36,7 @@ const attendanceData = {
   rows: [
     {
       id: 1,
-      date: '1/1/2023',
+      date: '01 Jan 2023',
       username: 'Jarvisbitz',
       in: '10:00',
       out: '7:00',
@@ -57,7 +57,7 @@ const attendanceData = {
     },
     {
       id: 2,
-      date: '2/1/2023',
+      date: '02 Jan 2023',
       username: 'CognitionTeam',
       in: '10:00',
       out: '7:00',
@@ -78,7 +78,7 @@ const attendanceData = {
     },
     {
       id: 3,
-      date: '3/1/2023',
+      date: '03 Jan 2023',
       username: 'Jarvisbitz',
       in: '10:00',
       out: '7:00',
@@ -99,7 +99,7 @@ const attendanceData = {
     },
     {
       id: 4,
-      date: '4/1/2023',
+      date: '04 Jan 2023',
       username: 'CognitionTeam',
       in: '10:00',
       out: '7:00',
@@ -120,7 +120,7 @@ const attendanceData = {
     },
     {
       id: 5,
-      date: '5/1/2023',
+      date: '05 Jan 2023',
       username: 'Jarvisbitz',
       in: '10:00',
       out: '7:00',
@@ -141,7 +141,7 @@ const attendanceData = {
     },
     {
       id: 6,
-      date: '6/1/2023',
+      date: '06 Jan 2023',
       username: 'CognitionTeam',
       in: '10:00',
       out: '7:00',
@@ -162,7 +162,7 @@ const attendanceData = {
     },
     {
       id: 7,
-      date: '7/1/2023',
+      date: '07 Jan 2023',
       username: 'Jarvisbitz',
       in: '10:00',
       out: '7:00',
@@ -183,7 +183,7 @@ const attendanceData = {
     },
     {
       id: 8,
-      date: '8/1/2023',
+      date: '08 Jan 2023',
       username: 'CognitionTeam',
       in: '10:00',
       out: '7:00',
@@ -204,7 +204,7 @@ const attendanceData = {
     },
     {
       id: 9,
-      date: '9/1/2023',
+      date: '09 Jan 2023',
       username: 'Jarvisbitz',
       in: '10:00',
       out: '7:00',
@@ -225,7 +225,7 @@ const attendanceData = {
     },
     {
       id: 10,
-      date: '10/1/2023',
+      date: '10 Jan 2023',
       username: 'CognitionTeam',
       in: '10:00',
       out: '7:00',
@@ -248,239 +248,3 @@ const attendanceData = {
 };
 
 export default attendanceData;
-
-// import Badge from 'Elements/Badge';
-//
-// const attendanceData = {
-//   columns: [
-//     { accessor: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
-//     { accessor: 'date', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
-//     { accessor: 'username', align: 'center', headerName: 'User name', mobileHeader: 'Name' },
-//     { accessor: 'punch In', align: 'center', headerName: 'Punch In', mobileHeader: 'In' },
-//     { accessor: 'punch Out', align: 'center', headerName: 'Punch Out', mobileHeader: 'Out' },
-//     { accessor: 'late', align: 'center', headerName: 'Late', mobileHeader: 'Late' },
-//     { accessor: 'overtime', align: 'center', headerName: 'Overtime', mobileHeader: 'Overtime' },
-//     {
-//       accessor: 'production',
-//       align: 'center',
-//       headerName: 'Production',
-//       mobileHeader: 'Production'
-//     },
-//     { accessor: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
-//   ],
-//
-//   rows: [
-//     {
-//       id: 1,
-//       date: '1/1/2023',
-//       username: 'Jarvisbitz',
-//       'punch In': '10:00',
-//       'punch Out': '7:00',
-//       late: '0H',
-//       // 'early Leaving': '0.5H',
-//       overtime: '0H',
-//       production: '8H',
-//       status: (
-//         <Badge
-//           variant="gradient"
-//           badgeContent="Present"
-//           color="success"
-//           size="xs"
-//           container
-//           customWidth={100}
-//         />
-//       )
-//     },
-//     {
-//       id: 2,
-//       date: '2/1/2023',
-//       username: 'CognitionTeam',
-//       'punch In': '10:00',
-//       'punch Out': '7:00',
-//       late: '0H',
-//       'early Leaving': '0.5H',
-//       overtime: '0H',
-//       production: '8H',
-//       status: (
-//         <Badge
-//           variant="gradient"
-//           badgeContent="Absent"
-//           color="error"
-//           size="xs"
-//           container
-//           customWidth={100}
-//         />
-//       )
-//     },
-//     {
-//       id: 3,
-//       date: '3/1/2023',
-//       username: 'Jarvisbitz',
-//       'punch In': '10:00',
-//       'punch Out': '7:00',
-//       late: '0H',
-//       'early Leaving': '0.5H',
-//       overtime: '0H',
-//       production: '8H',
-//       status: (
-//         <Badge
-//           variant="gradient"
-//           badgeContent="Late"
-//           color="warning"
-//           size="xs"
-//           container
-//           customWidth={100}
-//         />
-//       )
-//     },
-//     {
-//       id: 4,
-//       date: '4/1/2023',
-//       username: 'CognitionTeam',
-//       'punch In': '10:00',
-//       'punch Out': '7:00',
-//       late: '0H',
-//       'early Leaving': '0.5H',
-//       overtime: '0H',
-//       production: '8H',
-//       status: (
-//         <Badge
-//           variant="gradient"
-//           badgeContent="Overtime"
-//           color="info"
-//           size="xs"
-//           container
-//           customWidth={100}
-//         />
-//       )
-//     },
-//     {
-//       id: 5,
-//       date: '5/1/2023',
-//       username: 'Jarvisbitz',
-//       'punch In': '10:00',
-//       'punch Out': '7:00',
-//       late: '0H',
-//       'early Leaving': '0.5H',
-//       overtime: '0H',
-//       production: '8H',
-//       status: (
-//         <Badge
-//           variant="gradient"
-//           badgeContent="Present"
-//           color="success"
-//           size="xs"
-//           container
-//           customWidth={100}
-//         />
-//       )
-//     },
-//     {
-//       id: 6,
-//       date: '6/1/2023',
-//       username: 'CognitionTeam',
-//       'punch In': '10:00',
-//       'punch Out': '7:00',
-//       late: '0H',
-//       'early Leaving': '0.5H',
-//       overtime: '0H',
-//       production: '8H',
-//       status: (
-//         <Badge
-//           variant="gradient"
-//           badgeContent="Absent"
-//           color="error"
-//           size="xs"
-//           container
-//           customWidth={100}
-//         />
-//       )
-//     },
-//     {
-//       id: 7,
-//       date: '7/1/2023',
-//       username: 'Jarvisbitz',
-//       'punch In': '10:00',
-//       'punch Out': '7:00',
-//       late: '0H',
-//       'early Leaving': '0.5H',
-//       overtime: '0H',
-//       production: '8H',
-//       status: (
-//         <Badge
-//           variant="gradient"
-//           badgeContent="late"
-//           color="warning"
-//           size="xs"
-//           container
-//           customWidth={100}
-//         />
-//       )
-//     },
-//     {
-//       id: 8,
-//       date: '8/1/2023',
-//       username: 'CognitionTeam',
-//       'punch In': '10:00',
-//       'punch Out': '7:00',
-//       late: '0H',
-//       'early Leaving': '0.5H',
-//       overtime: '0H',
-//       production: '8H',
-//       status: (
-//         <Badge
-//           variant="gradient"
-//           badgeContent="Overtime"
-//           color="info"
-//           size="xs"
-//           container
-//           customWidth={100}
-//         />
-//       )
-//     },
-//     {
-//       id: 9,
-//       date: '9/1/2023',
-//       username: 'Jarvisbitz',
-//       'punch In': '10:00',
-//       'punch Out': '7:00',
-//       late: '0H',
-//       'early Leaving': '0.5H',
-//       overtime: '0H',
-//       production: '8H',
-//       status: (
-//         <Badge
-//           variant="gradient"
-//           badgeContent="Present"
-//           color="success"
-//           size="xs"
-//           container
-//           customWidth={100}
-//         />
-//       )
-//     },
-//     {
-//       id: 10,
-//       date: '10/1/2023',
-//       username: 'CognitionTeam',
-//       'punch In': '10:00',
-//       'punch Out': '7:00',
-//       late: '0H',
-//       'early Leaving': '0.5H',
-//       overtime: '0H',
-//       production: '8H',
-//       status: (
-//         <Badge
-//           variant="gradient"
-//           badgeContent="Absent"
-//           color="error"
-//           size="xs"
-//           container
-//           customWidth={100}
-//         />
-//       )
-//     }
-//   ]
-// };
-//
-// export default attendanceData;

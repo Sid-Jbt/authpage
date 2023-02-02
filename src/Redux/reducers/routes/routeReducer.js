@@ -17,7 +17,7 @@ const routeReducer = (state = initialState, action) => {
       return { initialState };
     }
     default: {
-      return state;
+      return initialState;
     }
   }
 };

@@ -1,6 +1,5 @@
 import { createContext, useState } from 'react';
 import Snackbar from 'Elements/Snackbar';
-import { Check } from '@mui/icons-material';
 
 export const SnackbarContext = createContext({});
 
@@ -10,6 +9,7 @@ const SnackbarProvider = ({ children }) => {
     message: '',
     time: false,
     color: '',
+    icon: false,
     open: false
   });
 
@@ -24,7 +24,7 @@ const SnackbarProvider = ({ children }) => {
     <SnackbarContext.Provider value={{ snack, setSnack }}>
       <Snackbar
         color={snack.color}
-        icon={<Check color="white" />}
+        icon={snack.icon}
         title={snack.title}
         content={snack.message}
         dateTime={snack.time}
@@ -33,7 +33,7 @@ const SnackbarProvider = ({ children }) => {
         close={handleClose}
         bgWhite={false}
       />
-      <>{children}</>
+      {children}
     </SnackbarContext.Provider>
   );
 };

@@ -12,7 +12,7 @@ import Account from './component/Account';
 import Organisation from './component/Organisation';
 
 function getSteps() {
-  const customization = useSelector((state) => state.customization);
+  const customization = useSelector((state) => state.route);
 
   return customization.role === 'admin'
     ? ['Organisation', 'Basic', 'Address']
@@ -20,7 +20,7 @@ function getSteps() {
 }
 
 function getStepContent(stepIndex) {
-  const customization = useSelector((state) => state.customization);
+  const customization = useSelector((state) => state.route);
 
   switch (stepIndex) {
     case 0:

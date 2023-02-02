@@ -2,23 +2,23 @@ import Badge from 'Elements/Badge';
 
 const expenseListData = {
   columns: [
-    { name: 'id', align: 'center', headerName: 'Id' },
-    { name: 'title', align: 'center', headerName: 'Title' },
+    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    { name: 'title', align: 'center', headerName: 'Title', mobileHeader: 'Title' },
     // { name: 'name', align: 'left', headerName: 'Name' },
-    { name: 'purchaseFrom', align: 'center', headerName: 'Purchase From' },
-    { name: 'purchaseDate', align: 'center', headerName: 'Purchase Date' },
-    { name: 'amount', align: 'center', headerName: 'Amount' },
-    { name: 'status', align: 'center', headerName: 'Status' }
+    { name: 'purchaseFrom', align: 'center', headerName: 'Purchase From', mobileHeader: 'From' },
+    { name: 'purchaseDate', align: 'center', headerName: 'Purchase Date', mobileHeader: 'Date' },
+    { name: 'amount', align: 'center', headerName: 'Amount', mobileHeader: 'Amount' },
+    { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
   ],
 
   adminColumns: [
-    { name: 'id', align: 'center', headerName: 'Id' },
-    { name: 'title', align: 'center', headerName: 'Title' },
-    { name: 'name', align: 'left', headerName: 'Name' },
-    { name: 'purchaseFrom', align: 'center', headerName: 'Purchase From' },
-    { name: 'purchaseDate', align: 'center', headerName: 'Purchase Date' },
-    { name: 'amount', align: 'center', headerName: 'Amount' },
-    { name: 'status', align: 'center', headerName: 'Status' }
+    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    { name: 'title', align: 'center', headerName: 'Title', mobileHeader: 'Title' },
+    { name: 'name', align: 'left', headerName: 'Name', mobileHeader: 'Name' },
+    { name: 'purchaseFrom', align: 'center', headerName: 'Purchase From', mobileHeader: 'From' },
+    { name: 'purchaseDate', align: 'center', headerName: 'Purchase Date', mobileHeader: 'Date' },
+    { name: 'amount', align: 'center', headerName: 'Amount', mobileHeader: 'Amount' },
+    { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
   ],
 
   rows: [
@@ -27,7 +27,7 @@ const expenseListData = {
       title: 'Water bill',
       name: 'Sonika',
       purchaseFrom: 'local',
-      purchaseDate: '01/02/2023',
+      purchaseDate: '25/02/2023',
       amount: '350',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
@@ -49,7 +49,7 @@ const expenseListData = {
       title: 'Office cleaning',
       name: 'Hetali',
       purchaseFrom: 'Other',
-      purchaseDate: '01/02/2023',
+      purchaseDate: '10/05/2023',
       amount: '1000',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
@@ -60,7 +60,7 @@ const expenseListData = {
       title: 'Water bill',
       name: 'Hiren',
       purchaseFrom: 'local',
-      purchaseDate: '01/02/2023',
+      purchaseDate: '01/10/2023',
       amount: '350',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
@@ -71,7 +71,7 @@ const expenseListData = {
       title: 'Birthday decoration',
       name: 'Bhavy',
       purchaseFrom: 'local store',
-      purchaseDate: '01/02/2023',
+      purchaseDate: '28/02/2023',
       amount: '500',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
@@ -82,7 +82,7 @@ const expenseListData = {
       title: 'Office cleaning',
       name: 'Mridul',
       purchaseFrom: 'Other',
-      purchaseDate: '01/02/2023',
+      purchaseDate: '10/09/2023',
       amount: '1000',
       status: (
         <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />

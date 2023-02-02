@@ -1,16 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Card, Switch } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const DeleteAccount = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  // const [isVisible, setIsVisible] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const { setSnack } = useContext(SnackbarContext);
 
-  const handleSetIsVisible = () => setIsVisible(!isVisible);
-  console.log('isVisible --> ', isVisible);
+  // const handleSetIsVisible = () => setIsVisible(!isVisible);
+  // console.log('isVisible --> ', isVisible);
   const handleSetDelete = () => setIsDelete(!isDelete);
+
+  const handleDeactivateBtn = () => {
+    setSnack({
+      title: 'Success',
+      message: 'Employee deactivated successfully',
+      time: false,
+      color: 'success',
+      open: true
+    });
+  };
+
+  const handleDeleteBtn = () => {
+    setSnack({
+      title: 'Success',
+      message: 'Employee deleted successfully',
+      time: false,
+      color: 'success',
+      open: true
+    });
+  };
 
   return (
     <Card id="delete-account">
@@ -30,7 +52,7 @@ const DeleteAccount = () => {
         alignItems={{ xs: 'flex-start', sm: 'center' }}
         flexDirection={{ xs: 'column', sm: 'row' }}
       >
-        <Box display="flex" alignItems="center" mb={{ xs: 3, sm: 0 }}>
+        {/* <Box display="flex" alignItems="center" mb={{ xs: 3, sm: 0 }}>
           <Switch checked={isVisible} onChange={handleSetIsVisible} />
           <Box ml={2} lineHeight={0} sx={{ cursor: 'pointer' }} onClick={handleSetIsVisible}>
             <Typography display="block" variant="button" fontWeight="medium">
@@ -40,7 +62,7 @@ const DeleteAccount = () => {
               User Visibility switch.
             </Typography>
           </Box>
-        </Box>
+        </Box> */}
         <Box display="flex" alignItems="center" mb={{ xs: 3, sm: 0 }}>
           <Switch checked={isDelete} onChange={handleSetDelete} />
           <Box ml={2} lineHeight={0} sx={{ cursor: 'pointer' }} onClick={handleSetDelete}>
@@ -53,11 +75,17 @@ const DeleteAccount = () => {
           </Box>
         </Box>
         <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }}>
-          <Button variant="outlined" color="secondary">
+          <Button variant="outlined" color="secondary" onClick={handleDeactivateBtn}>
             Deactivate
           </Button>
           <Box ml={{ xs: 0, sm: 1 }} mt={{ xs: 1, sm: 0 }}>
-            <Button variant="gradient" color="error" sx={{ height: '100%' }}>
+            <Button
+              variant="gradient"
+              color="error"
+              sx={{ height: '100%' }}
+              disabled={!isDelete}
+              onClick={handleDeleteBtn}
+            >
               Delete Account
             </Button>
           </Box>
