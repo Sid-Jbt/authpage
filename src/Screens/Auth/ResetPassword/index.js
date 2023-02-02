@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -7,11 +7,14 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { resetPasswordSchema } from '../../../Helpers/ValidationSchema';
-import { getDashboardPattern } from '../../../Routes/routeConfig';
+import { resetPasswordSchema } from 'Helpers/ValidationSchema';
+import { getDefaultPattern } from 'Routes/routeConfig';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const RestPassword = () => {
   const [showPassword, setShowPassword] = React.useState(false);
+  const { setSnack } = useContext(SnackbarContext);
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -26,8 +29,16 @@ const RestPassword = () => {
       </Typography>
       <Formik
         initialValues={{ password: '', confirmPassword: '' }}
-        onSubmit={(values) => {
-          console.log('values', values);
+        onSubmit={(values, actions) => {
+          setSnack({
+            title: 'Success',
+            message: 'Password successfully reset. Please login with new password',
+            time: false,
+            color: 'success',
+            open: true
+          });
+          actions.setSubmitting(false);
+          navigate(getDefaultPattern());
         }}
         validationSchema={resetPasswordSchema}
       >
@@ -96,10 +107,8 @@ const RestPassword = () => {
                   color="info"
                   size="large"
                   fullWidth
-                  component={Link}
                   type="submit"
                   disabled={isSubmitting}
-                  to={getDashboardPattern()}
                 >
                   Reset Password
                 </Button>

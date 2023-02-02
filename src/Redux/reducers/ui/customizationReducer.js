@@ -10,7 +10,7 @@ const customizationReducer = (state = initialState, action) => {
       return { ...state, miniSidenav: action.value };
     }
     default: {
-      return state;
+      return initialState;
     }
   }
 };

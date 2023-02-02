@@ -14,10 +14,10 @@ const routeReducer = (state = initialState, action) => {
       return { ...state, roleList: action.value };
     }
     case LOGOUT: {
-      return { initialState };
+      return { ...state, roleList: initialState.roleList, role: initialState.role };
     }
     default: {
-      return state;
+      return initialState;
     }
   }
 };
