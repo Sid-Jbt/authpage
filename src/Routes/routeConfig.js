@@ -64,3 +64,6 @@ export const getOrganisationSignupPattern = () => generatePath(organisationSignu
 
 export const rolePattern = `/role`;
 export const getRolePattern = () => generatePath(rolePattern);
+
+export const noticePattern = `/notice`;
+export const getNoticePattern = () => generatePath(noticePattern);
