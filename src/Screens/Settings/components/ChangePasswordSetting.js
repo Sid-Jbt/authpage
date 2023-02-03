@@ -78,7 +78,7 @@ const ChangePasswordSetting = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box mt={0.5}>
+                  <Box>
                     <Input
                       name="newPassword"
                       placeholder="New Password"
@@ -107,7 +107,7 @@ const ChangePasswordSetting = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box mt={0.5}>
+                  <Box>
                     <Input
                       name="confirmNewPassword"
                       placeholder="Confirm New Password"
