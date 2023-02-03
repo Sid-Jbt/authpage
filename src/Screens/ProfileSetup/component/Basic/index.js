@@ -23,7 +23,7 @@ const initialValues = {
   dateOfBirth: moment().format('YYYY-MM-DD')
 };
 
-const Basic = () => {
+const Basic = ({ basicdetails, setBasicDetails }) => {
   const theme = useTheme();
   const [profilePicUrl, setProfilePicUrl] = useState('');
 
@@ -106,8 +106,10 @@ const Basic = () => {
                             id="firstName"
                             name="firstName"
                             label="First Name"
-                            value={values.firstName}
-                            onChange={handleChange}
+                            value={basicdetails.fname}
+                            onChange={(e) => {
+                              setBasicDetails({ ...basicdetails, fname: e.target.value });
+                            }}
                             onBlur={handleBlur}
                             errorText={errors.firstName && touched.firstName && errors.firstName}
                             error={errors.firstName && touched.firstName}
@@ -125,8 +127,10 @@ const Basic = () => {
                             id="lastName"
                             name="lastName"
                             label="Last Name"
-                            value={values.lastName}
-                            onChange={handleChange}
+                            value={basicdetails.lname}
+                            onChange={(e) => {
+                              setBasicDetails({ ...basicdetails, lname: e.target.value });
+                            }}
                             onBlur={handleBlur}
                             errorText={errors.lastName && touched.lastName && errors.lastName}
                             error={errors.lastName && touched.lastName}
@@ -298,9 +302,6 @@ const Basic = () => {
                           </RadioGroup>
                         </Box>
                       </Grid>
-                      {/* <button type="submit" disabled={!formik.isValid}> */}
-                      {/*  Skip */}
-                      {/* </button> */}
                     </Grid>
                   </Grid>
                 </Grid>

@@ -10,22 +10,22 @@ import Button from 'Elements/Button';
 import Icon from '@mui/material/Icon';
 import { Edit } from '@mui/icons-material';
 import Input from 'Elements/Input';
-import Select from '../../../../Elements/Select';
-import { WorkingHours } from '../../../../Helpers/Global';
+import Select from 'Elements/Select';
+import { WorkingHours } from 'Helpers/Global';
 
-const initialValues = {
-  permanentAdd: '',
-  workingHours: ''
-};
-
-const Organisation = () => {
+const Organisation = ({ details, setDetails }) => {
   const [workingHours, setWorkingHours] = useState('');
   const [smallLogoUrl, setSmallLogoUrl] = useState('');
   const [largeLogoUrl, setLargeLogoUrl] = useState('');
 
+  const initialValues = {
+    permanentAdd: '',
+    workingHours: ''
+  };
   const handleChangWorkingHours = (event) => {
     setWorkingHours(event.target.value.value);
   };
+  console.log(workingHours);
 
   const logoUpload = (value) => {
     document.querySelector('input').onchange = (e) => {
@@ -42,7 +42,6 @@ const Organisation = () => {
     };
   };
 
-  console.log(workingHours);
   return (
     <Box>
       <Box width="80%" textAlign="center" mx="auto" mb={4}>
@@ -64,7 +63,7 @@ const Organisation = () => {
         validationSchema={organisationDetailsSchema}
       >
         {(props) => {
-          const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+          const { touched, errors, handleBlur, handleSubmit } = props;
           return (
             <form onSubmit={handleSubmit}>
               <Box mt={2}>
@@ -153,6 +152,8 @@ const Organisation = () => {
                         success={!errors.workingHours && touched.workingHours}
                         onChange={(selectedOption) => {
                           const event = { target: { name: 'workingHours', value: selectedOption } };
+                          setDetails({ ...details, selectTime: selectedOption });
+                          // console.log(selectedOption);
                           handleChangWorkingHours(event);
                         }}
                         onBlur={handleBlur}
@@ -172,8 +173,10 @@ const Organisation = () => {
                         id="permanentAdd"
                         name="permanentAdd"
                         label="Permanent Address"
-                        value={values.pAdd}
-                        onChange={handleChange}
+                        value={details.permanentAdd}
+                        onChange={(e) => {
+                          setDetails({ ...details, permanentAdd: e.target.value });
+                        }}
                         onBlur={handleBlur}
                         errorText={
                           errors.permanentAdd && touched.permanentAdd && errors.permanentAdd

@@ -10,7 +10,6 @@ import Basic from './component/Basic';
 import Address from './component/Address';
 import Account from './component/Account';
 import Organisation from './component/Organisation';
-// import { basicProfileSetupSchema } from '../../Helpers/ValidationSchema';
 
 function getSteps() {
   const customization = useSelector((state) => state.route);
@@ -20,29 +19,57 @@ function getSteps() {
     : ['Basic', 'Address', 'Account'];
 }
 
-function getStepContent(stepIndex) {
-  const customization = useSelector((state) => state.route);
-
-  switch (stepIndex) {
-    case 0:
-      return customization.role === 'admin' ? <Organisation /> : <Basic />;
-    case 1:
-      return customization.role === 'admin' ? <Basic /> : <Address />;
-    case 2:
-      return customization.role === 'admin' ? <Address /> : <Account />;
-    default:
-      return null;
-  }
-}
-
 const ProfileSetup = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [details, setDetails] = useState({
+    selectTime: '',
+    permanentAdd: ''
+  });
+  const [basicdetails, setBasicDetails] = useState({
+    fname: '',
+    lname: ''
+  });
   const navigate = useNavigate();
   const steps = getSteps();
   const isLastStep = activeStep === steps.length - 1;
 
-  const handleNext = () =>
-    !isLastStep ? setActiveStep(activeStep + 1) : navigate(getDashboardPattern());
+  function getStepContent(stepIndex) {
+    const customization = useSelector((state) => state.route);
+
+    switch (stepIndex) {
+      case 0:
+        return customization.role === 'admin' ? (
+          <Organisation details={details} setDetails={setDetails} />
+        ) : (
+          <Basic basicdetails={basicdetails} setBasicDetails={setBasicDetails} />
+        );
+      case 1:
+        return customization.role === 'admin' ? (
+          <Basic basicdetails={basicdetails} setBasicDetails={setBasicDetails} />
+        ) : (
+          <Address />
+        );
+      case 2:
+        return customization.role === 'admin' ? <Address /> : <Account />;
+      default:
+        return null;
+    }
+  }
+
+  const handleNext = () => {
+    if (activeStep === 0) {
+      if (details.permanentAdd !== '' && details.selectTime !== '') {
+        setActiveStep(activeStep + 1);
+      } else alert('fill your form');
+    } else if (activeStep === 1) {
+      if (basicdetails.fname !== '' && basicdetails.lname !== '') {
+        setActiveStep(activeStep + 1);
+      } else alert('fill your form');
+    } else if (activeStep === 2) {
+      // eslint-disable-next-line no-unused-expressions
+      !isLastStep ? setActiveStep(activeStep + 1) : navigate(getDashboardPattern());
+    }
+  };
   const handleBack = () => setActiveStep(activeStep - 1);
 
   return (
