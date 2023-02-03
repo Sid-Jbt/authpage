@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 
 const FilterLayout = ({ children }) => {
   const [expanded, setExpanded] = useState(false);
+  const innerWidth = window.innerWidth;
 
   const handleChange = () => {
     setExpanded(!expanded);
@@ -19,7 +20,7 @@ const FilterLayout = ({ children }) => {
   return (
     <>
       <Accordion
-        defaultExpanded
+        defaultExpanded={innerWidth > 800}
         onClick={handleChange}
         sx={{ background: 'transparent', boxShadow: 'none' }}
         TransitionProps={{ unmountOnExit: true }}
