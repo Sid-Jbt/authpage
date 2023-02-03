@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Typography from 'Elements/Typography';
 import { Card, Grid, IconButton, InputAdornment } from '@mui/material';
 import { Formik } from 'formik';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Check, Visibility, VisibilityOff } from '@mui/icons-material';
 import { changePasswordSchema } from 'Helpers/ValidationSchema';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
@@ -32,6 +32,7 @@ const ChangePasswordSetting = () => {
             title: 'Success',
             message: 'Password successfully reset.',
             time: false,
+            icon: <Check color="white" />,
             color: 'success',
             open: true
           });

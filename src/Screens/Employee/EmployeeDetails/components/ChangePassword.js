@@ -7,6 +7,7 @@ import Input from 'Elements/Input';
 import { Formik } from 'formik';
 import { changePasswordSchema } from 'Helpers/ValidationSchema';
 import { SnackbarContext } from 'Context/SnackbarProvider';
+import { Check } from '@mui/icons-material';
 
 const ChangePassword = () => {
   const { setSnack } = useContext(SnackbarContext);
@@ -47,6 +48,7 @@ const ChangePassword = () => {
             title: 'Success',
             message: 'Password changed successfully',
             time: false,
+            icon: <Check color="white" />,
             color: 'success',
             open: true
           });

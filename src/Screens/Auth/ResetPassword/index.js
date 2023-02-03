@@ -6,7 +6,7 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { IconButton, InputAdornment } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Check, Visibility, VisibilityOff } from '@mui/icons-material';
 import { resetPasswordSchema } from 'Helpers/ValidationSchema';
 import { getDefaultPattern } from 'Routes/routeConfig';
 import { SnackbarContext } from 'Context/SnackbarProvider';
@@ -34,6 +34,7 @@ const RestPassword = () => {
             title: 'Success',
             message: 'Password successfully reset. Please login with new password',
             time: false,
+            icon: <Check color="white" />,
             color: 'success',
             open: true
           });

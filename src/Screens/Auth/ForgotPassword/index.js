@@ -8,6 +8,7 @@ import Input from 'Elements/Input';
 import { forgotPasswordSchema } from 'Helpers/ValidationSchema';
 import { getResetPasswordPattern } from 'Routes/routeConfig';
 import { SnackbarContext } from 'Context/SnackbarProvider';
+import { Check } from '@mui/icons-material';
 
 const ForgotPassword = () => {
   const { setSnack } = useContext(SnackbarContext);
@@ -31,6 +32,7 @@ const ForgotPassword = () => {
             title: 'Success',
             message: `Please check your email '${email}' for reset password link`,
             time: false,
+            icon: <Check color="white" />,
             color: 'success',
             open: true
           });
