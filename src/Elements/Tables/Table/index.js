@@ -248,7 +248,7 @@ const Table = ({
           </Box>
           <TableBody>
             {renderRows}
-            <TableCell colSpan={isChecked ? renderColumns.length + 1 : renderColumns.length}>
+            <TableCell colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}>
               <Paginations rows={renderRows.length} />
             </TableCell>
           </TableBody>
