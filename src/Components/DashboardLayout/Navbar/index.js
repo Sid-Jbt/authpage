@@ -101,7 +101,17 @@ const DashboardNavbar = ({ isMini }) => {
       }}
       open={Boolean(openProfileMenu)}
       onClose={handleProfileMenu}
-      sx={{ mt: 2, top: 50, left: -10 }}
+      sx={({ breakpoints }) => ({
+        mt: 2,
+        [breakpoints.down('sm')]: {
+          top: 50,
+          left: 0
+        },
+        [breakpoints.up('md')]: {
+          top: 60,
+          left: -20
+        }
+      })}
     >
       <NotificationItem
         color="secondary"
