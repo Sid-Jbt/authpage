@@ -215,21 +215,21 @@ const Table = ({
               )}
               {renderColumns}
               {(isAction || isView) && (
-                <TableCell>
-                  <Box
-                    key="action"
-                    component="th"
-                    width="auto"
-                    pt={1.5}
-                    pb={1.25}
-                    textAlign="center"
-                    fontSize={size.sm}
-                    fontWeight={fontWeightBold}
-                    color="dark"
-                    opacity={0.7}
-                  >
-                    ACTION
-                  </Box>
+                <TableCell
+                  key="action"
+                  component="th"
+                  width="auto"
+                  sx={{
+                    pt: '1.5',
+                    pb: '1.25',
+                    textAlign: 'center',
+                    fontSize: 'size.sm',
+                    fontWeight: 'fontWeightBold',
+                    color: 'dark',
+                    opacity: '0.7'
+                  }}
+                >
+                  ACTION
                 </TableCell>
               )}
             </TableRow>
