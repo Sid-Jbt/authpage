@@ -9,6 +9,7 @@ import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import { Gender } from 'Helpers/Global';
 import { SnackbarContext } from 'Context/SnackbarProvider';
+import { Check } from '@mui/icons-material';
 
 const BasicInfo = () => {
   const [gender, setGender] = useState('');
@@ -39,6 +40,7 @@ const BasicInfo = () => {
             title: 'Success',
             message: 'Basic info updated successfully',
             time: false,
+            icon: <Check color="white" />,
             color: 'success',
             open: true
           });

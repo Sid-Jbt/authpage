@@ -4,6 +4,7 @@ import Typography from 'Elements/Typography';
 import { Card, Grid, Switch } from '@mui/material';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import Button from 'Elements/Button';
+import { Check } from '@mui/icons-material';
 
 const NotificationSetting = () => {
   const { setSnack } = useContext(SnackbarContext);
@@ -25,6 +26,7 @@ const NotificationSetting = () => {
       title: 'Success',
       message: 'Notification settings updated successfully',
       time: false,
+      icon: <Check color="white" />,
       color: 'success',
       open: true
     });
