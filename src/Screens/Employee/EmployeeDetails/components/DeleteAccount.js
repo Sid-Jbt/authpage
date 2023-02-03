@@ -4,6 +4,7 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import { SnackbarContext } from 'Context/SnackbarProvider';
+import { Check } from '@mui/icons-material';
 
 const DeleteAccount = () => {
   // const [isVisible, setIsVisible] = useState(false);
@@ -19,6 +20,7 @@ const DeleteAccount = () => {
       title: 'Success',
       message: 'Employee deactivated successfully',
       time: false,
+      icon: <Check color="white" />,
       color: 'success',
       open: true
     });
@@ -29,6 +31,7 @@ const DeleteAccount = () => {
       title: 'Success',
       message: 'Employee deleted successfully',
       time: false,
+      icon: <Check color="white" />,
       color: 'success',
       open: true
     });

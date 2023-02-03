@@ -7,6 +7,7 @@ import { bankAccountSchema } from 'Helpers/ValidationSchema';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { SnackbarContext } from 'Context/SnackbarProvider';
+import { Check } from '@mui/icons-material';
 
 const BankDetails = () => {
   const { setSnack } = useContext(SnackbarContext);
@@ -30,6 +31,7 @@ const BankDetails = () => {
             title: 'Success',
             message: 'Bank details updated successfully',
             time: false,
+            icon: <Check color="white" />,
             color: 'success',
             open: true
           });
