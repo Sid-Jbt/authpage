@@ -1,5 +1,5 @@
 import { Card, Grid, Icon } from '@mui/material';
-import { Add, ImportContacts } from '@mui/icons-material';
+import { Add, ImportExportRounded } from '@mui/icons-material';
 import React, { useState } from 'react';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
@@ -77,7 +77,7 @@ const Holiday = () => {
         <Grid item xs={12} md="auto">
           <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
             <Icon sx={{ mr: 1 }}>
-              <ImportContacts />
+              <ImportExportRounded />
             </Icon>
             Import
           </Button>
