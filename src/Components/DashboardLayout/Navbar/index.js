@@ -1,4 +1,4 @@
-import { AppBar, Divider, Icon, IconButton, Menu, Toolbar, useTheme } from '@mui/material';
+import { AppBar, Divider, Grid, Icon, IconButton, Menu, Toolbar, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Box from 'Elements/Box';
@@ -22,6 +22,7 @@ import Avatar from 'Elements/Avatar';
 import useWindowPosition from 'Hooks/useWindowPosition';
 import { profileSetupPattern, getLoginPattern } from 'Routes/routeConfig';
 import { LOGOUT } from 'Redux/actions';
+import CircularProgressWithLabel from 'Elements/CircularProgress';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
 const DashboardNavbar = ({ isMini }) => {
@@ -32,6 +33,8 @@ const DashboardNavbar = ({ isMini }) => {
   const { pathname } = useLocation();
   const [openMenu, setOpenMenu] = useState(false);
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [isProfileComplete, setIsProfileComplete] = useState(true);
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
   const profileSetup = pathname !== profileSetupPattern;
@@ -201,24 +204,33 @@ const DashboardNavbar = ({ isMini }) => {
           ) : null}
         </Box>
         <Box sx={(theme) => navbarRow(theme, { isMini })}>
-          {profileSetup ? (
-            <IconButton
-              size="large"
-              color={position > 10 ? 'dark' : 'white'}
-              sx={navbarIconButton}
-              variant="contained"
-              onClick={handleMenu}
-            >
-              <Notifications />
-            </IconButton>
-          ) : null}
-          <Avatar
-            src={profileImage}
-            alt={profileImage}
-            size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'lg'}
-            variant="circle"
-            onClick={handleProfileMenu}
-          />
+          <Grid container columnGap={2} alignItems="center">
+            <Grid item>
+              {profileSetup ? (
+                <IconButton
+                  size="large"
+                  color={position > 10 ? 'dark' : 'white'}
+                  sx={navbarIconButton}
+                  variant="contained"
+                  onClick={handleMenu}
+                >
+                  <Notifications />
+                </IconButton>
+              ) : null}
+            </Grid>
+            <Grid item>
+              {profileSetup && isProfileComplete ? <CircularProgressWithLabel value={10} /> : null}
+            </Grid>
+            <Grid item>
+              <Avatar
+                src={profileImage}
+                alt={profileImage}
+                size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'lg'}
+                variant="circle"
+                onClick={handleProfileMenu}
+              />
+            </Grid>
+          </Grid>
           {renderMenu()}
           {renderProfileMenu()}
         </Box>
