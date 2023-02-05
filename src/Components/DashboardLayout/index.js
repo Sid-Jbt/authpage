@@ -10,7 +10,7 @@ import Sidenav from './Sidenav';
 import Footer from './Footer';
 
 const DashboardLayout = ({ children, ...rest }) => {
-  const customization = useSelector((state) => state.customization);
+  const { customization } = useSelector((state) => state);
   const { pathname } = useLocation();
   const bgImage = Images;
 
