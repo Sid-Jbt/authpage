@@ -59,8 +59,9 @@ const calendarEventsData = [
 const DashboardDefault = () => (
   <Box mb={3}>
     <Grid container spacing={3}>
-      <Grid container order={{ xs: 1, lg: 0 }} spacing={3} item xs={12} lg={7} xl={8}>
-        <Grid item xs={12} md={6} lg={4}>
+      {/* <Grid container order={{ xs: 1, lg: 0 }} spacing={3} item xs={12} lg={7} xl={8}> */}
+      <Grid container order={{ xs: 1, lg: 0 }} spacing={3} item xs={12} lg={12} xl={12}>
+        <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Today"
             count="07:15:34"
@@ -68,7 +69,7 @@ const DashboardDefault = () => (
             isPercentage={false}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="This week"
             count="45 hours "
@@ -76,7 +77,7 @@ const DashboardDefault = () => (
             isPercentage={false}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="This month"
             count="160 hours"
