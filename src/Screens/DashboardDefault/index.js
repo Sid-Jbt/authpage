@@ -88,10 +88,13 @@ const DashboardDefault = () => (
           {useMemo(
             () => (
               <Calendar
-                header={{ title: 'calendar', date: 'Thursday, 2023' }}
-                headerToolbar={false}
+                header={{ title: 'Daily Updates' }}
+                headerToolbar={{
+                  left: 'prev,next today',
+                  right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                  center: 'title'
+                }}
                 initialView="dayGridMonth"
-                initialDate="2023-02-02"
                 events={calendarEventsData}
                 selectable
                 editable

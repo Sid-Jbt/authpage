@@ -1,14 +1,14 @@
 const holidayListData = {
   columns: [
     { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
-    { name: 'title', align: 'left', headerName: 'Title', mobileHeader: 'Title' },
+    { name: 'title', align: 'center', headerName: 'Title', mobileHeader: 'Title' },
     {
       name: 'holidayDate',
-      align: 'left',
+      align: 'center',
       headerName: 'Holiday Date',
-      mobileHeader: 'Holiday Date'
+      mobileHeader: 'Date'
     },
-    { name: 'day', align: 'left', headerName: 'Day', mobileHeader: 'Day' }
+    { name: 'day', align: 'center', headerName: 'Day', mobileHeader: 'Day' }
   ],
 
   rows: [
