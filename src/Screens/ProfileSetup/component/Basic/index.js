@@ -30,13 +30,10 @@ const Basic = () => {
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const inputFile = useRef(null);
 
-  const profilePicUpload = () => {
-    inputFile.current.click();
-    document.querySelector('input').onchange = (e) => {
-      const file = e.target.files[0];
-      const url = URL.createObjectURL(file);
-      setProfilePicUrl(url);
-    };
+  const profilePicUpload = (e) => {
+    const file = e.target.files[0];
+    const url = URL.createObjectURL(file);
+    setProfilePicUrl(url);
   };
 
   return (
@@ -68,7 +65,12 @@ const Basic = () => {
                   <Grid item xs={12} sm={3} container justifyContent="center">
                     <Box position="relative" height="max-content" mx="auto">
                       <Box>
-                        <input ref={inputFile} type="file" hidden />
+                        <input
+                          ref={inputFile}
+                          type="file"
+                          hidden
+                          onChange={(e) => profilePicUpload(e)}
+                        />
                         <Avatar
                           src={profilePicUrl === '' ? team2 : profilePicUrl}
                           alt="profile picture"
@@ -87,7 +89,7 @@ const Basic = () => {
                             variant="gradient"
                             color="light"
                             component="label"
-                            onClick={() => profilePicUpload()}
+                            onClick={() => inputFile.current && inputFile.current.click()}
                             iconOnly
                           >
                             <Icon>
