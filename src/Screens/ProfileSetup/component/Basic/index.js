@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FormControlLabel, Grid, RadioGroup, Radio, useTheme, FormLabel } from '@mui/material';
 import Icon from '@mui/material/Icon';
 import Box from 'Elements/Box';
@@ -28,12 +28,13 @@ const Basic = () => {
   const theme = useTheme();
   const { role } = useSelector((state) => state.route);
   const [profilePicUrl, setProfilePicUrl] = useState('');
+  const inputFile = useRef(null);
 
   const profilePicUpload = () => {
+    inputFile.current.click();
     document.querySelector('input').onchange = (e) => {
       const file = e.target.files[0];
       const url = URL.createObjectURL(file);
-      document.querySelector('img').src = url;
       setProfilePicUrl(url);
     };
   };
@@ -66,32 +67,34 @@ const Basic = () => {
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={3} container justifyContent="center">
                     <Box position="relative" height="max-content" mx="auto">
-                      <Avatar
-                        src={profilePicUrl === '' ? team2 : profilePicUrl}
-                        alt="profile picture"
-                        size="xxl"
-                        variant="rounded"
-                      />
-                      <Box
-                        alt="spotify logo"
-                        position="absolute"
-                        right={0}
-                        bottom={0}
-                        mr={-1}
-                        mb={-1}
-                      >
-                        <Button
-                          variant="gradient"
-                          color="light"
-                          component="label"
-                          onClick={profilePicUpload}
-                          iconOnly
+                      <Box>
+                        <input ref={inputFile} type="file" hidden />
+                        <Avatar
+                          src={profilePicUrl === '' ? team2 : profilePicUrl}
+                          alt="profile picture"
+                          size="xxl"
+                          variant="rounded"
+                        />
+                        <Box
+                          alt="spotify logo"
+                          position="absolute"
+                          right={0}
+                          bottom={0}
+                          mr={-1}
+                          mb={-1}
                         >
-                          <Icon>
-                            <Edit />
-                            <Input type="file" hidden />
-                          </Icon>
-                        </Button>
+                          <Button
+                            variant="gradient"
+                            color="light"
+                            component="label"
+                            onClick={() => profilePicUpload()}
+                            iconOnly
+                          >
+                            <Icon>
+                              <Edit />
+                            </Icon>
+                          </Button>
+                        </Box>
                       </Box>
                     </Box>
                   </Grid>
