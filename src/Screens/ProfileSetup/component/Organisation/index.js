@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FormControl, FormLabel, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -21,6 +21,8 @@ const Organisation = () => {
   const [workingHours, setWorkingHours] = useState('');
   const [smallLogoUrl, setSmallLogoUrl] = useState('');
   const [largeLogoUrl, setLargeLogoUrl] = useState('');
+  const smallLogoInputFile = useRef(null);
+  const largeLogoInputFile = useRef(null);
 
   const handleChangWorkingHours = (event) => {
     setWorkingHours(event.target.value.value);
@@ -28,15 +30,15 @@ const Organisation = () => {
   console.log('Selected workingHours --> ', workingHours);
 
   const logoUpload = (value) => {
+    smallLogoInputFile.current.click();
+    largeLogoInputFile.current.click();
     document.querySelector('input').onchange = (e) => {
       const file = e.target.files[0];
       const url = URL.createObjectURL(file);
-      if (value === 'small') {
-        document.querySelector('img').src = url;
+      if (value === 'smallLogo') {
         setSmallLogoUrl(url);
       }
-      if (value === 'large') {
-        document.querySelector('img').src = url;
+      if (value === 'largeLogo') {
         setLargeLogoUrl(url);
       }
     };
@@ -73,33 +75,35 @@ const Organisation = () => {
                       <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
                         Small Logo
                       </Typography>
-                      <Avatar
-                        src={smallLogoUrl === '' ? team2 : smallLogoUrl}
-                        alt="small picture"
-                        size="xxl"
-                        variant="rounded"
-                      />
-                      <Box
-                        alt="spotify logo"
-                        position="absolute"
-                        right={0}
-                        bottom={0}
-                        mr={-1}
-                        mb={-1}
-                      >
-                        <Button
-                          id="smallLogo"
-                          variant="gradient"
-                          color="light"
-                          component="label"
-                          onClick={() => logoUpload('small')}
-                          iconOnly
+                      <Box>
+                        <input ref={smallLogoInputFile} type="file" hidden />
+                        <Avatar
+                          src={smallLogoUrl === '' ? team2 : smallLogoUrl}
+                          alt="small picture"
+                          size="xxl"
+                          variant="rounded"
+                        />
+                        <Box
+                          alt="spotify logo"
+                          position="absolute"
+                          right={0}
+                          bottom={0}
+                          mr={-1}
+                          mb={-1}
                         >
-                          <Icon>
-                            <Edit />
-                            <Input id="smallLogoUpload" type="file" hidden />
-                          </Icon>
-                        </Button>
+                          <Button
+                            id="smallLogo"
+                            variant="gradient"
+                            color="light"
+                            component="label"
+                            onClick={() => logoUpload('smallLogo')}
+                            iconOnly
+                          >
+                            <Icon>
+                              <Edit />
+                            </Icon>
+                          </Button>
+                        </Box>
                       </Box>
                     </Box>
                   </Grid>
@@ -108,33 +112,35 @@ const Organisation = () => {
                       <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
                         Large Logo
                       </Typography>
-                      <Avatar
-                        src={largeLogoUrl === '' ? team2 : largeLogoUrl}
-                        alt="large picture"
-                        size="xxl"
-                        variant="rounded"
-                      />
-                      <Box
-                        alt="spotify logo"
-                        position="absolute"
-                        right={0}
-                        bottom={0}
-                        mr={-1}
-                        mb={-1}
-                      >
-                        <Button
-                          id="largeLogo"
-                          variant="gradient"
-                          color="light"
-                          component="label"
-                          onClick={() => logoUpload('large')}
-                          iconOnly
+                      <Box>
+                        <input ref={largeLogoInputFile} type="file" hidden />
+                        <Avatar
+                          src={largeLogoUrl === '' ? team2 : largeLogoUrl}
+                          alt="large picture"
+                          size="xxl"
+                          variant="rounded"
+                        />
+                        <Box
+                          alt="spotify logo"
+                          position="absolute"
+                          right={0}
+                          bottom={0}
+                          mr={-1}
+                          mb={-1}
                         >
-                          <Icon>
-                            <Edit />
-                            <Input id="LargeLogoUpload" type="file" hidden />
-                          </Icon>
-                        </Button>
+                          <Button
+                            id="largeLogo"
+                            variant="gradient"
+                            color="light"
+                            component="label"
+                            onClick={() => logoUpload('largeLogo')}
+                            iconOnly
+                          >
+                            <Icon>
+                              <Edit />
+                            </Icon>
+                          </Button>
+                        </Box>
                       </Box>
                     </Box>
                   </Grid>
