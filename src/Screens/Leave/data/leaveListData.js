@@ -3,22 +3,22 @@ import Badge from 'Elements/Badge';
 const leaveListData = {
   columns: [
     { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
-    { name: 'leaveType', align: 'center', headerName: 'Leave Type', mobileHeader: 'Leave Type' },
+    { name: 'leaveType', align: 'center', headerName: 'Leave Type', mobileHeader: 'Type' },
     { name: 'from', align: 'center', headerName: 'From', mobileHeader: 'From' },
     { name: 'to', align: 'center', headerName: 'To', mobileHeader: 'To' },
-    { name: 'noOfDays', align: 'center', headerName: 'No Of Days', mobileHeader: 'NOD' },
+    { name: 'noOfDays', align: 'center', headerName: 'No Of Days', mobileHeader: 'Days' },
     { name: 'leaveReason', align: 'center', headerName: 'Reason', mobileHeader: 'Reason' },
     // { name: 'approvedBy', align: 'center', headerName: 'Approved By', mobileHeader: 'Approved By' },
     { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
   ],
   adminColumns: [
     { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
-    { name: 'leaveType', align: 'center', headerName: 'Leave Type', mobileHeader: 'Leave Type' },
+    { name: 'leaveType', align: 'center', headerName: 'Leave Type', mobileHeader: 'Type' },
     { name: 'from', align: 'center', headerName: 'From', mobileHeader: 'From' },
     { name: 'to', align: 'center', headerName: 'To', mobileHeader: 'To' },
-    { name: 'noOfDays', align: 'center', headerName: 'No Of Days', mobileHeader: 'NOD' },
+    { name: 'noOfDays', align: 'center', headerName: 'No Of Days', mobileHeader: 'Days' },
     { name: 'leaveReason', align: 'center', headerName: 'Reason', mobileHeader: 'Reason' },
-    { name: 'approvedBy', align: 'center', headerName: 'Approved By', mobileHeader: 'Approved By' },
+    { name: 'approvedBy', align: 'center', headerName: 'Approved By', mobileHeader: 'Approved' },
     { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
   ],
 

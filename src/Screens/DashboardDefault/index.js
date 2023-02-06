@@ -1,9 +1,7 @@
 import React, { useMemo } from 'react';
 import Box from 'Elements/Box';
 import { Grid } from '@mui/material';
-import CompleteProfileCard from 'Components/CardLayouts/CompleteProfileCard';
 import Calendar from 'Components/Calendar';
-import ivancik from 'Assets/shapes/pattern-left.png';
 import { Watch, WatchLater, WatchRounded } from '@mui/icons-material';
 import LeaveCard from '../../Components/CardLayouts/LeaveCard';
 
@@ -61,8 +59,9 @@ const calendarEventsData = [
 const DashboardDefault = () => (
   <Box mb={3}>
     <Grid container spacing={3}>
-      <Grid container order={{ xs: 1, lg: 0 }} spacing={3} item xs={12} lg={7} xl={8}>
-        <Grid item xs={12} md={6} lg={4}>
+      {/* <Grid container order={{ xs: 1, lg: 0 }} spacing={3} item xs={12} lg={7} xl={8}> */}
+      <Grid container order={{ xs: 1, lg: 0 }} spacing={3} item xs={12} lg={12} xl={12}>
+        <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Today"
             count="07:15:34"
@@ -70,7 +69,7 @@ const DashboardDefault = () => (
             isPercentage={false}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="This week"
             count="45 hours "
@@ -78,7 +77,7 @@ const DashboardDefault = () => (
             isPercentage={false}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="This month"
             count="160 hours"
@@ -90,10 +89,13 @@ const DashboardDefault = () => (
           {useMemo(
             () => (
               <Calendar
-                header={{ title: 'calendar', date: 'Thursday, 2023' }}
-                headerToolbar={false}
+                header={{ title: 'Daily Updates' }}
+                headerToolbar={{
+                  left: 'prev,next today',
+                  right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                  center: 'title'
+                }}
                 initialView="dayGridMonth"
-                initialDate="2023-02-02"
                 events={calendarEventsData}
                 selectable
                 editable
@@ -101,24 +103,6 @@ const DashboardDefault = () => (
             ),
             [calendarEventsData]
           )}
-        </Grid>
-      </Grid>
-      <Grid item xs={12} lg={5} xl={4}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <CompleteProfileCard
-              image={ivancik}
-              title="hey user!"
-              description={
-                <>
-                  Your Profile is 33% complete <br />
-                  Please check and complete your profile.
-                </>
-              }
-              buttonText="See More"
-              action={{ type: 'internal', route: '/dashboard', label: 'See More' }}
-            />
-          </Grid>
         </Grid>
       </Grid>
     </Grid>

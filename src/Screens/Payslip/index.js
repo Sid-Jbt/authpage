@@ -35,7 +35,6 @@ const Payslip = () => {
         </Grid>
       </Grid>
       <Card
-        mb={3}
         sx={{
           background: ({ palette: { grey } }) => grey[100],
           borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,

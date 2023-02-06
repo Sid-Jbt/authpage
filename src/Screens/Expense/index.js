@@ -20,7 +20,7 @@ const Expense = () => {
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs={12} md="auto">
+        <Grid item xs="auto">
           <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
             <Icon sx={{ mr: 1 }}>
               <Add />
@@ -28,7 +28,7 @@ const Expense = () => {
             Add
           </Button>
         </Grid>
-        <Grid item xs={12} md="auto">
+        <Grid item xs="auto">
           <Button color="white" variant="outlined" size="small">
             <Icon sx={{ mr: 1 }}>
               <ImportExportRounded />

@@ -64,7 +64,7 @@ const LeaveList = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs={12} md="auto">
+        <Grid item xs="auto">
           <Button
             sx={({ breakpoints, palette: { dark } }) => ({
               [breakpoints.down('xl' && 'lg')]: {

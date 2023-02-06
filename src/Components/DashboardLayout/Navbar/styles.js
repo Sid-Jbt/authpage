@@ -30,7 +30,7 @@ function navbar(theme, ownerState) {
     marginLeft: 3,
     paddingRight: 1,
     borderRadius: 4,
-    [breakpoints.down('sm')]: {
+    [breakpoints.down('lg')]: {
       top: 0,
       marginRight: 0,
       marginLeft: 0,
@@ -90,7 +90,6 @@ const navbarIconButton = ({ typography: { size }, breakpoints }) => ({
   '& .material-icons, .material-icons-round': {
     fontSize: `${size.xs} !important`
   },
-  mr: 2,
   '& .MuiTypography-root': {
     display: 'none',
     [breakpoints.up('sm')]: {
