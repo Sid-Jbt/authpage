@@ -251,7 +251,7 @@ const MainRoutes = [
     type: 'collapse',
     noCollapse: true,
     route: noticePattern,
-    name: 'Notice',
+    name: 'Notice & Event',
     icon: <AnnouncementRounded sx={{ color: colors.error.main }} />,
     path: noticePattern,
     key: 'notice',
