@@ -3,7 +3,6 @@ import { FormControl, FormLabel, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import { Formik } from 'formik';
-import { organisationDetailsSchema } from 'Helpers/ValidationSchema';
 import Avatar from 'Elements/Avatar';
 import team2 from 'Assets/Images/team-4-800x800.jpg';
 import Button from 'Elements/Button';
@@ -12,16 +11,13 @@ import { Edit } from '@mui/icons-material';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import { WorkingHours } from 'Helpers/Global';
+import { organisationDetailsSchema } from 'Helpers/ValidationSchema';
 
-const Organisation = ({ details, setDetails }) => {
+const Organisation = ({ organisationdetails, setOrganisationDetails, isSubmitting }) => {
   const [workingHours, setWorkingHours] = useState('');
   const [smallLogoUrl, setSmallLogoUrl] = useState('');
   const [largeLogoUrl, setLargeLogoUrl] = useState('');
 
-  const initialValues = {
-    permanentAdd: '',
-    workingHours: ''
-  };
   const handleChangWorkingHours = (event) => {
     setWorkingHours(event.target.value.value);
   };
@@ -41,6 +37,7 @@ const Organisation = ({ details, setDetails }) => {
       }
     };
   };
+  console.log(isSubmitting);
 
   return (
     <Box>
@@ -56,9 +53,13 @@ const Organisation = ({ details, setDetails }) => {
       </Box>
       <Formik
         enableReinitialize
-        initialValues={initialValues}
-        onSubmit={(values) => {
+        initialValues={{
+          permanentAdd: '',
+          workingHours: ''
+        }}
+        onSubmit={(values, actions) => {
           console.log('values', values);
+          actions.setSubmitting(false);
         }}
         validationSchema={organisationDetailsSchema}
       >
@@ -145,6 +146,7 @@ const Organisation = ({ details, setDetails }) => {
                         id="workingHours"
                         name="workingHours"
                         options={WorkingHours}
+                        // values={values.workingHour}
                         errorText={
                           errors.workingHours && touched.workingHours && errors.workingHours
                         }
@@ -152,14 +154,16 @@ const Organisation = ({ details, setDetails }) => {
                         success={!errors.workingHours && touched.workingHours}
                         onChange={(selectedOption) => {
                           const event = { target: { name: 'workingHours', value: selectedOption } };
-                          setDetails({ ...details, selectTime: selectedOption });
-                          // console.log(selectedOption);
+                          setOrganisationDetails({
+                            ...organisationdetails,
+                            selectTime: selectedOption
+                          });
                           handleChangWorkingHours(event);
                         }}
-                        onBlur={handleBlur}
-                        // onBlur={() => {
-                        //   handleBlur({ target: { name: 'workingHours' } });
-                        // }}
+                        // onBlur={handleBlur}
+                        onBlur={() => {
+                          handleBlur({ target: { name: 'workingHours' } });
+                        }}
                       />
                     </FormControl>
                   </Grid>
@@ -173,9 +177,11 @@ const Organisation = ({ details, setDetails }) => {
                         id="permanentAdd"
                         name="permanentAdd"
                         label="Permanent Address"
-                        value={details.permanentAdd}
                         onChange={(e) => {
-                          setDetails({ ...details, permanentAdd: e.target.value });
+                          setOrganisationDetails({
+                            ...organisationdetails,
+                            permanentAdd: e.target.value
+                          });
                         }}
                         onBlur={handleBlur}
                         errorText={

@@ -20,8 +20,11 @@ function getSteps() {
 }
 
 const ProfileSetup = () => {
+  const c = useSelector((state) => state.route);
+
+  // const [state, setState] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
-  const [details, setDetails] = useState({
+  const [organisationdetails, setOrganisationDetails] = useState({
     selectTime: '',
     permanentAdd: ''
   });
@@ -39,10 +42,15 @@ const ProfileSetup = () => {
     switch (stepIndex) {
       case 0:
         return customization.role === 'admin' ? (
-          <Organisation details={details} setDetails={setDetails} />
+          <Organisation
+            organisationdetails={organisationdetails}
+            setOrganisationDetails={setOrganisationDetails}
+            isSubmitting={false}
+          />
         ) : (
           <Basic basicdetails={basicdetails} setBasicDetails={setBasicDetails} />
         );
+
       case 1:
         return customization.role === 'admin' ? (
           <Basic basicdetails={basicdetails} setBasicDetails={setBasicDetails} />
@@ -57,17 +65,31 @@ const ProfileSetup = () => {
   }
 
   const handleNext = () => {
-    if (activeStep === 0) {
-      if (details.permanentAdd !== '' && details.selectTime !== '') {
+    if (c.role === 'admin') {
+      if (activeStep === 0) {
+        if (organisationdetails.permanentAdd !== '' && organisationdetails.selectTime !== '') {
+          setActiveStep(activeStep + 1);
+        } else alert('Fill up your form');
+      } else if (activeStep === 1) {
+        if (basicdetails.fname !== '' && basicdetails.lname !== '') {
+          setActiveStep(activeStep + 1);
+        } else alert('Fill your first and last name in your form');
+      } else if (activeStep === 2) {
+        // eslint-disable-next-line no-unused-expressions
+        !isLastStep ? setActiveStep(activeStep + 1) : navigate(getDashboardPattern());
+      }
+    } else {
+      console.log('else part');
+      if (activeStep === 0) {
+        if (basicdetails.fname !== '' && basicdetails.lname !== '') {
+          setActiveStep(activeStep + 1);
+        } else alert('Fill your first and last name in your form');
+      } else if (activeStep === 1) {
         setActiveStep(activeStep + 1);
-      } else alert('fill your form');
-    } else if (activeStep === 1) {
-      if (basicdetails.fname !== '' && basicdetails.lname !== '') {
-        setActiveStep(activeStep + 1);
-      } else alert('fill your form');
-    } else if (activeStep === 2) {
-      // eslint-disable-next-line no-unused-expressions
-      !isLastStep ? setActiveStep(activeStep + 1) : navigate(getDashboardPattern());
+      } else {
+        // eslint-disable-next-line no-unused-expressions
+        !isLastStep ? setActiveStep(activeStep + 1) : navigate(getDashboardPattern());
+      }
     }
   };
   const handleBack = () => setActiveStep(activeStep - 1);
@@ -108,7 +130,7 @@ const ProfileSetup = () => {
                       </Button>
                     )}
                     <Button variant="gradient" color="dark" onClick={handleNext}>
-                      {isLastStep ? 'Continue' : 'Next'}
+                      {isLastStep ? 'Continue' : 'Skip'}
                     </Button>
                   </Box>
                 </Box>
