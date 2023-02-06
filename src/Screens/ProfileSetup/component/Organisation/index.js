@@ -29,19 +29,15 @@ const Organisation = () => {
   };
   console.log('Selected workingHours --> ', workingHours);
 
-  const logoUpload = (value) => {
-    smallLogoInputFile.current.click();
-    largeLogoInputFile.current.click();
-    document.querySelector('input').onchange = (e) => {
-      const file = e.target.files[0];
+  const onClickLogoUpload = (e, logo) => {
+    const file = e.target.files[0];
+    if (logo === 'small') {
       const url = URL.createObjectURL(file);
-      if (value === 'smallLogo') {
-        setSmallLogoUrl(url);
-      }
-      if (value === 'largeLogo') {
-        setLargeLogoUrl(url);
-      }
-    };
+      setSmallLogoUrl(url);
+    } else {
+      const url = URL.createObjectURL(file);
+      setLargeLogoUrl(url);
+    }
   };
 
   return (
@@ -76,7 +72,12 @@ const Organisation = () => {
                         Small Logo
                       </Typography>
                       <Box>
-                        <input ref={smallLogoInputFile} type="file" hidden />
+                        <input
+                          ref={smallLogoInputFile}
+                          type="file"
+                          hidden
+                          onChange={(e) => onClickLogoUpload(e, 'small')}
+                        />
                         <Avatar
                           src={smallLogoUrl === '' ? team2 : smallLogoUrl}
                           alt="small picture"
@@ -92,11 +93,12 @@ const Organisation = () => {
                           mb={-1}
                         >
                           <Button
-                            id="smallLogo"
                             variant="gradient"
                             color="light"
                             component="label"
-                            onClick={() => logoUpload('smallLogo')}
+                            onClick={() =>
+                              smallLogoInputFile.current && smallLogoInputFile.current.click()
+                            }
                             iconOnly
                           >
                             <Icon>
@@ -113,7 +115,12 @@ const Organisation = () => {
                         Large Logo
                       </Typography>
                       <Box>
-                        <input ref={largeLogoInputFile} type="file" hidden />
+                        <input
+                          ref={largeLogoInputFile}
+                          type="file"
+                          hidden
+                          onChange={(e) => onClickLogoUpload(e, 'large')}
+                        />
                         <Avatar
                           src={largeLogoUrl === '' ? team2 : largeLogoUrl}
                           alt="large picture"
@@ -129,11 +136,12 @@ const Organisation = () => {
                           mb={-1}
                         >
                           <Button
-                            id="largeLogo"
                             variant="gradient"
                             color="light"
                             component="label"
-                            onClick={() => logoUpload('largeLogo')}
+                            onClick={() =>
+                              largeLogoInputFile.current && largeLogoInputFile.current.click()
+                            }
                             iconOnly
                           >
                             <Icon>
