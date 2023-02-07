@@ -98,6 +98,7 @@ const CalendarRoot = styled(Box)(({ theme, ownerState }) => {
       boxShadow: `${buttonBoxShadow.main} !important`,
       opacity: '1 !important',
       transition: `all 150ms ease-in`,
+      textTransform: 'capitalize !important',
 
       '&:hover, &:focus, &:active': {
         transform: 'scale(1.02)',

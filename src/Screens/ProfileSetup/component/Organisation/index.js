@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FormControl, FormLabel, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -21,25 +21,23 @@ const Organisation = () => {
   const [workingHours, setWorkingHours] = useState('');
   const [smallLogoUrl, setSmallLogoUrl] = useState('');
   const [largeLogoUrl, setLargeLogoUrl] = useState('');
+  const smallLogoInputFile = useRef(null);
+  const largeLogoInputFile = useRef(null);
 
   const handleChangWorkingHours = (event) => {
     setWorkingHours(event.target.value.value);
   };
   console.log('Selected workingHours --> ', workingHours);
 
-  const logoUpload = (value) => {
-    document.querySelector('input').onchange = (e) => {
-      const file = e.target.files[0];
+  const onClickLogoUpload = (e, logo) => {
+    const file = e.target.files[0];
+    if (logo === 'small') {
       const url = URL.createObjectURL(file);
-      if (value === 'small') {
-        document.querySelector('img').src = url;
-        setSmallLogoUrl(url);
-      }
-      if (value === 'large') {
-        document.querySelector('img').src = url;
-        setLargeLogoUrl(url);
-      }
-    };
+      setSmallLogoUrl(url);
+    } else {
+      const url = URL.createObjectURL(file);
+      setLargeLogoUrl(url);
+    }
   };
 
   return (
@@ -73,33 +71,41 @@ const Organisation = () => {
                       <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
                         Small Logo
                       </Typography>
-                      <Avatar
-                        src={smallLogoUrl === '' ? team2 : smallLogoUrl}
-                        alt="small picture"
-                        size="xxl"
-                        variant="rounded"
-                      />
-                      <Box
-                        alt="spotify logo"
-                        position="absolute"
-                        right={0}
-                        bottom={0}
-                        mr={-1}
-                        mb={-1}
-                      >
-                        <Button
-                          id="smallLogo"
-                          variant="gradient"
-                          color="light"
-                          component="label"
-                          onClick={() => logoUpload('small')}
-                          iconOnly
+                      <Box>
+                        <input
+                          ref={smallLogoInputFile}
+                          type="file"
+                          hidden
+                          onChange={(e) => onClickLogoUpload(e, 'small')}
+                        />
+                        <Avatar
+                          src={smallLogoUrl === '' ? team2 : smallLogoUrl}
+                          alt="small picture"
+                          size="xxl"
+                          variant="rounded"
+                        />
+                        <Box
+                          alt="spotify logo"
+                          position="absolute"
+                          right={0}
+                          bottom={0}
+                          mr={-1}
+                          mb={-1}
                         >
-                          <Icon>
-                            <Edit />
-                            <Input id="smallLogoUpload" type="file" hidden />
-                          </Icon>
-                        </Button>
+                          <Button
+                            variant="gradient"
+                            color="light"
+                            component="label"
+                            onClick={() =>
+                              smallLogoInputFile.current && smallLogoInputFile.current.click()
+                            }
+                            iconOnly
+                          >
+                            <Icon>
+                              <Edit />
+                            </Icon>
+                          </Button>
+                        </Box>
                       </Box>
                     </Box>
                   </Grid>
@@ -108,33 +114,41 @@ const Organisation = () => {
                       <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
                         Large Logo
                       </Typography>
-                      <Avatar
-                        src={largeLogoUrl === '' ? team2 : largeLogoUrl}
-                        alt="large picture"
-                        size="xxl"
-                        variant="rounded"
-                      />
-                      <Box
-                        alt="spotify logo"
-                        position="absolute"
-                        right={0}
-                        bottom={0}
-                        mr={-1}
-                        mb={-1}
-                      >
-                        <Button
-                          id="largeLogo"
-                          variant="gradient"
-                          color="light"
-                          component="label"
-                          onClick={() => logoUpload('large')}
-                          iconOnly
+                      <Box>
+                        <input
+                          ref={largeLogoInputFile}
+                          type="file"
+                          hidden
+                          onChange={(e) => onClickLogoUpload(e, 'large')}
+                        />
+                        <Avatar
+                          src={largeLogoUrl === '' ? team2 : largeLogoUrl}
+                          alt="large picture"
+                          size="xxl"
+                          variant="rounded"
+                        />
+                        <Box
+                          alt="spotify logo"
+                          position="absolute"
+                          right={0}
+                          bottom={0}
+                          mr={-1}
+                          mb={-1}
                         >
-                          <Icon>
-                            <Edit />
-                            <Input id="LargeLogoUpload" type="file" hidden />
-                          </Icon>
-                        </Button>
+                          <Button
+                            variant="gradient"
+                            color="light"
+                            component="label"
+                            onClick={() =>
+                              largeLogoInputFile.current && largeLogoInputFile.current.click()
+                            }
+                            iconOnly
+                          >
+                            <Icon>
+                              <Edit />
+                            </Icon>
+                          </Button>
+                        </Box>
                       </Box>
                     </Box>
                   </Grid>
