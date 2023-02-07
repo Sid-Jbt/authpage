@@ -167,11 +167,12 @@ const Table = ({
     return (
       <TableRow key={rowKey}>
         {isChecked && (
-          <Checkbox
-            sx={{ ml: 2 }}
-            onClick={() => onSelectedIds(row.id)}
-            checked={selectedIds.includes(row.id)}
-          />
+          <TableCell sx={{ width: '3%', pr: 0 }}>
+            <Checkbox
+              onClick={() => onSelectedIds(row.id)}
+              checked={selectedIds.includes(row.id)}
+            />
+          </TableCell>
         )}
         {tableRow}
         {isAction && (
