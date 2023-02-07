@@ -45,7 +45,7 @@ const Expense = () => {
         }}
       >
         <FilterLayout />
-        <Table columns={role === 'admin' ? adminPrCol : prCols} rows={prRows} isChecked isView />
+        <Table columns={role === 'admin' ? adminPrCol : prCols} rows={prRows} isView />
         <ManageExpenseForm
           isDrawerOpen={Boolean(isDialogOpen)}
           handleDrawerClose={handleDialog}
