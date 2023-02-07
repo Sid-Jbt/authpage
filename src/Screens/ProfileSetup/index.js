@@ -13,7 +13,6 @@ import Organisation from './component/Organisation';
 
 function getSteps() {
   const customization = useSelector((state) => state.route);
-
   return customization.role === 'admin'
     ? ['Organisation', 'Basic', 'Address']
     : ['Basic', 'Address', 'Account'];
@@ -21,8 +20,6 @@ function getSteps() {
 
 const ProfileSetup = () => {
   const c = useSelector((state) => state.route);
-
-  // const [state, setState] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
   const [organisationdetails, setOrganisationDetails] = useState({
     selectTime: '',

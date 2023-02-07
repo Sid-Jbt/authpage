@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { FormControl, FormLabel, Grid } from '@mui/material';
+import { FormControl, FormLabel, Grid, TextField } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import { Formik } from 'formik';
@@ -8,7 +8,6 @@ import team2 from 'Assets/Images/team-4-800x800.jpg';
 import Button from 'Elements/Button';
 import Icon from '@mui/material/Icon';
 import { Edit } from '@mui/icons-material';
-import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import { WorkingHours } from 'Helpers/Global';
 import { organisationDetailsSchema } from 'Helpers/ValidationSchema';
@@ -17,6 +16,7 @@ const Organisation = ({ organisationdetails, setOrganisationDetails, isSubmittin
   const [workingHours, setWorkingHours] = useState('');
   const [smallLogoUrl, setSmallLogoUrl] = useState('');
   const [largeLogoUrl, setLargeLogoUrl] = useState('');
+
   const smallLogoInputFile = useRef(null);
   const largeLogoInputFile = useRef(null);
 
@@ -56,15 +56,17 @@ const Organisation = ({ organisationdetails, setOrganisationDetails, isSubmittin
           workingHours: ''
         }}
         onSubmit={(values, actions) => {
+          alert(JSON.stringify((values, null, 2)));
           console.log('values', values);
           actions.setSubmitting(false);
         }}
         validationSchema={organisationDetailsSchema}
       >
         {(props) => {
-          const { touched, errors, handleBlur, handleSubmit } = props;
+          const { values, touched, errors, handleBlur, handleSubmit } = props;
+          console.log('touched,errors,touched,values = ', errors, touched, values);
           return (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} autoComplete="off">
               <Box mt={2}>
                 <Grid container spacing={3} justifyContent="center">
                   <Grid item xs={6} sm={3} lg={4} container>
@@ -160,12 +162,7 @@ const Organisation = ({ organisationdetails, setOrganisationDetails, isSubmittin
                         id="workingHours"
                         name="workingHours"
                         options={WorkingHours}
-                        // values={values.workingHour}
-                        errorText={
-                          errors.workingHours && touched.workingHours && errors.workingHours
-                        }
-                        error={errors.workingHours && touched.workingHours}
-                        success={!errors.workingHours && touched.workingHours}
+                        values={values.workingHours}
                         onChange={(selectedOption) => {
                           const event = { target: { name: 'workingHours', value: selectedOption } };
                           setOrganisationDetails({
@@ -174,16 +171,21 @@ const Organisation = ({ organisationdetails, setOrganisationDetails, isSubmittin
                           });
                           handleChangWorkingHours(event);
                         }}
-                        // onBlur={handleBlur}
-                        onBlur={() => {
-                          handleBlur({ target: { name: 'workingHours' } });
-                        }}
+                        onBlur={handleBlur}
+                        // onBlur={() => {
+                        //   handleBlur({ target: { name: 'workingHours' } });
+                        // }}
+                        errorText={
+                          errors.workingHours && touched.workingHours && errors.workingHours
+                        }
+                        error={errors.workingHours && touched.workingHours}
+                        success={!errors.workingHours && touched.workingHours}
                       />
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} md={10} lg={8}>
                     <Box>
-                      <Input
+                      <TextField
                         type="text"
                         placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
                         size="medium"
@@ -191,6 +193,8 @@ const Organisation = ({ organisationdetails, setOrganisationDetails, isSubmittin
                         id="permanentAdd"
                         name="permanentAdd"
                         label="Permanent Address"
+                        // value={values.permanentAdd}
+                        // onChange={handleChange}
                         onChange={(e) => {
                           setOrganisationDetails({
                             ...organisationdetails,
