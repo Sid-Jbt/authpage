@@ -17,13 +17,14 @@ const LeaveList = () => {
   const { role } = useSelector((state) => state.route);
 
   const handleDialog = () => {
+    setSelectedData(null);
     setIsDialogOpen(!isDialogOpen);
   };
 
   const onClickAction = (key, index) => {
     if (key === 'edit') {
       setSelectedData(prRows.find((o) => o.id === index));
-      handleDialog();
+      setIsDialogOpen(!isDialogOpen);
     }
   };
 
@@ -74,7 +75,7 @@ const LeaveList = () => {
             })}
             variant="outlined"
             size="small"
-            onClick={handleDialog}
+            onClick={() => handleDialog()}
           >
             <Icon sx={{ mr: 1 }}>
               <Add />
@@ -124,11 +125,14 @@ const LeaveList = () => {
             { title: 'Delete', value: 'delete' }
           ]}
         />
-        <AddLeaveForm
-          isDialogOpen={isDialogOpen}
-          handleDialog={handleDialog}
-          selectedData={selectedData}
-        />
+        {isDialogOpen && (
+          <AddLeaveForm
+            isDialogOpen={isDialogOpen}
+            handleDialog={() => handleDialog()}
+            selectedData={selectedData}
+            setSelectedData={(value) => setSelectedData(value)}
+          />
+        )}
       </Card>
     </>
   );

@@ -9,18 +9,23 @@ import Select from 'Elements/Select';
 import Input from 'Elements/Input';
 import Editor from 'Elements/Editor';
 import Button from 'Elements/Button';
-import { leaveTypes } from 'Helpers/Global';
+import { leaveTypes, leave } from 'Helpers/Global';
 
 const initialValues = {
   fromDate: moment().format('YYYY-MM-DD'),
   toDate: moment().format('YYYY-MM-DD'),
-  noOfDays: '',
   leaveReason: ''
 };
 
-const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData }) => {
+const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSelectedData }) => {
   const [leaveType, setLeaveType] = useState(leaveTypes[0]);
-  const [title, setTitle] = useState('ADD NEW LEAVE');
+  const [leaveTypeReason, setLeaveTypeReason] = useState(leave[0]);
+  const [title, setTitle] = useState('');
+  const [data, setData] = useState(initialValues);
+
+  const handleChangeLeaveTypeReason = (selectedLeaveReasonType) => {
+    setLeaveTypeReason(selectedLeaveReasonType);
+  };
 
   const handleChangeLeave = (selectedLeaveType) => {
     setLeaveType(selectedLeaveType);
@@ -29,18 +34,28 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData }) => {
   useEffect(() => {
     if (selectedData !== null) {
       setTitle('EDIT LEAVE');
-      Object.keys(initialValues).map((key) => {
-        initialValues[key] = selectedData[key];
+      Object.keys(data).map((key) => {
+        data[key] = selectedData[key];
         if (key === 'fromDate') {
-          initialValues[key] = moment(selectedData.from).format('YYYY-MM-DD');
+          data[key] = moment(selectedData.from).format('YYYY-MM-DD');
         }
         if (key === 'toDate') {
-          initialValues[key] = moment(selectedData.to).format('YYYY-MM-DD');
+          data[key] = moment(selectedData.to).format('YYYY-MM-DD');
         }
       });
-      setLeaveType(leaveTypes.find((leave) => leave.label === selectedData.leaveType));
+      setData(data);
+      setLeaveType(leaveTypes.find((value) => value.label === selectedData.leaveType));
+      setLeaveTypeReason(leave.find((value) => value.label === selectedData.leave));
+    } else {
+      initialValues.fromDate = moment().format('YYYY-MM-DD');
+      initialValues.toDate = moment().format('YYYY-MM-DD');
+      initialValues.leaveReason = '';
+      setData(initialValues);
+      setTitle('ADD NEW LEAVE');
     }
   }, [selectedData]);
+
+  console.log('selectedDtaa', data);
 
   const onSubmit = (formData) => {
     console.log('formData', formData);
@@ -48,10 +63,18 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData }) => {
 
   return (
     <>
-      <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title={title}>
+      <SideDrawer
+        open={Boolean(isDialogOpen)}
+        onClose={() => {
+          setTitle('');
+          setSelectedData(null);
+          handleDialog();
+        }}
+        title={title}
+      >
         <Formik
           enableReinitialize
-          initialValues={initialValues}
+          initialValues={data}
           onSubmit={(formData) => {
             onSubmit(formData);
           }}
@@ -67,9 +90,9 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData }) => {
                       <FormControl sx={{ width: '100%' }}>
                         <FormLabel>Select Leave</FormLabel>
                         <Select
-                          value={leaveType}
-                          options={leaveTypes}
-                          onChange={(value) => handleChangeLeave(value)}
+                          value={leaveTypeReason}
+                          options={leave}
+                          onChange={(value) => handleChangeLeaveTypeReason(value)}
                         />
                       </FormControl>
                     </Box>
@@ -145,7 +168,7 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData }) => {
                     }}
                   >
                     <Button type="submit" color="info" variant="contained" size="medium">
-                      Add Leave
+                      SAVE
                     </Button>
                   </Grid>
                 </Grid>
