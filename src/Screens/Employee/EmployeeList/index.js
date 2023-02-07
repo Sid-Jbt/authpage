@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Card, FormControl, FormLabel, Icon, Grid } from '@mui/material';
-import { Add, ImportExportRounded } from '@mui/icons-material';
+import { Add, Check, ImportExportRounded } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
@@ -12,6 +12,7 @@ import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
 import { useSelector } from 'react-redux';
 import employeeListData from './data/employeeListData';
 import AddEmployeeForm from './AddEmployeeForm';
+import { SnackbarContext } from '../../../Context/SnackbarProvider';
 
 const EmployeeList = () => {
   const { role } = useSelector((state) => state.route);
@@ -19,6 +20,7 @@ const EmployeeList = () => {
   const [selectedRole, setSelectedRole] = useState('');
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { setSnack } = useContext(SnackbarContext);
 
   const handleChangeRole = (value) => {
     setSelectedRole(value.value);
@@ -37,7 +39,14 @@ const EmployeeList = () => {
     if (value === 'details') {
       return navigate(getEmployeeDetailsPattern(id));
     }
-    alert(` ${id} deleted`);
+    setSnack({
+      title: 'Success',
+      message: `Selected employee data deleted successfully.`,
+      time: false,
+      icon: <Check color="white" />,
+      color: 'success',
+      open: true
+    });
   };
 
   return (

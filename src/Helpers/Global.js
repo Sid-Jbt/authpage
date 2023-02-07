@@ -127,3 +127,11 @@ export const Department = [
   { value: 'manager', label: 'Manager' },
   { value: 'team leader', label: 'Team Leader' }
 ];
+
+export const EventsType = [
+  { value: 'success', label: 'Success' },
+  { value: 'info', label: 'Info' },
+  { value: 'warning', label: 'Warning' },
+  { value: 'error', label: 'Error' },
+  { value: 'primary', label: 'Primary' }
+];

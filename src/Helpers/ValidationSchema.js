@@ -244,3 +244,9 @@ export const bankFormSchema = yup.object().shape({
 export const supportTicketFormSchema = yup.object().shape({
   subject: yup.string().required('Subject is required')
 });
+
+export const noticeEventSchema = yup.object().shape({
+  title: yup.string().required('Event title is required'),
+  start: yup.string().required('Start date is required'),
+  end: yup.string().required('End date is required')
+});

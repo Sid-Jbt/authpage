@@ -122,7 +122,7 @@ export default function componentStyleOverrides(theme) {
           borderRadius: borderRadius.lg
         },
         img: {
-          height: 'auto'
+          height: '100%'
         }
       }
     },

@@ -47,7 +47,7 @@ const ChangePasswordSetting = () => {
             <form onSubmit={handleSubmit}>
               <Grid container spacing={1} p={2} justifyContent="flex-end">
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box mt={0.5}>
+                  <Box>
                     <Input
                       name="currentPassword"
                       placeholder="Current Password"
