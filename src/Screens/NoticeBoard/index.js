@@ -27,10 +27,6 @@ export const NoticeBoard = () => {
   };
 
   const onClickAction = (key, id) => {
-    /*  if (key === 'edit') {
-      setSelectedData(prRows.find((o) => o.id === id));
-      handleDialog();
-    } */
     if (key === 'edit') {
       setSelectedData(prRows.find((o) => o.id === id));
       setIsDialogOpen(!isDialogOpen);
