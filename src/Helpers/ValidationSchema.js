@@ -252,6 +252,6 @@ export const basicSchema = yup.object().shape({
 });
 
 export const organisationSchema = yup.object().shape({
-  permanentAdd: yup.string().required('Permanent address is required'),
+  permanentAdd: yup.string().required('Permanent Address is required'),
   workingHours: yup.string().required('Working hours is required')
 });

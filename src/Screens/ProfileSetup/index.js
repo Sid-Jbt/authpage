@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
+import { Formik } from 'formik';
 import { Card, Grid, Step, StepLabel, Stepper } from '@mui/material';
 import { getDashboardPattern } from 'Routes/routeConfig';
 import { useNavigate } from 'react-router';
@@ -11,12 +11,7 @@ import Basic from './component/Basic';
 import Address from './component/Address';
 import Account from './component/Account';
 import Organisation from './component/Organisation';
-import {
-  basicSchema
-  // organisationSchema,
-  // bankFormSchema,
-  // addressSchema
-} from '../../Helpers/ValidationSchema';
+import { basicSchema } from '../../Helpers/ValidationSchema';
 
 const initialValues = {
   workingHours: '',
@@ -35,6 +30,7 @@ const initialValues = {
 
 function getSteps() {
   const customization = useSelector((state) => state.route);
+
   return customization.role === 'admin'
     ? ['Organisation', 'Basic', 'Address']
     : ['Basic', 'Address', 'Account'];
@@ -65,39 +61,10 @@ const ProfileSetup = () => {
   const navigate = useNavigate();
   const steps = getSteps();
   const isLastStep = activeStep === steps.length - 1;
-  // const role = useSelector((state) => state.route);
 
   const handleNext = () =>
     !isLastStep ? setActiveStep(activeStep + 1) : navigate(getDashboardPattern());
-
   const handleBack = () => setActiveStep(activeStep - 1);
-
-  // const Schema = () => {
-  //   if (role.role === 'admin') {
-  //     if (activeStep === 0) {
-  //       if (selectTime !== '' && values.permanentAdd !== '') {
-  //         setActiveStep(activeStep + 1);
-  //       } else alert('Fill up your form');
-  //     } else if (activeStep === 1) {
-  //       if (fname !== '' && lname !== '') {
-  //         setActiveStep(activeStep + 1);
-  //       } else alert('Fill your first and last name in your form');
-  //     } else if (activeStep === 2) {
-  //       !isLastStep ? setActiveStep(activeStep + 1) : navigate(getDashboardPattern());
-  //     }
-  //   } else {
-  //     console.log('else part');
-  //     if (activeStep === 0) {
-  //       if (fname !== '' && lname !== '') {
-  //         setActiveStep(activeStep + 1);
-  //       } else alert('Fill your first and last name in your form');
-  //     } else if (activeStep === 1) {
-  //       setActiveStep(activeStep + 1);
-  //     } else {
-  //       !isLastStep ? setActiveStep(activeStep + 1) : navigate(getDashboardPattern());
-  //     }
-  //   }
-  // };
 
   return (
     <>
