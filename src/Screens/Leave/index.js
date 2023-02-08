@@ -7,6 +7,7 @@ import LeaveCard from 'Components/CardLayouts/LeaveCard';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 
@@ -100,6 +101,7 @@ const LeaveList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
+              defaultValue={moment().format('YYYY-MM-DD')}
               errorFalse
             />
           </Grid>
@@ -111,6 +113,7 @@ const LeaveList = () => {
               fullWidth
               id="toDate"
               name="toDate"
+              defaultValue={moment().format('YYYY-MM-DD')}
               errorFalse
             />
           </Grid>
