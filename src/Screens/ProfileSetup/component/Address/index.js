@@ -1,4 +1,3 @@
-import React from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
@@ -27,15 +26,15 @@ const Address = (props) => {
                 placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
                 size="medium"
                 fullWidth
-                id="perAddress"
-                name="perAddress"
+                id="address"
+                name="address"
                 label="Permanent Address"
-                value={values.perAddress}
+                value={values.address}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                errorText={errors.perAddress && touched.perAddress && errors.perAddress}
-                error={errors.perAddress && touched.perAddress}
-                success={!errors.perAddress && touched.perAddress}
+                errorText={errors.address && touched.address && errors.address}
+                error={errors.address && touched.address}
+                success={!errors.address && touched.address}
               />
             </Box>
           </Grid>

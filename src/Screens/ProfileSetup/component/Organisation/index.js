@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { FormControl, FormLabel, Grid, Input } from '@mui/material';
+import { FormControl, FormLabel, Grid } from '@mui/material';
+import Input from 'Elements/Input';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Avatar from 'Elements/Avatar';
@@ -12,14 +13,9 @@ import { WorkingHours } from 'Helpers/Global';
 
 const Organisation = (props) => {
   const { values, touched, errors, handleChange, handleBlur } = props.props;
-  // const theme = useTheme();
-  // const { role } = useSelector((state) => state.route);
-  // const inputFile = useRef(null);
-
   const [workingHours, setWorkingHours] = useState('');
   const [smallLogoUrl, setSmallLogoUrl] = useState('');
   const [largeLogoUrl, setLargeLogoUrl] = useState('');
-
   const smallLogoInputFile = useRef(null);
   const largeLogoInputFile = useRef(null);
 
@@ -51,24 +47,6 @@ const Organisation = (props) => {
           Let us know more about your organisation.
         </Typography>
       </Box>
-      {/* <Formik */}
-      {/*  enableReinitialize */}
-      {/*  initialValues={{ */}
-      {/*    permanentAdd: '', */}
-      {/*    workingHours: '' */}
-      {/*  }} */}
-      {/*  onSubmit={(values, actions) => { */}
-      {/*    alert(JSON.stringify((values, null, 2))); */}
-      {/*    console.log('values', values); */}
-      {/*    actions.setSubmitting(false); */}
-      {/*  }} */}
-      {/*  validationSchema={organisationSchema} */}
-      {/* > */}
-      {/*  {(props) => { */}
-      {/*    const { values, touched, errors, handleBlur, handleSubmit } = props; */}
-      {/*    console.log('touched,errors,touched,values = ', errors, touched, values); */}
-      {/*    return ( */}
-      {/*      <form onSubmit={handleSubmit} autoComplete="off"> */}
       <Box mt={2}>
         <Grid container spacing={3} justifyContent="center">
           <Grid item xs={6} sm={3} lg={4} container justifyContent="center">
@@ -141,7 +119,7 @@ const Organisation = (props) => {
           </Grid>
           <Grid item xs={12} md={10} lg={8}>
             <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Working Hours</FormLabel>
+              <FormLabel> Select Working Hours </FormLabel>
               <Select
                 id="workingHours"
                 name="workingHours"
@@ -175,21 +153,6 @@ const Organisation = (props) => {
                 error={errors.permanentAdd && touched.permanentAdd}
                 success={!errors.permanentAdd && touched.permanentAdd}
               />
-              {/* <Input */}
-              {/*  type="text" */}
-              {/*  placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015" */}
-              {/*  size="medium" */}
-              {/*  fullWidth */}
-              {/*  id="permanentAdd" */}
-              {/*  name="permanentAdd" */}
-              {/*  label="Permanent Address" */}
-              {/*  value={values.pAdd} */}
-              {/*  onChange={handleChange} */}
-              {/*  onBlur={handleBlur} */}
-              {/*  errorText={errors.permanentAdd && touched.permanentAdd && errors.permanentAdd} */}
-              {/*  error={errors.permanentAdd && touched.permanentAdd} */}
-              {/*  success={!errors.permanentAdd && touched.permanentAdd} */}
-              {/* /> */}
             </Box>
           </Grid>
         </Grid>

@@ -2,18 +2,8 @@ import { Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
-// import { bankFormSchema } from 'Helpers/ValidationSchema';
 
-// const initialValues = {
-//   bankName: '',
-//   branchName: '',
-//   accountName: '',
-//   accountNumber: '',
-//   ifscCode: '',
-//   panNumber: ''
-// };
-
-const Basic = (props) => {
+const Account = (props) => {
   const { values, touched, errors, handleChange, handleBlur } = props.props;
   return (
     <Box>
@@ -27,16 +17,6 @@ const Basic = (props) => {
           Let us know your bank account details.
         </Typography>
       </Box>
-      {/* <Formik */}
-      {/*  enableReinitialize */}
-      {/*  initialValues={initialValues} */}
-      {/*  onSubmit={(values) => { */}
-      {/*    console.log('values', values); */}
-      {/*  }} */}
-      {/*  validationSchema={bankFormSchema} */}
-      {/* > */}
-      {/*  {(props) => { */}
-      {/*    const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props; */}
       <Box mt={2}>
         <Grid container spacing={3} justifyContent="center">
           <Grid item xs={12} sm={8}>
@@ -167,4 +147,4 @@ const Basic = (props) => {
   );
 };
 
-export default Basic;
+export default Account;
