@@ -250,3 +250,8 @@ export const noticeEventSchema = yup.object().shape({
   start: yup.string().required('Start date is required'),
   end: yup.string().required('End date is required')
 });
+
+export const basicSchema = yup.object().shape({
+  firstName: yup.string().required('First name is required'),
+  lastName: yup.string().required('Last name is required')
+});

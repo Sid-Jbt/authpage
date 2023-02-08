@@ -27,6 +27,7 @@ const Table = ({
   onClickAction,
   isView = false
 }) => {
+  console.log('rows', rows);
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
@@ -236,12 +237,37 @@ const Table = ({
               )}
             </TableRow>
           </Box>
-          <TableBody>
-            {renderRows}
-            <TableCell colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}>
-              <Paginations rows={renderRows.length} />
-            </TableCell>
-          </TableBody>
+          {renderRows.length !== 0 ? (
+            <TableBody>
+              {renderRows}
+              <TableCell colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}>
+                <Paginations rows={renderRows.length} />
+              </TableCell>
+            </TableBody>
+          ) : (
+            <TableBody>
+              <TableRow>
+                <Box component="td" colspan={10} p={1} textAlign="center">
+                  <Typography
+                    variant="button"
+                    fontWeight="regular"
+                    color="secondary"
+                    sx={{
+                      pt: '1.5',
+                      pb: '1.25',
+                      textAlign: 'center',
+                      fontSize: 'size.sm',
+                      fontWeight: 'fontWeightBold',
+                      color: 'dark',
+                      opacity: '0.7'
+                    }}
+                  >
+                    No Data Found!
+                  </Typography>
+                </Box>
+              </TableRow>
+            </TableBody>
+          )}
         </MuiTable>
       </TableContainer>
     ),

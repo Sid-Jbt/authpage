@@ -100,7 +100,6 @@ export default styled(Drawer)(({ theme, ownerState }) => {
       border: 'none',
       height: 'calc(100vh - 2rem)',
       margin: pxToRem(20),
-      zIndex: 99999,
       borderRadius: pxToRem(8),
       backgroundColor: transparent.main,
       ...(miniSidenav ? drawerCloseStyles() : drawerOpenStyles())

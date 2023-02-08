@@ -39,6 +39,11 @@ export const Roles = [
 ];
 
 export const leaveTypes = [
+  { value: 'fullDay', label: 'Full Day' },
+  { value: 'halfDay', label: 'Half Day' }
+];
+
+export const leave = [
   { value: 'sickLeave', label: 'Sick Leave' },
   { value: 'medicalLeave', label: 'Medical Leave' },
   { value: 'hospitalisation', label: 'Hospitalisation' },
