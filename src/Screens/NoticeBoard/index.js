@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
 import { Add, Check, ImportExportRounded } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
@@ -13,9 +13,14 @@ import CalendarEventsData from './data/CalendarEvents';
 export const NoticeBoard = () => {
   const { role } = useSelector((state) => state.route);
   const { columns: prCols, rows: prRows } = CalendarEventsData;
+  const [rows, setRows] = useState(prRows);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const { setSnack } = useContext(SnackbarContext);
+
+  useEffect(() => {
+    console.log('rows', rows);
+  }, [rows]);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -31,6 +36,12 @@ export const NoticeBoard = () => {
       handleDialog();
     }
     if (key === 'delete') {
+      rows.splice(
+        rows.findIndex((a) => a.id === id),
+        1
+      );
+      console.log('rows', rows);
+      setRows(rows);
       setSnack({
         title: 'Success',
         message: `Selected event data deleted successfully.`,
@@ -40,7 +51,18 @@ export const NoticeBoard = () => {
         open: true
       });
     }
-    // alert(` ${id} deleted`);
+  };
+
+  const onSubmitEvent = (event) => {
+    setRows([...rows, event]);
+    setSnack({
+      title: 'Success',
+      message: `Event added successfully.`,
+      time: false,
+      icon: <Check color="white" />,
+      color: 'success',
+      open: true
+    });
   };
 
   return (
@@ -98,21 +120,25 @@ export const NoticeBoard = () => {
             />
           </Grid>
         </FilterLayout>
-        <Table
-          isChecked
-          columns={prCols}
-          rows={prRows}
-          onClickAction={(value, id) => onClickAction(value, id)}
-          isAction
-          options={[
-            { title: 'Edit', value: 'edit' },
-            { title: 'Delete', value: 'delete' }
-          ]}
-        />
+        {rows !== null && (
+          <Table
+            isChecked
+            columns={prCols}
+            rows={rows}
+            onClickAction={(value, id) => onClickAction(value, id)}
+            isAction
+            options={[
+              { title: 'Edit', value: 'edit' },
+              { title: 'Delete', value: 'delete' }
+            ]}
+          />
+        )}
+
         <AddCalendarEventDialog
           isDialogOpen={isDialogOpen}
-          handleDialog={handleDialog}
+          handleDialog={() => handleDialog()}
           selectedData={selectedData}
+          onSubmitEvent={(event) => onSubmitEvent(event)}
         />
       </Card>
     </>

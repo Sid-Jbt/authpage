@@ -109,6 +109,7 @@ const Table = ({
   });
 
   const renderRows = rows.map((row, key) => {
+    console.log('table rows', rows);
     const rowKey = `row-${key}`;
     const tableRow = columns.map(({ name, align }) => {
       let template;

@@ -16,12 +16,12 @@ const initialValues = {
   end: moment().format('YYYY-MM-DD')
 };
 
-const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData }) => {
+const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData, onSubmitEvent }) => {
   const [eventType, setEventType] = useState(EventsType[0]);
   const [title, setTitle] = useState('Add NEW Notice/Event');
 
-  const handleChangeEnventType = (value) => {
-    setEventType(value.value);
+  const handleChangeEventType = (value) => {
+    setEventType(value);
   };
 
   useEffect(() => {
@@ -44,7 +44,8 @@ const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData }) =>
   }, [selectedData]);
 
   const onSubmit = (formData) => {
-    console.log('formData', formData);
+    onSubmitEvent({ ...formData, eventType: eventType.value, id: Math.floor(Math.random() * 100) });
+    handleDialog();
   };
 
   return (
@@ -93,6 +94,7 @@ const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData }) =>
                           id="start"
                           name="start"
                           label="Start"
+                          defaultValue={values.start}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           errorText={errors.start && touched.start && errors.start}
@@ -111,6 +113,7 @@ const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData }) =>
                           id="end"
                           name="end"
                           label="End"
+                          defaultValue={values.end}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           errorText={errors.end && touched.end && errors.end}
@@ -126,7 +129,7 @@ const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData }) =>
                       <Select
                         value={eventType}
                         options={EventsType}
-                        onChange={(value) => handleChangeEnventType(value)}
+                        onChange={(value) => handleChangeEventType(value)}
                       />
                     </FormControl>
                   </Grid>
