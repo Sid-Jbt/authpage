@@ -24,11 +24,11 @@ const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) =
   const collapseName = pathname.split('/').slice(1)[0];
   const itemName = pathname.split('/').slice(1)[1];
 
-  function handleMiniSidenav() {
+  const handleMiniSidenav = () => {
     if (window.innerWidth < breakpoints.values.xl) {
-      dispatch({ type: MINI_SIDENAV, value: customization.miniSidenav });
+      dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
     }
-  }
+  };
 
   useEffect(() => {
     window.addEventListener('resize', handleMiniSidenav);
