@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
@@ -10,6 +11,12 @@ import Basic from './component/Basic';
 import Address from './component/Address';
 import Account from './component/Account';
 import Organisation from './component/Organisation';
+import { basicSchema } from '../../Helpers/ValidationSchema';
+
+const initialValues = {
+  firstName: '',
+  lastName: ''
+};
 
 function getSteps() {
   const customization = useSelector((state) => state.route);
@@ -19,12 +26,17 @@ function getSteps() {
     : ['Basic', 'Address', 'Account'];
 }
 
-function getStepContent(stepIndex) {
+function getStepContent(stepIndex, props) {
+  console.log('props', props);
   const customization = useSelector((state) => state.route);
 
   switch (stepIndex) {
     case 0:
-      return customization.role === 'admin' ? <Organisation /> : <Basic />;
+      return customization.role === 'admin' ? (
+        <Organisation props={props} />
+      ) : (
+        <Basic props={props} />
+      );
     case 1:
       return customization.role === 'admin' ? <Basic /> : <Address />;
     case 2:
@@ -42,6 +54,7 @@ const ProfileSetup = () => {
 
   const handleNext = () =>
     !isLastStep ? setActiveStep(activeStep + 1) : navigate(getDashboardPattern());
+
   const handleBack = () => setActiveStep(activeStep - 1);
 
   return (
@@ -69,21 +82,34 @@ const ProfileSetup = () => {
             </Stepper>
             <Card>
               <Box p={2}>
-                <Box>
-                  {getStepContent(activeStep)}
-                  <Box mt={3} width="100%" display="flex" justifyContent="space-between">
-                    {activeStep === 0 ? (
-                      <Box />
-                    ) : (
-                      <Button variant="gradient" color="light" onClick={handleBack}>
-                        Back
-                      </Button>
-                    )}
-                    <Button variant="gradient" color="dark" onClick={handleNext}>
-                      {isLastStep ? 'Continue' : 'Next'}
-                    </Button>
-                  </Box>
-                </Box>
+                <Formik
+                  enableReinitialize
+                  initialValues={initialValues}
+                  validateOnChange={false}
+                  validateOnBlur={false}
+                  onSubmit={() => {
+                    handleNext();
+                  }}
+                  validationSchema={basicSchema}
+                >
+                  {(props) => (
+                    <form onSubmit={props.handleSubmit}>
+                      {getStepContent(activeStep, props)}
+                      <Box mt={3} width="100%" display="flex" justifyContent="space-between">
+                        {activeStep === 0 ? (
+                          <Box />
+                        ) : (
+                          <Button variant="gradient" color="light" onClick={() => handleBack()}>
+                            Back
+                          </Button>
+                        )}
+                        <Button variant="gradient" color="dark" type="submit">
+                          {activeStep === 0 || isLastStep ? 'Continue' : 'SKIP'}
+                        </Button>
+                      </Box>
+                    </form>
+                  )}
+                </Formik>
               </Box>
             </Card>
           </Grid>

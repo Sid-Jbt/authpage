@@ -7,6 +7,7 @@ import LeaveCard from 'Components/CardLayouts/LeaveCard';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 
@@ -17,13 +18,14 @@ const LeaveList = () => {
   const { role } = useSelector((state) => state.route);
 
   const handleDialog = () => {
+    setSelectedData(null);
     setIsDialogOpen(!isDialogOpen);
   };
 
   const onClickAction = (key, index) => {
     if (key === 'edit') {
       setSelectedData(prRows.find((o) => o.id === index));
-      handleDialog();
+      setIsDialogOpen(!isDialogOpen);
     }
   };
 
@@ -74,7 +76,7 @@ const LeaveList = () => {
             })}
             variant="outlined"
             size="small"
-            onClick={handleDialog}
+            onClick={() => handleDialog()}
           >
             <Icon sx={{ mr: 1 }}>
               <Add />
@@ -99,6 +101,7 @@ const LeaveList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
+              defaultValue={moment().format('YYYY-MM-DD')}
               errorFalse
             />
           </Grid>
@@ -110,6 +113,7 @@ const LeaveList = () => {
               fullWidth
               id="toDate"
               name="toDate"
+              defaultValue={moment().format('YYYY-MM-DD')}
               errorFalse
             />
           </Grid>
@@ -124,11 +128,14 @@ const LeaveList = () => {
             { title: 'Delete', value: 'delete' }
           ]}
         />
-        <AddLeaveForm
-          isDialogOpen={isDialogOpen}
-          handleDialog={handleDialog}
-          selectedData={selectedData}
-        />
+        {isDialogOpen && (
+          <AddLeaveForm
+            isDialogOpen={isDialogOpen}
+            handleDialog={() => handleDialog()}
+            selectedData={selectedData}
+            setSelectedData={(value) => setSelectedData(value)}
+          />
+        )}
       </Card>
     </>
   );
