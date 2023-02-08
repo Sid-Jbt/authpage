@@ -55,8 +55,6 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSele
     }
   }, [selectedData]);
 
-  console.log('selectedDtaa', data);
-
   const onSubmit = (formData) => {
     console.log('formData', formData);
   };
@@ -128,25 +126,28 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSele
                       />
                     </Box>
                   </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Box>
-                      <Input
-                        type="date"
-                        placeholder="To Date"
-                        size="large"
-                        fullWidth
-                        id="toDate"
-                        name="toDate"
-                        label="To Date"
-                        defaultValue={values.toDate}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.toDate && touched.toDate && errors.toDate}
-                        error={errors.toDate && touched.toDate}
-                        success={!errors.toDate && touched.toDate}
-                      />
-                    </Box>
-                  </Grid>
+                  {leaveType.value === 'fullDay' && (
+                    <Grid item xs={12} md={6}>
+                      <Box>
+                        <Input
+                          type="date"
+                          placeholder="To Date"
+                          size="large"
+                          fullWidth
+                          id="toDate"
+                          name="toDate"
+                          label="To Date"
+                          defaultValue={values.toDate}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          errorText={errors.toDate && touched.toDate && errors.toDate}
+                          error={errors.toDate && touched.toDate}
+                          success={!errors.toDate && touched.toDate}
+                        />
+                      </Box>
+                    </Grid>
+                  )}
+
                   <Grid item xs={12}>
                     <Box>
                       <Editor
