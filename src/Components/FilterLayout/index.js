@@ -10,7 +10,7 @@ import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import React, { useState } from 'react';
 
-const FilterLayout = ({ children }) => {
+const FilterLayout = ({ children, handleClear, search, handleSearch }) => {
   const [expanded, setExpanded] = useState(false);
   const innerWidth = window.innerWidth;
 
@@ -21,7 +21,7 @@ const FilterLayout = ({ children }) => {
     <>
       <Accordion
         defaultExpanded={innerWidth > 800}
-        onClick={handleChange}
+        onClick={() => handleChange()}
         sx={{ background: 'transparent', boxShadow: 'none' }}
         TransitionProps={{ unmountOnExit: true }}
       >
@@ -47,6 +47,8 @@ const FilterLayout = ({ children }) => {
                 fullWidth
                 id="search"
                 name="search"
+                value={search}
+                onChange={(e) => handleSearch(e)}
                 errorFalse
               />
             </Grid>
@@ -67,7 +69,7 @@ const FilterLayout = ({ children }) => {
                 </Icon>
                 Search
               </Button>
-              <Button color="error" variant="gradient" size="small">
+              <Button color="error" variant="gradient" size="small" onClick={() => handleClear()}>
                 <Icon sx={{ mr: 1 }}>
                   <ClearRounded />
                 </Icon>

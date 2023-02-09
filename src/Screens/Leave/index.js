@@ -7,7 +7,6 @@ import LeaveCard from 'Components/CardLayouts/LeaveCard';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 
@@ -16,6 +15,9 @@ const LeaveList = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const { role } = useSelector((state) => state.route);
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+  const [search, setSearch] = useState('');
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -27,6 +29,24 @@ const LeaveList = () => {
       setSelectedData(prRows.find((o) => o.id === index));
       setIsDialogOpen(!isDialogOpen);
     }
+  };
+
+  const handleChangeStartDate = (event, string) => {
+    if (string === 'fromDate') {
+      setFromDate(event.target.value);
+    } else {
+      setToDate(event.target.value);
+    }
+  };
+
+  const handleChangeSearch = (event) => {
+    setSearch(event);
+  };
+
+  const handleClear = () => {
+    setFromDate('');
+    setToDate('');
+    setSearch('');
   };
 
   return (
@@ -92,7 +112,11 @@ const LeaveList = () => {
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >
-        <FilterLayout>
+        <FilterLayout
+          search={search}
+          handleSearch={() => handleChangeSearch()}
+          handleClear={() => handleClear()}
+        >
           <Grid item xs={6} md={4} lg={3}>
             <Input
               type="date"
@@ -101,7 +125,8 @@ const LeaveList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
-              defaultValue={moment().format('YYYY-MM-DD')}
+              value={fromDate !== '' ? fromDate : ''}
+              onChange={(value) => handleChangeStartDate(value, 'fromDate')}
               errorFalse
             />
           </Grid>
@@ -113,7 +138,8 @@ const LeaveList = () => {
               fullWidth
               id="toDate"
               name="toDate"
-              defaultValue={moment().format('YYYY-MM-DD')}
+              value={toDate !== '' ? toDate : ''}
+              onChange={(value) => handleChangeStartDate(value, 'toDate')}
               errorFalse
             />
           </Grid>

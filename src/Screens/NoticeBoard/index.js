@@ -13,9 +13,20 @@ import CalendarEventsData from './data/CalendarEvents';
 export const NoticeBoard = () => {
   const { role } = useSelector((state) => state.route);
   const { columns: prCols, rows: prRows } = CalendarEventsData;
+  const { setSnack } = useContext(SnackbarContext);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const { setSnack } = useContext(SnackbarContext);
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+  const [search, setSearch] = useState('');
+
+  const handleChangeStartDate = (event, string) => {
+    if (string === 'fromDate') {
+      setFromDate(event.target.value);
+    } else {
+      setToDate(event.target.value);
+    }
+  };
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -41,6 +52,16 @@ export const NoticeBoard = () => {
         open: true
       });
     }
+  };
+
+  const handleChangeSearch = (event) => {
+    setSearch(event);
+  };
+
+  const handleClear = () => {
+    setFromDate('');
+    setToDate('');
+    setSearch('');
   };
 
   return (
@@ -74,7 +95,11 @@ export const NoticeBoard = () => {
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >
-        <FilterLayout>
+        <FilterLayout
+          search={search}
+          handleSearch={() => handleChangeSearch()}
+          handleClear={() => handleClear()}
+        >
           <Grid item xs={6} md={4} lg={3}>
             <Input
               type="date"
@@ -83,6 +108,8 @@ export const NoticeBoard = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
+              value={fromDate !== '' ? fromDate : ''}
+              onChange={(value) => handleChangeStartDate(value, 'fromDate')}
               errorFalse
             />
           </Grid>
@@ -94,6 +121,8 @@ export const NoticeBoard = () => {
               fullWidth
               id="toDate"
               name="toDate"
+              value={toDate !== '' ? toDate : ''}
+              onChange={(value) => handleChangeStartDate(value, 'toDate')}
               errorFalse
             />
           </Grid>

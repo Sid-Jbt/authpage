@@ -17,6 +17,7 @@ const Holiday = () => {
   const [isHover, setIsHover] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [search, setSearch] = useState('');
 
   const handleMouseEnter = () => {
     setIsHover(true);
@@ -63,6 +64,14 @@ const Holiday = () => {
     handleDialogClose();
   };
 
+  const handleChangeSearch = (event) => {
+    setSearch(event);
+  };
+
+  const handleClear = () => {
+    setSearch('');
+  };
+
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
@@ -91,7 +100,11 @@ const Holiday = () => {
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >
-        <FilterLayout />
+        <FilterLayout
+          search={search}
+          handleSearch={() => handleChangeSearch()}
+          handleClear={() => handleClear()}
+        />
         <Table
           columns={prCols}
           rows={prRows}

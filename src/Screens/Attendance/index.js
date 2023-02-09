@@ -12,28 +12,37 @@ import LeaveCard from '../../Components/CardLayouts/LeaveCard';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = attendanceData;
+  const { role } = useSelector((state) => state.route);
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [status, setStatus] = useState('');
   const [user, setUser] = useState('');
-  const { role } = useSelector((state) => state.route);
+  const [search, setSearch] = useState('');
 
   const handleChangeStatus = (value) => {
-    setStatus(value.value);
+    setStatus(value);
   };
 
   const handleChangeMonth = (value) => {
-    setMonth(value.value);
+    setMonth(value);
   };
 
   const handleChangeYear = (value) => {
-    setYear(value.value);
+    setYear(value);
   };
 
   const handleChangeUser = (value) => {
-    setUser(value.value);
+    setUser(value);
   };
-  console.log('Month, Year, Status, User --> ', month, year, status, user);
+  const handleChangeSearch = (event) => {
+    setSearch(event);
+  };
+
+  const handleClear = () => {
+    setMonth('');
+    setYear('');
+    setSearch('');
+  };
 
   return (
     <>
@@ -65,24 +74,26 @@ const AttendanceList = () => {
       </Grid>
 
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs="auto">
-          <Button
-            color="white"
-            variant="outlined"
-            size="small"
-            sx={({ breakpoints, palette: { dark } }) => ({
-              [breakpoints.down('xl' && 'lg')]: {
-                color: dark.main,
-                borderColor: dark.main
-              }
-            })}
-          >
-            <Icon sx={{ mr: 1 }}>
-              <Add />
-            </Icon>
-            Add
-          </Button>
-        </Grid>
+        {role === 'admin' && (
+          <Grid item xs="auto">
+            <Button
+              color="white"
+              variant="outlined"
+              size="small"
+              sx={({ breakpoints, palette: { dark } }) => ({
+                [breakpoints.down('xl' && 'lg')]: {
+                  color: dark.main,
+                  borderColor: dark.main
+                }
+              })}
+            >
+              <Icon sx={{ mr: 1 }}>
+                <Add />
+              </Icon>
+              Add
+            </Button>
+          </Grid>
+        )}
         <Grid item xs="auto">
           <Button
             color="white"
@@ -110,7 +121,11 @@ const AttendanceList = () => {
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >
-        <FilterLayout>
+        <FilterLayout
+          search={search}
+          handleSearch={() => handleChangeSearch()}
+          handleClear={() => handleClear()}
+        >
           <Grid item sm={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select User</FormLabel>
@@ -125,19 +140,27 @@ const AttendanceList = () => {
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Month</FormLabel>
-              <Select options={Months} onChange={(value) => handleChangeMonth(value)} />
+              <Select
+                value={month}
+                options={Months}
+                onChange={(value) => handleChangeMonth(value)}
+              />
             </FormControl>
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Year</FormLabel>
-              <Select options={Years} onChange={(value) => handleChangeYear(value)} />
+              <Select value={year} options={Years} onChange={(value) => handleChangeYear(value)} />
             </FormControl>
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Status</FormLabel>
-              <Select options={Status} onChange={(value) => handleChangeStatus(value)} />
+              <Select
+                value={status}
+                options={Status}
+                onChange={(value) => handleChangeStatus(value)}
+              />
             </FormControl>
           </Grid>
         </FilterLayout>
