@@ -96,6 +96,7 @@ const Login = () => {
                 'attendance',
                 'profile',
                 'supportTicket',
+                'holiday',
                 'report',
                 'allreport',
                 'timeactivity',

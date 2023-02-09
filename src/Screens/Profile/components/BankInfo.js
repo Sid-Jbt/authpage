@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Grid, useTheme } from '@mui/material';
+import { Card, Grid } from '@mui/material';
 import Typography from 'Elements/Typography';
 import { Formik } from 'formik';
 import Button from 'Elements/Button';
@@ -17,7 +17,6 @@ const initialValues = {
 };
 
 const BankInfo = () => {
-  const theme = useTheme();
   const [isEdit, setIsEdit] = useState(true);
 
   const handleIsEdit = () => setIsEdit(!isEdit);
@@ -47,7 +46,7 @@ const BankInfo = () => {
         {(props) => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
           return (
-            <form onSubmit={handleSubmit} style={{ background: theme.palette.grey[100] }}>
+            <form onSubmit={handleSubmit}>
               <Grid container spacing={1} p={2}>
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
