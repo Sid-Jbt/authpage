@@ -16,9 +16,10 @@ const initialValues = {
   end: moment().format('YYYY-MM-DD')
 };
 
-const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData }) => {
+const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData, setSelectedData }) => {
   const [eventType, setEventType] = useState(EventsType[0]);
-  const [title, setTitle] = useState('Add NEW Notice/Event');
+  const [title, setTitle] = useState('');
+  const [data, setData] = useState(initialValues);
 
   const handleChangeEnventType = (value) => {
     setEventType(value.value);
@@ -26,20 +27,28 @@ const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData }) =>
 
   useEffect(() => {
     if (selectedData !== null) {
-      setTitle('EDIT Notice/Event');
-      Object.keys(initialValues).map((key) => {
-        initialValues[key] = selectedData[key];
+      setTitle('Edit Notice/Event');
+      Object.keys(data).map((key) => {
+        data[key] = selectedData[key];
         if (key === 'title') {
-          initialValues[key] = selectedData.title;
+          data[key] = selectedData.title;
         }
         if (key === 'start') {
-          initialValues[key] = moment(selectedData.start).format('YYYY-MM-DD');
+          data[key] = moment(selectedData.start).format('YYYY-MM-DD');
         }
         if (key === 'end') {
-          initialValues[key] = moment(selectedData.end).format('YYYY-MM-DD');
+          data[key] = moment(selectedData.end).format('YYYY-MM-DD');
         }
       });
-      setEventType(EventsType.find((event) => event.label === selectedData.className));
+      setEventType(
+        EventsType.find((value) => value.label === selectedData.className.props.badgeContent)
+      );
+    } else {
+      initialValues.title = '';
+      initialValues.start = moment().format('YYYY-MM-DD');
+      initialValues.end = moment().format('YYYY-MM-DD');
+      setData(initialValues);
+      setTitle('Add New Notice/Event');
     }
   }, [selectedData]);
 
@@ -49,10 +58,18 @@ const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData }) =>
 
   return (
     <>
-      <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title={title}>
+      <SideDrawer
+        open={Boolean(isDialogOpen)}
+        onClose={() => {
+          setTitle('');
+          setSelectedData(null);
+          handleDialog();
+        }}
+        title={title}
+      >
         <Formik
           enableReinitialize
-          initialValues={initialValues}
+          initialValues={data}
           onSubmit={(formData) => {
             onSubmit(formData);
           }}
@@ -93,6 +110,7 @@ const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData }) =>
                           id="start"
                           name="start"
                           label="Start"
+                          value={values.start}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           errorText={errors.start && touched.start && errors.start}
@@ -111,6 +129,7 @@ const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData }) =>
                           id="end"
                           name="end"
                           label="End"
+                          value={values.end}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           errorText={errors.end && touched.end && errors.end}

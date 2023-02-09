@@ -27,7 +27,6 @@ const Table = ({
   onClickAction,
   isView = false
 }) => {
-  console.log('rows', rows);
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
