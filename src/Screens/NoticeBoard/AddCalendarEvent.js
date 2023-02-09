@@ -36,6 +36,7 @@ const AddCalendarEventDialog = ({
     if (selectedData !== null) {
       setTitle('EDIT Notice/Event');
       Object.keys(data).map((key) => {
+        console.log('selectedData', selectedData, data);
         data[key] = selectedData[key];
         if (key === 'title') {
           data[key] = selectedData.title;

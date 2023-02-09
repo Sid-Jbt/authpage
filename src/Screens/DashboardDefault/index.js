@@ -4,23 +4,35 @@ import { Grid } from '@mui/material';
 import Calendar from 'Components/Calendar';
 import { Watch, WatchLater, WatchRounded } from '@mui/icons-material';
 import LeaveCard from 'Components/CardLayouts/LeaveCard';
+import Badge from 'Elements/Badge';
 
 const DashboardDefault = () => {
   const [calendarEventsData, setCalendarEventsData] = useState([]);
 
-  const getNoticeBoardEvent = async () => {
-    const items = await JSON.parse(localStorage.getItem('noticeBoardEvent'));
-    setCalendarEventsData(items);
-  };
-
   useEffect(() => {
-    getNoticeBoardEvent();
+    (async () => {
+      const items = await JSON.parse(localStorage.getItem('noticeBoardEvent'));
+      const newRows = items.map((item) => {
+        const o = { ...item };
+        o.eventType = (
+          <Badge
+            variant="gradient"
+            badgeContent={item.eventName}
+            color={item.eventName}
+            size="xs"
+            container
+            customWidth={100}
+          />
+        );
+        return o;
+      });
+      setCalendarEventsData(newRows);
+    })();
   }, []);
 
   return (
     <Box mb={3}>
       <Grid container spacing={3}>
-        {/* <Grid container order={{ xs: 1, lg: 0 }} spacing={3} item xs={12} lg={7} xl={8}> */}
         <Grid container order={{ xs: 1, lg: 0 }} spacing={3} item xs={12} lg={12} xl={12}>
           <Grid item xs={12} md={6} lg={3}>
             <LeaveCard
@@ -59,7 +71,6 @@ const DashboardDefault = () => {
                   initialView="dayGridMonth"
                   events={calendarEventsData}
                   selectable
-                  editable
                 />
               ),
               [calendarEventsData]

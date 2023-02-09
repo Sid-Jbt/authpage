@@ -105,7 +105,7 @@ const EmployeeList = () => {
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select selectedRole</FormLabel>
+              <FormLabel>Select Role</FormLabel>
               <Select options={Roles} onChange={(value) => handleChangeRole(value)} />
             </FormControl>
           </Grid>

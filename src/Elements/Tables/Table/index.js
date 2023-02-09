@@ -27,6 +27,7 @@ const Table = ({
   onClickAction,
   isView = false
 }) => {
+  console.log('rows', rows);
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
@@ -112,7 +113,6 @@ const Table = ({
     rows &&
     rows.length &&
     rows.map((row, key) => {
-      console.log('rowwwww', row);
       const rowKey = `row-${key}`;
       const tableRow = columns.map(({ name, align }) => {
         let template;
@@ -249,7 +249,7 @@ const Table = ({
                   <Paginations rows={renderRows.length} />
                 </TableCell>
               </>
-            ) : renderRows && renderRows.length === 0 ? (
+            ) : (
               <TableRow>
                 <Box component="td" colspan={10} p={1} textAlign="center">
                   <Typography
@@ -270,33 +270,12 @@ const Table = ({
                   </Typography>
                 </Box>
               </TableRow>
-            ) : (
-              <TableRow>
-                <Box component="td" colspan={10} p={1} textAlign="center">
-                  <Typography
-                    variant="button"
-                    fontWeight="regular"
-                    color="secondary"
-                    sx={{
-                      pt: '1.5',
-                      pb: '1.25',
-                      textAlign: 'center',
-                      fontSize: 'size.sm',
-                      fontWeight: 'fontWeightBold',
-                      color: 'dark',
-                      opacity: '0.7'
-                    }}
-                  >
-                    Loading
-                  </Typography>
-                </Box>
-              </TableRow>
             )}
           </TableBody>
         </MuiTable>
       </TableContainer>
     ),
-    [columns, rows, selectedIds, renderRows]
+    [columns, rows, selectedIds]
   );
 };
 

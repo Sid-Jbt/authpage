@@ -7,38 +7,44 @@ import FilterLayout from 'Components/FilterLayout';
 import Input from 'Elements/Input';
 import Table from 'Elements/Tables/Table';
 import { SnackbarContext } from 'Context/SnackbarProvider';
+import Badge from 'Elements/Badge';
 import AddCalendarEventDialog from './AddCalendarEvent';
 import CalendarEventsData from './data/CalendarEvents';
-import Badge from '../../Elements/Badge';
 
 export const NoticeBoard = () => {
   const { role } = useSelector((state) => state.route);
-  const { columns: prCols, rows: prRows } = CalendarEventsData;
-  const [rows, setRows] = useState(prRows);
+  const { columns: prCols } = CalendarEventsData;
+  const [rows, setRows] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const { setSnack } = useContext(SnackbarContext);
 
+  const getNoticeEvent = async () => {
+    const items = await JSON.parse(localStorage.getItem('noticeBoardEvent'));
+    const newRows = items.map((item) => {
+      const o = { ...item };
+      o.eventType = (
+        <Badge
+          variant="gradient"
+          badgeContent={item.eventName}
+          color={item.eventName}
+          size="xs"
+          container
+          customWidth={100}
+        />
+      );
+      return o;
+    });
+    setRows(newRows);
+  };
+
   useEffect(() => {
-    (async () => {
-      const items = await JSON.parse(localStorage.getItem('noticeBoardEvent'));
-      const newRows = items.map((item) => {
-        const o = { ...item };
-        o.eventType = (
-          <Badge
-            variant="gradient"
-            badgeContent={item.eventName}
-            color={item.eventName}
-            size="xs"
-            container
-            customWidth={100}
-          />
-        );
-        return o;
-      });
-      setRows(newRows);
-    })();
+    getNoticeEvent();
   }, []);
+
+  const setNoticeEvent = (noticeEvent) => {
+    localStorage.setItem('noticeBoardEvent', JSON.stringify(noticeEvent));
+  };
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -50,7 +56,7 @@ export const NoticeBoard = () => {
 
   const onClickAction = (key, id) => {
     if (key === 'edit') {
-      setSelectedData(prRows.find((o) => o.id === id));
+      setSelectedData(rows.find((o) => o.id === id));
       handleDialog();
     }
     if (key === 'delete') {
@@ -59,9 +65,11 @@ export const NoticeBoard = () => {
         1
       );
       setRows(rows);
+      setNoticeEvent(rows);
+      getNoticeEvent();
       setSnack({
         title: 'Success',
-        message: `Selected event data deleted successfully.`,
+        message: `Event deleted successfully.`,
         time: false,
         icon: <Check color="white" />,
         color: 'success',
@@ -75,7 +83,8 @@ export const NoticeBoard = () => {
       delete event.eventType;
       const data = [...rows, event];
       setRows(data);
-      localStorage.setItem('noticeBoardEvent', JSON.stringify(data));
+      setNoticeEvent(data);
+      getNoticeEvent(data);
       setSnack({
         title: 'Success',
         message: `Event added successfully.`,
@@ -102,6 +111,8 @@ export const NoticeBoard = () => {
         />
       );
       setRows(newRows);
+      setNoticeEvent(newRows);
+      getNoticeEvent(newRows);
       setSnack({
         title: 'Success',
         message: `Event updated successfully.`,

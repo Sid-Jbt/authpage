@@ -1,6 +1,5 @@
 import { AppBar, Divider, Grid, Icon, IconButton, Menu, Toolbar, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-
 import Box from 'Elements/Box';
 import { MINI_SIDENAV } from 'Redux/actions/ui/actions';
 import {
@@ -20,7 +19,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Breadcrumbs from 'Elements/Breadcrumbs';
 import Avatar from 'Elements/Avatar';
 import useWindowPosition from 'Hooks/useWindowPosition';
-import { profileSetupPattern, getLoginPattern } from 'Routes/routeConfig';
+import { profileSetupPattern, getLoginPattern, getProfilePattern } from 'Routes/routeConfig';
 import { LOGOUT } from 'Redux/actions';
 import CircularProgressWithLabel from 'Elements/CircularProgress';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
@@ -45,6 +44,10 @@ const DashboardNavbar = ({ isMini }) => {
   const handleMenu = () => setOpenMenu(!openMenu);
 
   const handleProfileMenu = () => setOpenProfileMenu(!openProfileMenu);
+
+  const handleProfileCircle = () => {
+    navigate(getProfilePattern());
+  };
 
   const renderMenu = () => (
     <Menu
@@ -219,7 +222,7 @@ const DashboardNavbar = ({ isMini }) => {
                 </IconButton>
               ) : null}
             </Grid>
-            <Grid item>
+            <Grid item onClick={handleProfileCircle}>
               {profileSetup && isProfileComplete ? <CircularProgressWithLabel value={10} /> : null}
             </Grid>
             <Grid item>
