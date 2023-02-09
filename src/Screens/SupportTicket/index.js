@@ -17,6 +17,7 @@ const supportTicket = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [selectDate, setSelectDate] = useState('');
+  const [isEdit, setIsEdit] = useState(false);
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
   const [search, setSearch] = useState('');
@@ -37,9 +38,9 @@ const supportTicket = () => {
     alert('Export coming soon...');
   };
 
-  const onClickAction = (key, index) => {
+  const onClickAction = (key) => {
     if (key === 'edit') {
-      setSelectedData(prRows.find((o) => o.id === index));
+      setIsEdit(true);
       handleDialog();
     }
   };
@@ -160,7 +161,8 @@ const supportTicket = () => {
         <AddSupportTicketForm
           isDialogOpen={isDialogOpen}
           handleDialog={handleDialog}
-          selectedData={selectedData}
+          title={isEdit ? 'EDIT YOUR SUPPORT TICKET' : 'ADD NEW SUPPORT TICKET'}
+          setIsEdit={(value) => setIsEdit(value)}
         />
       </Card>
     </>
