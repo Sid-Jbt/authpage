@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { FormControl, FormLabel, Grid } from '@mui/material';
 import moment from 'moment/moment';
-import SideDrawer from '../../Elements/SideDrawer';
-import { noticeEventSchema } from '../../Helpers/ValidationSchema';
-import Box from '../../Elements/Box';
-import Input from '../../Elements/Input';
-import Button from '../../Elements/Button';
-import Select from '../../Elements/Select';
-import { EventsType } from '../../Helpers/Global';
+import SideDrawer from 'Elements/SideDrawer';
+import { noticeEventSchema } from 'Helpers/ValidationSchema';
+import Box from 'Elements/Box';
+import Input from 'Elements/Input';
+import Button from 'Elements/Button';
+import Select from 'Elements/Select';
+import { EventsType } from 'Helpers/Global';
+import Badge from 'Elements/Badge';
 
 const initialValues = {
   title: '',
@@ -16,19 +17,26 @@ const initialValues = {
   end: moment().format('YYYY-MM-DD')
 };
 
-const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData, setSelectedData }) => {
+const AddCalendarEventDialog = ({
+  isDialogOpen,
+  handleDialog,
+  selectedData,
+  onSubmitEvent,
+  setSelectedData
+}) => {
   const [eventType, setEventType] = useState(EventsType[0]);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState('Add NEW Notice/Event');
   const [data, setData] = useState(initialValues);
 
-  const handleChangeEnventType = (value) => {
-    setEventType(value.value);
+  const handleChangeEventType = (value) => {
+    setEventType(value);
   };
 
   useEffect(() => {
     if (selectedData !== null) {
-      setTitle('Edit Notice/Event');
+      setTitle('EDIT Notice/Event');
       Object.keys(data).map((key) => {
+        console.log('selectedData', selectedData, data);
         data[key] = selectedData[key];
         if (key === 'title') {
           data[key] = selectedData.title;
@@ -40,20 +48,52 @@ const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData, setS
           data[key] = moment(selectedData.end).format('YYYY-MM-DD');
         }
       });
-      setEventType(
-        EventsType.find((value) => value.label === selectedData.className.props.badgeContent)
-      );
+      setEventType(EventsType.find((event) => event.value === selectedData.eventName));
     } else {
-      initialValues.title = '';
       initialValues.start = moment().format('YYYY-MM-DD');
       initialValues.end = moment().format('YYYY-MM-DD');
+      initialValues.title = '';
       setData(initialValues);
-      setTitle('Add New Notice/Event');
+      setTitle('Add NEW Notice/Event');
     }
   }, [selectedData]);
 
   const onSubmit = (formData) => {
-    console.log('formData', formData);
+    if (selectedData === null) {
+      onSubmitEvent({
+        ...formData,
+        eventName: eventType.value,
+        eventType: (
+          <Badge
+            variant="gradient"
+            badgeContent={eventType.value}
+            color={eventType.value}
+            size="xs"
+            container
+            customWidth={100}
+          />
+        ),
+        id: Math.floor(Math.random() * 100)
+      });
+    } else {
+      console.log('in else ');
+      onSubmitEvent({
+        ...formData,
+        eventName: eventType.value,
+        eventType: (
+          <Badge
+            variant="gradient"
+            badgeContent={eventType.value}
+            color={eventType.value}
+            size="xs"
+            container
+            customWidth={100}
+          />
+        )
+      });
+    }
+    handleDialog();
+    setEventType(EventsType[0]);
   };
 
   return (
@@ -110,7 +150,7 @@ const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData, setS
                           id="start"
                           name="start"
                           label="Start"
-                          value={values.start}
+                          defaultValue={values.start}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           errorText={errors.start && touched.start && errors.start}
@@ -129,7 +169,7 @@ const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData, setS
                           id="end"
                           name="end"
                           label="End"
-                          value={values.end}
+                          defaultValue={values.end}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           errorText={errors.end && touched.end && errors.end}
@@ -145,7 +185,7 @@ const AddCalendarEventDialog = ({ isDialogOpen, handleDialog, selectedData, setS
                       <Select
                         value={eventType}
                         options={EventsType}
-                        onChange={(value) => handleChangeEnventType(value)}
+                        onChange={(value) => handleChangeEventType(value)}
                       />
                     </FormControl>
                   </Grid>

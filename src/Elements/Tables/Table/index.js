@@ -27,6 +27,7 @@ const Table = ({
   onClickAction,
   isView = false
 }) => {
+  console.log('rows', rows);
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
@@ -108,96 +109,99 @@ const Table = ({
     );
   });
 
-  const renderRows = rows.map((row, key) => {
-    const rowKey = `row-${key}`;
-    const tableRow = columns.map(({ name, align }) => {
-      let template;
-      if (Array.isArray(row[name])) {
-        template = (
-          <Box
-            key={`${name}_${key}`}
-            component="td"
-            p={1}
-            sx={({ palette: { light } }) => ({
-              borderBottom: row.hasBorder ? `${borderWidth[1]} solid ${light.main}` : null
-            })}
-          >
-            <Box display="flex" alignItems="center" py={0.5} px={1}>
-              <Box mr={2}>
-                <Avatar src={row[name][0]} name={row[name][1]} variant="rounded" size="sm" />
+  const renderRows =
+    rows &&
+    rows.length &&
+    rows.map((row, key) => {
+      const rowKey = `row-${key}`;
+      const tableRow = columns.map(({ name, align }) => {
+        let template;
+        if (Array.isArray(row[name])) {
+          template = (
+            <Box
+              key={`${name}_${key}`}
+              component="td"
+              p={1}
+              sx={({ palette: { light } }) => ({
+                borderBottom: row.hasBorder ? `${borderWidth[1]} solid ${light.main}` : null
+              })}
+            >
+              <Box display="flex" alignItems="center" py={0.5} px={1}>
+                <Box mr={2}>
+                  <Avatar src={row[name][0]} name={row[name][1]} variant="rounded" size="sm" />
+                </Box>
+                <Typography
+                  variant="button"
+                  fontWeight="medium"
+                  color="secondary"
+                  sx={{ width: 'max-content' }}
+                >
+                  {row[name][1]}
+                </Typography>
               </Box>
+            </Box>
+          );
+        } else {
+          template = (
+            <Box
+              key={`${name}_${key}`}
+              component="td"
+              p={1}
+              textAlign={align}
+              lineHeight={0.65}
+              sx={({ palette: { light } }) => ({
+                borderBottom: row.hasBorder ? `${borderWidth[1]} solid ${light.main}` : null,
+                verticalAlign: 'middle'
+              })}
+            >
               <Typography
                 variant="button"
-                fontWeight="medium"
+                fontWeight="regular"
                 color="secondary"
-                sx={{ width: 'max-content' }}
+                sx={{ display: 'inline-block', width: 'max-content' }}
               >
-                {row[name][1]}
+                {row[name]}
               </Typography>
             </Box>
-          </Box>
-        );
-      } else {
-        template = (
-          <Box
-            key={`${name}_${key}`}
-            component="td"
-            p={1}
-            textAlign={align}
-            lineHeight={0.65}
-            sx={({ palette: { light } }) => ({
-              borderBottom: row.hasBorder ? `${borderWidth[1]} solid ${light.main}` : null,
-              verticalAlign: 'middle'
-            })}
-          >
-            <Typography
-              variant="button"
-              fontWeight="regular"
-              color="secondary"
-              sx={{ display: 'inline-block', width: 'max-content' }}
-            >
-              {row[name]}
-            </Typography>
-          </Box>
-        );
-      }
-      return template;
-    });
+          );
+        }
+        return template;
+      });
 
-    return (
-      <TableRow key={rowKey}>
-        {isChecked && (
-          <TableCell sx={{ width: '3%', pr: 0 }}>
-            <Checkbox
-              onClick={() => onSelectedIds(row.id)}
-              checked={selectedIds.includes(row.id)}
-            />
-          </TableCell>
-        )}
-        {tableRow}
-        {isAction && (
-          <TableCell sx={{ textAlign: 'center' }}>
-            <Action
-              id={row.id}
-              isAction={isAction}
-              options={options}
-              onClickAction={(value) => onClickAction(value, row.id)}
-            />
-          </TableCell>
-        )}
-        {isView && (
-          <TableCell sx={{ textAlign: 'center' }}>
-            <ViewExpense
-              id={row.id}
-              isAction={isAction}
-              options={options}
-              onClickAction={(value) => onClickAction(value, row.id)}
-            />
-          </TableCell>
-        )}
-      </TableRow>
-    );
-  });
+      return (
+        <TableRow key={rowKey}>
+          {isChecked && (
+            <TableCell sx={{ width: '3%', pr: 0 }}>
+              <Checkbox
+                onClick={() => onSelectedIds(row.id)}
+                checked={selectedIds.includes(row.id)}
+              />
+            </TableCell>
+          )}
+          {tableRow}
+          {isAction && (
+            <TableCell sx={{ textAlign: 'center' }}>
+              <Action
+                id={row.id}
+                isAction={isAction}
+                options={options}
+                onClickAction={(value) => onClickAction(value, row.id)}
+              />
+            </TableCell>
+          )}
+          {isView && (
+            <TableCell sx={{ textAlign: 'center' }}>
+              <ViewExpense
+                id={row.id}
+                isAction={isAction}
+                options={options}
+                onClickAction={(value) => onClickAction(value, row.id)}
+              />
+            </TableCell>
+          )}
+        </TableRow>
+      );
+    });
 
   return useMemo(
     () => (
@@ -208,8 +212,8 @@ const Table = ({
               {isChecked && (
                 <TableCell>
                   <Checkbox
-                    onClick={() => onSelectAll(selectedIds.length === rows.length)}
-                    checked={selectedIds.length === rows.length}
+                    onClick={() => onSelectAll(selectedIds.length === rows && rows.length)}
+                    checked={selectedIds.length === rows && rows.length}
                     id="selectedAll"
                   />
                 </TableCell>
@@ -235,15 +239,17 @@ const Table = ({
               )}
             </TableRow>
           </Box>
-          {renderRows.length !== 0 ? (
-            <TableBody>
-              {renderRows}
-              <TableCell colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}>
-                <Paginations rows={renderRows.length} />
-              </TableCell>
-            </TableBody>
-          ) : (
-            <TableBody>
+          <TableBody>
+            {renderRows && renderRows.length > 0 ? (
+              <>
+                {renderRows}
+                <TableCell
+                  colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
+                >
+                  <Paginations rows={renderRows.length} />
+                </TableCell>
+              </>
+            ) : (
               <TableRow>
                 <Box component="td" colspan={10} p={1} textAlign="center">
                   <Typography
@@ -264,8 +270,8 @@ const Table = ({
                   </Typography>
                 </Box>
               </TableRow>
-            </TableBody>
-          )}
+            )}
+          </TableBody>
         </MuiTable>
       </TableContainer>
     ),

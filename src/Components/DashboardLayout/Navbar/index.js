@@ -154,6 +154,7 @@ const DashboardNavbar = ({ isMini }) => {
         image={<Logout />}
         title={['Logout']}
         onClick={() => {
+          localStorage.removeItem('noticeBoardEvent');
           handleProfileMenu();
           navigate(getLoginPattern());
           dispatch({ type: LOGOUT });
