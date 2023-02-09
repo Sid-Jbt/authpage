@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
 import { Add, Check, ImportExportRounded } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
@@ -7,13 +7,15 @@ import FilterLayout from 'Components/FilterLayout';
 import Input from 'Elements/Input';
 import Table from 'Elements/Tables/Table';
 import { SnackbarContext } from 'Context/SnackbarProvider';
+import Badge from 'Elements/Badge';
 import AddCalendarEventDialog from './AddCalendarEvent';
 import CalendarEventsData from './data/CalendarEvents';
 
 export const NoticeBoard = () => {
   const { role } = useSelector((state) => state.route);
-  const { columns: prCols, rows: prRows } = CalendarEventsData;
+  const { columns: prCols } = CalendarEventsData;
   const { setSnack } = useContext(SnackbarContext);
+  const [rows, setRows] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [fromDate, setFromDate] = useState('');
@@ -28,8 +30,34 @@ export const NoticeBoard = () => {
     }
   };
 
+  const getNoticeEvent = async () => {
+    const items = await JSON.parse(localStorage.getItem('noticeBoardEvent'));
+    const newRows = items.map((item) => {
+      const o = { ...item };
+      o.eventType = (
+        <Badge
+          variant="gradient"
+          badgeContent={item.eventName}
+          color={item.eventName}
+          size="xs"
+          container
+          customWidth={100}
+        />
+      );
+      return o;
+    });
+    setRows(newRows);
+  };
+
+  useEffect(() => {
+    getNoticeEvent();
+  }, []);
+
+  const setNoticeEvent = (noticeEvent) => {
+    localStorage.setItem('noticeBoardEvent', JSON.stringify(noticeEvent));
+  };
+
   const handleDialog = () => {
-    setSelectedData(null);
     setIsDialogOpen(!isDialogOpen);
   };
 
@@ -39,13 +67,66 @@ export const NoticeBoard = () => {
 
   const onClickAction = (key, id) => {
     if (key === 'edit') {
-      setSelectedData(prRows.find((o) => o.id === id));
-      setIsDialogOpen(!isDialogOpen);
+      setSelectedData(rows.find((o) => o.id === id));
+      handleDialog();
     }
     if (key === 'delete') {
+      rows.splice(
+        rows.findIndex((a) => a.id === id),
+        1
+      );
+      setRows(rows);
+      setNoticeEvent(rows);
+      getNoticeEvent();
       setSnack({
         title: 'Success',
-        message: `Selected event data deleted successfully.`,
+        message: `Event deleted successfully.`,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+    }
+  };
+
+  const onSubmitEvent = (event) => {
+    if (selectedData === null) {
+      delete event.eventType;
+      const data = [...rows, event];
+      setRows(data);
+      setNoticeEvent(data);
+      getNoticeEvent(data);
+      setSnack({
+        title: 'Success',
+        message: `Event added successfully.`,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+    } else {
+      const newRows = [...rows];
+      const selectedID = newRows.findIndex((a) => a.id === selectedData.id);
+      newRows[selectedID].eventName = event.eventName;
+      newRows[selectedID].title = event.title;
+      newRows[selectedID].start = event.start;
+      newRows[selectedID].end = event.end;
+      newRows[selectedID].eventType = (
+        <Badge
+          variant="gradient"
+          badgeContent={event.eventName}
+          color={event.eventName}
+          size="xs"
+          container
+          customWidth={100}
+        />
+      );
+      setRows(newRows);
+      setNoticeEvent(newRows);
+      getNoticeEvent(newRows);
+      setSnack({
+        title: 'Success',
+        message: `Event updated successfully.`,
         time: false,
         icon: <Check color="white" />,
         color: 'success',
@@ -127,10 +208,11 @@ export const NoticeBoard = () => {
             />
           </Grid>
         </FilterLayout>
+
         <Table
           isChecked
           columns={prCols}
-          rows={prRows}
+          rows={rows}
           onClickAction={(value, id) => onClickAction(value, id)}
           isAction
           options={[
@@ -138,11 +220,13 @@ export const NoticeBoard = () => {
             { title: 'Delete', value: 'delete' }
           ]}
         />
+
         {isDialogOpen && (
           <AddCalendarEventDialog
             isDialogOpen={isDialogOpen}
             handleDialog={() => handleDialog()}
             selectedData={selectedData}
+            onSubmitEvent={(event) => onSubmitEvent(event)}
             setSelectedData={(value) => setSelectedData(value)}
           />
         )}
