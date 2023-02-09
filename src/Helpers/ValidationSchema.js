@@ -155,7 +155,7 @@ export const expenseFormSchema = yup.object().shape({
 });
 
 export const addressSchema = yup.object().shape({
-  permanentAdd: yup.string().required('Permanent Address is required'),
+  address: yup.string().required('Permanent Address is required'),
   currentAdd: yup.string().required('Current Address is required')
 });
 
@@ -252,6 +252,5 @@ export const basicSchema = yup.object().shape({
 });
 
 export const organisationSchema = yup.object().shape({
-  permanentAdd: yup.string().required('Permanent Address is required'),
-  workingHours: yup.string().required('Working hours is required')
+  permanentAdd: yup.string().required('Permanent Address is required')
 });

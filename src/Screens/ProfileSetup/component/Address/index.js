@@ -1,10 +1,11 @@
+import React from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import { Grid } from '@mui/material';
 
 const Address = (props) => {
-  const { values, touched, errors, handleChange, handleBlur } = props;
+  const { values, touched, errors, handleChange, handleBlur } = props.props;
   return (
     <Box>
       <Box width="80%" textAlign="center" mx="auto" mb={4}>

@@ -12,17 +12,11 @@ import Select from 'Elements/Select';
 import { WorkingHours } from 'Helpers/Global';
 
 const Organisation = (props) => {
-  const { values, touched, errors, handleChange, handleBlur } = props.props;
-  const [workingHours, setWorkingHours] = useState('');
+  const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props.props;
   const [smallLogoUrl, setSmallLogoUrl] = useState('');
   const [largeLogoUrl, setLargeLogoUrl] = useState('');
   const smallLogoInputFile = useRef(null);
   const largeLogoInputFile = useRef(null);
-
-  const handleChangWorkingHours = (event) => {
-    setWorkingHours(event.target.value.value);
-  };
-  console.log(workingHours);
 
   const onClickLogoUpload = (e, logo) => {
     const file = e.target.files[0];
@@ -47,6 +41,7 @@ const Organisation = (props) => {
           Let us know more about your organisation.
         </Typography>
       </Box>
+
       <Box mt={2}>
         <Grid container spacing={3} justifyContent="center">
           <Grid item xs={6} sm={3} lg={4} container justifyContent="center">
@@ -121,18 +116,10 @@ const Organisation = (props) => {
             <FormControl sx={{ width: '100%' }}>
               <FormLabel> Select Working Hours </FormLabel>
               <Select
-                id="workingHours"
                 name="workingHours"
+                value={values.workingHours === '' ? WorkingHours[0] : values.workingHours}
                 options={WorkingHours}
-                values={values.workingHours}
-                onChange={(selectedOption) => {
-                  const event = { target: { name: 'workingHours', value: selectedOption } };
-                  handleChangWorkingHours(event);
-                }}
-                onBlur={handleBlur}
-                errorText={errors.workingHours && touched.workingHours && errors.workingHours}
-                error={errors.workingHours && touched.workingHours}
-                success={!errors.workingHours && touched.workingHours}
+                onChange={(selectedHour) => setFieldValue('workingHours', selectedHour)}
               />
             </FormControl>
           </Grid>
