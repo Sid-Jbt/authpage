@@ -36,7 +36,7 @@ const Account = (props) => {
                     onBlur={handleBlur}
                     errorText={errors.bankName && touched.bankName && errors.bankName}
                     error={errors.bankName && touched.bankName}
-                    success={!errors.bankName && touched.bankName}
+                    success={errors.bankName && touched.bankName}
                   />
                 </Box>
               </Grid>
@@ -55,7 +55,7 @@ const Account = (props) => {
                     onBlur={handleBlur}
                     errorText={errors.branchName && touched.branchName && errors.branchName}
                     error={errors.branchName && touched.branchName}
-                    success={!errors.branchName && touched.branchName}
+                    success={errors.branchName && touched.branchName}
                   />
                 </Box>
               </Grid>
@@ -74,7 +74,7 @@ const Account = (props) => {
                     onBlur={handleBlur}
                     errorText={errors.accountName && touched.accountName && errors.accountName}
                     error={errors.accountName && touched.accountName}
-                    success={!errors.accountName && touched.accountName}
+                    success={errors.accountName && touched.accountName}
                   />
                 </Box>
               </Grid>
@@ -95,7 +95,7 @@ const Account = (props) => {
                       errors.accountNumber && touched.accountNumber && errors.accountNumber
                     }
                     error={errors.accountNumber && touched.accountNumber}
-                    success={!errors.accountNumber && touched.accountNumber}
+                    success={errors.accountNumber && touched.accountNumber}
                   />
                 </Box>
               </Grid>
@@ -115,7 +115,7 @@ const Account = (props) => {
                     onBlur={handleBlur}
                     errorText={errors.ifscCode && touched.ifscCode && errors.ifscCode}
                     error={errors.ifscCode && touched.ifscCode}
-                    success={!errors.ifscCode && touched.ifscCode}
+                    success={errors.ifscCode && touched.ifscCode}
                   />
                 </Box>
               </Grid>
@@ -135,7 +135,7 @@ const Account = (props) => {
                     onBlur={handleBlur}
                     errorText={errors.panNumber && touched.panNumber && errors.panNumber}
                     error={errors.panNumber && touched.panNumber}
-                    success={!errors.panNumber && touched.panNumber}
+                    success={errors.panNumber && touched.panNumber}
                   />
                 </Box>
               </Grid>

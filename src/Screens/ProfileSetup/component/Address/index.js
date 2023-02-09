@@ -35,7 +35,7 @@ const Address = (props) => {
                 onBlur={handleBlur}
                 errorText={errors.address && touched.address && errors.address}
                 error={errors.address && touched.address}
-                success={!errors.address && touched.address}
+                success={errors.address && touched.address}
               />
             </Box>
           </Grid>
@@ -54,7 +54,7 @@ const Address = (props) => {
                 onBlur={handleBlur}
                 errorText={errors.currentAdd && touched.currentAdd && errors.currentAdd}
                 error={errors.currentAdd && touched.currentAdd}
-                success={!errors.currentAdd && touched.currentAdd}
+                success={errors.currentAdd && touched.currentAdd}
               />
             </Box>
           </Grid>

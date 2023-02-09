@@ -39,6 +39,7 @@ function getSteps() {
 function getStepContent(stepIndex, props) {
   const customization = useSelector((state) => state.route);
 
+  console.log('props', props.values);
   switch (stepIndex) {
     case 0:
       return customization.role === 'admin' ? (
@@ -96,6 +97,7 @@ const ProfileSetup = () => {
                   enableReinitialize
                   initialValues={initialValues}
                   onSubmit={() => {
+                    console.log('wefwefwef');
                     handleNext();
                   }}
                   validationSchema={
@@ -122,7 +124,17 @@ const ProfileSetup = () => {
                           </Button>
                         )}
                         <Button variant="gradient" color="dark" type="submit">
-                          {activeStep === 0 || isLastStep ? 'Continue' : 'SKIP'}
+                          {activeStep === 0
+                            ? 'Continue'
+                            : activeStep === 1 &&
+                              props.values.address !== '' &&
+                              props.values.currentAdd !== ''
+                            ? 'Continue'
+                            : activeStep === 2 &&
+                              props.values.accountName !== '' &&
+                              props.values.accountNumber !== ''
+                            ? 'Continue'
+                            : 'SKIP'}
                         </Button>
                       </Box>
                     </form>
