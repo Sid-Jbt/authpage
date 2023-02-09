@@ -14,7 +14,7 @@ import AddSupportTicketForm from './AddSupportTicketForm';
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = supportTicketData;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedData, setSelectedData] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
   const { role } = useSelector((state) => state.route);
@@ -36,9 +36,9 @@ const supportTicket = () => {
     alert('Export coming soon...');
   };
 
-  const onClickAction = (key, index) => {
+  const onClickAction = (key) => {
     if (key === 'edit') {
-      setSelectedData(prRows.find((o) => o.id === index));
+      setIsEdit(true);
       handleDialog();
     }
   };
@@ -117,7 +117,6 @@ const supportTicket = () => {
         </FilterLayout>
 
         <Table
-          // onClick={() => sorting('selectedData')}
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={prRows}
           onClickAction={(value, id) => onClickAction(value, id)}
@@ -131,7 +130,8 @@ const supportTicket = () => {
         <AddSupportTicketForm
           isDialogOpen={isDialogOpen}
           handleDialog={handleDialog}
-          selectedData={selectedData}
+          title={isEdit ? 'EDIT YOUR SUPPORT TICKET' : 'ADD NEW SUPPORT TICKET'}
+          setIsEdit={(value) => setIsEdit(value)}
         />
       </Card>
     </>
