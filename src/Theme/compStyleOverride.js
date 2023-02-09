@@ -1307,6 +1307,27 @@ export default function componentStyleOverrides(theme) {
           width: '100%'
         }
       }
+    },
+    MuiTablePagination: {
+      styleOverrides: {
+        root: {
+          color: '#8392ab',
+          '& .MuiTablePagination-selectLabel': {
+            fontSize: '0.8rem !important'
+          },
+          '& .MuiTablePagination-select': {
+            fontSize: '0.8rem !important',
+            marginRight: '5px'
+          },
+          '& .MuiTablePagination-displayedRows': {
+            fontSize: '0.8rem !important'
+          },
+          '& .MuiTablePagination-actions': {
+            marginLeft: '10px !important',
+            fontSize: '0.8rem !important'
+          }
+        }
+      }
     }
   };
 }

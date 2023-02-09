@@ -18,6 +18,7 @@ export const NoticeBoard = () => {
   const { setSnack } = useContext(SnackbarContext);
 
   const handleDialog = () => {
+    setSelectedData(null);
     setIsDialogOpen(!isDialogOpen);
   };
 
@@ -28,7 +29,7 @@ export const NoticeBoard = () => {
   const onClickAction = (key, id) => {
     if (key === 'edit') {
       setSelectedData(prRows.find((o) => o.id === id));
-      handleDialog();
+      setIsDialogOpen(!isDialogOpen);
     }
     if (key === 'delete') {
       setSnack({
@@ -40,7 +41,6 @@ export const NoticeBoard = () => {
         open: true
       });
     }
-    // alert(` ${id} deleted`);
   };
 
   return (
@@ -109,11 +109,14 @@ export const NoticeBoard = () => {
             { title: 'Delete', value: 'delete' }
           ]}
         />
-        <AddCalendarEventDialog
-          isDialogOpen={isDialogOpen}
-          handleDialog={handleDialog}
-          selectedData={selectedData}
-        />
+        {isDialogOpen && (
+          <AddCalendarEventDialog
+            isDialogOpen={isDialogOpen}
+            handleDialog={() => handleDialog()}
+            selectedData={selectedData}
+            setSelectedData={(value) => setSelectedData(value)}
+          />
+        )}
       </Card>
     </>
   );
