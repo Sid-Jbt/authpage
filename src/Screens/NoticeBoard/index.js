@@ -9,6 +9,7 @@ import Table from 'Elements/Tables/Table';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import AddCalendarEventDialog from './AddCalendarEvent';
 import CalendarEventsData from './data/CalendarEvents';
+import Badge from '../../Elements/Badge';
 
 export const NoticeBoard = () => {
   const { role } = useSelector((state) => state.route);
@@ -19,8 +20,25 @@ export const NoticeBoard = () => {
   const { setSnack } = useContext(SnackbarContext);
 
   useEffect(() => {
-    console.log('rows', rows);
-  }, [rows]);
+    (async () => {
+      const items = await JSON.parse(localStorage.getItem('noticeBoardEvent'));
+      const newRows = items.map((item) => {
+        const o = { ...item };
+        o.eventType = (
+          <Badge
+            variant="gradient"
+            badgeContent={item.eventName}
+            color={item.eventName}
+            size="xs"
+            container
+            customWidth={100}
+          />
+        );
+        return o;
+      });
+      setRows(newRows);
+    })();
+  }, []);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -40,7 +58,6 @@ export const NoticeBoard = () => {
         rows.findIndex((a) => a.id === id),
         1
       );
-      console.log('rows', rows);
       setRows(rows);
       setSnack({
         title: 'Success',
@@ -54,15 +71,46 @@ export const NoticeBoard = () => {
   };
 
   const onSubmitEvent = (event) => {
-    setRows([...rows, event]);
-    setSnack({
-      title: 'Success',
-      message: `Event added successfully.`,
-      time: false,
-      icon: <Check color="white" />,
-      color: 'success',
-      open: true
-    });
+    if (selectedData === null) {
+      delete event.eventType;
+      const data = [...rows, event];
+      setRows(data);
+      localStorage.setItem('noticeBoardEvent', JSON.stringify(data));
+      setSnack({
+        title: 'Success',
+        message: `Event added successfully.`,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+    } else {
+      const newRows = [...rows];
+      const selectedID = newRows.findIndex((a) => a.id === selectedData.id);
+      newRows[selectedID].eventName = event.eventName;
+      newRows[selectedID].title = event.title;
+      newRows[selectedID].start = event.start;
+      newRows[selectedID].end = event.end;
+      newRows[selectedID].eventType = (
+        <Badge
+          variant="gradient"
+          badgeContent={event.eventName}
+          color={event.eventName}
+          size="xs"
+          container
+          customWidth={100}
+        />
+      );
+      setRows(newRows);
+      setSnack({
+        title: 'Success',
+        message: `Event updated successfully.`,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+    }
   };
 
   return (
@@ -120,26 +168,28 @@ export const NoticeBoard = () => {
             />
           </Grid>
         </FilterLayout>
-        {rows !== null && (
-          <Table
-            isChecked
-            columns={prCols}
-            rows={rows}
-            onClickAction={(value, id) => onClickAction(value, id)}
-            isAction
-            options={[
-              { title: 'Edit', value: 'edit' },
-              { title: 'Delete', value: 'delete' }
-            ]}
+
+        <Table
+          isChecked
+          columns={prCols}
+          rows={rows}
+          onClickAction={(value, id) => onClickAction(value, id)}
+          isAction
+          options={[
+            { title: 'Edit', value: 'edit' },
+            { title: 'Delete', value: 'delete' }
+          ]}
+        />
+
+        {isDialogOpen && (
+          <AddCalendarEventDialog
+            isDialogOpen={isDialogOpen}
+            handleDialog={() => handleDialog()}
+            selectedData={selectedData}
+            onSubmitEvent={(event) => onSubmitEvent(event)}
+            setSelectedData={(value) => setSelectedData(value)}
           />
         )}
-
-        <AddCalendarEventDialog
-          isDialogOpen={isDialogOpen}
-          handleDialog={() => handleDialog()}
-          selectedData={selectedData}
-          onSubmitEvent={(event) => onSubmitEvent(event)}
-        />
       </Card>
     </>
   );
