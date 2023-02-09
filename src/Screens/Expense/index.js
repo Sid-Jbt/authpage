@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import { useSelector } from 'react-redux';
+import ViewExpense from 'Screens/Expense/ViewExpense';
 import expenseListData from './data/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
 import ManageExpenseForm from './ManageExpenseForm';
@@ -12,9 +13,30 @@ const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = expenseListData;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { role } = useSelector((state) => state.route);
+  const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState(false);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
+  };
+
+  const handleOpenDialog = () => {
+    setIsExpenseDialogOpen(true);
+  };
+  const handleCloseDialog = () => {
+    setIsExpenseDialogOpen(false);
+  };
+
+  const onClickView = (value, row) => {
+    handleOpenDialog();
+    return (
+      <>
+        <ViewExpense
+          dialogContent={row}
+          handleCloseDialog={handleCloseDialog}
+          isExpenseDialogOpen={isExpenseDialogOpen}
+        />
+      </>
+    );
   };
 
   return (
@@ -45,7 +67,12 @@ const Expense = () => {
         }}
       >
         <FilterLayout />
-        <Table columns={role === 'admin' ? adminPrCol : prCols} rows={prRows} isView />
+        <Table
+          columns={role === 'admin' ? adminPrCol : prCols}
+          rows={prRows}
+          isView
+          isDialogAction={(value, row) => onClickView(value, row)}
+        />
         <ManageExpenseForm
           isDrawerOpen={Boolean(isDialogOpen)}
           handleDrawerClose={handleDialog}

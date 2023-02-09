@@ -15,8 +15,9 @@ import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
 import Paginations from 'Elements/Pagination';
 import { Action } from 'Elements/Tables/Action';
-import ViewExpense from 'Screens/Expense/ViewExpense';
 import breakpoints from 'Theme/base/breakpoints';
+import Icon from '@mui/material/Icon';
+import { RemoveRedEye } from '@mui/icons-material';
 
 const Table = ({
   columns,
@@ -25,7 +26,8 @@ const Table = ({
   isAction = false,
   options,
   onClickAction,
-  isView = false
+  isView = false,
+  isDialogAction
 }) => {
   console.log('rows', rows);
   const { size, fontWeightBold } = typography;
@@ -191,12 +193,14 @@ const Table = ({
           )}
           {isView && (
             <TableCell sx={{ textAlign: 'center' }}>
-              <ViewExpense
+              <Icon
                 id={row.id}
-                isAction={isAction}
-                options={options}
-                onClickAction={(value) => onClickAction(value, row.id)}
-              />
+                sx={{ cursor: 'pointer', fontWeight: 'bold' }}
+                fontSize="small"
+                onClick={(value) => isDialogAction(value, row)}
+              >
+                <RemoveRedEye />
+              </Icon>
             </TableCell>
           )}
         </TableRow>
