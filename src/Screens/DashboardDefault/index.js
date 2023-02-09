@@ -52,8 +52,7 @@ const DashboardDefault = () => {
                 md={6}
                 lg={3}
                 onClick={handleTotalEmployee}
-                sx={{ cursor: 'pointer' }}
-              >
+                sx={{ cursor: 'pointer' }}>
                 <LeaveCard
                   title="Total Employee"
                   count="10"
@@ -67,8 +66,7 @@ const DashboardDefault = () => {
                 md={6}
                 lg={3}
                 onClick={handleTotalEmployee}
-                sx={{ cursor: 'pointer' }}
-              >
+                sx={{ cursor: 'pointer' }}>
                 <LeaveCard
                   title="Today Present"
                   count="9"
@@ -82,8 +80,7 @@ const DashboardDefault = () => {
                 md={6}
                 lg={3}
                 onClick={handleTotalEmployee}
-                sx={{ cursor: 'pointer' }}
-              >
+                sx={{ cursor: 'pointer' }}>
                 <LeaveCard
                   title="Today Absent"
                   count="1"
