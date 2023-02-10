@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import { Add, ImportExportRounded } from '@mui/icons-material';
+import {
+  Add,
+  ApprovalOutlined,
+  DirectionsRun,
+  ImportExportRounded,
+  Pending
+} from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
@@ -10,12 +16,13 @@ import { Priority, Status } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
 import supportTicketData from './data/SupportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
+import LeaveCard from '../../Components/CardLayouts/StaticCard';
 
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = supportTicketData;
   const { role } = useSelector((state) => state.route);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedData, setSelectedData] = useState(null);
+  // const [selectedData, setSelectedData] = useState(null);
   const [selectDate, setSelectDate] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [priority, setPriority] = useState('');
@@ -62,6 +69,32 @@ const supportTicket = () => {
 
   return (
     <>
+      <Grid container spacing={3} mb={3}>
+        <Grid item xs={12} md={6} lg={3}>
+          <LeaveCard
+            title="Approved"
+            count="5"
+            icon={{ color: 'success', component: <ApprovalOutlined /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <LeaveCard
+            title="Declined"
+            count="1"
+            icon={{ color: 'error', component: <DirectionsRun /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <LeaveCard
+            title="Pending"
+            count="3"
+            icon={{ color: 'info', component: <Pending /> }}
+            isPercentage={false}
+          />
+        </Grid>
+      </Grid>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
         <Grid item xs="auto">
           <Button

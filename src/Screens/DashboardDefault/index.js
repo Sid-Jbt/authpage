@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import Badge from 'Elements/Badge';
 import { getEmployeeListPattern } from '../../Routes/routeConfig';
-import LeaveCard from '../../Components/CardLayouts/LeaveCard';
+import DashboardCard from '../../Components/CardLayouts/StaticCard';
 
 const DashboardDefault = () => {
   const { role } = useSelector((state) => state.route);
@@ -58,11 +58,12 @@ const DashboardDefault = () => {
           item
           xs={12}
           lg={12}
-          xl={12}>
+          xl={12}
+        >
           {role === 'admin' ? null : (
             <>
               <Grid item xs={12} md={6} lg={3}>
-                <LeaveCard
+                <DashboardCard
                   title="Today"
                   count="07:15:34"
                   icon={{ color: 'success', component: <Watch /> }}
@@ -70,7 +71,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={3}>
-                <LeaveCard
+                <DashboardCard
                   title="This week"
                   count="45 hours "
                   icon={{ color: 'secondary', component: <WatchRounded /> }}
@@ -78,7 +79,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={3}>
-                <LeaveCard
+                <DashboardCard
                   title="This month"
                   count="160 hours"
                   icon={{ color: 'info', component: <WatchLater /> }}
@@ -108,7 +109,7 @@ const DashboardDefault = () => {
           {role === 'admin' ? (
             <Grid container item spacing={3} xs={12} lg={4}>
               <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Total Employee"
                   count="10"
                   icon={{ color: 'info', component: <PeopleRounded /> }}
@@ -116,7 +117,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Today Present"
                   count="9"
                   icon={{ color: 'success', component: <PeopleRounded /> }}
@@ -124,7 +125,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Today Absent"
                   count="1"
                   icon={{ color: 'error', component: <PeopleRounded /> }}
@@ -132,7 +133,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Pending Expense"
                   count="1"
                   icon={{ color: 'warning', component: <PendingTwoTone /> }}
@@ -140,7 +141,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Pending Leave"
                   count="Approval"
                   icon={{ color: 'warning', component: <HolidayVillageTwoTone /> }}
