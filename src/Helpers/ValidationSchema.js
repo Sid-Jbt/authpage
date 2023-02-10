@@ -155,13 +155,8 @@ export const expenseFormSchema = yup.object().shape({
 });
 
 export const addressSchema = yup.object().shape({
-  permanentAdd: yup.string().required('Permanent Address is required'),
+  address: yup.string().required('Permanent Address is required'),
   currentAdd: yup.string().required('Current Address is required')
-});
-
-export const organisationDetailsSchema = yup.object().shape({
-  permanentAdd: yup.string().required('Permanent Address is required'),
-  workingHours: yup.string().required('Working hours is required')
 });
 
 export const validationSchema = yup.object().shape({
@@ -254,4 +249,8 @@ export const noticeEventSchema = yup.object().shape({
 export const basicSchema = yup.object().shape({
   firstName: yup.string().required('First name is required'),
   lastName: yup.string().required('Last name is required')
+});
+
+export const organisationSchema = yup.object().shape({
+  permanentAdd: yup.string().required('Permanent Address is required')
 });
