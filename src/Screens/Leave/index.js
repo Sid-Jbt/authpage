@@ -12,12 +12,14 @@ import {
   PendingActionsRounded,
   TimeToLeaveRounded
 } from '@mui/icons-material';
-import LeaveCard from 'Components/CardLayouts/LeaveCard';
+import LeaveCard from 'Components/CardLayouts/StaticCard';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
+import DeleteDialog from '../../Components/DeleteDialog';
+import DialogMenu from '../../Elements/Dialog';
 
 const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
@@ -27,6 +29,8 @@ const LeaveList = () => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [search, setSearch] = useState('');
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState('');
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -37,6 +41,9 @@ const LeaveList = () => {
     if (key === 'edit') {
       setSelectedData(prRows.find((o) => o.id === index));
       setIsDialogOpen(!isDialogOpen);
+    } else {
+      setSelectedId(index);
+      setIsDeleteDialogOpen(true);
     }
   };
 
@@ -56,6 +63,14 @@ const LeaveList = () => {
     setFromDate('');
     setToDate('');
     setSearch('');
+  };
+
+  const handleDialogClose = () => {
+    setIsDeleteDialogOpen(false);
+  };
+
+  const onDelete = () => {
+    handleDialogClose();
   };
 
   return (
@@ -205,6 +220,20 @@ const LeaveList = () => {
             handleDialog={() => handleDialog()}
             selectedData={selectedData}
             setSelectedData={(value) => setSelectedData(value)}
+          />
+        )}
+        {isDeleteDialogOpen && (
+          <DialogMenu
+            isOpen={isDeleteDialogOpen}
+            onClose={handleDialogClose}
+            dialogTitle="Delete"
+            dialogContent={
+              <DeleteDialog
+                handleDialogClose={handleDialogClose}
+                selectedId={selectedId}
+                deleteItem={onDelete}
+              />
+            }
           />
         )}
       </Card>

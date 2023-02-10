@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import Badge from 'Elements/Badge';
 import { getEmployeeListPattern } from '../../Routes/routeConfig';
-import LeaveCard from '../../Components/CardLayouts/LeaveCard';
+import LeaveCard from '../../Components/CardLayouts/StaticCard';
 
 const DashboardDefault = () => {
   const { role } = useSelector((state) => state.route);
