@@ -12,7 +12,7 @@ import {
   PendingActionsRounded,
   TimeToLeaveRounded
 } from '@mui/icons-material';
-import LeaveCard from 'Components/CardLayouts/LeaveCard';
+import LeaveCard from 'Components/CardLayouts/StaticCard';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';

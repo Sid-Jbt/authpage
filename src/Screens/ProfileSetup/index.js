@@ -7,15 +7,25 @@ import { Card, Grid, Step, StepLabel, Stepper } from '@mui/material';
 import { getDashboardPattern } from 'Routes/routeConfig';
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
+import { basicSchema, organisationSchema } from 'Helpers/ValidationSchema';
 import Basic from './component/Basic';
 import Address from './component/Address';
 import Account from './component/Account';
 import Organisation from './component/Organisation';
-import { basicSchema } from '../../Helpers/ValidationSchema';
 
 const initialValues = {
+  workingHours: '',
+  permanentAdd: '',
   firstName: '',
-  lastName: ''
+  lastName: '',
+  bankName: '',
+  branchName: '',
+  accountName: '',
+  accountNumber: '',
+  ifscCode: '',
+  panNumber: '',
+  address: '',
+  currentAdd: ''
 };
 
 function getSteps() {
@@ -27,9 +37,9 @@ function getSteps() {
 }
 
 function getStepContent(stepIndex, props) {
-  console.log('props', props);
   const customization = useSelector((state) => state.route);
 
+  console.log('props', props.values);
   switch (stepIndex) {
     case 0:
       return customization.role === 'admin' ? (
@@ -38,9 +48,9 @@ function getStepContent(stepIndex, props) {
         <Basic props={props} />
       );
     case 1:
-      return customization.role === 'admin' ? <Basic /> : <Address />;
+      return customization.role === 'admin' ? <Basic props={props} /> : <Address props={props} />;
     case 2:
-      return customization.role === 'admin' ? <Address /> : <Account />;
+      return customization.role === 'admin' ? <Address props={props} /> : <Account props={props} />;
     default:
       return null;
   }
@@ -51,6 +61,7 @@ const ProfileSetup = () => {
   const navigate = useNavigate();
   const steps = getSteps();
   const isLastStep = activeStep === steps.length - 1;
+  const { role } = useSelector((state) => state.route);
 
   const handleNext = () =>
     !isLastStep ? setActiveStep(activeStep + 1) : navigate(getDashboardPattern());
@@ -85,12 +96,21 @@ const ProfileSetup = () => {
                 <Formik
                   enableReinitialize
                   initialValues={initialValues}
-                  validateOnChange={false}
-                  validateOnBlur={false}
                   onSubmit={() => {
+                    console.log('wefwefwef');
                     handleNext();
                   }}
-                  validationSchema={basicSchema}
+                  validationSchema={
+                    role === 'admin'
+                      ? activeStep === 0
+                        ? organisationSchema
+                        : activeStep === 1
+                        ? basicSchema
+                        : ''
+                      : activeStep === 0
+                      ? basicSchema
+                      : ''
+                  }
                 >
                   {(props) => (
                     <form onSubmit={props.handleSubmit}>
@@ -104,7 +124,17 @@ const ProfileSetup = () => {
                           </Button>
                         )}
                         <Button variant="gradient" color="dark" type="submit">
-                          {activeStep === 0 || isLastStep ? 'Continue' : 'SKIP'}
+                          {activeStep === 0
+                            ? 'Continue'
+                            : activeStep === 1 &&
+                              props.values.address !== '' &&
+                              props.values.currentAdd !== ''
+                            ? 'Continue'
+                            : activeStep === 2 &&
+                              props.values.accountName !== '' &&
+                              props.values.accountNumber !== ''
+                            ? 'Continue'
+                            : 'SKIP'}
                         </Button>
                       </Box>
                     </form>
