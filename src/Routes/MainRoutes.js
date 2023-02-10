@@ -8,8 +8,6 @@ import {
   PaymentRounded,
   SettingsRounded,
   DateRangeTwoTone,
-  ReportOutlined,
-  ListAltTwoTone,
   VerifiedUserOutlined,
   HolidayVillage,
   ViewArrayOutlined,
@@ -19,7 +17,6 @@ import {
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
-import { Navigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import {
   profilePattern,
@@ -31,8 +28,6 @@ import {
   payslipPattern,
   settingPattern,
   attendancePattern,
-  allReportPattern,
-  reportPattern,
   profileSetupPattern,
   employeeDetailsPattern,
   holidayPattern,
@@ -57,10 +52,6 @@ const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
 const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket/index')));
 const Role = Loadable(lazy(() => import('../Screens/Role')));
 const NoticeBoard = Loadable(lazy(() => import('../Screens/NoticeBoard')));
-
-// Report
-const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
-const TimeActivity = Loadable(lazy(() => import('../Screens/Reports/TimeActivity')));
 
 const MainRoutes = [
   {
@@ -189,7 +180,7 @@ const MainRoutes = [
     key: 'supportTicket',
     element: <SupportTicket />
   },
-  {
+  /* {
     type: 'collapse',
     name: 'Reports',
     key: 'report',
@@ -217,7 +208,7 @@ const MainRoutes = [
         element: <TimeActivity />
       }
     ]
-  },
+  }, */
   {
     type: 'collapse',
     noCollapse: true,
@@ -228,14 +219,14 @@ const MainRoutes = [
     key: 'holiday',
     element: <Holiday />
   },
-  {
+  /* {
     type: 'unroute',
     name: 'Reports',
     icon: <ReportOutlined sx={{ color: colors.error.main }} />,
     path: reportPattern,
     key: 'report',
     element: <Navigate to={allReportPattern} />
-  },
+  }, */
   {
     type: 'unroute',
     noCollapse: true,
