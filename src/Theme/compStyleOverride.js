@@ -1319,6 +1319,10 @@ export default function componentStyleOverrides(theme) {
             fontSize: '0.8rem !important',
             marginRight: '5px'
           },
+          '& .css-cpcx3p-MuiInputBase-root-MuiTablePagination-select': {
+            padding: '0.1rem 1.1rem !important',
+            marginRight: '22px !important'
+          },
           '& .MuiTablePagination-displayedRows': {
             fontSize: '0.8rem !important'
           },
