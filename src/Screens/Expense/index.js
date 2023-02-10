@@ -4,15 +4,19 @@ import React, { useState } from 'react';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import { useSelector } from 'react-redux';
+import DialogMenu from 'Elements/Dialog';
 import expenseListData from './data/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
 import ManageExpenseForm from './ManageExpenseForm';
 import LeaveCard from '../../Components/CardLayouts/StaticCard';
+import ExpenseInfoDetails from './ExpenseInfoDetails';
 
 const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = expenseListData;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { role } = useSelector((state) => state.route);
+  const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
   const [search, setSearch] = useState('');
 
   const handleDialog = () => {
@@ -24,6 +28,18 @@ const Expense = () => {
   };
   const handleClear = () => {
     setSearch('');
+  };
+
+  const handleOpenDialog = () => {
+    setIsExpenseDialogOpen(true);
+  };
+  const handleCloseDialog = () => {
+    setIsExpenseDialogOpen(false);
+  };
+
+  const onClickView = (row) => {
+    setSelectedData(row);
+    handleOpenDialog();
   };
 
   return (
@@ -84,13 +100,46 @@ const Expense = () => {
           handleSearch={() => handleChangeSearch()}
           handleClear={() => handleClear()}
         />
-        <Table columns={role === 'admin' ? adminPrCol : prCols} rows={prRows} isView />
+        <Table
+          columns={role === 'admin' ? adminPrCol : prCols}
+          rows={prRows}
+          isView
+          isDialogAction={(row) => onClickView(row)}
+        />
         <ManageExpenseForm
           isDrawerOpen={Boolean(isDialogOpen)}
           handleDrawerClose={handleDialog}
           title="ADD NEW EXPENSE"
         />
       </Card>
+      {isExpenseDialogOpen && (
+        <DialogMenu
+          isOpen={isExpenseDialogOpen}
+          onClose={handleCloseDialog}
+          dialogTitle={`Expense Details: ${selectedData.title}`}
+          dialogContent={<ExpenseInfoDetails info={selectedData} />}
+          dialogAction={
+            <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
+              <Grid item>
+                <Button
+                  type="submit"
+                  color="info"
+                  variant="contained"
+                  size="small"
+                  onClick={handleCloseDialog}
+                >
+                  Approve
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button color="error" variant="contained" size="small" onClick={handleCloseDialog}>
+                  Reject
+                </Button>
+              </Grid>
+            </Grid>
+          }
+        />
+      )}
     </>
   );
 };

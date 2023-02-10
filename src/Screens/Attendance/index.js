@@ -8,7 +8,7 @@ import { Months, Years, Status } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
 import attendanceData from './data/attendanceData';
-import LeaveCard from '../../Components/CardLayouts/LeaveCard';
+import LeaveCard from '../../Components/CardLayouts/StaticCard';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = attendanceData;
