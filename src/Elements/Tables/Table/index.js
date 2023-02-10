@@ -197,7 +197,7 @@ const Table = ({
                 id={row.id}
                 sx={{ cursor: 'pointer', fontWeight: 'bold' }}
                 fontSize="small"
-                onClick={(value) => isDialogAction(value, row)}
+                onClick={() => isDialogAction(row)}
               >
                 <RemoveRedEye />
               </Icon>

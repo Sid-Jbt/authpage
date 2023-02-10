@@ -14,6 +14,7 @@ const Expense = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { role } = useSelector((state) => state.route);
   const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -26,17 +27,9 @@ const Expense = () => {
     setIsExpenseDialogOpen(false);
   };
 
-  const onClickView = (value, row) => {
+  const onClickView = (row) => {
+    setSelectedData(row);
     handleOpenDialog();
-    return (
-      <>
-        <ViewExpense
-          dialogContent={row}
-          handleCloseDialog={handleCloseDialog}
-          isExpenseDialogOpen={isExpenseDialogOpen}
-        />
-      </>
-    );
   };
 
   return (
@@ -71,7 +64,7 @@ const Expense = () => {
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={prRows}
           isView
-          isDialogAction={(value, row) => onClickView(value, row)}
+          isDialogAction={(row) => onClickView(row)}
         />
         <ManageExpenseForm
           isDrawerOpen={Boolean(isDialogOpen)}
@@ -79,6 +72,13 @@ const Expense = () => {
           title="ADD NEW EXPENSE"
         />
       </Card>
+      {isExpenseDialogOpen && (
+        <ViewExpense
+          dialogContent={selectedData}
+          handleCloseDialog={handleCloseDialog}
+          isExpenseDialogOpen={isExpenseDialogOpen}
+        />
+      )}
     </>
   );
 };
