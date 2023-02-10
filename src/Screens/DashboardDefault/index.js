@@ -43,7 +43,6 @@ const DashboardDefault = () => {
   }, []);
 
   const handleTotalEmployee = () => {
-    console.log('On redirect to Employee');
     navigate(getEmployeeListPattern());
   };
 
@@ -58,7 +57,8 @@ const DashboardDefault = () => {
           item
           xs={12}
           lg={12}
-          xl={12}>
+          xl={12}
+        >
           {role === 'admin' ? null : (
             <>
               <Grid item xs={12} md={6} lg={3}>

@@ -56,7 +56,7 @@ export const getAllReportPattern = generatePath(allReportPattern);
 export const holidayPattern = '/holiday';
 export const getHolidayPattern = () => generatePath(holidayPattern);
 
-export const supportTicketPattern = `/support-ticket`;
+export const supportTicketPattern = `/supportTicket`;
 export const getSupportTicketPattern = () => generatePath(supportTicketPattern);
 
 export const organisationSignupPattern = `/organisation/signup`;
