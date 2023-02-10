@@ -61,8 +61,7 @@ const Holiday = () => {
     setSelectedId(id);
   };
 
-  const onDelete = (id) => {
-    console.log('id selectedID', id);
+  const onDelete = () => {
     handleDialogClose();
   };
 
@@ -110,27 +109,22 @@ const Holiday = () => {
           handleSearch={() => handleChangeSearch()}
           handleClear={() => handleClear()}
         />
-        {role === 'admin' ? (
-          <Table
-            columns={prCols}
-            rows={prRows}
-            onClickAction={(value, id) => onOpenEdit(value, id)}
-            isAction
-            options={[
-              { title: 'Edit', value: 'edit' },
-              { title: 'Delete', value: 'delete' }
-            ]}
-          />
-        ) : (
-          <Table columns={prCols} rows={prRows} />
-        )}
+
+        <Table
+          columns={prCols}
+          rows={prRows}
+          onClickAction={(value, id) => onOpenEdit(value, id)}
+          isAction={role === 'admin'}
+          options={[
+            { title: 'Edit', value: 'edit' },
+            { title: 'Delete', value: 'delete' }
+          ]}
+        />
 
         <DialogMenu
           isOpen={isDialogOpen}
           onClose={handleDialogClose}
           dialogTitle={isEdit ? 'Delete' : 'Import Files'}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
           dialogContent={
             isEdit ? (
               <DeleteDialog

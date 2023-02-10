@@ -10,6 +10,8 @@ import { Priority, Status } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
 import supportTicketData from './data/SupportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
+import DeleteDialog from '../../Components/DeleteDialog';
+import DialogMenu from '../../Elements/Dialog';
 
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = supportTicketData;
@@ -20,6 +22,8 @@ const supportTicket = () => {
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
   const [search, setSearch] = useState('');
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState('');
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -37,10 +41,13 @@ const supportTicket = () => {
     alert('Export coming soon...');
   };
 
-  const onClickAction = (key) => {
+  const onClickAction = (key, id) => {
     if (key === 'edit') {
       setIsEdit(true);
       handleDialog();
+    } else {
+      setSelectedId(id);
+      setIsDeleteDialogOpen(true);
     }
   };
 
@@ -57,6 +64,14 @@ const supportTicket = () => {
     setPriority('');
     setStatus('');
     setSearch('');
+  };
+
+  const handleDialogClose = () => {
+    setIsDeleteDialogOpen(false);
+  };
+
+  const onDelete = () => {
+    handleDialogClose();
   };
 
   return (
@@ -164,6 +179,18 @@ const supportTicket = () => {
           setIsEdit={(value) => setIsEdit(value)}
         />
       </Card>
+      <DialogMenu
+        isOpen={isDeleteDialogOpen}
+        onClose={handleDialogClose}
+        dialogTitle="Delete"
+        dialogContent={
+          <DeleteDialog
+            handleDialogClose={handleDialogClose}
+            selectedId={selectedId}
+            deleteItem={onDelete}
+          />
+        }
+      />
     </>
   );
 };

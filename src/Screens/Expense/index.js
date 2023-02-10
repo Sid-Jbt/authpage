@@ -4,10 +4,11 @@ import React, { useState } from 'react';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import { useSelector } from 'react-redux';
-import ViewExpense from 'Screens/Expense/ViewExpense';
+import DialogMenu from 'Elements/Dialog';
 import expenseListData from './data/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
 import ManageExpenseForm from './ManageExpenseForm';
+import ExpenseInfoDetails from './ExpenseInfoDetails';
 
 const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = expenseListData;
@@ -85,10 +86,31 @@ const Expense = () => {
         />
       </Card>
       {isExpenseDialogOpen && (
-        <ViewExpense
-          dialogContent={selectedData}
-          handleCloseDialog={handleCloseDialog}
-          isExpenseDialogOpen={isExpenseDialogOpen}
+        <DialogMenu
+          isOpen={isExpenseDialogOpen}
+          onClose={handleCloseDialog}
+          dialogTitle={`Expense Details: ${selectedData.title}`}
+          dialogContent={<ExpenseInfoDetails info={selectedData} />}
+          dialogAction={
+            <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
+              <Grid item>
+                <Button
+                  type="submit"
+                  color="info"
+                  variant="contained"
+                  size="small"
+                  onClick={handleCloseDialog}
+                >
+                  Approve
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button color="error" variant="contained" size="small" onClick={handleCloseDialog}>
+                  Reject
+                </Button>
+              </Grid>
+            </Grid>
+          }
         />
       )}
     </>

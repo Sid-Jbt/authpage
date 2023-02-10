@@ -15,7 +15,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const DialogMenu = ({ isOpen, onClose, dialogTitle, dialogContent, dialogAction }) => (
-  <Dialog open={isOpen} onClose TransitionComponent={Transition} scroll="paper">
+  <Dialog
+    open={isOpen}
+    onClose
+    TransitionComponent={Transition}
+    scroll="paper"
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+  >
     <DialogTitle>
       {dialogTitle}
       {isOpen && (
