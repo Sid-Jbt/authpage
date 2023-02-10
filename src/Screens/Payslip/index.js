@@ -12,15 +12,25 @@ const Payslip = () => {
   const { columns: prCols, rows: prRows } = payslipData;
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
+  const [search, setSearch] = useState('');
 
   const handleChangeMonth = (value) => {
-    setMonth(value.value);
+    setMonth(value);
   };
 
   const handleChangeYear = (value) => {
-    setYear(value.value);
+    setYear(value);
   };
-  console.log('Month & Year --> ', month, year);
+
+  const handleChangeSearch = (event) => {
+    setSearch(event);
+  };
+
+  const handleClear = () => {
+    setMonth('');
+    setYear('');
+    setSearch('');
+  };
 
   return (
     <>
@@ -41,17 +51,25 @@ const Payslip = () => {
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >
-        <FilterLayout>
+        <FilterLayout
+          search={search}
+          handleSearch={() => handleChangeSearch()}
+          handleClear={() => handleClear()}
+        >
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Month</FormLabel>
-              <Select options={Months} onChange={(value) => handleChangeMonth(value)} />
+              <Select
+                value={month}
+                options={Months}
+                onChange={(value) => handleChangeMonth(value)}
+              />
             </FormControl>
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Year</FormLabel>
-              <Select options={Years} onChange={(value) => handleChangeYear(value)} />
+              <Select value={year} options={Years} onChange={(value) => handleChangeYear(value)} />
             </FormControl>
           </Grid>
         </FilterLayout>

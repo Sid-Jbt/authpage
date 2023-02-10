@@ -13,34 +13,50 @@ import AddSupportTicketForm from './AddSupportTicketForm';
 
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = supportTicketData;
+  const { role } = useSelector((state) => state.route);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedData, setSelectedData] = useState(null);
+  const [selectDate, setSelectDate] = useState('');
+  const [isEdit, setIsEdit] = useState(false);
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
-  const { role } = useSelector((state) => state.route);
+  const [search, setSearch] = useState('');
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
   };
 
   const handleChangeStatus = (value) => {
-    setStatus(value.value);
+    setStatus(value);
   };
 
   const handleChangePriority = (value) => {
-    setPriority(value.value);
+    setPriority(value);
   };
-  console.log('Status, Priority --> ', status, priority);
 
   const onClickExport = () => {
     alert('Export coming soon...');
   };
 
-  const onClickAction = (key, index) => {
+  const onClickAction = (key) => {
     if (key === 'edit') {
-      setSelectedData(prRows.find((o) => o.id === index));
+      setIsEdit(true);
       handleDialog();
     }
+  };
+
+  const handleChangeStartDate = (event) => {
+    setSelectDate(event.target.value);
+  };
+
+  const handleChangeSearch = (event) => {
+    setSearch(event);
+  };
+
+  const handleClear = () => {
+    setSelectDate('');
+    setPriority('');
+    setStatus('');
+    setSearch('');
   };
 
   return (
@@ -90,7 +106,11 @@ const supportTicket = () => {
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >
-        <FilterLayout>
+        <FilterLayout
+          search={search}
+          handleSearch={() => handleChangeSearch()}
+          handleClear={() => handleClear()}
+        >
           <Grid item xs={12} md={4} lg={3}>
             <Input
               type="date"
@@ -99,25 +119,34 @@ const supportTicket = () => {
               fullWidth
               id="date"
               name="Date"
+              value={selectDate !== '' ? selectDate : ''}
+              onChange={(value) => handleChangeStartDate(value)}
               errorFalse
             />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Priority</FormLabel>
-              <Select options={Priority} onChange={(value) => handleChangePriority(value)} />
+              <Select
+                value={priority}
+                options={Priority}
+                onChange={(value) => handleChangePriority(value)}
+              />
             </FormControl>
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Status</FormLabel>
-              <Select options={Status} onChange={(value) => handleChangeStatus(value)} />
+              <Select
+                value={status}
+                options={Status}
+                onChange={(value) => handleChangeStatus(value)}
+              />
             </FormControl>
           </Grid>
         </FilterLayout>
 
         <Table
-          // onClick={() => sorting('selectedData')}
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={prRows}
           onClickAction={(value, id) => onClickAction(value, id)}
@@ -131,7 +160,8 @@ const supportTicket = () => {
         <AddSupportTicketForm
           isDialogOpen={isDialogOpen}
           handleDialog={handleDialog}
-          selectedData={selectedData}
+          title={isEdit ? 'EDIT YOUR SUPPORT TICKET' : 'ADD NEW SUPPORT TICKET'}
+          setIsEdit={(value) => setIsEdit(value)}
         />
       </Card>
     </>

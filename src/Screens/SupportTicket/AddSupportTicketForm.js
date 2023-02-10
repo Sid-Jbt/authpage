@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { supportTicketFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
@@ -15,8 +15,7 @@ const initialValues = {
   message: ''
 };
 
-const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, selectedData }) => {
-  const [title, setTitle] = useState('');
+const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, title, setIsEdit }) => {
   const [department, setDepartment] = useState(Department[0]);
 
   const handleChangeDepartment = (selectedDepartment) => {
@@ -27,23 +26,16 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, selectedData }) =>
     console.log('formData', formData);
   };
 
-  useEffect(() => {
-    if (selectedData !== null) {
-      setTitle('EDIT YOUR SUPPORT TICKET');
-    } else if (selectedData == null) {
-      setTitle('ADD NEW SUPPORT TICKET');
-    }
-  }, [selectedData]);
-
-  // useEffect(() => {
-  //   selectedData == null
-  //     ? setTitle('ADD NEW SUPPORT TICKET')
-  //     : setTitle('EDIT YOUR SUPPORT TICKET');
-  // }, [selectedData]);
-
   return (
     <>
-      <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title={title}>
+      <SideDrawer
+        open={Boolean(isDialogOpen)}
+        onClose={() => {
+          handleDialog();
+          setIsEdit(false);
+        }}
+        title={title}
+      >
         <Formik
           enableReinitialize
           initialValues={initialValues}

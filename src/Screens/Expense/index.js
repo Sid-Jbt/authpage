@@ -15,9 +15,17 @@ const Expense = () => {
   const { role } = useSelector((state) => state.route);
   const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
+  const [search, setSearch] = useState('');
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
+  };
+
+  const handleChangeSearch = (event) => {
+    setSearch(event);
+  };
+  const handleClear = () => {
+    setSearch('');
   };
 
   const handleOpenDialog = () => {
@@ -59,7 +67,11 @@ const Expense = () => {
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >
-        <FilterLayout />
+        <FilterLayout
+          search={search}
+          handleSearch={() => handleChangeSearch()}
+          handleClear={() => handleClear()}
+        />
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={prRows}
