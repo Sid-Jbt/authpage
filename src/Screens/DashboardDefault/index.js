@@ -50,56 +50,16 @@ const DashboardDefault = () => {
   return (
     <Box mb={3}>
       <Grid container spacing={3}>
-        <Grid container order={{ xs: 1, lg: 0 }} spacing={3} item xs={12} lg={12} xl={12}>
-          {role === 'admin' ? (
-            <>
-              <Grid
-                item
-                xs={12}
-                md={6}
-                lg={3}
-                onClick={handleTotalEmployee}
-                sx={{ cursor: 'pointer' }}
-              >
-                <LeaveCard
-                  title="Total Employee"
-                  count="10"
-                  icon={{ color: 'info', component: <PeopleRounded /> }}
-                  isPercentage={false}
-                />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={6}
-                lg={3}
-                onClick={handleTotalEmployee}
-                sx={{ cursor: 'pointer' }}
-              >
-                <LeaveCard
-                  title="Today Present"
-                  count="9"
-                  icon={{ color: 'success', component: <PeopleRounded /> }}
-                  isPercentage={false}
-                />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={6}
-                lg={3}
-                onClick={handleTotalEmployee}
-                sx={{ cursor: 'pointer' }}
-              >
-                <LeaveCard
-                  title="Today Absent"
-                  count="1"
-                  icon={{ color: 'error', component: <PeopleRounded /> }}
-                  isPercentage={false}
-                />
-              </Grid>
-            </>
-          ) : (
+        <Grid
+          container
+          order={{ xs: 1, lg: 0 }}
+          alignItems="flex-start"
+          spacing={3}
+          item
+          xs={12}
+          lg={12}
+          xl={12}>
+          {role === 'admin' ? null : (
             <>
               <Grid item xs={12} md={6} lg={3}>
                 <LeaveCard
