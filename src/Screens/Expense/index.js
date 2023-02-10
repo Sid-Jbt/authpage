@@ -1,5 +1,5 @@
 import { Card, Grid, Icon } from '@mui/material';
-import { Add, ImportExportRounded } from '@mui/icons-material';
+import { Add, ImportExportRounded, Pending, ThumbDown, ThumbUpAlt } from '@mui/icons-material';
 import React, { useState } from 'react';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import expenseListData from './data/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
 import ManageExpenseForm from './ManageExpenseForm';
+import LeaveCard from '../../Components/CardLayouts/StaticCard';
 
 const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = expenseListData;
@@ -27,6 +28,32 @@ const Expense = () => {
 
   return (
     <>
+      <Grid container spacing={3} mb={3}>
+        <Grid item xs={12} md={6} lg={3}>
+          <LeaveCard
+            title="Approved"
+            count="5"
+            icon={{ color: 'success', component: <ThumbUpAlt /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <LeaveCard
+            title="Declined"
+            count="1"
+            icon={{ color: 'error', component: <ThumbDown /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <LeaveCard
+            title="Pending"
+            count="3"
+            icon={{ color: 'info', component: <Pending /> }}
+            isPercentage={false}
+          />
+        </Grid>
+      </Grid>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
         <Grid item xs="auto">
           <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
