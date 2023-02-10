@@ -63,7 +63,7 @@ const PersonalDetails = () => {
         {(props) => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
           return (
-            <form onSubmit={handleSubmit} style={{ background: theme.palette.grey[100] }}>
+            <form onSubmit={handleSubmit}>
               <Grid container spacing={1} p={2}>
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>

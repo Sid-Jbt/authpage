@@ -3,6 +3,7 @@ import { Add, ImportExportRounded } from '@mui/icons-material';
 import React, { useState } from 'react';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
+import { useSelector } from 'react-redux';
 import holidayListData from './data/holidayListData';
 import FilterLayout from '../../Components/FilterLayout';
 import DialogMenu from '../../Elements/Dialog';
@@ -12,11 +13,13 @@ import ImportDialog from './ImportDialog';
 
 const Holiday = () => {
   const { columns: prCols, rows: prRows } = holidayListData;
+  const { role } = useSelector((state) => state.route);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [search, setSearch] = useState('');
 
   const handleMouseEnter = () => {
     setIsHover(true);
@@ -63,26 +66,37 @@ const Holiday = () => {
     handleDialogClose();
   };
 
+  const handleChangeSearch = (event) => {
+    setSearch(event);
+  };
+
+  const handleClear = () => {
+    setSearch('');
+  };
+
   return (
     <>
-      <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs={12} md="auto">
-          <Button color="white" variant="outlined" size="small" onClick={handleDrawer}>
-            <Icon sx={{ mr: 1 }}>
-              <Add />
-            </Icon>
-            Add
-          </Button>
+      {role === 'admin' && (
+        <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
+          <Grid item xs={12} md="auto">
+            <Button color="white" variant="outlined" size="small" onClick={handleDrawer}>
+              <Icon sx={{ mr: 1 }}>
+                <Add />
+              </Icon>
+              Add
+            </Button>
+          </Grid>
+          <Grid item xs={12} md="auto">
+            <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
+              <Icon sx={{ mr: 1 }}>
+                <ImportExportRounded />
+              </Icon>
+              Import
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md="auto">
-          <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
-            <Icon sx={{ mr: 1 }}>
-              <ImportExportRounded />
-            </Icon>
-            Import
-          </Button>
-        </Grid>
-      </Grid>
+      )}
+
       <Card
         mb={3}
         sx={{
@@ -91,17 +105,26 @@ const Holiday = () => {
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >
-        <FilterLayout />
-        <Table
-          columns={prCols}
-          rows={prRows}
-          onClickAction={(value, id) => onOpenEdit(value, id)}
-          isAction
-          options={[
-            { title: 'Edit', value: 'edit' },
-            { title: 'Delete', value: 'delete' }
-          ]}
+        <FilterLayout
+          search={search}
+          handleSearch={() => handleChangeSearch()}
+          handleClear={() => handleClear()}
         />
+        {role === 'admin' ? (
+          <Table
+            columns={prCols}
+            rows={prRows}
+            onClickAction={(value, id) => onOpenEdit(value, id)}
+            isAction
+            options={[
+              { title: 'Edit', value: 'edit' },
+              { title: 'Delete', value: 'delete' }
+            ]}
+          />
+        ) : (
+          <Table columns={prCols} rows={prRows} />
+        )}
+
         <DialogMenu
           isOpen={isDialogOpen}
           onClose={handleDialogClose}

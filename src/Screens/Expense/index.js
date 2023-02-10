@@ -12,9 +12,17 @@ const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = expenseListData;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { role } = useSelector((state) => state.route);
+  const [search, setSearch] = useState('');
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
+  };
+
+  const handleChangeSearch = (event) => {
+    setSearch(event);
+  };
+  const handleClear = () => {
+    setSearch('');
   };
 
   return (
@@ -44,7 +52,11 @@ const Expense = () => {
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >
-        <FilterLayout />
+        <FilterLayout
+          search={search}
+          handleSearch={() => handleChangeSearch()}
+          handleClear={() => handleClear()}
+        />
         <Table columns={role === 'admin' ? adminPrCol : prCols} rows={prRows} isView />
         <ManageExpenseForm
           isDrawerOpen={Boolean(isDialogOpen)}

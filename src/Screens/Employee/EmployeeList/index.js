@@ -17,15 +17,29 @@ import { SnackbarContext } from '../../../Context/SnackbarProvider';
 const EmployeeList = () => {
   const { role } = useSelector((state) => state.route);
   const { columns: prCols, rows: prRows } = employeeListData;
-  const [selectedRole, setSelectedRole] = useState('');
+  const { setSnack } = useContext(SnackbarContext);
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { setSnack } = useContext(SnackbarContext);
+  const [selectedRole, setSelectedRole] = useState('');
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+  const [search, setSearch] = useState('');
+
+  const handleChangeStartDate = (event, string) => {
+    if (string === 'fromDate') {
+      setFromDate(event.target.value);
+    } else {
+      setToDate(event.target.value);
+    }
+  };
 
   const handleChangeRole = (value) => {
-    setSelectedRole(value.value);
+    setSelectedRole(value);
   };
-  console.log('Selected selectedRole --> ', selectedRole);
+
+  const handleChangeSearch = (event) => {
+    setSearch(event);
+  };
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -47,6 +61,13 @@ const EmployeeList = () => {
       color: 'success',
       open: true
     });
+  };
+
+  const handleClear = () => {
+    setFromDate('');
+    setToDate('');
+    setSelectedRole('');
+    setSearch('');
   };
 
   return (
@@ -80,7 +101,11 @@ const EmployeeList = () => {
           boxShadow: ({ boxShadows: { md } }) => md
         }}
       >
-        <FilterLayout>
+        <FilterLayout
+          search={search}
+          handleSearch={() => handleChangeSearch()}
+          handleClear={() => handleClear()}
+        >
           <Grid item xs={6} md={4} lg={3}>
             <Input
               type="date"
@@ -89,6 +114,8 @@ const EmployeeList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
+              value={fromDate !== '' ? fromDate : ''}
+              onChange={(value) => handleChangeStartDate(value, 'fromDate')}
               errorFalse
             />
           </Grid>
@@ -100,13 +127,19 @@ const EmployeeList = () => {
               fullWidth
               id="toDate"
               name="toDate"
+              value={toDate !== '' ? toDate : ''}
+              onChange={(value) => handleChangeStartDate(value, 'toDate')}
               errorFalse
             />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Role</FormLabel>
-              <Select options={Roles} onChange={(value) => handleChangeRole(value)} />
+              <Select
+                value={selectedRole}
+                options={Roles}
+                onChange={(value) => handleChangeRole(value)}
+              />
             </FormControl>
           </Grid>
         </FilterLayout>

@@ -47,14 +47,14 @@ const Profile = Loadable(lazy(() => import('../Screens/Profile')));
 const ProfileSetup = Loadable(lazy(() => import('../Screens/ProfileSetup')));
 const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
 const EmployeeList = Loadable(lazy(() => import('../Screens/Employee/EmployeeList')));
-const EmployeeDeatils = Loadable(lazy(() => import('../Screens/Employee/EmployeeDetails')));
+const EmployeeDetails = Loadable(lazy(() => import('../Screens/Employee/EmployeeDetails')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
 const LeaveList = Loadable(lazy(() => import('../Screens/Leave')));
 const Payslip = Loadable(lazy(() => import('../Screens/Payslip')));
 const Setting = Loadable(lazy(() => import('../Screens/Settings')));
 const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
 const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
-const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket')));
+const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket/index')));
 const Role = Loadable(lazy(() => import('../Screens/Role')));
 const NoticeBoard = Loadable(lazy(() => import('../Screens/NoticeBoard')));
 
@@ -117,7 +117,7 @@ const MainRoutes = [
     icon: <PeopleRounded sx={{ color: colors.primary.main }} />,
     path: employeeDetailsPattern,
     key: 'employeeDetails',
-    element: <EmployeeDeatils />
+    element: <EmployeeDetails />
   },
   {
     type: 'collapse',
@@ -228,7 +228,6 @@ const MainRoutes = [
     key: 'holiday',
     element: <Holiday />
   },
-  // { type: 'title', title: 'Other Pages', key: 'other-pages' },
   {
     type: 'unroute',
     name: 'Reports',
