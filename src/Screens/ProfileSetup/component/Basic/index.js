@@ -81,7 +81,7 @@ const Basic = (props) => {
                     onBlur={handleBlur}
                     errorText={errors.firstName && touched.firstName && errors.firstName}
                     error={errors.firstName && touched.firstName}
-                    success={errors.firstName && touched.firstName}
+                    success={!errors.firstName && touched.firstName}
                   />
                 </Box>
               </Grid>
@@ -100,7 +100,7 @@ const Basic = (props) => {
                     onBlur={handleBlur}
                     errorText={errors.lastName && touched.lastName && errors.lastName}
                     error={errors.lastName && touched.lastName}
-                    success={errors.lastName && touched.lastName}
+                    success={!errors.lastName && touched.lastName}
                   />
                 </Box>
               </Grid>
