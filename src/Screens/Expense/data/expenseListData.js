@@ -41,7 +41,7 @@ const expenseListData = {
       purchaseDate: '01/02/2023',
       amount: '500',
       status: (
-        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
+        <Badge variant="gradient" badgeContent="declined" color="success" size="xs" container />
       )
     },
     {
@@ -52,7 +52,7 @@ const expenseListData = {
       purchaseDate: '10/05/2023',
       amount: '1000',
       status: (
-        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
+        <Badge variant="gradient" badgeContent="pending" color="success" size="xs" container />
       )
     },
     {
@@ -74,7 +74,7 @@ const expenseListData = {
       purchaseDate: '28/02/2023',
       amount: '500',
       status: (
-        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
+        <Badge variant="gradient" badgeContent="declined" color="success" size="xs" container />
       )
     },
     {
@@ -85,7 +85,7 @@ const expenseListData = {
       purchaseDate: '10/09/2023',
       amount: '1000',
       status: (
-        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
+        <Badge variant="gradient" badgeContent="pending" color="success" size="xs" container />
       )
     }
   ]

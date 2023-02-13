@@ -13,12 +13,8 @@ import {
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import Badge from 'Elements/Badge';
-import {
-  getEmployeeListPattern,
-  getExpensePattern,
-  getLeavePattern
-} from '../../Routes/routeConfig';
-import LeaveCard from '../../Components/CardLayouts/StaticCard';
+import { getEmployeeListPattern } from '../../Routes/routeConfig';
+import DashboardCard from '../../Components/CardLayouts/StaticCard';
 
 const DashboardDefault = () => {
   const { role } = useSelector((state) => state.route);
@@ -47,15 +43,8 @@ const DashboardDefault = () => {
   }, []);
 
   const handleTotalEmployee = () => {
+    console.log('On redirect to Employee');
     navigate(getEmployeeListPattern());
-  };
-
-  const handlePendingExpense = () => {
-    navigate(getExpensePattern());
-  };
-
-  const handlePendingLeave = () => {
-    navigate(getLeavePattern());
   };
 
   return (
@@ -74,7 +63,7 @@ const DashboardDefault = () => {
           {role === 'admin' ? null : (
             <>
               <Grid item xs={12} md={6} lg={3}>
-                <LeaveCard
+                <DashboardCard
                   title="Today"
                   count="07:15:34"
                   icon={{ color: 'success', component: <Watch /> }}
@@ -82,7 +71,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={3}>
-                <LeaveCard
+                <DashboardCard
                   title="This week"
                   count="45 hours "
                   icon={{ color: 'secondary', component: <WatchRounded /> }}
@@ -90,7 +79,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={3}>
-                <LeaveCard
+                <DashboardCard
                   title="This month"
                   count="160 hours"
                   icon={{ color: 'info', component: <WatchLater /> }}
@@ -120,7 +109,7 @@ const DashboardDefault = () => {
           {role === 'admin' ? (
             <Grid container item spacing={3} xs={12} lg={4}>
               <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Total Employee"
                   count="10"
                   icon={{ color: 'info', component: <PeopleRounded /> }}
@@ -128,7 +117,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Today Present"
                   count="9"
                   icon={{ color: 'success', component: <PeopleRounded /> }}
@@ -136,23 +125,23 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Today Absent"
                   count="1"
                   icon={{ color: 'error', component: <PeopleRounded /> }}
                   isPercentage={false}
                 />
               </Grid>
-              <Grid item xs={12} lg={6} onClick={handlePendingExpense} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+              <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
+                <DashboardCard
                   title="Pending Expense"
                   count="1"
                   icon={{ color: 'warning', component: <PendingTwoTone /> }}
                   isPercentage={false}
                 />
               </Grid>
-              <Grid item xs={12} lg={6} onClick={handlePendingLeave} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+              <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
+                <DashboardCard
                   title="Pending Leave"
                   count="Approval"
                   icon={{ color: 'warning', component: <HolidayVillageTwoTone /> }}
