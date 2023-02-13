@@ -126,17 +126,20 @@ const AttendanceList = () => {
           handleSearch={() => handleChangeSearch()}
           handleClear={() => handleClear()}
         >
-          <Grid item sm={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select User</FormLabel>
-              <Select
-                value={user}
-                onChange={handleChangeUser}
-                displayEmpty
-                renderValue={user !== '' ? undefined : () => 'Select...'}
-              />
-            </FormControl>
-          </Grid>
+          {role === 'admin' && (
+            <Grid item sm={12} md={4} lg={3}>
+              <FormControl sx={{ width: '100%' }}>
+                <FormLabel>Select User</FormLabel>
+                <Select
+                  value={user}
+                  onChange={handleChangeUser}
+                  displayEmpty
+                  renderValue={user !== '' ? undefined : () => 'Select...'}
+                />
+              </FormControl>
+            </Grid>
+          )}
+
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Month</FormLabel>
