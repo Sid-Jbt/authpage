@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
-import { Card, Grid, Switch } from '@mui/material';
-import { SnackbarContext } from 'Context/SnackbarProvider';
-import Button from 'Elements/Button';
-import { Check } from '@mui/icons-material';
+import { Card, Grid } from '@mui/material';
+// import { SnackbarContext } from 'Context/SnackbarProvider';
+// import Button from 'Elements/Button';
+// import { Check } from '@mui/icons-material';
 
-const NotificationSetting = () => {
-  const { setSnack } = useContext(SnackbarContext);
+const NotificationSetting = () => (
+  /* const { setSnack } = useContext(SnackbarContext);
   const [isEmail, setIsEmail] = useState(false);
   const [isPush, setIsPush] = useState(false);
   const [isNotice, setIsNotice] = useState(false);
@@ -30,14 +30,17 @@ const NotificationSetting = () => {
       color: 'success',
       open: true
     });
-  };
+  }; */
 
-  return (
-    <Card id="notification-setting">
-      <Box p={3} pb={0}>
-        <Typography variant="h5">Notification Settings</Typography>
-      </Box>
-      <Grid container spacing={1} p={2} justifyContent="flex-end">
+  <Card id="notification-setting">
+    <Box p={3} pb={0}>
+      <Typography variant="h5">Notification Settings</Typography>
+    </Box>
+    <Grid container spacing={1} p={2}>
+      <Typography> Notification Coming soon...</Typography>
+    </Grid>
+
+    {/* <Grid container spacing={1} p={2} justifyContent="flex-end">
         <Grid item xs={12} md={6} lg={6}>
           <Box mt={0.5}>
             <Switch checked={isEmail} onChange={handleSetIsEmail} />
@@ -102,9 +105,7 @@ const NotificationSetting = () => {
             Update Notification Settings
           </Button>
         </Grid>
-      </Grid>
-    </Card>
-  );
-};
-
+      </Grid> */}
+  </Card>
+);
 export default NotificationSetting;
