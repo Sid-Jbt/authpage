@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import { Add, ImportExportRounded, Pending, ThumbDown, ThumbUpAlt } from '@mui/icons-material';
+import {
+  Add,
+  ApprovalOutlined,
+  DirectionsRun,
+  ImportExportRounded,
+  Pending
+} from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
@@ -10,21 +16,18 @@ import { Priority, Status } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
 import supportTicketData from './data/SupportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
-import DeleteDialog from '../../Components/DeleteDialog';
-import DialogMenu from '../../Elements/Dialog';
-import SupportCard from '../../Components/CardLayouts/StaticCard';
+import LeaveCard from '../../Components/CardLayouts/StaticCard';
 
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = supportTicketData;
   const { role } = useSelector((state) => state.route);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  // const [selectedData, setSelectedData] = useState(null);
   const [selectDate, setSelectDate] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
   const [search, setSearch] = useState('');
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState('');
 
   const handleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -42,13 +45,10 @@ const supportTicket = () => {
     alert('Export coming soon...');
   };
 
-  const onClickAction = (key, id) => {
+  const onClickAction = (key) => {
     if (key === 'edit') {
       setIsEdit(true);
       handleDialog();
-    } else {
-      setSelectedId(id);
-      setIsDeleteDialogOpen(true);
     }
   };
 
@@ -67,35 +67,27 @@ const supportTicket = () => {
     setSearch('');
   };
 
-  const handleDialogClose = () => {
-    setIsDeleteDialogOpen(false);
-  };
-
-  const onDelete = () => {
-    handleDialogClose();
-  };
-
   return (
     <>
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} md={6} lg={3}>
-          <SupportCard
+          <LeaveCard
             title="Approved"
             count="5"
-            icon={{ color: 'success', component: <ThumbUpAlt /> }}
+            icon={{ color: 'success', component: <ApprovalOutlined /> }}
             isPercentage={false}
           />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-          <SupportCard
+          <LeaveCard
             title="Declined"
             count="1"
-            icon={{ color: 'error', component: <ThumbDown /> }}
+            icon={{ color: 'error', component: <DirectionsRun /> }}
             isPercentage={false}
           />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-          <SupportCard
+          <LeaveCard
             title="Pending"
             count="3"
             icon={{ color: 'info', component: <Pending /> }}
@@ -206,18 +198,6 @@ const supportTicket = () => {
           setIsEdit={(value) => setIsEdit(value)}
         />
       </Card>
-      <DialogMenu
-        isOpen={isDeleteDialogOpen}
-        onClose={handleDialogClose}
-        dialogTitle="Delete"
-        dialogContent={
-          <DeleteDialog
-            handleDialogClose={handleDialogClose}
-            selectedId={selectedId}
-            deleteItem={onDelete}
-          />
-        }
-      />
     </>
   );
 };
