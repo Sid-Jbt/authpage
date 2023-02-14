@@ -246,11 +246,13 @@ const Table = ({
             {renderRows && renderRows.length > 0 ? (
               <>
                 {renderRows}
-                <TableCell
-                  colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
-                >
-                  <Paginations rows={renderRows.length} />
-                </TableCell>
+                {renderRows.length > 10 && (
+                  <TableCell
+                    colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
+                  >
+                    <Paginations rows={renderRows.length} />
+                  </TableCell>
+                )}
               </>
             ) : (
               <TableRow>
