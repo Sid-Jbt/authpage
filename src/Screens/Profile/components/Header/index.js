@@ -30,27 +30,31 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => {
       <Grid container spacing={3} alignItems="center">
         <Grid item>
           <Box position="relative" height="max-content" mx="auto">
-            <Box>
-              <input ref={inputFile} type="file" hidden onChange={(e) => profilePicUpload(e)} />
-              <Avatar
-                src={profilePicUrl === '' ? team2 : profilePicUrl}
-                alt="profile picture"
-                size="xxl"
-                variant="rounded"
-              />
-              <Box alt="spotify logo" position="absolute" pl={11} bottom={0} mr={-1} mb={-1}>
-                <Button
-                  variant="gradient"
-                  color="light"
-                  component="label"
-                  onClick={() => inputFile.current && inputFile.current.click()}
-                  iconOnly
-                >
-                  <Icon>
-                    <Edit />
-                  </Icon>
-                </Button>
-              </Box>
+            <Avatar
+              src={profilePicUrl === '' ? team2 : profilePicUrl}
+              alt="profile picture"
+              size="xl"
+              variant="rounded"
+            />
+            <input ref={inputFile} type="file" hidden onChange={(e) => profilePicUpload(e)} />
+            <Box alt="spotify logo" position="absolute" pl={5.5} bottom={0} mr={-1} mb={-1}>
+              <Button
+                variant="gradient"
+                color="light"
+                component="label"
+                onClick={() => inputFile.current && inputFile.current.click()}
+                iconOnly
+                sx={{
+                  width: '2rem',
+                  minWidth: '2rem',
+                  height: '2rem',
+                  minHeight: '2rem'
+                }}
+              >
+                <Icon>
+                  <Edit />
+                </Icon>
+              </Button>
             </Box>
           </Box>
         </Grid>
