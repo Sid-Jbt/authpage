@@ -8,7 +8,7 @@ import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { loginSchema } from 'Helpers/ValidationSchema';
-import { getProfileSetupPattern } from 'Routes/routeConfig';
+import { forgotPasswordPattern, getProfileSetupPattern } from 'Routes/routeConfig';
 import { useDispatch } from 'react-redux';
 import { ROLE, ROLELIST } from 'Redux/actions';
 import { SnackbarContext } from 'Context/SnackbarProvider';
@@ -96,11 +96,7 @@ const Login = () => {
                 'attendance',
                 'profile',
                 'supportTicket',
-                'holiday',
-                'report',
-                'allreport',
-                'timeactivity',
-                'weeklylimit'
+                'holiday'
               ]
             });
             dispatchRole({ type: ROLE, value: 'employee' });
@@ -181,7 +177,7 @@ const Login = () => {
                 <Box>
                   <Typography
                     component={Link}
-                    to="/forgot-password"
+                    to={forgotPasswordPattern}
                     variant="button"
                     color="info"
                     fontWeight="medium"

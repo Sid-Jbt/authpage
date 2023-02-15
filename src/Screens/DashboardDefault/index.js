@@ -13,7 +13,11 @@ import {
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import Badge from 'Elements/Badge';
-import { getEmployeeListPattern } from '../../Routes/routeConfig';
+import {
+  getEmployeeListPattern,
+  getExpensePattern,
+  getLeavePattern
+} from '../../Routes/routeConfig';
 import LeaveCard from '../../Components/CardLayouts/StaticCard';
 
 const DashboardDefault = () => {
@@ -44,6 +48,14 @@ const DashboardDefault = () => {
 
   const handleTotalEmployee = () => {
     navigate(getEmployeeListPattern());
+  };
+
+  const handlePendingExpense = () => {
+    navigate(getExpensePattern());
+  };
+
+  const handlePendingLeave = () => {
+    navigate(getLeavePattern());
   };
 
   return (
@@ -131,7 +143,7 @@ const DashboardDefault = () => {
                   isPercentage={false}
                 />
               </Grid>
-              <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
+              <Grid item xs={12} lg={6} onClick={handlePendingExpense} sx={{ cursor: 'pointer' }}>
                 <LeaveCard
                   title="Pending Expense"
                   count="1"
@@ -139,7 +151,7 @@ const DashboardDefault = () => {
                   isPercentage={false}
                 />
               </Grid>
-              <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
+              <Grid item xs={12} lg={6} onClick={handlePendingLeave} sx={{ cursor: 'pointer' }}>
                 <LeaveCard
                   title="Pending Leave"
                   count="Approval"

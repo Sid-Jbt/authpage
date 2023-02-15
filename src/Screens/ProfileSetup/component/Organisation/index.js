@@ -127,7 +127,7 @@ const Organisation = (props) => {
             <Box>
               <Input
                 type="text"
-                placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
+                placeholder="1303, Shivalik Shilp, Iskcon Cross Rd Ahmedabad"
                 size="medium"
                 fullWidth
                 id="permanentAdd"
@@ -138,7 +138,7 @@ const Organisation = (props) => {
                 onBlur={handleBlur}
                 errorText={errors.permanentAdd && touched.permanentAdd && errors.permanentAdd}
                 error={errors.permanentAdd && touched.permanentAdd}
-                success={errors.permanentAdd && touched.permanentAdd}
+                success={!errors.permanentAdd && touched.permanentAdd}
               />
             </Box>
           </Grid>

@@ -39,7 +39,7 @@ const supportTicketData = {
       date: '2/1/2023',
       priority: 'medium',
       assign: 'Jackey',
-      status: <Badge variant="gradient" badgeContent="rejected" color="error" size="xs" container />
+      status: <Badge variant="gradient" badgeContent="declined" color="error" size="xs" container />
     },
     {
       id: '3',
@@ -70,7 +70,7 @@ const supportTicketData = {
       date: '5/1/2023',
       priority: 'medium',
       assign: 'kanihyaa',
-      status: <Badge variant="gradient" badgeContent="rejected" color="error" size="xs" container />
+      status: <Badge variant="gradient" badgeContent="declined" color="error" size="xs" container />
     },
     {
       id: '6',
@@ -101,7 +101,7 @@ const supportTicketData = {
       date: '3/1/2023',
       priority: 'medium',
       assign: 'mahesh',
-      status: <Badge variant="gradient" badgeContent="rejected" color="error" size="xs" container />
+      status: <Badge variant="gradient" badgeContent="declined" color="error" size="xs" container />
     },
     {
       id: '9',

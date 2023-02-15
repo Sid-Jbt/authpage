@@ -1,5 +1,11 @@
 import { Card, Grid, Icon } from '@mui/material';
-import { Add, ImportExportRounded, Pending, ThumbDown, ThumbUpAlt } from '@mui/icons-material';
+import {
+  Add,
+  ImportExportRounded,
+  PendingTwoTone,
+  ThumbDown,
+  ThumbUpAlt
+} from '@mui/icons-material';
 import React, { useState } from 'react';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
@@ -65,7 +71,7 @@ const Expense = () => {
           <LeaveCard
             title="Pending"
             count="3"
-            icon={{ color: 'info', component: <Pending /> }}
+            icon={{ color: 'warning', component: <PendingTwoTone /> }}
             isPercentage={false}
           />
         </Grid>
