@@ -135,3 +135,45 @@ export const EventsType = [
   { value: 'error', label: 'Error' },
   { value: 'primary', label: 'Primary' }
 ];
+
+export const EmployeeRoleList = [
+  'dashboard',
+  'profilesetup',
+  'profile',
+  'privacy',
+  'expense',
+  'leave',
+  'settings',
+  'payslip',
+  'attendance',
+  'profile',
+  'supportTicket',
+  'holiday',
+  'report',
+  'allreport',
+  'timeactivity',
+  'weeklylimit'
+];
+
+export const AdminRoleList = [
+  'dashboard',
+  'profilesetup',
+  'employee',
+  'profile',
+  'privacy',
+  'employeeDetails',
+  'expense',
+  'leave',
+  'settings',
+  'payslip',
+  'attendance',
+  'profile',
+  'role',
+  'supportTicket',
+  'report',
+  'allreport',
+  'timeactivity',
+  'weeklylimit',
+  'holiday',
+  'notice'
+];

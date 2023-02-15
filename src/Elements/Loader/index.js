@@ -5,8 +5,12 @@ const LoaderWrapper = styled('div')({
   position: 'fixed',
   top: 0,
   left: 0,
-  zIndex: 1301,
-  width: '100%'
+  zIndex: 999999,
+  width: '100%',
+  overflow: 'visible',
+  margin: 'auto',
+  bottom: 0,
+  right: 0
 });
 
 const Loader = () => (
