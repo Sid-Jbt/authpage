@@ -96,11 +96,7 @@ const Login = () => {
                 'attendance',
                 'profile',
                 'supportTicket',
-                'holiday',
-                'report',
-                'allreport',
-                'timeactivity',
-                'weeklylimit'
+                'holiday'
               ]
             });
             dispatchRole({ type: ROLE, value: 'employee' });
