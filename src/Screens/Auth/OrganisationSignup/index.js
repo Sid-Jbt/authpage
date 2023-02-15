@@ -15,7 +15,7 @@ const image = 'https://jarvisbitz.com/wp-content/uploads/2022/02/banner-shape-1.
 
 const OrganisationSignup = () => {
   const navigate = useNavigate();
-  const [agreement, setAgremment] = useState(true);
+  const [agreement, setAgremment] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { setSnack } = useContext(SnackbarContext);
 
