@@ -159,6 +159,11 @@ export const addressSchema = yup.object().shape({
   currentAdd: yup.string().required('Current Address is required')
 });
 
+export const organisationDetailsSchema = yup.object().shape({
+  permanentAdd: yup.string().required('Permanent Address is required'),
+  workingHours: yup.string().required('Working hours is required')
+});
+
 export const validationSchema = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   password: yup
@@ -253,4 +258,17 @@ export const basicSchema = yup.object().shape({
 
 export const organisationSchema = yup.object().shape({
   permanentAdd: yup.string().required('Permanent Address is required')
+});
+
+export const organisationSignupSchema = yup.object().shape({
+  name: yup.string().required('Organisation name is required'),
+  email: yup.string().email('Enter a valid email').required('Email is required'),
+  password: yup
+    .string()
+    .matches(
+      passwordRegx,
+      'One special characters, One upper character, Min 8 characters, One number'
+    )
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required')
 });
