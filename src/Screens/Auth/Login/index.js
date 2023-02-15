@@ -181,7 +181,7 @@ const Login = () => {
                     variant="button"
                     color="info"
                     fontWeight="medium"
-                    underline
+                    underline="true"
                   >
                     Forgot Password?
                   </Typography>

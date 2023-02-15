@@ -12,7 +12,6 @@ import {
   HolidayVillage,
   ViewArrayOutlined,
   SupportAgent,
-  ListAltTwoTone,
   AnnouncementRounded
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
@@ -34,8 +33,7 @@ import {
   holidayPattern,
   rolePattern,
   supportTicketPattern,
-  noticePattern,
-  allReportPattern
+  noticePattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -54,9 +52,6 @@ const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
 const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket/index')));
 const Role = Loadable(lazy(() => import('../Screens/Role')));
 const NoticeBoard = Loadable(lazy(() => import('../Screens/NoticeBoard')));
-
-const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
-const TimeActivity = Loadable(lazy(() => import('../Screens/Reports/TimeActivity')));
 
 const MainRoutes = [
   {
@@ -185,7 +180,7 @@ const MainRoutes = [
     key: 'supportTicket',
     element: <SupportTicket />
   },
-  {
+  /* {
     type: 'collapse',
     name: 'Reports',
     key: 'report',
@@ -213,7 +208,7 @@ const MainRoutes = [
         element: <TimeActivity />
       }
     ]
-  },
+  }, */
   {
     type: 'collapse',
     noCollapse: true,

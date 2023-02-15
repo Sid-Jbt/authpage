@@ -63,7 +63,7 @@ const OrganisationSignup = () => {
                     setSnack({
                       title: 'Success',
                       message:
-                        'Organisation sigup successfully. Please login with your credentials',
+                        'Organisation signup successfully. Please login with your credentials',
                       time: false,
                       icon: <Check color="white" />,
                       color: 'success',
