@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
 import { expenseFormSchema } from 'Helpers/ValidationSchema';
@@ -10,30 +10,42 @@ import Dropzone from '../../Elements/Dropzone';
 
 const initialValues = {
   itemName: '',
-  itemTitle: '',
   purchaseFrom: '',
   purchaseDate: moment().format('DD/MM/YYYY'),
   amount: '',
   selectDoc: ''
 };
-
-const AddExpenseForm = ({ isDialogOpen, handleDialog, setSelectedData }) => {
-  const [title, setTitle] = useState('');
+const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, title }) => {
   const [data, setData] = useState(initialValues);
+
+  useEffect(() => {
+    if (selectedData !== null) {
+      Object.keys(data).map((key) => {
+        data[key] = selectedData[key];
+        if (key === 'purchaseDate') {
+          data[key] = moment(selectedData.from).format('DD/MM/YYYY');
+        }
+      });
+      setData(data);
+    } else {
+      initialValues.purchaseDate = moment().format('DD/MM/YYYY');
+      initialValues.itemName = '';
+      initialValues.purchaseFrom = '';
+      initialValues.amount = '';
+      setData(initialValues);
+    }
+  }, [selectedData]);
 
   const onSubmit = (formData) => {
     console.log('formData', formData);
   };
-
-  console.log('set data..', setData());
   return (
     <>
       <SideDrawer
         open={Boolean(isDialogOpen)}
         onClose={() => {
-          setTitle('');
-          setSelectedData(null);
           handleDialog();
+          setIsEdit(false);
         }}
         title={title}
       >
@@ -118,7 +130,7 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setSelectedData }) => {
                     <FormLabel>SELECT DOCUMENT</FormLabel>
                     <Dropzone />
                   </Grid>
-                  <Grid item xs={12} sm={12} md={4} lg={6} xl={12}>
+                  <Grid item xs={12} md={4} lg={6}>
                     <Button type="submit" color="info" variant="contained" size="medium">
                       Add Expense
                     </Button>

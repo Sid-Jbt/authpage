@@ -312,6 +312,7 @@ const Expense = () => {
   const [isViewExpenseDialogOpen, setIsViewExpenseDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -336,6 +337,7 @@ const Expense = () => {
 
   const onClickAction = (key, index) => {
     if (key === 'edit') {
+      setIsEdit(true);
       setSelectedData(prRows.find((o) => o.id === index));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
@@ -392,24 +394,26 @@ const Expense = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs="auto">
-          <Button
-            sx={({ breakpoints, palette: { dark } }) => ({
-              [breakpoints.down('xl' && 'lg')]: {
-                color: dark.main,
-                borderColor: dark.main
-              }
-            })}
-            variant="outlined"
-            size="small"
-            onClick={() => handleDialog()}
-          >
-            <Icon sx={{ mr: 1 }}>
-              <Add />
-            </Icon>
-            Add
-          </Button>
-        </Grid>
+        {role !== 'admin' && (
+          <Grid item xs="auto">
+            <Button
+              sx={({ breakpoints, palette: { dark } }) => ({
+                [breakpoints.down('xl' && 'lg')]: {
+                  color: dark.main,
+                  borderColor: dark.main
+                }
+              })}
+              variant="outlined"
+              size="small"
+              onClick={() => handleDialog()}
+            >
+              <Icon sx={{ mr: 1 }}>
+                <Add />
+              </Icon>
+              Add
+            </Button>
+          </Grid>
+        )}
         <Grid item xs="auto">
           <Button
             sx={({ breakpoints, palette: { dark } }) => ({
@@ -457,7 +461,9 @@ const Expense = () => {
         {isDialogOpen && (
           <AddExpenseForm
             isDialogOpen={isDialogOpen}
-            handleDialog={() => handleDialog()}
+            handleDialog={handleDialog}
+            title={isEdit ? 'EDIT YOUR EXPENSE' : 'ADD NEW EXPENSE'}
+            setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             setSelectedData={(value) => setSelectedData(value)}
           />
@@ -481,7 +487,7 @@ const Expense = () => {
         <DialogMenu
           isOpen={isExpenseDialogOpen || isViewExpenseDialogOpen}
           onClose={isExpenseDialogOpen ? handleCloseDialog : handleCloseViewDialog}
-          dialogTitle="Expense Details"
+          dialogTitle={`Expense Details: ${selectedData.title}`}
           dialogContent={<ViewExpenseDetails info={selectedData} />}
           dialogAction={
             role === 'admin' && (
