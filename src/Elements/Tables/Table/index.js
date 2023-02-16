@@ -160,7 +160,7 @@ const Table = ({
                 color="secondary"
                 sx={{ display: 'inline-block', width: 'max-content' }}
               >
-                {row[name]}
+                {row[name] === undefined || row[name] === null ? '-' : row[name]}
               </Typography>
             </Box>
           );
