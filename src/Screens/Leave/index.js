@@ -3,14 +3,14 @@ import { Card, Icon, Grid } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import {
-  ApprovalRounded,
   Add,
   DirectionsRun,
   Vaccines,
   CalendarMonth,
   Celebration,
   PendingActionsRounded,
-  TimeToLeaveRounded
+  RequestPage,
+  ThumbUp
 } from '@mui/icons-material';
 import LeaveCard from 'Components/CardLayouts/StaticCard';
 import Input from 'Elements/Input';
@@ -82,7 +82,7 @@ const LeaveList = () => {
               <LeaveCard
                 title="Total Request"
                 count="5"
-                icon={{ color: 'info', component: <TimeToLeaveRounded /> }}
+                icon={{ color: 'info', component: <RequestPage /> }}
                 isPercentage={false}
               />
             </Grid>
@@ -90,7 +90,7 @@ const LeaveList = () => {
               <LeaveCard
                 title="Total Approved"
                 count="3"
-                icon={{ color: 'success', component: <ApprovalRounded /> }}
+                icon={{ color: 'success', component: <ThumbUp /> }}
                 isPercentage={false}
               />
             </Grid>

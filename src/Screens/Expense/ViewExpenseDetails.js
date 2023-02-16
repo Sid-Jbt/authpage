@@ -5,7 +5,7 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import FormField from 'Elements/FormField';
 
-const ExpenseInfoDetails = ({ info }) => {
+const ViewExpenseDetails = ({ info }) => {
   const labels = [];
   const values = [];
 
@@ -62,4 +62,4 @@ const ExpenseInfoDetails = ({ info }) => {
   );
 };
 
-export default ExpenseInfoDetails;
+export default ViewExpenseDetails;

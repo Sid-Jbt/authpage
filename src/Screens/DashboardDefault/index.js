@@ -3,7 +3,7 @@ import Box from 'Elements/Box';
 import { Grid } from '@mui/material';
 import Calendar from 'Components/Calendar';
 import {
-  HolidayVillageTwoTone,
+  HolidayVillage,
   PendingTwoTone,
   PeopleRounded,
   Watch,
@@ -153,10 +153,10 @@ const DashboardDefault = () => {
               </Grid>
               <Grid item xs={12} lg={6} onClick={handlePendingLeave} sx={{ cursor: 'pointer' }}>
                 <LeaveCard
-                  title="Pending Leave"
-                  count="Approval"
-                  icon={{ color: 'warning', component: <HolidayVillageTwoTone /> }}
-                  isPercentage={100}
+                  title="Pending Leave Approval"
+                  count="0"
+                  icon={{ color: 'secondary', component: <HolidayVillage /> }}
+                  isPercentage={false}
                 />
               </Grid>
             </Grid>
