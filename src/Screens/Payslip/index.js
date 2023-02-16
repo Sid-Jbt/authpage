@@ -6,10 +6,12 @@ import Button from 'Elements/Button';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Months, Years } from 'Helpers/Global';
+import { useSelector } from 'react-redux';
 import payslipData from './data/payslipData';
 
 const Payslip = () => {
-  const { columns: prCols, rows: prRows } = payslipData;
+  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = payslipData;
+  const { role } = useSelector((state) => state.route);
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [search, setSearch] = useState('');
@@ -73,7 +75,7 @@ const Payslip = () => {
             </FormControl>
           </Grid>
         </FilterLayout>
-        <Table columns={prCols} rows={prRows} />
+        <Table columns={role === 'admin' ? adminPrCol : prCols} rows={prRows} />
       </Card>
     </>
   );
