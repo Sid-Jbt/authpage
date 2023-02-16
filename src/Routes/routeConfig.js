@@ -12,7 +12,7 @@ export const getDashboardPattern = () => generatePath(dashboardPattern);
 export const forgotPasswordPattern = '/forgot-password';
 export const getForgotPasswordPattern = () => generatePath(forgotPasswordPattern);
 
-export const resetPasswordPattern = '/reset-password';
+export const resetPasswordPattern = '/reset-password/:token';
 export const getResetPasswordPattern = () => generatePath(resetPasswordPattern);
 
 export const profilePattern = '/profile';
