@@ -39,7 +39,6 @@ function getSteps() {
 function getStepContent(stepIndex, props) {
   const customization = useSelector((state) => state.route);
 
-  console.log('props', props);
   switch (stepIndex) {
     case 0:
       return customization.role === 'admin' ? (
@@ -97,7 +96,6 @@ const ProfileSetup = () => {
                   enableReinitialize
                   initialValues={initialValues}
                   onSubmit={() => {
-                    console.log('wefwefwef');
                     handleNext();
                   }}
                   validationSchema={

@@ -28,20 +28,22 @@ const DashboardDefault = () => {
   useEffect(() => {
     (async () => {
       const items = await JSON.parse(localStorage.getItem('noticeBoardEvent'));
-      const newRows = items.map((item) => {
-        const o = { ...item };
-        o.eventType = (
-          <Badge
-            variant="gradient"
-            badgeContent={item.eventName}
-            color={item.eventName}
-            size="xs"
-            container
-            customWidth={100}
-          />
-        );
-        return o;
-      });
+      const newRows =
+        items &&
+        items.map((item) => {
+          const o = { ...item };
+          o.eventType = (
+            <Badge
+              variant="gradient"
+              badgeContent={item.eventName}
+              color={item.eventName}
+              size="xs"
+              container
+              customWidth={100}
+            />
+          );
+          return o;
+        });
       setCalendarEventsData(newRows);
     })();
   }, []);

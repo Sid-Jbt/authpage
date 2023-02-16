@@ -256,7 +256,7 @@ const Table = ({
               </>
             ) : (
               <TableRow>
-                <Box component="td" colspan={10} p={1} textAlign="center">
+                <Box component="td" colSpan={10} p={1} textAlign="center">
                   <Typography
                     variant="button"
                     fontWeight="regular"
