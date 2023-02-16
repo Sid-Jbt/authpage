@@ -34,7 +34,7 @@ const leaveListData = {
       noOfDays: 1,
       leaveReason: 'Going To Hospital',
       status: (
-        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
+        <Badge variant="gradient" badgeContent="pending" color="warning" size="xs" container />
       ),
       approvedBy: 'Suresh Borad'
     },
