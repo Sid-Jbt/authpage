@@ -38,3 +38,14 @@ export const forgotPassword = async (data) =>
   })
     .then(async (response) => isTokenExpire(response.json()))
     .catch((error) => handleNetworkError(error));
+
+export const companySignUp = async (data) =>
+  fetch(`${API_BASE_URL}/signup`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded'
+    },
+    body: await convertFormData(data)
+  })
+    .then(async (response) => isTokenExpire(response.json()))
+    .catch((error) => handleNetworkError(error));
