@@ -1,4 +1,6 @@
 import { getLoginPattern } from '../Routes/routeConfig';
+import { convertFormData } from '../Helpers/Global';
+import { API_BASE_URL } from '../Helpers/config';
 
 const isTokenExpire = async (responseJson) => {
   const response = await responseJson;
@@ -9,18 +11,19 @@ const isTokenExpire = async (responseJson) => {
   return response;
 };
 
-const handleNetworkError = async () => {
-  console.log('Network request error. Please try again.');
+const handleNetworkError = async (responseError) => {
+  if (responseError.name !== 'AbortError') {
+    console.log('Network request error. Please try again.');
+  }
 };
 
 export const login = async (data) =>
-  fetch(`/user/auth`, {
+  fetch(`${API_BASE_URL}/login`, {
     method: 'POST',
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
+      Accept: 'application/x-www-form-urlencoded'
     },
-    body: JSON.stringify(data)
+    body: await convertFormData(data)
   })
     .then(async (response) => isTokenExpire(response.json()))
     .catch((error) => handleNetworkError(error));

@@ -1,6 +1,6 @@
 import React, { Suspense, useContext, useState } from 'react';
 import { IconButton, InputAdornment, Switch } from '@mui/material';
-import { Check, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Check, Visibility, VisibilityOff, Error } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
@@ -8,16 +8,18 @@ import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { loginSchema } from 'Helpers/ValidationSchema';
-import { getProfileSetupPattern } from 'Routes/routeConfig';
+import { getDashboardPattern } from 'Routes/routeConfig';
 import { useDispatch } from 'react-redux';
-import { ROLE, ROLELIST } from 'Redux/actions';
+import { CURRENTUSER, ROLE, ROLELIST } from 'Redux/actions';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import { AdminRoleList, EmployeeRoleList } from 'Helpers/Global';
-import Loader from '../../../Elements/Loader';
+import Loader from 'Elements/Loader';
+import { login } from 'APIs/API';
 
 const Login = () => {
   const dispatchRole = useDispatch();
   const dispatchRoleList = useDispatch();
+  const dispatchCurrentUser = useDispatch();
 
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -32,31 +34,47 @@ const Login = () => {
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
-  const onLogin = (formData, actions) => {
-    const { email } = formData;
-    setSnack({
-      title: 'Success',
-      message: 'Logged in successfully',
-      time: false,
-      icon: <Check color="white" />,
-      color: 'success',
-      open: true
-    });
-    if (email === 'admin@gmail.com') {
-      dispatchRoleList({
-        type: ROLELIST,
-        value: AdminRoleList
+  const onLogin = async (formData, actions) => {
+    const loginRes = await login(formData);
+    const { status, message, data } = loginRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
       });
-      dispatchRole({ type: ROLE, value: 'admin' });
+      if (data.role === 'admin') {
+        dispatchRoleList({
+          type: ROLELIST,
+          value: AdminRoleList
+        });
+        dispatchRole({ type: ROLE, value: 'admin' });
+      } else {
+        dispatchRoleList({
+          type: ROLELIST,
+          value: EmployeeRoleList
+        });
+        dispatchRole({ type: ROLE, value: 'employee' });
+      }
+      dispatchCurrentUser({
+        type: CURRENTUSER,
+        value: data
+      });
+      actions.setSubmitting(false);
+      navigate(getDashboardPattern());
     } else {
-      dispatchRoleList({
-        type: ROLELIST,
-        value: EmployeeRoleList
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Error color="white" />,
+        color: 'error',
+        open: true
       });
-      dispatchRole({ type: ROLE, value: 'employee' });
     }
-    actions.setSubmitting(false);
-    navigate(getProfileSetupPattern());
   };
 
   return (
