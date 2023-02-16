@@ -8,7 +8,7 @@ const DeleteDialog = ({ handleDialogClose, selectedId, deleteItem }) => (
   <>
     <Box sx={{ height: '100%' }}>
       <Grid>
-        <Typography variant="button" fontWeight="bold" textTransform="capitalize" mr={10}>
+        <Typography variant="button" fontWeight="bold" mr={10}>
           Are you sure you want to delete this ?
         </Typography>
       </Grid>
