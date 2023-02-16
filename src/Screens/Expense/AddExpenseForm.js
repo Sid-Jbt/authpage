@@ -11,7 +11,7 @@ import Dropzone from '../../Elements/Dropzone';
 const initialValues = {
   itemName: '',
   purchaseFrom: '',
-  purchaseDate: moment().format('DD/MM/YYYY'),
+  purchaseDate: moment().format('YYYY-MM-DD'),
   amount: '',
   selectDoc: ''
 };
@@ -22,13 +22,16 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
     if (selectedData !== null) {
       Object.keys(data).map((key) => {
         data[key] = selectedData[key];
+        if (key === 'itemName') {
+          data[key] = selectedData.title;
+        }
         if (key === 'purchaseDate') {
-          data[key] = moment(selectedData.from).format('DD/MM/YYYY');
+          data[key] = moment(selectedData.purchaseDate).format('YYYY-MM-DD');
         }
       });
       setData(data);
     } else {
-      initialValues.purchaseDate = moment().format('DD/MM/YYYY');
+      initialValues.purchaseDate = moment().format('YYYY-MM-DD');
       initialValues.itemName = '';
       initialValues.purchaseFrom = '';
       initialValues.amount = '';
@@ -103,6 +106,7 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
                       fullWidth
                       id="purchaseDate"
                       name="purchaseDate"
+                      defaultValue={values.purchaseDate}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       errorText={errors.purchaseDate && touched.purchaseDate && errors.purchaseDate}

@@ -12,11 +12,13 @@ import { Department } from 'Helpers/Global';
 
 const initialValues = {
   subject: '',
-  message: ''
+  message: '',
+  department: ''
 };
 
-const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, title, setIsEdit }) => {
+const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, setIsEdit, title }) => {
   const [department, setDepartment] = useState(Department[0]);
+  const [data, setData] = useState(initialValues);
 
   const handleChangeDepartment = (selectedDepartment) => {
     setDepartment(selectedDepartment);
@@ -25,6 +27,8 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, title, setIsEdit }
   const onSubmit = (formData) => {
     console.log('formData', formData);
   };
+
+  console.log('setData,,,,', setData);
 
   return (
     <>
@@ -38,7 +42,7 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, title, setIsEdit }
       >
         <Formik
           enableReinitialize
-          initialValues={initialValues}
+          initialValues={data}
           onSubmit={(formData) => {
             onSubmit(formData);
           }}

@@ -1,12 +1,11 @@
+import React from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
-import Avatar from 'Elements/Avatar';
 import { Grid } from '@mui/material';
-import React from 'react';
 import FormField from 'Elements/FormField';
 import { useSelector } from 'react-redux';
 
-const ViewExpenseDetails = ({ info }) => {
+const ViewSupportTicketDetails = ({ info }) => {
   const { role } = useSelector((state) => state.route);
   const labels = [];
   const values = [];
@@ -46,14 +45,11 @@ const ViewExpenseDetails = ({ info }) => {
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="space-between">
         <Grid item>{renderItems}</Grid>
-        <Grid item>
-          <Avatar src={info.image} alt="profile-image" variant="rounded" size="xxl" shadow="lg" />
-        </Grid>
         <Grid item xs={12}>
           <FormField
             type="textarea"
-            placeholder="Please Enter the reason of approve or reject"
-            label="Reason"
+            placeholder="Please Enter the message of approve or reject"
+            label="Message"
             multiline
             rows={5}
             errorFalse
@@ -65,4 +61,4 @@ const ViewExpenseDetails = ({ info }) => {
   );
 };
 
-export default ViewExpenseDetails;
+export default ViewSupportTicketDetails;

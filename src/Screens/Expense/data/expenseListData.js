@@ -4,7 +4,6 @@ const expenseListData = {
   columns: [
     { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
     { name: 'title', align: 'center', headerName: 'Title', mobileHeader: 'Title' },
-    // { name: 'name', align: 'left', headerName: 'Name' },
     { name: 'purchaseFrom', align: 'center', headerName: 'Purchase From', mobileHeader: 'From' },
     { name: 'purchaseDate', align: 'center', headerName: 'Purchase Date', mobileHeader: 'Date' },
     { name: 'amount', align: 'center', headerName: 'Amount', mobileHeader: 'Amount' },
