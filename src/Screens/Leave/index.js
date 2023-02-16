@@ -20,6 +20,7 @@ import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 import DeleteDialog from '../../Components/DeleteDialog';
 import DialogMenu from '../../Elements/Dialog';
+import ViewLeaveDetails from './ViewLeaveDetails';
 
 const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
@@ -29,18 +30,39 @@ const LeaveList = () => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [search, setSearch] = useState('');
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
+  const [isViewLeaveDialogOpen, setIsViewLeaveDialogOpen] = useState(false);
 
   const handleDialog = () => {
     setSelectedData(null);
     setIsDialogOpen(!isDialogOpen);
   };
 
+  const handleOpenDialog = () => {
+    setIsLeaveDialogOpen(true);
+  };
+  const handleCloseDialog = () => {
+    setIsLeaveDialogOpen(false);
+  };
+
+  const handleCloseViewDialog = () => {
+    setIsViewLeaveDialogOpen(false);
+  };
+
+  const onClickView = (row) => {
+    setSelectedData(row);
+    handleOpenDialog();
+  };
+
   const onClickAction = (key, index) => {
     if (key === 'edit') {
       setSelectedData(prRows.find((o) => o.id === index));
       setIsDialogOpen(!isDialogOpen);
+    } else if (key === 'view') {
+      setSelectedData(prRows.find((o) => o.id === index));
+      setIsViewLeaveDialogOpen(true);
     } else {
       setSelectedId(index);
       setIsDeleteDialogOpen(true);
@@ -208,11 +230,14 @@ const LeaveList = () => {
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={prRows}
           onClickAction={(value, id) => onClickAction(value, id)}
-          isAction
+          isAction={role !== 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
+            { title: 'View', value: 'view' },
             { title: 'Delete', value: 'delete' }
           ]}
+          isView={role === 'admin'}
+          isDialogAction={(row) => onClickView(row)}
         />
         {isDialogOpen && (
           <AddLeaveForm
@@ -237,6 +262,42 @@ const LeaveList = () => {
           />
         )}
       </Card>
+
+      {(isLeaveDialogOpen || isViewLeaveDialogOpen) && selectedData && (
+        <DialogMenu
+          isOpen={isLeaveDialogOpen || isViewLeaveDialogOpen}
+          onClose={isLeaveDialogOpen ? handleCloseDialog : handleCloseViewDialog}
+          dialogTitle={`Leave Details: ${selectedData.leave}`}
+          dialogContent={<ViewLeaveDetails info={selectedData} />}
+          dialogAction={
+            role === 'admin' && (
+              <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
+                <Grid item>
+                  <Button
+                    type="submit"
+                    color="info"
+                    variant="contained"
+                    size="small"
+                    onClick={handleCloseDialog}
+                  >
+                    Approve
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    color="error"
+                    variant="contained"
+                    size="small"
+                    onClick={handleCloseDialog}
+                  >
+                    Reject
+                  </Button>
+                </Grid>
+              </Grid>
+            )
+          }
+        />
+      )}
     </>
   );
 };

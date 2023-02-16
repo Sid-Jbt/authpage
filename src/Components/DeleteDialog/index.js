@@ -8,7 +8,7 @@ const DeleteDialog = ({ handleDialogClose, selectedId, deleteItem }) => (
   <>
     <Box sx={{ height: '100%' }}>
       <Grid>
-        <Typography variant="button" fontWeight="bold" textTransform="capitalize" mr={10}>
+        <Typography variant="button" fontWeight="bold" mr={10}>
           Are you sure you want to delete this ?
         </Typography>
       </Grid>
@@ -16,8 +16,9 @@ const DeleteDialog = ({ handleDialogClose, selectedId, deleteItem }) => (
         sx={{
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
-          alignItems: 'left',
-          justifyContent: 'left',
+          alignItems: 'right',
+          justifyContent: 'right',
+          textAlign: 'end',
           mt: 3
         }}
       >
