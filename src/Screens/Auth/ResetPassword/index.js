@@ -6,10 +6,11 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { IconButton, InputAdornment } from '@mui/material';
-import { Check, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Check, Error, Visibility, VisibilityOff } from '@mui/icons-material';
 import { resetPasswordSchema } from 'Helpers/ValidationSchema';
 import { getDefaultPattern } from 'Routes/routeConfig';
 import { SnackbarContext } from 'Context/SnackbarProvider';
+import { companyResetPassword } from 'APIs/API';
 
 const RestPassword = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -22,6 +23,32 @@ const RestPassword = () => {
     event.preventDefault();
   };
 
+  const onSubmit = async (formData, actions) => {
+    const resetPasswordRes = await companyResetPassword(formData);
+    const { status, message } = resetPasswordRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      actions.setSubmitting(false);
+      navigate(getDefaultPattern());
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Error color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
+  };
+
   return (
     <>
       <Typography variant="h4" fontWeight="bold">
@@ -29,18 +56,7 @@ const RestPassword = () => {
       </Typography>
       <Formik
         initialValues={{ password: '', confirmPassword: '' }}
-        onSubmit={(values, actions) => {
-          setSnack({
-            title: 'Success',
-            message: 'Password successfully reset. Please login with new password',
-            time: false,
-            icon: <Check color="white" />,
-            color: 'success',
-            open: true
-          });
-          actions.setSubmitting(false);
-          navigate(getDefaultPattern());
-        }}
+        onSubmit={(values, actions) => onSubmit(values, actions)}
         validationSchema={resetPasswordSchema}
       >
         {(props) => {
