@@ -16,8 +16,9 @@ const DeleteDialog = ({ handleDialogClose, selectedId, deleteItem }) => (
         sx={{
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
-          alignItems: 'left',
-          justifyContent: 'left',
+          alignItems: 'right',
+          justifyContent: 'right',
+          textAlign: 'end',
           mt: 3
         }}
       >
