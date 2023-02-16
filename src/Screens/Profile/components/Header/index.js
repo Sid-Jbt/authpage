@@ -1,12 +1,23 @@
+import React, { useState, useRef } from 'react';
 import Typography from 'Elements/Typography';
-import profileImage from 'Assets/Images/bruce-mars.jpg';
-import { Card, Grid, Tab, Tabs } from '@mui/material';
-import { AccountBalance, CurrencyRupeeOutlined, PersonOutlined } from '@mui/icons-material';
+import team2 from 'Assets/Images/bruce-mars.jpg';
+import { Card, Grid, Tab, Tabs, Icon } from '@mui/material';
+import { AccountBalance, CurrencyRupeeOutlined, Edit, PersonOutlined } from '@mui/icons-material';
 import Avatar from 'Elements/Avatar';
 import { useSelector } from 'react-redux';
+import Box from 'Elements/Box';
+import Button from 'Elements/Button';
 
 const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => {
   const { role } = useSelector((state) => state.route);
+  const [profilePicUrl, setProfilePicUrl] = useState('');
+  const inputFile = useRef(null);
+
+  const profilePicUpload = (e) => {
+    const file = e.target.files[0];
+    const url = URL.createObjectURL(file);
+    setProfilePicUrl(url);
+  };
 
   return (
     <Card
@@ -18,7 +29,34 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => {
     >
       <Grid container spacing={3} alignItems="center">
         <Grid item>
-          <Avatar src={profileImage} alt="profile-image" variant="rounded" size="xl" />
+          <Box position="relative" height="max-content" mx="auto">
+            <Avatar
+              src={profilePicUrl === '' ? team2 : profilePicUrl}
+              alt="profile picture"
+              size="xl"
+              variant="rounded"
+            />
+            <input ref={inputFile} type="file" hidden onChange={(e) => profilePicUpload(e)} />
+            <Box alt="spotify logo" position="absolute" pl={5.5} bottom={0} mr={-1} mb={-1}>
+              <Button
+                variant="gradient"
+                color="light"
+                component="label"
+                onClick={() => inputFile.current && inputFile.current.click()}
+                iconOnly
+                sx={{
+                  width: '2rem',
+                  minWidth: '2rem',
+                  height: '2rem',
+                  minHeight: '2rem'
+                }}
+              >
+                <Icon>
+                  <Edit />
+                </Icon>
+              </Button>
+            </Box>
+          </Box>
         </Grid>
         <Grid item>
           <Typography variant="h4" fontWeight="medium">

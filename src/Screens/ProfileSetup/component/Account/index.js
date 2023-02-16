@@ -81,7 +81,7 @@ const Account = (props) => {
               <Grid item xs={12} md={6}>
                 <Box>
                   <Input
-                    type="text"
+                    type="number"
                     placeholder="eg. 0123456789012345"
                     size="medium"
                     fullWidth

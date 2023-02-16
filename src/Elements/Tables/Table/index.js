@@ -246,15 +246,17 @@ const Table = ({
             {renderRows && renderRows.length > 0 ? (
               <>
                 {renderRows}
-                <TableCell
-                  colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
-                >
-                  <Paginations rows={renderRows.length} />
-                </TableCell>
+                {renderRows.length > 10 && (
+                  <TableCell
+                    colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
+                  >
+                    <Paginations rows={renderRows.length} />
+                  </TableCell>
+                )}
               </>
             ) : (
               <TableRow>
-                <Box component="td" colspan={10} p={1} textAlign="center">
+                <Box component="td" colSpan={10} p={1} textAlign="center">
                   <Typography
                     variant="button"
                     fontWeight="regular"

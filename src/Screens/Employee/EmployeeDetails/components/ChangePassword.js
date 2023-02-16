@@ -38,11 +38,7 @@ const ChangePassword = () => {
       </Box>
       <Formik
         enableReinitialize
-        initialValues={{
-          currentPassword: '',
-          newPassword: '',
-          confirmNewPassword: ''
-        }}
+        initialValues={{ currentPassword: '', newPassword: '', confirmNewPassword: '' }}
         onSubmit={(values, actions) => {
           setSnack({
             title: 'Success',
@@ -67,9 +63,8 @@ const ChangePassword = () => {
                     <Input
                       name="currentPassword"
                       placeholder="Current Password"
-                      label="Current Password"
                       size="large"
-                      type="password"
+                      label="Current Password"
                       value={values.currentPassword}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -84,9 +79,8 @@ const ChangePassword = () => {
                     <Input
                       name="newPassword"
                       placeholder="New Password"
-                      label="New Password"
                       size="large"
-                      type="password"
+                      label="New Password"
                       value={values.newPassword}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -99,9 +93,8 @@ const ChangePassword = () => {
                     <Input
                       name="confirmNewPassword"
                       placeholder="Confirm New Password"
-                      label="Confirm New Password"
                       size="large"
-                      type="password"
+                      label="Confirm New Password"
                       value={values.confirmNewPassword}
                       onChange={handleChange}
                       onBlur={handleBlur}

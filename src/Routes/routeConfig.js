@@ -47,11 +47,13 @@ export const getSettingPattern = () => generatePath(settingPattern);
 export const attendancePattern = '/attendance';
 export const getAttendancePattern = () => generatePath(attendancePattern);
 
+/*
 export const reportPattern = '/report';
 export const getReportPattern = generatePath(reportPattern);
 
 export const allReportPattern = `${reportPattern}/allreport`;
 export const getAllReportPattern = generatePath(allReportPattern);
+*/
 
 export const holidayPattern = '/holiday';
 export const getHolidayPattern = () => generatePath(holidayPattern);

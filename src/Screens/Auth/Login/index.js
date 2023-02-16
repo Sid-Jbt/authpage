@@ -8,7 +8,7 @@ import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { loginSchema } from 'Helpers/ValidationSchema';
-import { getDashboardPattern } from 'Routes/routeConfig';
+import { forgotPasswordPattern, getDashboardPattern } from 'Routes/routeConfig';
 import { useDispatch } from 'react-redux';
 import { CURRENTUSER, ROLE, ROLELIST } from 'Redux/actions';
 import { SnackbarContext } from 'Context/SnackbarProvider';
@@ -172,11 +172,11 @@ const Login = () => {
                   <Box>
                     <Typography
                       component={Link}
-                      to="/forgot-password"
+                      to={forgotPasswordPattern}
                       variant="button"
                       color="info"
                       fontWeight="medium"
-                      underline
+                      underline="true"
                     >
                       Forgot Password?
                     </Typography>
