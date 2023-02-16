@@ -1,53 +1,23 @@
-import { Box, CircularProgress, circularProgressClasses, Tooltip } from '@mui/material';
-import Typography from 'Elements/Typography';
+import { Box, CircularProgress } from '@mui/material';
 
-const CircularProgressWithLabel = (props) => (
-  <Tooltip title="Your Profile is 10% completed">
-    <Box sx={{ position: 'relative', display: 'flex', cursor: 'pointer', alignItems: 'center' }}>
+const CircularProgressLoader = ({ isLoading = false }) =>
+  isLoading && (
+    <Box
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: `${-80 / 2}px`,
+        marginLeft: `${-80 / 2}px`
+      }}
+    >
       <CircularProgress
-        variant="determinate"
+        size={80}
         sx={{
-          color: (theme) => theme.palette.grey[800]
+          color: 'dark'
         }}
-        size={40}
-        thickness={4}
-        {...props}
-        value={100}
       />
-      <CircularProgress
-        variant="determinate"
-        disableShrink
-        sx={{
-          color: (theme) => theme.palette.success.light,
-          animationDuration: '550ms',
-          position: 'absolute',
-          left: 0,
-          [`& .${circularProgressClasses.circle}`]: {
-            strokeLinecap: 'round'
-          }
-        }}
-        size={40}
-        thickness={4}
-        {...props}
-      />
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <Typography variant="caption" component="div" color="text.secondary">
-          {`${Math.round(props.value)}%`}
-        </Typography>
-      </Box>
     </Box>
-  </Tooltip>
-);
+  );
 
-export default CircularProgressWithLabel;
+export default CircularProgressLoader;
