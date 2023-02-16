@@ -8,7 +8,7 @@ const leaveListData = {
     { name: 'from', align: 'center', headerName: 'From', mobileHeader: 'From' },
     { name: 'to', align: 'center', headerName: 'To', mobileHeader: 'To' },
     { name: 'noOfDays', align: 'center', headerName: 'No Of Days', mobileHeader: 'Days' },
-    { name: 'leaveReason', align: 'center', headerName: 'Reason', mobileHeader: 'Reason' },
+    /* { name: 'leaveReason', align: 'center', headerName: 'Reason', mobileHeader: 'Reason' }, */
     // { name: 'approvedBy', align: 'center', headerName: 'Approved By', mobileHeader: 'Approved By' },
     { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
   ],
@@ -19,7 +19,7 @@ const leaveListData = {
     { name: 'from', align: 'center', headerName: 'From', mobileHeader: 'From' },
     { name: 'to', align: 'center', headerName: 'To', mobileHeader: 'To' },
     { name: 'noOfDays', align: 'center', headerName: 'No Of Days', mobileHeader: 'Days' },
-    { name: 'leaveReason', align: 'center', headerName: 'Reason', mobileHeader: 'Reason' },
+    /*  { name: 'leaveReason', align: 'center', headerName: 'Reason', mobileHeader: 'Reason' }, */
     { name: 'approvedBy', align: 'center', headerName: 'Approved By', mobileHeader: 'Approved' },
     { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
   ],
@@ -34,7 +34,7 @@ const leaveListData = {
       noOfDays: 1,
       leaveReason: 'Going To Hospital',
       status: (
-        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
+        <Badge variant="gradient" badgeContent="pending" color="warning" size="xs" container />
       ),
       approvedBy: 'Suresh Borad'
     },
