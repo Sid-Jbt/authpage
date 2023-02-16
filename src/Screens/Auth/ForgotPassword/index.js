@@ -8,11 +8,38 @@ import Input from 'Elements/Input';
 import { forgotPasswordSchema } from 'Helpers/ValidationSchema';
 import { getResetPasswordPattern } from 'Routes/routeConfig';
 import { SnackbarContext } from 'Context/SnackbarProvider';
-import { Check } from '@mui/icons-material';
+import { Check, Error } from '@mui/icons-material';
+import { forgotPassword } from 'APIs/API';
 
 const ForgotPassword = () => {
   const { setSnack } = useContext(SnackbarContext);
   const navigate = useNavigate();
+
+  const onSubmit = async (formData, actions) => {
+    const forgotPasswordRes = await forgotPassword(formData);
+    const { status, message } = forgotPasswordRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      actions.setSubmitting(false);
+      navigate(getResetPasswordPattern());
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Error color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
+  };
 
   return (
     <>
@@ -27,17 +54,7 @@ const ForgotPassword = () => {
       <Formik
         initialValues={{ email: '' }}
         onSubmit={(values, actions) => {
-          const { email } = values;
-          setSnack({
-            title: 'Success',
-            message: `Please check your email '${email}' for reset password link`,
-            time: false,
-            icon: <Check color="white" />,
-            color: 'success',
-            open: true
-          });
-          actions.setSubmitting(false);
-          navigate(getResetPasswordPattern());
+          onSubmit(values, actions);
         }}
         validationSchema={forgotPasswordSchema}
       >
