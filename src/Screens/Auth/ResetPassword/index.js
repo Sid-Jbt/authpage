@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -8,7 +8,7 @@ import Input from 'Elements/Input';
 import { IconButton, InputAdornment } from '@mui/material';
 import { Check, Error, Visibility, VisibilityOff } from '@mui/icons-material';
 import { resetPasswordSchema } from 'Helpers/ValidationSchema';
-import { getDefaultPattern } from 'Routes/routeConfig';
+import { defaultPattern, getDefaultPattern } from 'Routes/routeConfig';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import { companyResetPassword } from 'APIs/API';
 
@@ -16,6 +16,7 @@ const RestPassword = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const { setSnack } = useContext(SnackbarContext);
   const navigate = useNavigate();
+  const { token } = useParams();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -24,7 +25,7 @@ const RestPassword = () => {
   };
 
   const onSubmit = async (formData, actions) => {
-    const resetPasswordRes = await companyResetPassword(formData);
+    const resetPasswordRes = await companyResetPassword(formData, token);
     const { status, message } = resetPasswordRes;
     if (status) {
       setSnack({
@@ -55,7 +56,7 @@ const RestPassword = () => {
         Create new password
       </Typography>
       <Formik
-        initialValues={{ password: '', confirmPassword: '' }}
+        initialValues={{ password: '', resetPassword: '' }}
         onSubmit={(values, actions) => onSubmit(values, actions)}
         validationSchema={resetPasswordSchema}
       >
@@ -92,17 +93,15 @@ const RestPassword = () => {
               </Box>
               <Box mt={0.5}>
                 <Input
-                  name="confirmPassword"
+                  name="resetPassword"
                   placeholder="Confirm Password"
                   size="large"
-                  value={values.confirmPassword}
+                  value={values.resetPassword}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  errorText={
-                    errors.confirmPassword && touched.confirmPassword && errors.confirmPassword
-                  }
-                  error={errors.confirmPassword && touched.confirmPassword}
-                  success={!errors.confirmPassword && touched.confirmPassword}
+                  errorText={errors.resetPassword && touched.resetPassword && errors.resetPassword}
+                  error={errors.resetPassword && touched.resetPassword}
+                  success={!errors.resetPassword && touched.resetPassword}
                   type={showPassword ? 'text' : 'password'}
                   endAdornment={
                     <InputAdornment position="end">
@@ -137,7 +136,13 @@ const RestPassword = () => {
       <Box mt={3} textAlign="center">
         <Typography variant="button" color="text" fontWeight="regular">
           Already have an account?&nbsp;
-          <Typography component={Link} to="/" variant="button" color="info" fontWeight="medium">
+          <Typography
+            component={Link}
+            to={defaultPattern}
+            variant="button"
+            color="info"
+            fontWeight="medium"
+          >
             Sign In
           </Typography>
         </Typography>
