@@ -30,9 +30,10 @@ const LeaveList = () => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [search, setSearch] = useState('');
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
+  const [isViewLeaveDialogOpen, setIsViewLeaveDialogOpen] = useState(false);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -46,6 +47,10 @@ const LeaveList = () => {
     setIsLeaveDialogOpen(false);
   };
 
+  const handleCloseViewDialog = () => {
+    setIsViewLeaveDialogOpen(false);
+  };
+
   const onClickView = (row) => {
     setSelectedData(row);
     handleOpenDialog();
@@ -56,8 +61,8 @@ const LeaveList = () => {
       setSelectedData(prRows.find((o) => o.id === index));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      console.log('View Modal...');
-      onClickView();
+      setSelectedData(prRows.find((o) => o.id === index));
+      setIsViewLeaveDialogOpen(true);
     } else {
       setSelectedId(index);
       setIsDeleteDialogOpen(true);
@@ -258,15 +263,14 @@ const LeaveList = () => {
         )}
       </Card>
 
-      {isLeaveDialogOpen && selectedData && (
+      {(isLeaveDialogOpen || isViewLeaveDialogOpen) && selectedData && (
         <DialogMenu
-          isOpen={isLeaveDialogOpen}
-          onClose={handleCloseDialog}
+          isOpen={isLeaveDialogOpen || isViewLeaveDialogOpen}
+          onClose={isLeaveDialogOpen ? handleCloseDialog : handleCloseViewDialog}
           dialogTitle={`Leave Details: ${selectedData.leave}`}
           dialogContent={<ViewLeaveDetails info={selectedData} />}
           dialogAction={
-            (role !== 'admin' ||
-              (selectedData !== null && selectedData.status.props.badgeContent === 'pending')) && (
+            role === 'admin' && (
               <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
                 <Grid item>
                   <Button

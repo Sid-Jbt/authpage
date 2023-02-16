@@ -3,8 +3,10 @@ import Typography from 'Elements/Typography';
 import { Grid } from '@mui/material';
 import React from 'react';
 import FormField from 'Elements/FormField';
+import { useSelector } from 'react-redux';
 
 const ViewLeaveDetails = ({ info }) => {
+  const { role } = useSelector((state) => state.route);
   const labels = [];
   const values = [];
 
@@ -51,7 +53,7 @@ const ViewLeaveDetails = ({ info }) => {
             multiline
             rows={5}
             errorFalse
-            disabled={info !== null && info.status.props.badgeContent !== 'pending'}
+            disabled={role !== 'admin'}
           />
         </Grid>
       </Grid>
