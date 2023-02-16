@@ -261,7 +261,7 @@ export const organisationSchema = yup.object().shape({
 });
 
 export const organisationSignupSchema = yup.object().shape({
-  name: yup.string().required('Organisation name is required'),
+  organisationName: yup.string().required('Organisation name is required'),
   email: yup.string().email('Enter a valid email').required('Email is required'),
   password: yup
     .string()
