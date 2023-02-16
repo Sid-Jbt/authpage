@@ -32,7 +32,6 @@ const Table = ({
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
-
   const onSelectAll = (isCheckSelectAll) => {
     let selectedId = [];
     if (isCheckSelectAll === false) {
