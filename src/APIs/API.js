@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { getLoginPattern } from '../Routes/routeConfig';
-import { convertFormData } from '../Helpers/Global';
+import { convertFormData, queryString } from '../Helpers/Global';
 import { API_BASE_URL } from '../Helpers/config';
+import { store } from '../Redux/store';
 
 const isTokenExpire = async (response) => {
   let apiResponse = null;
@@ -59,4 +60,15 @@ export const companySignUp = async (data) =>
     data: await convertFormData(data)
   })
     .then(async (response) => isTokenExpire(response))
+    .catch((error) => handleNetworkError(error));
+
+export const getCompanyEmployee = async (data) =>
+  fetch(`${API_BASE_URL}/?${queryString(data)}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: store.getState().route.currentUser.token
+    }
+  })
+    .then(async (response) => isTokenExpire(response.json()))
     .catch((error) => handleNetworkError(error));
