@@ -8,20 +8,24 @@ import Select from 'Elements/Select';
 import Input from 'Elements/Input';
 import Editor from 'Elements/Editor';
 import Button from 'Elements/Button';
-import { Department } from 'Helpers/Global';
+import { Department, Priority } from 'Helpers/Global';
 
 const initialValues = {
   subject: '',
-  message: '',
-  department: ''
+  message: ''
 };
 
-const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, setIsEdit, title }) => {
+const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, setIsEdit, title, selectedData }) => {
   const [department, setDepartment] = useState(Department[0]);
+  const [priority, setPriority] = useState(Priority[3]);
   const [data, setData] = useState(initialValues);
 
   const handleChangeDepartment = (selectedDepartment) => {
     setDepartment(selectedDepartment);
+  };
+
+  const handleChangePriority = (selectedPriority) => {
+    setPriority(selectedPriority);
   };
 
   const onSubmit = (formData) => {
@@ -29,6 +33,7 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, setIsEdit, title }
   };
 
   console.log('setData,,,,', setData);
+  console.log('selected Data...', selectedData);
 
   return (
     <>
@@ -72,7 +77,7 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, setIsEdit, title }
                   </Box>
                 </Grid>
                 <Grid container spacing={1} justifyContent="space-between">
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} md={6}>
                     <Box>
                       <FormControl sx={{ width: '100%' }}>
                         <FormLabel> DEPARTMENT </FormLabel>
@@ -81,6 +86,19 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, setIsEdit, title }
                           options={Department}
                           fullWidth
                           onChange={(value) => handleChangeDepartment(value)}
+                        />
+                      </FormControl>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Box>
+                      <FormControl sx={{ width: '100%' }}>
+                        <FormLabel> Priority </FormLabel>
+                        <Select
+                          value={priority}
+                          options={Priority}
+                          fullWidth
+                          onChange={(value) => handleChangePriority(value)}
                         />
                       </FormControl>
                     </Box>
@@ -108,7 +126,7 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, setIsEdit, title }
                     }}
                   >
                     <Button type="submit" color="info" variant="contained" size="small">
-                      Save
+                      SAVE
                     </Button>
                   </Grid>
                 </Grid>

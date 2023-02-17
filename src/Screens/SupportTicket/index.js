@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import {
-  Add,
-  ApprovalOutlined,
-  DirectionsRun,
-  ImportExportRounded,
-  Pending
-} from '@mui/icons-material';
+import { Add, ImportExportRounded, Pending, ThumbDown, ThumbUp } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
@@ -26,7 +20,7 @@ const supportTicket = () => {
   const { role } = useSelector((state) => state.route);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const [selectDate, setSelectDate] = useState('');
+  const [selectDate, setSelectDate] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
@@ -113,7 +107,7 @@ const supportTicket = () => {
           <TicketCard
             title="Approved"
             count="5"
-            icon={{ color: 'success', component: <ApprovalOutlined /> }}
+            icon={{ color: 'success', component: <ThumbUp /> }}
             isPercentage={false}
           />
         </Grid>
@@ -121,7 +115,7 @@ const supportTicket = () => {
           <TicketCard
             title="Declined"
             count="1"
-            icon={{ color: 'error', component: <DirectionsRun /> }}
+            icon={{ color: 'error', component: <ThumbDown /> }}
             isPercentage={false}
           />
         </Grid>
