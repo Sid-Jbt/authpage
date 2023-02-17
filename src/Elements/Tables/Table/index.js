@@ -13,7 +13,7 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import typography from 'Theme/base/typography';
 import borders from 'Theme/base/borders';
-import Paginations from 'Elements/Pagination';
+import Pagination from 'Elements/Pagination';
 import { Action } from 'Elements/Tables/Action';
 import breakpoints from 'Theme/base/breakpoints';
 import Icon from '@mui/material/Icon';
@@ -27,7 +27,15 @@ const Table = ({
   options,
   onClickAction,
   isView = false,
-  isDialogAction
+  isDialogAction,
+  rowsCount = 0,
+  initialPage = 0,
+  onChangePage,
+  rowsPerPage = 10,
+  onRowsPerPageChange,
+  sortKey = 'id',
+  sortOrder = 'asc',
+  handleRequestSort
 }) => {
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
@@ -55,7 +63,7 @@ const Table = ({
     setSelectedIds([...selectedIds]);
   };
 
-  const renderColumns = columns.map(({ headerName, mobileHeader, align, width }, key) => {
+  const renderColumns = columns.map(({ headerName, mobileHeader, align, width, name }, key) => {
     let pl;
     let pr;
 
@@ -92,9 +100,8 @@ const Table = ({
               ? mobileHeader.toUpperCase() !== 'ACTION' && mobileHeader.toUpperCase() !== 'ID'
               : headerName.toUpperCase() !== 'ACTION' && headerName.toUpperCase() !== 'ID'
           }
-          direction="asc"
-          // direction={orderBy === name ? order : 'asc'}
-          // onClick={(e) => handleRequestSort(e, name, order === 'asc' ? 'desc' : 'asc')}
+          direction={sortKey.toLowerCase() === name.toLowerCase() ? sortOrder : 'asc'}
+          onClick={(e) => handleRequestSort(e, name, sortOrder === 'asc' ? 'desc' : 'asc')}
           hideSortIcon={
             window.innerWidth < breakpoints.values.xl
               ? mobileHeader.toUpperCase() === 'ACTION' && mobileHeader.toUpperCase() === 'ID'
@@ -245,11 +252,17 @@ const Table = ({
             {renderRows && renderRows.length > 0 ? (
               <>
                 {renderRows}
-                {renderRows.length > 10 && (
+                {rowsCount > 10 && (
                   <TableCell
                     colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
                   >
-                    <Paginations rows={renderRows.length} />
+                    <Pagination
+                      rows={rowsCount}
+                      initialPage={initialPage}
+                      onChangePage={(page) => onChangePage(page)}
+                      rowsPerPage={rowsPerPage}
+                      onRowsPerPageChange={(rowsPage) => onRowsPerPageChange(rowsPage)}
+                    />
                   </TableCell>
                 )}
               </>
