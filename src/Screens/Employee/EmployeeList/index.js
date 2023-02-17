@@ -10,11 +10,11 @@ import { Roles } from 'Helpers/Global';
 import { useNavigate } from 'react-router';
 import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
 import { useSelector } from 'react-redux';
-import employeeListData from './data/employeeListData';
+import { SnackbarContext } from 'Context/SnackbarProvider';
+import { getCompanyEmployee } from 'APIs/API';
+import logoSpotify from 'Assets/logo/jbt-logo.svg';
 import AddEmployeeForm from './AddEmployeeForm';
-import { SnackbarContext } from '../../../Context/SnackbarProvider';
-import { getCompanyEmployee } from '../../../APIs/API';
-import logoSpotify from '../../../Assets/logo/jbt-logo.svg';
+import employeeListData from './data/employeeListData';
 
 const EmployeeList = () => {
   const { role } = useSelector((state) => state.route);
@@ -118,7 +118,7 @@ const EmployeeList = () => {
 
   useEffect(() => {
     if (isClear) {
-      getAllCompanyEmployee(sortKey, sortOrder, page, '', 1);
+      getAllCompanyEmployee(sortKey, sortOrder, page, '', 0);
     }
   }, [isClear]);
 
@@ -131,7 +131,7 @@ const EmployeeList = () => {
   };
 
   const onClickSearch = () => {
-    getAllCompanyEmployee(sortKey, sortOrder, page, search, 1);
+    getAllCompanyEmployee(sortKey, sortOrder, page, search, 0);
   };
 
   return (
