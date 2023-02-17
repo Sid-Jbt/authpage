@@ -1,0 +1,118 @@
+import React from 'react';
+import Box from 'Elements/Box';
+import Typography from 'Elements/Typography';
+import { Outlet } from 'react-router';
+import { Grid, useTheme } from '@mui/material';
+import linearGradient from 'Theme/functions/linearGradient';
+import LogoWithName from 'Assets/logo/jbt-colored-logo.png';
+import Logo from 'Assets/logo/jbt-logo.svg';
+import LogoTest from 'Assets/Illustrations/404.svg';
+
+const AuthLayout = () => {
+  const theme = useTheme();
+
+  const bgImage = LogoTest;
+
+  return (
+    <>
+      <Box
+        width="100vw"
+        height="100%"
+        minHeight="100vh"
+        bgColor="white"
+        sx={{ overflowX: 'hidden' }}
+      >
+        <Grid container>
+          <Grid item xs={11} sm={8} md={6} lg={4} xl={3} sx={{ mx: 'auto' }}>
+            <Box
+              pt={3}
+              sx={({ breakpoints }) => ({
+                [breakpoints.up('lg')]: {
+                  display: 'none'
+                }
+              })}
+            >
+              <Box component="img" src={LogoWithName} alt="Logo" width="10rem" mr={0.25} />
+            </Box>
+
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              height="calc(100vh - 2rem)"
+            >
+              <Box p={3}>
+                <Outlet />
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Box
+              display={{ xs: 'none', lg: 'flex' }}
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              width="calc(100% - 2rem)"
+              height="calc(100vh - 2rem)"
+              position="relative"
+              borderRadius="lg"
+              textAlign="center"
+              m={2}
+              px={13}
+              sx={{ overflow: 'hidden' }}
+            >
+              <Box
+                component="img"
+                src={bgImage}
+                alt="background"
+                width="100%"
+                height="100%"
+                position="absolute"
+              />
+              <Box
+                bgColor={linearGradient(
+                  theme.palette.gradients.info.main,
+                  theme.palette.gradients.info.state
+                )}
+                width="100%"
+                height="100%"
+                position="absolute"
+                topl={0}
+                left={0}
+                opacity={0.7}
+              />
+              <Box position="relative">
+                <Box
+                  mt={6}
+                  mb={1}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Box component="img" src={Logo} alt="Logo" width={100} />
+                  <Typography variant="h1" color="white" fontWeight="bold" ml={1}>
+                    JarvisBitz Tech
+                  </Typography>
+                </Box>
+
+                <Box mb={1}>
+                  <Typography variant="body1" color="white">
+                    Our goal is to convert our clients' digital experiences into cost-effective,
+                    functional, user-centric, and creative technological solutions. JarvisBitz is
+                    quick to identify and adapt to changes in the digital world, allowing companies
+                    to improve their market presence.
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
+    </>
+  );
+};
+
+export default AuthLayout;
