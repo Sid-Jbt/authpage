@@ -22,7 +22,7 @@ jobs:
           yarn policies set-version
           yarn install --frozen-lockfile
       - name: Copy config
-        run: cp src/common/config.test.js src/common/config.js
+        run: cp .env.test .env
       - name: Validate Code Style
         run: yarn check-all
       - name: Build
