@@ -12,7 +12,6 @@ import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
 import { useSelector } from 'react-redux';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import { getCompanyEmployee } from 'APIs/API';
-import logoSpotify from 'Assets/logo/jbt-logo.svg';
 import AddEmployeeForm from './AddEmployeeForm';
 import employeeListData from './data/employeeListData';
 
@@ -27,30 +26,33 @@ const EmployeeList = () => {
   const [toDate, setToDate] = useState('');
   const [search, setSearch] = useState('');
   const [allEmployee, setAllEmployee] = useState([]);
-  const [sortKey, setSortKey] = useState('firstName');
+  const [employeeCount, setEmployeeCount] = useState(0);
+  const [sortKey, setSortKey] = useState('email');
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
-  const [countEmployee, setCountEmployee] = useState(0);
+  const [limit, setLimit] = useState(10);
   const [isClear, setIsClear] = useState(false);
 
-  console.log(setSortOrder, setSortKey, setPage, countEmployee, setCountEmployee);
-
   const getAllCompanyEmployee = async (
-    selectedSortKey = 'lastName',
+    selectedSortKey = 'email',
     selectedSortOrder = 'asc',
     selectedPage = 0,
     text = '',
-    count = 0
+    count = 0,
+    startDate = '',
+    endDate = '',
+    dataLimit = limit
   ) => {
     const employeeData = {
-      limit: 10,
+      limit: dataLimit,
       page: selectedPage,
-      sortKey: selectedSortKey,
-      sortOrder: selectedSortOrder,
+      sortKey: selectedSortKey.toLowerCase(),
+      sortOrder: selectedSortOrder.toLowerCase(),
       search: text,
-      count
+      count,
+      startDate,
+      endDate
     };
-    console.log('empData', employeeData);
     const employeeRes = await getCompanyEmployee(employeeData);
     const {
       status,
@@ -58,11 +60,8 @@ const EmployeeList = () => {
       message
     } = employeeRes;
     if (status) {
-      const employee = rows.map((employeeId) => ({
-        ...employeeId,
-        name: [logoSpotify, employeeId.firstName]
-      }));
-      setAllEmployee(employee);
+      setAllEmployee(rows);
+      setEmployeeCount(employeeRes.data.count);
     } else {
       setSnack({
         title: 'Error',
@@ -118,7 +117,7 @@ const EmployeeList = () => {
 
   useEffect(() => {
     if (isClear) {
-      getAllCompanyEmployee(sortKey, sortOrder, page, '', 0);
+      getAllCompanyEmployee(sortKey, sortOrder, page, '');
     }
   }, [isClear]);
 
@@ -131,7 +130,23 @@ const EmployeeList = () => {
   };
 
   const onClickSearch = () => {
-    getAllCompanyEmployee(sortKey, sortOrder, page, search, 0);
+    getAllCompanyEmployee(sortKey, sortOrder, page, search, 0, fromDate, toDate);
+  };
+
+  const onPage = async (selectedPage) => {
+    setPage(selectedPage);
+    await getAllCompanyEmployee(sortKey, sortOrder, selectedPage);
+  };
+
+  const onRowsPerPageChange = async (selectedLimit) => {
+    setLimit(selectedLimit);
+    await getAllCompanyEmployee(sortKey, sortOrder, selectedLimit);
+  };
+
+  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
+    setSortKey(selectedSortKey);
+    setSortOrder(selectedSortOrder);
+    await getAllCompanyEmployee(selectedSortKey, selectedSortOrder, page);
   };
 
   return (
@@ -212,11 +227,19 @@ const EmployeeList = () => {
           columns={prCols}
           rows={allEmployee}
           onClickAction={(value, id) => onClickAction(value, id)}
+          rowsCount={employeeCount}
           isAction
           options={[
             { title: 'Details', value: 'details' },
             { title: 'Delete', value: 'delete' }
           ]}
+          initialPage={page}
+          onChangePage={(value) => onPage(value)}
+          rowsPerPage={limit}
+          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
+          sortKey={sortKey}
+          sortOrder={sortOrder}
+          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
         />
         <AddEmployeeForm isDialogOpen={isDialogOpen} handleDialog={handleDialog} />
       </Card>
