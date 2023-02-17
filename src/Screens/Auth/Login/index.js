@@ -12,7 +12,8 @@ import {
   forgotPasswordPattern,
   getDashboardPattern,
   getDefaultPattern,
-  organisationSignupPattern
+  organisationSignupPattern,
+  getProfileSetupPattern
 } from 'Routes/routeConfig';
 import { useDispatch } from 'react-redux';
 import { CURRENTUSER, ROLE, ROLELIST } from 'Redux/actions';
@@ -30,8 +31,6 @@ const Login = () => {
 
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  console.log('------', process.env.REACT_APP_DESCRIPTION);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -73,7 +72,7 @@ const Login = () => {
         value: data
       });
       actions.setSubmitting(false);
-      navigate(getDashboardPattern());
+      navigate(data.isProfileComplete === 0 ? getProfileSetupPattern() : getDashboardPattern());
     } else {
       setSnack({
         title: 'Error',

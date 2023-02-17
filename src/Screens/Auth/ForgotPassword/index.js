@@ -6,17 +6,17 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { forgotPasswordSchema } from 'Helpers/ValidationSchema';
-import { getResetPasswordPattern } from 'Routes/routeConfig';
+import { defaultPattern, getResetPasswordPattern } from 'Routes/routeConfig';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import { Check, Error } from '@mui/icons-material';
-import { forgotPassword } from 'APIs/API';
+import { companyForgotPassword } from 'APIs/API';
 
 const ForgotPassword = () => {
   const { setSnack } = useContext(SnackbarContext);
   const navigate = useNavigate();
 
   const onSubmit = async (formData, actions) => {
-    const forgotPasswordRes = await forgotPassword(formData);
+    const forgotPasswordRes = await companyForgotPassword(formData);
     const { status, message } = forgotPasswordRes;
     if (status) {
       setSnack({
@@ -97,7 +97,13 @@ const ForgotPassword = () => {
       <Box mt={3} textAlign="center">
         <Typography variant="button" color="text" fontWeight="regular">
           Already have an account?&nbsp;
-          <Typography component={Link} to="/" variant="button" color="info" fontWeight="medium">
+          <Typography
+            component={Link}
+            to={defaultPattern}
+            variant="button"
+            color="info"
+            fontWeight="medium"
+          >
             Sign In
           </Typography>
         </Typography>

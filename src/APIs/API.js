@@ -38,7 +38,7 @@ export const login = async (data) =>
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
 
-export const forgotPassword = async (data) =>
+export const companyForgotPassword = async (data) =>
   axios({
     url: `${API_BASE_URL}/forgot-password`,
     method: 'POST',
@@ -63,12 +63,25 @@ export const companySignUp = async (data) =>
     .catch((error) => handleNetworkError(error));
 
 export const getCompanyEmployee = async (data) =>
-  fetch(`${API_BASE_URL}/?${queryString(data)}`, {
+  axios({
+    url: `${API_BASE_URL}/?${queryString(data)}`,
     method: 'GET',
     headers: {
       Accept: 'application/x-www-form-urlencoded',
       Authorization: store.getState().route.currentUser.token
     }
   })
-    .then(async (response) => isTokenExpire(response.json()))
+    .then(async (response) => isTokenExpire(response))
+    .catch((error) => handleNetworkError(error));
+
+export const companyResetPassword = async (data, token) =>
+  axios({
+    url: `${API_BASE_URL}/?${queryString(data)}`,
+    method: 'GET',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
