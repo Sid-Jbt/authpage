@@ -1,6 +1,7 @@
 import { getLoginPattern } from '../Routes/routeConfig';
-import { convertFormData } from '../Helpers/Global';
+import { convertFormData, queryString } from '../Helpers/Global';
 import { API_BASE_URL } from '../Helpers/config';
+import { store } from '../Redux/store';
 
 const isTokenExpire = async (responseJson) => {
   const response = await responseJson;
@@ -46,6 +47,17 @@ export const companySignUp = async (data) =>
       Accept: 'application/x-www-form-urlencoded'
     },
     body: await convertFormData(data)
+  })
+    .then(async (response) => isTokenExpire(response.json()))
+    .catch((error) => handleNetworkError(error));
+
+export const getCompanyEmployee = async (data) =>
+  fetch(`${API_BASE_URL}/?${queryString(data)}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: store.getState().route.currentUser.token
+    }
   })
     .then(async (response) => isTokenExpire(response.json()))
     .catch((error) => handleNetworkError(error));

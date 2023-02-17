@@ -194,3 +194,13 @@ export const convertFormData = async (data) => {
   buildFormData(formData, data);
   return formData;
 };
+
+// CONVERT OBJECT TO QUERY STRING
+export const queryString = (obj) => {
+  const str = [];
+  for (const p in obj)
+    if (obj.hasOwnProperty(p)) {
+      str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
+    }
+  return str.join('&');
+};

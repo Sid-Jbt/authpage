@@ -15,7 +15,6 @@ import { SnackbarContext } from 'Context/SnackbarProvider';
 import { AdminRoleList, EmployeeRoleList } from 'Helpers/Global';
 import Loader from 'Elements/Loader';
 import { login } from 'APIs/API';
-import CircularProgressLoader from 'Elements/CircularProgress';
 
 const Login = () => {
   const dispatchRole = useDispatch();
@@ -26,7 +25,8 @@ const Login = () => {
 
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showLoader, setShowLoader] = useState(false);
+
+  console.log('------', process.env.REACT_APP_DESCRIPTION);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -37,7 +37,6 @@ const Login = () => {
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
   const onLogin = async (formData, actions) => {
-    setShowLoader(true);
     const loginRes = await login(formData);
     const { status, message, data } = loginRes;
     if (status) {
@@ -67,10 +66,8 @@ const Login = () => {
         value: data
       });
       actions.setSubmitting(false);
-      setShowLoader(false);
       navigate(getDashboardPattern());
     } else {
-      setShowLoader(false);
       setSnack({
         title: 'Error',
         message,
@@ -84,7 +81,6 @@ const Login = () => {
 
   return (
     <>
-      {showLoader && <CircularProgressLoader isLoading={showLoader} />}
       <Suspense fallback={<Loader />}>
         <Box mb={1}>
           <Typography variant="h4" fontWeight="bold">

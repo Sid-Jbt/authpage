@@ -10,7 +10,7 @@ import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import React, { useState } from 'react';
 
-const FilterLayout = ({ children, handleClear, search, handleSearch }) => {
+const FilterLayout = ({ children, handleClear, search, handleSearch, onClickSearch }) => {
   const [expanded, setExpanded] = useState(false);
   const innerWidth = window.innerWidth;
 
@@ -48,7 +48,7 @@ const FilterLayout = ({ children, handleClear, search, handleSearch }) => {
                 id="search"
                 name="search"
                 value={search}
-                onChange={(e) => handleSearch(e)}
+                onChange={handleSearch}
                 errorFalse
               />
             </Grid>
@@ -63,7 +63,13 @@ const FilterLayout = ({ children, handleClear, search, handleSearch }) => {
                 }
               })}
             >
-              <Button color="info" variant="gradient" size="small" sx={{ marginRight: '10px' }}>
+              <Button
+                color="info"
+                variant="gradient"
+                size="small"
+                sx={{ marginRight: '10px' }}
+                onClick={() => onClickSearch()}
+              >
                 <Icon sx={{ mr: 1 }}>
                   <SearchRounded />
                 </Icon>
