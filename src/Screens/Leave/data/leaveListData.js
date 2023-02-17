@@ -34,7 +34,14 @@ const leaveListData = {
       noOfDays: 1,
       leaveReason: 'Going To Hospital',
       status: (
-        <Badge variant="gradient" badgeContent="pending" color="warning" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="pending"
+          color="warning"
+          size="xs"
+          container
+          customWidth={100}
+        />
       ),
       approvedBy: 'Suresh Borad'
     },
@@ -47,7 +54,14 @@ const leaveListData = {
       noOfDays: 2,
       leaveReason: 'Going To Hospital',
       status: (
-        <Badge variant="gradient" badgeContent="rejected" color="error" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="declined"
+          color="error"
+          size="xs"
+          container
+          customWidth={100}
+        />
       ),
       approvedBy: 'Suresh Borad'
     },
@@ -60,7 +74,14 @@ const leaveListData = {
       noOfDays: 3,
       leaveReason: 'Going To Hospital',
       status: (
-        <Badge variant="gradient" badgeContent="pending" color="warning" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="pending"
+          color="warning"
+          size="xs"
+          container
+          customWidth={100}
+        />
       ),
       approvedBy: 'Suresh Borad'
     },
@@ -73,7 +94,14 @@ const leaveListData = {
       noOfDays: 4,
       leaveReason: 'Earned Leave',
       status: (
-        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="approved"
+          color="success"
+          size="xs"
+          container
+          customWidth={100}
+        />
       ),
       approvedBy: 'Suresh Borad'
     },
@@ -86,7 +114,14 @@ const leaveListData = {
       noOfDays: 5,
       leaveReason: 'Casual Leave',
       status: (
-        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="declined"
+          color="error"
+          size="xs"
+          container
+          customWidth={100}
+        />
       ),
       approvedBy: 'Suresh Borad'
     }
