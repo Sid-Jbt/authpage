@@ -32,8 +32,6 @@
   },
   "scripts": {
     "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
-    "prod-setup": "bash script/prod-setup.sh",
-    "stage-setup": "bash script/stage-setup.sh",
     "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -42,7 +40,9 @@
     "format:check": "prettier --check './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "format:fix": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "check-all": "concurrently \"yarn lint:check\" \"yarn format:check\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prod-setup": "bash script/prod-setup.sh",
+    "stage-setup": "bash script/stage-setup.sh"
   },
   "eslintConfig": {
     "extends": [

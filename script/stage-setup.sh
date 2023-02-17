@@ -14,7 +14,7 @@ then
   yarn lint:fix
   echo "Done code format"
   yarn build
-  echo "Done generate build."
+  echo "Done generate build from stage."
 else
    echo "Please provide branch name."
 fi

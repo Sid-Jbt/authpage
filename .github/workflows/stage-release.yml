@@ -35,5 +35,5 @@ jobs:
           password: ${{ secrets.SERVER_PASS }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            cd jbt-timer/jbt-timer-web
+            cd jbt-timer-web
             yarn stage-setup
