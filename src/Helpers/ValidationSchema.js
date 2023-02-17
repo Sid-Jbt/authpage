@@ -37,7 +37,7 @@ export const resetPasswordSchema = yup.object().shape({
     )
     .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required'),
-  confirmPassword: yup
+  resetPassword: yup
     .string()
     .when('password', {
       is: (val) => !!(val && val.length > 0),

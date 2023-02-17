@@ -8,7 +8,13 @@ import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { loginSchema } from 'Helpers/ValidationSchema';
-import { forgotPasswordPattern, getDashboardPattern } from 'Routes/routeConfig';
+import {
+  forgotPasswordPattern,
+  getDashboardPattern,
+  getDefaultPattern,
+  organisationSignupPattern,
+  getProfileSetupPattern
+} from 'Routes/routeConfig';
 import { useDispatch } from 'react-redux';
 import { CURRENTUSER, ROLE, ROLELIST } from 'Redux/actions';
 import { SnackbarContext } from 'Context/SnackbarProvider';
@@ -25,8 +31,6 @@ const Login = () => {
 
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  console.log('------', process.env.REACT_APP_DESCRIPTION);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -54,19 +58,21 @@ const Login = () => {
           value: AdminRoleList
         });
         dispatchRole({ type: ROLE, value: 'admin' });
-      } else {
+      } else if (data.role === 'employee') {
         dispatchRoleList({
           type: ROLELIST,
           value: EmployeeRoleList
         });
         dispatchRole({ type: ROLE, value: 'employee' });
+      } else {
+        getDefaultPattern();
       }
       dispatchCurrentUser({
         type: CURRENTUSER,
         value: data
       });
       actions.setSubmitting(false);
-      navigate(getDashboardPattern());
+      navigate(data.isProfileComplete === 0 ? getProfileSetupPattern() : getDashboardPattern());
     } else {
       setSnack({
         title: 'Error',
@@ -200,6 +206,20 @@ const Login = () => {
             );
           }}
         </Formik>
+        <Box mt={3} textAlign="center">
+          <Typography variant="button" color="text" fontWeight="regular">
+            Don't have an account?&nbsp;
+            <Typography
+              component={Link}
+              to={organisationSignupPattern}
+              variant="button"
+              color="info"
+              fontWeight="medium"
+            >
+              Sign Up
+            </Typography>
+          </Typography>
+        </Box>
       </Suspense>
     </>
   );
