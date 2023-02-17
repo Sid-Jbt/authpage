@@ -28,7 +28,14 @@ const supportTicketData = {
       priority: 'High',
       assign: 'John',
       status: (
-        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="approved"
+          color="success"
+          size="xs"
+          container
+          customWidth={100}
+        />
       )
       // action: <Action id={1} />
     },
@@ -39,7 +46,16 @@ const supportTicketData = {
       date: '2/1/2023',
       priority: 'medium',
       assign: 'Jackey',
-      status: <Badge variant="gradient" badgeContent="declined" color="error" size="xs" container />
+      status: (
+        <Badge
+          variant="gradient"
+          badgeContent="declined"
+          color="error"
+          size="xs"
+          container
+          customWidth={100}
+        />
+      )
     },
     {
       id: '3',
@@ -49,7 +65,14 @@ const supportTicketData = {
       priority: 'low',
       assign: 'Ramesh',
       status: (
-        <Badge variant="gradient" badgeContent="pending" color="warning" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="pending"
+          color="warning"
+          size="xs"
+          container
+          customWidth={100}
+        />
       )
     },
     {
@@ -60,7 +83,14 @@ const supportTicketData = {
       priority: 'low',
       assign: 'harish',
       status: (
-        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="approved"
+          color="success"
+          size="xs"
+          container
+          customWidth={100}
+        />
       )
     },
     {
@@ -70,7 +100,16 @@ const supportTicketData = {
       date: '5/1/2023',
       priority: 'medium',
       assign: 'kanihyaa',
-      status: <Badge variant="gradient" badgeContent="declined" color="error" size="xs" container />
+      status: (
+        <Badge
+          variant="gradient"
+          badgeContent="declined"
+          color="error"
+          size="xs"
+          container
+          customWidth={100}
+        />
+      )
     },
     {
       id: '6',
@@ -80,7 +119,14 @@ const supportTicketData = {
       priority: 'High',
       assign: 'Devam',
       status: (
-        <Badge variant="gradient" badgeContent="pending" color="warning" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="pending"
+          color="warning"
+          size="xs"
+          container
+          customWidth={100}
+        />
       )
     },
     {
@@ -91,7 +137,14 @@ const supportTicketData = {
       priority: 'High',
       assign: 'Harsh',
       status: (
-        <Badge variant="gradient" badgeContent="approved" color="success" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="approved"
+          color="success"
+          size="xs"
+          container
+          customWidth={100}
+        />
       )
     },
     {
@@ -101,7 +154,16 @@ const supportTicketData = {
       date: '3/1/2023',
       priority: 'medium',
       assign: 'mahesh',
-      status: <Badge variant="gradient" badgeContent="declined" color="error" size="xs" container />
+      status: (
+        <Badge
+          variant="gradient"
+          badgeContent="declined"
+          color="error"
+          size="xs"
+          container
+          customWidth={100}
+        />
+      )
     },
     {
       id: '9',
@@ -111,7 +173,14 @@ const supportTicketData = {
       priority: 'low',
       assign: 'smit',
       status: (
-        <Badge variant="gradient" badgeContent="pending" color="warning" size="xs" container />
+        <Badge
+          variant="gradient"
+          badgeContent="pending"
+          color="warning"
+          size="xs"
+          container
+          customWidth={100}
+        />
       )
     }
   ]
