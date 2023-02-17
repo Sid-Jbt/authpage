@@ -8,7 +8,12 @@ import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { loginSchema } from 'Helpers/ValidationSchema';
-import { forgotPasswordPattern, getDashboardPattern } from 'Routes/routeConfig';
+import {
+  forgotPasswordPattern,
+  getDashboardPattern,
+  getDefaultPattern,
+  organisationSignupPattern
+} from 'Routes/routeConfig';
 import { useDispatch } from 'react-redux';
 import { CURRENTUSER, ROLE, ROLELIST } from 'Redux/actions';
 import { SnackbarContext } from 'Context/SnackbarProvider';
@@ -37,7 +42,6 @@ const Login = () => {
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
   const onLogin = async (formData, actions) => {
-    setShowLoader(true);
     const loginRes = await login(formData);
     const { status, message, data } = loginRes;
     if (status) {
@@ -55,12 +59,14 @@ const Login = () => {
           value: AdminRoleList
         });
         dispatchRole({ type: ROLE, value: 'admin' });
-      } else {
+      } else if (data.role === 'employee') {
         dispatchRoleList({
           type: ROLELIST,
           value: EmployeeRoleList
         });
         dispatchRole({ type: ROLE, value: 'employee' });
+      } else {
+        getDefaultPattern();
       }
       dispatchCurrentUser({
         type: CURRENTUSER,
@@ -204,6 +210,20 @@ const Login = () => {
             );
           }}
         </Formik>
+        <Box mt={3} textAlign="center">
+          <Typography variant="button" color="text" fontWeight="regular">
+            Don't have an account?&nbsp;
+            <Typography
+              component={Link}
+              to={organisationSignupPattern}
+              variant="button"
+              color="info"
+              fontWeight="medium"
+            >
+              Sign Up
+            </Typography>
+          </Typography>
+        </Box>
       </Suspense>
     </>
   );
