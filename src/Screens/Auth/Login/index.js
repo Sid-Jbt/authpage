@@ -8,7 +8,11 @@ import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { loginSchema } from 'Helpers/ValidationSchema';
-import { forgotPasswordPattern, getDashboardPattern } from 'Routes/routeConfig';
+import {
+  forgotPasswordPattern,
+  getDashboardPattern,
+  getProfileSetupPattern
+} from 'Routes/routeConfig';
 import { useDispatch } from 'react-redux';
 import { CURRENTUSER, ROLE, ROLELIST } from 'Redux/actions';
 import { SnackbarContext } from 'Context/SnackbarProvider';
@@ -66,7 +70,7 @@ const Login = () => {
         value: data
       });
       actions.setSubmitting(false);
-      navigate(getDashboardPattern());
+      navigate(data.isProfileComplete === 0 ? getProfileSetupPattern() : getDashboardPattern());
     } else {
       setSnack({
         title: 'Error',

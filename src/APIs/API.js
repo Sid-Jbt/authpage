@@ -29,7 +29,19 @@ export const login = async (data) =>
     .then(async (response) => isTokenExpire(response.json()))
     .catch((error) => handleNetworkError(error));
 
-export const forgotPassword = async (data) =>
+export const companyResetPassword = async (data, token) =>
+  fetch(`${API_BASE_URL}/reset-password`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: `Bearer ${token}`
+    },
+    body: await convertFormData(data)
+  })
+    .then(async (response) => isTokenExpire(response.json()))
+    .catch((error) => handleNetworkError(error));
+
+export const companyForgotPassword = async (data) =>
   fetch(`${API_BASE_URL}/forgot-password`, {
     method: 'POST',
     headers: {
