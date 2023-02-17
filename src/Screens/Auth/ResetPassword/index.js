@@ -1,17 +1,22 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { IconButton, InputAdornment } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff, Check, Error } from '@mui/icons-material';
 import { resetPasswordSchema } from 'Helpers/ValidationSchema';
-import { defaultPattern } from 'Routes/routeConfig';
+import { defaultPattern, getDefaultPattern } from 'Routes/routeConfig';
+import { SnackbarContext } from 'Context/SnackbarProvider';
+import { companyResetPassword } from 'APIs/API';
 
 const RestPassword = () => {
   const [showPassword, setShowPassword] = React.useState(false);
+  const { setSnack } = useContext(SnackbarContext);
+  const navigate = useNavigate();
+  const { token } = useParams();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -20,8 +25,8 @@ const RestPassword = () => {
   };
 
   const onSubmit = async (formData, actions) => {
-    console.log('====', formData, actions);
-    /* const resetPasswordRes = await companyResetPassword(formData, token);
+    formData.token = token;
+    const resetPasswordRes = await companyResetPassword(formData);
     const { status, message } = resetPasswordRes;
     if (status) {
       setSnack({
@@ -43,7 +48,7 @@ const RestPassword = () => {
         color: 'error',
         open: true
       });
-    } */
+    }
   };
 
   return (

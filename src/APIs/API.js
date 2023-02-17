@@ -74,14 +74,14 @@ export const getCompanyEmployee = async (data) =>
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
 
-export const companyResetPassword = async (data, token) =>
+export const companyResetPassword = async (data) =>
   axios({
-    url: `${API_BASE_URL}/?${queryString(data)}`,
-    method: 'GET',
+    url: `${API_BASE_URL}/reset-forgot-password`,
+    method: 'POST',
     headers: {
-      Accept: 'application/x-www-form-urlencoded',
-      Authorization: `Bearer ${token}`
-    }
+      Accept: 'application/x-www-form-urlencoded'
+    },
+    data: await convertFormData(data)
   })
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
