@@ -1,8 +1,8 @@
 const empListData = {
   columns: [
     {
-      id: 'name',
-      name: 'name',
+      id: 'firstName',
+      name: 'firstName',
       align: 'center',
       headerName: 'Name',
       mobileHeader: 'Name'

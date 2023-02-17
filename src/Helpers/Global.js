@@ -30,12 +30,8 @@ export const Years = yearsArray.map(setYears);
 
 export const Roles = [
   { value: 'all', label: 'All' },
-  { value: 'superAdmin', label: 'Super Admin' },
   { value: 'admin', label: 'Admin' },
-  { value: 'developer', label: 'Developer' },
-  { value: 'tester', label: 'Tester' },
-  { value: 'hr', label: 'HR' },
-  { value: 'qa', label: 'QA' }
+  { value: 'employee', label: 'Employee' }
 ];
 
 export const leaveTypes = [
