@@ -1,4 +1,4 @@
-name: Verify pull request
+name: Stage Verify pull request
 'on': pull_request
 jobs:
   build_and_review:
