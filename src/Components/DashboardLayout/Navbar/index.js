@@ -60,14 +60,14 @@ const DashboardNavbar = ({ isMini }) => {
       open={Boolean(openMenu)}
       onClose={handleMenu}
       sx={({ breakpoints }) => ({
-        mt: 1,
+        mt: 2,
         [breakpoints.down('sm')]: {
-          top: 60,
+          top: 50,
           left: 0
         },
         [breakpoints.up('md')]: {
-          top: 50,
-          left: -90
+          top: 60,
+          left: -20
         }
       })}
     >

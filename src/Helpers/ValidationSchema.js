@@ -87,15 +87,10 @@ export const BasicInfoSchema = yup.object().shape({
   firstName: yup.string().required('First name is required'),
   lastName: yup.string().required('Last name is required'),
   // gender: yup.string().required('Gender is required'),
-  email: yup.string().email('Enter a valid email').required('Email is required'),
+  email: yup.string().email('Must be a valid email address').required('Email is required'),
   confirmationEmail: yup
     .string()
-    .when('email', {
-      is: (val) => !!(val && val.length > 6),
-      then: yup
-        .string()
-        .oneOf([yup.ref('email')], 'Email and Confirmation Email should be the same')
-    })
+    .oneOf([yup.ref('email'), null], 'Email and Confirmation Email should be the same')
     .required('Confirmation Email is required'),
   phoneNumber: yup
     .string()
@@ -271,4 +266,14 @@ export const organisationSignupSchema = yup.object().shape({
     )
     .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required')
+});
+
+export const addEmployeeSchema = yup.object().shape({
+  email: yup.string().email('Enter a valid email').required('Email is required'),
+  password: yup
+    .string()
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+  employeeCode: yup.string().required('Employee code is required'),
+  dateOfJoin: yup.string().required('Date of join is required')
 });

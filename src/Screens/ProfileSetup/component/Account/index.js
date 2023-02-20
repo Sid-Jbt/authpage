@@ -96,6 +96,9 @@ const Account = (props) => {
                     }
                     error={errors.accountNumber && touched.accountNumber}
                     success={errors.accountNumber && touched.accountNumber}
+                    onKeyDown={(evt) =>
+                      ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
+                    }
                   />
                 </Box>
               </Grid>

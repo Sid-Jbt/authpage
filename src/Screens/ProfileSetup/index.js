@@ -125,17 +125,16 @@ const ProfileSetup = () => {
                           {role !== 'admin'
                             ? activeStep === 0
                               ? 'Continue'
-                              : activeStep === 1 &&
-                                props.values.address !== '' &&
+                              : (activeStep === 1 && props.values.address !== '') ||
                                 props.values.currentAdd !== ''
                               ? 'Continue'
                               : activeStep === 2 &&
-                                ((props.values.bankName !== '' &&
-                                  props.values.branchName !== '' &&
-                                  props.values.accountName !== '' &&
-                                  props.values.accountNumber !== '' &&
-                                  props.values.ifscCode !== '') ||
-                                  props.values.panNumber !== '')
+                                props.values.bankName !== '' &&
+                                props.values.branchName !== '' &&
+                                props.values.accountName !== '' &&
+                                props.values.accountNumber !== '' &&
+                                props.values.ifscCode !== '' &&
+                                props.values.panNumber !== ''
                               ? 'Continue'
                               : 'SKIP'
                             : activeStep === 0
