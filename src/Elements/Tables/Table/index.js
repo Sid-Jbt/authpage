@@ -252,7 +252,7 @@ const Table = ({
             {renderRows && renderRows.length > 0 ? (
               <>
                 {renderRows}
-                {rowsCount > 10 && (
+                {rowsCount && (
                   <TableCell
                     colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
                   >

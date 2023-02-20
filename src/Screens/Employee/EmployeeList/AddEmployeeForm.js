@@ -1,21 +1,52 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik } from 'formik';
 import { Grid, IconButton, InputAdornment } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import SideDrawer from '../../../Elements/SideDrawer';
-import { validationSchema } from '../../../Helpers/ValidationSchema';
-import Box from '../../../Elements/Box';
-import Input from '../../../Elements/Input';
-import Button from '../../../Elements/Button';
+import { Check, Error, Visibility, VisibilityOff } from '@mui/icons-material';
+import SideDrawer from 'Elements/SideDrawer';
+import { addEmployeeSchema } from 'Helpers/ValidationSchema';
+import Box from 'Elements/Box';
+import Input from 'Elements/Input';
+import Button from 'Elements/Button';
+import moment from 'moment';
+import { addEmployee } from 'APIs/API';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const renderAddEmployeeDialog = ({ isDialogOpen, handleDialog }) => {
   const [showPassword, setShowPassword] = React.useState(false);
+  const { setSnack } = useContext(SnackbarContext);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const onSubmit = async (formData) => {
+    const addEmployeeRes = await addEmployee(formData);
+    console.log('loginRes', formData);
+    const { status, message } = addEmployeeRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Error color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
+    handleDialog();
+  };
+
   return (
     <>
       <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title="ADD NEW EMPLOYEE">
@@ -24,38 +55,58 @@ const renderAddEmployeeDialog = ({ isDialogOpen, handleDialog }) => {
           initialValues={{
             email: '',
             password: '',
-            empCode: '',
-            dateOfJoin: '',
-            dateOfLeave: ''
+            employeeCode: '',
+            dateOfJoin: moment().format('YYYY-MM-DD')
           }}
-          onSubmit={(values) => {
-            console.log('values===========', values);
-          }}
-          validationSchema={validationSchema}
+          onSubmit={(values) => onSubmit(values)}
+          validationSchema={addEmployeeSchema}
         >
           {(props) => {
             const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
             return (
               <form onSubmit={handleSubmit}>
                 <Grid container justifyContent="space-between">
-                  <Grid item xs={12}>
-                    <Box>
-                      <Input
-                        type="text"
-                        placeholder="eg. JBT0001"
-                        size="large"
-                        fullWidth
-                        id="empCode"
-                        name="empCode"
-                        label="Employee Code"
-                        value={values.empCode}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.empCode && touched.empCode && errors.empCode}
-                        error={errors.empCode && touched.empCode}
-                        success={!errors.empCode && touched.empCode}
-                      />
-                    </Box>
+                  <Grid container item spacing={2}>
+                    <Grid item xs={12} md={6}>
+                      <Box>
+                        <Input
+                          type="text"
+                          placeholder="eg. JBT0001"
+                          size="large"
+                          fullWidth
+                          id="employeeCode"
+                          name="employeeCode"
+                          label="Employee Code"
+                          value={values.employeeCode}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          errorText={
+                            errors.employeeCode && touched.employeeCode && errors.employeeCode
+                          }
+                          error={errors.employeeCode && touched.employeeCode}
+                          success={!errors.employeeCode && touched.employeeCode}
+                        />
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Box>
+                        <Input
+                          type="date"
+                          placeholder="Date Of Join"
+                          size="large"
+                          fullWidth
+                          id="dateOfJoin"
+                          name="dateOfJoin"
+                          label="Date Of Join"
+                          defaultValue={values.dateOfJoin}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          errorText={errors.dateOfJoin && touched.dateOfJoin && errors.dateOfJoin}
+                          error={errors.dateOfJoin && touched.dateOfJoin}
+                          success={!errors.dateOfJoin && touched.dateOfJoin}
+                        />
+                      </Box>
+                    </Grid>
                   </Grid>
                   <Grid item xs={12}>
                     <Box>
@@ -106,41 +157,7 @@ const renderAddEmployeeDialog = ({ isDialogOpen, handleDialog }) => {
                       />
                     </Box>
                   </Grid>
-                  <Grid container item spacing={2}>
-                    <Grid item xs={12} md={6}>
-                      <Box>
-                        <Input
-                          type="date"
-                          placeholder="Date Of Join"
-                          size="large"
-                          fullWidth
-                          id="dateOfJoin"
-                          name="dateOfJoin"
-                          label="Date Of Join"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          errorText={errors.dateOfJoin && touched.dateOfJoin && errors.dateOfJoin}
-                          error={errors.dateOfJoin && touched.dateOfJoin}
-                          success={!errors.dateOfJoin && touched.dateOfJoin}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <Box>
-                        <Input
-                          type="date"
-                          placeholder="Date Of Leave"
-                          size="large"
-                          fullWidth
-                          id="dateOfLeave"
-                          name="dateOfLeave"
-                          label="Date Of Leave"
-                          success={!errors.dateOfLeave && touched.dateOfLeave}
-                        />
-                      </Box>
-                    </Grid>
-                  </Grid>
-                  <Grid item sm={12} md={4} lg={6}>
+                  <Grid item sm={12} md={4} lg={6} pt={2}>
                     <Button type="submit" color="info" variant="contained" size="medium">
                       Add Employee
                     </Button>
