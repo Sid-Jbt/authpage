@@ -230,13 +230,13 @@ const LeaveList = () => {
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={prRows}
           onClickAction={(value, id) => onClickAction(value, id)}
-          isAction={role !== 'admin'}
+          isAction={role === 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
             { title: 'View', value: 'view' },
             { title: 'Delete', value: 'delete' }
           ]}
-          isView={role === 'admin'}
+          isView={role !== 'admin'}
           isDialogAction={(row) => onClickView(row)}
         />
         {isDialogOpen && (
