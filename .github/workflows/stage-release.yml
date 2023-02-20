@@ -34,4 +34,4 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd jbt-timer-web
-            yarn setup
+            yarn stage-setup

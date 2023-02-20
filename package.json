@@ -42,7 +42,7 @@
     "check-all": "concurrently \"yarn lint:check\" \"yarn format:check\"",
     "prepare": "husky install",
     "prod-setup": "bash script/prod-setup.sh",
-    "stage-setup": "bash script/setup.sh"
+    "stage-setup": "bash script/stage-setup.sh"
   },
   "eslintConfig": {
     "extends": [
