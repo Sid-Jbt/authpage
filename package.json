@@ -50,11 +50,6 @@
       "react-app/jest"
     ]
   },
-  "engineStrict": false,
-  "engines": {
-    "node": ">=18.x.x",
-    "yarn": "1.22.x"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
