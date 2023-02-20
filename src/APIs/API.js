@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { getLoginPattern } from '../Routes/routeConfig';
 import { convertFormData, queryString } from '../Helpers/Global';
-import { API_BASE_URL } from '../Helpers/config';
 import { store } from '../Redux/store';
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const isTokenExpire = async (response) => {
   let apiResponse = null;
