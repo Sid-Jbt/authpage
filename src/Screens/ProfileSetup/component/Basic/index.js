@@ -200,6 +200,9 @@ const Basic = (props) => {
                         errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
                         error={errors.phoneNumber && touched.phoneNumber}
                         success={!errors.phoneNumber && touched.phoneNumber}
+                        onKeyDown={(evt) =>
+                          ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
+                        }
                       />
                     </Box>
                   </Grid>
@@ -223,6 +226,9 @@ const Basic = (props) => {
                         }
                         error={errors.alternativeNumber && touched.alternativeNumber}
                         success={!errors.alternativeNumber && touched.alternativeNumber}
+                        onKeyDown={(evt) =>
+                          ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
+                        }
                       />
                     </Box>
                   </Grid>
