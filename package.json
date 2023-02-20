@@ -52,7 +52,7 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": "16.19.x",
+    "node": ">=16.x.x",
     "yarn": "1.22.x"
   },
   "browserslist": {
