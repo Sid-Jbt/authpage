@@ -50,9 +50,9 @@
       "react-app/jest"
     ]
   },
-  "engineStrict": true,
+  "engineStrict": false,
   "engines": {
-    "node": "16.x.x",
+    "node": ">=18.x.x",
     "yarn": "1.22.x"
   },
   "browserslist": {
