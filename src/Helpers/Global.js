@@ -200,10 +200,3 @@ export const queryString = (obj) => {
     }
   return str.join('&');
 };
-
-export const USER_STORAGE_KEY = 'JBT_TIMER_WEB_USER_DATA';
-
-// STORE USER IN LOCAL STORAGE
-export const storeUser = (user) => {
-  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
-};
