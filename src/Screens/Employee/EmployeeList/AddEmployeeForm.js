@@ -28,8 +28,8 @@ const renderAddEmployeeDialog = ({ isDialogOpen, handleDialog }) => {
             dateOfJoin: '',
             dateOfLeave: ''
           }}
-          onSubmit={(values) => {
-            console.log('values===========', values);
+          onSubmit={(values, actions) => {
+            actions.setSubmitting(false);
           }}
           validationSchema={validationSchema}
         >
