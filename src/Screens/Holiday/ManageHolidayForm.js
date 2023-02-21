@@ -17,9 +17,8 @@ const ManageHolidayForm = ({ isDrawerOpen, handleDrawerClose, title }) => (
           holidayName: '',
           holidayDate: moment().format('DD/MM/YYYY')
         }}
-        onSubmit={(values) => {
-          console.log('ON SUBMIT');
-          console.log('values===========', values);
+        onSubmit={(values, actions) => {
+          actions.setSubmitting(false);
           handleDrawerClose();
         }}
         validationSchema={holidayFormSchema}
