@@ -18,7 +18,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { CURRENTUSER, ROLE, ROLELIST } from 'Redux/actions';
 import { SnackbarContext } from 'Context/SnackbarProvider';
-import { AdminRoleList, EmployeeRoleList } from 'Helpers/Global';
+import { AdminRoleList, EmployeeRoleList, storeUserNameAndPassword } from 'Helpers/Global';
 import Loader from 'Elements/Loader';
 import { login } from 'APIs/API';
 
@@ -29,7 +29,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { setSnack } = useContext(SnackbarContext);
 
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -38,7 +38,19 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const handleSetRememberMe = () => {
+    setRememberMe(!rememberMe);
+    if (rememberMe === true) {
+      setSnack({
+        title: 'Success',
+        message: 'Email and Password remember',
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+    }
+  };
 
   const onLogin = async (formData, actions) => {
     const loginRes = await login(formData);
@@ -52,6 +64,9 @@ const Login = () => {
         color: 'success',
         open: true
       });
+      if (!rememberMe) {
+        storeUserNameAndPassword(formData);
+      }
       if (data.role === 'admin') {
         dispatchRoleList({
           type: ROLELIST,
@@ -167,7 +182,7 @@ const Login = () => {
                   }}
                 >
                   <Box>
-                    <Switch checked={rememberMe} onChange={handleSetRememberMe} />
+                    <Switch checked={!rememberMe} onChange={handleSetRememberMe} />
                     <Typography
                       variant="button"
                       fontWeight="regular"
