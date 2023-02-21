@@ -3,12 +3,12 @@ const holidayListData = {
     { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
     { name: 'title', align: 'center', headerName: 'Title', mobileHeader: 'Title' },
     {
-      name: 'holidayDate',
+      name: 'fromDate',
       align: 'center',
       headerName: 'Holiday Date',
       mobileHeader: 'Date'
     },
-    { name: 'day', align: 'center', headerName: 'Day', mobileHeader: 'Day' }
+    { name: 'noOfDays', align: 'center', headerName: 'Day', mobileHeader: 'Day' }
   ],
 
   rows: [
