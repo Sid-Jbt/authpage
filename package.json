@@ -45,7 +45,7 @@
     "stage-setup": "bash script/stage-setup.sh"
   },
   "engines": {
-    "node": ">=16.10.0"
+    "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
   },
   "eslintConfig": {
     "extends": [
