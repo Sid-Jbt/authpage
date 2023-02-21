@@ -8,7 +8,7 @@ const holidayListData = {
       headerName: 'Holiday Date',
       mobileHeader: 'Date'
     },
-    { name: 'noOfDays', align: 'center', headerName: 'Day', mobileHeader: 'Day' }
+    { name: 'day', align: 'center', headerName: 'Day', mobileHeader: 'Day' }
   ],
 
   rows: [
