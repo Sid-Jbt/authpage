@@ -10,28 +10,37 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '16.x.x'
+          node-version: '16.10.0'
+
+      - name: Web => Restore Cache
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install Dependency
+
+      - name: Web => Install Dependency
         run: |
           yarn policies set-version
           yarn install --frozen-lockfile
-      - name: Copy .env
+
+      - name: Setup ENV
         run: cp .env.test .env
+
       - name: Validate Code Style
         run: yarn check-all
-      - name: Build
+
+      - name: Web => Build
         run: CI=false yarn build
-      - name: Deploy Code
+
+      - name: Web => Deploy Code
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASS }}
           port: ${{ secrets.SERVER_PORT }}
+          debug: true
           script: |
+            whoami
             cd jbt-timer-web
             yarn stage-setup
