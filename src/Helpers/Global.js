@@ -200,10 +200,3 @@ export const queryString = (obj) => {
     }
   return str.join('&');
 };
-
-export const EMAIL_PASSWORD_STORAGE_KEY = 'JBT_TIMER_EMAIL_PASSWORD_DATA';
-
-// STORE USERNAME AND PASSWORD IN LOCAL STORAGE
-export const storeUserNameAndPassword = (user) => {
-  localStorage.setItem(EMAIL_PASSWORD_STORAGE_KEY, JSON.stringify(user));
-};

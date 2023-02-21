@@ -16,9 +16,9 @@ import {
   getProfileSetupPattern
 } from 'Routes/routeConfig';
 import { useDispatch } from 'react-redux';
-import { CURRENTUSER, ROLE, ROLELIST } from 'Redux/actions';
+import { CURRENTUSER, REMEMBERME, ROLE, ROLELIST } from 'Redux/actions';
 import { SnackbarContext } from 'Context/SnackbarProvider';
-import { AdminRoleList, EmployeeRoleList, storeUserNameAndPassword } from 'Helpers/Global';
+import { AdminRoleList, EmployeeRoleList } from 'Helpers/Global';
 import Loader from 'Elements/Loader';
 import { login } from 'APIs/API';
 
@@ -26,6 +26,7 @@ const Login = () => {
   const dispatchRole = useDispatch();
   const dispatchRoleList = useDispatch();
   const dispatchCurrentUser = useDispatch();
+  const dispatchRememberMe = useDispatch();
   const navigate = useNavigate();
   const { setSnack } = useContext(SnackbarContext);
 
@@ -65,7 +66,10 @@ const Login = () => {
         open: true
       });
       if (!rememberMe) {
-        storeUserNameAndPassword(formData);
+        dispatchRememberMe({
+          type: REMEMBERME,
+          value: formData
+        });
       }
       if (data.role === 'admin') {
         dispatchRoleList({
