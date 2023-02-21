@@ -5,8 +5,6 @@ import { store } from '../../Redux/store';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-console.log('Holiday API_BASE_URL --> ', API_BASE_URL);
-
 const isTokenExpire = async (response) => {
   let apiResponse = null;
   if (response.statusText === 'OK') {
