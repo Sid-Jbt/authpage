@@ -38,5 +38,4 @@ jobs:
           script: |
             whoami
             cd jbt-timer-web
-            yarn --ignore-engines
             yarn stage-setup

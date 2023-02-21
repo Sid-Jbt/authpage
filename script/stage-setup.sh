@@ -8,6 +8,8 @@ then
   echo "Done switch branch."
   git pull origin $BRANCH
   echo "Done pull from $BRANCH."
+  yarn --ignore-engines
+  echo "Done Engine Ignore."
   yarn install
   echo "Done installation."
   yarn format:fix
