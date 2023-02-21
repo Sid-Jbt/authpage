@@ -6,7 +6,7 @@ import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
-import { Priority, Status } from 'Helpers/Global';
+import { Priority, SupportTicketStatus } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
 import supportTicketData from './data/SupportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
@@ -208,7 +208,7 @@ const supportTicket = () => {
               <FormLabel>Select Status</FormLabel>
               <Select
                 value={status}
-                options={Status}
+                options={SupportTicketStatus}
                 onChange={(value) => handleChangeStatus(value)}
               />
             </FormControl>

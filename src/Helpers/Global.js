@@ -135,3 +135,9 @@ export const EventsType = [
   { value: 'error', label: 'Error' },
   { value: 'primary', label: 'Primary' }
 ];
+
+export const SupportTicketStatus = [
+  { value: 'approved', label: 'Approved' },
+  { value: 'declined', label: 'Declined' },
+  { value: 'pending', label: 'Pending' }
+];
