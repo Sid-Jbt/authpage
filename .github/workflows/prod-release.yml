@@ -35,5 +35,6 @@ jobs:
           password: ${{ secrets.SERVER_PASS }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            whoami
             cd jbt-timer-web
             yarn prod-setup
