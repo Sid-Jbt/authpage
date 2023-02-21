@@ -38,8 +38,8 @@ const BankInfo = () => {
 
       <Formik
         initialValues={initialValues}
-        onSubmit={(values) => {
-          console.log('values', values);
+        onSubmit={(values, actions) => {
+          actions.setSubmitting(false);
         }}
         validationSchema={bankFormSchema}
       >

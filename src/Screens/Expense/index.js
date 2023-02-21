@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
 import {
   Add,
+  Check,
   ImportExportRounded,
   PendingTwoTone,
   ThumbDown,
@@ -17,10 +18,12 @@ import ExpenseCard from '../../Components/CardLayouts/StaticCard';
 import ViewExpenseDetails from './ViewExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
 import DeleteDialog from '../../Components/DeleteDialog';
+import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = expenseListData;
   const { role } = useSelector((state) => state.route);
+  const { setSnack } = useContext(SnackbarContext);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [search, setSearch] = useState('');
@@ -82,7 +85,14 @@ const Expense = () => {
   };
 
   const onClickExport = () => {
-    alert('Export coming soon...');
+    setSnack({
+      title: 'Warning',
+      message: 'Export coming soon...',
+      time: false,
+      icon: <Check color="white" />,
+      color: 'warning',
+      open: true
+    });
   };
 
   return (
