@@ -37,5 +37,5 @@ jobs:
           debug: true
           script: |
             whoami
-            cd jbt-timer/jbt-timer-web
+            cd jbt-timer-web
             yarn setup
