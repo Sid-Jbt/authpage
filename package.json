@@ -32,7 +32,7 @@
   },
   "scripts": {
     "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
-    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build && cp .htaccess build/.htaccess",
+    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build --dev=false && cp .htaccess build/.htaccess",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint:check": "eslint \"./src/**/*.{js,jsx}\"",
