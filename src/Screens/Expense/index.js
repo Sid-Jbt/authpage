@@ -135,7 +135,18 @@ const Expense = () => {
       setSelectedData(allExpenseList.find((o) => o.id === index));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      setSelectedData(allExpenseList.find((o) => o.id === index));
+      const viewData = allExpenseList.find((o) => o.id === index);
+      const setViewData = {
+        itemName: viewData.itemName,
+        purchaseFrom: viewData.purchaseFrom,
+        purchaseDate: viewData.purchaseDate,
+        amount: viewData.amount,
+        status: viewData.status,
+        document: viewData.document,
+        comment: viewData.comment
+      };
+      // setSelectedData(allExpenseList.find((o) => o.id === index));
+      setSelectedData(setViewData);
       setIsViewExpenseDialogOpen(true);
     } else {
       setSelectedId(index);
