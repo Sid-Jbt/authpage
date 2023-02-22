@@ -75,7 +75,7 @@ const EmployeeList = () => {
 
   useEffect(() => {
     getAllCompanyEmployee();
-  }, []);
+  }, [isDialogOpen]);
 
   const handleChangeStartDate = (event, string) => {
     if (string === 'fromDate') {

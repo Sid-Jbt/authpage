@@ -6,7 +6,7 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { forgotPasswordSchema } from 'Helpers/ValidationSchema';
-import { defaultPattern, getResetPasswordPattern } from 'Routes/routeConfig';
+import { defaultPattern, getDefaultPattern } from 'Routes/routeConfig';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import { Check, Error } from '@mui/icons-material';
 import { companyForgotPassword } from 'APIs/API';
@@ -28,7 +28,7 @@ const ForgotPassword = () => {
         open: true
       });
       actions.setSubmitting(false);
-      navigate(getResetPasswordPattern());
+      navigate(getDefaultPattern());
     } else {
       setSnack({
         title: 'Error',
