@@ -27,7 +27,7 @@ const handleNetworkError = async (responseError) => {
   }
 };
 
-export const getEmployeeExpenseCount = async () =>
+export const getAllExpenseCount = async () =>
   axios({
     url: `${API_BASE_URL}/employee/expense/count`,
     method: 'GET',
@@ -39,7 +39,7 @@ export const getEmployeeExpenseCount = async () =>
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
 
-export const getEmployeeExpList = async (data) =>
+export const getExpenseLists = async (data) =>
   axios({
     url: `${API_BASE_URL}/employee/expense/list?${queryString(data)}`,
     method: 'GET',

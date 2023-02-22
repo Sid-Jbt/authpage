@@ -20,7 +20,7 @@ import ViewExpenseDetails from './ViewExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
 import DeleteDialog from '../../Components/DeleteDialog';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
-import { getEmployeeExpenseCount, getEmployeeExpList } from '../../APIs/Expense';
+import { getAllExpenseCount, getExpenseLists } from '../../APIs/Expense';
 
 const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
@@ -36,20 +36,31 @@ const Expense = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [counts, setCounts] = useState(null);
 
-  const [allEmployeeExpList, setAllEmployeeExpList] = useState([]);
-  const [employeeExpListCount, setEmployeeExpListCount] = useState(0);
+  const [allExpenseList, setAllExpenseList] = useState([]);
+  const [expenseListCount, setExpenseListCount] = useState(0);
   const [sortKey, setSortKey] = useState('title');
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isClear, setIsClear] = useState(false);
 
-  const getEmployeeExpenseCounts = async () => {
-    const empExpenseCountData = await getEmployeeExpenseCount();
-    setCounts(empExpenseCountData.data);
+  const getAllExpenseCounts = async () => {
+    let empExpenseCountData;
+    if (role === 'admin') {
+      empExpenseCountData = {
+        Total: 0,
+        Approved: 0,
+        Reject: 0,
+        Pending: 0
+      };
+      setCounts(empExpenseCountData);
+    } else {
+      empExpenseCountData = await getAllExpenseCount();
+      setCounts(empExpenseCountData.data);
+    }
   };
 
-  const getEmployeeExpenseList = async (
+  const getAllExpenseList = async (
     selectedSortKey = 'title',
     selectedSortOrder = 'asc',
     selectedPage = 0,
@@ -57,7 +68,7 @@ const Expense = () => {
     count = 0,
     dataLimit = limit
   ) => {
-    const employeeExpData = {
+    const expenseData = {
       limit: dataLimit,
       page: selectedPage,
       sortKey: selectedSortKey.toLowerCase(),
@@ -65,15 +76,23 @@ const Expense = () => {
       search: text,
       count
     };
-    const employeeExpRes = await getEmployeeExpList(employeeExpData);
+    let expenseRes;
+    if (role === 'admin') {
+      console.log('Admin block');
+      // Replace admin api with getExpenseLists
+      //  expenseRes = await getExpenseLists(expenseData);
+    } else {
+      expenseRes = await getExpenseLists(expenseData);
+    }
+    console.log('expenseRes  ---> ', expenseRes);
     const {
       status,
       data: { rows },
       message
-    } = employeeExpRes;
+    } = expenseRes;
     if (status) {
-      setAllEmployeeExpList(rows);
-      setEmployeeExpListCount(employeeExpRes.data.count);
+      setAllExpenseList(rows);
+      setExpenseListCount(expenseRes.data.count);
     } else {
       setSnack({
         title: 'Error',
@@ -86,8 +105,8 @@ const Expense = () => {
   };
 
   useEffect(() => {
-    getEmployeeExpenseCounts();
-    getEmployeeExpenseList();
+    getAllExpenseCounts();
+    getAllExpenseList();
   }, []);
 
   const handleDialog = () => {
@@ -154,29 +173,29 @@ const Expense = () => {
   };
 
   const onClickSearch = () => {
-    getEmployeeExpenseList(sortKey, sortOrder, page, search, 0);
+    getAllExpenseList(sortKey, sortOrder, page, search, 0);
   };
 
   const onPage = async (selectedPage) => {
     setPage(selectedPage);
-    await getEmployeeExpenseList(sortKey, sortOrder, selectedPage);
+    await getAllExpenseList(sortKey, sortOrder, selectedPage);
   };
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
-    await getEmployeeExpenseList(sortKey, sortOrder, selectedLimit);
+    await getAllExpenseList(sortKey, sortOrder, selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {
     setSortKey(selectedSortKey);
     setSortOrder(selectedSortOrder);
-    await getEmployeeExpenseList(selectedSortKey, selectedSortOrder, page);
+    await getAllExpenseList(selectedSortKey, selectedSortOrder, page);
   };
 
   useEffect(() => {
     if (isClear) {
-      getEmployeeExpenseCounts();
-      getEmployeeExpenseList(sortKey, sortOrder, page, '');
+      getAllExpenseCounts();
+      getAllExpenseList(sortKey, sortOrder, page, '');
     }
   }, [isClear]);
 
@@ -272,7 +291,7 @@ const Expense = () => {
 
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
-          rows={allEmployeeExpList}
+          rows={allExpenseList}
           onClickAction={(value, id) => onClickAction(value, id)}
           isAction={role !== 'admin'}
           options={[
@@ -282,7 +301,7 @@ const Expense = () => {
           ]}
           isView={role === 'admin'}
           isDialogAction={(row) => onClickView(row)}
-          rowsCount={employeeExpListCount}
+          rowsCount={expenseListCount}
           initialPage={page}
           onChangePage={(value) => onPage(value)}
           rowsPerPage={limit}
