@@ -18,7 +18,7 @@ const BasicInfo = () => {
   const handleChangeIsGender = (value) => {
     setGender(value.value);
   };
-  console.log('gender', gender);
+  // console.log('gender', gender);
 
   return (
     <Card id="basic-info">
@@ -95,6 +95,7 @@ const BasicInfo = () => {
                       id="gender"
                       name="gender"
                       options={Gender}
+                      value={gender}
                       onChange={(value) => handleChangeIsGender(value)}
                     />
                   </FormControl>
@@ -151,6 +152,9 @@ const BasicInfo = () => {
                       errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
                       error={errors.phoneNumber && touched.phoneNumber}
                       success={!errors.phoneNumber && touched.phoneNumber}
+                      onKeyDown={(evt) =>
+                        ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
+                      }
                     />
                   </Box>
                 </Grid>

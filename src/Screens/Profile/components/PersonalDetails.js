@@ -55,8 +55,8 @@ const PersonalDetails = () => {
       <Formik
         enableReinitialize
         initialValues={initialValues}
-        onSubmit={(values) => {
-          console.log('values', values);
+        onSubmit={(values, actions) => {
+          actions.setSubmitting(false);
         }}
         validationSchema={profileSchema}
       >
@@ -265,6 +265,9 @@ const PersonalDetails = () => {
                       error={errors.phoneNumber && touched.phoneNumber}
                       success={!errors.phoneNumber && touched.phoneNumber}
                       disabled={isEdit}
+                      onKeyDown={(evt) =>
+                        ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
+                      }
                     />
                   </Box>
                 </Grid>
@@ -289,6 +292,9 @@ const PersonalDetails = () => {
                       error={errors.alternativeNumber && touched.alternativeNumber}
                       success={!errors.alternativeNumber && touched.alternativeNumber}
                       disabled={isEdit}
+                      onKeyDown={(evt) =>
+                        ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
+                      }
                     />
                   </Box>
                 </Grid>

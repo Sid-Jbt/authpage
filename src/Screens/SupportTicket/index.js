@@ -1,36 +1,78 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import {
-  Add,
-  ApprovalOutlined,
-  DirectionsRun,
-  ImportExportRounded,
-  Pending
-} from '@mui/icons-material';
+import { Add, Check, ImportExportRounded, Pending, ThumbDown, ThumbUp } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
-import { Priority, Status } from 'Helpers/Global';
+import { Priority, SupportTicketStatus } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
 import supportTicketData from './data/SupportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
-import LeaveCard from '../../Components/CardLayouts/StaticCard';
+import TicketCard from '../../Components/CardLayouts/StaticCard';
+import DeleteDialog from '../../Components/DeleteDialog';
+import DialogMenu from '../../Elements/Dialog';
+import ViewSupportTicketDetails from './ViewSupportTicketDetails';
+import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = supportTicketData;
+  const { setSnack } = useContext(SnackbarContext);
   const { role } = useSelector((state) => state.route);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  // const [selectedData, setSelectedData] = useState(null);
-  const [selectDate, setSelectDate] = useState('');
+  const [selectedData, setSelectedData] = useState(null);
+  const [selectDate, setSelectDate] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
   const [search, setSearch] = useState('');
+  const [selectedId, setSelectedId] = useState('');
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isSupportTicketDialogOpen, setIsSupportTicketDialogOpen] = useState(false);
+  const [isViewSupportTicketDialogOpen, setIsViewSupportTicketDialogOpen] = useState(false);
 
   const handleDialog = () => {
+    setSelectedData(null);
     setIsDialogOpen(!isDialogOpen);
+  };
+
+  const handleOpenDialog = () => {
+    setIsSupportTicketDialogOpen(true);
+  };
+  const handleCloseDialog = () => {
+    setIsSupportTicketDialogOpen(false);
+  };
+
+  const handleCloseViewDialog = () => {
+    setIsViewSupportTicketDialogOpen(false);
+  };
+
+  const onClickView = (row) => {
+    setSelectedData(row);
+    handleOpenDialog();
+  };
+
+  const onClickAction = (key, index) => {
+    if (key === 'edit') {
+      setIsEdit(true);
+      setSelectedData(prRows.find((o) => o.id === index));
+      setIsDialogOpen(!isDialogOpen);
+    } else if (key === 'view') {
+      setSelectedData(prRows.find((o) => o.id === index));
+      setIsViewSupportTicketDialogOpen(true);
+    } else {
+      setSelectedId(index);
+      setIsDeleteDialogOpen(true);
+    }
+  };
+
+  const handleDialogClose = () => {
+    setIsDeleteDialogOpen(false);
+  };
+
+  const onDelete = () => {
+    handleDialogClose();
   };
 
   const handleChangeStatus = (value) => {
@@ -42,14 +84,14 @@ const supportTicket = () => {
   };
 
   const onClickExport = () => {
-    alert('Export coming soon...');
-  };
-
-  const onClickAction = (key) => {
-    if (key === 'edit') {
-      setIsEdit(true);
-      handleDialog();
-    }
+    setSnack({
+      title: 'Warning',
+      message: 'Export coming soon...',
+      time: false,
+      icon: <Check color="white" />,
+      color: 'warning',
+      open: true
+    });
   };
 
   const handleChangeStartDate = (event) => {
@@ -71,23 +113,23 @@ const supportTicket = () => {
     <>
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} md={6} lg={3}>
-          <LeaveCard
+          <TicketCard
             title="Approved"
             count="5"
-            icon={{ color: 'success', component: <ApprovalOutlined /> }}
+            icon={{ color: 'success', component: <ThumbUp /> }}
             isPercentage={false}
           />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-          <LeaveCard
+          <TicketCard
             title="Declined"
             count="1"
-            icon={{ color: 'error', component: <DirectionsRun /> }}
+            icon={{ color: 'error', component: <ThumbDown /> }}
             isPercentage={false}
           />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-          <LeaveCard
+          <TicketCard
             title="Pending"
             count="3"
             icon={{ color: 'info', component: <Pending /> }}
@@ -96,24 +138,26 @@ const supportTicket = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs="auto">
-          <Button
-            sx={({ breakpoints, palette: { dark } }) => ({
-              [breakpoints.down('xl' && 'lg')]: {
-                color: dark.main,
-                borderColor: dark.main
-              }
-            })}
-            variant="outlined"
-            size="small"
-            onClick={handleDialog}
-          >
-            <Icon sx={{ mr: 1 }}>
-              <Add />
-            </Icon>
-            Add
-          </Button>
-        </Grid>
+        {role !== 'admin' && (
+          <Grid item xs="auto">
+            <Button
+              sx={({ breakpoints, palette: { dark } }) => ({
+                [breakpoints.down('xl' && 'lg')]: {
+                  color: dark.main,
+                  borderColor: dark.main
+                }
+              })}
+              variant="outlined"
+              size="small"
+              onClick={handleDialog}
+            >
+              <Icon sx={{ mr: 1 }}>
+                <Add />
+              </Icon>
+              Add
+            </Button>
+          </Grid>
+        )}
         <Grid item xs="auto">
           <Button
             sx={({ breakpoints, palette: { dark } }) => ({
@@ -173,7 +217,7 @@ const supportTicket = () => {
               <FormLabel>Select Status</FormLabel>
               <Select
                 value={status}
-                options={Status}
+                options={SupportTicketStatus}
                 onChange={(value) => handleChangeStatus(value)}
               />
             </FormControl>
@@ -184,20 +228,75 @@ const supportTicket = () => {
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={prRows}
           onClickAction={(value, id) => onClickAction(value, id)}
-          isAction
+          isAction={role !== 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
+            { title: 'View', value: 'view' },
             { title: 'Delete', value: 'delete' }
           ]}
+          isView={role === 'admin'}
+          isDialogAction={(row) => onClickView(row)}
         />
-
-        <AddSupportTicketForm
-          isDialogOpen={isDialogOpen}
-          handleDialog={handleDialog}
-          title={isEdit ? 'EDIT YOUR SUPPORT TICKET' : 'ADD NEW SUPPORT TICKET'}
-          setIsEdit={(value) => setIsEdit(value)}
-        />
+        {isDialogOpen && (
+          <AddSupportTicketForm
+            isDialogOpen={isDialogOpen}
+            handleDialog={handleDialog}
+            title={isEdit ? 'EDIT YOUR SUPPORT TICKET' : 'ADD NEW SUPPORT TICKET'}
+            setIsEdit={(value) => setIsEdit(value)}
+            selectedData={selectedData}
+            setSelectedData={(value) => setSelectedData(value)}
+          />
+        )}
+        {isDeleteDialogOpen && (
+          <DialogMenu
+            isOpen={isDeleteDialogOpen}
+            onClose={handleDialogClose}
+            dialogTitle="Delete"
+            dialogContent={
+              <DeleteDialog
+                handleDialogClose={handleDialogClose}
+                selectedId={selectedId}
+                deleteItem={onDelete}
+              />
+            }
+          />
+        )}
       </Card>
+      {(isSupportTicketDialogOpen || isViewSupportTicketDialogOpen) && selectedData && (
+        <DialogMenu
+          isOpen={isSupportTicketDialogOpen || isViewSupportTicketDialogOpen}
+          onClose={isSupportTicketDialogOpen ? handleCloseDialog : handleCloseViewDialog}
+          dialogTitle={`Expense Details: ${selectedData.subject}`}
+          dialogContent={<ViewSupportTicketDetails info={selectedData} />}
+          dialogAction={
+            role === 'admin' && (
+              <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
+                <Grid item>
+                  <Button
+                    type="submit"
+                    color="info"
+                    variant="contained"
+                    size="small"
+                    onClick={handleCloseDialog}
+                  >
+                    Approve
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    color="error"
+                    variant="contained"
+                    size="small"
+                    onClick={handleCloseDialog}
+                  >
+                    Reject
+                  </Button>
+                </Grid>
+              </Grid>
+            )
+          }
+        />
+      )}
     </>
   );
 };

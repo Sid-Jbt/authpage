@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
-import { Add, DirectionsRun, ImportExportRounded, MoreTime, WatchOff } from '@mui/icons-material';
+import {
+  Add,
+  Check,
+  DirectionsRun,
+  ImportExportRounded,
+  MoreTime,
+  WatchOff
+} from '@mui/icons-material';
 import Select from 'Elements/Select';
 import { Months, Years, Status } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
 import attendanceData from './data/attendanceData';
 import LeaveCard from '../../Components/CardLayouts/StaticCard';
+import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = attendanceData;
   const { role } = useSelector((state) => state.route);
+  const { setSnack } = useContext(SnackbarContext);
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [status, setStatus] = useState('');
@@ -36,6 +45,17 @@ const AttendanceList = () => {
   };
   const handleChangeSearch = (event) => {
     setSearch(event);
+  };
+
+  const onClickExport = () => {
+    setSnack({
+      title: 'Warning',
+      message: 'Export coming soon...',
+      time: false,
+      icon: <Check color="white" />,
+      color: 'warning',
+      open: true
+    });
   };
 
   const handleClear = () => {
@@ -105,6 +125,7 @@ const AttendanceList = () => {
                 borderColor: dark.main
               }
             })}
+            onClick={onClickExport}
           >
             <Icon sx={{ mr: 1 }}>
               <ImportExportRounded />
