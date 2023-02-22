@@ -82,7 +82,6 @@ const Expense = () => {
       // Replace admin api with getExpenseLists
       // expenseRes = await getExpenseLists(expenseData);
     } else {
-      console.log('Execute else block...');
       expenseRes = await getExpenseLists(expenseData);
     }
     console.log('expenseRes  ---> ', expenseRes);
