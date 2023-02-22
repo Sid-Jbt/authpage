@@ -45,6 +45,10 @@
     "prod-setup": "bash script/prod-setup.sh",
     "stage-setup": "bash script/stage-setup.sh"
   },
+  "engineStrict": true,
+  "engines": {
+    "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
