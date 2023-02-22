@@ -61,7 +61,7 @@ const Expense = () => {
   };
 
   const getAllExpenseList = async (
-    selectedSortKey = 'title',
+    selectedSortKey = 'itemName',
     selectedSortOrder = 'asc',
     selectedPage = 0,
     text = '',
@@ -78,18 +78,17 @@ const Expense = () => {
     };
     let expenseRes;
     if (role === 'admin') {
-      console.log('Admin block');
       // Replace admin api with getExpenseLists
       // expenseRes = await getExpenseLists(expenseData);
     } else {
       expenseRes = await getExpenseLists(expenseData);
     }
-    console.log('expenseRes  ---> ', expenseRes);
     const {
       status,
       data: { rows },
       message
     } = expenseRes;
+
     if (status) {
       setAllExpenseList(rows);
       setExpenseListCount(expenseRes.data.count);
@@ -105,10 +104,9 @@ const Expense = () => {
   };
 
   useEffect(() => {
-    console.log('1st useEffect...');
     getAllExpenseCounts();
     getAllExpenseList();
-  }, []);
+  }, [isDialogOpen]);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -195,8 +193,6 @@ const Expense = () => {
 
   useEffect(() => {
     if (isClear) {
-      console.log('2nd useEffect...');
-
       getAllExpenseCounts();
       getAllExpenseList(sortKey, sortOrder, page, '');
     }
