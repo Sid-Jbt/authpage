@@ -330,6 +330,7 @@ const Expense = () => {
             setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             setSelectedData={(value) => setSelectedData(value)}
+            isEdit={isEdit}
           />
         )}
         {isDeleteDialogOpen && (

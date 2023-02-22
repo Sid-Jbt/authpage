@@ -8,7 +8,7 @@ import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { Check, Error } from '@mui/icons-material';
 import Dropzone from '../../Elements/Dropzone';
-import { addNewExpense } from '../../APIs/Expense';
+import { addNewExpense, updateExpense } from '../../APIs/Expense';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const initialValues = {
@@ -18,7 +18,7 @@ const initialValues = {
   amount: '',
   selectDoc: ''
 };
-const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, title }) => {
+const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, title, isEdit }) => {
   const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
 
@@ -39,7 +39,8 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
 
   const onSubmitNewExpense = async (formData) => {
     let updatedFormData = {};
-    if (formData.selectDoc === '') {
+    let expenseRes;
+    if (formData.selectDoc === undefined || formData.selectDoc === '') {
       updatedFormData = {
         itemName: formData.itemName,
         purchaseFrom: formData.purchaseFrom,
@@ -49,8 +50,14 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
     } else {
       updatedFormData = formData;
     }
-    const addNewExpRes = await addNewExpense(updatedFormData);
-    const { status, message } = addNewExpRes;
+    if (isEdit) {
+      expenseRes = await updateExpense(updatedFormData, selectedData.id);
+    } else {
+      expenseRes = await addNewExpense(updatedFormData);
+    }
+    // const addNewExpRes = await addNewExpense(updatedFormData);
+
+    const { status, message } = expenseRes;
     if (status) {
       setSnack({
         title: 'Success',
@@ -87,7 +94,6 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
           enableReinitialize
           initialValues={data}
           onSubmit={(values) => {
-            console.log('Return block --> ', values);
             onSubmitNewExpense(values);
           }}
           validationSchema={expenseFormSchema}
