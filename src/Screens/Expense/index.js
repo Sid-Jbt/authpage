@@ -20,7 +20,7 @@ import ViewExpenseDetails from './ViewExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
 import DeleteDialog from '../../Components/DeleteDialog';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
-import { getAllExpenseCount, getExpenseLists } from '../../APIs/Expense';
+import { getAllExpenseCount, getExpenseLists, deleteExpense } from '../../APIs/Expense';
 
 const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
@@ -106,7 +106,7 @@ const Expense = () => {
   useEffect(() => {
     getAllExpenseCounts();
     getAllExpenseList();
-  }, [isDialogOpen]);
+  }, [isDialogOpen, isDeleteDialogOpen]);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -167,7 +167,8 @@ const Expense = () => {
     setIsDeleteDialogOpen(false);
   };
 
-  const onDelete = () => {
+  const onDelete = async () => {
+    await deleteExpense(selectedId);
     handleDialogClose();
   };
 
@@ -206,6 +207,7 @@ const Expense = () => {
     if (isClear) {
       getAllExpenseCounts();
       getAllExpenseList(sortKey, sortOrder, page, '');
+      onDelete();
     }
   }, [isClear]);
 
