@@ -1,6 +1,6 @@
 const holidayListData = {
   columns: [
-    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    /* { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' }, */
     { name: 'title', align: 'center', headerName: 'Title', mobileHeader: 'Title' },
     {
       name: 'fromDate',
