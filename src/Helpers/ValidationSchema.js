@@ -142,11 +142,9 @@ export const holidayFormSchema = yup.object().shape({
 
 export const expenseFormSchema = yup.object().shape({
   itemName: yup.string().required('Item name is required'),
-  itemTitle: yup.string().required('Item title is required'),
   purchaseFrom: yup.string().required('Purchase from is required'),
   purchaseDate: yup.string().required('Purchase date is required'),
-  amount: yup.string().required('Amount is required'),
-  selectDoc: yup.string().required('Select document is required')
+  amount: yup.string().required('Amount is required')
 });
 
 export const addressSchema = yup.object().shape({
