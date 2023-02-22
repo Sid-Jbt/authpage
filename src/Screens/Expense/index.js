@@ -132,10 +132,10 @@ const Expense = () => {
   const onClickAction = (key, index) => {
     if (key === 'edit') {
       setIsEdit(true);
-      // setSelectedData(prRows.find((o) => o.id === index));
+      setSelectedData(allExpenseList.find((o) => o.id === index));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      // setSelectedData(prRows.find((o) => o.id === index));
+      setSelectedData(allExpenseList.find((o) => o.id === index));
       setIsViewExpenseDialogOpen(true);
     } else {
       setSelectedId(index);

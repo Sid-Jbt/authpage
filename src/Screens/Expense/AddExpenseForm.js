@@ -26,12 +26,6 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
     if (selectedData !== null) {
       Object.keys(data).map((key) => {
         data[key] = selectedData[key];
-        if (key === 'itemName') {
-          data[key] = selectedData.title;
-        }
-        if (key === 'purchaseDate') {
-          data[key] = moment(selectedData.purchaseDate).format('YYYY-MM-DD');
-        }
       });
       setData(data);
     } else {
@@ -44,8 +38,18 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
   }, [selectedData]);
 
   const onSubmitNewExpense = async (formData) => {
-    console.log('addNewExpRes', formData);
-    const addNewExpRes = await addNewExpense(formData);
+    let updatedFormData = {};
+    if (formData.selectDoc === '') {
+      updatedFormData = {
+        itemName: formData.itemName,
+        purchaseFrom: formData.purchaseFrom,
+        purchaseDate: formData.purchaseDate,
+        amount: formData.amount
+      };
+    } else {
+      updatedFormData = formData;
+    }
+    const addNewExpRes = await addNewExpense(updatedFormData);
     const { status, message } = addNewExpRes;
     if (status) {
       setSnack({
