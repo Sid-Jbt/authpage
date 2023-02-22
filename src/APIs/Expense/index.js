@@ -88,3 +88,15 @@ export const deleteExpense = async (id) =>
   })
     .then(async (response) => isTokenExpire(response.json()))
     .catch((error) => handleNetworkError(error));
+
+export const getEmployeeExpenseExportList = async (data) =>
+  axios({
+    url: `${API_BASE_URL}/expense/export?${queryString(data)}`,
+    method: 'GET',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: store.getState().route.currentUser.token
+    }
+  })
+    .then(async (response) => isTokenExpire(response))
+    .catch((error) => handleNetworkError(error));

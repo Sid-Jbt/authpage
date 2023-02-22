@@ -20,8 +20,14 @@ import ViewExpenseDetails from './ViewExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
 import DeleteDialog from '../../Components/DeleteDialog';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
-import { getAllExpenseCount, getExpenseLists, deleteExpense } from '../../APIs/Expense';
+import {
+  getAllExpenseCount,
+  getExpenseLists,
+  getEmployeeExpenseExportList,
+  deleteExpense
+} from '../../APIs/Expense';
 
+const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
 const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
   const { role } = useSelector((state) => state.route);
@@ -172,15 +178,62 @@ const Expense = () => {
     handleDialogClose();
   };
 
-  const onClickExport = () => {
-    setSnack({
-      title: 'Warning',
-      message: 'Export coming soon...',
-      time: false,
-      icon: <Check color="white" />,
-      color: 'warning',
-      open: true
-    });
+  const onClickExport = async (
+    // selectedSortKey = 'itemName',
+    // selectedSortOrder = 'asc',
+    // selectedPage = 0,
+    text = '',
+    count = 0,
+    dataLimit = limit
+  ) => {
+    const exportData = {
+      limit: dataLimit,
+      page: 0,
+      // sortKey: selectedSortKey.toLowerCase(),
+      // sortOrder: selectedSortOrder.toLowerCase(),
+      search: text,
+      count
+    };
+    let exportRes;
+    console.log('exportData --> ', exportData);
+    if (role === 'admin') {
+      // Replace with getExportExpenseLists
+      // exportRes = await getEmployeeExpenseExportList(exportData);
+    } else {
+      exportRes = await getEmployeeExpenseExportList(exportData);
+    }
+
+    const { status, message, data } = exportRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      window.open(`${EXPORT_URL}/${data}`, '', 'width=900, height=900');
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
+    if (role === 'admin') {
+      setSnack({
+        title: 'Warning',
+        message: 'Expense list export coming soon...',
+        time: false,
+        icon: <Check color="white" />,
+        color: 'warning',
+        open: true
+      });
+    }
   };
 
   const onClickSearch = () => {

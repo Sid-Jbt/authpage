@@ -64,3 +64,15 @@ export const updatedHoliday = async (id, data) =>
   })
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
+
+export const deleteExpense = async (id) =>
+  axios({
+    url: `${API_BASE_URL}/holiday/${id}`,
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: store.getState().route.currentUser.token
+    }
+  })
+    .then(async (response) => isTokenExpire(response.json()))
+    .catch((error) => handleNetworkError(error));
