@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
 import { expenseFormSchema } from 'Helpers/ValidationSchema';
@@ -6,7 +6,10 @@ import SideDrawer from 'Elements/SideDrawer';
 import { FormLabel, Grid } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
+import { Check, Error } from '@mui/icons-material';
 import Dropzone from '../../Elements/Dropzone';
+import { addNewExpense } from '../../APIs/Expense';
+import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const initialValues = {
   itemName: '',
@@ -17,6 +20,7 @@ const initialValues = {
 };
 const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, title }) => {
   const [data, setData] = useState(initialValues);
+  const { setSnack } = useContext(SnackbarContext);
 
   useEffect(() => {
     if (selectedData !== null) {
@@ -39,9 +43,32 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
     }
   }, [selectedData]);
 
-  const onSubmit = (formData) => {
-    console.log('formData', formData);
+  const onSubmitNewExpense = async (formData) => {
+    console.log('addNewExpRes', formData);
+    const addNewExpRes = await addNewExpense(formData);
+    const { status, message } = addNewExpRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Error color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
+    handleDialog();
   };
+
   return (
     <>
       <SideDrawer
@@ -55,8 +82,9 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
         <Formik
           enableReinitialize
           initialValues={data}
-          onSubmit={(formData) => {
-            onSubmit(formData);
+          onSubmit={(values) => {
+            console.log('Return block --> ', values);
+            onSubmitNewExpense(values);
           }}
           validationSchema={expenseFormSchema}
         >

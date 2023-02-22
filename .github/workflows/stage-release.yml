@@ -7,10 +7,12 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout stage branch
+        uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: '16.x.x'
+          node-version: '16.x'
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
@@ -19,7 +21,7 @@ jobs:
         run: |
           yarn policies set-version
           yarn install --frozen-lockfile
-      - name: Copy .env
+      - name: Copy env
         run: cp .env.test .env
       - name: Validate Code Style
         run: yarn check-all
@@ -32,6 +34,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASS }}
           port: ${{ secrets.SERVER_PORT }}
+          debug: true
           script: |
             cd jbt-timer-web
             yarn stage-setup
