@@ -200,3 +200,9 @@ export const queryString = (obj) => {
     }
   return str.join('&');
 };
+
+export const SupportTicketStatus = [
+  { value: 'approved', label: 'Approved' },
+  { value: 'declined', label: 'Declined' },
+  { value: 'pending', label: 'Pending' }
+];

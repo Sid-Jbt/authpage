@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import { Add, ImportExportRounded, Pending, ThumbDown, ThumbUp } from '@mui/icons-material';
+import { Add, Check, ImportExportRounded, Pending, ThumbDown, ThumbUp } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
-import { Priority, Status } from 'Helpers/Global';
+import { Priority, SupportTicketStatus } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
 import supportTicketData from './data/SupportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
@@ -14,9 +14,11 @@ import TicketCard from '../../Components/CardLayouts/StaticCard';
 import DeleteDialog from '../../Components/DeleteDialog';
 import DialogMenu from '../../Elements/Dialog';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
+import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = supportTicketData;
+  const { setSnack } = useContext(SnackbarContext);
   const { role } = useSelector((state) => state.route);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -82,7 +84,14 @@ const supportTicket = () => {
   };
 
   const onClickExport = () => {
-    alert('Export coming soon...');
+    setSnack({
+      title: 'Warning',
+      message: 'Export coming soon...',
+      time: false,
+      icon: <Check color="white" />,
+      color: 'warning',
+      open: true
+    });
   };
 
   const handleChangeStartDate = (event) => {
@@ -208,7 +217,7 @@ const supportTicket = () => {
               <FormLabel>Select Status</FormLabel>
               <Select
                 value={status}
-                options={Status}
+                options={SupportTicketStatus}
                 onChange={(value) => handleChangeStatus(value)}
               />
             </FormControl>

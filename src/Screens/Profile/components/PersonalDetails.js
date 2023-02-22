@@ -55,8 +55,8 @@ const PersonalDetails = () => {
       <Formik
         enableReinitialize
         initialValues={initialValues}
-        onSubmit={(values) => {
-          console.log('values', values);
+        onSubmit={(values, actions) => {
+          actions.setSubmitting(false);
         }}
         validationSchema={profileSchema}
       >

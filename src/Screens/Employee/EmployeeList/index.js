@@ -98,7 +98,14 @@ const EmployeeList = () => {
   };
 
   const onClickExport = () => {
-    alert('Export coming soon...');
+    setSnack({
+      title: 'Warning',
+      message: 'Export coming soon...',
+      time: false,
+      icon: <Check color="white" />,
+      color: 'warning',
+      open: true
+    });
   };
 
   const onClickAction = (value, id) => {

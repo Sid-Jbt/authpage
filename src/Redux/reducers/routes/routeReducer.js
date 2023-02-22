@@ -1,4 +1,4 @@
-import { ROLE, ROLELIST, LOGOUT, CURRENTUSER } from 'Redux/actions';
+import { ROLE, ROLELIST, LOGOUT, CURRENTUSER, REMEMBERME } from 'Redux/actions';
 
 export const DEFAULT_USER = {
   id: null,
@@ -8,7 +8,8 @@ export const DEFAULT_USER = {
 export const initialState = {
   role: '',
   roleList: null,
-  currentUser: DEFAULT_USER
+  currentUser: DEFAULT_USER,
+  rememberMe: ''
 };
 
 const routeReducer = (state = initialState, action) => {
@@ -22,12 +23,16 @@ const routeReducer = (state = initialState, action) => {
     case ROLELIST: {
       return { ...state, roleList: action.value };
     }
+    case REMEMBERME: {
+      return { ...state, rememberMe: action.value };
+    }
     case LOGOUT: {
       return {
         ...state,
         roleList: initialState.roleList,
         role: initialState.role,
-        currentUser: initialState.currentUser
+        currentUser: initialState.currentUser,
+        rememberMe: initialState.rememberMe
       };
     }
     default: {
