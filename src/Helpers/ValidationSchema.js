@@ -37,7 +37,7 @@ export const resetPasswordSchema = yup.object().shape({
     )
     .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required'),
-  confirmPassword: yup
+  resetPassword: yup
     .string()
     .when('password', {
       is: (val) => !!(val && val.length > 0),
@@ -256,7 +256,7 @@ export const organisationSchema = yup.object().shape({
 });
 
 export const organisationSignupSchema = yup.object().shape({
-  name: yup.string().required('Organisation name is required'),
+  organisationName: yup.string().required('Organisation name is required'),
   email: yup.string().email('Enter a valid email').required('Email is required'),
   password: yup
     .string()
@@ -266,4 +266,14 @@ export const organisationSignupSchema = yup.object().shape({
     )
     .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required')
+});
+
+export const addEmployeeSchema = yup.object().shape({
+  email: yup.string().email('Enter a valid email').required('Email is required'),
+  password: yup
+    .string()
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+  employeeCode: yup.string().required('Employee code is required'),
+  dateOfJoin: yup.string().required('Date of join is required')
 });

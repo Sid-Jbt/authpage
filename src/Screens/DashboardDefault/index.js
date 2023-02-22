@@ -22,6 +22,8 @@ import LeaveCard from '../../Components/CardLayouts/StaticCard';
 
 const DashboardDefault = () => {
   const { role } = useSelector((state) => state.route);
+  const { currentUser } = useSelector((state) => state.route);
+  console.log('currentUser', currentUser);
   const navigate = useNavigate();
   const [calendarEventsData, setCalendarEventsData] = useState([]);
 

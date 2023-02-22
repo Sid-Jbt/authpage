@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
 import {
   Add,
   Check,
   ImportExportRounded,
   PendingTwoTone,
+  SummarizeRounded,
   ThumbDown,
   ThumbUpAlt
 } from '@mui/icons-material';
@@ -19,9 +20,10 @@ import ViewExpenseDetails from './ViewExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
 import DeleteDialog from '../../Components/DeleteDialog';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
+import { getAllExpenseCount, getExpenseLists } from '../../APIs/Expense';
 
 const Expense = () => {
-  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = expenseListData;
+  const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
   const { role } = useSelector((state) => state.route);
   const { setSnack } = useContext(SnackbarContext);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -32,6 +34,82 @@ const Expense = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [counts, setCounts] = useState(null);
+
+  const [allExpenseList, setAllExpenseList] = useState([]);
+  const [expenseListCount, setExpenseListCount] = useState(0);
+  const [sortKey, setSortKey] = useState('title');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [isClear, setIsClear] = useState(false);
+
+  const getAllExpenseCounts = async () => {
+    let empExpenseCountData;
+    if (role === 'admin') {
+      empExpenseCountData = {
+        Total: 0,
+        Approved: 0,
+        Reject: 0,
+        Pending: 0
+      };
+      setCounts(empExpenseCountData);
+    } else {
+      empExpenseCountData = await getAllExpenseCount();
+      setCounts(empExpenseCountData.data);
+    }
+  };
+
+  const getAllExpenseList = async (
+    selectedSortKey = 'title',
+    selectedSortOrder = 'asc',
+    selectedPage = 0,
+    text = '',
+    count = 0,
+    dataLimit = limit
+  ) => {
+    const expenseData = {
+      limit: dataLimit,
+      page: selectedPage,
+      sortKey: selectedSortKey.toLowerCase(),
+      sortOrder: selectedSortOrder.toLowerCase(),
+      search: text,
+      count
+    };
+    let expenseRes;
+    if (role === 'admin') {
+      console.log('Admin block');
+      // Replace admin api with getExpenseLists
+      // expenseRes = await getExpenseLists(expenseData);
+    } else {
+      console.log('Execute else block...');
+      expenseRes = await getExpenseLists(expenseData);
+    }
+    console.log('expenseRes  ---> ', expenseRes);
+    const {
+      status,
+      data: { rows },
+      message
+    } = expenseRes;
+    if (status) {
+      setAllExpenseList(rows);
+      setExpenseListCount(expenseRes.data.count);
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        color: 'success',
+        open: true
+      });
+    }
+  };
+
+  useEffect(() => {
+    console.log('1st useEffect...');
+    getAllExpenseCounts();
+    getAllExpenseList();
+  }, []);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -57,10 +135,10 @@ const Expense = () => {
   const onClickAction = (key, index) => {
     if (key === 'edit') {
       setIsEdit(true);
-      setSelectedData(prRows.find((o) => o.id === index));
+      // setSelectedData(prRows.find((o) => o.id === index));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      setSelectedData(prRows.find((o) => o.id === index));
+      // setSelectedData(prRows.find((o) => o.id === index));
       setIsViewExpenseDialogOpen(true);
     } else {
       setSelectedId(index);
@@ -74,6 +152,7 @@ const Expense = () => {
 
   const handleClear = () => {
     setSearch('');
+    setIsClear(!isClear);
   };
 
   const handleDialogClose = () => {
@@ -95,13 +174,50 @@ const Expense = () => {
     });
   };
 
+  const onClickSearch = () => {
+    getAllExpenseList(sortKey, sortOrder, page, search, 0);
+  };
+
+  const onPage = async (selectedPage) => {
+    setPage(selectedPage);
+    await getAllExpenseList(sortKey, sortOrder, selectedPage);
+  };
+
+  const onRowsPerPageChange = async (selectedLimit) => {
+    setLimit(selectedLimit);
+    await getAllExpenseList(sortKey, sortOrder, selectedLimit);
+  };
+
+  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
+    setSortKey(selectedSortKey);
+    setSortOrder(selectedSortOrder);
+    await getAllExpenseList(selectedSortKey, selectedSortOrder, page);
+  };
+
+  useEffect(() => {
+    if (isClear) {
+      console.log('2nd useEffect...');
+
+      getAllExpenseCounts();
+      getAllExpenseList(sortKey, sortOrder, page, '');
+    }
+  }, [isClear]);
+
   return (
     <>
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
+            title="Total Expense"
+            count={counts && counts.Total}
+            icon={{ color: 'success', component: <SummarizeRounded /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <ExpenseCard
             title="Approved"
-            count="5"
+            count={counts && counts.Approved}
             icon={{ color: 'success', component: <ThumbUpAlt /> }}
             isPercentage={false}
           />
@@ -109,7 +225,7 @@ const Expense = () => {
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
             title="Declined"
-            count="1"
+            count={counts && counts.Reject}
             icon={{ color: 'error', component: <ThumbDown /> }}
             isPercentage={false}
           />
@@ -117,7 +233,7 @@ const Expense = () => {
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
             title="Pending"
-            count="3"
+            count={counts && counts.Pending}
             icon={{ color: 'warning', component: <PendingTwoTone /> }}
             isPercentage={false}
           />
@@ -172,13 +288,14 @@ const Expense = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={() => handleChangeSearch()}
+          handleSearch={handleChangeSearch}
           handleClear={() => handleClear()}
+          onClickSearch={() => onClickSearch()}
         />
 
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
-          rows={prRows}
+          rows={allExpenseList}
           onClickAction={(value, id) => onClickAction(value, id)}
           isAction={role !== 'admin'}
           options={[
@@ -188,6 +305,14 @@ const Expense = () => {
           ]}
           isView={role === 'admin'}
           isDialogAction={(row) => onClickView(row)}
+          rowsCount={expenseListCount}
+          initialPage={page}
+          onChangePage={(value) => onPage(value)}
+          rowsPerPage={limit}
+          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
+          sortKey={sortKey}
+          sortOrder={sortOrder}
+          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
         />
         {isDialogOpen && (
           <AddExpenseForm

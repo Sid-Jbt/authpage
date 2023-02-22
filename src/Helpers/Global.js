@@ -30,12 +30,8 @@ export const Years = yearsArray.map(setYears);
 
 export const Roles = [
   { value: 'all', label: 'All' },
-  { value: 'superAdmin', label: 'Super Admin' },
   { value: 'admin', label: 'Admin' },
-  { value: 'developer', label: 'Developer' },
-  { value: 'tester', label: 'Tester' },
-  { value: 'hr', label: 'HR' },
-  { value: 'qa', label: 'QA' }
+  { value: 'employee', label: 'Employee' }
 ];
 
 export const leaveTypes = [
@@ -135,6 +131,75 @@ export const EventsType = [
   { value: 'error', label: 'Error' },
   { value: 'primary', label: 'Primary' }
 ];
+
+export const EmployeeRoleList = [
+  'dashboard',
+  'profilesetup',
+  'profile',
+  'privacy',
+  'expense',
+  'leave',
+  'settings',
+  'payslip',
+  'attendance',
+  'profile',
+  'supportTicket',
+  'holiday',
+  'report',
+  'allreport',
+  'timeactivity',
+  'weeklylimit'
+];
+
+export const AdminRoleList = [
+  'dashboard',
+  'profilesetup',
+  'employee',
+  'profile',
+  'privacy',
+  'employeeDetails',
+  'expense',
+  'leave',
+  'settings',
+  'payslip',
+  'attendance',
+  'profile',
+  'role',
+  'supportTicket',
+  'report',
+  'allreport',
+  'timeactivity',
+  'weeklylimit',
+  'holiday',
+  'notice'
+];
+
+export const buildFormData = (formData, data, parentKey) => {
+  if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
+    Object.keys(data).forEach((key) => {
+      buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+    });
+  } else {
+    const value = data == null ? '' : data;
+    formData.append(parentKey, value);
+  }
+};
+
+export const convertFormData = async (data) => {
+  const formData = new FormData();
+  buildFormData(formData, data);
+  return formData;
+};
+
+// CONVERT OBJECT TO QUERY STRING
+export const queryString = (obj) => {
+  const str = [];
+  for (const p in obj)
+    if (obj.hasOwnProperty(p)) {
+      str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
+    }
+  return str.join('&');
+};
 
 export const SupportTicketStatus = [
   { value: 'approved', label: 'Approved' },

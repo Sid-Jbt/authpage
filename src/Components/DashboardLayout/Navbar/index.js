@@ -21,7 +21,7 @@ import Avatar from 'Elements/Avatar';
 import useWindowPosition from 'Hooks/useWindowPosition';
 import { profileSetupPattern, getLoginPattern, getProfilePattern } from 'Routes/routeConfig';
 import { LOGOUT } from 'Redux/actions';
-import CircularProgressWithLabel from 'Elements/CircularProgress';
+import CircularProgressWithLabel from 'Elements/CircularProgressWithLabel';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
 const DashboardNavbar = ({ isMini }) => {

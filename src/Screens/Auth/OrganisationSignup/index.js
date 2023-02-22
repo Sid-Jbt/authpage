@@ -7,24 +7,51 @@ import Input from 'Elements/Input';
 import { Link, useNavigate } from 'react-router-dom';
 import { getLoginPattern, loginPattern } from 'Routes/routeConfig';
 import { Formik } from 'formik';
-import { Check, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Check, Error, Visibility, VisibilityOff } from '@mui/icons-material';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import { organisationSignupSchema } from 'Helpers/ValidationSchema';
+import { companySignUp } from 'APIs/API';
 
 const image = 'https://jarvisbitz.com/wp-content/uploads/2022/02/banner-shape-1.png';
 
 const OrganisationSignup = () => {
   const navigate = useNavigate();
-  const [agreement, setAgremment] = useState(false);
+  const [agreement, setAgreement] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { setSnack } = useContext(SnackbarContext);
 
-  const handleSetAgremment = () => setAgremment(!agreement);
+  const handleSetAgreement = () => setAgreement(!agreement);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const onSignup = async (formData, actions) => {
+    const signUpRes = await companySignUp(formData);
+    const { status, message } = signUpRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      actions.setSubmitting(false);
+      navigate(getLoginPattern());
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Error color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
   };
 
   return (
@@ -58,20 +85,8 @@ const OrganisationSignup = () => {
               <Box pb={3} px={3}>
                 <Formik
                   enableReinitialize
-                  initialValues={{ name: '', email: '', password: '' }}
-                  onSubmit={(values, actions) => {
-                    setSnack({
-                      title: 'Success',
-                      message:
-                        'Organisation signup successfully. Please login with your credentials',
-                      time: false,
-                      icon: <Check color="white" />,
-                      color: 'success',
-                      open: true
-                    });
-                    actions.setSubmitting(false);
-                    navigate(getLoginPattern());
-                  }}
+                  initialValues={{ organisationName: '', email: '', password: '' }}
+                  onSubmit={(values, actions) => onSignup(values, actions)}
                   validationSchema={organisationSignupSchema}
                 >
                   {(props) => {
@@ -88,18 +103,22 @@ const OrganisationSignup = () => {
                       <form onSubmit={handleSubmit}>
                         <Box mb={0.5}>
                           <Input
-                            type="name"
-                            placeholder="Name"
+                            type="text"
+                            placeholder="Organisation Name"
                             size="large"
                             fullWidth
-                            id="name"
-                            name="name"
-                            value={values.name}
+                            id="organisationName"
+                            name="organisationName"
+                            value={values.organisationName}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            errorText={errors.name && touched.name && errors.name}
-                            error={errors.name && touched.name}
-                            success={!errors.name && touched.name}
+                            errorText={
+                              errors.organisationName &&
+                              touched.organisationName &&
+                              errors.organisationName
+                            }
+                            error={errors.organisationName && touched.organisationName}
+                            success={!errors.organisationName && touched.organisationName}
                           />
                         </Box>
                         <Box mb={0.5}>
@@ -147,11 +166,11 @@ const OrganisationSignup = () => {
                           />
                         </Box>
                         <Box display="flex" alignItems="center">
-                          <Checkbox checked={agreement} onChange={handleSetAgremment} />
+                          <Checkbox checked={agreement} onChange={() => handleSetAgreement()} />
                           <Typography
                             variant="button"
                             fontWeight="regular"
-                            onClick={handleSetAgremment}
+                            onClick={() => handleSetAgreement()}
                             sx={{ cursor: 'pointer', userSelect: 'none' }}
                           >
                             &nbsp;&nbsp;I agree the&nbsp;

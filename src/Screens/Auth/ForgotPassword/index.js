@@ -6,13 +6,40 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { forgotPasswordSchema } from 'Helpers/ValidationSchema';
-import { getResetPasswordPattern } from 'Routes/routeConfig';
+import { defaultPattern, getDefaultPattern } from 'Routes/routeConfig';
 import { SnackbarContext } from 'Context/SnackbarProvider';
-import { Check } from '@mui/icons-material';
+import { Check, Error } from '@mui/icons-material';
+import { companyForgotPassword } from 'APIs/API';
 
 const ForgotPassword = () => {
   const { setSnack } = useContext(SnackbarContext);
   const navigate = useNavigate();
+
+  const onSubmit = async (formData, actions) => {
+    const forgotPasswordRes = await companyForgotPassword(formData);
+    const { status, message } = forgotPasswordRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      actions.setSubmitting(false);
+      navigate(getDefaultPattern());
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Error color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
+  };
 
   return (
     <>
@@ -27,17 +54,7 @@ const ForgotPassword = () => {
       <Formik
         initialValues={{ email: '' }}
         onSubmit={(values, actions) => {
-          const { email } = values;
-          setSnack({
-            title: 'Success',
-            message: `Please check your email '${email}' for reset password link`,
-            time: false,
-            icon: <Check color="white" />,
-            color: 'success',
-            open: true
-          });
-          actions.setSubmitting(false);
-          navigate(getResetPasswordPattern());
+          onSubmit(values, actions);
         }}
         validationSchema={forgotPasswordSchema}
       >
@@ -80,7 +97,13 @@ const ForgotPassword = () => {
       <Box mt={3} textAlign="center">
         <Typography variant="button" color="text" fontWeight="regular">
           Already have an account?&nbsp;
-          <Typography component={Link} to="/" variant="button" color="info" fontWeight="medium">
+          <Typography
+            component={Link}
+            to={defaultPattern}
+            variant="button"
+            color="info"
+            fontWeight="medium"
+          >
             Sign In
           </Typography>
         </Typography>

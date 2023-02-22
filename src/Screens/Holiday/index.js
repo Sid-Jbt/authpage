@@ -1,6 +1,6 @@
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
 import { Add, ImportExportRounded } from '@mui/icons-material';
-import React, { useState } from 'react';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import { useSelector } from 'react-redux';
@@ -10,16 +10,67 @@ import DialogMenu from '../../Elements/Dialog';
 import ManageHolidayForm from './ManageHolidayForm';
 import DeleteDialog from '../../Components/DeleteDialog';
 import ImportDialog from './ImportDialog';
+import { getHolidayList } from '../../APIs/Holiday';
+import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const Holiday = () => {
-  const { columns: prCols, rows: prRows } = holidayListData;
+  const { columns: prCols } = holidayListData;
   const { role } = useSelector((state) => state.route);
+  const { setSnack } = useContext(SnackbarContext);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const [search, setSearch] = useState('');
+
+  const [allHolidayList, setAllHolidayList] = useState([]);
+  const [holidayListCount, setHolidayListCount] = useState(0);
+  const [sortKey, setSortKey] = useState('title');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [isClear, setIsClear] = useState(false);
+
+  const getAllHolidayList = async (
+    selectedSortKey = 'title',
+    selectedSortOrder = 'asc',
+    selectedPage = 0,
+    text = '',
+    count = 0,
+    dataLimit = limit
+  ) => {
+    const holidayData = {
+      limit: dataLimit,
+      page: selectedPage,
+      sortKey: selectedSortKey.toLowerCase(),
+      sortOrder: selectedSortOrder.toLowerCase(),
+      search: text,
+      count
+    };
+    const holidayListRes = await getHolidayList(holidayData);
+    const {
+      status,
+      data: { rows },
+      message
+    } = holidayListRes;
+    if (status) {
+      setAllHolidayList(rows);
+      setHolidayListCount(holidayListRes.data.count);
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        color: 'success',
+        open: true
+      });
+    }
+  };
+
+  useEffect(() => {
+    getAllHolidayList();
+  }, []);
 
   const handleMouseEnter = () => {
     setIsHover(true);
@@ -66,11 +117,38 @@ const Holiday = () => {
   };
 
   const handleChangeSearch = (event) => {
-    setSearch(event);
+    setSearch(event.target.value);
   };
 
   const handleClear = () => {
     setSearch('');
+    setIsClear(!isClear);
+  };
+
+  useEffect(() => {
+    if (isClear) {
+      getAllHolidayList(sortKey, sortOrder, page, '');
+    }
+  }, [isClear]);
+
+  const onClickSearch = () => {
+    getAllHolidayList(sortKey, sortOrder, page, search, 0);
+  };
+
+  const onPage = async (selectedPage) => {
+    setPage(selectedPage);
+    await getAllHolidayList(sortKey, sortOrder, selectedPage);
+  };
+
+  const onRowsPerPageChange = async (selectedLimit) => {
+    setLimit(selectedLimit);
+    await getAllHolidayList(sortKey, sortOrder, selectedLimit);
+  };
+
+  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
+    setSortKey(selectedSortKey);
+    setSortOrder(selectedSortOrder);
+    await getAllHolidayList(selectedSortKey, selectedSortOrder, page);
   };
 
   return (
@@ -106,19 +184,28 @@ const Holiday = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={() => handleChangeSearch()}
+          handleSearch={handleChangeSearch}
           handleClear={() => handleClear()}
+          onClickSearch={() => onClickSearch()}
         />
 
         <Table
           columns={prCols}
-          rows={prRows}
+          rows={allHolidayList}
           onClickAction={(value, id) => onOpenEdit(value, id)}
           isAction={role === 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
             { title: 'Delete', value: 'delete' }
           ]}
+          rowsCount={holidayListCount}
+          initialPage={page}
+          onChangePage={(value) => onPage(value)}
+          rowsPerPage={limit}
+          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
+          sortKey={sortKey}
+          sortOrder={sortOrder}
+          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
         />
 
         <DialogMenu
