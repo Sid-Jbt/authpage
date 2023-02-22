@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getLoginPattern } from '../../Routes/routeConfig';
-import { queryString } from '../../Helpers/Global';
+import { convertFormData, queryString } from '../../Helpers/Global';
 import { store } from '../../Redux/store';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -47,6 +47,19 @@ export const getExpenseLists = async (data) =>
       Accept: 'application/x-www-form-urlencoded',
       Authorization: store.getState().route.currentUser.token
     }
+  })
+    .then(async (response) => isTokenExpire(response))
+    .catch((error) => handleNetworkError(error));
+
+export const addNewExpense = async (data) =>
+  axios({
+    url: `${API_BASE_URL}/employee/expense`,
+    method: 'POST',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: store.getState().route.currentUser.token
+    },
+    data: await convertFormData(data)
   })
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));

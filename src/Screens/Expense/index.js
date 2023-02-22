@@ -80,8 +80,9 @@ const Expense = () => {
     if (role === 'admin') {
       console.log('Admin block');
       // Replace admin api with getExpenseLists
-      //  expenseRes = await getExpenseLists(expenseData);
+      // expenseRes = await getExpenseLists(expenseData);
     } else {
+      console.log('Execute else block...');
       expenseRes = await getExpenseLists(expenseData);
     }
     console.log('expenseRes  ---> ', expenseRes);
@@ -105,6 +106,7 @@ const Expense = () => {
   };
 
   useEffect(() => {
+    console.log('1st useEffect...');
     getAllExpenseCounts();
     getAllExpenseList();
   }, []);
@@ -194,6 +196,8 @@ const Expense = () => {
 
   useEffect(() => {
     if (isClear) {
+      console.log('2nd useEffect...');
+
       getAllExpenseCounts();
       getAllExpenseList(sortKey, sortOrder, page, '');
     }
