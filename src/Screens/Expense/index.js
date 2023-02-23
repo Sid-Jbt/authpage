@@ -179,23 +179,22 @@ const Expense = () => {
   };
 
   const onClickExport = async (
-    // selectedSortKey = 'itemName',
-    // selectedSortOrder = 'asc',
-    // selectedPage = 0,
+    selectedSortKey = 'itemName',
+    selectedSortOrder = 'asc',
+    selectedPage = 0,
     text = '',
     count = 0,
     dataLimit = limit
   ) => {
     const exportData = {
       limit: dataLimit,
-      page: 0,
-      // sortKey: selectedSortKey.toLowerCase(),
-      // sortOrder: selectedSortOrder.toLowerCase(),
+      page: selectedPage,
+      sortKey: selectedSortKey.toLowerCase(),
+      sortOrder: selectedSortOrder.toLowerCase(),
       search: text,
       count
     };
     let exportRes;
-    console.log('exportData --> ', exportData);
     if (role === 'admin') {
       // Replace with getExportExpenseLists
       // exportRes = await getEmployeeExpenseExportList(exportData);

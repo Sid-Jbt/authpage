@@ -55,7 +55,6 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
     } else {
       expenseRes = await addNewExpense(updatedFormData);
     }
-    // const addNewExpRes = await addNewExpense(updatedFormData);
 
     const { status, message } = expenseRes;
     if (status) {
