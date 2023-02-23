@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Icon, Grid } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
@@ -21,6 +21,7 @@ import AddLeaveForm from './AddLeaveForm';
 import DeleteDialog from '../../Components/DeleteDialog';
 import DialogMenu from '../../Elements/Dialog';
 import ViewLeaveDetails from './ViewLeaveDetails';
+import { getAllLeaveCount } from '../../APIs/Leave';
 
 const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
@@ -34,6 +35,28 @@ const LeaveList = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
   const [isViewLeaveDialogOpen, setIsViewLeaveDialogOpen] = useState(false);
+  const [counts, setCounts] = useState(null);
+
+  const getAllLeaveCounts = async () => {
+    let empLeaveCountData;
+    if (role === 'admin') {
+      empLeaveCountData = {
+        TotalRequest: 0,
+        TotalApproved: 0,
+        TotalRejected: 0,
+        TotalPending: 0
+      };
+      setCounts(empLeaveCountData);
+    } else {
+      empLeaveCountData = await getAllLeaveCount();
+      setCounts(empLeaveCountData.data);
+    }
+  };
+
+  useEffect(() => {
+    getAllLeaveCounts();
+    // getAllLeaveList();
+  }, [isDialogOpen]);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -103,7 +126,7 @@ const LeaveList = () => {
             <Grid item xs={12} md={6} lg={3}>
               <LeaveCard
                 title="Total Request"
-                count="5"
+                count={counts && counts.TotalRequest}
                 icon={{ color: 'info', component: <RequestPage /> }}
                 isPercentage={false}
               />
@@ -111,7 +134,15 @@ const LeaveList = () => {
             <Grid item xs={12} md={6} lg={3}>
               <LeaveCard
                 title="Total Approved"
-                count="3"
+                count={counts && counts.TotalApproved}
+                icon={{ color: 'success', component: <ThumbUp /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <LeaveCard
+                title="Total Declined"
+                count={counts && counts.TotalRejected}
                 icon={{ color: 'success', component: <ThumbUp /> }}
                 isPercentage={false}
               />
@@ -119,7 +150,7 @@ const LeaveList = () => {
             <Grid item xs={12} md={6} lg={3}>
               <LeaveCard
                 title="Total Pending"
-                count="2"
+                count={counts && counts.TotalPending}
                 icon={{ color: 'warning', component: <PendingActionsRounded /> }}
                 isPercentage={false}
               />
@@ -130,7 +161,7 @@ const LeaveList = () => {
             <Grid item xs={12} md={6} lg={3}>
               <LeaveCard
                 title="Total Leave"
-                count="12"
+                count={counts && counts.TotalLeave}
                 icon={{ color: 'info', component: <CalendarMonth /> }}
                 isPercentage={false}
               />
@@ -138,7 +169,7 @@ const LeaveList = () => {
             <Grid item xs={12} md={6} lg={3}>
               <LeaveCard
                 title="Medical Leave"
-                count="3"
+                count={counts && counts.MedicalLeave}
                 icon={{ color: 'warning', component: <Vaccines /> }}
                 isPercentage={false}
               />
@@ -146,7 +177,7 @@ const LeaveList = () => {
             <Grid item xs={12} md={6} lg={3}>
               <LeaveCard
                 title="Other Leave"
-                count="4"
+                count={counts && counts.OtherLeave}
                 icon={{ color: 'primary', component: <Celebration /> }}
                 isPercentage={false}
               />
@@ -154,7 +185,7 @@ const LeaveList = () => {
             <Grid item xs={12} md={6} lg={3}>
               <LeaveCard
                 title="Remaining Leave"
-                count="5"
+                count={counts && counts.RemainingLeave}
                 icon={{ color: 'success', component: <DirectionsRun /> }}
                 isPercentage={false}
               />
