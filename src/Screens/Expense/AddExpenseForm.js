@@ -21,11 +21,16 @@ const initialValues = {
 const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, title, isEdit }) => {
   const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
+    console.log('Selected Data --> ', selectedData);
     if (selectedData !== null) {
       Object.keys(data).map((key) => {
         data[key] = selectedData[key];
+        if (key === document) {
+          data[key] = selectedData.selectDoc;
+        }
       });
       setData(data);
     } else {
@@ -33,23 +38,45 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
       initialValues.itemName = '';
       initialValues.purchaseFrom = '';
       initialValues.amount = '';
+      initialValues.selectDoc = '';
       setData(initialValues);
     }
   }, [selectedData]);
 
   const onSubmitNewExpense = async (formData) => {
+    console.log('formData --> ', formData, image, image !== null, image === null);
     let updatedFormData = {};
     let expenseRes;
-    if (formData.selectDoc === undefined || formData.selectDoc === '') {
+    if (image !== null) {
+      console.log('Execute image if block');
+      updatedFormData = {
+        itemName: formData.itemName,
+        purchaseFrom: formData.purchaseFrom,
+        purchaseDate: formData.purchaseDate,
+        amount: formData.amount,
+        selectDoc: image
+      };
+    }
+    console.log('After set image --> ', updatedFormData);
+
+    if (updatedFormData.selectDoc === undefined || updatedFormData.selectDoc === '') {
       updatedFormData = {
         itemName: formData.itemName,
         purchaseFrom: formData.purchaseFrom,
         purchaseDate: formData.purchaseDate,
         amount: formData.amount
       };
-    } else {
-      updatedFormData = formData;
-    }
+      console.log('Blank Data updatedFormData --> ', updatedFormData);
+    } /* else {
+      updatedFormData = {
+        itemName: formData.itemName,
+        purchaseFrom: formData.purchaseFrom,
+        purchaseDate: formData.purchaseDate,
+        amount: formData.amount,
+        selectDoc: image
+      };
+      console.log('Filled updatedFormData --> ', updatedFormData);
+    } */
     if (isEdit) {
       expenseRes = await updateExpense(updatedFormData, selectedData.id);
     } else {
@@ -77,6 +104,11 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
       });
     }
     handleDialog();
+  };
+
+  const uploadFile = (file) => {
+    console.log('uploadFile --> ', file[0]);
+    setImage(file[0]);
   };
 
   return (
@@ -153,6 +185,7 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Input
+                      type="number"
                       placeholder="Amount"
                       label="AMOUNT"
                       size="large"
@@ -165,11 +198,22 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
                       errorText={errors.amount && touched.amount && errors.amount}
                       error={errors.amount && touched.amount}
                       success={!errors.amount && touched.amount}
+                      onKeyDown={(evt) =>
+                        ['e', 'E', '-', '+'].includes(evt.key) && evt.preventDefault()
+                      }
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <FormLabel>SELECT DOCUMENT</FormLabel>
-                    <Dropzone />
+                    <Dropzone
+                      options={{
+                        autoProcessQueue: false,
+                        uploadMultiple: false,
+                        addedfiles: (file) => uploadFile(file)
+                        // addedfiles: (file) => console.log('Files --> ', file)
+                      }}
+                      value={values.selectedDoc}
+                    />
                   </Grid>
                   <Grid item xs={12} md={4} lg={6}>
                     <Button type="submit" color="info" variant="contained" size="medium">

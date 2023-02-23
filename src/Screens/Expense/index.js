@@ -404,7 +404,7 @@ const Expense = () => {
         <DialogMenu
           isOpen={isExpenseDialogOpen || isViewExpenseDialogOpen}
           onClose={isExpenseDialogOpen ? handleCloseDialog : handleCloseViewDialog}
-          dialogTitle={`Expense Details: ${selectedData.title}`}
+          dialogTitle={`Expense Details: ${selectedData.itemName}`}
           dialogContent={<ViewExpenseDetails info={selectedData} />}
           dialogAction={
             role === 'admin' && (
