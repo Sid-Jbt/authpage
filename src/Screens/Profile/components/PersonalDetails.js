@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import {
   Card,
   FormControlLabel,
@@ -23,47 +23,101 @@ const initialValues = {
   fatherName: '',
   department: '',
   designation: '',
-  pAdd: '',
-  alternativeNumber: '',
-  phoneNumber: '',
-  dateOfBirth: moment().format('YYYY-MM-DD')
+  permanentAddress: '',
+  presentAddress: '',
+  alternatePhone: '',
+  phoneNumber: ''
 };
 
-const PersonalDetails = () => {
+const PersonalDetails = forwardRef(({ onFormSubmit, employeeProfileDetails }, ref) => {
   const { role } = useSelector((state) => state.route);
   const theme = useTheme();
-  const [isEdit, setIsEdit] = useState(true);
+  const [isEdit, setIsEdit] = useState(false);
   const handleIsEdit = () => setIsEdit(!isEdit);
+  const formikRef = useRef();
+  const submitBtnRef = useRef();
 
-  console.log('role --> ', role);
+  useEffect(() => {
+    if (employeeProfileDetails !== null && formikRef && formikRef.current !== undefined) {
+      const { setFieldValue } = formikRef.current;
+      const {
+        fatherName,
+        department,
+        designation,
+        dob,
+        phoneNumber,
+        alternatePhone,
+        gender,
+        firstName,
+        lastName,
+        presentAddress,
+        permanentAddress,
+        dateOfJoin,
+        dateOfLeave
+      } = employeeProfileDetails.profile;
+      setFieldValue('firstName', firstName);
+      setFieldValue('lastName', lastName);
+      setFieldValue('fatherName', fatherName);
+      setFieldValue('department', department);
+      setFieldValue('designation', designation);
+      setFieldValue('phoneNumber', phoneNumber);
+      setFieldValue('dob', dob === null ? moment().format('YYYY-MM-DD') : dob);
+      setFieldValue('alternatePhone', alternatePhone);
+      setFieldValue('gender', gender);
+      setFieldValue('presentAddress', presentAddress);
+      setFieldValue('permanentAddress', permanentAddress);
+      setFieldValue('dateOfJoin', dateOfJoin === null ? moment().format('YYYY-MM-DD') : dateOfJoin);
+      setFieldValue(
+        'dateOfLeave',
+        dateOfLeave === null ? moment().format('YYYY-MM-DD') : dateOfLeave
+      );
+    }
+  }, [employeeProfileDetails]);
+
+  const onSubmit = (formData) => {
+    onFormSubmit(formData);
+  };
+
+  useImperativeHandle(ref, () => ({
+    onParentSubmit() {
+      submitBtnRef.current.click();
+    }
+  }));
 
   return (
     <Card>
-      <Grid container p={2} alignItems="center" justifyContent="space-between">
-        <Grid item>
-          <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
-            My Account
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Button color="info" variant="contained" onClick={() => handleIsEdit()}>
-            {isEdit ? 'Edit' : 'Save'}
-          </Button>
-        </Grid>
-      </Grid>
-
       <Formik
         enableReinitialize
         initialValues={initialValues}
         onSubmit={(values, actions) => {
+          onSubmit(values);
           actions.setSubmitting(false);
         }}
         validationSchema={profileSchema}
+        innerRef={formikRef}
       >
         {(props) => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
           return (
             <form onSubmit={handleSubmit}>
+              <Grid container p={2} alignItems="center" justifyContent="space-between">
+                <Grid item>
+                  <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
+                    My Account
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  {!isEdit ? (
+                    <Button color="info" variant="contained" onClick={() => handleIsEdit()}>
+                      Edit
+                    </Button>
+                  ) : (
+                    <Button type="submit" color="info" variant="contained" ref={submitBtnRef}>
+                      Save
+                    </Button>
+                  )}
+                </Grid>
+              </Grid>
               <Grid container spacing={1} p={2}>
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
@@ -81,7 +135,7 @@ const PersonalDetails = () => {
                       errorText={errors.firstName && touched.firstName && errors.firstName}
                       error={errors.firstName && touched.firstName}
                       success={!errors.firstName && touched.firstName}
-                      disabled={isEdit}
+                      disabled={!isEdit}
                     />
                   </Box>
                 </Grid>
@@ -102,7 +156,7 @@ const PersonalDetails = () => {
                       errorText={errors.lastName && touched.lastName && errors.lastName}
                       error={errors.lastName && touched.lastName}
                       success={!errors.lastName && touched.lastName}
-                      disabled={isEdit}
+                      disabled={!isEdit}
                     />
                   </Box>
                 </Grid>
@@ -124,7 +178,7 @@ const PersonalDetails = () => {
                           errorText={errors.fatherName && touched.fatherName && errors.fatherName}
                           error={errors.fatherName && touched.fatherName}
                           success={!errors.fatherName && touched.fatherName}
-                          disabled={isEdit}
+                          disabled={!isEdit}
                         />
                       </Box>
                     </Grid>
@@ -144,7 +198,7 @@ const PersonalDetails = () => {
                           errorText={errors.department && touched.department && errors.department}
                           error={errors.department && touched.department}
                           success={!errors.department && touched.department}
-                          disabled={isEdit}
+                          disabled={!isEdit}
                         />
                       </Box>
                     </Grid>
@@ -166,7 +220,7 @@ const PersonalDetails = () => {
                           }
                           error={errors.designation && touched.designation}
                           success={!errors.designation && touched.designation}
-                          disabled={isEdit}
+                          disabled={!isEdit}
                         />
                       </Box>
                     </Grid>
@@ -177,14 +231,14 @@ const PersonalDetails = () => {
                           placeholder="Emp001"
                           size="large"
                           fullWidth
-                          id="empCode"
-                          name="empCode"
+                          id="employeeCode"
+                          name="employeeCode"
                           label="Employee Code"
-                          value={values.empCode}
+                          value={values.employeeCode}
                           // onChange={handleChange}
                           // onBlur={handleBlur}
-                          // errorText={errors.empCode && touched.empCode && errors.empCode}
-                          // error={errors.empCode && touched.empCode}
+                          // errorText={errors.employeeCode && touched.employeeCode && errors.employeeCode}
+                          // error={errors.employeeCode && touched.employeeCode}
                           disabled
                         />
                       </Box>
@@ -199,16 +253,12 @@ const PersonalDetails = () => {
                       placeholder="Date Of Birth"
                       size="large"
                       fullWidth
-                      id="dateOfBirth"
-                      name="dateOfBirth"
+                      id="dob"
+                      name="dob"
                       label="Date Of Birth"
-                      defaultValue={values.dateOfBirth}
+                      value={values.dob}
                       onChange={handleChange}
-                      onBlur={handleBlur}
-                      errorText={errors.dateOfBirth && touched.dateOfBirth && errors.dateOfBirth}
-                      error={errors.dateOfBirth && touched.dateOfBirth}
-                      success={!errors.dateOfBirth && touched.dateOfBirth}
-                      disabled={isEdit}
+                      disabled={!isEdit}
                     />
                   </Box>
                 </Grid>
@@ -218,14 +268,14 @@ const PersonalDetails = () => {
                       <Box>
                         <Input
                           type="text"
-                          placeholder="10/04/2021"
+                          placeholder="Date Of Join"
                           size="large"
                           fullWidth
-                          id="doj"
-                          name="doj"
+                          id="dateOfJoin"
+                          name="dateOfJoin"
                           label="Date Of Join"
                           disabled
-                          value={values.doj}
+                          value={values.dateOfJoin}
                         />
                       </Box>
                     </Grid>
@@ -264,7 +314,7 @@ const PersonalDetails = () => {
                       errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
                       error={errors.phoneNumber && touched.phoneNumber}
                       success={!errors.phoneNumber && touched.phoneNumber}
-                      disabled={isEdit}
+                      disabled={!isEdit}
                       onKeyDown={(evt) =>
                         ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
                       }
@@ -278,20 +328,18 @@ const PersonalDetails = () => {
                       placeholder="+91 925 532 5325"
                       size="large"
                       fullWidth
-                      id="alternativeNumber"
-                      name="alternativeNumber"
+                      id="alternatePhone"
+                      name="alternatePhone"
                       label="Alternative Number"
-                      value={values.alternativeNumber}
+                      value={values.alternatePhone}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       errorText={
-                        errors.alternativeNumber &&
-                        touched.alternativeNumber &&
-                        errors.alternativeNumber
+                        errors.alternatePhone && touched.alternatePhone && errors.alternatePhone
                       }
-                      error={errors.alternativeNumber && touched.alternativeNumber}
-                      success={!errors.alternativeNumber && touched.alternativeNumber}
-                      disabled={isEdit}
+                      error={errors.alternatePhone && touched.alternatePhone}
+                      success={!errors.alternatePhone && touched.alternatePhone}
+                      disabled={!isEdit}
                       onKeyDown={(evt) =>
                         ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
                       }
@@ -305,16 +353,42 @@ const PersonalDetails = () => {
                       placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
                       size="large"
                       fullWidth
-                      id="pAdd"
-                      name="pAdd"
+                      id="permanentAddress"
+                      name="permanentAddress"
                       label="Permanent Address"
-                      value={values.pAdd}
+                      value={values.permanentAddress}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      errorText={errors.pAdd && touched.pAdd && errors.pAdd}
-                      error={errors.pAdd && touched.pAdd}
-                      success={!errors.pAdd && touched.pAdd}
-                      disabled={isEdit}
+                      errorText={
+                        errors.permanentAddress &&
+                        touched.permanentAddress &&
+                        errors.permanentAddress
+                      }
+                      error={errors.permanentAddress && touched.permanentAddress}
+                      success={!errors.permanentAddress && touched.permanentAddress}
+                      disabled={!isEdit}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  <Box>
+                    <Input
+                      type="text"
+                      placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
+                      size="large"
+                      fullWidth
+                      id="presentAddress"
+                      name="presentAddress"
+                      label="Present Address"
+                      value={values.presentAddress}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      errorText={
+                        errors.presentAddress && touched.presentAddress && errors.presentAddress
+                      }
+                      error={errors.presentAddress && touched.presentAddress}
+                      success={!errors.presentAddress && touched.presentAddress}
+                      disabled={!isEdit}
                     />
                   </Box>
                 </Grid>
@@ -338,7 +412,7 @@ const PersonalDetails = () => {
                         '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
                       }}
                       defaultChecked
-                      disabled={isEdit}
+                      disabled={!isEdit}
                     />
                     <FormControlLabel
                       value="female"
@@ -348,7 +422,7 @@ const PersonalDetails = () => {
                         '& .MuiSvgIcon-root': { fontSize: 28 },
                         '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
                       }}
-                      disabled={isEdit}
+                      disabled={!isEdit}
                     />
                   </RadioGroup>
                 </Grid>
@@ -359,6 +433,6 @@ const PersonalDetails = () => {
       </Formik>
     </Card>
   );
-};
+});
 
 export default PersonalDetails;

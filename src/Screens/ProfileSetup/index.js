@@ -100,7 +100,6 @@ const ProfileSetup = () => {
       delete formData.dateOfLeave;
       delete formData.id;
       delete formData.updatedAt;
-      console.log('formData', formData);
       const updateEmployeeRes = await updateEmployee(formData);
       const { status, message } = updateEmployeeRes;
       if (status) {

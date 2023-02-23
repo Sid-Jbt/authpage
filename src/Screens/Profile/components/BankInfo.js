@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { Card, Grid } from '@mui/material';
 import Typography from 'Elements/Typography';
 import { Formik } from 'formik';
@@ -16,37 +16,72 @@ const initialValues = {
   panNumber: ''
 };
 
-const BankInfo = () => {
-  const [isEdit, setIsEdit] = useState(true);
+const BankInfo = forwardRef(({ onFormSubmit, employeeBankDetails }, ref) => {
+  const [isEdit, setIsEdit] = useState(false);
+  const formikRef = useRef();
+  const submitBtnRef = useRef();
+
+  useEffect(() => {
+    if (employeeBankDetails !== null && formikRef && formikRef.current !== undefined) {
+      const { setFieldValue } = formikRef.current;
+      const { bankName, branchName, accountName, accountNumber, ifscCode, panNumber } =
+        employeeBankDetails.bankInfo;
+      setFieldValue('bankName', bankName);
+      setFieldValue('branchName', branchName);
+      setFieldValue('accountName', accountName);
+      setFieldValue('accountNumber', accountNumber);
+      setFieldValue('ifscCode', ifscCode);
+      setFieldValue('panNumber', panNumber);
+    }
+  }, [employeeBankDetails]);
 
   const handleIsEdit = () => setIsEdit(!isEdit);
 
+  const onSubmit = (formData) => {
+    console.log('formdata', formData);
+    onFormSubmit(formData);
+  };
+
+  useImperativeHandle(ref, () => ({
+    onParentSubmit() {
+      submitBtnRef.current.click();
+    }
+  }));
+
   return (
     <Card>
-      <Grid container p={2} alignItems="center" justifyContent="space-between">
-        <Grid item>
-          <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
-            Bank Account
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Button color="info" variant="contained" onClick={() => handleIsEdit()}>
-            {isEdit ? 'Edit' : 'Save'}
-          </Button>
-        </Grid>
-      </Grid>
-
       <Formik
         initialValues={initialValues}
         onSubmit={(values, actions) => {
+          console.log('adfgdsufiugdsf', values);
+          onSubmit(values);
           actions.setSubmitting(false);
         }}
+        innerRef={formikRef}
         validationSchema={bankFormSchema}
       >
         {(props) => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
           return (
             <form onSubmit={handleSubmit}>
+              <Grid container p={2} alignItems="center" justifyContent="space-between">
+                <Grid item>
+                  <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
+                    Bank Account
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  {!isEdit ? (
+                    <Button color="info" variant="contained" onClick={() => handleIsEdit()}>
+                      Edit
+                    </Button>
+                  ) : (
+                    <Button type="submit" color="info" variant="contained" ref={submitBtnRef}>
+                      Save
+                    </Button>
+                  )}
+                </Grid>
+              </Grid>
               <Grid container spacing={1} p={2}>
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
@@ -64,7 +99,7 @@ const BankInfo = () => {
                       errorText={errors.bankName && touched.bankName && errors.bankName}
                       error={errors.bankName && touched.bankName}
                       success={!errors.bankName && touched.bankName}
-                      disabled={isEdit}
+                      disabled={!isEdit}
                     />
                   </Box>
                 </Grid>
@@ -84,7 +119,7 @@ const BankInfo = () => {
                       errorText={errors.branchName && touched.branchName && errors.branchName}
                       error={errors.branchName && touched.branchName}
                       success={!errors.branchName && touched.branchName}
-                      disabled={isEdit}
+                      disabled={!isEdit}
                     />
                   </Box>
                 </Grid>
@@ -104,7 +139,7 @@ const BankInfo = () => {
                       errorText={errors.accountName && touched.accountName && errors.accountName}
                       error={errors.accountName && touched.accountName}
                       success={!errors.accountName && touched.accountName}
-                      disabled={isEdit}
+                      disabled={!isEdit}
                     />
                   </Box>
                 </Grid>
@@ -126,7 +161,7 @@ const BankInfo = () => {
                       }
                       error={errors.accountNumber && touched.accountNumber}
                       success={!errors.accountNumber && touched.accountNumber}
-                      disabled={isEdit}
+                      disabled={!isEdit}
                     />
                   </Box>
                 </Grid>
@@ -146,7 +181,7 @@ const BankInfo = () => {
                       errorText={errors.ifscCode && touched.ifscCode && errors.ifscCode}
                       error={errors.ifscCode && touched.ifscCode}
                       success={!errors.ifscCode && touched.ifscCode}
-                      disabled={isEdit}
+                      disabled={!isEdit}
                     />
                   </Box>
                 </Grid>
@@ -166,7 +201,7 @@ const BankInfo = () => {
                       errorText={errors.panNumber && touched.panNumber && errors.panNumber}
                       error={errors.panNumber && touched.panNumber}
                       success={!errors.panNumber && touched.panNumber}
-                      disabled={isEdit}
+                      disabled={!isEdit}
                     />
                   </Box>
                 </Grid>
@@ -177,6 +212,6 @@ const BankInfo = () => {
       </Formik>
     </Card>
   );
-};
+});
 
 export default BankInfo;

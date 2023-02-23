@@ -59,19 +59,16 @@ export const profileSchema = yup.object().shape({
   lastName: yup.string().required('Last name is required'),
   fatherName: yup.string().required('Father name is required'),
   designation: yup.string().required('Designation is required'),
-  empCode: yup.string().required('Employee code is required'),
-  dateOfBirth: yup.string().required('Date of birth is required'),
-  dateOfJoin: yup.string().required('Date of join is required'),
-  dateOfLeave: yup.string().required('Date of leave is required'),
   phoneNumber: yup
     .string()
     .matches(numberRegx, 'Phone number is not valid')
     .required('Phone number is required'),
-  alternativeNumber: yup
+  alternatePhone: yup
     .string()
     .matches(numberRegx, 'Alternative number is not valid')
     .required('Alternative number is required'),
-  pAdd: yup.string().required('Permanent Address is required')
+  permanentAddress: yup.string().required('Permanent Address is required'),
+  presentAddress: yup.string().required('Present Address is required')
 });
 
 export const bankAccountSchema = yup.object().shape({

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import Typography from 'Elements/Typography';
 import team2 from 'Assets/Images/bruce-mars.jpg';
 import { Card, Grid, Tab, Tabs, Icon } from '@mui/material';
-import { AccountBalance, CurrencyRupeeOutlined, Edit, PersonOutlined } from '@mui/icons-material';
+import { AccountBalance, Edit, PersonOutlined } from '@mui/icons-material';
 import Avatar from 'Elements/Avatar';
 import { useSelector } from 'react-redux';
 import Box from 'Elements/Box';
@@ -83,7 +83,7 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => {
             >
               <Tab label="Personal" icon={<PersonOutlined style={{ marginRight: '8px' }} />} />
               <Tab label="Account" icon={<AccountBalance style={{ marginRight: '8px' }} />} />
-              <Tab label="Salary" icon={<CurrencyRupeeOutlined style={{ marginRight: '8px' }} />} />
+              {/* <Tab label="Salary" icon={<CurrencyRupeeOutlined style={{ marginRight: '8px' }} />} /> */}
             </Tabs>
           )}
         </Grid>
