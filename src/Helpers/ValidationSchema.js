@@ -136,7 +136,7 @@ export const changePasswordSchema = yup.object().shape({
 });
 
 export const holidayFormSchema = yup.object().shape({
-  holidayName: yup.string().required('Holiday name is required'),
+  title: yup.string().required('Holiday name is required'),
   holidayDate: yup.string().required('Holiday date is required')
 });
 

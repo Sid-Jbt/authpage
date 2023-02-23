@@ -8,7 +8,7 @@ import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { Check, Error } from '@mui/icons-material';
 import Dropzone from '../../Elements/Dropzone';
-import { addNewExpense } from '../../APIs/Expense';
+import { addNewExpense, updateExpense } from '../../APIs/Expense';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const initialValues = {
@@ -18,7 +18,7 @@ const initialValues = {
   amount: '',
   selectDoc: ''
 };
-const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, title }) => {
+const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, title, isEdit }) => {
   const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
 
@@ -26,12 +26,6 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
     if (selectedData !== null) {
       Object.keys(data).map((key) => {
         data[key] = selectedData[key];
-        if (key === 'itemName') {
-          data[key] = selectedData.title;
-        }
-        if (key === 'purchaseDate') {
-          data[key] = moment(selectedData.purchaseDate).format('YYYY-MM-DD');
-        }
       });
       setData(data);
     } else {
@@ -44,9 +38,26 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
   }, [selectedData]);
 
   const onSubmitNewExpense = async (formData) => {
-    console.log('addNewExpRes', formData);
-    const addNewExpRes = await addNewExpense(formData);
-    const { status, message } = addNewExpRes;
+    let updatedFormData = {};
+    let expenseRes;
+    if (formData.selectDoc === undefined || formData.selectDoc === '') {
+      updatedFormData = {
+        itemName: formData.itemName,
+        purchaseFrom: formData.purchaseFrom,
+        purchaseDate: formData.purchaseDate,
+        amount: formData.amount
+      };
+    } else {
+      updatedFormData = formData;
+    }
+    if (isEdit) {
+      expenseRes = await updateExpense(updatedFormData, selectedData.id);
+    } else {
+      expenseRes = await addNewExpense(updatedFormData);
+    }
+    // const addNewExpRes = await addNewExpense(updatedFormData);
+
+    const { status, message } = expenseRes;
     if (status) {
       setSnack({
         title: 'Success',
@@ -83,7 +94,6 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
           enableReinitialize
           initialValues={data}
           onSubmit={(values) => {
-            console.log('Return block --> ', values);
             onSubmitNewExpense(values);
           }}
           validationSchema={expenseFormSchema}

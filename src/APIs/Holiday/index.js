@@ -52,10 +52,10 @@ export const addHoliday = async (data) =>
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
 
-export const updatedHoliday = async (id, data) =>
+export const updateHoliday = async (data, id) =>
   axios({
     url: `${API_BASE_URL}/holiday/${id}`,
-    method: 'POST',
+    method: 'PUT',
     headers: {
       Accept: 'application/x-www-form-urlencoded',
       Authorization: store.getState().route.currentUser.token
@@ -63,4 +63,16 @@ export const updatedHoliday = async (id, data) =>
     data: await convertFormData(data)
   })
     .then(async (response) => isTokenExpire(response))
+    .catch((error) => handleNetworkError(error));
+
+export const deleteHoliday = async (id) =>
+  axios({
+    url: `${API_BASE_URL}/holiday/${id}`,
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: store.getState().route.currentUser.token
+    }
+  })
+    .then(async (response) => isTokenExpire(response.json()))
     .catch((error) => handleNetworkError(error));

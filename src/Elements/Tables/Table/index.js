@@ -252,19 +252,17 @@ const Table = ({
             {renderRows && renderRows.length > 0 ? (
               <>
                 {renderRows}
-                {rowsCount && renderRows.length > 10 && (
-                  <TableCell
-                    colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
-                  >
-                    <Pagination
-                      rows={rowsCount}
-                      initialPage={initialPage}
-                      onChangePage={(page) => onChangePage(page)}
-                      rowsPerPage={rowsPerPage}
-                      onRowsPerPageChange={(rowsPage) => onRowsPerPageChange(rowsPage)}
-                    />
-                  </TableCell>
-                )}
+                <TableCell
+                  colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
+                >
+                  <Pagination
+                    rows={rowsCount}
+                    initialPage={initialPage}
+                    onChangePage={(page) => onChangePage(page)}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={(rowsPage) => onRowsPerPageChange(rowsPage)}
+                  />
+                </TableCell>
               </>
             ) : (
               <TableRow>
