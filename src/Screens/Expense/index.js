@@ -178,19 +178,20 @@ const Expense = () => {
     handleDialogClose();
   };
 
+  // Need to rectify file export
   const onClickExport = async (
-    selectedSortKey = 'itemName',
-    selectedSortOrder = 'asc',
-    selectedPage = 0,
+    // selectedSortKey = 'itemName',
+    // selectedSortOrder = 'asc',
+    // selectedPage = 0,
     text = '',
     count = 0,
     dataLimit = limit
   ) => {
     const exportData = {
       limit: dataLimit,
-      page: selectedPage,
-      sortKey: selectedSortKey.toLowerCase(),
-      sortOrder: selectedSortOrder.toLowerCase(),
+      page: 0,
+      // sortKey: selectedSortKey.toLowerCase(),
+      // sortOrder: selectedSortOrder.toLowerCase(),
       search: text,
       count
     };

@@ -212,7 +212,6 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
                         addedfiles: (file) => uploadFile(file)
                         // addedfiles: (file) => console.log('Files --> ', file)
                       }}
-                      value={values.selectedDoc}
                     />
                   </Grid>
                   <Grid item xs={12} md={4} lg={6}>
