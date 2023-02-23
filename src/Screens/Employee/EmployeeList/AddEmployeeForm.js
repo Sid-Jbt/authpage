@@ -23,7 +23,6 @@ const renderAddEmployeeDialog = ({ isDialogOpen, handleDialog }) => {
 
   const onSubmit = async (formData) => {
     const addEmployeeRes = await addEmployee(formData);
-    console.log('loginRes', formData);
     const { status, message } = addEmployeeRes;
     if (status) {
       setSnack({

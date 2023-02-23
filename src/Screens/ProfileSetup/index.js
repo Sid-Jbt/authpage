@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -8,6 +8,9 @@ import { getDashboardPattern } from 'Routes/routeConfig';
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import { basicSchema, organisationSchema } from 'Helpers/ValidationSchema';
+import { getEmployeeById, updateEmployee } from 'APIs/API';
+import { Check, Error } from '@mui/icons-material';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 import Basic from './component/Basic';
 import Address from './component/Address';
 import Account from './component/Account';
@@ -15,7 +18,7 @@ import Organisation from './component/Organisation';
 
 const initialValues = {
   workingHours: '',
-  permanentAdd: '',
+  permanentAddress: '',
   firstName: '',
   lastName: '',
   bankName: '',
@@ -25,7 +28,7 @@ const initialValues = {
   ifscCode: '',
   panNumber: '',
   address: '',
-  currentAdd: ''
+  presentAddress: ''
 };
 
 function getSteps() {
@@ -36,7 +39,7 @@ function getSteps() {
     : ['Basic', 'Address', 'Account'];
 }
 
-function getStepContent(stepIndex, props) {
+function getStepContent(stepIndex, props, employeeDetails) {
   const customization = useSelector((state) => state.route);
 
   switch (stepIndex) {
@@ -44,12 +47,20 @@ function getStepContent(stepIndex, props) {
       return customization.role === 'admin' ? (
         <Organisation props={props} />
       ) : (
-        <Basic props={props} />
+        <Basic props={props} employeeProfileDetails={employeeDetails} />
       );
     case 1:
-      return customization.role === 'admin' ? <Basic props={props} /> : <Address props={props} />;
+      return customization.role === 'admin' ? (
+        <Basic props={props} employeeProfileDetails={employeeDetails} />
+      ) : (
+        <Address props={props} employeeProfileDetails={employeeDetails} />
+      );
     case 2:
-      return customization.role === 'admin' ? <Address props={props} /> : <Account props={props} />;
+      return customization.role === 'admin' ? (
+        <Address props={props} employeeProfileDetails={employeeDetails} />
+      ) : (
+        <Account props={props} employeeBankDetails={employeeDetails} />
+      );
     default:
       return null;
   }
@@ -57,13 +68,65 @@ function getStepContent(stepIndex, props) {
 
 const ProfileSetup = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [employeeDetails, setEmployeeDetails] = useState(null);
   const navigate = useNavigate();
   const steps = getSteps();
   const isLastStep = activeStep === steps.length - 1;
   const { role } = useSelector((state) => state.route);
+  const { currentUser } = useSelector((state) => state.route);
+  const { setSnack } = useContext(SnackbarContext);
 
-  const handleNext = () =>
-    !isLastStep ? setActiveStep(activeStep + 1) : navigate(getDashboardPattern());
+  const getEmployeeDetails = async () => {
+    const employeeDetailsRes = await getEmployeeById(currentUser.id);
+    const { status, data } = employeeDetailsRes;
+    if (status) {
+      setEmployeeDetails(data);
+    }
+  };
+
+  useEffect(() => {
+    getEmployeeDetails();
+  }, []);
+
+  const handleNext = async (formData) => {
+    if (!isLastStep) {
+      setActiveStep(activeStep + 1);
+    } else if (role !== 'admin') {
+      delete formData.workingHours;
+      delete formData.address;
+      delete formData.authID;
+      delete formData.createdAt;
+      delete formData.dateOfJoin;
+      delete formData.dateOfLeave;
+      delete formData.id;
+      delete formData.updatedAt;
+      console.log('foradta', formData);
+      const updateEmployeeRes = await updateEmployee(formData);
+      const { status, message } = updateEmployeeRes;
+      if (status) {
+        setSnack({
+          title: 'Success',
+          message,
+          time: false,
+          icon: <Check color="white" />,
+          color: 'success',
+          open: true
+        });
+        navigate(getDashboardPattern());
+      } else {
+        setSnack({
+          title: 'Error',
+          message,
+          time: false,
+          icon: <Error color="white" />,
+          color: 'error',
+          open: true
+        });
+      }
+    } else {
+      navigate(getDashboardPattern());
+    }
+  };
 
   const handleBack = () => setActiveStep(activeStep - 1);
 
@@ -95,8 +158,8 @@ const ProfileSetup = () => {
                 <Formik
                   enableReinitialize
                   initialValues={initialValues}
-                  onSubmit={() => {
-                    handleNext();
+                  onSubmit={(values) => {
+                    handleNext(values);
                   }}
                   validationSchema={
                     role === 'admin'
@@ -112,7 +175,7 @@ const ProfileSetup = () => {
                 >
                   {(props) => (
                     <form onSubmit={props.handleSubmit}>
-                      {getStepContent(activeStep, props)}
+                      {getStepContent(activeStep, props, employeeDetails)}
                       <Box mt={3} width="100%" display="flex" justifyContent="space-between">
                         {activeStep === 0 ? (
                           <Box />
@@ -125,8 +188,8 @@ const ProfileSetup = () => {
                           {role !== 'admin'
                             ? activeStep === 0
                               ? 'Continue'
-                              : (activeStep === 1 && props.values.address !== '') ||
-                                props.values.currentAdd !== ''
+                              : (activeStep === 1 && props.values.permanentAddress !== '') ||
+                                props.values.presentAddress !== ''
                               ? 'Continue'
                               : activeStep === 2 &&
                                 props.values.bankName !== '' &&
@@ -142,8 +205,8 @@ const ProfileSetup = () => {
                             : activeStep === 1
                             ? 'Continue'
                             : activeStep === 2 &&
-                              props.values.address !== '' &&
-                              props.values.currentAdd !== ''
+                              props.values.permanentAddress !== '' &&
+                              props.values.presentAddress !== ''
                             ? 'Continue'
                             : 'Skip'}
                         </Button>
