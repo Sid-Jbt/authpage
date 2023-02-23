@@ -31,6 +31,7 @@ const Basic = ({ props, employeeProfileDetails }) => {
         lastName,
         profilePic
       } = employeeProfileDetails.profile;
+      console.log('gendwer', gender);
       setFieldValue('firstName', firstName);
       setFieldValue('lastName', lastName);
       setFieldValue('fatherName', fatherName);
@@ -47,9 +48,11 @@ const Basic = ({ props, employeeProfileDetails }) => {
   const profilePicUpload = (e) => {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
-    setFieldValue('profilePic', e.target.files);
+    setFieldValue('profilePic', e.target.files[0]);
     setProfilePicUrl(url);
   };
+
+  console.log('values', values.gender);
 
   return (
     <Box>
@@ -267,7 +270,7 @@ const Basic = ({ props, employeeProfileDetails }) => {
                         sx={{ p: 2, pt: 0, pb: 0 }}
                         aria-label="font-family"
                         name="gender"
-                        defaultValue={values.gender}
+                        value={values.gender}
                       >
                         <FormControlLabel
                           value="male"
