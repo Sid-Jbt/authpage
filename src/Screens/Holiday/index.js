@@ -10,7 +10,7 @@ import DialogMenu from '../../Elements/Dialog';
 import ManageHolidayForm from './ManageHolidayForm';
 import DeleteDialog from '../../Components/DeleteDialog';
 import ImportDialog from './ImportDialog';
-import { getHolidayList } from '../../APIs/Holiday';
+import { getHolidayList, deleteHoliday } from '../../APIs/Holiday';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const Holiday = () => {
@@ -22,18 +22,19 @@ const Holiday = () => {
   const [isHover, setIsHover] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [selectedData, setSelectedData] = useState(null);
   const [search, setSearch] = useState('');
 
   const [allHolidayList, setAllHolidayList] = useState([]);
   const [holidayListCount, setHolidayListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('title');
+  const [sortKey, setSortKey] = useState('holidayDate');
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isClear, setIsClear] = useState(false);
 
   const getAllHolidayList = async (
-    selectedSortKey = 'title',
+    selectedSortKey = 'holidayDate',
     selectedSortOrder = 'asc',
     selectedPage = 0,
     text = '',
@@ -70,7 +71,7 @@ const Holiday = () => {
 
   useEffect(() => {
     getAllHolidayList();
-  }, []);
+  }, [isDrawerOpen, isDialogOpen]);
 
   const handleMouseEnter = () => {
     setIsHover(true);
@@ -98,21 +99,25 @@ const Holiday = () => {
     setIsEdit(false);
   };
 
-  const onOpenEdit = (value, id) => {
+  const onOpenEdit = (value, index) => {
     if (value === 'edit') {
-      setIsEdit(value === 'edit');
+      setIsEdit(true);
+      setSelectedData(allHolidayList.find((o) => o.id === index));
+      // setIsEdit(value === 'edit');
       handleDrawer();
     } else if (value === 'delete') {
+      setSelectedId(index);
       setIsEdit(value === 'delete');
       handleDialog();
     } else {
       setIsEdit(false);
       handleDialog();
     }
-    setSelectedId(id);
+    setSelectedId(index);
   };
 
-  const onDelete = () => {
+  const onDelete = async () => {
+    await deleteHoliday(selectedId);
     handleDialogClose();
   };
 
@@ -224,6 +229,7 @@ const Holiday = () => {
                 isHover={isHover}
                 handleMouseEnter={handleMouseEnter}
                 handleMouseLeave={handleMouseLeave}
+                handleDialogClose={handleDialogClose}
               />
             )
           }
@@ -232,6 +238,10 @@ const Holiday = () => {
           isDrawerOpen={Boolean(isDrawerOpen)}
           handleDrawerClose={handleDrawerClose}
           title={isEdit ? 'EDIT HOLIDAY' : 'ADD HOLIDAY'}
+          setIsEdit={(value) => setIsEdit(value)}
+          selectedData={selectedData}
+          setSelectedData={(value) => setSelectedData(value)}
+          isEdit={isEdit}
         />
       </Card>
     </>

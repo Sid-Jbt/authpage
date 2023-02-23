@@ -54,6 +54,7 @@ const ViewExpenseDetails = ({ info }) => {
             type="textarea"
             placeholder="Please Enter the reason of approve or reject"
             label="Reason"
+            value={renderItems.comment}
             multiline
             rows={5}
             errorFalse

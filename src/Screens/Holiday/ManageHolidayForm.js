@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
 import { holidayFormSchema } from 'Helpers/ValidationSchema';
@@ -8,20 +8,49 @@ import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { Check, Error } from '@mui/icons-material';
-import { addHoliday } from '../../APIs/Holiday/index';
+import { addHoliday, updateHoliday } from '../../APIs/Holiday/index';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
 
-const ManageHolidayForm = ({ isDrawerOpen, handleDrawerClose, title }) => {
+const initialValues = {
+  title: '',
+  holidayDate: moment().format('DD/MM/YYYY')
+};
+const ManageHolidayForm = ({
+  isDrawerOpen,
+  handleDrawerClose,
+  title,
+  setIsEdit,
+  selectedData,
+  isEdit
+}) => {
+  const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
 
+  useEffect(() => {
+    if (selectedData !== null) {
+      Object.keys(data).map((key) => {
+        data[key] = selectedData[key];
+      });
+      setData(data);
+    } else {
+      initialValues.title = '';
+      initialValues.holidayDate = moment().format('DD/MM/YYYY');
+      setData(initialValues);
+    }
+  }, [selectedData]);
+
   const onSubmit = async (formData) => {
-    const updatedCols = {
-      title: formData.holidayName,
-      fromDate: formData.holidayDate,
-      toDate: formData.holidayDate
+    let holidayRes;
+    const updatedData = {
+      title: formData.title,
+      holidayDate: formData.holidayDate
     };
-    const addHolidayRes = await addHoliday(updatedCols);
-    const { status, message } = addHolidayRes;
+    if (isEdit) {
+      holidayRes = await updateHoliday(updatedData, selectedData.id);
+    } else {
+      holidayRes = await addHoliday(updatedData);
+    }
+    const { status, message } = holidayRes;
     if (status) {
       setSnack({
         title: 'Success',
@@ -46,13 +75,17 @@ const ManageHolidayForm = ({ isDrawerOpen, handleDrawerClose, title }) => {
 
   return (
     <>
-      <SideDrawer open={Boolean(isDrawerOpen)} onClose={handleDrawerClose} title={title}>
+      <SideDrawer
+        open={Boolean(isDrawerOpen)}
+        onClose={() => {
+          handleDrawerClose();
+          setIsEdit(false);
+        }}
+        title={title}
+      >
         <Formik
           enableReinitialize
-          initialValues={{
-            holidayName: '',
-            holidayDate: moment().format('DD/MM/YYYY')
-          }}
+          initialValues={data}
           onSubmit={(values) => {
             onSubmit(values);
             // handleDrawerClose();
@@ -65,18 +98,18 @@ const ManageHolidayForm = ({ isDrawerOpen, handleDrawerClose, title }) => {
               <form onSubmit={handleSubmit}>
                 <Box mb={0.5}>
                   <Input
-                    placeholder="Name"
+                    placeholder="Title"
                     label="NAME"
                     size="large"
                     fullWidth
-                    id="holidayName"
-                    name="holidayName"
-                    value={values.holidayName}
+                    id="title"
+                    name="title"
+                    value={values.title}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    errorText={errors.holidayName && touched.holidayName && errors.holidayName}
-                    error={errors.holidayName && touched.holidayName}
-                    success={!errors.holidayName && touched.holidayName}
+                    errorText={errors.title && touched.title && errors.title}
+                    error={errors.title && touched.title}
+                    success={!errors.title && touched.title}
                   />
                 </Box>
                 <Box mb={0.5}>
