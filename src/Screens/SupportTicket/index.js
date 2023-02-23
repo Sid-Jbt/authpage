@@ -1,6 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import { Add, Check, ImportExportRounded, Pending, ThumbDown, ThumbUp } from '@mui/icons-material';
+import {
+  Add,
+  Check,
+  ImportExportRounded,
+  Pending,
+  ThumbDown,
+  ThumbUp,
+  SummarizeRounded
+} from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
@@ -112,30 +120,77 @@ const supportTicket = () => {
   return (
     <>
       <Grid container spacing={3} mb={3}>
-        <Grid item xs={12} md={6} lg={3}>
-          <TicketCard
-            title="Approved"
-            count="5"
-            icon={{ color: 'success', component: <ThumbUp /> }}
-            isPercentage={false}
-          />
-        </Grid>
-        <Grid item xs={12} md={6} lg={3}>
-          <TicketCard
-            title="Declined"
-            count="1"
-            icon={{ color: 'error', component: <ThumbDown /> }}
-            isPercentage={false}
-          />
-        </Grid>
-        <Grid item xs={12} md={6} lg={3}>
-          <TicketCard
-            title="Pending"
-            count="3"
-            icon={{ color: 'info', component: <Pending /> }}
-            isPercentage={false}
-          />
-        </Grid>
+        {role === 'admin' ? (
+          <>
+            <Grid item xs={12} md={6} lg={3}>
+              <TicketCard
+                title="Total Tickets"
+                count="5"
+                icon={{ color: 'success', component: <SummarizeRounded /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <TicketCard
+                title="Total Approved"
+                count="5"
+                icon={{ color: 'success', component: <ThumbUp /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <TicketCard
+                title="Total Declined"
+                count="1"
+                icon={{ color: 'error', component: <ThumbDown /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <TicketCard
+                title="Total Pending"
+                count="3"
+                icon={{ color: 'info', component: <Pending /> }}
+                isPercentage={false}
+              />
+            </Grid>
+          </>
+        ) : (
+          <>
+            <Grid item xs={12} md={6} lg={3}>
+              <TicketCard
+                title="Total"
+                count="5"
+                icon={{ color: 'success', component: <SummarizeRounded /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <TicketCard
+                title="Approved"
+                count="5"
+                icon={{ color: 'success', component: <ThumbUp /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <TicketCard
+                title="Declined"
+                count="1"
+                icon={{ color: 'error', component: <ThumbDown /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <TicketCard
+                title="Pending"
+                count="3"
+                icon={{ color: 'info', component: <Pending /> }}
+                isPercentage={false}
+              />
+            </Grid>
+          </>
+        )}
       </Grid>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
         {role !== 'admin' && (
@@ -231,8 +286,8 @@ const supportTicket = () => {
           isAction={role !== 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
-            { title: 'View', value: 'view' },
-            { title: 'Delete', value: 'delete' }
+            { title: 'View', value: 'view' }
+            /* { title: 'Delete', value: 'delete' } */
           ]}
           isView={role === 'admin'}
           isDialogAction={(row) => onClickView(row)}
