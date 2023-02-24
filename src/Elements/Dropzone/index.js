@@ -54,8 +54,6 @@ const CustomDropzone = ({
     selectedFile(files);
   }, [files]);
 
-  console.log(error);
-
   return (
     <Dropzone
       maxFiles={maxFiles}
