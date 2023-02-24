@@ -7,6 +7,8 @@ const attendanceData = {
     // { name: 'username', align: 'center', headerName: 'User name', mobileHeader: 'User name' },
     { name: 'in', align: 'center', headerName: 'Punch In', mobileHeader: 'In' },
     { name: 'out', align: 'center', headerName: 'Punch Out', mobileHeader: 'Out' },
+    { name: 'late', align: 'center', headerName: 'Late', mobileHeader: 'Late' },
+    { name: 'earlyLeaving', align: 'center', headerName: ' Early Leaving', mobileHeader: 'Early' },
     { name: 'overtime', align: 'center', headerName: 'Overtime', mobileHeader: 'Overtime' },
     {
       name: 'production',
@@ -23,6 +25,8 @@ const attendanceData = {
     { name: 'username', align: 'center', headerName: 'User name', mobileHeader: 'User' },
     { name: 'in', align: 'center', headerName: 'Punch In', mobileHeader: 'In' },
     { name: 'out', align: 'center', headerName: 'Punch Out', mobileHeader: 'Out' },
+    { name: 'late', align: 'center', headerName: 'Late', mobileHeader: 'Late' },
+    { name: 'earlyLeaving', align: 'center', headerName: ' Early Leaving', mobileHeader: 'Early' },
     { name: 'overtime', align: 'center', headerName: 'Overtime', mobileHeader: 'Overtime' },
     {
       name: 'production',
@@ -41,7 +45,7 @@ const attendanceData = {
       in: '10:00',
       out: '7:00',
       late: '0.5H',
-      'early Leaving': '0.5H',
+      earlyLeaving: '0.5H',
       overtime: '1H',
       production: '8H',
       status: (
@@ -62,7 +66,7 @@ const attendanceData = {
       in: '10:00',
       out: '7:00',
       late: '0H',
-      'early Leaving': '0.5H',
+      earlyLeaving: '0.5H',
       overtime: '0H',
       production: '8H',
       status: (
@@ -83,7 +87,7 @@ const attendanceData = {
       in: '10:00',
       out: '7:00',
       late: '0H',
-      'early Leaving': '0.5H',
+      earlyLeaving: '0.5H',
       overtime: '0H',
       production: '8H',
       status: (
@@ -104,7 +108,7 @@ const attendanceData = {
       in: '10:00',
       out: '7:00',
       late: '0H',
-      'early Leaving': '0.5H',
+      earlyLeaving: '0.5H',
       overtime: '0H',
       production: '8H',
       status: (
@@ -125,7 +129,7 @@ const attendanceData = {
       in: '10:00',
       out: '7:00',
       late: '0H',
-      'early Leaving': '0.5H',
+      earlyLeaving: '0.5H',
       overtime: '0H',
       production: '8H',
       status: (
@@ -146,7 +150,7 @@ const attendanceData = {
       in: '10:00',
       out: '7:00',
       late: '0H',
-      'early Leaving': '0.5H',
+      earlyLeaving: '0.5H',
       overtime: '0H',
       production: '8H',
       status: (
@@ -167,7 +171,7 @@ const attendanceData = {
       in: '10:00',
       out: '7:00',
       late: '0H',
-      'early Leaving': '0.5H',
+      earlyLeaving: '0.5H',
       overtime: '0H',
       production: '8H',
       status: (
@@ -188,7 +192,7 @@ const attendanceData = {
       in: '10:00',
       out: '7:00',
       late: '0H',
-      'early Leaving': '0.5H',
+      earlyLeaving: '0.5H',
       overtime: '0H',
       production: '8H',
       status: (
@@ -209,7 +213,7 @@ const attendanceData = {
       in: '10:00',
       out: '7:00',
       late: '0H',
-      'early Leaving': '0.5H',
+      earlyLeaving: '0.5H',
       overtime: '0H',
       production: '8H',
       status: (
@@ -230,7 +234,7 @@ const attendanceData = {
       in: '10:00',
       out: '7:00',
       late: '0H',
-      'early Leaving': '0.5H',
+      earlyLeaving: '0.5H',
       overtime: '0H',
       production: '8H',
       status: (
