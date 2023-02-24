@@ -103,7 +103,7 @@ export const BasicInfoSchema = yup.object().shape({
 });
 
 export const changePasswordSchema = yup.object().shape({
-  currentPassword: yup
+  oldPassword: yup
     .string()
     .matches(
       passwordRegx,

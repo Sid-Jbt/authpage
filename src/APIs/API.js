@@ -76,3 +76,16 @@ export const addEmployee = async (data) =>
   })
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
+
+export const employeeChangePassword = async (data) =>
+  axios({
+    url: `${API_BASE_URL}/employee/change-password`,
+    method: 'PUT',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: store.getState().route.currentUser.token
+    },
+    data: await convertFormData(data)
+  })
+    .then(async (response) => isTokenExpire(response))
+    .catch((error) => handleNetworkError(error));
