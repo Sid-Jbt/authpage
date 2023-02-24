@@ -181,6 +181,7 @@ const Expense = () => {
     handleDialogClose();
   };
 
+  // Need to rectify file export
   const onClickExport = async (
     // selectedSortKey = 'itemName',
     // selectedSortOrder = 'asc',
@@ -424,7 +425,7 @@ const Expense = () => {
         <DialogMenu
           isOpen={isExpenseDialogOpen || isViewExpenseDialogOpen}
           onClose={isExpenseDialogOpen ? handleCloseDialog : handleCloseViewDialog}
-          dialogTitle={`Expense Details: ${selectedData.title}`}
+          dialogTitle={`Expense Details: ${selectedData.itemName}`}
           dialogContent={<ViewExpenseDetails info={selectedData} />}
           dialogAction={
             role === 'admin' && (
