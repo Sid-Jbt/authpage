@@ -307,7 +307,7 @@ const Expense = () => {
           <ExpenseCard
             title="Pending"
             count={counts && counts.Pending}
-            icon={{ color: 'warning', component: <PendingTwoTone /> }}
+            icon={{ color: 'info', component: <PendingTwoTone /> }}
             isPercentage={false}
           />
         </Grid>
