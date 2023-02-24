@@ -96,37 +96,39 @@ const Profile = () => {
   const handleSetTabIndex = (event, newValue) => setTabIndex(newValue);
 
   return (
-    <Box>
-      <Box height="8rem" />
-      <Header
-        tabsOrientation={tabsOrientation}
-        tabIndex={tabIndex}
-        handleSetTabIndex={(event, value) => handleSetTabIndex(event, value)}
-        employeeProfileDetails={employeeDetails}
-        profileUpdate={(value) => {
-          onSubmitProfile(value, true);
-        }}
-      />
-      <Box mt={3}>
-        {tabIndex === 0 && (
-          <PersonalDetails
-            employeeProfileDetails={employeeDetails}
-            onFormSubmit={(data) => {
-              onSubmitProfile(data);
-            }}
-          />
-        )}
-        {tabIndex === 1 && (
-          <BankInfo
-            employeeBankDetails={employeeDetails}
-            onFormSubmit={(data) => {
-              onSubmitProfile(data);
-            }}
-          />
-        )}
-        {/* {tabIndex === 2 && <SalaryDetails />} */}
+    employeeDetails !== null && (
+      <Box>
+        <Box height="8rem" />
+        <Header
+          tabsOrientation={tabsOrientation}
+          tabIndex={tabIndex}
+          handleSetTabIndex={(event, value) => handleSetTabIndex(event, value)}
+          employeeProfileDetails={employeeDetails}
+          profileUpdate={(value) => {
+            onSubmitProfile(value, true);
+          }}
+        />
+        <Box mt={3}>
+          {tabIndex === 0 && (
+            <PersonalDetails
+              employeeProfileDetails={employeeDetails}
+              onFormSubmit={(data) => {
+                onSubmitProfile(data);
+              }}
+            />
+          )}
+          {tabIndex === 1 && (
+            <BankInfo
+              employeeBankDetails={employeeDetails}
+              onFormSubmit={(data) => {
+                onSubmitProfile(data);
+              }}
+            />
+          )}
+          {/* {tabIndex === 2 && <SalaryDetails />} */}
+        </Box>
       </Box>
-    </Box>
+    )
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Typography from 'Elements/Typography';
 import team2 from 'Assets/Images/bruce-mars.jpg';
 import { Card, Grid, Tab, Tabs, Icon } from '@mui/material';
@@ -8,10 +8,21 @@ import { useSelector } from 'react-redux';
 import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 
-const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex, profileUpdate }) => {
+const Header = ({
+  tabIndex,
+  tabsOrientation,
+  handleSetTabIndex,
+  profileUpdate,
+  employeeProfileDetails
+}) => {
   const { role } = useSelector((state) => state.route);
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const inputFile = useRef(null);
+
+  useEffect(() => {
+    if (employeeProfileDetails !== null)
+      setProfilePicUrl(employeeProfileDetails.profile.profilePic);
+  }, [profilePicUrl]);
 
   const profilePicUpload = (e) => {
     const file = e.target.files[0];
