@@ -5,9 +5,9 @@ import {
   Check,
   ImportExportRounded,
   Pending,
+  SummarizeRounded,
   ThumbDown,
-  ThumbUp,
-  SummarizeRounded
+  ThumbUp
 } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
@@ -120,77 +120,38 @@ const supportTicket = () => {
   return (
     <>
       <Grid container spacing={3} mb={3}>
-        {role === 'admin' ? (
-          <>
-            <Grid item xs={12} md={6} lg={3}>
-              <TicketCard
-                title="Total Tickets"
-                count="5"
-                icon={{ color: 'success', component: <SummarizeRounded /> }}
-                isPercentage={false}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <TicketCard
-                title="Total Approved"
-                count="5"
-                icon={{ color: 'success', component: <ThumbUp /> }}
-                isPercentage={false}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <TicketCard
-                title="Total Declined"
-                count="1"
-                icon={{ color: 'error', component: <ThumbDown /> }}
-                isPercentage={false}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <TicketCard
-                title="Total Pending"
-                count="3"
-                icon={{ color: 'info', component: <Pending /> }}
-                isPercentage={false}
-              />
-            </Grid>
-          </>
-        ) : (
-          <>
-            <Grid item xs={12} md={6} lg={3}>
-              <TicketCard
-                title="Total"
-                count="5"
-                icon={{ color: 'success', component: <SummarizeRounded /> }}
-                isPercentage={false}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <TicketCard
-                title="Approved"
-                count="5"
-                icon={{ color: 'success', component: <ThumbUp /> }}
-                isPercentage={false}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <TicketCard
-                title="Declined"
-                count="1"
-                icon={{ color: 'error', component: <ThumbDown /> }}
-                isPercentage={false}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <TicketCard
-                title="Pending"
-                count="3"
-                icon={{ color: 'info', component: <Pending /> }}
-                isPercentage={false}
-              />
-            </Grid>
-          </>
-        )}
+        <Grid item xs={12} md={6} lg={3}>
+          <TicketCard
+            title="Total Tickets"
+            count="9"
+            icon={{ color: 'success', component: <SummarizeRounded /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <TicketCard
+            title="Approved"
+            count="5"
+            icon={{ color: 'success', component: <ThumbUp /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <TicketCard
+            title="Declined"
+            count="1"
+            icon={{ color: 'error', component: <ThumbDown /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <TicketCard
+            title="Pending"
+            count="3"
+            icon={{ color: 'info', component: <Pending /> }}
+            isPercentage={false}
+          />
+        </Grid>
       </Grid>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
         {role !== 'admin' && (

@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import moment from 'moment';
 import { expenseFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
-import { FormLabel, Grid } from '@mui/material';
+import { FormLabel, Grid, CircularProgress } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { Check, Error } from '@mui/icons-material';
@@ -21,10 +21,9 @@ const initialValues = {
 const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, title, isEdit }) => {
   const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
-  const [image, setImage] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
-    console.log('Selected Data --> ', selectedData);
     if (selectedData !== null) {
       Object.keys(data).map((key) => {
         data[key] = selectedData[key];
@@ -44,43 +43,13 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
   }, [selectedData]);
 
   const onSubmitNewExpense = async (formData) => {
-    console.log('formData --> ', formData, image, image !== null, image === null);
-    let updatedFormData = {};
+    // let updatedFormData = {};
     let expenseRes;
-    if (image !== null) {
-      console.log('Execute image if block');
-      updatedFormData = {
-        itemName: formData.itemName,
-        purchaseFrom: formData.purchaseFrom,
-        purchaseDate: formData.purchaseDate,
-        amount: formData.amount,
-        selectDoc: image
-      };
-    }
-    console.log('After set image --> ', updatedFormData);
-
-    if (updatedFormData.selectDoc === undefined || updatedFormData.selectDoc === '') {
-      updatedFormData = {
-        itemName: formData.itemName,
-        purchaseFrom: formData.purchaseFrom,
-        purchaseDate: formData.purchaseDate,
-        amount: formData.amount
-      };
-      console.log('Blank Data updatedFormData --> ', updatedFormData);
-    } /* else {
-      updatedFormData = {
-        itemName: formData.itemName,
-        purchaseFrom: formData.purchaseFrom,
-        purchaseDate: formData.purchaseDate,
-        amount: formData.amount,
-        selectDoc: image
-      };
-      console.log('Filled updatedFormData --> ', updatedFormData);
-    } */
+    setLoader(true);
     if (isEdit) {
-      expenseRes = await updateExpense(updatedFormData, selectedData.id);
+      expenseRes = await updateExpense(formData, selectedData.id);
     } else {
-      expenseRes = await addNewExpense(updatedFormData);
+      expenseRes = await addNewExpense(formData);
     }
 
     const { status, message } = expenseRes;
@@ -93,6 +62,7 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
         color: 'success',
         open: true
       });
+      setLoader(false);
     } else {
       setSnack({
         title: 'Error',
@@ -102,14 +72,15 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
         color: 'error',
         open: true
       });
+      setLoader(false);
     }
     handleDialog();
   };
 
-  const uploadFile = (file) => {
+  /* const uploadFile = (file) => {
     console.log('uploadFile --> ', file[0]);
     setImage(file[0]);
-  };
+  }; */
 
   return (
     <>
@@ -206,17 +177,21 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
                   <Grid item xs={12}>
                     <FormLabel>SELECT DOCUMENT</FormLabel>
                     <Dropzone
-                      options={{
-                        autoProcessQueue: false,
-                        uploadMultiple: false,
-                        addedfiles: (file) => uploadFile(file)
-                        // addedfiles: (file) => console.log('Files --> ', file)
-                      }}
+                      setExistingFile={values.selectDoc}
+                      selectedFile={(files) => console.log('files', files[0])}
+                      error={errors.selectDoc && touched.selectDoc}
                     />
                   </Grid>
                   <Grid item xs={12} md={4} lg={6}>
-                    <Button type="submit" color="info" variant="contained" size="medium">
-                      Add Expense
+                    <Button
+                      type="submit"
+                      color="info"
+                      variant="contained"
+                      size="medium"
+                      disabled={loader}
+                      sx={loader && { height: '40px !important', width: '80% !important' }}
+                    >
+                      {loader ? <CircularProgress color="inherit" /> : 'Add Expense'}
                     </Button>
                   </Grid>
                 </Grid>
