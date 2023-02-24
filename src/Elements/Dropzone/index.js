@@ -40,6 +40,7 @@ const DropzoneRoot = styled(Box)(({ theme, item, err }) => {
 });
 
 const CustomDropzone = ({
+  setExistingFile,
   selectedFile,
   maxFiles = 1,
   multiple = false,
@@ -71,7 +72,7 @@ const CustomDropzone = ({
       }}
     >
       {({ getRootProps, getInputProps }) => (
-        <DropzoneRoot {...getRootProps()} item={files.length} err={error}>
+        <DropzoneRoot {...getRootProps()} item={files.length || setExistingFile} err={error}>
           <div>
             <input {...getInputProps()} />
             {files.length ? (
@@ -84,6 +85,14 @@ const CustomDropzone = ({
                   }}
                 />
               ))
+            ) : setExistingFile ? (
+              <CustomBox
+                component="img"
+                src={setExistingFile}
+                onLoad={() => {
+                  URL.revokeObjectURL(setExistingFile);
+                }}
+              />
             ) : (
               <p>{title}</p>
             )}

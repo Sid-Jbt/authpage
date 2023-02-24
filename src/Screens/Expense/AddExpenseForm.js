@@ -174,6 +174,7 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
                   <Grid item xs={12}>
                     <FormLabel>SELECT DOCUMENT</FormLabel>
                     <Dropzone
+                      setExistingFile={values.selectDoc}
                       selectedFile={(files) => console.log('files', files[0])}
                       error={errors.selectDoc && touched.selectDoc}
                     />
