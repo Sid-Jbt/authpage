@@ -3,10 +3,10 @@ import CustomBox from 'Elements/Box';
 import { useEffect, useState } from 'react';
 import Dropzone from 'react-dropzone';
 
-const DropzoneRoot = styled(Box)(({ theme, item }) => {
+const DropzoneRoot = styled(Box)(({ theme, item, err }) => {
   const { palette, typography, borders } = theme;
 
-  const { text, inputColors, white, success } = palette;
+  const { text, inputColors, white, success, error } = palette;
   const { size } = typography;
   const { borderRadius, borderWidth } = borders;
 
@@ -18,6 +18,8 @@ const DropzoneRoot = styled(Box)(({ theme, item }) => {
     padding: 10,
     border: item
       ? `${borderWidth[1]} solid ${success.main} !important`
+      : err
+      ? `${borderWidth[1]} solid ${error.main} !important`
       : `${borderWidth[1]} solid ${inputColors.borderColor.main} !important`,
     borderRadius: borderRadius.md,
     backgroundColor: white.main,
@@ -25,7 +27,7 @@ const DropzoneRoot = styled(Box)(({ theme, item }) => {
     '& div': {
       display: 'flex',
       margin: item ? 'auto 0' : '0 auto !important',
-      color: `${text.main} !important`,
+      color: err ? `${error.main} !important` : `${text.main} !important`,
       fontSize: `${size.sm} !important`
     },
 
@@ -42,6 +44,7 @@ const CustomDropzone = ({
   maxFiles = 1,
   multiple = false,
   validator,
+  error,
   accept = { 'image/*': ['.png', '.gif', '.jpeg', '.jpg'] },
   title = "Drag 'n' drop some files here, or click to select files"
 }) => {
@@ -50,6 +53,8 @@ const CustomDropzone = ({
   useEffect(() => {
     selectedFile(files);
   }, [files]);
+
+  console.log(error);
 
   return (
     <Dropzone
@@ -68,7 +73,7 @@ const CustomDropzone = ({
       }}
     >
       {({ getRootProps, getInputProps }) => (
-        <DropzoneRoot {...getRootProps()} item={files.length}>
+        <DropzoneRoot {...getRootProps()} item={files.length} err={error}>
           <div>
             <input {...getInputProps()} />
             {files.length ? (
