@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import moment from 'moment';
 import { holidayFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
-import { Grid } from '@mui/material';
+import { Grid, CircularProgress } from '@mui/material';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
@@ -25,6 +25,7 @@ const ManageHolidayForm = ({
 }) => {
   const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     if (selectedData !== null) {
@@ -41,6 +42,7 @@ const ManageHolidayForm = ({
 
   const onSubmit = async (formData) => {
     let holidayRes;
+    setLoader(true);
     const updatedData = {
       title: formData.title,
       holidayDate: formData.holidayDate
@@ -60,6 +62,7 @@ const ManageHolidayForm = ({
         color: 'success',
         open: true
       });
+      setLoader(false);
     } else {
       setSnack({
         title: 'Error',
@@ -69,6 +72,7 @@ const ManageHolidayForm = ({
         color: 'error',
         open: true
       });
+      setLoader(false);
     }
     handleDrawerClose();
   };
@@ -88,7 +92,6 @@ const ManageHolidayForm = ({
           initialValues={data}
           onSubmit={(values) => {
             onSubmit(values);
-            // handleDrawerClose();
           }}
           validationSchema={holidayFormSchema}
         >
@@ -99,7 +102,7 @@ const ManageHolidayForm = ({
                 <Box mb={0.5}>
                   <Input
                     placeholder="Title"
-                    label="NAME"
+                    label="Title"
                     size="large"
                     fullWidth
                     id="title"
@@ -145,11 +148,12 @@ const ManageHolidayForm = ({
                     color="info"
                     variant="contained"
                     size="small"
-                    sx={{ marginRight: '10px' }}
+                    disabled={loader}
+                    sx={loader && { height: '40px !important', width: '80% !important' }}
                   >
-                    Submit
+                    {loader ? <CircularProgress color="inherit" /> : 'Add Holiday'}
                   </Button>
-                  <Button
+                  {/* <Button
                     color="error"
                     sx={{ marginRight: '10px' }}
                     variant="contained"
@@ -157,7 +161,7 @@ const ManageHolidayForm = ({
                     onClick={handleDrawerClose}
                   >
                     Clear
-                  </Button>
+                  </Button> */}
                 </Grid>
               </form>
             );
