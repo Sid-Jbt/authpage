@@ -14,8 +14,8 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex, profileUpdate })
   const inputFile = useRef(null);
 
   const profilePicUpload = (e) => {
-    profileUpdate(true);
     const file = e.target.files[0];
+    profileUpdate(file);
     const url = URL.createObjectURL(file);
     setProfilePicUrl(url);
   };

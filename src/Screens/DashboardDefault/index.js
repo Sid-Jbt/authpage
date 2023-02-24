@@ -13,17 +13,11 @@ import {
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import Badge from 'Elements/Badge';
-import {
-  getEmployeeListPattern,
-  getExpensePattern,
-  getLeavePattern
-} from '../../Routes/routeConfig';
-import LeaveCard from '../../Components/CardLayouts/StaticCard';
+import { getEmployeeListPattern, getExpensePattern, getLeavePattern } from 'Routes/routeConfig';
+import LeaveCard from 'Components/CardLayouts/StaticCard';
 
 const DashboardDefault = () => {
   const { role } = useSelector((state) => state.route);
-  const { currentUser } = useSelector((state) => state.route);
-  console.log('currentUser', currentUser);
   const navigate = useNavigate();
   const [calendarEventsData, setCalendarEventsData] = useState([]);
 

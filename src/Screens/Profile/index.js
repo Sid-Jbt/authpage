@@ -15,7 +15,7 @@ const Profile = () => {
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
   const [tabIndex, setTabIndex] = useState(0);
   const [employeeDetails, setEmployeeDetails] = useState(null);
-  const [isProfileUpdate, setIsProfileUpdate] = useState(false);
+  const [isProfileUpdate, setIsProfileUpdate] = useState(null);
   const { currentUser } = useSelector((state) => state.route);
   const navigate = useNavigate();
   const { setSnack } = useContext(SnackbarContext);
@@ -43,18 +43,28 @@ const Profile = () => {
     getEmployeeDetails();
   }, []);
 
-  const onSubmitProfile = async (data) => {
+  const onSubmitProfile = async (data = null, isProfilePic = false) => {
     const res = {};
-    Object.keys(employeeDetails).forEach((property) => {
-      if (property === 'profile' || property === 'bankInfo') {
-        Object.keys(employeeDetails[property]).forEach((keyy) => {
-          res[keyy] = data[keyy] ? data[keyy] : employeeDetails[property][keyy];
-        });
-      }
-    });
-    if (!isProfileUpdate) {
+    if (isProfilePic) {
+      Object.keys(employeeDetails).forEach((property) => {
+        if (property === 'profile' || property === 'bankInfo') {
+          Object.keys(employeeDetails[property]).forEach((keyy) => {
+            res[keyy] = employeeDetails[property][keyy];
+          });
+        }
+      });
+      res.profilePic = data;
+    } else {
+      Object.keys(employeeDetails).forEach((property) => {
+        if (property === 'profile' || property === 'bankInfo') {
+          Object.keys(employeeDetails[property]).forEach((keyy) => {
+            res[keyy] = data[keyy] ? data[keyy] : employeeDetails[property][keyy];
+          });
+        }
+      });
       delete res.profilePic;
     }
+
     delete res.dateOfJoin;
     delete res.dateOfLeave;
     delete res.id;
@@ -86,6 +96,7 @@ const Profile = () => {
 
   const handleSetTabIndex = (event, newValue) => setTabIndex(newValue);
 
+  console.log('isProfileUpdate', isProfileUpdate);
   return (
     <Box>
       <Box height="8rem" />
@@ -93,14 +104,18 @@ const Profile = () => {
         tabsOrientation={tabsOrientation}
         tabIndex={tabIndex}
         handleSetTabIndex={(event, value) => handleSetTabIndex(event, value)}
-        profileUpdate={(value) => setIsProfileUpdate(value)}
+        employeeProfileDetails={employeeDetails}
+        profileUpdate={(value) => {
+          setIsProfileUpdate(value);
+          onSubmitProfile(value, true);
+        }}
       />
       <Box mt={3}>
         {tabIndex === 0 && (
           <PersonalDetails
             employeeProfileDetails={employeeDetails}
             onFormSubmit={(data) => {
-              onSubmitProfile(data, 'profile');
+              onSubmitProfile(data);
             }}
           />
         )}
@@ -108,7 +123,7 @@ const Profile = () => {
           <BankInfo
             employeeBankDetails={employeeDetails}
             onFormSubmit={(data) => {
-              onSubmitProfile(data, 'bankInfo');
+              onSubmitProfile(data);
             }}
           />
         )}
