@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Card, Grid } from '@mui/material';
 import Typography from 'Elements/Typography';
 import { Formik } from 'formik';
@@ -16,10 +16,9 @@ const initialValues = {
   panNumber: ''
 };
 
-const BankInfo = forwardRef(({ onFormSubmit, employeeBankDetails }, ref) => {
+const BankInfo = ({ onFormSubmit, employeeBankDetails }) => {
   const [isEdit, setIsEdit] = useState(false);
   const formikRef = useRef();
-  const submitBtnRef = useRef();
 
   useEffect(() => {
     if (employeeBankDetails !== null && formikRef && formikRef.current !== undefined) {
@@ -38,32 +37,16 @@ const BankInfo = forwardRef(({ onFormSubmit, employeeBankDetails }, ref) => {
   const handleIsEdit = () => setIsEdit(!isEdit);
 
   const onSubmit = (formData) => {
-    console.log('formdata', formData);
     onFormSubmit(formData);
   };
 
-  useImperativeHandle(ref, () => ({
-    onParentSubmit() {
-      submitBtnRef.current.click();
-    }
-  }));
-
   return (
     <Card>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={(values, actions) => {
-          console.log('adfgdsufiugdsf', values);
-          onSubmit(values);
-          actions.setSubmitting(false);
-        }}
-        innerRef={formikRef}
-        validationSchema={bankFormSchema}
-      >
+      <Formik initialValues={initialValues} innerRef={formikRef} validationSchema={bankFormSchema}>
         {(props) => {
-          const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+          const { values, touched, errors, handleChange, handleBlur } = props;
           return (
-            <form onSubmit={handleSubmit}>
+            <form>
               <Grid container p={2} alignItems="center" justifyContent="space-between">
                 <Grid item>
                   <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
@@ -76,7 +59,12 @@ const BankInfo = forwardRef(({ onFormSubmit, employeeBankDetails }, ref) => {
                       Edit
                     </Button>
                   ) : (
-                    <Button type="submit" color="info" variant="contained" ref={submitBtnRef}>
+                    <Button
+                      type="button"
+                      color="info"
+                      variant="contained"
+                      onClick={() => onSubmit(values)}
+                    >
                       Save
                     </Button>
                   )}
@@ -212,6 +200,6 @@ const BankInfo = forwardRef(({ onFormSubmit, employeeBankDetails }, ref) => {
       </Formik>
     </Card>
   );
-});
+};
 
 export default BankInfo;

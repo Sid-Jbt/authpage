@@ -8,12 +8,13 @@ import { useSelector } from 'react-redux';
 import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 
-const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => {
+const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex, profileUpdate }) => {
   const { role } = useSelector((state) => state.route);
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const inputFile = useRef(null);
 
   const profilePicUpload = (e) => {
+    profileUpdate(true);
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
     setProfilePicUrl(url);

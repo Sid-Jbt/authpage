@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Box from 'Elements/Box';
 import breakpoints from 'Theme/base/breakpoints';
 import { useNavigate } from 'react-router';
@@ -15,11 +15,8 @@ const Profile = () => {
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
   const [tabIndex, setTabIndex] = useState(0);
   const [employeeDetails, setEmployeeDetails] = useState(null);
+  const [isProfileUpdate, setIsProfileUpdate] = useState(false);
   const { currentUser } = useSelector((state) => state.route);
-  const [profileInfo, setProfileInfo] = useState(null);
-  const [bankInfo, setBankInfo] = useState(null);
-  const profileInfoRef = useRef();
-  const bankInfoRef = useRef();
   const navigate = useNavigate();
   const { setSnack } = useContext(SnackbarContext);
 
@@ -46,41 +43,45 @@ const Profile = () => {
     getEmployeeDetails();
   }, []);
 
-  const onSubmitProfile = async () => {
-    console.log('profile', profileInfo, bankInfo);
-    if (profileInfo !== null || bankInfo !== null) {
-      const updateEmployeeRes = await updateEmployee({ ...profileInfo, ...bankInfo });
-      const { status, message } = updateEmployeeRes;
-      if (status) {
-        setSnack({
-          title: 'Success',
-          message,
-          time: false,
-          icon: <Check color="white" />,
-          color: 'success',
-          open: true
-        });
-        navigate(getDashboardPattern());
-      } else {
-        setSnack({
-          title: 'Error',
-          message,
-          time: false,
-          icon: <Error color="white" />,
-          color: 'error',
-          open: true
+  const onSubmitProfile = async (data) => {
+    const res = {};
+    Object.keys(employeeDetails).forEach((property) => {
+      if (property === 'profile' || property === 'bankInfo') {
+        Object.keys(employeeDetails[property]).forEach((keyy) => {
+          res[keyy] = data[keyy] ? data[keyy] : employeeDetails[property][keyy];
         });
       }
+    });
+    if (!isProfileUpdate) {
+      delete res.profilePic;
     }
-  };
+    delete res.dateOfJoin;
+    delete res.dateOfLeave;
+    delete res.id;
+    delete res.employeeCode;
 
-  useEffect(() => {
-    onSubmitProfile();
-  }, [profileInfo, bankInfo]);
-
-  const onSubmit = () => {
-    profileInfoRef.current.onParentSubmit();
-    bankInfoRef.current.onParentSubmit();
+    const updateEmployeeRes = await updateEmployee(res);
+    const { status, message } = updateEmployeeRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      navigate(getDashboardPattern());
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Error color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
   };
 
   const handleSetTabIndex = (event, newValue) => setTabIndex(newValue);
@@ -92,25 +93,22 @@ const Profile = () => {
         tabsOrientation={tabsOrientation}
         tabIndex={tabIndex}
         handleSetTabIndex={(event, value) => handleSetTabIndex(event, value)}
+        profileUpdate={(value) => setIsProfileUpdate(value)}
       />
       <Box mt={3}>
         {tabIndex === 0 && (
           <PersonalDetails
             employeeProfileDetails={employeeDetails}
-            ref={profileInfoRef}
             onFormSubmit={(data) => {
-              setProfileInfo(data);
-              onSubmit();
+              onSubmitProfile(data, 'profile');
             }}
           />
         )}
         {tabIndex === 1 && (
           <BankInfo
             employeeBankDetails={employeeDetails}
-            ref={bankInfoRef}
             onFormSubmit={(data) => {
-              setBankInfo(data);
-              onSubmit();
+              onSubmitProfile(data, 'bankInfo');
             }}
           />
         )}

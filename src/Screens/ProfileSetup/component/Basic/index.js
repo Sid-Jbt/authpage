@@ -31,7 +31,6 @@ const Basic = ({ props, employeeProfileDetails }) => {
         lastName,
         profilePic
       } = employeeProfileDetails.profile;
-      console.log('gendwer', gender);
       setFieldValue('firstName', firstName);
       setFieldValue('lastName', lastName);
       setFieldValue('fatherName', fatherName);
@@ -43,7 +42,7 @@ const Basic = ({ props, employeeProfileDetails }) => {
       setFieldValue('gender', gender);
       setProfilePicUrl(profilePic);
     }
-  }, [employeeProfileDetails]);
+  }, []);
 
   const profilePicUpload = (e) => {
     const file = e.target.files[0];
@@ -51,8 +50,6 @@ const Basic = ({ props, employeeProfileDetails }) => {
     setFieldValue('profilePic', e.target.files[0]);
     setProfilePicUrl(url);
   };
-
-  console.log('values', values.gender);
 
   return (
     <Box>
@@ -272,6 +269,7 @@ const Basic = ({ props, employeeProfileDetails }) => {
                         name="gender"
                         value={values.gender}
                       >
+                        {console.log('values', values.gender)}
                         <FormControlLabel
                           value="male"
                           control={<Radio />}

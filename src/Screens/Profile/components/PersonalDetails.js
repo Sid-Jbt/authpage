@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Card,
   FormControlLabel,
@@ -29,13 +29,13 @@ const initialValues = {
   phoneNumber: ''
 };
 
-const PersonalDetails = forwardRef(({ onFormSubmit, employeeProfileDetails }, ref) => {
+const PersonalDetails = ({ onFormSubmit, employeeProfileDetails }) => {
   const { role } = useSelector((state) => state.route);
   const theme = useTheme();
   const [isEdit, setIsEdit] = useState(false);
   const handleIsEdit = () => setIsEdit(!isEdit);
   const formikRef = useRef();
-  const submitBtnRef = useRef();
+  const submitRef = useRef();
 
   useEffect(() => {
     if (employeeProfileDetails !== null && formikRef && formikRef.current !== undefined) {
@@ -78,28 +78,18 @@ const PersonalDetails = forwardRef(({ onFormSubmit, employeeProfileDetails }, re
     onFormSubmit(formData);
   };
 
-  useImperativeHandle(ref, () => ({
-    onParentSubmit() {
-      submitBtnRef.current.click();
-    }
-  }));
-
   return (
     <Card>
       <Formik
         enableReinitialize
         initialValues={initialValues}
-        onSubmit={(values, actions) => {
-          onSubmit(values);
-          actions.setSubmitting(false);
-        }}
         validationSchema={profileSchema}
         innerRef={formikRef}
       >
         {(props) => {
-          const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+          const { values, touched, errors, handleChange, handleBlur } = props;
           return (
-            <form onSubmit={handleSubmit}>
+            <form>
               <Grid container p={2} alignItems="center" justifyContent="space-between">
                 <Grid item>
                   <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
@@ -108,11 +98,24 @@ const PersonalDetails = forwardRef(({ onFormSubmit, employeeProfileDetails }, re
                 </Grid>
                 <Grid item>
                   {!isEdit ? (
-                    <Button color="info" variant="contained" onClick={() => handleIsEdit()}>
+                    <Button
+                      color="info"
+                      variant="contained"
+                      onClick={() => handleIsEdit()}
+                      type="button"
+                    >
                       Edit
                     </Button>
                   ) : (
-                    <Button type="submit" color="info" variant="contained" ref={submitBtnRef}>
+                    <Button
+                      ref={submitRef}
+                      type="button"
+                      color="info"
+                      variant="contained"
+                      onClick={() => {
+                        onSubmit(values);
+                      }}
+                    >
                       Save
                     </Button>
                   )}
@@ -433,6 +436,6 @@ const PersonalDetails = forwardRef(({ onFormSubmit, employeeProfileDetails }, re
       </Formik>
     </Card>
   );
-});
+};
 
 export default PersonalDetails;
