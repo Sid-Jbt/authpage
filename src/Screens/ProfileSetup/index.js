@@ -39,7 +39,7 @@ function getSteps() {
     : ['Basic', 'Address', 'Account'];
 }
 
-function getStepContent(stepIndex, props, employeeDetails) {
+function getStepContent(stepIndex, props, employeeDetails, onChangeGender) {
   const customization = useSelector((state) => state.route);
 
   switch (stepIndex) {
@@ -47,11 +47,19 @@ function getStepContent(stepIndex, props, employeeDetails) {
       return customization.role === 'admin' ? (
         <Organisation props={props} />
       ) : (
-        <Basic props={props} employeeProfileDetails={employeeDetails} />
+        <Basic
+          props={props}
+          employeeProfileDetails={employeeDetails}
+          onChangeGender={() => onChangeGender()}
+        />
       );
     case 1:
       return customization.role === 'admin' ? (
-        <Basic props={props} employeeProfileDetails={employeeDetails} />
+        <Basic
+          props={props}
+          employeeProfileDetails={employeeDetails}
+          onChangeGender={() => onChangeGender()}
+        />
       ) : (
         <Address props={props} employeeProfileDetails={employeeDetails} />
       );
@@ -75,6 +83,7 @@ const ProfileSetup = () => {
   const { role } = useSelector((state) => state.route);
   const { currentUser } = useSelector((state) => state.route);
   const { setSnack } = useContext(SnackbarContext);
+  const [gender, setGender] = useState('male');
 
   const getEmployeeDetails = async () => {
     const employeeDetailsRes = await getEmployeeById(currentUser.id);
@@ -100,6 +109,7 @@ const ProfileSetup = () => {
       delete formData.dateOfLeave;
       delete formData.id;
       delete formData.updatedAt;
+      formData.gender = gender;
       const updateEmployeeRes = await updateEmployee(formData);
       const { status, message } = updateEmployeeRes;
       if (status) {
@@ -128,6 +138,8 @@ const ProfileSetup = () => {
   };
 
   const handleBack = () => setActiveStep(activeStep - 1);
+
+  const onChangeGender = () => setGender(gender === 'male' ? 'female' : 'male');
 
   return (
     <>
@@ -175,7 +187,7 @@ const ProfileSetup = () => {
                   >
                     {(props) => (
                       <form onSubmit={props.handleSubmit}>
-                        {getStepContent(activeStep, props, employeeDetails)}
+                        {getStepContent(activeStep, props, employeeDetails, onChangeGender)}
                         <Box mt={3} width="100%" display="flex" justifyContent="space-between">
                           {activeStep === 0 ? (
                             <Box />

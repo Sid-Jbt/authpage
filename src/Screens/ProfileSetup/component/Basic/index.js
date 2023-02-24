@@ -10,11 +10,12 @@ import Input from 'Elements/Input';
 import { Edit } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 
-const Basic = ({ props, employeeProfileDetails }) => {
+const Basic = ({ props, employeeProfileDetails, onChangeGender }) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const theme = useTheme();
   const { role } = useSelector((state) => state.route);
   const [profilePicUrl, setProfilePicUrl] = useState('');
+  const [gender, setGender] = useState('male');
   const inputFile = useRef(null);
 
   useEffect(() => {
@@ -26,21 +27,24 @@ const Basic = ({ props, employeeProfileDetails }) => {
         dob,
         phoneNumber,
         alternatePhone,
-        gender,
         firstName,
         lastName,
         profilePic
       } = employeeProfileDetails.profile;
-      setFieldValue('firstName', firstName);
-      setFieldValue('lastName', lastName);
-      setFieldValue('fatherName', fatherName);
-      setFieldValue('department', department);
-      setFieldValue('designation', designation);
-      setFieldValue('phoneNumber', phoneNumber);
-      setFieldValue('dob', moment(dob).format('YYYY-MM-DD'));
-      setFieldValue('alternatePhone', alternatePhone);
-      setFieldValue('gender', gender);
+      setFieldValue('firstName', firstName === null ? '' : firstName);
+      setFieldValue('lastName', lastName === null ? '' : lastName);
+      setFieldValue('fatherName', fatherName === null ? '' : fatherName);
+      setFieldValue('department', department === null ? '' : department);
+      setFieldValue('designation', designation === null ? '' : designation);
+      setFieldValue('phoneNumber', phoneNumber === null ? '' : phoneNumber);
+      setFieldValue('dob', dob === null ? '' : moment(dob).format('YYYY-MM-DD'));
+      setFieldValue('alternatePhone', alternatePhone === null ? '' : alternatePhone);
       setProfilePicUrl(profilePic);
+      setGender(
+        employeeProfileDetails.profile.gender === null
+          ? 'male'
+          : employeeProfileDetails.profile.gender
+      );
     }
   }, []);
 
@@ -267,9 +271,12 @@ const Basic = ({ props, employeeProfileDetails }) => {
                         sx={{ p: 2, pt: 0, pb: 0 }}
                         aria-label="font-family"
                         name="gender"
-                        value={values.gender}
+                        value={gender}
+                        onChange={(event) => {
+                          onChangeGender();
+                          setGender(event.target.value);
+                        }}
                       >
-                        {console.log('values', values.gender)}
                         <FormControlLabel
                           value="male"
                           control={<Radio />}

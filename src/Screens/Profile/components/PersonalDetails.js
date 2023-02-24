@@ -33,6 +33,7 @@ const PersonalDetails = ({ onFormSubmit, employeeProfileDetails }) => {
   const { role } = useSelector((state) => state.route);
   const theme = useTheme();
   const [isEdit, setIsEdit] = useState(false);
+  const [gender, setGender] = useState('male');
   const handleIsEdit = () => setIsEdit(!isEdit);
   const formikRef = useRef();
   const submitRef = useRef();
@@ -47,7 +48,6 @@ const PersonalDetails = ({ onFormSubmit, employeeProfileDetails }) => {
         dob,
         phoneNumber,
         alternatePhone,
-        gender,
         firstName,
         lastName,
         presentAddress,
@@ -55,26 +55,31 @@ const PersonalDetails = ({ onFormSubmit, employeeProfileDetails }) => {
         dateOfJoin,
         dateOfLeave
       } = employeeProfileDetails.profile;
-      setFieldValue('firstName', firstName);
-      setFieldValue('lastName', lastName);
-      setFieldValue('fatherName', fatherName);
-      setFieldValue('department', department);
-      setFieldValue('designation', designation);
-      setFieldValue('phoneNumber', phoneNumber);
+      setFieldValue('firstName', firstName === null ? '' : firstName);
+      setFieldValue('lastName', lastName === null ? '' : lastName);
+      setFieldValue('fatherName', fatherName === null ? '' : fatherName);
+      setFieldValue('department', department === null ? '' : department);
+      setFieldValue('designation', designation === null ? '' : designation);
+      setFieldValue('phoneNumber', phoneNumber === null ? '' : phoneNumber);
       setFieldValue('dob', dob === null ? moment().format('YYYY-MM-DD') : dob);
-      setFieldValue('alternatePhone', alternatePhone);
-      setFieldValue('gender', gender);
-      setFieldValue('presentAddress', presentAddress);
-      setFieldValue('permanentAddress', permanentAddress);
+      setFieldValue('alternatePhone', alternatePhone === null ? '' : alternatePhone);
+      setFieldValue('presentAddress', presentAddress === null ? '' : presentAddress);
+      setFieldValue('permanentAddress', permanentAddress === null ? '' : permanentAddress);
       setFieldValue('dateOfJoin', dateOfJoin === null ? moment().format('YYYY-MM-DD') : dateOfJoin);
       setFieldValue(
         'dateOfLeave',
         dateOfLeave === null ? moment().format('YYYY-MM-DD') : dateOfLeave
       );
+      setGender(
+        employeeProfileDetails.profile.gender === null
+          ? 'male'
+          : employeeProfileDetails.profile.gender
+      );
     }
   }, [employeeProfileDetails]);
 
   const onSubmit = (formData) => {
+    formData.gender = gender;
     onFormSubmit(formData);
   };
 
@@ -85,11 +90,14 @@ const PersonalDetails = ({ onFormSubmit, employeeProfileDetails }) => {
         initialValues={initialValues}
         validationSchema={profileSchema}
         innerRef={formikRef}
+        onSubmit={(values) => {
+          onSubmit(values);
+        }}
       >
         {(props) => {
-          const { values, touched, errors, handleChange, handleBlur } = props;
+          const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
           return (
-            <form>
+            <form onSubmit={handleSubmit}>
               <Grid container p={2} alignItems="center" justifyContent="space-between">
                 <Grid item>
                   <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
@@ -107,15 +115,7 @@ const PersonalDetails = ({ onFormSubmit, employeeProfileDetails }) => {
                       Edit
                     </Button>
                   ) : (
-                    <Button
-                      ref={submitRef}
-                      type="button"
-                      color="info"
-                      variant="contained"
-                      onClick={() => {
-                        onSubmit(values);
-                      }}
-                    >
+                    <Button ref={submitRef} type="submit" color="info" variant="contained">
                       Save
                     </Button>
                   )}
@@ -238,10 +238,6 @@ const PersonalDetails = ({ onFormSubmit, employeeProfileDetails }) => {
                           name="employeeCode"
                           label="Employee Code"
                           value={values.employeeCode}
-                          // onChange={handleChange}
-                          // onBlur={handleBlur}
-                          // errorText={errors.employeeCode && touched.employeeCode && errors.employeeCode}
-                          // error={errors.employeeCode && touched.employeeCode}
                           disabled
                         />
                       </Box>
@@ -401,10 +397,11 @@ const PersonalDetails = ({ onFormSubmit, employeeProfileDetails }) => {
                     row
                     sx={{ p: 2, pt: 0, pb: 0 }}
                     aria-label="font-family"
-                    // value={fontFamily}
-                    // onChange={(e) => setFontFamily(e.target.value)}
+                    value={gender}
+                    onChange={(event) => {
+                      setGender(event.target.value);
+                    }}
                     name="row-radio-buttons-group"
-                    defaultValue="male"
                   >
                     <FormControlLabel
                       value="male"

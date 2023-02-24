@@ -42,11 +42,18 @@ const BankInfo = ({ onFormSubmit, employeeBankDetails }) => {
 
   return (
     <Card>
-      <Formik initialValues={initialValues} innerRef={formikRef} validationSchema={bankFormSchema}>
+      <Formik
+        initialValues={initialValues}
+        innerRef={formikRef}
+        validationSchema={bankFormSchema}
+        onSubmit={(values) => {
+          onSubmit(values);
+        }}
+      >
         {(props) => {
-          const { values, touched, errors, handleChange, handleBlur } = props;
+          const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
           return (
-            <form>
+            <form onSubmit={handleSubmit}>
               <Grid container p={2} alignItems="center" justifyContent="space-between">
                 <Grid item>
                   <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
@@ -59,12 +66,7 @@ const BankInfo = ({ onFormSubmit, employeeBankDetails }) => {
                       Edit
                     </Button>
                   ) : (
-                    <Button
-                      type="button"
-                      color="info"
-                      variant="contained"
-                      onClick={() => onSubmit(values)}
-                    >
+                    <Button type="submit" color="info" variant="contained">
                       Save
                     </Button>
                   )}

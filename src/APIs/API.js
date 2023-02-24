@@ -112,9 +112,8 @@ export const getEmployeeById = async (employeeId) =>
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
 
-export const updateEmployee = async (data) => {
-  console.log('data', data);
-  return axios({
+export const updateEmployee = async (data) =>
+  axios({
     url: `${API_BASE_URL}/employee/profile`,
     method: 'PUT',
     headers: {
@@ -125,4 +124,3 @@ export const updateEmployee = async (data) => {
   })
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
-};

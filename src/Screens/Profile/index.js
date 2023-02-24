@@ -15,7 +15,6 @@ const Profile = () => {
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
   const [tabIndex, setTabIndex] = useState(0);
   const [employeeDetails, setEmployeeDetails] = useState(null);
-  const [isProfileUpdate, setIsProfileUpdate] = useState(null);
   const { currentUser } = useSelector((state) => state.route);
   const navigate = useNavigate();
   const { setSnack } = useContext(SnackbarContext);
@@ -96,7 +95,6 @@ const Profile = () => {
 
   const handleSetTabIndex = (event, newValue) => setTabIndex(newValue);
 
-  console.log('isProfileUpdate', isProfileUpdate);
   return (
     <Box>
       <Box height="8rem" />
@@ -106,7 +104,6 @@ const Profile = () => {
         handleSetTabIndex={(event, value) => handleSetTabIndex(event, value)}
         employeeProfileDetails={employeeDetails}
         profileUpdate={(value) => {
-          setIsProfileUpdate(value);
           onSubmitProfile(value, true);
         }}
       />
