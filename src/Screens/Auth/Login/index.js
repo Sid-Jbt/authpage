@@ -220,10 +220,10 @@ const Login = () => {
                     size="large"
                     fullWidth
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || loader}
                     sx={loader && { height: '40px !important' }}
                   >
-                    {loader ? <CircularProgress color="inherit" /> : 'Sign In'}
+                    {loader ? <CircularProgress disableShrink color="inherit" /> : 'Sign In'}
                   </Button>
                 </Box>
               </form>

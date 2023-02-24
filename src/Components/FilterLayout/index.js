@@ -83,6 +83,7 @@ const FilterLayout = ({
                 color="info"
                 variant="gradient"
                 size="small"
+                disabled={loader}
                 sx={
                   loader && isSearch
                     ? {

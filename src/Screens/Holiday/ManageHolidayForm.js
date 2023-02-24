@@ -148,6 +148,7 @@ const ManageHolidayForm = ({
                     color="info"
                     variant="contained"
                     size="small"
+                    disabled={loader}
                     sx={loader && { height: '40px !important', width: '80% !important' }}
                   >
                     {loader ? <CircularProgress color="inherit" /> : 'Add Holiday'}

@@ -181,6 +181,7 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
                       color="info"
                       variant="contained"
                       size="medium"
+                      disabled={loader}
                       sx={loader && { height: '40px !important', width: '80% !important' }}
                     >
                       {loader ? <CircularProgress color="inherit" /> : 'Add Expense'}

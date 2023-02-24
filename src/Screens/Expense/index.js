@@ -347,6 +347,7 @@ const Expense = () => {
             }
             variant="outlined"
             size="small"
+            disabled={loader}
             onClick={onClickExport}
           >
             <Icon sx={{ mr: 1 }}>
