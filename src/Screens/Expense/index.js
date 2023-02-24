@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, Grid, Icon } from '@mui/material';
+import { Card, Grid, Icon, CircularProgress } from '@mui/material';
 import {
   Add,
   Check,
@@ -41,14 +41,17 @@ const Expense = () => {
   const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [counts, setCounts] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   const [allExpenseList, setAllExpenseList] = useState([]);
   const [expenseListCount, setExpenseListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('title');
+  const [sortKey, setSortKey] = useState('itemName');
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isClear, setIsClear] = useState(false);
+  const [isExport, setIsExport] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
 
   const getAllExpenseCounts = async () => {
     let empExpenseCountData;
@@ -94,18 +97,19 @@ const Expense = () => {
       data: { rows },
       message
     } = expenseRes;
-
     if (status) {
       setAllExpenseList(rows);
       setExpenseListCount(expenseRes.data.count);
+      setLoader(false);
     } else {
       setSnack({
         title: 'Error',
         message,
         time: false,
-        color: 'success',
+        color: 'error',
         open: true
       });
+      setLoader(false);
     }
   };
 
@@ -151,7 +155,6 @@ const Expense = () => {
         document: viewData.document,
         comment: viewData.comment
       };
-      // setSelectedData(allExpenseList.find((o) => o.id === index));
       setSelectedData(setViewData);
       setIsViewExpenseDialogOpen(true);
     } else {
@@ -161,7 +164,7 @@ const Expense = () => {
   };
 
   const handleChangeSearch = (event) => {
-    setSearch(event);
+    setSearch(event.target.value);
   };
 
   const handleClear = () => {
@@ -195,7 +198,8 @@ const Expense = () => {
       count
     };
     let exportRes;
-    console.log('exportData --> ', exportData);
+    setIsExport(true);
+    setLoader(true);
     if (role === 'admin') {
       // Replace with getExportExpenseLists
       // exportRes = await getEmployeeExpenseExportList(exportData);
@@ -213,6 +217,8 @@ const Expense = () => {
         color: 'success',
         open: true
       });
+      setLoader(false);
+      setIsExport(false);
       window.open(`${EXPORT_URL}/${data}`, '', 'width=900, height=900');
     } else {
       setSnack({
@@ -223,6 +229,8 @@ const Expense = () => {
         color: 'error',
         open: true
       });
+      setLoader(false);
+      setIsExport(false);
     }
     if (role === 'admin') {
       setSnack({
@@ -233,10 +241,14 @@ const Expense = () => {
         color: 'warning',
         open: true
       });
+      setLoader(false);
+      setIsExport(false);
     }
   };
 
   const onClickSearch = () => {
+    setLoader(true);
+    setIsSearch(true);
     getAllExpenseList(sortKey, sortOrder, page, search, 0);
   };
 
@@ -323,12 +335,16 @@ const Expense = () => {
         )}
         <Grid item xs="auto">
           <Button
-            sx={({ breakpoints, palette: { dark } }) => ({
-              [breakpoints.down('xl' && 'lg')]: {
-                color: dark.main,
-                borderColor: dark.main
-              }
-            })}
+            sx={({ breakpoints, palette: { dark } }) =>
+              ({
+                [breakpoints.down('xl' && 'lg')]: {
+                  color: dark.main,
+                  borderColor: dark.main
+                }
+              } &&
+              loader &&
+              isExport && { height: '40px !important' })
+            }
             variant="outlined"
             size="small"
             onClick={onClickExport}
@@ -336,7 +352,7 @@ const Expense = () => {
             <Icon sx={{ mr: 1 }}>
               <ImportExportRounded />
             </Icon>
-            Export
+            {loader && isExport ? <CircularProgress color="inherit" /> : 'Export'}
           </Button>
         </Grid>
       </Grid>
@@ -352,6 +368,8 @@ const Expense = () => {
           handleSearch={handleChangeSearch}
           handleClear={() => handleClear()}
           onClickSearch={() => onClickSearch()}
+          loader={loader}
+          isSearch={isSearch}
         />
 
         <Table

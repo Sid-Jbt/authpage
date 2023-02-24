@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import moment from 'moment';
 import { expenseFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
-import { FormLabel, Grid } from '@mui/material';
+import { FormLabel, Grid, CircularProgress } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { Check, Error } from '@mui/icons-material';
@@ -21,6 +21,7 @@ const initialValues = {
 const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, title, isEdit }) => {
   const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     if (selectedData !== null) {
@@ -40,6 +41,7 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
   const onSubmitNewExpense = async (formData) => {
     let updatedFormData = {};
     let expenseRes;
+    setLoader(true);
     if (formData.selectDoc === undefined || formData.selectDoc === '') {
       updatedFormData = {
         itemName: formData.itemName,
@@ -55,7 +57,6 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
     } else {
       expenseRes = await addNewExpense(updatedFormData);
     }
-    // const addNewExpRes = await addNewExpense(updatedFormData);
 
     const { status, message } = expenseRes;
     if (status) {
@@ -67,6 +68,7 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
         color: 'success',
         open: true
       });
+      setLoader(false);
     } else {
       setSnack({
         title: 'Error',
@@ -76,6 +78,7 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
         color: 'error',
         open: true
       });
+      setLoader(false);
     }
     handleDialog();
   };
@@ -173,8 +176,14 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
                     <Dropzone />
                   </Grid>
                   <Grid item xs={12} md={4} lg={6}>
-                    <Button type="submit" color="info" variant="contained" size="medium">
-                      Add Expense
+                    <Button
+                      type="submit"
+                      color="info"
+                      variant="contained"
+                      size="medium"
+                      sx={loader && { height: '40px !important', width: '80% !important' }}
+                    >
+                      {loader ? <CircularProgress color="inherit" /> : 'Add Expense'}
                     </Button>
                   </Grid>
                 </Grid>
