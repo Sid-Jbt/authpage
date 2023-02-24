@@ -1,91 +1,93 @@
 import { Box, styled } from '@mui/material';
 import CustomBox from 'Elements/Box';
-import { useRef, useEffect } from 'react';
-import Dropzone from 'dropzone';
-import 'dropzone/dist/dropzone.css';
+import { useEffect, useState } from 'react';
+import Dropzone from 'react-dropzone';
 
-const DropzoneRoot = styled(Box)(({ theme }) => {
-  const { palette, typography, borders, functions } = theme;
+const DropzoneRoot = styled(Box)(({ theme, item }) => {
+  const { palette, typography, borders } = theme;
 
-  const { text, white, dark, inputColors, transparent } = palette;
+  const { text, inputColors, white, success } = palette;
   const { size } = typography;
   const { borderRadius, borderWidth } = borders;
-  const { rgba } = functions;
 
   return {
     display: 'flex',
+    height: 'auto',
+    minHeight: 150,
     alignItems: 'center',
-    border: `${borderWidth[1]} solid ${inputColors.borderColor.main} !important`,
+    padding: 10,
+    border: item
+      ? `${borderWidth[1]} solid ${success.main} !important`
+      : `${borderWidth[1]} solid ${inputColors.borderColor.main} !important`,
     borderRadius: borderRadius.md,
-    backgroundColor: transparent.main,
+    backgroundColor: white.main,
 
-    '& .dz-default': {
-      margin: '0 auto !important'
-    },
-
-    '& .dz-default .dz-button': {
+    '& div': {
+      display: 'flex',
+      margin: item ? 'auto 0' : '0 auto !important',
       color: `${text.main} !important`,
       fontSize: `${size.sm} !important`
     },
 
-    '& .dz-preview.dz-image-preview': {
-      background: transparent.main
-    },
-
-    '& .dz-preview .dz-details': {
-      color: `${dark.main} !important`,
-      opacity: '1 !important',
-
-      '& .dz-size span, & .dz-filename span': {
-        backgroundColor: `${rgba(white.main, 0.7)} !important`
-      }
-    },
-
-    '& .dz-error-message': {
-      display: 'none !important'
-    },
-
-    '& .dz-remove': {
-      color: `${dark.main} !important`,
-      textDecoration: 'none',
-
-      '&:hover, &:focus': {
-        textDecoration: 'none !important'
-      }
+    '& img': {
+      width: 120,
+      height: 120,
+      borderRadius: borderRadius.md
     }
   };
 });
 
-const CustomDropzone = ({ options }) => {
-  const dropzoneRef = useRef();
+const CustomDropzone = ({
+  selectedFile,
+  maxFiles = 1,
+  multiple = false,
+  validator,
+  accept = { 'image/*': ['.png', '.gif', '.jpeg', '.jpg'] },
+  title = "Drag 'n' drop some files here, or click to select files"
+}) => {
+  const [files, setFiles] = useState([]);
 
   useEffect(() => {
-    Dropzone.autoDiscover = false;
-
-    function createDropzone() {
-      return new Dropzone(dropzoneRef.current, { ...options });
-    }
-
-    function removeDropzone() {
-      if (Dropzone.instances.length > 0) Dropzone.instances.forEach((dz) => dz.destroy());
-    }
-
-    createDropzone();
-
-    return () => removeDropzone();
-  }, [options]);
+    selectedFile(files);
+  }, [files]);
 
   return (
-    <DropzoneRoot
-      component="form"
-      action="/file-upload"
-      ref={dropzoneRef}
-      className="form-control dropzone"
+    <Dropzone
+      maxFiles={maxFiles}
+      multiple={multiple}
+      accept={accept}
+      validator={validator}
+      onDrop={(acceptedFiles) => {
+        setFiles(
+          acceptedFiles.map((file) =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file)
+            })
+          )
+        );
+      }}
     >
-      <CustomBox className="fallback">
-        <CustomBox component="input" name="file" type="file" multiple />
-      </CustomBox>
-    </DropzoneRoot>
+      {({ getRootProps, getInputProps }) => (
+        <DropzoneRoot {...getRootProps()} item={files.length}>
+          <div>
+            <input {...getInputProps()} />
+            {files.length ? (
+              files.map((file) => (
+                <CustomBox
+                  component="img"
+                  src={file.preview}
+                  onLoad={() => {
+                    URL.revokeObjectURL(file.preview);
+                  }}
+                />
+              ))
+            ) : (
+              <p>{title}</p>
+            )}
+          </div>
+        </DropzoneRoot>
+      )}
+    </Dropzone>
   );
 };
 
