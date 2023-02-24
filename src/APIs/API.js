@@ -22,6 +22,7 @@ const isTokenExpire = async (response) => {
 };
 
 const handleNetworkError = async (responseError) => {
+  console.log('responseError', responseError);
   if (responseError.name !== 'AbortError') {
     console.log('Network request error. Please try again.');
   }
@@ -91,6 +92,19 @@ export const addEmployee = async (data) =>
   axios({
     url: `${API_BASE_URL}/employee/signup`,
     method: 'POST',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: store.getState().route.currentUser.token
+    },
+    data: await convertFormData(data)
+  })
+    .then(async (response) => isTokenExpire(response))
+    .catch((error) => handleNetworkError(error));
+
+export const employeeChangePassword = async (data) =>
+  axios({
+    url: `${API_BASE_URL}/employee/change-password`,
+    method: 'PUT',
     headers: {
       Accept: 'application/x-www-form-urlencoded',
       Authorization: store.getState().route.currentUser.token

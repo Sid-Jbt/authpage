@@ -1,22 +1,55 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Typography from 'Elements/Typography';
-import { Card, Grid, IconButton, InputAdornment } from '@mui/material';
+import { Card, CircularProgress, Grid, IconButton, InputAdornment } from '@mui/material';
 import { Formik } from 'formik';
-import { Check, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Check, Error, Visibility, VisibilityOff } from '@mui/icons-material';
 import { changePasswordSchema } from 'Helpers/ValidationSchema';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { SnackbarContext } from 'Context/SnackbarProvider';
+import { employeeChangePassword } from 'APIs/API';
+import { useNavigate } from 'react-router-dom';
+import { getDashboardPattern } from '../../../Routes/routeConfig';
 
 const ChangePasswordSetting = () => {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [loader, setLoader] = useState(false);
   const { setSnack } = useContext(SnackbarContext);
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const onSubmit = async (formData, actions) => {
+    setLoader(true);
+    actions.setSubmitting(false);
+    const loginRes = await employeeChangePassword(formData);
+    setLoader(false);
+    const { status, message } = loginRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      navigate(getDashboardPattern());
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Error color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
   };
 
   return (
@@ -26,17 +59,9 @@ const ChangePasswordSetting = () => {
       </Box>
       <Formik
         enableReinitialize
-        initialValues={{ currentPassword: '', newPassword: '', confirmNewPassword: '' }}
+        initialValues={{ oldPassword: '', newPassword: '', confirmNewPassword: '' }}
         onSubmit={(values, actions) => {
-          setSnack({
-            title: 'Success',
-            message: 'Password successfully reset.',
-            time: false,
-            icon: <Check color="white" />,
-            color: 'success',
-            open: true
-          });
-          actions.setSubmitting(false);
+          onSubmit(values, actions);
         }}
         validationSchema={changePasswordSchema}
       >
@@ -49,18 +74,16 @@ const ChangePasswordSetting = () => {
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
                     <Input
-                      name="currentPassword"
+                      name="oldPassword"
                       placeholder="Current Password"
                       size="large"
                       label="Current Password"
-                      value={values.currentPassword}
+                      value={values.oldPassword}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      errorText={
-                        errors.currentPassword && touched.currentPassword && errors.currentPassword
-                      }
-                      error={errors.currentPassword && touched.currentPassword}
-                      success={!errors.currentPassword && touched.currentPassword}
+                      errorText={errors.oldPassword && touched.oldPassword && errors.oldPassword}
+                      error={errors.oldPassword && touched.oldPassword}
+                      success={!errors.oldPassword && touched.oldPassword}
                       type={showPassword ? 'text' : 'password'}
                       endAdornment={
                         <InputAdornment position="end">
@@ -147,7 +170,11 @@ const ChangePasswordSetting = () => {
                     type="submit"
                     disabled={isSubmitting}
                   >
-                    Update Password
+                    {loader ? (
+                      <CircularProgress disableShrink color="inherit" />
+                    ) : (
+                      'Update Password'
+                    )}
                   </Button>
                 </Grid>
               </Grid>
