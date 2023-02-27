@@ -39,8 +39,10 @@ const AddSupportTicketDialog = ({
         data[key] = selectedData[key];
       });
       setData(data);
-      setDepartment(Department.find((value) => value.label === selectedData.department));
-      setPriority(Priority.find((value) => value.label === selectedData.priority));
+      setDepartment(Department.find((value) => value.value === selectedData.department));
+      setPriority(
+        Priority.find((value) => value.value === selectedData.priority.props.badgeContent)
+      );
       setMessageBody(selectedData.message);
     } else {
       initialValues.subject = '';
