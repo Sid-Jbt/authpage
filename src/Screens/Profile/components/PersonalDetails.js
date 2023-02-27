@@ -5,7 +5,7 @@ import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import { useSelector } from 'react-redux';
 
-const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender }) => {
+const PersonalDetails = ({ props, employeeProfileDetails, onChangeGender }) => {
   const { role } = useSelector((state) => state.route);
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const theme = useTheme();
@@ -46,7 +46,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
             errorText={errors.firstName && touched.firstName && errors.firstName}
             error={errors.firstName && touched.firstName}
             success={!errors.firstName && touched.firstName}
-            disabled={!isEdit}
           />
         </Box>
       </Grid>
@@ -67,7 +66,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
             errorText={errors.lastName && touched.lastName && errors.lastName}
             error={errors.lastName && touched.lastName}
             success={!errors.lastName && touched.lastName}
-            disabled={!isEdit}
           />
         </Box>
       </Grid>
@@ -89,7 +87,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
                 errorText={errors.fatherName && touched.fatherName && errors.fatherName}
                 error={errors.fatherName && touched.fatherName}
                 success={!errors.fatherName && touched.fatherName}
-                disabled={!isEdit}
               />
             </Box>
           </Grid>
@@ -109,7 +106,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
                 errorText={errors.department && touched.department && errors.department}
                 error={errors.department && touched.department}
                 success={!errors.department && touched.department}
-                disabled={!isEdit}
               />
             </Box>
           </Grid>
@@ -129,7 +125,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
                 errorText={errors.designation && touched.designation && errors.designation}
                 error={errors.designation && touched.designation}
                 success={!errors.designation && touched.designation}
-                disabled={!isEdit}
               />
             </Box>
           </Grid>
@@ -167,7 +162,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
                 : moment(values.dob).format('YYYY-MM-DD')
             }
             onChange={handleChange}
-            disabled={!isEdit}
           />
         </Box>
       </Grid>
@@ -231,7 +225,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
             errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
             error={errors.phoneNumber && touched.phoneNumber}
             success={!errors.phoneNumber && touched.phoneNumber}
-            disabled={!isEdit}
             onKeyDown={(evt) => ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()}
           />
         </Box>
@@ -252,7 +245,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
             errorText={errors.alternatePhone && touched.alternatePhone && errors.alternatePhone}
             error={errors.alternatePhone && touched.alternatePhone}
             success={!errors.alternatePhone && touched.alternatePhone}
-            disabled={!isEdit}
             onKeyDown={(evt) => ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()}
           />
         </Box>
@@ -275,7 +267,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
             }
             error={errors.permanentAddress && touched.permanentAddress}
             success={!errors.permanentAddress && touched.permanentAddress}
-            disabled={!isEdit}
           />
         </Box>
       </Grid>
@@ -295,7 +286,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
             errorText={errors.presentAddress && touched.presentAddress && errors.presentAddress}
             error={errors.presentAddress && touched.presentAddress}
             success={!errors.presentAddress && touched.presentAddress}
-            disabled={!isEdit}
           />
         </Box>
       </Grid>
@@ -307,7 +297,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
           aria-label="font-family"
           value={gender}
           onChange={(event) => {
-            console.log('gender', gender);
             onChangeGender();
             setGender(event.target.value);
           }}
@@ -321,8 +310,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
               '& .MuiSvgIcon-root': { fontSize: 28 },
               '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
             }}
-            defaultChecked
-            disabled={!isEdit}
           />
           <FormControlLabel
             value="female"
@@ -332,7 +319,6 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender
               '& .MuiSvgIcon-root': { fontSize: 28 },
               '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
             }}
-            disabled={!isEdit}
           />
         </RadioGroup>
       </Grid>

@@ -38,7 +38,6 @@ const Profile = () => {
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
   const [tabIndex, setTabIndex] = useState(0);
   const [employeeDetails, setEmployeeDetails] = useState(null);
-  const [isEdit, setIsEdit] = useState(false);
   const [gender, setGender] = useState('male');
   const { currentUser } = useSelector((state) => state.route);
   const navigate = useNavigate();
@@ -88,12 +87,11 @@ const Profile = () => {
       });
       delete res.profilePic;
     }
-
     delete res.dateOfJoin;
     delete res.dateOfLeave;
     delete res.id;
     delete res.employeeCode;
-
+    res.gender = gender;
     const updateEmployeeRes = await updateEmployee(res);
     const { status, message } = updateEmployeeRes;
     if (status) {
@@ -120,8 +118,6 @@ const Profile = () => {
 
   const handleSetTabIndex = (event, newValue) => setTabIndex(newValue);
 
-  const handleIsEdit = () => setIsEdit(!isEdit);
-
   const onChangeGender = () => setGender(gender === 'male' ? 'female' : 'male');
 
   return (
@@ -146,47 +142,38 @@ const Profile = () => {
             }}
             validationSchema={tabIndex === 0 ? profileSchema : bankFormSchema}
           >
-            {(props) => (
-              <form onSubmit={props.handleSubmit}>
-                <Grid container p={2} alignItems="center" justifyContent="space-between">
-                  <Grid item>
-                    <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
-                      My Account
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    {isEdit ? (
+            {(props) => {
+              console.log('======', props);
+              return (
+                <form onSubmit={props.handleSubmit}>
+                  <Grid container p={2} alignItems="center" justifyContent="space-between">
+                    <Grid item>
+                      <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
+                        My Account
+                      </Typography>
+                    </Grid>
+                    <Grid item>
                       <Button type="submit" color="info" variant="contained">
                         Save
                       </Button>
-                    ) : (
-                      <Button
-                        color="info"
-                        variant="contained"
-                        onClick={() => handleIsEdit()}
-                        type="button"
-                      >
-                        Edit
-                      </Button>
-                    )}
+                    </Grid>
                   </Grid>
-                </Grid>
-                <Box mt={3}>
-                  {tabIndex === 0 && (
-                    <PersonalDetails
-                      props={props}
-                      employeeProfileDetails={employeeDetails}
-                      isEdit={isEdit}
-                      onChangeGender={() => onChangeGender()}
-                    />
-                  )}
-                  {tabIndex === 1 && (
-                    <BankInfo employeeBankDetails={employeeDetails} props={props} isEdit={isEdit} />
-                  )}
-                  {/* {tabIndex === 2 && <SalaryDetails />} */}
-                </Box>
-              </form>
-            )}
+                  <Box mt={3}>
+                    {tabIndex === 0 && (
+                      <PersonalDetails
+                        props={props}
+                        employeeProfileDetails={employeeDetails}
+                        onChangeGender={() => onChangeGender()}
+                      />
+                    )}
+                    {tabIndex === 1 && (
+                      <BankInfo employeeBankDetails={employeeDetails} props={props} />
+                    )}
+                    {/* {tabIndex === 2 && <SalaryDetails />} */}
+                  </Box>
+                </form>
+              );
+            }}
           </Formik>
         </Card>
       </Box>
