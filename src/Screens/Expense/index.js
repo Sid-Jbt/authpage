@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, Grid, Icon, CircularProgress } from '@mui/material';
+import { Card, Grid, Icon, CircularProgress, Badge } from '@mui/material';
 import {
   Add,
   Check,
@@ -72,8 +72,27 @@ const Expense = () => {
       message
     } = expenseRes;
     if (status) {
-      setAllExpenseList(rows);
+      const expenseStatusData = rows.map((rowId) => ({
+        ...rowId,
+        status: (
+          <Badge
+            variant="gradient"
+            badgeContent={rowId.status}
+            color={
+              rowId.status === 'pending'
+                ? 'warning'
+                : rowId.status === 'approved'
+                ? 'success'
+                : 'error'
+            }
+            size="xs"
+            container
+            customWidth={100}
+          />
+        )
+      }));
       setCounts(expenseRes.data.count);
+      setAllExpenseList(expenseStatusData);
       setExpenseListCount(expenseRes.data.count.total);
       setLoader(false);
       setIsSearch(false);
