@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import { Card, Icon, Grid, FormLabel, FormControl, CircularProgress } from '@mui/material';
 import { Check, ImportExportRounded } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
@@ -7,16 +7,151 @@ import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Months, Years } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
-import payslipData from './data/payslipData';
+import payslipColumns from './data/payslipData';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
+import { getEmployeePayslipExportList, getPayslipList } from '../../APIs/Payslip';
+
+const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
 
 const Payslip = () => {
-  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = payslipData;
+  const { columns: prCols, adminColumns: adminPrCol } = payslipColumns;
   const { role } = useSelector((state) => state.route);
   const { setSnack } = useContext(SnackbarContext);
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [search, setSearch] = useState('');
+  const [loader, setLoader] = useState(false);
+
+  const [allPayslipList, setAllPayslipList] = useState([]);
+  const [payslipListCount, setPayslipListCount] = useState(0);
+  const [sortKey, setSortKey] = useState('id');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [isClear, setIsClear] = useState(false);
+  const [isExport, setIsExport] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
+
+  const getAllPayslipList = async (
+    selectedSortKey = 'id',
+    selectedSortOrder = 'asc',
+    selectedPage = 0,
+    text = '',
+    count = 0,
+    selectedMonth = '',
+    selectedYear = '',
+    dataLimit = limit
+  ) => {
+    const payslipData = {
+      limit: dataLimit,
+      page: selectedPage,
+      sortKey: selectedSortKey.toLowerCase(),
+      sortOrder: selectedSortOrder.toLowerCase(),
+      search: text,
+      month: selectedMonth,
+      year: selectedYear,
+      count
+    };
+    let payslipRes;
+    if (role === 'admin') {
+      // Replace admin api with getpayslipLists
+      // payslipRes = await getpayslipLists(payslipData);
+    } else {
+      payslipRes = await getPayslipList(payslipData);
+    }
+    const {
+      status,
+      data: { rows },
+      message
+    } = payslipRes;
+    if (status) {
+      setAllPayslipList(rows);
+      setPayslipListCount(payslipRes.data.count);
+      setLoader(false);
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        color: 'error',
+        open: true
+      });
+      setLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllPayslipList();
+  }, []);
+
+  const onClickExport = async (
+    // selectedSortKey = 'itemName',
+    // selectedSortOrder = 'asc',
+    // selectedPage = 0,
+    text = '',
+    count = 0,
+    // selectedMonth = month,
+    // selectedYear = year,
+    dataLimit = limit
+  ) => {
+    const exportData = {
+      limit: dataLimit,
+      page: 0,
+      // sortKey: selectedSortKey.toLowerCase(),
+      // sortOrder: selectedSortOrder.toLowerCase(),
+      search: text,
+      month: '',
+      year: '',
+      count
+    };
+    let exportRes;
+    setIsExport(true);
+    setLoader(true);
+    if (role === 'admin') {
+      // Replace with getExportPayslipLists
+      // exportRes = await getEmployeePayslipExportList(exportData);
+    } else {
+      exportRes = await getEmployeePayslipExportList(exportData);
+    }
+
+    const { status, message, data } = exportRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      setLoader(false);
+      setIsExport(false);
+      window.open(`${EXPORT_URL}/${data}`, '', 'width=900, height=900');
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'error',
+        open: true
+      });
+      setLoader(false);
+      setIsExport(false);
+    }
+    if (role === 'admin') {
+      setSnack({
+        title: 'Warning',
+        message: 'Payslip list export coming soon...',
+        time: false,
+        icon: <Check color="white" />,
+        color: 'warning',
+        open: true
+      });
+      setLoader(false);
+      setIsExport(false);
+    }
+  };
 
   const handleChangeMonth = (value) => {
     setMonth(value);
@@ -30,32 +165,57 @@ const Payslip = () => {
     setSearch(event);
   };
 
-  const onClickExport = () => {
-    setSnack({
-      title: 'Warning',
-      message: 'Export coming soon...',
-      time: false,
-      icon: <Check color="white" />,
-      color: 'warning',
-      open: true
-    });
-  };
-
   const handleClear = () => {
     setMonth('');
     setYear('');
     setSearch('');
+    setIsClear(!isClear);
   };
+
+  const onClickSearch = () => {
+    setLoader(true);
+    setIsSearch(true);
+    getAllPayslipList(sortKey, sortOrder, page, search, month, year, 0);
+  };
+
+  const onPage = async (selectedPage) => {
+    setPage(selectedPage);
+    await getAllPayslipList(sortKey, sortOrder, selectedPage, month, year);
+  };
+
+  const onRowsPerPageChange = async (selectedLimit) => {
+    setLimit(selectedLimit);
+    await getAllPayslipList(sortKey, sortOrder, selectedLimit, month, year);
+  };
+
+  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
+    setSortKey(selectedSortKey);
+    setSortOrder(selectedSortOrder);
+    await getAllPayslipList(selectedSortKey, selectedSortOrder, page, month, year);
+  };
+
+  useEffect(() => {
+    if (isClear) {
+      getAllPayslipList(sortKey, sortOrder, page, '', month, year);
+    }
+  }, [isClear]);
 
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
         <Grid item xs="auto">
-          <Button color="white" variant="outlined" size="small" onClick={onClickExport}>
+          <Button
+            color="white"
+            variant="outlined"
+            size="small"
+            onClick={onClickExport}
+            disabled={loader}
+            sx={loader && isExport && { height: '40px !important' }}
+          >
             <Icon sx={{ mr: 1 }}>
               <ImportExportRounded />
             </Icon>
-            Export
+            {loader && isExport ? <CircularProgress color="inherit" /> : 'Export'}
           </Button>
         </Grid>
       </Grid>
@@ -70,6 +230,9 @@ const Payslip = () => {
           search={search}
           handleSearch={() => handleChangeSearch()}
           handleClear={() => handleClear()}
+          onClickSearch={() => onClickSearch()}
+          loader={loader}
+          isSearch={isSearch}
         >
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
@@ -88,7 +251,18 @@ const Payslip = () => {
             </FormControl>
           </Grid>
         </FilterLayout>
-        <Table columns={role === 'admin' ? adminPrCol : prCols} rows={prRows} />
+        <Table
+          columns={role === 'admin' ? adminPrCol : prCols}
+          rows={allPayslipList}
+          rowsCount={payslipListCount}
+          initialPage={page}
+          onChangePage={(value) => onPage(value)}
+          rowsPerPage={limit}
+          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
+          sortKey={sortKey}
+          sortOrder={sortOrder}
+          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
+        />
       </Card>
     </>
   );
