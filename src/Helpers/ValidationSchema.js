@@ -100,7 +100,7 @@ export const BasicInfoSchema = yup.object().shape({
 });
 
 export const changePasswordSchema = yup.object().shape({
-  currentPassword: yup
+  oldPassword: yup
     .string()
     .matches(
       passwordRegx,
@@ -142,6 +142,7 @@ export const expenseFormSchema = yup.object().shape({
   purchaseFrom: yup.string().required('Purchase from is required'),
   purchaseDate: yup.string().required('Purchase date is required'),
   amount: yup.string().required('Amount is required')
+  // document: yup.string().required('Document is required')
 });
 
 export const addressSchema = yup.object().shape({

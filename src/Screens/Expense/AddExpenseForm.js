@@ -16,17 +16,21 @@ const initialValues = {
   purchaseFrom: '',
   purchaseDate: moment().format('YYYY-MM-DD'),
   amount: '',
-  selectDoc: ''
+  document: ''
 };
 const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, title, isEdit }) => {
   const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
   const [loader, setLoader] = useState(false);
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     if (selectedData !== null) {
       Object.keys(data).map((key) => {
         data[key] = selectedData[key];
+        if (key === document) {
+          data[key] = selectedData.document;
+        }
       });
       setData(data);
     } else {
@@ -34,6 +38,7 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
       initialValues.itemName = '';
       initialValues.purchaseFrom = '';
       initialValues.amount = '';
+      initialValues.document = '';
       setData(initialValues);
     }
   }, [selectedData]);
@@ -41,17 +46,27 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
   const onSubmitNewExpense = async (formData) => {
     let updatedFormData = {};
     let expenseRes;
-    setLoader(true);
-    if (formData.selectDoc === undefined || formData.selectDoc === '') {
-      updatedFormData = {
-        itemName: formData.itemName,
-        purchaseFrom: formData.purchaseFrom,
-        purchaseDate: formData.purchaseDate,
-        amount: formData.amount
-      };
-    } else {
-      updatedFormData = formData;
+
+    if (updatedFormData.document === undefined || updatedFormData.document === '') {
+      if (image !== null && image !== undefined) {
+        updatedFormData = {
+          itemName: formData.itemName,
+          purchaseFrom: formData.purchaseFrom,
+          purchaseDate: formData.purchaseDate,
+          amount: formData.amount,
+          document: image
+        };
+      } else {
+        updatedFormData = {
+          itemName: formData.itemName,
+          purchaseFrom: formData.purchaseFrom,
+          purchaseDate: formData.purchaseDate,
+          amount: formData.amount
+        };
+      }
     }
+
+    setLoader(true);
     if (isEdit) {
       expenseRes = await updateExpense(updatedFormData, selectedData.id);
     } else {
@@ -81,6 +96,10 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
       setLoader(false);
     }
     handleDialog();
+  };
+
+  const uploadFile = (file) => {
+    setImage(file[0]);
   };
 
   return (
@@ -157,6 +176,7 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Input
+                      type="number"
                       placeholder="Amount"
                       label="AMOUNT"
                       size="large"
@@ -169,14 +189,21 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
                       errorText={errors.amount && touched.amount && errors.amount}
                       error={errors.amount && touched.amount}
                       success={!errors.amount && touched.amount}
+                      onKeyDown={(evt) =>
+                        ['e', 'E', '-', '+'].includes(evt.key) && evt.preventDefault()
+                      }
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <FormLabel>SELECT DOCUMENT</FormLabel>
                     <Dropzone
-                      setExistingFile={values.selectDoc}
-                      selectedFile={(files) => console.log('files', files[0])}
-                      error={errors.selectDoc && touched.selectDoc}
+                      setExistingFile={values.document}
+                      selectedFile={(files) => uploadFile(files)}
+                      // onChange={handleChange}
+                      // onBlur={handleBlur}
+                      // errorText={errors.document && touched.document && errors.document}
+                      // error={errors.document && touched.document}
+                      // success={!errors.document && touched.document}
                     />
                   </Grid>
                   <Grid item xs={12} md={4} lg={6}>
