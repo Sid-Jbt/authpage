@@ -9,21 +9,9 @@ import { store } from '../../Redux/store';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-export const getAllExpenseCount = async () =>
-  axios({
-    url: `${API_BASE_URL}/employee/expense/count`,
-    method: 'GET',
-    headers: {
-      Accept: 'application/x-www-form-urlencoded',
-      Authorization: store.getState().route.currentUser.token
-    }
-  })
-    .then(async (response) => isTokenExpire(response))
-    .catch((error) => handleNetworkError(error));
-
 export const getExpenseLists = async (data) =>
   axios({
-    url: `${API_BASE_URL}/employee/expense/list?${queryString(data)}`,
+    url: `${API_BASE_URL}/expense?${queryString(data)}`,
     method: 'GET',
     headers: {
       Accept: 'application/x-www-form-urlencoded',

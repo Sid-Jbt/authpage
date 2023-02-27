@@ -86,7 +86,7 @@ const supportTicket = () => {
     if (status) {
       setCounts(ticketsRes.data.count);
       setAllSpTicketList(rows);
-      setSpTicketListCount(ticketsRes.data.count);
+      setSpTicketListCount(ticketsRes.data.count.total);
       setLoader(false);
       setIsSearch(false);
     } else {
