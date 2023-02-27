@@ -26,6 +26,7 @@ import {
   getEmployeeExpenseExportList,
   deleteExpense
 } from '../../APIs/Expense';
+import Badge from '../../Elements/Badge';
 
 const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
 const Expense = () => {
@@ -98,7 +99,26 @@ const Expense = () => {
       message
     } = expenseRes;
     if (status) {
-      setAllExpenseList(rows);
+      const expenseStatusData = rows.map((rowId) => ({
+        ...rowId,
+        status: (
+          <Badge
+            variant="gradient"
+            badgeContent={rowId.status}
+            color={
+              rowId.status === 'pending'
+                ? 'warning'
+                : rowId.status === 'approved'
+                ? 'success'
+                : 'error'
+            }
+            size="xs"
+            container
+            customWidth={100}
+          />
+        )
+      }));
+      setAllExpenseList(expenseStatusData);
       setExpenseListCount(expenseRes.data.count);
       setLoader(false);
     } else {
