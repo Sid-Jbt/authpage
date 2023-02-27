@@ -10,16 +10,28 @@ import {
   WatchLater,
   WatchRounded
 } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import Badge from 'Elements/Badge';
 import { getEmployeeListPattern, getExpensePattern, getLeavePattern } from 'Routes/routeConfig';
 import LeaveCard from 'Components/CardLayouts/StaticCard';
+import { getEmployeeById } from '../../APIs/API';
+import { CURRENTUSER } from '../../Redux/actions';
 
 const DashboardDefault = () => {
   const { role } = useSelector((state) => state.route);
+  const { currentUser } = useSelector((state) => state.route);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [calendarEventsData, setCalendarEventsData] = useState([]);
+
+  const getUserDetails = async () => {
+    const employeeDetailsRes = await getEmployeeById(currentUser.id);
+    dispatch({
+      type: CURRENTUSER,
+      value: { ...currentUser, profilePic: employeeDetailsRes.data.profile.profilePic }
+    });
+  };
 
   useEffect(() => {
     (async () => {
@@ -42,6 +54,7 @@ const DashboardDefault = () => {
         });
       setCalendarEventsData(newRows);
     })();
+    getUserDetails();
   }, []);
 
   const handleTotalEmployee = () => {

@@ -26,13 +26,13 @@ import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
 const DashboardNavbar = ({ isMini }) => {
   const customization = useSelector((state) => state.customization);
+  const { currentUser } = useSelector((state) => state.route);
   const themes = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [openMenu, setOpenMenu] = useState(false);
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [isProfileComplete, setIsProfileComplete] = useState(true);
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
@@ -48,6 +48,8 @@ const DashboardNavbar = ({ isMini }) => {
   const handleProfileCircle = () => {
     navigate(getProfilePattern());
   };
+
+  console.log('currentUser', currentUser, setIsProfileComplete);
 
   const renderMenu = () => (
     <Menu

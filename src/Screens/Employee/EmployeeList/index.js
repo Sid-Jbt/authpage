@@ -53,7 +53,6 @@ const EmployeeList = () => {
       startDate,
       endDate
     };
-    console.log('==========', employeeData);
     const employeeRes = await getCompanyEmployee(employeeData);
     const {
       status,
