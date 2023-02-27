@@ -12,7 +12,6 @@ const DeleteAccount = () => {
   const { setSnack } = useContext(SnackbarContext);
 
   // const handleSetIsVisible = () => setIsVisible(!isVisible);
-  // console.log('isVisible --> ', isVisible);
   const handleSetDelete = () => setIsDelete(!isDelete);
 
   const handleDeactivateBtn = () => {

@@ -18,7 +18,6 @@ const BasicInfo = () => {
   const handleChangeIsGender = (value) => {
     setGender(value.value);
   };
-  // console.log('gender', gender);
 
   return (
     <Card id="basic-info">
