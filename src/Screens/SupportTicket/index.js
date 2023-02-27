@@ -23,10 +23,10 @@ import DeleteDialog from '../../Components/DeleteDialog';
 import DialogMenu from '../../Elements/Dialog';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
-import { getSupportTicketCount } from '../../APIs/SupportTicket';
+import { getSupportTicketCount, getSupportTicketLists } from '../../APIs/SupportTicket';
 
 const supportTicket = () => {
-  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = supportTicketData;
+  const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
   const { setSnack } = useContext(SnackbarContext);
   const { role } = useSelector((state) => state.route);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -34,14 +34,24 @@ const supportTicket = () => {
   const [selectDate, setSelectDate] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [priority, setPriority] = useState('');
-  const [status, setStatus] = useState('');
+  const [isStatus, setIsStatus] = useState('');
   const [search, setSearch] = useState('');
   const [selectedId, setSelectedId] = useState('');
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isSupportTicketDialogOpen, setIsSupportTicketDialogOpen] = useState(false);
   const [isViewSupportTicketDialogOpen, setIsViewSupportTicketDialogOpen] = useState(false);
   const [counts, setCounts] = useState(null);
+  const [loader, setLoader] = useState(false);
+
+  const [allSpTicketList, setAllSpTicketList] = useState([]);
+  const [spTicketListCount, setSpTicketListCount] = useState(0);
+  const [sortKey, setSortKey] = useState('createdAt');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
   const [isClear, setIsClear] = useState(false);
+  // const [isExport, setIsExport] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
 
   const getSupportTicketCounts = async () => {
     let empSupportTicketCountData;
@@ -59,8 +69,59 @@ const supportTicket = () => {
     }
   };
 
+  const getAllSupportTicketList = async (
+    selectedSortKey = 'createdAt',
+    selectedSortOrder = 'asc',
+    selectedPage = 0,
+    text = '',
+    date = '',
+    selectedPriority = '',
+    selectedStatus = '',
+    count = 0,
+    dataLimit = limit
+  ) => {
+    const ticketsData = {
+      limit: dataLimit,
+      page: selectedPage,
+      sortKey: selectedSortKey.toLowerCase(),
+      sortOrder: selectedSortOrder.toLowerCase(),
+      search: text,
+      selectDate: date,
+      priority: selectedPriority,
+      isStatus: selectedStatus,
+      count
+    };
+    let ticketsRes;
+    if (role === 'admin') {
+      // Replace admin api with getSupportTicket
+      // expenseRes = await getSupportTicketLists(expenseData);
+    } else {
+      ticketsRes = await getSupportTicketLists(ticketsData);
+    }
+    const {
+      status,
+      data: { rows },
+      message
+    } = ticketsRes;
+    if (status) {
+      setAllSpTicketList(rows);
+      setSpTicketListCount(ticketsRes.data.count);
+      setLoader(false);
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        color: 'error',
+        open: true
+      });
+      setLoader(false);
+    }
+  };
+
   useEffect(() => {
     getSupportTicketCounts();
+    getAllSupportTicketList();
   }, [isDialogOpen, isDeleteDialogOpen]);
 
   const handleDialog = () => {
@@ -87,10 +148,10 @@ const supportTicket = () => {
   const onClickAction = (key, index) => {
     if (key === 'edit') {
       setIsEdit(true);
-      setSelectedData(prRows.find((o) => o.id === index));
+      setSelectedData(allSpTicketList.find((o) => o.id === index));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      setSelectedData(prRows.find((o) => o.id === index));
+      setSelectedData(allSpTicketList.find((o) => o.id === index));
       setIsViewSupportTicketDialogOpen(true);
     } else {
       setSelectedId(index);
@@ -107,7 +168,7 @@ const supportTicket = () => {
   };
 
   const handleChangeStatus = (value) => {
-    setStatus(value);
+    setIsStatus(value);
   };
 
   const handleChangePriority = (value) => {
@@ -136,14 +197,36 @@ const supportTicket = () => {
   const handleClear = () => {
     setSelectDate('');
     setPriority('');
-    setStatus('');
+    setIsStatus('');
     setSearch('');
     setIsClear(!isClear);
+  };
+  const onClickSearch = () => {
+    setLoader(true);
+    setIsSearch(true);
+    getAllSupportTicketList(sortKey, sortOrder, page, search, selectDate, priority, isStatus, 0);
+  };
+
+  const onPage = async (selectedPage) => {
+    setPage(selectedPage);
+    await getAllSupportTicketList(sortKey, sortOrder, selectedPage);
+  };
+
+  const onRowsPerPageChange = async (selectedLimit) => {
+    setLimit(selectedLimit);
+    await getAllSupportTicketList(sortKey, sortOrder, selectedLimit);
+  };
+
+  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
+    setSortKey(selectedSortKey);
+    setSortOrder(selectedSortOrder);
+    await getAllSupportTicketList(selectedSortKey, selectedSortOrder, page);
   };
 
   useEffect(() => {
     if (isClear) {
       getSupportTicketCounts();
+      getAllSupportTicketList(sortKey, sortOrder, page, '', selectDate);
     }
   }, [isClear]);
 
@@ -234,6 +317,9 @@ const supportTicket = () => {
           search={search}
           handleSearch={() => handleChangeSearch()}
           handleClear={() => handleClear()}
+          onClickSearch={() => onClickSearch()}
+          loader={loader}
+          isSearch={isSearch}
         >
           <Grid item xs={12} md={4} lg={3}>
             <Input
@@ -262,7 +348,7 @@ const supportTicket = () => {
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Status</FormLabel>
               <Select
-                value={status}
+                value={isStatus}
                 options={SupportTicketStatus}
                 onChange={(value) => handleChangeStatus(value)}
               />
@@ -272,7 +358,7 @@ const supportTicket = () => {
 
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
-          rows={prRows}
+          rows={allSpTicketList}
           onClickAction={(value, id) => onClickAction(value, id)}
           isAction={role !== 'admin'}
           options={[
@@ -282,6 +368,14 @@ const supportTicket = () => {
           ]}
           isView={role === 'admin'}
           isDialogAction={(row) => onClickView(row)}
+          rowsCount={spTicketListCount}
+          initialPage={page}
+          onChangePage={(value) => onPage(value)}
+          rowsPerPage={limit}
+          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
+          sortKey={sortKey}
+          sortOrder={sortOrder}
+          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
         />
         {isDialogOpen && (
           <AddSupportTicketForm
