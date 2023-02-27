@@ -247,8 +247,8 @@ const supportTicket = () => {
           isAction={role !== 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
-            { title: 'View', value: 'view' },
-            { title: 'Delete', value: 'delete' }
+            { title: 'View', value: 'view' }
+            /* { title: 'Delete', value: 'delete' } */
           ]}
           isView={role === 'admin'}
           isDialogAction={(row) => onClickView(row)}

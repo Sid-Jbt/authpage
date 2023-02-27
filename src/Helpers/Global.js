@@ -1,4 +1,6 @@
 // Get array of months
+import { getLoginPattern } from '../Routes/routeConfig';
+
 export const Months = [
   { value: 'january', label: 'January' },
   { value: 'February', label: 'February' },
@@ -206,3 +208,25 @@ export const SupportTicketStatus = [
   { value: 'declined', label: 'Declined' },
   { value: 'pending', label: 'Pending' }
 ];
+
+export const isTokenExpire = async (response) => {
+  let apiResponse = null;
+  if (response.statusText === 'OK') {
+    try {
+      apiResponse = await response.data;
+    } catch (e) {
+      apiResponse = null;
+    }
+  } else if (response.status === 401) {
+    getLoginPattern();
+  } else {
+    apiResponse = await response.data;
+  }
+  return apiResponse;
+};
+
+export const handleNetworkError = async (responseError) => {
+  if (responseError.name !== 'AbortError') {
+    console.log('Network request error. Please try again.');
+  }
+};
