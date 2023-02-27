@@ -53,6 +53,7 @@ const EmployeeList = () => {
       startDate,
       endDate
     };
+    console.log('==========', employeeData);
     const employeeRes = await getCompanyEmployee(employeeData);
     const {
       status,
@@ -147,7 +148,7 @@ const EmployeeList = () => {
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
-    await getAllCompanyEmployee(sortKey, sortOrder, selectedLimit);
+    await getAllCompanyEmployee(sortKey, sortOrder, '', '', '', '', '', selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {

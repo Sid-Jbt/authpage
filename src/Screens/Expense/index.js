@@ -260,7 +260,7 @@ const Expense = () => {
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
-    await getAllExpenseList(sortKey, sortOrder, selectedLimit);
+    await getAllExpenseList(sortKey, sortOrder, '', '', '', selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {
