@@ -34,7 +34,7 @@ const supportTicket = () => {
   const { role } = useSelector((state) => state.route);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const [selectDate, setSelectDate] = useState(null);
+  const [selectDate, setSelectDate] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [priority, setPriority] = useState('');
   const [isStatus, setIsStatus] = useState('');
@@ -277,7 +277,7 @@ const supportTicket = () => {
   };
 
   const handleChangeSearch = (event) => {
-    setSearch(event);
+    setSearch(event.target.value);
   };
 
   const handleClear = () => {
@@ -290,7 +290,16 @@ const supportTicket = () => {
   const onClickSearch = () => {
     setLoader(true);
     setIsSearch(true);
-    getAllSupportTicketList(sortKey, sortOrder, page, search, selectDate, priority, isStatus, 0);
+    getAllSupportTicketList(
+      sortKey,
+      sortOrder,
+      page,
+      search,
+      selectDate,
+      priority.value,
+      isStatus.value,
+      0
+    );
   };
 
   const onPage = async (selectedPage) => {
@@ -402,7 +411,7 @@ const supportTicket = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={() => handleChangeSearch()}
+          handleSearch={handleChangeSearch}
           handleClear={() => handleClear()}
           onClickSearch={() => onClickSearch()}
           loader={loader}
