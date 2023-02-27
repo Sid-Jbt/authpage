@@ -59,3 +59,15 @@ export const updateSupportTicket = async (data, id) =>
   })
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
+
+export const getEmployeeTicketExportList = async (data) =>
+  axios({
+    url: `${API_BASE_URL}/employee/support-ticket/export-list?${queryString(data)}`,
+    method: 'GET',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: store.getState().route.currentUser.token
+    }
+  })
+    .then(async (response) => isTokenExpire(response))
+    .catch((error) => handleNetworkError(error));

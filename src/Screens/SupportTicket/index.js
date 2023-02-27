@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
+import { Card, CircularProgress, FormControl, FormLabel, Grid, Icon } from '@mui/material';
 import {
   Add,
   Check,
@@ -23,7 +23,13 @@ import DeleteDialog from '../../Components/DeleteDialog';
 import DialogMenu from '../../Elements/Dialog';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
-import { getSupportTicketCount, getSupportTicketLists } from '../../APIs/SupportTicket';
+import {
+  getEmployeeTicketExportList,
+  getSupportTicketCount,
+  getSupportTicketLists
+} from '../../APIs/SupportTicket';
+
+const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
 
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
@@ -50,7 +56,7 @@ const supportTicket = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isClear, setIsClear] = useState(false);
-  // const [isExport, setIsExport] = useState(false);
+  const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
 
   const getSupportTicketCounts = async () => {
@@ -184,15 +190,75 @@ const supportTicket = () => {
     setPriority(value);
   };
 
-  const onClickExport = () => {
-    setSnack({
-      title: 'Warning',
-      message: 'Export coming soon...',
-      time: false,
-      icon: <Check color="white" />,
-      color: 'warning',
-      open: true
-    });
+  const onClickExport = async (
+    selectedSortKey = 'createdAt',
+    selectedSortOrder = 'asc',
+    selectedPage = 0,
+    text = '',
+    date = '',
+    selectedPriority = '',
+    selectedStatus = '',
+    count = 0,
+    dataLimit = limit
+  ) => {
+    const exportData = {
+      limit: dataLimit,
+      page: selectedPage,
+      sortKey: selectedSortKey.toLowerCase(),
+      sortOrder: selectedSortOrder.toLowerCase(),
+      search: text,
+      selectDate: date,
+      priority: selectedPriority,
+      isStatus: selectedStatus,
+      count
+    };
+    let exportRes;
+    setIsExport(true);
+    setLoader(true);
+    if (role === 'admin') {
+      // Replace with getExportExpenseLists
+      // exportRes = await getEmployeeExpenseExportList(exportData);
+    } else {
+      exportRes = await getEmployeeTicketExportList(exportData);
+    }
+
+    const { status, message, data } = exportRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      setLoader(false);
+      setIsExport(false);
+      window.open(`${EXPORT_URL}/${data}`, '', 'width=900, height=900');
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'error',
+        open: true
+      });
+      setLoader(false);
+      setIsExport(false);
+    }
+    if (role === 'admin') {
+      setSnack({
+        title: 'Warning',
+        message: 'Expense list export coming soon...',
+        time: false,
+        icon: <Check color="white" />,
+        color: 'warning',
+        open: true
+      });
+      setLoader(false);
+      setIsExport(false);
+    }
   };
 
   const handleChangeStartDate = (event) => {
@@ -223,7 +289,7 @@ const supportTicket = () => {
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
-    await getAllSupportTicketList(sortKey, sortOrder, selectedLimit);
+    await getAllSupportTicketList(sortKey, sortOrder, 0, '', '', '', '', 0, selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {
@@ -302,7 +368,9 @@ const supportTicket = () => {
               [breakpoints.down('xl' && 'lg')]: {
                 color: dark.main,
                 borderColor: dark.main
-              }
+              } &&
+                loader &&
+                isExport && { height: '40px !important' }
             })}
             variant="outlined"
             size="small"
@@ -311,7 +379,7 @@ const supportTicket = () => {
             <Icon sx={{ mr: 1 }}>
               <ImportExportRounded />
             </Icon>
-            Export
+            {loader && isExport ? <CircularProgress color="inherit" /> : 'Export'}
           </Button>
         </Grid>
       </Grid>
