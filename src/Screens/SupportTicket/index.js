@@ -23,11 +23,7 @@ import DeleteDialog from '../../Components/DeleteDialog';
 import DialogMenu from '../../Elements/Dialog';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
-import {
-  getEmployeeTicketExportList,
-  getSupportTicketCount,
-  getSupportTicketLists
-} from '../../APIs/SupportTicket';
+import { getEmployeeTicketExportList, getSupportTicketLists } from '../../APIs/SupportTicket';
 
 const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
 
@@ -59,22 +55,6 @@ const supportTicket = () => {
   const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
 
-  const getSupportTicketCounts = async () => {
-    let empSupportTicketCountData;
-    if (role === 'admin') {
-      empSupportTicketCountData = {
-        Total: 0,
-        Approved: 0,
-        Reject: 0,
-        Pending: 0
-      };
-      setCounts(empSupportTicketCountData);
-    } else {
-      empSupportTicketCountData = await getSupportTicketCount();
-      setCounts(empSupportTicketCountData.data);
-    }
-  };
-
   const getAllSupportTicketList = async (
     selectedSortKey = 'createdAt',
     selectedSortOrder = 'asc',
@@ -97,22 +77,18 @@ const supportTicket = () => {
       isStatus: selectedStatus,
       count
     };
-    let ticketsRes;
-    if (role === 'admin') {
-      // Replace admin api with getSupportTicket
-      // expenseRes = await getSupportTicketLists(expenseData);
-    } else {
-      ticketsRes = await getSupportTicketLists(ticketsData);
-    }
+    const ticketsRes = await getSupportTicketLists(ticketsData);
     const {
       status,
       data: { rows },
       message
     } = ticketsRes;
     if (status) {
+      setCounts(ticketsRes.data.count);
       setAllSpTicketList(rows);
       setSpTicketListCount(ticketsRes.data.count);
       setLoader(false);
+      setIsSearch(false);
     } else {
       setSnack({
         title: 'Error',
@@ -126,7 +102,6 @@ const supportTicket = () => {
   };
 
   useEffect(() => {
-    getSupportTicketCounts();
     getAllSupportTicketList();
   }, [isDialogOpen, isDeleteDialogOpen]);
 
@@ -300,7 +275,6 @@ const supportTicket = () => {
 
   useEffect(() => {
     if (isClear) {
-      getSupportTicketCounts();
       getAllSupportTicketList(sortKey, sortOrder, page, '', selectDate);
     }
   }, [isClear]);
@@ -311,7 +285,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Total Tickets"
-            count={counts && counts.Total}
+            count={counts && counts.total}
             icon={{ color: 'success', component: <SummarizeRounded /> }}
             isPercentage={false}
           />
@@ -319,7 +293,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Approved"
-            count={counts && counts.Approved}
+            count={counts && counts.approved}
             icon={{ color: 'success', component: <ThumbUp /> }}
             isPercentage={false}
           />
@@ -327,7 +301,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Declined"
-            count={counts && counts.Reject}
+            count={counts && counts.rejected}
             icon={{ color: 'error', component: <ThumbDown /> }}
             isPercentage={false}
           />
@@ -335,7 +309,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Pending"
-            count={counts && counts.Pending}
+            count={counts && counts.pending}
             icon={{ color: 'info', component: <Pending /> }}
             isPercentage={false}
           />
