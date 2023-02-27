@@ -11,6 +11,7 @@ import {
 } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
+import Badge from 'Elements/Badge';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
@@ -84,8 +85,43 @@ const supportTicket = () => {
       message
     } = ticketsRes;
     if (status) {
+      const supportTicketStatusData = rows.map((rowId) => ({
+        ...rowId,
+        priority: (
+          <Badge
+            variant="gradient"
+            badgeContent={rowId.priority}
+            color={
+              rowId.priority === 'medium' || rowId.priority === 'Medium'
+                ? 'warning'
+                : rowId.priority === 'low' || rowId.priority === 'Low'
+                ? 'info'
+                : 'error'
+            }
+            size="xs"
+            container
+            customWidth={100}
+          />
+        ),
+        status: (
+          <Badge
+            variant="gradient"
+            badgeContent={rowId.status}
+            color={
+              rowId.status === 'pending'
+                ? 'warning'
+                : rowId.status === 'approved'
+                ? 'success'
+                : 'error'
+            }
+            size="xs"
+            container
+            customWidth={100}
+          />
+        )
+      }));
       setCounts(ticketsRes.data.count);
-      setAllSpTicketList(rows);
+      setAllSpTicketList(supportTicketStatusData);
       setSpTicketListCount(ticketsRes.data.count.total);
       setLoader(false);
       setIsSearch(false);

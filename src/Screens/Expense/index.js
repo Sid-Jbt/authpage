@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, Grid, Icon, CircularProgress, Badge } from '@mui/material';
+import { Card, Grid, Icon, CircularProgress } from '@mui/material';
 import {
   Add,
   Check,
@@ -11,6 +11,7 @@ import {
 } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
+import Badge from 'Elements/Badge';
 import { useSelector } from 'react-redux';
 import DialogMenu from 'Elements/Dialog';
 import expenseListData from './data/expenseListData';
