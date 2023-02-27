@@ -25,10 +25,7 @@ const profileInitialValues = {
   permanentAddress: '',
   presentAddress: '',
   alternatePhone: '',
-  phoneNumber: ''
-};
-
-const bankInitialValues = {
+  phoneNumber: '',
   bankName: '',
   branchName: '',
   accountName: '',
@@ -42,6 +39,7 @@ const Profile = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [employeeDetails, setEmployeeDetails] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
+  const [gender, setGender] = useState('male');
   const { currentUser } = useSelector((state) => state.route);
   const navigate = useNavigate();
   const { setSnack } = useContext(SnackbarContext);
@@ -66,7 +64,6 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    console.log('====== useEffect');
     getEmployeeDetails();
   }, []);
 
@@ -125,6 +122,8 @@ const Profile = () => {
 
   const handleIsEdit = () => setIsEdit(!isEdit);
 
+  const onChangeGender = () => setGender(gender === 'male' ? 'female' : 'male');
+
   return (
     employeeDetails !== null && (
       <Box>
@@ -141,7 +140,7 @@ const Profile = () => {
         <Card sx={{ marginTop: 10 }}>
           <Formik
             enableReinitialize
-            initialValues={tabIndex === 0 ? profileInitialValues : bankInitialValues}
+            initialValues={profileInitialValues}
             onSubmit={(values) => {
               onSubmitProfile(values, false);
             }}
@@ -178,6 +177,7 @@ const Profile = () => {
                       props={props}
                       employeeProfileDetails={employeeDetails}
                       isEdit={isEdit}
+                      onChangeGender={() => onChangeGender()}
                     />
                   )}
                   {tabIndex === 1 && (

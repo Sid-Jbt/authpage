@@ -5,7 +5,7 @@ import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import { useSelector } from 'react-redux';
 
-const PersonalDetails = ({ props, employeeProfileDetails, isEdit }) => {
+const PersonalDetails = ({ props, employeeProfileDetails, isEdit, onChangeGender }) => {
   const { role } = useSelector((state) => state.route);
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const theme = useTheme();
@@ -307,9 +307,11 @@ const PersonalDetails = ({ props, employeeProfileDetails, isEdit }) => {
           aria-label="font-family"
           value={gender}
           onChange={(event) => {
+            console.log('gender', gender);
+            onChangeGender();
             setGender(event.target.value);
           }}
-          name="row-radio-buttons-group"
+          name="gender"
         >
           <FormControlLabel
             value="male"

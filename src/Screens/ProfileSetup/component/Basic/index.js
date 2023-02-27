@@ -10,7 +10,7 @@ import Input from 'Elements/Input';
 import { Edit } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 
-const Basic = ({ props, employeeProfileDetails, onChangeGender }) => {
+const Basic = ({ props, onChangeGender }) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const theme = useTheme();
   const { role } = useSelector((state) => state.route);
@@ -19,31 +19,12 @@ const Basic = ({ props, employeeProfileDetails, onChangeGender }) => {
   const inputFile = useRef(null);
 
   useEffect(() => {
-    if (employeeProfileDetails !== null) {
-      const {
-        fatherName,
-        department,
-        designation,
-        dob,
-        phoneNumber,
-        alternatePhone,
-        firstName,
-        lastName,
-        profilePic
-      } = employeeProfileDetails.profile;
-      setFieldValue('firstName', firstName === null ? '' : firstName);
-      setFieldValue('lastName', lastName === null ? '' : lastName);
-      setFieldValue('fatherName', fatherName === null ? '' : fatherName);
-      setFieldValue('department', department === null ? '' : department);
-      setFieldValue('designation', designation === null ? '' : designation);
-      setFieldValue('phoneNumber', phoneNumber === null ? '' : phoneNumber);
-      setFieldValue('dob', dob === null ? '' : moment(dob).format('YYYY-MM-DD'));
-      setFieldValue('alternatePhone', alternatePhone === null ? '' : alternatePhone);
-      setProfilePicUrl(profilePic);
-      setGender(
-        employeeProfileDetails.profile.gender === null
-          ? 'male'
-          : employeeProfileDetails.profile.gender
+    if (values !== null) {
+      setGender(values.hasOwnProperty('gender') ? values.gender !== null && values.gender : 'male');
+      setProfilePicUrl(
+        values.hasOwnProperty('profilePic')
+          ? values.profilePic !== null && URL.createObjectURL(values.profilePic)
+          : ''
       );
     }
   }, []);
@@ -53,6 +34,12 @@ const Basic = ({ props, employeeProfileDetails, onChangeGender }) => {
     const url = URL.createObjectURL(file);
     setFieldValue('profilePic', e.target.files[0]);
     setProfilePicUrl(url);
+  };
+
+  const onClickGender = (genderValue) => {
+    onChangeGender();
+    setGender(genderValue);
+    setFieldValue('gender', genderValue);
   };
 
   return (
@@ -272,10 +259,7 @@ const Basic = ({ props, employeeProfileDetails, onChangeGender }) => {
                         aria-label="font-family"
                         name="gender"
                         value={gender}
-                        onChange={(event) => {
-                          onChangeGender();
-                          setGender(event.target.value);
-                        }}
+                        onChange={(event) => onClickGender(event.target.value)}
                       >
                         <FormControlLabel
                           value="male"

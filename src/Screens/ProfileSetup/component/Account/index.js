@@ -1,24 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 
-const Account = ({ props, employeeBankDetails }) => {
-  const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
-
-  useEffect(() => {
-    if (employeeBankDetails !== null) {
-      const { bankName, branchName, accountName, accountNumber, ifscCode, panNumber } =
-        employeeBankDetails.bankInfo;
-      setFieldValue('bankName', bankName);
-      setFieldValue('branchName', branchName);
-      setFieldValue('accountName', accountName);
-      setFieldValue('accountNumber', accountNumber);
-      setFieldValue('ifscCode', ifscCode);
-      setFieldValue('panNumber', panNumber);
-    }
-  }, [employeeBankDetails]);
+const Account = ({ props }) => {
+  const { values, touched, errors, handleChange, handleBlur } = props;
 
   return (
     <Box>

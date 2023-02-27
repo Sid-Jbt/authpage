@@ -17,7 +17,7 @@ import Account from './component/Account';
 import Organisation from './component/Organisation';
 
 const initialValues = {
-  workingHours: '',
+  // workingHours: '',
   permanentAddress: '',
   firstName: '',
   lastName: '',
@@ -27,7 +27,7 @@ const initialValues = {
   accountNumber: '',
   ifscCode: '',
   panNumber: '',
-  address: '',
+  // address: '',
   presentAddress: ''
 };
 
@@ -61,14 +61,10 @@ function getStepContent(stepIndex, props, employeeDetails, onChangeGender) {
           onChangeGender={() => onChangeGender()}
         />
       ) : (
-        <Address props={props} employeeProfileDetails={employeeDetails} />
+        <Address props={props} />
       );
     case 2:
-      return customization.role === 'admin' ? (
-        <Address props={props} employeeProfileDetails={employeeDetails} />
-      ) : (
-        <Account props={props} employeeBankDetails={employeeDetails} />
-      );
+      return customization.role === 'admin' ? <Address props={props} /> : <Account props={props} />;
     default:
       return null;
   }
@@ -102,13 +98,6 @@ const ProfileSetup = () => {
       setActiveStep(activeStep + 1);
     } else if (role !== 'admin') {
       delete formData.workingHours;
-      delete formData.address;
-      delete formData.authID;
-      delete formData.createdAt;
-      delete formData.dateOfJoin;
-      delete formData.dateOfLeave;
-      delete formData.id;
-      delete formData.updatedAt;
       formData.gender = gender;
       const updateEmployeeRes = await updateEmployee(formData);
       const { status, message } = updateEmployeeRes;

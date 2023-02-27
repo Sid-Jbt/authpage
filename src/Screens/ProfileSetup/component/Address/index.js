@@ -1,19 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import { Grid } from '@mui/material';
 
-const Address = ({ props, employeeProfileDetails }) => {
-  const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
-
-  useEffect(() => {
-    if (employeeProfileDetails !== null) {
-      const { presentAddress, permanentAddress } = employeeProfileDetails.profile;
-      setFieldValue('permanentAddress', permanentAddress);
-      setFieldValue('presentAddress', presentAddress);
-    }
-  }, [employeeProfileDetails]);
+const Address = ({ props }) => {
+  const { values, touched, errors, handleChange, handleBlur } = props;
 
   return (
     <Box>
