@@ -47,7 +47,13 @@ const ViewExpenseDetails = ({ info }) => {
       <Grid container spacing={2} alignItems="center" justifyContent="space-between">
         <Grid item>{renderItems}</Grid>
         <Grid item>
-          <Avatar src={info.image} alt="profile-image" variant="rounded" size="xxl" shadow="lg" />
+          <Avatar
+            src={info.document}
+            alt="profile-image"
+            variant="rounded"
+            size="xxl"
+            shadow="lg"
+          />
         </Grid>
         <Grid item xs={12}>
           <FormField

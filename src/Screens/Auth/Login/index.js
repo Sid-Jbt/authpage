@@ -1,5 +1,5 @@
 import React, { Suspense, useContext, useState } from 'react';
-import { IconButton, InputAdornment, Switch } from '@mui/material';
+import { IconButton, InputAdornment, Switch, CircularProgress } from '@mui/material';
 import { Check, Visibility, VisibilityOff, Error } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
@@ -32,6 +32,7 @@ const Login = () => {
 
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -54,6 +55,7 @@ const Login = () => {
   };
 
   const onLogin = async (formData, actions) => {
+    setLoader(true);
     const loginRes = await login(formData);
     const { status, message, data } = loginRes;
     if (status) {
@@ -65,6 +67,7 @@ const Login = () => {
         color: 'success',
         open: true
       });
+      setLoader(false);
       if (!rememberMe) {
         dispatchRememberMe({
           type: REMEMBERME,
@@ -102,6 +105,7 @@ const Login = () => {
         open: true
       });
     }
+    setLoader(false);
   };
 
   return (
@@ -216,9 +220,10 @@ const Login = () => {
                     size="large"
                     fullWidth
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || loader}
+                    sx={loader && { height: '40px !important' }}
                   >
-                    Sign In
+                    {loader ? <CircularProgress disableShrink color="inherit" /> : 'Sign In'}
                   </Button>
                 </Box>
               </form>

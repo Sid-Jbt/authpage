@@ -1,6 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import { Add, Check, ImportExportRounded, Pending, ThumbDown, ThumbUp } from '@mui/icons-material';
+import {
+  Add,
+  Check,
+  ImportExportRounded,
+  Pending,
+  SummarizeRounded,
+  ThumbDown,
+  ThumbUp
+} from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
@@ -112,6 +120,14 @@ const supportTicket = () => {
   return (
     <>
       <Grid container spacing={3} mb={3}>
+        <Grid item xs={12} md={6} lg={3}>
+          <TicketCard
+            title="Total Tickets"
+            count="9"
+            icon={{ color: 'success', component: <SummarizeRounded /> }}
+            isPercentage={false}
+          />
+        </Grid>
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Approved"
@@ -231,8 +247,8 @@ const supportTicket = () => {
           isAction={role !== 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
-            { title: 'View', value: 'view' },
-            { title: 'Delete', value: 'delete' }
+            { title: 'View', value: 'view' }
+            /* { title: 'Delete', value: 'delete' } */
           ]}
           isView={role === 'admin'}
           isDialogAction={(row) => onClickView(row)}

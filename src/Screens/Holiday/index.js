@@ -32,6 +32,8 @@ const Holiday = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isClear, setIsClear] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
 
   const getAllHolidayList = async (
     selectedSortKey = 'holidayDate',
@@ -58,14 +60,16 @@ const Holiday = () => {
     if (status) {
       setAllHolidayList(rows);
       setHolidayListCount(holidayListRes.data.count);
+      setLoader(false);
     } else {
       setSnack({
         title: 'Error',
         message,
         time: false,
-        color: 'success',
+        color: 'error',
         open: true
       });
+      setLoader(false);
     }
   };
 
@@ -137,6 +141,8 @@ const Holiday = () => {
   }, [isClear]);
 
   const onClickSearch = () => {
+    setLoader(true);
+    setIsSearch(true);
     getAllHolidayList(sortKey, sortOrder, page, search, 0);
   };
 
@@ -192,6 +198,8 @@ const Holiday = () => {
           handleSearch={handleChangeSearch}
           handleClear={() => handleClear()}
           onClickSearch={() => onClickSearch()}
+          loader={loader}
+          isSearch={isSearch}
         />
 
         <Table
