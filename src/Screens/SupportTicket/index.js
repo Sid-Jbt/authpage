@@ -223,15 +223,9 @@ const supportTicket = () => {
       isStatus: selectedStatus,
       count
     };
-    let exportRes;
     setIsExport(true);
     setLoader(true);
-    if (role === 'admin') {
-      // Replace with getExportExpenseLists
-      // exportRes = await getEmployeeExpenseExportList(exportData);
-    } else {
-      exportRes = await getEmployeeTicketExportList(exportData);
-    }
+    const exportRes = await getEmployeeTicketExportList(exportData);
 
     const { status, message, data } = exportRes;
     if (status) {
