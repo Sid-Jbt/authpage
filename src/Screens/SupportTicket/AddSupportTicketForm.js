@@ -1,24 +1,53 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { supportTicketFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
-import { FormControl, FormLabel, Grid } from '@mui/material';
+import { CircularProgress, FormControl, FormLabel, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Select from 'Elements/Select';
 import Input from 'Elements/Input';
 import Editor from 'Elements/Editor';
 import Button from 'Elements/Button';
 import { Department, Priority } from 'Helpers/Global';
+import { Check, Error } from '@mui/icons-material';
+import { addNewSupportTicket, updateSupportTicket } from '../../APIs/SupportTicket';
+import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const initialValues = {
   subject: '',
-  message: ''
+  messageBody: ''
 };
 
-const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, setIsEdit, title, selectedData }) => {
+const AddSupportTicketDialog = ({
+  isDialogOpen,
+  handleDialog,
+  setIsEdit,
+  title,
+  selectedData,
+  isEdit
+}) => {
   const [department, setDepartment] = useState(Department[0]);
   const [priority, setPriority] = useState(Priority[3]);
+  const [messageBody, setMessageBody] = useState('');
   const [data, setData] = useState(initialValues);
+  const { setSnack } = useContext(SnackbarContext);
+  const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+    if (selectedData !== null) {
+      Object.keys(data).map((key) => {
+        data[key] = selectedData[key];
+      });
+      setData(data);
+      setDepartment(Department.find((value) => value.label === selectedData.department));
+      setPriority(Priority.find((value) => value.label === selectedData.priority));
+      setMessageBody(selectedData.message);
+    } else {
+      initialValues.subject = '';
+      initialValues.message = '';
+      setData(initialValues);
+    }
+  }, [selectedData]);
 
   const handleChangeDepartment = (selectedDepartment) => {
     setDepartment(selectedDepartment);
@@ -28,12 +57,52 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, setIsEdit, title, 
     setPriority(selectedPriority);
   };
 
-  const onSubmit = (formData) => {
-    console.log('formData', formData);
+  const handleChangeMessage = (value) => {
+    setMessageBody(value);
   };
 
-  console.log('setData,,,,', setData);
-  console.log('selected Data...', selectedData);
+  const onSubmitNewSupportTicket = async (formData) => {
+    let updatedFormData = {};
+    let supportTicketRes;
+
+    updatedFormData = {
+      subject: formData.subject,
+      priority: priority.label,
+      department: department.label,
+      message: messageBody
+    };
+
+    setLoader(true);
+    if (isEdit) {
+      supportTicketRes = await updateSupportTicket(updatedFormData, selectedData.id);
+    } else {
+      supportTicketRes = await addNewSupportTicket(updatedFormData);
+    }
+
+    const { status, message } = supportTicketRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      setLoader(false);
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Error color="white" />,
+        color: 'error',
+        open: true
+      });
+      setLoader(false);
+    }
+    handleDialog();
+  };
 
   return (
     <>
@@ -49,7 +118,7 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, setIsEdit, title, 
           enableReinitialize
           initialValues={data}
           onSubmit={(formData) => {
-            onSubmit(formData);
+            onSubmitNewSupportTicket(formData);
           }}
           validationSchema={supportTicketFormSchema}
         >
@@ -108,9 +177,16 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, setIsEdit, title, 
                     <Box>
                       <Editor
                         title="MESSAGE"
-                        value={values.message}
                         label="MESSAGE"
+                        id="message"
+                        name="message"
+                        value={messageBody}
                         backgroundContainerColor="white"
+                        onChange={(value) => {
+                          handleChangeMessage(value);
+                        }}
+                        modules={Editor.modules}
+                        formats={Editor.formats}
                       />
                     </Box>
                   </Grid>
@@ -125,8 +201,15 @@ const AddSupportTicketDialog = ({ isDialogOpen, handleDialog, setIsEdit, title, 
                       marginRight: '10px'
                     }}
                   >
-                    <Button type="submit" color="info" variant="contained" size="small">
-                      SAVE
+                    <Button
+                      type="submit"
+                      color="info"
+                      variant="contained"
+                      size="small"
+                      disabled={loader}
+                      sx={loader && { height: '40px !important', width: '80% !important' }}
+                    >
+                      {loader ? <CircularProgress color="inherit" /> : 'Save'}
                     </Button>
                   </Grid>
                 </Grid>

@@ -151,7 +151,16 @@ const supportTicket = () => {
       setSelectedData(allSpTicketList.find((o) => o.id === index));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      setSelectedData(allSpTicketList.find((o) => o.id === index));
+      const viewData = allSpTicketList.find((o) => o.id === index);
+      const setViewData = {
+        subject: viewData.subject,
+        date: viewData.ticketDate,
+        department: viewData.department,
+        priority: viewData.priority,
+        status: viewData.status,
+        message: viewData.message
+      };
+      setSelectedData(setViewData);
       setIsViewSupportTicketDialogOpen(true);
     } else {
       setSelectedId(index);
@@ -385,6 +394,7 @@ const supportTicket = () => {
             setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             setSelectedData={(value) => setSelectedData(value)}
+            isEdit={isEdit}
           />
         )}
         {isDeleteDialogOpen && (
