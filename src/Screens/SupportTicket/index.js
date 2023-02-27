@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
 import {
   Add,
@@ -23,6 +23,7 @@ import DeleteDialog from '../../Components/DeleteDialog';
 import DialogMenu from '../../Elements/Dialog';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
+import { getSupportTicketCount } from '../../APIs/SupportTicket';
 
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = supportTicketData;
@@ -39,6 +40,28 @@ const supportTicket = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isSupportTicketDialogOpen, setIsSupportTicketDialogOpen] = useState(false);
   const [isViewSupportTicketDialogOpen, setIsViewSupportTicketDialogOpen] = useState(false);
+  const [counts, setCounts] = useState(null);
+  const [isClear, setIsClear] = useState(false);
+
+  const getSupportTicketCounts = async () => {
+    let empSupportTicketCountData;
+    if (role === 'admin') {
+      empSupportTicketCountData = {
+        Total: 0,
+        Approved: 0,
+        Reject: 0,
+        Pending: 0
+      };
+      setCounts(empSupportTicketCountData);
+    } else {
+      empSupportTicketCountData = await getSupportTicketCount();
+      setCounts(empSupportTicketCountData.data);
+    }
+  };
+
+  useEffect(() => {
+    getSupportTicketCounts();
+  }, [isDialogOpen, isDeleteDialogOpen]);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -115,7 +138,14 @@ const supportTicket = () => {
     setPriority('');
     setStatus('');
     setSearch('');
+    setIsClear(!isClear);
   };
+
+  useEffect(() => {
+    if (isClear) {
+      getSupportTicketCounts();
+    }
+  }, [isClear]);
 
   return (
     <>
@@ -123,7 +153,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Total Tickets"
-            count="9"
+            count={counts && counts.Total}
             icon={{ color: 'success', component: <SummarizeRounded /> }}
             isPercentage={false}
           />
@@ -131,7 +161,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Approved"
-            count="5"
+            count={counts && counts.Approved}
             icon={{ color: 'success', component: <ThumbUp /> }}
             isPercentage={false}
           />
@@ -139,7 +169,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Declined"
-            count="1"
+            count={counts && counts.Reject}
             icon={{ color: 'error', component: <ThumbDown /> }}
             isPercentage={false}
           />
@@ -147,7 +177,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Pending"
-            count="3"
+            count={counts && counts.Pending}
             icon={{ color: 'info', component: <Pending /> }}
             isPercentage={false}
           />
