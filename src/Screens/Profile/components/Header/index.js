@@ -15,6 +15,7 @@ const Header = ({
   profileUpdate,
   employeeProfileDetails
 }) => {
+  const { firstName, lastName, designation } = employeeProfileDetails.profile;
   const { role } = useSelector((state) => state.route);
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const inputFile = useRef(null);
@@ -72,10 +73,10 @@ const Header = ({
         </Grid>
         <Grid item>
           <Typography variant="h4" fontWeight="medium">
-            Suresh Borad
+            {firstName} {lastName}
           </Typography>
           <Typography variant="subtitle2" color="text" fontWeight="light">
-            CEO / Co-Founder
+            {designation}
           </Typography>
         </Grid>
         <Grid item xs={12} md={6} lg={4} sx={{ ml: 'auto' }}>

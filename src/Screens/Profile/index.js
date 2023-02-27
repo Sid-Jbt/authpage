@@ -1,20 +1,47 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import breakpoints from 'Theme/base/breakpoints';
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import { Check, Error } from '@mui/icons-material';
-import Header from './components/Header';
-import PersonalDetails from './components/PersonalDetails';
+import { SnackbarContext } from 'Context/SnackbarProvider';
+import { getDashboardPattern } from 'Routes/routeConfig';
+import { Grid, Card } from '@mui/material';
+import { getEmployeeById, updateEmployee } from 'APIs/API';
+import { bankFormSchema, profileSchema } from 'Helpers/ValidationSchema';
+import Typography from 'Elements/Typography';
+import Button from 'Elements/Button';
 import BankInfo from './components/BankInfo';
-import { getEmployeeById, updateEmployee } from '../../APIs/API';
-import { getDashboardPattern } from '../../Routes/routeConfig';
-import { SnackbarContext } from '../../Context/SnackbarProvider';
+import PersonalDetails from './components/PersonalDetails';
+import Header from './components/Header';
+
+const profileInitialValues = {
+  firstName: '',
+  lastName: '',
+  fatherName: '',
+  department: '',
+  designation: '',
+  permanentAddress: '',
+  presentAddress: '',
+  alternatePhone: '',
+  phoneNumber: ''
+};
+
+const bankInitialValues = {
+  bankName: '',
+  branchName: '',
+  accountName: '',
+  accountNumber: '',
+  ifscCode: '',
+  panNumber: ''
+};
 
 const Profile = () => {
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
   const [tabIndex, setTabIndex] = useState(0);
   const [employeeDetails, setEmployeeDetails] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
   const { currentUser } = useSelector((state) => state.route);
   const navigate = useNavigate();
   const { setSnack } = useContext(SnackbarContext);
@@ -39,6 +66,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    console.log('====== useEffect');
     getEmployeeDetails();
   }, []);
 
@@ -95,6 +123,8 @@ const Profile = () => {
 
   const handleSetTabIndex = (event, newValue) => setTabIndex(newValue);
 
+  const handleIsEdit = () => setIsEdit(!isEdit);
+
   return (
     employeeDetails !== null && (
       <Box>
@@ -108,25 +138,57 @@ const Profile = () => {
             onSubmitProfile(value, true);
           }}
         />
-        <Box mt={3}>
-          {tabIndex === 0 && (
-            <PersonalDetails
-              employeeProfileDetails={employeeDetails}
-              onFormSubmit={(data) => {
-                onSubmitProfile(data);
-              }}
-            />
-          )}
-          {tabIndex === 1 && (
-            <BankInfo
-              employeeBankDetails={employeeDetails}
-              onFormSubmit={(data) => {
-                onSubmitProfile(data);
-              }}
-            />
-          )}
-          {/* {tabIndex === 2 && <SalaryDetails />} */}
-        </Box>
+        <Card sx={{ marginTop: 10 }}>
+          <Formik
+            enableReinitialize
+            initialValues={tabIndex === 0 ? profileInitialValues : bankInitialValues}
+            onSubmit={(values) => {
+              onSubmitProfile(values, false);
+            }}
+            validationSchema={tabIndex === 0 ? profileSchema : bankFormSchema}
+          >
+            {(props) => (
+              <form onSubmit={props.handleSubmit}>
+                <Grid container p={2} alignItems="center" justifyContent="space-between">
+                  <Grid item>
+                    <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
+                      My Account
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    {isEdit ? (
+                      <Button type="submit" color="info" variant="contained">
+                        Save
+                      </Button>
+                    ) : (
+                      <Button
+                        color="info"
+                        variant="contained"
+                        onClick={() => handleIsEdit()}
+                        type="button"
+                      >
+                        Edit
+                      </Button>
+                    )}
+                  </Grid>
+                </Grid>
+                <Box mt={3}>
+                  {tabIndex === 0 && (
+                    <PersonalDetails
+                      props={props}
+                      employeeProfileDetails={employeeDetails}
+                      isEdit={isEdit}
+                    />
+                  )}
+                  {tabIndex === 1 && (
+                    <BankInfo employeeBankDetails={employeeDetails} props={props} isEdit={isEdit} />
+                  )}
+                  {/* {tabIndex === 2 && <SalaryDetails />} */}
+                </Box>
+              </form>
+            )}
+          </Formik>
+        </Card>
       </Box>
     )
   );
