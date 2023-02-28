@@ -1,17 +1,18 @@
 import axios from 'axios';
 import {
-  convertFormData,
+  // convertFormData,
   queryString,
   isTokenExpire,
-  handleNetworkError
+  handleNetworkError,
+  convertFormData
 } from '../../Helpers/Global';
 import { store } from '../../Redux/store';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-export const getExpenseLists = async (data) =>
+export const getSupportTicketLists = async (data) =>
   axios({
-    url: `${API_BASE_URL}/expense?${queryString(data)}`,
+    url: `${API_BASE_URL}/employee/support-ticket//list?${queryString(data)}`,
     method: 'GET',
     headers: {
       Accept: 'application/x-www-form-urlencoded',
@@ -21,9 +22,9 @@ export const getExpenseLists = async (data) =>
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
 
-export const addNewExpense = async (data) =>
+export const addNewSupportTicket = async (data) =>
   axios({
-    url: `${API_BASE_URL}/employee/expense`,
+    url: `${API_BASE_URL}/employee/support-ticket`,
     method: 'POST',
     headers: {
       Accept: 'application/x-www-form-urlencoded',
@@ -34,9 +35,9 @@ export const addNewExpense = async (data) =>
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
 
-export const updateExpense = async (data, id) =>
+export const updateSupportTicket = async (data, id) =>
   axios({
-    url: `${API_BASE_URL}/employee/expense/${id}`,
+    url: `${API_BASE_URL}/employee/support-ticket/${id}`,
     method: 'PUT',
     headers: {
       Accept: 'application/x-www-form-urlencoded',
@@ -47,21 +48,9 @@ export const updateExpense = async (data, id) =>
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
 
-export const deleteExpense = async (id) =>
+export const getEmployeeTicketExportList = async (data) =>
   axios({
-    url: `${API_BASE_URL}/employee/expense/${id}`,
-    method: 'DELETE',
-    headers: {
-      Accept: 'application/x-www-form-urlencoded',
-      Authorization: store.getState().route.currentUser.token
-    }
-  })
-    .then(async (response) => isTokenExpire(response.json()))
-    .catch((error) => handleNetworkError(error));
-
-export const getEmployeeExpenseExportList = async (data) =>
-  axios({
-    url: `${API_BASE_URL}/expense/export?${queryString(data)}`,
+    url: `${API_BASE_URL}/employee/support-ticket/export-list?${queryString(data)}`,
     method: 'GET',
     headers: {
       Accept: 'application/x-www-form-urlencoded',

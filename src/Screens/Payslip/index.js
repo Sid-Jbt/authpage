@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, Icon, Grid, FormLabel, FormControl, CircularProgress } from '@mui/material';
-import { Check, ImportExportRounded } from '@mui/icons-material';
+import { Card, Grid, FormLabel, FormControl } from '@mui/material';
+// import { Check, ImportExportRounded } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
-import Button from 'Elements/Button';
+// import Button from 'Elements/Button';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Months, Years } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
 import payslipColumns from './data/payslipData';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
-import { getEmployeePayslipExportList, getPayslipList } from '../../APIs/Payslip';
+import { getPayslipList } from '../../APIs/Payslip';
 
-const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
+// const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
 
 const Payslip = () => {
   const { columns: prCols, adminColumns: adminPrCol } = payslipColumns;
@@ -24,16 +24,16 @@ const Payslip = () => {
 
   const [allPayslipList, setAllPayslipList] = useState([]);
   const [payslipListCount, setPayslipListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('paymentMonth');
+  const [sortKey, setSortKey] = useState('id');
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isClear, setIsClear] = useState(false);
-  const [isExport, setIsExport] = useState(false);
+  // const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
 
   const getAllPayslipList = async (
-    selectedSortKey = 'paymentMonth',
+    selectedSortKey = 'id',
     selectedSortOrder = 'asc',
     selectedPage = 0,
     text = '',
@@ -52,7 +52,6 @@ const Payslip = () => {
       year: selectedYear,
       count
     };
-
     const payslipRes = await getPayslipList(payslipData);
     const {
       status,
@@ -79,7 +78,7 @@ const Payslip = () => {
     getAllPayslipList();
   }, []);
 
-  const onClickExport = async (
+  /* const onClickExport = async (
     // selectedSortKey = 'paymentMonth',
     // selectedSortOrder = 'asc',
     // selectedPage = 0,
@@ -146,7 +145,7 @@ const Payslip = () => {
       setLoader(false);
       setIsExport(false);
     }
-  };
+  }; */
 
   const handleChangeMonth = (value) => {
     setMonth(value);
@@ -157,7 +156,7 @@ const Payslip = () => {
   };
 
   const handleChangeSearch = (event) => {
-    setSearch(event);
+    setSearch(event.target.value);
   };
 
   const handleClear = () => {
@@ -170,7 +169,7 @@ const Payslip = () => {
   const onClickSearch = () => {
     setLoader(true);
     setIsSearch(true);
-    getAllPayslipList(sortKey, sortOrder, page, search, month, year, 0);
+    getAllPayslipList(sortKey, sortOrder, page, search, month.value, year.value, 0);
   };
 
   const onPage = async (selectedPage) => {
@@ -198,6 +197,8 @@ const Payslip = () => {
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
+        {/* <Grid item xs="auto">
+          <Button color="white" variant="outlined" size="small" onClick={onClickExport}>
         <Grid item xs="auto">
           <Button
             color="white"
@@ -212,7 +213,7 @@ const Payslip = () => {
             </Icon>
             {loader && isExport ? <CircularProgress color="inherit" /> : 'Export'}
           </Button>
-        </Grid>
+        </Grid> */}
       </Grid>
       <Card
         sx={{
@@ -223,7 +224,7 @@ const Payslip = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={() => handleChangeSearch()}
+          handleSearch={handleChangeSearch}
           handleClear={() => handleClear()}
           onClickSearch={() => onClickSearch()}
           loader={loader}
