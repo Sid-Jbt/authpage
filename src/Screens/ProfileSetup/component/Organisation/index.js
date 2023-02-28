@@ -4,7 +4,7 @@ import Input from 'Elements/Input';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Avatar from 'Elements/Avatar';
-import team2 from 'Assets/Images/team-4-800x800.jpg';
+import UserPic from 'Assets/Images/no-profile.png';
 import Button from 'Elements/Button';
 import Icon from '@mui/material/Icon';
 import { Edit } from '@mui/icons-material';
@@ -57,7 +57,7 @@ const Organisation = (props) => {
                   onChange={(e) => onClickLogoUpload(e, 'small')}
                 />
                 <Avatar
-                  src={smallLogoUrl === '' ? team2 : smallLogoUrl}
+                  src={smallLogoUrl === '' ? UserPic : smallLogoUrl}
                   alt="small picture"
                   size="xxl"
                   variant="rounded"
@@ -91,7 +91,7 @@ const Organisation = (props) => {
                   onChange={(e) => onClickLogoUpload(e, 'large')}
                 />
                 <Avatar
-                  src={largeLogoUrl === '' ? team2 : largeLogoUrl}
+                  src={largeLogoUrl === '' ? UserPic : largeLogoUrl}
                   alt="large picture"
                   size="xxl"
                   variant="rounded"

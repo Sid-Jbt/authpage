@@ -25,7 +25,10 @@ const profileInitialValues = {
   permanentAddress: '',
   presentAddress: '',
   alternatePhone: '',
-  phoneNumber: '',
+  phoneNumber: ''
+};
+
+const bankInitialValues = {
   bankName: '',
   branchName: '',
   accountName: '',
@@ -136,44 +139,41 @@ const Profile = () => {
         <Card sx={{ marginTop: 10 }}>
           <Formik
             enableReinitialize
-            initialValues={profileInitialValues}
+            initialValues={tabIndex === 0 ? profileInitialValues : bankInitialValues}
             onSubmit={(values) => {
               onSubmitProfile(values, false);
             }}
             validationSchema={tabIndex === 0 ? profileSchema : bankFormSchema}
           >
-            {(props) => {
-              console.log('======', props);
-              return (
-                <form onSubmit={props.handleSubmit}>
-                  <Grid container p={2} alignItems="center" justifyContent="space-between">
-                    <Grid item>
-                      <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
-                        My Account
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Button type="submit" color="info" variant="contained">
-                        Save
-                      </Button>
-                    </Grid>
+            {(props) => (
+              <form onSubmit={props.handleSubmit}>
+                <Grid container p={2} alignItems="center" justifyContent="space-between">
+                  <Grid item>
+                    <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
+                      My Account
+                    </Typography>
                   </Grid>
-                  <Box mt={3}>
-                    {tabIndex === 0 && (
-                      <PersonalDetails
-                        props={props}
-                        employeeProfileDetails={employeeDetails}
-                        onChangeGender={() => onChangeGender()}
-                      />
-                    )}
-                    {tabIndex === 1 && (
-                      <BankInfo employeeBankDetails={employeeDetails} props={props} />
-                    )}
-                    {/* {tabIndex === 2 && <SalaryDetails />} */}
-                  </Box>
-                </form>
-              );
-            }}
+                  <Grid item>
+                    <Button type="submit" color="info" variant="contained">
+                      Save
+                    </Button>
+                  </Grid>
+                </Grid>
+                <Box mt={3}>
+                  {tabIndex === 0 && (
+                    <PersonalDetails
+                      props={props}
+                      employeeProfileDetails={employeeDetails}
+                      onChangeGender={() => onChangeGender()}
+                    />
+                  )}
+                  {tabIndex === 1 && (
+                    <BankInfo employeeBankDetails={employeeDetails} props={props} />
+                  )}
+                  {/* {tabIndex === 2 && <SalaryDetails />} */}
+                </Box>
+              </form>
+            )}
           </Formik>
         </Card>
       </Box>

@@ -16,19 +16,28 @@ import Address from './component/Address';
 import Account from './component/Account';
 import Organisation from './component/Organisation';
 
-const initialValues = {
+const orgInitialValues = {
   // workingHours: '',
-  permanentAddress: '',
+  // address: '',
+};
+
+const basicInitialValues = {
   firstName: '',
-  lastName: '',
+  lastName: ''
+};
+
+const addressInitialValues = {
+  permanentAddress: '',
+  presentAddress: ''
+};
+
+const bankInitialValues = {
   bankName: '',
   branchName: '',
   accountName: '',
   accountNumber: '',
   ifscCode: '',
-  panNumber: '',
-  // address: '',
-  presentAddress: ''
+  panNumber: ''
 };
 
 function getSteps() {
@@ -158,7 +167,19 @@ const ProfileSetup = () => {
                 <Box p={2}>
                   <Formik
                     enableReinitialize
-                    initialValues={initialValues}
+                    initialValues={
+                      role === 'admin'
+                        ? activeStep === 0
+                          ? orgInitialValues
+                          : activeStep === 1
+                          ? basicInitialValues
+                          : ''
+                        : activeStep === 0
+                        ? basicInitialValues
+                        : activeStep === 1
+                        ? addressInitialValues
+                        : bankInitialValues
+                    }
                     onSubmit={(values) => {
                       handleNext(values);
                     }}
@@ -189,18 +210,21 @@ const ProfileSetup = () => {
                             {role !== 'admin'
                               ? activeStep === 0
                                 ? 'Continue'
-                                : (activeStep === 1 && props.values.permanentAddress !== '') ||
-                                  props.values.presentAddress !== ''
-                                ? 'Continue'
-                                : activeStep === 2 &&
-                                  props.values.bankName !== '' &&
-                                  props.values.branchName !== '' &&
-                                  props.values.accountName !== '' &&
-                                  props.values.accountNumber !== '' &&
-                                  props.values.ifscCode !== '' &&
-                                  props.values.panNumber !== ''
-                                ? 'Continue'
-                                : 'SKIP'
+                                : activeStep === 1
+                                ? props.values.presentAddress === '' &&
+                                  props.values.permanentAddress === ''
+                                  ? 'Skip'
+                                  : 'Continue'
+                                : activeStep === 2
+                                ? props.values.bankName === '' &&
+                                  props.values.branchName === '' &&
+                                  props.values.accountName === '' &&
+                                  props.values.accountNumber === '' &&
+                                  props.values.ifscCode === '' &&
+                                  props.values.panNumber === ''
+                                  ? 'Skip'
+                                  : 'Continue'
+                                : 'Skip'
                               : activeStep === 0
                               ? 'Continue'
                               : activeStep === 1

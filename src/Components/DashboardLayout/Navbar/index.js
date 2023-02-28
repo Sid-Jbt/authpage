@@ -14,7 +14,7 @@ import {
 import { useState } from 'react';
 import NotificationItem from 'Elements/Item';
 
-import profileImage from 'Assets/Images/bruce-mars.jpg';
+import UserPic from 'Assets/Images/no-profile.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Breadcrumbs from 'Elements/Breadcrumbs';
 import Avatar from 'Elements/Avatar';
@@ -26,7 +26,6 @@ import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
 const DashboardNavbar = ({ isMini }) => {
   const customization = useSelector((state) => state.customization);
-  const { currentUser } = useSelector((state) => state.route);
   const themes = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,6 +37,8 @@ const DashboardNavbar = ({ isMini }) => {
   const position = useWindowPosition();
   const profileSetup = pathname !== profileSetupPattern;
 
+  console.log('======', setIsProfileComplete);
+
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
 
@@ -48,8 +49,6 @@ const DashboardNavbar = ({ isMini }) => {
   const handleProfileCircle = () => {
     navigate(getProfilePattern());
   };
-
-  console.log('currentUser', currentUser, setIsProfileComplete);
 
   const renderMenu = () => (
     <Menu
@@ -229,8 +228,8 @@ const DashboardNavbar = ({ isMini }) => {
             </Grid>
             <Grid item>
               <Avatar
-                src={profileImage}
-                alt={profileImage}
+                src={UserPic}
+                alt={UserPic}
                 size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'lg'}
                 variant="circle"
                 onClick={handleProfileMenu}

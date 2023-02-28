@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Typography from 'Elements/Typography';
-import team2 from 'Assets/Images/bruce-mars.jpg';
+import UserPic from 'Assets/Images/no-profile.png';
 import { Card, Grid, Tab, Tabs, Icon } from '@mui/material';
 import { AccountBalance, Edit, PersonOutlined } from '@mui/icons-material';
 import Avatar from 'Elements/Avatar';
@@ -44,7 +44,7 @@ const Header = ({
         <Grid item>
           <Box position="relative" height="max-content" mx="auto">
             <Avatar
-              src={profilePicUrl === '' ? team2 : profilePicUrl}
+              src={profilePicUrl === '' ? UserPic : profilePicUrl}
               alt="profile picture"
               size="xl"
               variant="rounded"

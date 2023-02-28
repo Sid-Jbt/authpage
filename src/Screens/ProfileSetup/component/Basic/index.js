@@ -9,6 +9,7 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { Edit } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
+import UserPic from 'Assets/Images/no-profile.png';
 
 const Basic = ({ props, onChangeGender }) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
@@ -67,7 +68,12 @@ const Basic = ({ props, onChangeGender }) => {
                   onChange={(e) => profilePicUpload(e)}
                   name="profilePic"
                 />
-                <Avatar src={profilePicUrl} alt="profile picture" size="xxl" variant="rounded" />
+                <Avatar
+                  src={profilePicUrl === '' ? UserPic : profilePicUrl}
+                  alt="profile picture"
+                  size="xxl"
+                  variant="rounded"
+                />
                 <Box alt="spotify logo" position="absolute" right={0} bottom={0} mr={-1} mb={-1}>
                   <Button
                     variant="gradient"
