@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import breakpoints from 'Theme/base/breakpoints';
@@ -45,6 +45,7 @@ const Profile = () => {
   const { currentUser } = useSelector((state) => state.route);
   const navigate = useNavigate();
   const { setSnack } = useContext(SnackbarContext);
+  const formikRef = useRef();
 
   useEffect(() => {
     function handleTabsOrientation() {
@@ -67,7 +68,7 @@ const Profile = () => {
 
   useEffect(() => {
     getEmployeeDetails();
-  }, []);
+  }, [tabIndex]);
 
   const onSubmitProfile = async (data = null, isProfilePic = false) => {
     const res = {};
@@ -144,6 +145,7 @@ const Profile = () => {
               onSubmitProfile(values, false);
             }}
             validationSchema={tabIndex === 0 ? profileSchema : bankFormSchema}
+            innerRef={formikRef}
           >
             {(props) => (
               <form onSubmit={props.handleSubmit}>
