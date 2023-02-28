@@ -17,13 +17,13 @@ import { SnackbarContext } from '../../Context/SnackbarProvider';
 const initialValues = {
   fromDate: moment().format('YYYY-MM-DD'),
   toDate: moment().format('YYYY-MM-DD'),
-  leaveTypeReason: ''
+  leaveReason: ''
 };
 
 const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isEdit, title }) => {
   const [leaveType, setLeaveType] = useState(leave[0]);
   const [selectType, setSelectType] = useState(leaveTypes[0]);
-  const [leaveTypeReason, setLeaveTypeReason] = useState('');
+  const [leaveReason, setLeaveReason] = useState('');
   const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
   const [loader, setLoader] = useState(false);
@@ -45,7 +45,7 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
     } else {
       initialValues.fromDate = moment().format('YYYY-MM-DD');
       initialValues.toDate = moment().format('YYYY-MM-DD');
-      initialValues.leaveTypeReason = '';
+      initialValues.leaveReason = '';
       setData(initialValues);
     }
   }, [selectedData]);
@@ -58,14 +58,11 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
     setSelectType(selectedLeave);
   };
 
-  const handleChangeLeaveTypeReason = (value) => {
-    setLeaveTypeReason(value);
+  const handleChangeLeaveReason = (value) => {
+    setLeaveReason(value);
   };
 
   const onSubmitNewLeave = async (formData) => {
-    // console.log('formData ->', formData, leaveType, selectType)
-    // console.log('updatedFormData -> ', updatedFormData)
-
     let updatedFormData = {};
     let leaveRes;
 
@@ -76,7 +73,7 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
         selectType: selectType.label,
         fromDate: formData.fromDate,
         toDate: formData.fromDate,
-        reason: leaveTypeReason
+        reason: leaveReason
       };
     } else {
       updatedFormData = {
@@ -84,8 +81,10 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
         selectType: selectType.label,
         fromDate: formData.fromDate,
         toDate: formData.toDate,
-        reason: leaveTypeReason
+        reason: leaveReason
       };
+      console.log('formData ->', formData, leaveType, selectType);
+      console.log('updatedFormData -> ', updatedFormData);
     }
 
     setLoader(true);
@@ -213,9 +212,11 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                         label="Leave Reason"
                         id="leaveReason"
                         name="leaveReason"
-                        value={leaveTypeReason}
+                        value={leaveReason}
                         backgroundContainerColor="white"
-                        onChange={(value) => handleChangeLeaveTypeReason(value)}
+                        onChange={(value) => {
+                          handleChangeLeaveReason(value);
+                        }}
                         modules={Editor.modules}
                         formats={Editor.formats}
                       />

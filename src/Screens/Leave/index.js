@@ -13,6 +13,7 @@ import DialogMenu from '../../Elements/Dialog';
 import ViewLeaveDetails from './ViewLeaveDetails';
 import { getLeaveLists } from '../../APIs/Leave';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
+import Badge from '../../Elements/Badge';
 
 const Leave = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
@@ -43,6 +44,8 @@ const Leave = () => {
     selectedSortOrder = 'asc',
     selectedPage = 0,
     text = '',
+    startDate = '',
+    endDate = '',
     count = 0,
     dataLimit = limit
   ) => {
@@ -52,8 +55,11 @@ const Leave = () => {
       sortKey: selectedSortKey.toLowerCase(),
       sortOrder: selectedSortOrder.toLowerCase(),
       search: text,
+      startDate,
+      endDate,
       count
     };
+
     const leaveRes = await getLeaveLists(leaveData);
     const {
       status,
@@ -61,22 +67,41 @@ const Leave = () => {
       message
     } = leaveRes;
     if (status) {
-      setAllLeaveList(rows);
+      const leaveStatusData = rows.map((rowId) => ({
+        ...rowId,
+        status: (
+          <Badge
+            variant="gradient"
+            badgeContent={rowId.status}
+            color={
+              rowId.status === 'pending'
+                ? 'warning'
+                : rowId.status === 'approved'
+                ? 'success'
+                : 'error'
+            }
+            size="xs"
+            container
+            customWidth={100}
+          />
+        )
+      }));
+      setAllLeaveList(leaveStatusData);
       setCounts(leaveRes.data.count);
       setLeaveListCount(leaveRes.data.count.total);
       setLoader(false);
+      setIsSearch(false);
     } else {
       setSnack({
         title: 'Error',
         message,
         time: false,
-        color: 'success',
+        color: 'error',
         open: true
       });
       setLoader(false);
     }
   };
-  console.log('Counts', counts);
 
   useEffect(() => {
     getAllLeaveList();
@@ -100,11 +125,18 @@ const Leave = () => {
   };
 
   const onClickView = (row) => {
-    delete row.id;
-    delete row.createdAt;
-    setSelectedData(row);
+    const setViewData = {
+      leaveType: row.leaveType,
+      selectType: row.selectType,
+      fromDate: row.fromDate,
+      toDate: row.toDate,
+      noOfDays: row.noOfDays,
+      apporvedBy: row.approvedBy,
+      status: row.status,
+      reason: row.reason.replace(/(<([^>]+)>)/gi, '')
+    };
+    setSelectedData(setViewData);
     setIsViewLeaveDialogOpen(true);
-    setSelectedData(row);
     handleOpenDialog();
   };
 
@@ -130,7 +162,7 @@ const Leave = () => {
   const onClickSearch = () => {
     setLoader(true);
     setIsSearch(true);
-    getAllLeaveList(sortKey, sortOrder, page, search, 0);
+    getAllLeaveList(sortKey, sortOrder, page, search, fromDate, toDate, 0);
   };
 
   const onPage = async (selectedPage) => {
@@ -140,7 +172,7 @@ const Leave = () => {
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
-    await getAllLeaveList(sortKey, sortOrder, 0, '', '', selectedLimit);
+    await getAllLeaveList(sortKey, sortOrder, 0, '', '', '', selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {
@@ -151,47 +183,45 @@ const Leave = () => {
 
   useEffect(() => {
     if (isClear) {
-      getAllLeaveList(sortKey, sortOrder, page, '');
+      getAllLeaveList(sortKey, sortOrder, page, '', fromDate, toDate);
     }
   }, [isClear]);
 
   return (
     <>
       <Grid container spacing={3} mb={3}>
-        <>
-          <Grid item xs={12} md={6} lg={3}>
-            <LeaveCard
-              title="Total Leave"
-              count={counts && counts.total}
-              icon={{ color: 'info', component: <CalendarMonth /> }}
-              isPercentage={false}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <LeaveCard
-              title="Medical Leave"
-              count={counts && counts.medicalLeave}
-              icon={{ color: 'warning', component: <Vaccines /> }}
-              isPercentage={false}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <LeaveCard
-              title="Other Leave"
-              count={counts && counts.otherLeave}
-              icon={{ color: 'primary', component: <Celebration /> }}
-              isPercentage={false}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <LeaveCard
-              title="Remaining Leave"
-              count={counts && counts.remainingLeave}
-              icon={{ color: 'success', component: <DirectionsRun /> }}
-              isPercentage={false}
-            />
-          </Grid>
-        </>
+        <Grid item xs={12} md={6} lg={3}>
+          <LeaveCard
+            title="Total Leave"
+            count={counts && counts.total}
+            icon={{ color: 'info', component: <CalendarMonth /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <LeaveCard
+            title="Medical Leave"
+            count={counts && counts.medicalLeave}
+            icon={{ color: 'warning', component: <Vaccines /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <LeaveCard
+            title="Other Leave"
+            count={counts && counts.otherLeave}
+            icon={{ color: 'primary', component: <Celebration /> }}
+            isPercentage={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <LeaveCard
+            title="Remaining Leave"
+            count={counts && counts.remainingLeave}
+            icon={{ color: 'success', component: <DirectionsRun /> }}
+            isPercentage={false}
+          />
+        </Grid>
       </Grid>
       {role !== 'admin' && (
         <>
@@ -211,7 +241,7 @@ const Leave = () => {
                 <Icon sx={{ mr: 1 }}>
                   <Add />
                 </Icon>
-                Apply
+                APPLY
               </Button>
             </Grid>
           </Grid>

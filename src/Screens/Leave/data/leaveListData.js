@@ -2,7 +2,7 @@ import Badge from 'Elements/Badge';
 
 const leaveListData = {
   columns: [
-    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    // { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
     { name: 'leaveType', align: 'center', headerName: 'Leave', mobileHeader: 'Leave' },
     { name: 'selectType', align: 'center', headerName: 'Leave Type', mobileHeader: 'Type' },
     { name: 'fromDate', align: 'center', headerName: 'From', mobileHeader: 'From' },
@@ -14,7 +14,7 @@ const leaveListData = {
   ],
 
   adminColumns: [
-    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    // { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
     { name: 'leaveType', align: 'center', headerName: 'Leave', mobileHeader: 'Leave' },
     { name: 'selectType', align: 'center', headerName: 'Leave Type', mobileHeader: 'Type' },
     { name: 'fromDate', align: 'center', headerName: 'From', mobileHeader: 'From' },
