@@ -4,8 +4,9 @@ import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import { Grid } from '@mui/material';
 
-const Address = (props) => {
-  const { values, touched, errors, handleChange, handleBlur } = props.props;
+const Address = ({ props }) => {
+  const { values, touched, errors, handleChange, handleBlur } = props;
+
   return (
     <Box>
       <Box width="80%" textAlign="center" mx="auto" mb={4}>
@@ -27,15 +28,17 @@ const Address = (props) => {
                 placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
                 size="medium"
                 fullWidth
-                id="address"
-                name="address"
+                id="permanentAddress"
+                name="permanentAddress"
                 label="Permanent Address"
-                value={values.address}
+                value={values.permanentAddress}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                errorText={errors.address && touched.address && errors.address}
-                error={errors.address && touched.address}
-                success={errors.address && touched.address}
+                errorText={
+                  errors.permanentAddress && touched.permanentAddress && errors.permanentAddress
+                }
+                error={errors.permanentAddress && touched.permanentAddress}
+                success={errors.permanentAddress && touched.permanentAddress}
               />
             </Box>
           </Grid>
@@ -46,15 +49,15 @@ const Address = (props) => {
                 placeholder="eg. 1303, Shivalik Shilp, Iskcon Cross Rd, Sanidhya, Ahmedabad, Gujarat 380015"
                 size="medium"
                 fullWidth
-                id="currentAdd"
-                name="currentAdd"
+                id="presentAddress"
+                name="presentAddress"
                 label="Current Address"
-                value={values.currentAdd}
+                value={values.presentAddress}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                errorText={errors.currentAdd && touched.currentAdd && errors.currentAdd}
-                error={errors.currentAdd && touched.currentAdd}
-                success={errors.currentAdd && touched.currentAdd}
+                errorText={errors.presentAddress && touched.presentAddress && errors.presentAddress}
+                error={errors.presentAddress && touched.presentAddress}
+                success={errors.presentAddress && touched.presentAddress}
               />
             </Box>
           </Grid>
