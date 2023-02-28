@@ -28,7 +28,7 @@ const setYears = (item) => {
   return year;
 };
 
-export const Years = yearsArray.map(setYears);
+export const Years = yearsArray.map(setYears).reverse();
 
 export const Roles = [
   { value: 'all', label: 'All' },
