@@ -2,7 +2,7 @@ import Badge from 'Elements/Badge';
 
 const expenseListData = {
   columns: [
-    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    /* { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' }, */
     { name: 'itemName', align: 'center', headerName: 'Item Name', mobileHeader: 'Item' },
     { name: 'purchaseFrom', align: 'center', headerName: 'Purchase From', mobileHeader: 'From' },
     { name: 'purchaseDate', align: 'center', headerName: 'Purchase Date', mobileHeader: 'Date' },
@@ -11,7 +11,7 @@ const expenseListData = {
   ],
 
   adminColumns: [
-    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    /* { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' }, */
     { name: 'itemName', align: 'center', headerName: 'Item Name', mobileHeader: 'Item' },
     { name: 'name', align: 'left', headerName: 'Name', mobileHeader: 'Name' },
     { name: 'purchaseFrom', align: 'center', headerName: 'Purchase From', mobileHeader: 'From' },

@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, Grid, Icon, CircularProgress } from '@mui/material';
+import { Card, Grid, Icon } from '@mui/material';
 import {
   Add,
-  Check,
-  ImportExportRounded,
+  // Check,
+  // ImportExportRounded,
   PendingTwoTone,
   SummarizeRounded,
   ThumbDown,
@@ -11,6 +11,7 @@ import {
 } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
+import Badge from 'Elements/Badge';
 import { useSelector } from 'react-redux';
 import DialogMenu from 'Elements/Dialog';
 import expenseListData from './data/expenseListData';
@@ -20,15 +21,9 @@ import ViewExpenseDetails from './ViewExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
 import DeleteDialog from '../../Components/DeleteDialog';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
-import {
-  getAllExpenseCount,
-  getExpenseLists,
-  getEmployeeExpenseExportList,
-  deleteExpense
-} from '../../APIs/Expense';
-import Badge from '../../Elements/Badge';
+import { getExpenseLists, deleteExpense } from '../../APIs/Expense';
 
-const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
+// const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
 const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
   const { role } = useSelector((state) => state.route);
@@ -51,24 +46,8 @@ const Expense = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isClear, setIsClear] = useState(false);
-  const [isExport, setIsExport] = useState(false);
+  // const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
-
-  const getAllExpenseCounts = async () => {
-    let empExpenseCountData;
-    if (role === 'admin') {
-      empExpenseCountData = {
-        Total: 0,
-        Approved: 0,
-        Reject: 0,
-        Pending: 0
-      };
-      setCounts(empExpenseCountData);
-    } else {
-      empExpenseCountData = await getAllExpenseCount();
-      setCounts(empExpenseCountData.data);
-    }
-  };
 
   const getAllExpenseList = async (
     selectedSortKey = 'itemName',
@@ -86,13 +65,8 @@ const Expense = () => {
       search: text,
       count
     };
-    let expenseRes;
-    if (role === 'admin') {
-      // Replace admin api with getExpenseLists
-      // expenseRes = await getExpenseLists(expenseData);
-    } else {
-      expenseRes = await getExpenseLists(expenseData);
-    }
+
+    const expenseRes = await getExpenseLists(expenseData);
     const {
       status,
       data: { rows },
@@ -118,9 +92,11 @@ const Expense = () => {
           />
         )
       }));
+      setCounts(expenseRes.data.count);
       setAllExpenseList(expenseStatusData);
-      setExpenseListCount(expenseRes.data.count);
+      setExpenseListCount(expenseRes.data.count.total);
       setLoader(false);
+      setIsSearch(false);
     } else {
       setSnack({
         title: 'Error',
@@ -134,7 +110,6 @@ const Expense = () => {
   };
 
   useEffect(() => {
-    getAllExpenseCounts();
     getAllExpenseList();
   }, [isDialogOpen, isDeleteDialogOpen]);
 
@@ -201,7 +176,7 @@ const Expense = () => {
     handleDialogClose();
   };
 
-  // Need to rectify file export
+  /* // Need to rectify file export
   const onClickExport = async (
     // selectedSortKey = 'itemName',
     // selectedSortOrder = 'asc',
@@ -265,7 +240,7 @@ const Expense = () => {
       setLoader(false);
       setIsExport(false);
     }
-  };
+  }; */
 
   const onClickSearch = () => {
     setLoader(true);
@@ -291,7 +266,6 @@ const Expense = () => {
 
   useEffect(() => {
     if (isClear) {
-      getAllExpenseCounts();
       getAllExpenseList(sortKey, sortOrder, page, '');
       onDelete();
     }
@@ -303,7 +277,7 @@ const Expense = () => {
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
             title="Total Expense"
-            count={counts && counts.Total}
+            count={counts && counts.total}
             icon={{ color: 'success', component: <SummarizeRounded /> }}
             isPercentage={false}
           />
@@ -311,7 +285,7 @@ const Expense = () => {
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
             title="Approved"
-            count={counts && counts.Approved}
+            count={counts && counts.approved}
             icon={{ color: 'success', component: <ThumbUpAlt /> }}
             isPercentage={false}
           />
@@ -319,7 +293,7 @@ const Expense = () => {
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
             title="Declined"
-            count={counts && counts.Reject}
+            count={counts && counts.rejected}
             icon={{ color: 'error', component: <ThumbDown /> }}
             isPercentage={false}
           />
@@ -327,7 +301,7 @@ const Expense = () => {
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
             title="Pending"
-            count={counts && counts.Pending}
+            count={counts && counts.pending}
             icon={{ color: 'info', component: <PendingTwoTone /> }}
             isPercentage={false}
           />
@@ -354,7 +328,7 @@ const Expense = () => {
             </Button>
           </Grid>
         )}
-        <Grid item xs="auto">
+        {/* <Grid item xs="auto">
           <Button
             sx={({ breakpoints, palette: { dark } }) =>
               ({
@@ -376,7 +350,7 @@ const Expense = () => {
             </Icon>
             {loader && isExport ? <CircularProgress color="inherit" /> : 'Export'}
           </Button>
-        </Grid>
+        </Grid> */}
       </Grid>
       <Card
         sx={{
