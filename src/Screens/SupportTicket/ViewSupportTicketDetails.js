@@ -12,13 +12,15 @@ const ViewSupportTicketDetails = ({ info }) => {
 
   // Convert this form `objectKey` of the object key in to this `object key`
   Object.keys(info).forEach((el) => {
-    if (el.match(/[A-Z\s]+/)) {
-      const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
-      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
+    if (el !== 'message') {
+      if (el.match(/[A-Z\s]+/)) {
+        const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
+        const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
 
-      labels.push(newElement);
-    } else {
-      labels.push(el);
+        labels.push(newElement);
+      } else {
+        labels.push(el);
+      }
     }
   });
 
@@ -50,7 +52,7 @@ const ViewSupportTicketDetails = ({ info }) => {
             type="textarea"
             placeholder="Please Enter the message of approve or reject"
             label="Message"
-            value={renderItems.message}
+            value={info.message}
             multiline
             rows={5}
             errorFalse
