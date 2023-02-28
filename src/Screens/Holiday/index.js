@@ -132,6 +132,7 @@ const Holiday = () => {
   const handleClear = () => {
     setSearch('');
     setIsClear(!isClear);
+    getAllHolidayList(sortKey, sortOrder, page, '');
   };
 
   useEffect(() => {
