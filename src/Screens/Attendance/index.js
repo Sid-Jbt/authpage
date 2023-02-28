@@ -146,6 +146,7 @@ const AttendanceList = () => {
     setYear('');
     setSearch('');
     setIsClear(!isClear);
+    getAllAttendanceList(sortKey, sortOrder, page, '');
   };
 
   const onClickSearch = () => {
@@ -176,7 +177,6 @@ const AttendanceList = () => {
     }
   }, [isClear]);
 
-  console.log('Admin  counts --> ', counts);
   return (
     <>
       <Grid container spacing={3} mb={3}>

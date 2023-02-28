@@ -280,6 +280,7 @@ const supportTicket = () => {
     setIsStatus('');
     setSearch('');
     setIsClear(!isClear);
+    getAllSupportTicketList(sortKey, sortOrder, page, '', selectDate);
   };
   const onClickSearch = () => {
     setLoader(true);

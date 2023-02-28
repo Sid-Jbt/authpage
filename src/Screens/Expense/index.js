@@ -111,7 +111,7 @@ const Expense = () => {
 
   useEffect(() => {
     getAllExpenseList();
-  }, [isDialogOpen, isDeleteDialogOpen]);
+  }, [isDialogOpen]);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -165,6 +165,7 @@ const Expense = () => {
   const handleClear = () => {
     setSearch('');
     setIsClear(!isClear);
+    getAllExpenseList(sortKey, sortOrder, page, '');
   };
 
   const handleDialogClose = () => {
@@ -267,7 +268,6 @@ const Expense = () => {
   useEffect(() => {
     if (isClear) {
       getAllExpenseList(sortKey, sortOrder, page, '');
-      onDelete();
     }
   }, [isClear]);
 
