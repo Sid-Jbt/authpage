@@ -182,13 +182,11 @@ const AddSupportTicketDialog = ({
                         label="MESSAGE"
                         id="message"
                         name="message"
-                        value={messageBody}
+                        value={values.message}
                         backgroundContainerColor="white"
                         onChange={(value) => {
                           handleChangeMessage(value);
                         }}
-                        modules={Editor.modules}
-                        formats={Editor.formats}
                       />
                     </Box>
                   </Grid>
