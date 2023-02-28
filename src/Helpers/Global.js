@@ -127,11 +127,8 @@ export const Department = [
 ];
 
 export const EventsType = [
-  { value: 'success', label: 'Success' },
-  { value: 'info', label: 'Info' },
-  { value: 'warning', label: 'Warning' },
-  { value: 'error', label: 'Error' },
-  { value: 'primary', label: 'Primary' }
+  { value: 'notice', label: 'Notice' },
+  { value: 'event', label: 'Event' }
 ];
 
 export const EmployeeRoleList = [
