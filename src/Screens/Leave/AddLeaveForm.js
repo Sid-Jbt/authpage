@@ -11,6 +11,7 @@ import Select from 'Elements/Select';
 import Editor from 'Elements/Editor';
 import { leaveTypes, leave } from 'Helpers/Global';
 import { Check, Error } from '@mui/icons-material';
+import { formatDate } from '@fullcalendar/react';
 import { addNewLeave, updateLeave } from '../../APIs/Leave';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
 
@@ -23,7 +24,6 @@ const initialValues = {
 const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isEdit, title }) => {
   const [leaveType, setLeaveType] = useState(leave[0]);
   const [selectType, setSelectType] = useState(leaveTypes[0]);
-  const [leaveReason, setLeaveReason] = useState('');
   const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
   const [loader, setLoader] = useState(false);
@@ -58,13 +58,10 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
     setSelectType(selectedLeave);
   };
 
-  const handleChangeLeaveReason = (value) => {
-    setLeaveReason(value);
-  };
-
   const onSubmitNewLeave = async (formData) => {
     let updatedFormData = {};
     let leaveRes;
+    console.log('formData', formData);
 
     // if(formData.leaveReason === undefined || formData.leaveReason === null){
     if (selectType.value === 'halfDay') {
@@ -73,7 +70,7 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
         selectType: selectType.label,
         fromDate: formData.fromDate,
         toDate: formData.fromDate,
-        reason: leaveReason
+        reason: formData.leaveReason
       };
     } else {
       updatedFormData = {
@@ -81,11 +78,12 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
         selectType: selectType.label,
         fromDate: formData.fromDate,
         toDate: formData.toDate,
-        reason: leaveReason
+        reason: formData.leaveReason
       };
-      console.log('formData ->', formData, leaveType, selectType);
-      console.log('updatedFormData -> ', updatedFormData);
     }
+
+    console.log('formData', formatDate);
+    console.log('updatedFormData', updatedFormData);
 
     setLoader(true);
     if (isEdit) {
@@ -137,7 +135,15 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
           validationSchema={leaveFormSchema}
         >
           {(props) => {
-            const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+            const {
+              values,
+              touched,
+              errors,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              setFieldValue
+            } = props;
             return (
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={1} justifyContent="space-between">
@@ -212,13 +218,11 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                         label="Leave Reason"
                         id="leaveReason"
                         name="leaveReason"
-                        value={leaveReason}
+                        value={values.leaveReason}
                         backgroundContainerColor="white"
                         onChange={(value) => {
-                          handleChangeLeaveReason(value);
+                          setFieldValue('leaveReason', value);
                         }}
-                        modules={Editor.modules}
-                        formats={Editor.formats}
                       />
                     </Box>
                   </Grid>

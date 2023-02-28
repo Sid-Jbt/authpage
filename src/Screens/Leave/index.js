@@ -157,6 +157,7 @@ const Leave = () => {
     setToDate('');
     setSearch('');
     setIsClear(!isClear);
+    getAllLeaveList(sortKey, sortOrder, page, '', fromDate, toDate);
   };
 
   const onClickSearch = () => {
