@@ -17,21 +17,19 @@ import Account from './component/Account';
 import Organisation from './component/Organisation';
 
 const orgInitialValues = {
-  // workingHours: '',
-  // address: '',
-};
-
-const basicInitialValues = {
+  workingHours: '',
+  organizationAddress: '',
   firstName: '',
-  lastName: ''
-};
-
-const addressInitialValues = {
+  lastName: '',
   permanentAddress: '',
   presentAddress: ''
 };
 
-const bankInitialValues = {
+const employeeInitialValues = {
+  firstName: '',
+  lastName: '',
+  permanentAddress: '',
+  presentAddress: '',
   bankName: '',
   branchName: '',
   accountName: '',
@@ -167,19 +165,7 @@ const ProfileSetup = () => {
                 <Box p={2}>
                   <Formik
                     enableReinitialize
-                    initialValues={
-                      role === 'admin'
-                        ? activeStep === 0
-                          ? orgInitialValues
-                          : activeStep === 1
-                          ? basicInitialValues
-                          : ''
-                        : activeStep === 0
-                        ? basicInitialValues
-                        : activeStep === 1
-                        ? addressInitialValues
-                        : bankInitialValues
-                    }
+                    initialValues={role === 'admin' ? orgInitialValues : employeeInitialValues}
                     onSubmit={(values) => {
                       handleNext(values);
                     }}
@@ -230,8 +216,8 @@ const ProfileSetup = () => {
                               : activeStep === 1
                               ? 'Continue'
                               : activeStep === 2 &&
-                                props.values.permanentAddress !== '' &&
-                                props.values.presentAddress !== ''
+                                props.values.presentAddress === '' &&
+                                props.values.permanentAddress === ''
                               ? 'Continue'
                               : 'Skip'}
                           </Button>

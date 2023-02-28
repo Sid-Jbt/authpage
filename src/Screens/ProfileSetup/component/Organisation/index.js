@@ -130,15 +130,19 @@ const Organisation = (props) => {
                 placeholder="1303, Shivalik Shilp, Iskcon Cross Rd Ahmedabad"
                 size="medium"
                 fullWidth
-                id="permanentAdd"
-                name="permanentAdd"
-                label="Permanent Address"
-                value={values.permanentAdd}
+                id="organizationAddress"
+                name="organizationAddress"
+                label="Organisation Address"
+                value={values.organizationAddress}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                errorText={errors.permanentAdd && touched.permanentAdd && errors.permanentAdd}
-                error={errors.permanentAdd && touched.permanentAdd}
-                success={!errors.permanentAdd && touched.permanentAdd}
+                errorText={
+                  errors.organizationAddress &&
+                  touched.organizationAddress &&
+                  errors.organizationAddress
+                }
+                error={errors.organizationAddress && touched.organizationAddress}
+                success={!errors.organizationAddress && touched.organizationAddress}
               />
             </Box>
           </Grid>
