@@ -175,7 +175,7 @@ const supportTicket = () => {
         department: viewData.department,
         priority: viewData.priority,
         status: viewData.status,
-        message: viewData.message
+        message: viewData.message.replace(/(<([^>]+)>)/gi, '')
       };
       setSelectedData(setViewData);
       setIsViewSupportTicketDialogOpen(true);
@@ -497,7 +497,7 @@ const supportTicket = () => {
         <DialogMenu
           isOpen={isSupportTicketDialogOpen || isViewSupportTicketDialogOpen}
           onClose={isSupportTicketDialogOpen ? handleCloseDialog : handleCloseViewDialog}
-          dialogTitle={`Expense Details: ${selectedData.subject}`}
+          dialogTitle={`Ticket Details: ${selectedData.subject}`}
           dialogContent={<ViewSupportTicketDetails info={selectedData} />}
           dialogAction={
             role === 'admin' && (
