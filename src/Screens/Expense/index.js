@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, Grid, Icon, CircularProgress } from '@mui/material';
+import { Card, Grid, Icon } from '@mui/material';
 import {
   Add,
-  Check,
-  ImportExportRounded,
+  // Check,
+  // ImportExportRounded,
   PendingTwoTone,
   SummarizeRounded,
   ThumbDown,
@@ -21,9 +21,9 @@ import ViewExpenseDetails from './ViewExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
 import DeleteDialog from '../../Components/DeleteDialog';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
-import { getExpenseLists, getEmployeeExpenseExportList, deleteExpense } from '../../APIs/Expense';
+import { getExpenseLists, deleteExpense } from '../../APIs/Expense';
 
-const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
+// const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
 const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
   const { role } = useSelector((state) => state.route);
@@ -46,7 +46,7 @@ const Expense = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isClear, setIsClear] = useState(false);
-  const [isExport, setIsExport] = useState(false);
+  // const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
 
   const getAllExpenseList = async (
@@ -176,7 +176,7 @@ const Expense = () => {
     handleDialogClose();
   };
 
-  // Need to rectify file export
+  /* // Need to rectify file export
   const onClickExport = async (
     // selectedSortKey = 'itemName',
     // selectedSortOrder = 'asc',
@@ -240,7 +240,7 @@ const Expense = () => {
       setLoader(false);
       setIsExport(false);
     }
-  };
+  }; */
 
   const onClickSearch = () => {
     setLoader(true);
@@ -328,7 +328,7 @@ const Expense = () => {
             </Button>
           </Grid>
         )}
-        <Grid item xs="auto">
+        {/* <Grid item xs="auto">
           <Button
             sx={({ breakpoints, palette: { dark } }) =>
               ({
@@ -350,7 +350,7 @@ const Expense = () => {
             </Icon>
             {loader && isExport ? <CircularProgress color="inherit" /> : 'Export'}
           </Button>
-        </Grid>
+        </Grid> */}
       </Grid>
       <Card
         sx={{

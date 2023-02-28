@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, CircularProgress, FormControl, FormLabel, Grid, Icon } from '@mui/material';
+import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
 import {
   Add,
-  Check,
-  ImportExportRounded,
+  // Check,
+  // ImportExportRounded,
   Pending,
   SummarizeRounded,
   ThumbDown,
@@ -24,9 +24,9 @@ import DeleteDialog from '../../Components/DeleteDialog';
 import DialogMenu from '../../Elements/Dialog';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
-import { getEmployeeTicketExportList, getSupportTicketLists } from '../../APIs/SupportTicket';
+import { getSupportTicketLists } from '../../APIs/SupportTicket';
 
-const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
+// const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
 
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
@@ -53,7 +53,7 @@ const supportTicket = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isClear, setIsClear] = useState(false);
-  const [isExport, setIsExport] = useState(false);
+  // const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
 
   const getAllSupportTicketList = async (
@@ -201,7 +201,7 @@ const supportTicket = () => {
     setPriority(value);
   };
 
-  const onClickExport = async (
+  /* const onClickExport = async (
     selectedSortKey = 'createdAt',
     selectedSortOrder = 'asc',
     selectedPage = 0,
@@ -264,7 +264,7 @@ const supportTicket = () => {
       setLoader(false);
       setIsExport(false);
     }
-  };
+  }; */
 
   const handleChangeStartDate = (event) => {
     setSelectDate(event.target.value);
@@ -375,7 +375,7 @@ const supportTicket = () => {
             </Button>
           </Grid>
         )}
-        <Grid item xs="auto">
+        {/* <Grid item xs="auto">
           <Button
             sx={({ breakpoints, palette: { dark } }) => ({
               [breakpoints.down('xl' && 'lg')]: {
@@ -394,7 +394,7 @@ const supportTicket = () => {
             </Icon>
             {loader && isExport ? <CircularProgress color="inherit" /> : 'Export'}
           </Button>
-        </Grid>
+        </Grid> */}
       </Grid>
       <Card
         sx={{
