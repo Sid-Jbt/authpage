@@ -2,7 +2,7 @@ import Badge from 'Elements/Badge';
 
 const supportTicketData = {
   columns: [
-    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    /* { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' }, */
     { name: 'subject', align: 'center', headerName: 'Subject', mobileHeader: 'Subject' },
     { name: 'ticketDate', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
     { name: 'priority', align: 'center', headerName: 'Priority', mobileHeader: 'Priority' },
@@ -10,7 +10,7 @@ const supportTicketData = {
   ],
 
   adminColumns: [
-    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    /*  { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' }, */
     { name: 'username', align: 'center', headerName: 'User Name', mobileHeader: 'Name' },
     { name: 'subject', align: 'center', headerName: 'Subject', mobileHeader: 'Subject' },
     { name: 'ticketDate', align: 'center', headerName: 'Date', mobileHeader: 'Date' },

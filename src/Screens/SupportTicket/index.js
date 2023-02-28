@@ -49,7 +49,7 @@ const supportTicket = () => {
   const [allSpTicketList, setAllSpTicketList] = useState([]);
   const [spTicketListCount, setSpTicketListCount] = useState(0);
   const [sortKey, setSortKey] = useState('createdAt');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrder, setSortOrder] = useState('desc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isClear, setIsClear] = useState(false);
@@ -58,7 +58,7 @@ const supportTicket = () => {
 
   const getAllSupportTicketList = async (
     selectedSortKey = 'createdAt',
-    selectedSortOrder = 'asc',
+    selectedSortOrder = 'desc',
     selectedPage = 0,
     text = '',
     date = '',
@@ -70,10 +70,10 @@ const supportTicket = () => {
     const ticketsData = {
       limit: dataLimit,
       page: selectedPage,
-      sortKey: selectedSortKey.toLowerCase(),
+      sortKey: selectedSortKey,
       sortOrder: selectedSortOrder.toLowerCase(),
       search: text,
-      selectDate: date,
+      startDate: date,
       priority: selectedPriority,
       isStatus: selectedStatus,
       count
