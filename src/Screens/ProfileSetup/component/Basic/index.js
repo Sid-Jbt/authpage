@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import moment from 'moment';
 import { FormControlLabel, Grid, RadioGroup, Radio, useTheme, FormLabel } from '@mui/material';
 import Icon from '@mui/material/Icon';
 import Box from 'Elements/Box';
@@ -6,21 +7,40 @@ import Typography from 'Elements/Typography';
 import Avatar from 'Elements/Avatar';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
-import team2 from 'Assets/Images/team-4-800x800.jpg';
 import { Edit } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
+import UserPic from 'Assets/Images/no-profile.png';
 
-const Basic = (props) => {
-  const { values, touched, errors, handleChange, handleBlur } = props.props;
+const Basic = ({ props, onChangeGender }) => {
+  const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const theme = useTheme();
   const { role } = useSelector((state) => state.route);
   const [profilePicUrl, setProfilePicUrl] = useState('');
+  const [gender, setGender] = useState('male');
   const inputFile = useRef(null);
+
+  useEffect(() => {
+    if (values !== null) {
+      setGender(values.hasOwnProperty('gender') ? values.gender !== null && values.gender : 'male');
+      setProfilePicUrl(
+        values.hasOwnProperty('profilePic')
+          ? values.profilePic !== null && URL.createObjectURL(values.profilePic)
+          : ''
+      );
+    }
+  }, []);
 
   const profilePicUpload = (e) => {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
+    setFieldValue('profilePic', e.target.files[0]);
     setProfilePicUrl(url);
+  };
+
+  const onClickGender = (genderValue) => {
+    onChangeGender();
+    setGender(genderValue);
+    setFieldValue('gender', genderValue);
   };
 
   return (
@@ -41,9 +61,15 @@ const Basic = (props) => {
           <Grid item xs={12} sm={3} container justifyContent="center">
             <Box position="relative" height="max-content" mx="auto">
               <Box>
-                <input ref={inputFile} type="file" hidden onChange={(e) => profilePicUpload(e)} />
+                <input
+                  ref={inputFile}
+                  type="file"
+                  hidden
+                  onChange={(e) => profilePicUpload(e)}
+                  name="profilePic"
+                />
                 <Avatar
-                  src={profilePicUrl === '' ? team2 : profilePicUrl}
+                  src={profilePicUrl === '' ? UserPic : profilePicUrl}
                   alt="profile picture"
                   size="xxl"
                   variant="rounded"
@@ -170,15 +196,15 @@ const Basic = (props) => {
                         placeholder="Date Of Birth"
                         size="medium"
                         fullWidth
-                        id="dateOfBirth"
-                        name="dateOfBirth"
+                        id="dob"
+                        name="dob"
                         label="Date Of Birth"
-                        defaultValue={values.dateOfBirth}
+                        value={moment(values.dob).format('YYYY-MM-DD')}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        errorText={errors.dateOfBirth && touched.dateOfBirth && errors.dateOfBirth}
-                        error={errors.dateOfBirth && touched.dateOfBirth}
-                        success={!errors.dateOfBirth && touched.dateOfBirth}
+                        errorText={errors.dob && touched.dob && errors.dob}
+                        error={errors.dob && touched.dob}
+                        success={!errors.dob && touched.dob}
                       />
                     </Box>
                   </Grid>
@@ -213,19 +239,17 @@ const Basic = (props) => {
                         placeholder="+91 925 532 5325"
                         size="medium"
                         fullWidth
-                        id="alternativeNumber"
-                        name="alternativeNumber"
+                        id="alternatePhone"
+                        name="alternatePhone"
                         label="Alternative Number"
-                        value={values.alternativeNumber}
+                        value={values.alternatePhone}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         errorText={
-                          errors.alternativeNumber &&
-                          touched.alternativeNumber &&
-                          errors.alternativeNumber
+                          errors.alternatePhone && touched.alternatePhone && errors.alternatePhone
                         }
-                        error={errors.alternativeNumber && touched.alternativeNumber}
-                        success={!errors.alternativeNumber && touched.alternativeNumber}
+                        error={errors.alternatePhone && touched.alternatePhone}
+                        success={!errors.alternatePhone && touched.alternatePhone}
                         onKeyDown={(evt) =>
                           ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
                         }
@@ -239,10 +263,9 @@ const Basic = (props) => {
                         row
                         sx={{ p: 2, pt: 0, pb: 0 }}
                         aria-label="font-family"
-                        // value={fontFamily}
-                        // onChange={(e) => setFontFamily(e.target.value)}
-                        name="row-radio-buttons-group"
-                        defaultValue="male"
+                        name="gender"
+                        value={gender}
+                        onChange={(event) => onClickGender(event.target.value)}
                       >
                         <FormControlLabel
                           value="male"
@@ -254,7 +277,6 @@ const Basic = (props) => {
                               color: theme.palette.grey[900]
                             }
                           }}
-                          defaultChecked
                         />
                         <FormControlLabel
                           value="female"

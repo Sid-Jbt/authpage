@@ -1,20 +1,33 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Typography from 'Elements/Typography';
-import team2 from 'Assets/Images/bruce-mars.jpg';
+import UserPic from 'Assets/Images/no-profile.png';
 import { Card, Grid, Tab, Tabs, Icon } from '@mui/material';
-import { AccountBalance, CurrencyRupeeOutlined, Edit, PersonOutlined } from '@mui/icons-material';
+import { AccountBalance, Edit, PersonOutlined } from '@mui/icons-material';
 import Avatar from 'Elements/Avatar';
 import { useSelector } from 'react-redux';
 import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 
-const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => {
+const Header = ({
+  tabIndex,
+  tabsOrientation,
+  handleSetTabIndex,
+  profileUpdate,
+  employeeProfileDetails
+}) => {
+  const { firstName, lastName, designation } = employeeProfileDetails.profile;
   const { role } = useSelector((state) => state.route);
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const inputFile = useRef(null);
 
+  useEffect(() => {
+    if (employeeProfileDetails !== null)
+      setProfilePicUrl(employeeProfileDetails.profile.profilePic);
+  }, [profilePicUrl]);
+
   const profilePicUpload = (e) => {
     const file = e.target.files[0];
+    profileUpdate(file);
     const url = URL.createObjectURL(file);
     setProfilePicUrl(url);
   };
@@ -31,7 +44,7 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => {
         <Grid item>
           <Box position="relative" height="max-content" mx="auto">
             <Avatar
-              src={profilePicUrl === '' ? team2 : profilePicUrl}
+              src={profilePicUrl === '' ? UserPic : profilePicUrl}
               alt="profile picture"
               size="xl"
               variant="rounded"
@@ -60,10 +73,10 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => {
         </Grid>
         <Grid item>
           <Typography variant="h4" fontWeight="medium">
-            Suresh Borad
+            {firstName} {lastName}
           </Typography>
           <Typography variant="subtitle2" color="text" fontWeight="light">
-            CEO / Co-Founder
+            {designation}
           </Typography>
         </Grid>
         <Grid item xs={12} md={6} lg={4} sx={{ ml: 'auto' }}>
@@ -83,7 +96,7 @@ const Header = ({ tabIndex, tabsOrientation, handleSetTabIndex }) => {
             >
               <Tab label="Personal" icon={<PersonOutlined style={{ marginRight: '8px' }} />} />
               <Tab label="Account" icon={<AccountBalance style={{ marginRight: '8px' }} />} />
-              <Tab label="Salary" icon={<CurrencyRupeeOutlined style={{ marginRight: '8px' }} />} />
+              {/* <Tab label="Salary" icon={<CurrencyRupeeOutlined style={{ marginRight: '8px' }} />} /> */}
             </Tabs>
           )}
         </Grid>

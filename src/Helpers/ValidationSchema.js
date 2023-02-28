@@ -54,24 +54,46 @@ export const resetPasswordSchema = yup.object().shape({
 });
 
 export const profileSchema = yup.object().shape({
-  firstName: yup.string().required('First name is required'),
-  department: yup.string().required('Department is required'),
-  lastName: yup.string().required('Last name is required'),
-  fatherName: yup.string().required('Father name is required'),
-  designation: yup.string().required('Designation is required'),
-  empCode: yup.string().required('Employee code is required'),
-  dateOfBirth: yup.string().required('Date of birth is required'),
-  dateOfJoin: yup.string().required('Date of join is required'),
-  dateOfLeave: yup.string().required('Date of leave is required'),
+  firstName: yup
+    .string()
+    .required('First name is required')
+    .min(3, 'Too Short!')
+    .max(50, 'Too Long!')
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid first name'),
+  department: yup
+    .string()
+    .required('Department is required')
+    .min(3, 'Too Short!')
+    .max(50, 'Too Long!')
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid department name'),
+  lastName: yup
+    .string()
+    .required('Last name is required')
+    .min(3, 'Too Short!')
+    .max(50, 'Too Long!')
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid last name'),
+  fatherName: yup
+    .string()
+    .required('Father name is required')
+    .min(3, 'Too Short!')
+    .max(50, 'Too Long!')
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid father name'),
+  designation: yup
+    .string()
+    .required('Designation is required')
+    .min(3, 'Too Short!')
+    .max(50, 'Too Long!')
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid designation'),
   phoneNumber: yup
     .string()
     .matches(numberRegx, 'Phone number is not valid')
     .required('Phone number is required'),
-  alternativeNumber: yup
+  alternatePhone: yup
     .string()
     .matches(numberRegx, 'Alternative number is not valid')
     .required('Alternative number is required'),
-  pAdd: yup.string().required('Permanent Address is required')
+  permanentAddress: yup.string().required('Permanent Address is required'),
+  presentAddress: yup.string().required('Present Address is required')
 });
 
 export const bankAccountSchema = yup.object().shape({
@@ -84,9 +106,18 @@ export const bankAccountSchema = yup.object().shape({
 });
 
 export const BasicInfoSchema = yup.object().shape({
-  firstName: yup.string().required('First name is required'),
-  lastName: yup.string().required('Last name is required'),
-  // gender: yup.string().required('Gender is required'),
+  firstName: yup
+    .string()
+    .required('First name is required')
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid first name'),
+  lastName: yup
+    .string()
+    .required('Last name is required')
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid last name'),
   email: yup.string().email('Must be a valid email address').required('Email is required'),
   confirmationEmail: yup
     .string()
@@ -97,9 +128,6 @@ export const BasicInfoSchema = yup.object().shape({
     .matches(numberRegx, 'Phone number is not valid')
     .required('Phone number is required'),
   pAdd: yup.string().required('Permanent Address is required')
-  // dateOfBirth: yup.string().required('Date of birth is required'),
-  // dateOfJoin: yup.string().required('Date of join is required'),
-  // dateOfLeave: yup.string().required('Date of leave is required'),
 });
 
 export const changePasswordSchema = yup.object().shape({
@@ -141,89 +169,14 @@ export const holidayFormSchema = yup.object().shape({
 });
 
 export const expenseFormSchema = yup.object().shape({
-  itemName: yup.string().required('Item name is required'),
+  itemName: yup
+    .string()
+    .required('Item name is required')
+    .min(2, 'Too Short!')
+    .max(20, 'Too Long!'),
   purchaseFrom: yup.string().required('Purchase from is required'),
   purchaseDate: yup.string().required('Purchase date is required'),
   amount: yup.string().required('Amount is required')
-  // document: yup.string().required('Document is required')
-});
-
-export const addressSchema = yup.object().shape({
-  address: yup.string().required('Permanent Address is required'),
-  currentAdd: yup.string().required('Current Address is required')
-});
-
-export const organisationDetailsSchema = yup.object().shape({
-  permanentAdd: yup.string().required('Permanent Address is required'),
-  workingHours: yup.string().required('Working hours is required')
-});
-
-export const validationSchema = yup.object().shape({
-  email: yup.string().email('Enter a valid email').required('Email is required'),
-  password: yup
-    .string()
-    .min(8, 'Password should be of minimum 8 characters length')
-    .required('Password is required'),
-  confirmPassword: yup
-    .string()
-    .when('password', {
-      is: (val) => !!(val && val.length > 0),
-      then: yup
-        .string()
-        .min(8, 'Password should be of minimum 8 characters length')
-        .oneOf([yup.ref('password')], 'new password and confirmed password should be the same')
-    })
-    .required('Confirm Password is required'),
-  firstName: yup.string().required('First name is required'),
-  department: yup.string().required('Department is required'),
-  lastName: yup.string().required('Last name is required'),
-  fatherName: yup.string().required('Father name is required'),
-  designation: yup.string().required('Designation is required'),
-  empCode: yup.string().required('Employee code is required'),
-  dateOfBirth: yup.string().required('Date of birth is required'),
-  dateOfJoin: yup.string().required('Date of join is required'),
-  dateOfLeave: yup.string().required('Date of leave is required'),
-  phoneNumber: yup
-    .string()
-    .matches(numberRegx, 'Phone number is not valid')
-    .required('Phone number is required'),
-  alternativeNumber: yup
-    .string()
-    .matches(numberRegx, 'Alternative number is not valid')
-    .required('Alternative number is required'),
-  pAdd: yup.string().required('Permanent Address is required'),
-  itemName: yup.string().required('Item name is required'),
-  itemTitle: yup.string().required('Item title is required'),
-  purchaseFrom: yup.string().required('Purchase from is required'),
-  purchaseDate: yup.string().required('Purchase date is required'),
-  amount: yup.string().required('Amount is required'),
-  selectDoc: yup.string().required('Select document is required'),
-  holidayName: yup.string().required('Holiday name is required'),
-  holidayDate: yup.string().required('Holiday date is required'),
-  bankName: yup.string().required('Bank name is required'),
-  branchName: yup.string().required('Branch name is required'),
-  accountName: yup.string().matches(holderNameRegx, '').required('Account name is required'),
-  accountNumber: yup.string().matches(accNumberRegx, '').required('Account number is required'),
-  ifscCode: yup.string().matches(ifscCodeRegx, '').required('IFSC code is required'),
-  panNumber: yup.string().required('PAN number required')
-});
-
-export const profileFormSchema = yup.object().shape({
-  firstName: yup.string().required('First name is required'),
-  department: yup.string().required('Department is required'),
-  lastName: yup.string().required('Last name is required'),
-  fatherName: yup.string().required('Father name is required'),
-  designation: yup.string().required('Designation is required'),
-  dateOfBirth: yup.string().required('Date of birth is required'),
-  phoneNumber: yup
-    .string()
-    .matches(numberRegx, 'Phone number is not valid')
-    .required('Phone number is required'),
-  alternativeNumber: yup
-    .string()
-    .matches(numberRegx, 'Alternative number is not valid')
-    .required('Alternative number is required'),
-  pAdd: yup.string().required('Permanent Address is required')
 });
 
 export const bankFormSchema = yup.object().shape({
@@ -246,8 +199,18 @@ export const noticeEventSchema = yup.object().shape({
 });
 
 export const basicSchema = yup.object().shape({
-  firstName: yup.string().required('First name is required'),
-  lastName: yup.string().required('Last name is required')
+  firstName: yup
+    .string()
+    .required('First name is required')
+    .min(3, 'Too Short!')
+    .max(50, 'Too Long!')
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid first name'),
+  lastName: yup
+    .string()
+    .required('Last name is required')
+    .min(3, 'Too Short!')
+    .max(50, 'Too Long!')
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid last name')
 });
 
 export const organisationSchema = yup.object().shape({

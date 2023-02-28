@@ -14,7 +14,7 @@ import {
 import { useState } from 'react';
 import NotificationItem from 'Elements/Item';
 
-import profileImage from 'Assets/Images/bruce-mars.jpg';
+import UserPic from 'Assets/Images/no-profile.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Breadcrumbs from 'Elements/Breadcrumbs';
 import Avatar from 'Elements/Avatar';
@@ -32,11 +32,12 @@ const DashboardNavbar = ({ isMini }) => {
   const { pathname } = useLocation();
   const [openMenu, setOpenMenu] = useState(false);
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [isProfileComplete, setIsProfileComplete] = useState(true);
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
   const profileSetup = pathname !== profileSetupPattern;
+
+  console.log('======', setIsProfileComplete);
 
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
@@ -227,8 +228,8 @@ const DashboardNavbar = ({ isMini }) => {
             </Grid>
             <Grid item>
               <Avatar
-                src={profileImage}
-                alt={profileImage}
+                src={UserPic}
+                alt={UserPic}
                 size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'lg'}
                 variant="circle"
                 onClick={handleProfileMenu}

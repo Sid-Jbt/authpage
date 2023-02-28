@@ -1,10 +1,12 @@
+import React from 'react';
 import { Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 
-const Account = (props) => {
-  const { values, touched, errors, handleChange, handleBlur } = props.props;
+const Account = ({ props }) => {
+  const { values, touched, errors, handleChange, handleBlur } = props;
+
   return (
     <Box>
       <Box width="80%" textAlign="center" mx="auto" mb={4}>

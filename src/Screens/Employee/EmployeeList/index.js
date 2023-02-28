@@ -147,7 +147,7 @@ const EmployeeList = () => {
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
-    await getAllCompanyEmployee(sortKey, sortOrder, selectedLimit);
+    await getAllCompanyEmployee(sortKey, sortOrder, '', '', '', '', '', selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {

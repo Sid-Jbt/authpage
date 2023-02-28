@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
@@ -14,22 +14,105 @@ import Select from 'Elements/Select';
 import { Months, Years, Status } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
-import attendanceData from './data/attendanceData';
+import attendanceColumn from './data/attendanceData';
 import LeaveCard from '../../Components/CardLayouts/StaticCard';
-// import { SnackbarContext } from '../../Context/SnackbarProvider';
+import Badge from '../../Elements/Badge';
+import { getAttendanceList } from '../../APIs/Attendance';
+import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const AttendanceList = () => {
-  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = attendanceData;
+  const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
   const { role } = useSelector((state) => state.route);
-  // const { setSnack } = useContext(SnackbarContext);
+  const { setSnack } = useContext(SnackbarContext);
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
-  const [status, setStatus] = useState('');
+  const [isStatus, setIsStatus] = useState('');
   const [user, setUser] = useState('');
   const [search, setSearch] = useState('');
+  const [counts, setCounts] = useState(null);
+  const [loader, setLoader] = useState(false);
+
+  const [attendanceList, setAttendanceList] = useState([]);
+  const [attendanceListCount, setAttendanceListCount] = useState(0);
+  const [sortKey, setSortKey] = useState('createdAt');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [isClear, setIsClear] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
+
+  const getAllAttendanceList = async (
+    selectedSortKey = 'createdAt',
+    selectedSortOrder = 'asc',
+    selectedPage = 0,
+    text = '',
+    selectedMonth = '',
+    selectedYear = '',
+    count = 0,
+    dataLimit = limit
+  ) => {
+    const attendanceData = {
+      limit: dataLimit,
+      page: selectedPage,
+      sortKey: selectedSortKey,
+      sortOrder: selectedSortOrder.toLowerCase(),
+      search: text,
+      month: selectedMonth,
+      year: selectedYear,
+      count
+    };
+
+    const attendanceRes = await getAttendanceList(attendanceData);
+    const {
+      status,
+      data: { rows },
+      message
+    } = attendanceRes;
+    if (status) {
+      const attendanceStatusData = rows.map((rowId) => ({
+        ...rowId,
+        status: (
+          <Badge
+            variant="gradient"
+            badgeContent={rowId.status}
+            color={
+              rowId.status === 'Late'
+                ? 'warning'
+                : rowId.status === 'Present'
+                ? 'success'
+                : rowId.status === 'Overtime'
+                ? 'Info'
+                : 'error'
+            }
+            size="xs"
+            container
+            customWidth={100}
+          />
+        )
+      }));
+      setCounts(attendanceRes.data.count);
+      setAttendanceList(attendanceStatusData);
+      setAttendanceListCount(attendanceRes.data.count.total);
+      setLoader(false);
+      setIsSearch(false);
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        color: 'error',
+        open: true
+      });
+      setLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllAttendanceList();
+  }, []);
 
   const handleChangeStatus = (value) => {
-    setStatus(value);
+    setIsStatus(value);
   };
 
   const handleChangeMonth = (value) => {
@@ -44,7 +127,7 @@ const AttendanceList = () => {
     setUser(value);
   };
   const handleChangeSearch = (event) => {
-    setSearch(event);
+    setSearch(event.target.value);
   };
 
   /*  const onClickExport = () => {
@@ -62,15 +145,45 @@ const AttendanceList = () => {
     setMonth('');
     setYear('');
     setSearch('');
+    setIsClear(!isClear);
   };
 
+  const onClickSearch = () => {
+    setLoader(true);
+    setIsSearch(true);
+    getAllAttendanceList(sortKey, sortOrder, page, search, month.value, year.value, 0);
+  };
+
+  const onPage = async (selectedPage) => {
+    setPage(selectedPage);
+    await getAllAttendanceList(sortKey, sortOrder, selectedPage);
+  };
+
+  const onRowsPerPageChange = async (selectedLimit) => {
+    setLimit(selectedLimit);
+    await getAllAttendanceList(sortKey, sortOrder, 0, '', '', '', '', 0, selectedLimit);
+  };
+
+  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
+    setSortKey(selectedSortKey);
+    setSortOrder(selectedSortOrder);
+    await getAllAttendanceList(selectedSortKey, selectedSortOrder, page);
+  };
+
+  useEffect(() => {
+    if (isClear) {
+      getAllAttendanceList(sortKey, sortOrder, page, '');
+    }
+  }, [isClear]);
+
+  console.log('Admin  counts --> ', counts);
   return (
     <>
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} md={6} lg={4}>
           <LeaveCard
             title="Total Late Coming"
-            count="12"
+            count={counts === null ? 0 : counts.lateComingRes}
             icon={{ color: 'error', component: <WatchOff /> }}
             isPercentage={false}
           />
@@ -78,7 +191,7 @@ const AttendanceList = () => {
         <Grid item xs={12} md={6} lg={4}>
           <LeaveCard
             title="Total Early Leaving"
-            count="3"
+            count={counts === null ? 0 : counts.earlyLeavingRes}
             icon={{ color: 'info', component: <DirectionsRun /> }}
             isPercentage={false}
           />
@@ -86,7 +199,7 @@ const AttendanceList = () => {
         <Grid item xs={12} md={6} lg={4}>
           <LeaveCard
             title="Total Overtime"
-            count="4"
+            count={counts === null ? 0 : counts.overTimeRes}
             icon={{ color: 'warning', component: <MoreTime /> }}
             isPercentage={false}
           />
@@ -144,8 +257,11 @@ const AttendanceList = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={() => handleChangeSearch()}
+          handleSearch={handleChangeSearch}
           handleClear={() => handleClear()}
+          onClickSearch={() => onClickSearch()}
+          loader={loader}
+          isSearch={isSearch}
         >
           {role === 'admin' && (
             <Grid item sm={12} md={4} lg={3}>
@@ -181,14 +297,25 @@ const AttendanceList = () => {
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Status</FormLabel>
               <Select
-                value={status}
+                value={isStatus}
                 options={Status}
                 onChange={(value) => handleChangeStatus(value)}
               />
             </FormControl>
           </Grid>
         </FilterLayout>
-        <Table columns={role === 'admin' ? adminPrCol : prCols} rows={prRows} />
+        <Table
+          columns={role === 'admin' ? adminPrCol : prCols}
+          rows={attendanceList}
+          rowsCount={attendanceListCount}
+          initialPage={page}
+          onChangePage={(value) => onPage(value)}
+          rowsPerPage={limit}
+          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
+          sortKey={sortKey}
+          sortOrder={sortOrder}
+          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
+        />
       </Card>
     </>
   );

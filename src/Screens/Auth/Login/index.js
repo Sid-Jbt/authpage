@@ -23,10 +23,7 @@ import Loader from 'Elements/Loader';
 import { login } from 'APIs/API';
 
 const Login = () => {
-  const dispatchRole = useDispatch();
-  const dispatchRoleList = useDispatch();
-  const dispatchCurrentUser = useDispatch();
-  const dispatchRememberMe = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setSnack } = useContext(SnackbarContext);
 
@@ -69,27 +66,27 @@ const Login = () => {
       });
       setLoader(false);
       if (!rememberMe) {
-        dispatchRememberMe({
+        dispatch({
           type: REMEMBERME,
           value: formData
         });
       }
       if (data.role === 'admin') {
-        dispatchRoleList({
+        dispatch({
           type: ROLELIST,
           value: AdminRoleList
         });
-        dispatchRole({ type: ROLE, value: 'admin' });
+        dispatch({ type: ROLE, value: 'admin' });
       } else if (data.role === 'employee') {
-        dispatchRoleList({
+        dispatch({
           type: ROLELIST,
           value: EmployeeRoleList
         });
-        dispatchRole({ type: ROLE, value: 'employee' });
+        dispatch({ type: ROLE, value: 'employee' });
       } else {
         getDefaultPattern();
       }
-      dispatchCurrentUser({
+      dispatch({
         type: CURRENTUSER,
         value: data
       });
