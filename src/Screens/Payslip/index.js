@@ -24,7 +24,7 @@ const Payslip = () => {
 
   const [allPayslipList, setAllPayslipList] = useState([]);
   const [payslipListCount, setPayslipListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('id');
+  const [sortKey, setSortKey] = useState('paymentMonth');
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -33,13 +33,13 @@ const Payslip = () => {
   const [isSearch, setIsSearch] = useState(false);
 
   const getAllPayslipList = async (
-    selectedSortKey = 'id',
+    selectedSortKey = 'paymentMonth',
     selectedSortOrder = 'asc',
     selectedPage = 0,
     text = '',
-    count = 0,
     selectedMonth = '',
     selectedYear = '',
+    count = 0,
     dataLimit = limit
   ) => {
     const payslipData = {
@@ -52,13 +52,8 @@ const Payslip = () => {
       year: selectedYear,
       count
     };
-    let payslipRes;
-    if (role === 'admin') {
-      // Replace admin api with getpayslipLists
-      // payslipRes = await getpayslipLists(payslipData);
-    } else {
-      payslipRes = await getPayslipList(payslipData);
-    }
+
+    const payslipRes = await getPayslipList(payslipData);
     const {
       status,
       data: { rows },
@@ -85,13 +80,13 @@ const Payslip = () => {
   }, []);
 
   const onClickExport = async (
-    // selectedSortKey = 'itemName',
+    // selectedSortKey = 'paymentMonth',
     // selectedSortOrder = 'asc',
     // selectedPage = 0,
     text = '',
-    count = 0,
     // selectedMonth = month,
     // selectedYear = year,
+    count = 0,
     dataLimit = limit
   ) => {
     const exportData = {
@@ -185,7 +180,7 @@ const Payslip = () => {
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
-    await getAllPayslipList(sortKey, sortOrder, selectedLimit, month, year);
+    await getAllPayslipList(sortKey, sortOrder, '', '', '', '', 0, selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {
