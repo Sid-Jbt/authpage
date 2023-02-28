@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import {
   Add,
-  Check,
+  // Check,
   DirectionsRun,
-  ImportExportRounded,
+  // ImportExportRounded,
   MoreTime,
   WatchOff
 } from '@mui/icons-material';
@@ -16,12 +16,12 @@ import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
 import attendanceData from './data/attendanceData';
 import LeaveCard from '../../Components/CardLayouts/StaticCard';
-import { SnackbarContext } from '../../Context/SnackbarProvider';
+// import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = attendanceData;
   const { role } = useSelector((state) => state.route);
-  const { setSnack } = useContext(SnackbarContext);
+  // const { setSnack } = useContext(SnackbarContext);
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [status, setStatus] = useState('');
@@ -47,7 +47,7 @@ const AttendanceList = () => {
     setSearch(event);
   };
 
-  const onClickExport = () => {
+  /*  const onClickExport = () => {
     setSnack({
       title: 'Warning',
       message: 'Export coming soon...',
@@ -56,7 +56,7 @@ const AttendanceList = () => {
       color: 'warning',
       open: true
     });
-  };
+  }; */
 
   const handleClear = () => {
     setMonth('');
@@ -114,7 +114,7 @@ const AttendanceList = () => {
             </Button>
           </Grid>
         )}
-        <Grid item xs="auto">
+        {/* <Grid item xs="auto">
           <Button
             color="white"
             variant="outlined"
@@ -132,7 +132,7 @@ const AttendanceList = () => {
             </Icon>
             Export
           </Button>
-        </Grid>
+        </Grid> */}
       </Grid>
       <Card
         mb={3}

@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
 import {
   Add,
-  Check,
-  ImportExportRounded,
+  // Check,
+  // ImportExportRounded,
   Pending,
   SummarizeRounded,
   ThumbDown,
@@ -11,6 +11,7 @@ import {
 } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
+import Badge from 'Elements/Badge';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
@@ -23,22 +24,122 @@ import DeleteDialog from '../../Components/DeleteDialog';
 import DialogMenu from '../../Elements/Dialog';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
+import { getSupportTicketLists } from '../../APIs/SupportTicket';
+
+// const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
 
 const supportTicket = () => {
-  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = supportTicketData;
+  const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
   const { setSnack } = useContext(SnackbarContext);
   const { role } = useSelector((state) => state.route);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const [selectDate, setSelectDate] = useState(null);
+  const [selectDate, setSelectDate] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [priority, setPriority] = useState('');
-  const [status, setStatus] = useState('');
+  const [isStatus, setIsStatus] = useState('');
   const [search, setSearch] = useState('');
   const [selectedId, setSelectedId] = useState('');
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isSupportTicketDialogOpen, setIsSupportTicketDialogOpen] = useState(false);
   const [isViewSupportTicketDialogOpen, setIsViewSupportTicketDialogOpen] = useState(false);
+  const [counts, setCounts] = useState(null);
+  const [loader, setLoader] = useState(false);
+
+  const [allSpTicketList, setAllSpTicketList] = useState([]);
+  const [spTicketListCount, setSpTicketListCount] = useState(0);
+  const [sortKey, setSortKey] = useState('createdAt');
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [isClear, setIsClear] = useState(false);
+  // const [isExport, setIsExport] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
+
+  const getAllSupportTicketList = async (
+    selectedSortKey = 'createdAt',
+    selectedSortOrder = 'desc',
+    selectedPage = 0,
+    text = '',
+    date = '',
+    selectedPriority = '',
+    selectedStatus = '',
+    count = 0,
+    dataLimit = limit
+  ) => {
+    const ticketsData = {
+      limit: dataLimit,
+      page: selectedPage,
+      sortKey: selectedSortKey,
+      sortOrder: selectedSortOrder.toLowerCase(),
+      search: text,
+      startDate: date,
+      priority: selectedPriority,
+      isStatus: selectedStatus,
+      count
+    };
+    const ticketsRes = await getSupportTicketLists(ticketsData);
+    const {
+      status,
+      data: { rows },
+      message
+    } = ticketsRes;
+    if (status) {
+      const supportTicketStatusData = rows.map((rowId) => ({
+        ...rowId,
+        priority: (
+          <Badge
+            variant="gradient"
+            badgeContent={rowId.priority}
+            color={
+              rowId.priority === 'medium' || rowId.priority === 'Medium'
+                ? 'warning'
+                : rowId.priority === 'low' || rowId.priority === 'Low'
+                ? 'info'
+                : 'error'
+            }
+            size="xs"
+            container
+            customWidth={100}
+          />
+        ),
+        status: (
+          <Badge
+            variant="gradient"
+            badgeContent={rowId.status}
+            color={
+              rowId.status === 'pending'
+                ? 'warning'
+                : rowId.status === 'approved'
+                ? 'success'
+                : 'error'
+            }
+            size="xs"
+            container
+            customWidth={100}
+          />
+        )
+      }));
+      setCounts(ticketsRes.data.count);
+      setAllSpTicketList(supportTicketStatusData);
+      setSpTicketListCount(ticketsRes.data.count.total);
+      setLoader(false);
+      setIsSearch(false);
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        color: 'error',
+        open: true
+      });
+      setLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllSupportTicketList();
+  }, [isDialogOpen, isDeleteDialogOpen]);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -64,10 +165,19 @@ const supportTicket = () => {
   const onClickAction = (key, index) => {
     if (key === 'edit') {
       setIsEdit(true);
-      setSelectedData(prRows.find((o) => o.id === index));
+      setSelectedData(allSpTicketList.find((o) => o.id === index));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      setSelectedData(prRows.find((o) => o.id === index));
+      const viewData = allSpTicketList.find((o) => o.id === index);
+      const setViewData = {
+        subject: viewData.subject,
+        date: viewData.ticketDate,
+        department: viewData.department,
+        priority: viewData.priority,
+        status: viewData.status,
+        message: viewData.message
+      };
+      setSelectedData(setViewData);
       setIsViewSupportTicketDialogOpen(true);
     } else {
       setSelectedId(index);
@@ -84,38 +194,129 @@ const supportTicket = () => {
   };
 
   const handleChangeStatus = (value) => {
-    setStatus(value);
+    setIsStatus(value);
   };
 
   const handleChangePriority = (value) => {
     setPriority(value);
   };
 
-  const onClickExport = () => {
-    setSnack({
-      title: 'Warning',
-      message: 'Export coming soon...',
-      time: false,
-      icon: <Check color="white" />,
-      color: 'warning',
-      open: true
-    });
-  };
+  /* const onClickExport = async (
+    selectedSortKey = 'createdAt',
+    selectedSortOrder = 'asc',
+    selectedPage = 0,
+    text = '',
+    date = '',
+    selectedPriority = '',
+    selectedStatus = '',
+    count = 0,
+    dataLimit = limit
+  ) => {
+    const exportData = {
+      limit: dataLimit,
+      page: selectedPage,
+      sortKey: selectedSortKey.toLowerCase(),
+      sortOrder: selectedSortOrder.toLowerCase(),
+      search: text,
+      selectDate: date,
+      priority: selectedPriority,
+      isStatus: selectedStatus,
+      count
+    };
+    setIsExport(true);
+    setLoader(true);
+    const exportRes = await getEmployeeTicketExportList(exportData);
+
+    const { status, message, data } = exportRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      setLoader(false);
+      setIsExport(false);
+      window.open(`${EXPORT_URL}/${data}`, '', 'width=900, height=900');
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'error',
+        open: true
+      });
+      setLoader(false);
+      setIsExport(false);
+    }
+    if (role === 'admin') {
+      setSnack({
+        title: 'Warning',
+        message: 'Expense list export coming soon...',
+        time: false,
+        icon: <Check color="white" />,
+        color: 'warning',
+        open: true
+      });
+      setLoader(false);
+      setIsExport(false);
+    }
+  }; */
 
   const handleChangeStartDate = (event) => {
     setSelectDate(event.target.value);
   };
 
   const handleChangeSearch = (event) => {
-    setSearch(event);
+    setSearch(event.target.value);
   };
 
   const handleClear = () => {
     setSelectDate('');
     setPriority('');
-    setStatus('');
+    setIsStatus('');
     setSearch('');
+    setIsClear(!isClear);
   };
+  const onClickSearch = () => {
+    setLoader(true);
+    setIsSearch(true);
+    getAllSupportTicketList(
+      sortKey,
+      sortOrder,
+      page,
+      search,
+      selectDate,
+      priority.value,
+      isStatus.value,
+      0
+    );
+  };
+
+  const onPage = async (selectedPage) => {
+    setPage(selectedPage);
+    await getAllSupportTicketList(sortKey, sortOrder, selectedPage);
+  };
+
+  const onRowsPerPageChange = async (selectedLimit) => {
+    setLimit(selectedLimit);
+    await getAllSupportTicketList(sortKey, sortOrder, 0, '', '', '', '', 0, selectedLimit);
+  };
+
+  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
+    setSortKey(selectedSortKey);
+    setSortOrder(selectedSortOrder);
+    await getAllSupportTicketList(selectedSortKey, selectedSortOrder, page);
+  };
+
+  useEffect(() => {
+    if (isClear) {
+      getAllSupportTicketList(sortKey, sortOrder, page, '', selectDate);
+    }
+  }, [isClear]);
 
   return (
     <>
@@ -123,7 +324,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Total Tickets"
-            count="9"
+            count={counts && counts.total}
             icon={{ color: 'success', component: <SummarizeRounded /> }}
             isPercentage={false}
           />
@@ -131,7 +332,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Approved"
-            count="5"
+            count={counts && counts.approved}
             icon={{ color: 'success', component: <ThumbUp /> }}
             isPercentage={false}
           />
@@ -139,7 +340,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Declined"
-            count="1"
+            count={counts && counts.rejected}
             icon={{ color: 'error', component: <ThumbDown /> }}
             isPercentage={false}
           />
@@ -147,7 +348,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Pending"
-            count="3"
+            count={counts && counts.pending}
             icon={{ color: 'info', component: <Pending /> }}
             isPercentage={false}
           />
@@ -174,13 +375,15 @@ const supportTicket = () => {
             </Button>
           </Grid>
         )}
-        <Grid item xs="auto">
+        {/* <Grid item xs="auto">
           <Button
             sx={({ breakpoints, palette: { dark } }) => ({
               [breakpoints.down('xl' && 'lg')]: {
                 color: dark.main,
                 borderColor: dark.main
-              }
+              } &&
+                loader &&
+                isExport && { height: '40px !important' }
             })}
             variant="outlined"
             size="small"
@@ -189,9 +392,9 @@ const supportTicket = () => {
             <Icon sx={{ mr: 1 }}>
               <ImportExportRounded />
             </Icon>
-            Export
+            {loader && isExport ? <CircularProgress color="inherit" /> : 'Export'}
           </Button>
-        </Grid>
+        </Grid> */}
       </Grid>
       <Card
         sx={{
@@ -202,8 +405,11 @@ const supportTicket = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={() => handleChangeSearch()}
+          handleSearch={handleChangeSearch}
           handleClear={() => handleClear()}
+          onClickSearch={() => onClickSearch()}
+          loader={loader}
+          isSearch={isSearch}
         >
           <Grid item xs={12} md={4} lg={3}>
             <Input
@@ -232,7 +438,7 @@ const supportTicket = () => {
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Status</FormLabel>
               <Select
-                value={status}
+                value={isStatus}
                 options={SupportTicketStatus}
                 onChange={(value) => handleChangeStatus(value)}
               />
@@ -242,7 +448,7 @@ const supportTicket = () => {
 
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
-          rows={prRows}
+          rows={allSpTicketList}
           onClickAction={(value, id) => onClickAction(value, id)}
           isAction={role !== 'admin'}
           options={[
@@ -252,6 +458,14 @@ const supportTicket = () => {
           ]}
           isView={role === 'admin'}
           isDialogAction={(row) => onClickView(row)}
+          rowsCount={spTicketListCount}
+          initialPage={page}
+          onChangePage={(value) => onPage(value)}
+          rowsPerPage={limit}
+          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
+          sortKey={sortKey}
+          sortOrder={sortOrder}
+          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
         />
         {isDialogOpen && (
           <AddSupportTicketForm
@@ -261,6 +475,7 @@ const supportTicket = () => {
             setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             setSelectedData={(value) => setSelectedData(value)}
+            isEdit={isEdit}
           />
         )}
         {isDeleteDialogOpen && (

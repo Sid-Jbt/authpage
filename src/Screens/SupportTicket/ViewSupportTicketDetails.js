@@ -50,6 +50,7 @@ const ViewSupportTicketDetails = ({ info }) => {
             type="textarea"
             placeholder="Please Enter the message of approve or reject"
             label="Message"
+            value={renderItems.message}
             multiline
             rows={5}
             errorFalse
