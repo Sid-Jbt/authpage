@@ -29,7 +29,6 @@ const Leave = () => {
   const [counts, setCounts] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [loader, setLoader] = useState(false);
-  const [selectedId, setSelectedId] = useState('');
 
   const [allLeaveList, setAllLeaveList] = useState([]);
   const [leaveListCount, setLeaveListCount] = useState(0);
@@ -37,7 +36,6 @@ const Leave = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [isClear, setIsClear] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
 
   const getAllLeaveList = async (
@@ -127,13 +125,13 @@ const Leave = () => {
     handleOpenDialog();
   };
 
-  const onClickAction = (key, index) => {
+  const onClickAction = (key, data) => {
     if (key === 'edit') {
       setIsEdit(true);
-      setSelectedData(allLeaveList.find((o) => o.id === index));
+      setSelectedData(allLeaveList.find((o) => o.id === data.id));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      const viewData = allLeaveList.find((o) => o.id === index);
+      const viewData = allLeaveList.find((o) => o.id === data.id);
       const setViewData = {
         leaveType: viewData.leaveType,
         selectType: viewData.selectType,
@@ -146,11 +144,8 @@ const Leave = () => {
       };
       setSelectedData(setViewData);
       setIsViewLeaveDialogOpen(true);
-    } else {
-      setSelectedId(index);
     }
   };
-
   const handleChangeStartDate = (event, string) => {
     if (string === 'fromDate') {
       setFromDate(event.target.value);
@@ -167,8 +162,7 @@ const Leave = () => {
     setFromDate('');
     setToDate('');
     setSearch('');
-    setIsClear(!isClear);
-    getAllLeaveList(sortKey, sortOrder, page, '', fromDate, toDate);
+    getAllLeaveList();
   };
 
   const onClickSearch = () => {
@@ -192,14 +186,6 @@ const Leave = () => {
     setSortOrder(selectedSortOrder);
     await getAllLeaveList(selectedSortKey, selectedSortOrder, page);
   };
-
-  useEffect(() => {
-    if (isClear) {
-      getAllLeaveList(sortKey, sortOrder, page, '', fromDate, toDate);
-    }
-  }, [isClear]);
-
-  console.log('selectedData -> ', selectedId);
 
   return (
     <>
@@ -308,12 +294,11 @@ const Leave = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allLeaveList}
-          onClickAction={(value, id) => onClickAction(value, id)}
+          onClickAction={(value, data) => onClickAction(value, data)}
           isAction={role !== 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
             { title: 'View', value: 'view' }
-            // { title: 'Delete', value: 'delete' }
           ]}
           isView={role === 'admin'}
           isDialogAction={(row) => onClickView(row)}

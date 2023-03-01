@@ -9,7 +9,7 @@ import Button from 'Elements/Button';
 import Box from 'Elements/Box';
 import Select from 'Elements/Select';
 import Editor from 'Elements/Editor';
-import { leaveTypes, leave } from 'Helpers/Global';
+import { leave, leaveDayType } from 'Helpers/Global';
 import { Check, Error } from '@mui/icons-material';
 import { addNewLeave, updateLeave } from '../../APIs/Leave';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
@@ -22,15 +22,13 @@ const initialValues = {
 
 const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isEdit, title }) => {
   const [leaveType, setLeaveType] = useState(leave[0]);
-  const [selectType, setSelectType] = useState(leaveTypes[0]);
+  const [selectType, setSelectType] = useState(leaveDayType[0]);
   const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
   const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     if (selectedData !== null) {
-      console.log('selectedData -> ', selectedData);
-
       Object.keys(data).map((key) => {
         data[key] = selectedData[key];
         if (key === 'fromDate') {
@@ -41,8 +39,13 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
         }
       });
       setData(data);
-      setSelectType(leave.find((value) => value.value === selectedData.leave));
-      setLeaveType(leaveTypes.find((value) => value.value === selectedData.leaveType));
+      console.log('=============', selectedData);
+      setSelectType(
+        leaveDayType.find((value) =>
+          value.value === selectedData.selectType ? value : leaveDayType[0]
+        )
+      );
+      setLeaveType(leave.find((value) => value.value === selectedData.leaveType));
     } else {
       initialValues.fromDate = moment().format('YYYY-MM-DD');
       initialValues.toDate = moment().format('YYYY-MM-DD');
@@ -60,32 +63,15 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
   };
 
   const onSubmitNewLeave = async (formData) => {
-    let updatedFormData = {};
+    console.log('====================', formData, leaveType, selectType);
     let leaveRes;
-
-    // if(formData.reason === undefined || formData.reason === null){
-    if (selectType.value === 'halfDay') {
-      updatedFormData = {
-        leaveType: leaveType.value,
-        selectType: selectType.value,
-        fromDate: formData.fromDate,
-        toDate: formData.fromDate,
-        reason: formData.reason
-      };
-    } else {
-      updatedFormData = {
-        leaveType: leaveType.value,
-        selectType: selectType.value,
-        fromDate: formData.fromDate,
-        toDate: formData.toDate,
-        reason: formData.reason
-      };
-    }
-
-    // console.log('SelectType -> ', selectType)
-    // console.log('formData', formData);
-    // console.log('updatedFormData', updatedFormData);
-
+    const updatedFormData = {
+      leaveType: leaveType.value,
+      selectType: selectType.value,
+      fromDate: formData.fromDate,
+      toDate: selectType.value === 'halfDay' ? formData.fromDate : formData.toDate,
+      reason: formData.reason
+    };
     setLoader(true);
     if (isEdit) {
       leaveRes = await updateLeave(updatedFormData, selectedData.id);
@@ -116,10 +102,6 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
     }
     handleDialog();
   };
-
-  console.log('SelectType -> ', selectType);
-  // console.log('formData', formData);
-  // console.log('updatedFormData', updatedFormData);
 
   return (
     <>
@@ -170,7 +152,7 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                         <FormLabel>Select Type</FormLabel>
                         <Select
                           value={selectType}
-                          options={leaveTypes}
+                          options={leaveDayType}
                           onChange={(value) => handleChangeSelectType(value)}
                         />
                       </FormControl>
@@ -195,7 +177,6 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                       />
                     </Box>
                   </Grid>
-                  {/* {(selectType.value === 'fullDay' || (selectedData && selectedData.selectType === 'fullDay')) && ( */}
                   <Grid item xs={12} md={6}>
                     <Box>
                       <Input
@@ -215,7 +196,7 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                       />
                     </Box>
                   </Grid>
-                  {/* )} */}
+
                   <Grid item xs={12}>
                     <Box>
                       <Editor
