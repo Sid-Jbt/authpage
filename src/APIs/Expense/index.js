@@ -56,7 +56,7 @@ export const deleteExpense = async (id) =>
       Authorization: store.getState().route.currentUser.token
     }
   })
-    .then(async (response) => isTokenExpire(response.json()))
+    .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
 
 export const getEmployeeExpenseExportList = async (data) =>

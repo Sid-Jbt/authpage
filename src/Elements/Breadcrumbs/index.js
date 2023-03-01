@@ -6,6 +6,7 @@ import Typography from 'Elements/Typography';
 import { getDashboardPattern } from 'Routes/routeConfig';
 
 const Breadcrumbs = ({ icon, title, route, light }) => {
+  console.log('title', title);
   const routes = route.slice(0, -1);
 
   return (
@@ -43,7 +44,7 @@ const Breadcrumbs = ({ icon, title, route, light }) => {
             </Typography>
           </Link>
         ))}
-        <Typography
+        {/* <Typography
           variant="button"
           fontWeight="regular"
           textTransform="capitalize"
@@ -51,7 +52,7 @@ const Breadcrumbs = ({ icon, title, route, light }) => {
           sx={{ lineHeight: 0 }}
         >
           {title.replace('-', ' ')}
-        </Typography>
+        </Typography> */}
         <Typography
           fontWeight="bold"
           textTransform="capitalize"
