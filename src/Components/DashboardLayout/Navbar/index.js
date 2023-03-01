@@ -35,7 +35,6 @@ const DashboardNavbar = ({ isMini }) => {
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
   const [isProfileComplete, setIsProfileComplete] = useState(false);
   const [userProfilePic, setUserProfilePic] = useState('');
-  const [profileCompletePercentage, setProfileCompletePercentage] = useState(0);
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
   const profileSetup = pathname !== profileSetupPattern;
@@ -47,7 +46,6 @@ const DashboardNavbar = ({ isMini }) => {
     ) {
       const { profilePercentage, profilePic } = currentUser;
       setIsProfileComplete(profilePercentage > 100);
-      setProfileCompletePercentage(Math.round(profilePercentage));
       setUserProfilePic(profilePic);
     }
   }, []);
@@ -238,7 +236,7 @@ const DashboardNavbar = ({ isMini }) => {
             </Grid>
             <Grid item onClick={handleProfileCircle}>
               {profileSetup && !isProfileComplete ? (
-                <CircularProgressWithLabel value={profileCompletePercentage} />
+                <CircularProgressWithLabel value={currentUser.profilePercentage} />
               ) : null}
             </Grid>
             <Grid item>
