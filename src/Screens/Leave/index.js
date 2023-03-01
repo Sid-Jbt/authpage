@@ -1,18 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Card, Icon, Grid } from '@mui/material';
-// import Badge from '../../Elements/Badge';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
-import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
+import {
+  Add,
+  DirectionsRun,
+  Vaccines,
+  CalendarMonth,
+  Celebration,
+  Check
+} from '@mui/icons-material';
 import LeaveCard from 'Components/CardLayouts/StaticCard';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
+import DeleteDialog from 'Components/DeleteDialog';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 import DialogMenu from '../../Elements/Dialog';
 import ViewLeaveDetails from './ViewLeaveDetails';
-import { getLeaveLists } from '../../APIs/Leave';
+import { getLeaveLists, deleteLeave } from '../../APIs/Leave';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const Leave = () => {
@@ -21,11 +28,13 @@ const Leave = () => {
   const { setSnack } = useContext(SnackbarContext);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
+  const [selectedId, setSelectedId] = useState('');
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [search, setSearch] = useState('');
   const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
   const [isViewLeaveDialogOpen, setIsViewLeaveDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [counts, setCounts] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -104,22 +113,6 @@ const Leave = () => {
     setIsViewLeaveDialogOpen(false);
   };
 
-  // const onClickView = (row) => {
-  //   const setViewData = {
-  //     leaveType: row.leaveType,
-  //     selectType: row.selectType,
-  //     fromDate: row.fromDate,
-  //     toDate: row.toDate,
-  //     noOfDays: row.noOfDays,
-  //     apporvedBy: row.approvedBy,
-  //     status: row.status,
-  //     reason: row.reason.replace(/(<([^>]+)>)/gi, '')
-  //   };
-  //   setSelectedData(setViewData);
-  //   setIsViewLeaveDialogOpen(true);
-  //   handleOpenDialog();
-  // };
-
   const onClickView = (row) => {
     setSelectedData(row);
     handleOpenDialog();
@@ -144,8 +137,12 @@ const Leave = () => {
       };
       setSelectedData(setViewData);
       setIsViewLeaveDialogOpen(true);
+    } else {
+      setSelectedId(data.id);
+      setIsDeleteDialogOpen(true);
     }
   };
+
   const handleChangeStartDate = (event, string) => {
     if (string === 'fromDate') {
       setFromDate(event.target.value);
@@ -156,6 +153,37 @@ const Leave = () => {
 
   const handleChangeSearch = (event) => {
     setSearch(event.target.value);
+  };
+
+  const handleDialogClose = () => {
+    setIsDeleteDialogOpen(false);
+  };
+
+  const onDelete = async () => {
+    handleDialogClose();
+    const deleteRes = await deleteLeave(selectedId);
+    const { status, message } = deleteRes;
+    setLoader(false);
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      getAllLeaveList();
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
   };
 
   const handleClear = () => {
@@ -298,7 +326,8 @@ const Leave = () => {
           isAction={role !== 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
-            { title: 'View', value: 'view' }
+            { title: 'View', value: 'view' },
+            { title: 'Delete', value: 'delete' }
           ]}
           isView={role === 'admin'}
           isDialogAction={(row) => onClickView(row)}
@@ -320,6 +349,20 @@ const Leave = () => {
             selectedData={selectedData}
             setSelectedData={(value) => setSelectedData(value)}
             isEdit={isEdit}
+          />
+        )}
+        {isDeleteDialogOpen && (
+          <DialogMenu
+            isOpen={isDeleteDialogOpen}
+            onClose={handleDialogClose}
+            dialogTitle="Delete"
+            dialogContent={
+              <DeleteDialog
+                handleDialogClose={handleDialogClose}
+                selectedId={selectedId}
+                deleteItem={onDelete}
+              />
+            }
           />
         )}
       </Card>

@@ -39,13 +39,18 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
         }
       });
       setData(data);
-      console.log('=============', selectedData);
       setSelectType(
-        leaveDayType.find((value) =>
-          value.value === selectedData.selectType ? value : leaveDayType[0]
+        leaveDayType.find(
+          (value) =>
+            value.value === selectedData.selectType || value.label === selectedData.selectType
         )
       );
-      setLeaveType(leave.find((value) => value.value === selectedData.leaveType));
+      setLeaveType(
+        leave.find(
+          (value) =>
+            value.value === selectedData.leaveType || value.label === selectedData.leaveType
+        )
+      );
     } else {
       initialValues.fromDate = moment().format('YYYY-MM-DD');
       initialValues.toDate = moment().format('YYYY-MM-DD');
@@ -63,7 +68,6 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
   };
 
   const onSubmitNewLeave = async (formData) => {
-    console.log('====================', formData, leaveType, selectType);
     let leaveRes;
     const updatedFormData = {
       leaveType: leaveType.value,
@@ -177,26 +181,27 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                       />
                     </Box>
                   </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Box>
-                      <Input
-                        type="date"
-                        placeholder="To Date"
-                        size="large"
-                        fullWidth
-                        id="toDate"
-                        name="toDate"
-                        label="To Date"
-                        value={values.toDate}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.toDate && touched.toDate && errors.toDate}
-                        error={errors.toDate && touched.toDate}
-                        success={!errors.toDate && touched.toDate}
-                      />
-                    </Box>
-                  </Grid>
-
+                  {selectType.value === 'fullDay' && (
+                    <Grid item xs={12} md={6}>
+                      <Box>
+                        <Input
+                          type="date"
+                          placeholder="To Date"
+                          size="large"
+                          fullWidth
+                          id="toDate"
+                          name="toDate"
+                          label="To Date"
+                          defaultValue={values.toDate}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          errorText={errors.toDate && touched.toDate && errors.toDate}
+                          error={errors.toDate && touched.toDate}
+                          success={!errors.toDate && touched.toDate}
+                        />
+                      </Box>
+                    </Grid>
+                  )}
                   <Grid item xs={12}>
                     <Box>
                       <Editor
@@ -230,7 +235,13 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                       disabled={loader}
                       sx={loader && { height: '40px !important', width: '80% !important' }}
                     >
-                      {loader ? <CircularProgress color="inherit" /> : 'Add Leave'}
+                      {loader ? (
+                        <CircularProgress color="inherit" />
+                      ) : isEdit ? (
+                        'Update Leave'
+                      ) : (
+                        'Add Leave'
+                      )}
                     </Button>
                   </Grid>
                 </Grid>

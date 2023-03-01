@@ -76,3 +76,15 @@ export const updateLeave = async (data, id) =>
   })
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
+
+export const deleteLeave = async (id) =>
+  axios({
+    url: `${API_BASE_URL}/employee/leave/${id}`,
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: store.getState().route.currentUser.token
+    }
+  })
+    .then(async (response) => isTokenExpire(response))
+    .catch((error) => handleNetworkError(error));
