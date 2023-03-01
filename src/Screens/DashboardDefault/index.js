@@ -52,7 +52,12 @@ const DashboardDefault = () => {
     if (status) {
       dispatch({
         type: CURRENTUSER,
-        value: { ...currentUser, profilePic: data.profile.profilePic }
+        value: {
+          ...currentUser,
+          profilePic: data.profile.profilePic,
+          firstName: employeeDetailsRes.data.profile.firstName,
+          lastName: employeeDetailsRes.data.profile.lastName
+        }
       });
     }
   };

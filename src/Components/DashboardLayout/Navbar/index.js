@@ -133,7 +133,10 @@ const DashboardNavbar = ({ isMini }) => {
     >
       <NotificationItem
         color="secondary"
-        title={['Hello,', `${profileSetup ? 'Username' : 'Welcome'}`]}
+        title={[
+          'Hello,',
+          `${profileSetup ? `${currentUser.firstName} ${currentUser.lastName}` : 'Welcome'}`
+        ]}
         disabled
         onClick={handleProfileMenu}
         width={200}
