@@ -15,7 +15,7 @@ import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const initialValues = {
   subject: '',
-  messageBody: ''
+  message: ''
 };
 
 const AddSupportTicketDialog = ({
@@ -28,7 +28,6 @@ const AddSupportTicketDialog = ({
 }) => {
   const [department, setDepartment] = useState(Department[0]);
   const [priority, setPriority] = useState(Priority[3]);
-  const [messageBody, setMessageBody] = useState('');
   const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
   const [loader, setLoader] = useState(false);
@@ -43,7 +42,6 @@ const AddSupportTicketDialog = ({
       setPriority(
         Priority.find((value) => value.value === selectedData.priority.props.badgeContent)
       );
-      setMessageBody(selectedData.message);
     } else {
       initialValues.subject = '';
       initialValues.message = '';
@@ -59,10 +57,6 @@ const AddSupportTicketDialog = ({
     setPriority(selectedPriority);
   };
 
-  const handleChangeMessage = (value) => {
-    setMessageBody(value);
-  };
-
   const onSubmitNewSupportTicket = async (formData) => {
     let updatedFormData = {};
     let supportTicketRes;
@@ -71,7 +65,7 @@ const AddSupportTicketDialog = ({
       subject: formData.subject,
       priority: priority.label,
       department: department.label,
-      message: messageBody
+      message: formData.message
     };
 
     setLoader(true);
@@ -125,7 +119,15 @@ const AddSupportTicketDialog = ({
           validationSchema={supportTicketFormSchema}
         >
           {(props) => {
-            const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+            const {
+              values,
+              touched,
+              errors,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              setFieldValue
+            } = props;
             return (
               <form onSubmit={handleSubmit}>
                 <Grid item xs={12} md={6}>
@@ -182,13 +184,11 @@ const AddSupportTicketDialog = ({
                         label="MESSAGE"
                         id="message"
                         name="message"
-                        value={messageBody}
+                        value={values.message}
                         backgroundContainerColor="white"
                         onChange={(value) => {
-                          handleChangeMessage(value);
+                          setFieldValue('message', value);
                         }}
-                        modules={Editor.modules}
-                        formats={Editor.formats}
                       />
                     </Box>
                   </Grid>

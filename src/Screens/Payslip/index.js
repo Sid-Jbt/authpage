@@ -164,6 +164,7 @@ const Payslip = () => {
     setYear('');
     setSearch('');
     setIsClear(!isClear);
+    getAllPayslipList(sortKey, sortOrder, page, '', month, year);
   };
 
   const onClickSearch = () => {

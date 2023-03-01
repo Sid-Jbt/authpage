@@ -11,10 +11,10 @@ const attendanceData = {
     { name: 'earlyLeaving', align: 'center', headerName: ' Early Leaving', mobileHeader: 'Early' },
     { name: 'overtime', align: 'center', headerName: 'Overtime', mobileHeader: 'Overtime' },
     {
-      name: 'production',
+      name: 'totalWork',
       align: 'center',
-      headerName: 'Production',
-      mobileHeader: 'Production'
+      headerName: 'Total Work',
+      mobileHeader: 'Total Work'
     },
     { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
   ],
@@ -29,10 +29,10 @@ const attendanceData = {
     { name: 'earlyLeaving', align: 'center', headerName: ' Early Leaving', mobileHeader: 'Early' },
     { name: 'overtime', align: 'center', headerName: 'Overtime', mobileHeader: 'Overtime' },
     {
-      name: 'production',
+      name: 'totalWork',
       align: 'center',
-      headerName: 'Production',
-      mobileHeader: 'Production'
+      headerName: 'Total Work',
+      mobileHeader: 'Total Work'
     },
     { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
   ],
@@ -47,7 +47,7 @@ const attendanceData = {
       late: '0.5H',
       earlyLeaving: '0.5H',
       overtime: '1H',
-      production: '8H',
+      totalWork: '8H',
       status: (
         <Badge
           variant="gradient"
@@ -68,7 +68,7 @@ const attendanceData = {
       late: '0H',
       earlyLeaving: '0.5H',
       overtime: '0H',
-      production: '8H',
+      totalWork: '8H',
       status: (
         <Badge
           variant="gradient"
@@ -89,7 +89,7 @@ const attendanceData = {
       late: '0H',
       earlyLeaving: '0.5H',
       overtime: '0H',
-      production: '8H',
+      totalWork: '8H',
       status: (
         <Badge
           variant="gradient"
@@ -110,7 +110,7 @@ const attendanceData = {
       late: '0H',
       earlyLeaving: '0.5H',
       overtime: '0H',
-      production: '8H',
+      totalWork: '8H',
       status: (
         <Badge
           variant="gradient"
@@ -131,7 +131,7 @@ const attendanceData = {
       late: '0H',
       earlyLeaving: '0.5H',
       overtime: '0H',
-      production: '8H',
+      totalWork: '8H',
       status: (
         <Badge
           variant="gradient"
@@ -152,7 +152,7 @@ const attendanceData = {
       late: '0H',
       earlyLeaving: '0.5H',
       overtime: '0H',
-      production: '8H',
+      totalWork: '8H',
       status: (
         <Badge
           variant="gradient"
@@ -173,7 +173,7 @@ const attendanceData = {
       late: '0H',
       earlyLeaving: '0.5H',
       overtime: '0H',
-      production: '8H',
+      totalWork: '8H',
       status: (
         <Badge
           variant="gradient"
@@ -194,7 +194,7 @@ const attendanceData = {
       late: '0H',
       earlyLeaving: '0.5H',
       overtime: '0H',
-      production: '8H',
+      totalWork: '8H',
       status: (
         <Badge
           variant="gradient"
@@ -215,7 +215,7 @@ const attendanceData = {
       late: '0H',
       earlyLeaving: '0.5H',
       overtime: '0H',
-      production: '8H',
+      totalWork: '8H',
       status: (
         <Badge
           variant="gradient"
@@ -236,7 +236,7 @@ const attendanceData = {
       late: '0H',
       earlyLeaving: '0.5H',
       overtime: '0H',
-      production: '8H',
+      totalWork: '8H',
       status: (
         <Badge
           variant="gradient"

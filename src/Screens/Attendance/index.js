@@ -146,6 +146,7 @@ const AttendanceList = () => {
     setYear('');
     setSearch('');
     setIsClear(!isClear);
+    getAllAttendanceList(sortKey, sortOrder, page, '');
   };
 
   const onClickSearch = () => {
