@@ -25,14 +25,14 @@ const DashboardDefault = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [calendarEventsData, setCalendarEventsData] = useState([]);
-  const [currentWeekHours, setCurrentWeekHours] = useState(0);
-  const [currentMonthHours, setCurrentMonthHours] = useState(0);
+  const [currentWeekHour, setCurrentWeekHour] = useState(0);
+  const [currentMonthHour, setCurrentMonthHour] = useState(0);
   const noticeEventList = [
     {
       title: 'JBT Demo',
       eventName: 'JBT Demo',
       eventType: 'event',
-      eventClass: 'success',
+      eventClass: 'error',
       start: '2023-03-10',
       end: '2023-03-10'
     },
@@ -61,12 +61,12 @@ const DashboardDefault = () => {
     const getAllDashboardListRes = await getDashboardList();
     const { status, data } = getAllDashboardListRes;
     if (status) {
-      const { percentage, totalWeekHours, totalMonthHours, holidayList } = data;
-      setCurrentMonthHours(totalMonthHours);
-      setCurrentWeekHours(totalWeekHours);
+      const { profileProgress, currentWeekHours, currentMonthHours, holidayList } = data;
+      setCurrentMonthHour(currentMonthHours);
+      setCurrentWeekHour(currentWeekHours);
       dispatch({
         type: CURRENTUSER,
-        value: { ...currentUser, profilePercentage: percentage }
+        value: { ...currentUser, profilePercentage: profileProgress }
       });
       calenderData = holidayList.map((holiday) => ({
         title: holiday.title,
@@ -123,7 +123,7 @@ const DashboardDefault = () => {
               <Grid item xs={12} md={6} lg={3}>
                 <DashboardCard
                   title="Current week"
-                  count={currentWeekHours}
+                  count={currentWeekHour}
                   icon={{ color: 'secondary', component: <WatchRounded /> }}
                   isPercentage={false}
                 />
@@ -131,7 +131,7 @@ const DashboardDefault = () => {
               <Grid item xs={12} md={6} lg={3}>
                 <DashboardCard
                   title="Current month"
-                  count={currentMonthHours}
+                  count={currentMonthHour}
                   icon={{ color: 'info', component: <WatchLater /> }}
                   isPercentage={false}
                 />
