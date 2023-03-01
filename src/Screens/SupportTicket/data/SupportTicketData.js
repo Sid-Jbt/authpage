@@ -4,6 +4,7 @@ const supportTicketData = {
   columns: [
     /* { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' }, */
     { name: 'subject', align: 'center', headerName: 'Subject', mobileHeader: 'Subject' },
+    { name: 'department', align: 'center', headerName: 'Department', mobileHeader: 'Department' },
     { name: 'ticketDate', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
     { name: 'priority', align: 'center', headerName: 'Priority', mobileHeader: 'Priority' },
     { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
@@ -13,6 +14,7 @@ const supportTicketData = {
     /*  { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' }, */
     { name: 'username', align: 'center', headerName: 'User Name', mobileHeader: 'Name' },
     { name: 'subject', align: 'center', headerName: 'Subject', mobileHeader: 'Subject' },
+    { name: 'department', align: 'center', headerName: 'Department', mobileHeader: 'Department' },
     { name: 'ticketDate', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
     { name: 'assign', align: 'center', headerName: 'Assign', mobileHeader: 'Assign' },
     { name: 'priority', align: 'center', headerName: 'Priority', mobileHeader: 'Priority' },

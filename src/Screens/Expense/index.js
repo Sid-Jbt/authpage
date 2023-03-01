@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
 import {
   Add,
-  // Check,
-  // ImportExportRounded,
+  Check,
   PendingTwoTone,
   SummarizeRounded,
   ThumbDown,
@@ -11,19 +10,24 @@ import {
 } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
-import Badge from 'Elements/Badge';
 import { useSelector } from 'react-redux';
 import DialogMenu from 'Elements/Dialog';
-import expenseListData from './data/expenseListData';
-import FilterLayout from '../../Components/FilterLayout';
-import ExpenseCard from '../../Components/CardLayouts/StaticCard';
+import FilterLayout from 'Components/FilterLayout';
+import ExpenseCard from 'Components/CardLayouts/StaticCard';
+import DeleteDialog from 'Components/DeleteDialog';
+import { SnackbarContext } from 'Context/SnackbarProvider';
+import { getExpenseLists, deleteExpense } from 'APIs/Expense';
 import ViewExpenseDetails from './ViewExpenseDetails';
+import expenseListData from './data/expenseListData';
 import AddExpenseForm from './AddExpenseForm';
-import DeleteDialog from '../../Components/DeleteDialog';
-import { SnackbarContext } from '../../Context/SnackbarProvider';
-import { getExpenseLists, deleteExpense } from '../../APIs/Expense';
 
-// const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
+const adminExpenseOptions = [{ title: 'View', value: 'view' }];
+const empExpenseOptions = [
+  { title: 'Edit', value: 'edit' },
+  { title: 'View', value: 'view' },
+  { title: 'Delete', value: 'delete' }
+];
+
 const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
   const { role } = useSelector((state) => state.route);
@@ -45,7 +49,6 @@ const Expense = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [isClear, setIsClear] = useState(false);
   // const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
 
@@ -73,27 +76,8 @@ const Expense = () => {
       message
     } = expenseRes;
     if (status) {
-      const expenseStatusData = rows.map((rowId) => ({
-        ...rowId,
-        status: (
-          <Badge
-            variant="gradient"
-            badgeContent={rowId.status}
-            color={
-              rowId.status === 'pending'
-                ? 'warning'
-                : rowId.status === 'approved'
-                ? 'success'
-                : 'error'
-            }
-            size="xs"
-            container
-            customWidth={100}
-          />
-        )
-      }));
       setCounts(expenseRes.data.count);
-      setAllExpenseList(expenseStatusData);
+      setAllExpenseList(rows);
       setExpenseListCount(expenseRes.data.count.total);
       setLoader(false);
       setIsSearch(false);
@@ -134,26 +118,30 @@ const Expense = () => {
     handleOpenDialog();
   };
 
-  const onClickAction = (key, index) => {
+  const onClickAction = (key, data) => {
     if (key === 'edit') {
       setIsEdit(true);
-      setSelectedData(allExpenseList.find((o) => o.id === index));
+      setSelectedData(allExpenseList.find((o) => o.id === data.id));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      const viewData = allExpenseList.find((o) => o.id === index);
-      const setViewData = {
-        itemName: viewData.itemName,
-        purchaseFrom: viewData.purchaseFrom,
-        purchaseDate: viewData.purchaseDate,
-        amount: viewData.amount,
-        status: viewData.status,
-        document: viewData.document,
-        comment: viewData.comment
-      };
-      setSelectedData(setViewData);
-      setIsViewExpenseDialogOpen(true);
+      if (role === 'admin') {
+        onClickView(data);
+      } else {
+        const viewData = allExpenseList.find((o) => o.id === data.id);
+        const setViewData = {
+          itemName: viewData.itemName,
+          purchaseFrom: viewData.purchaseFrom,
+          purchaseDate: viewData.purchaseDate,
+          amount: viewData.amount,
+          status: viewData.status,
+          document: viewData.document,
+          comment: viewData.comment
+        };
+        setSelectedData(setViewData);
+        setIsViewExpenseDialogOpen(true);
+      }
     } else {
-      setSelectedId(index);
+      setSelectedId(data.id);
       setIsDeleteDialogOpen(true);
     }
   };
@@ -164,7 +152,6 @@ const Expense = () => {
 
   const handleClear = () => {
     setSearch('');
-    setIsClear(!isClear);
     getAllExpenseList(sortKey, sortOrder, page, '');
   };
 
@@ -173,8 +160,30 @@ const Expense = () => {
   };
 
   const onDelete = async () => {
-    await deleteExpense(selectedId);
     handleDialogClose();
+    const deleteRes = await deleteExpense(selectedId);
+    const { status, message } = deleteRes;
+    setLoader(false);
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      getAllExpenseList();
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
   };
 
   /* // Need to rectify file export
@@ -264,12 +273,6 @@ const Expense = () => {
     setSortOrder(selectedSortOrder);
     await getAllExpenseList(selectedSortKey, selectedSortOrder, page);
   };
-
-  useEffect(() => {
-    if (isClear) {
-      getAllExpenseList(sortKey, sortOrder, page, '');
-    }
-  }, [isClear]);
 
   return (
     <>
@@ -371,15 +374,9 @@ const Expense = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allExpenseList}
-          onClickAction={(value, id) => onClickAction(value, id)}
-          isAction={role !== 'admin'}
-          options={[
-            { title: 'Edit', value: 'edit' },
-            { title: 'View', value: 'view' },
-            { title: 'Delete', value: 'delete' }
-          ]}
-          isView={role === 'admin'}
-          isDialogAction={(row) => onClickView(row)}
+          onClickAction={(value, row) => onClickAction(value, row)}
+          isAction
+          options={role === 'admin' ? adminExpenseOptions : empExpenseOptions}
           rowsCount={expenseListCount}
           initialPage={page}
           onChangePage={(value) => onPage(value)}

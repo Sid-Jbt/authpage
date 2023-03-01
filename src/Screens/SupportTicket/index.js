@@ -1,17 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import {
-  Add,
-  // Check,
-  // ImportExportRounded,
-  Pending,
-  SummarizeRounded,
-  ThumbDown,
-  ThumbUp
-} from '@mui/icons-material';
+import { Add, Pending, SummarizeRounded, ThumbDown, ThumbUp } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
-import Badge from 'Elements/Badge';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
@@ -27,6 +18,13 @@ import { SnackbarContext } from '../../Context/SnackbarProvider';
 import { getSupportTicketLists } from '../../APIs/SupportTicket';
 
 // const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
+
+const adminSupportOptions = [{ title: 'View', value: 'view' }];
+
+const empSupportOptions = [
+  { title: 'Edit', value: 'edit' },
+  { title: 'View', value: 'view' }
+];
 
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
@@ -52,7 +50,6 @@ const supportTicket = () => {
   const [sortOrder, setSortOrder] = useState('desc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [isClear, setIsClear] = useState(false);
   // const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
 
@@ -85,43 +82,8 @@ const supportTicket = () => {
       message
     } = ticketsRes;
     if (status) {
-      const supportTicketStatusData = rows.map((rowId) => ({
-        ...rowId,
-        priority: (
-          <Badge
-            variant="gradient"
-            badgeContent={rowId.priority}
-            color={
-              rowId.priority === 'medium' || rowId.priority === 'Medium'
-                ? 'warning'
-                : rowId.priority === 'low' || rowId.priority === 'Low'
-                ? 'info'
-                : 'error'
-            }
-            size="xs"
-            container
-            customWidth={100}
-          />
-        ),
-        status: (
-          <Badge
-            variant="gradient"
-            badgeContent={rowId.status}
-            color={
-              rowId.status === 'pending'
-                ? 'warning'
-                : rowId.status === 'approved'
-                ? 'success'
-                : 'error'
-            }
-            size="xs"
-            container
-            customWidth={100}
-          />
-        )
-      }));
       setCounts(ticketsRes.data.count);
-      setAllSpTicketList(supportTicketStatusData);
+      setAllSpTicketList(rows);
       setSpTicketListCount(ticketsRes.data.count.total);
       setLoader(false);
       setIsSearch(false);
@@ -162,25 +124,29 @@ const supportTicket = () => {
     handleOpenDialog();
   };
 
-  const onClickAction = (key, index) => {
+  const onClickAction = (key, data) => {
     if (key === 'edit') {
       setIsEdit(true);
-      setSelectedData(allSpTicketList.find((o) => o.id === index));
+      setSelectedData(allSpTicketList.find((o) => o.id === data.id));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      const viewData = allSpTicketList.find((o) => o.id === index);
-      const setViewData = {
-        subject: viewData.subject,
-        date: viewData.ticketDate,
-        department: viewData.department,
-        priority: viewData.priority,
-        status: viewData.status,
-        message: viewData.message.replace(/(<([^>]+)>)/gi, '')
-      };
-      setSelectedData(setViewData);
-      setIsViewSupportTicketDialogOpen(true);
+      if (role === 'admin') {
+        onClickView(data);
+      } else {
+        const viewData = allSpTicketList.find((o) => o.id === data.id);
+        const setViewData = {
+          subject: viewData.subject,
+          date: viewData.ticketDate,
+          department: viewData.department,
+          priority: viewData.priority,
+          status: viewData.status,
+          message: viewData.message.replace(/(<([^>]+)>)/gi, '')
+        };
+        setSelectedData(setViewData);
+        setIsViewSupportTicketDialogOpen(true);
+      }
     } else {
-      setSelectedId(index);
+      setSelectedId(data.id);
       setIsDeleteDialogOpen(true);
     }
   };
@@ -279,7 +245,6 @@ const supportTicket = () => {
     setPriority('');
     setIsStatus('');
     setSearch('');
-    setIsClear(!isClear);
     getAllSupportTicketList(sortKey, sortOrder, page, '', selectDate);
   };
   const onClickSearch = () => {
@@ -312,12 +277,6 @@ const supportTicket = () => {
     setSortOrder(selectedSortOrder);
     await getAllSupportTicketList(selectedSortKey, selectedSortOrder, page);
   };
-
-  useEffect(() => {
-    if (isClear) {
-      getAllSupportTicketList(sortKey, sortOrder, page, '', selectDate);
-    }
-  }, [isClear]);
 
   return (
     <>
@@ -450,15 +409,9 @@ const supportTicket = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allSpTicketList}
-          onClickAction={(value, id) => onClickAction(value, id)}
-          isAction={role !== 'admin'}
-          options={[
-            { title: 'Edit', value: 'edit' },
-            { title: 'View', value: 'view' }
-            /* { title: 'Delete', value: 'delete' } */
-          ]}
-          isView={role === 'admin'}
-          isDialogAction={(row) => onClickView(row)}
+          onClickAction={(value, row) => onClickAction(value, row)}
+          isAction
+          options={role === 'admin' ? adminSupportOptions : empSupportOptions}
           rowsCount={spTicketListCount}
           initialPage={page}
           onChangePage={(value) => onPage(value)}
