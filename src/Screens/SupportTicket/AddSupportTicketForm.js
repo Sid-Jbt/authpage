@@ -39,9 +39,7 @@ const AddSupportTicketDialog = ({
       });
       setData(data);
       setDepartment(Department.find((value) => value.value === selectedData.department));
-      setPriority(
-        Priority.find((value) => value.value === selectedData.priority.props.badgeContent)
-      );
+      setPriority(Priority.find((value) => value.value === selectedData.priority));
     } else {
       initialValues.subject = '';
       initialValues.message = '';
@@ -58,20 +56,18 @@ const AddSupportTicketDialog = ({
   };
 
   const onSubmitNewSupportTicket = async (formData) => {
-    let updatedFormData = {};
     let supportTicketRes;
-
-    updatedFormData = {
+    const updatedFormData = {
       subject: formData.subject,
-      priority: priority.label,
-      department: department.label,
+      priority: priority.value,
+      department: department.value,
       message: formData.message
     };
-
     setLoader(true);
     if (isEdit) {
       supportTicketRes = await updateSupportTicket(updatedFormData, selectedData.id);
     } else {
+      console.log('uploddd', updatedFormData);
       supportTicketRes = await addNewSupportTicket(updatedFormData);
     }
 

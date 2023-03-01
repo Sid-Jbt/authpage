@@ -116,8 +116,7 @@ export const WorkingHours = [
 export const Priority = [
   { value: 'high', label: 'High' },
   { value: 'medium', label: 'Medium' },
-  { value: 'low', label: 'Low' },
-  { value: 'no', label: 'No' }
+  { value: 'low', label: 'Low' }
 ];
 
 export const Department = [
@@ -207,6 +206,7 @@ export const SupportTicketStatus = [
 ];
 
 export const isTokenExpire = async (response) => {
+  console.log('response', response);
   let apiResponse = null;
   if (response.statusText === 'OK') {
     try {
@@ -226,4 +226,17 @@ export const handleNetworkError = async (responseError) => {
   if (responseError.name !== 'AbortError') {
     console.log('Network request error. Please try again.');
   }
+};
+
+export const badgePriorityColor = {
+  medium: 'warning',
+  high: 'error',
+  low: 'info'
+};
+
+export const badgeStatusColor = {
+  pending: 'warning',
+  declined: 'error',
+  approved: 'success',
+  rejected: 'error'
 };
