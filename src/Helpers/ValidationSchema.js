@@ -173,7 +173,8 @@ export const expenseFormSchema = yup.object().shape({
     .string()
     .required('Item name is required')
     .min(2, 'Too Short!')
-    .max(20, 'Too Long!'),
+    .max(20, 'Too Long!')
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid item name'),
   purchaseFrom: yup.string().required('Purchase from is required'),
   purchaseDate: yup.string().required('Purchase date is required'),
   amount: yup.string().required('Amount is required')

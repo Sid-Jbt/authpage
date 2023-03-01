@@ -11,10 +11,10 @@ import {
   Person,
   Settings
 } from '@mui/icons-material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NotificationItem from 'Elements/Item';
 
-import UserPic from 'Assets/Images/no-profile.png';
+import NoUserPic from 'Assets/Images/no-profile.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Breadcrumbs from 'Elements/Breadcrumbs';
 import Avatar from 'Elements/Avatar';
@@ -26,18 +26,29 @@ import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
 const DashboardNavbar = ({ isMini }) => {
   const customization = useSelector((state) => state.customization);
+  const { currentUser } = useSelector((state) => state.route);
   const themes = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [openMenu, setOpenMenu] = useState(false);
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
-  const [isProfileComplete, setIsProfileComplete] = useState(true);
+  const [isProfileComplete, setIsProfileComplete] = useState(false);
+  const [userProfilePic, setUserProfilePic] = useState('');
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
   const profileSetup = pathname !== profileSetupPattern;
 
-  console.log('======', setIsProfileComplete);
+  useEffect(() => {
+    if (
+      currentUser.hasOwnProperty('profilePercentage') &&
+      currentUser.hasOwnProperty('profilePic')
+    ) {
+      const { profilePercentage, profilePic } = currentUser;
+      setIsProfileComplete(profilePercentage > 100);
+      setUserProfilePic(profilePic);
+    }
+  }, []);
 
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
@@ -224,12 +235,14 @@ const DashboardNavbar = ({ isMini }) => {
               ) : null}
             </Grid>
             <Grid item onClick={handleProfileCircle}>
-              {profileSetup && isProfileComplete ? <CircularProgressWithLabel value={10} /> : null}
+              {profileSetup && !isProfileComplete ? (
+                <CircularProgressWithLabel value={currentUser.profilePercentage} />
+              ) : null}
             </Grid>
             <Grid item>
               <Avatar
-                src={UserPic}
-                alt={UserPic}
+                src={userProfilePic !== '' ? NoUserPic : userProfilePic}
+                alt={NoUserPic}
                 size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'lg'}
                 variant="circle"
                 onClick={handleProfileMenu}

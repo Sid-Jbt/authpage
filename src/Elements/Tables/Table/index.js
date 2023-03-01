@@ -18,6 +18,8 @@ import { Action } from 'Elements/Tables/Action';
 import breakpoints from 'Theme/base/breakpoints';
 import Icon from '@mui/material/Icon';
 import { RemoveRedEye } from '@mui/icons-material';
+import Badge from 'Elements/Badge';
+import { badgePriorityColor, badgeStatusColor } from 'Helpers/Global';
 
 const Table = ({
   columns,
@@ -122,6 +124,12 @@ const Table = ({
     rows.map((row, key) => {
       const rowKey = `row-${key}`;
       const tableRow = columns.map(({ name, align }) => {
+        const color =
+          name === 'priority'
+            ? badgePriorityColor[row.priority]
+            : name === 'status'
+            ? badgeStatusColor[row.status]
+            : 'info';
         let template;
         if (Array.isArray(row[name])) {
           template = (
@@ -161,14 +169,29 @@ const Table = ({
                 verticalAlign: 'middle'
               })}
             >
-              <Typography
-                variant="button"
-                fontWeight="regular"
-                color="secondary"
-                sx={{ display: 'inline-block', width: 'max-content' }}
-              >
-                {row[name] === undefined || row[name] === null ? '-' : row[name]}
-              </Typography>
+              {name === 'priority' || name === 'status' ? (
+                <Badge
+                  variant="gradient"
+                  badgeContent={row[name]}
+                  color={color}
+                  size="xs"
+                  container
+                  customWidth={100}
+                />
+              ) : (
+                <Typography
+                  variant="button"
+                  fontWeight="regular"
+                  color="secondary"
+                  sx={{
+                    display: 'inline-block',
+                    width: 'max-content',
+                    textTransform: 'capitalize'
+                  }}
+                >
+                  {row[name] === undefined || row[name] === null ? '-' : row[name]}
+                </Typography>
+              )}
             </Box>
           );
         }
@@ -192,7 +215,7 @@ const Table = ({
                 id={row.id}
                 isAction={isAction}
                 options={options}
-                onClickAction={(value) => onClickAction(value, row.id)}
+                onClickAction={(value) => onClickAction(value, row)}
               />
             </TableCell>
           )}
