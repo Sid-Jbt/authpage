@@ -176,7 +176,6 @@ const AttendanceList = () => {
     }
   }, [isClear]);
 
-  console.log('Admin  counts --> ', counts);
   return (
     <>
       <Grid container spacing={3} mb={3}>
