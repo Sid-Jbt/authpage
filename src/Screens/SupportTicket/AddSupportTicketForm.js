@@ -67,7 +67,6 @@ const AddSupportTicketDialog = ({
     if (isEdit) {
       supportTicketRes = await updateSupportTicket(updatedFormData, selectedData.id);
     } else {
-      console.log('uploddd', updatedFormData);
       supportTicketRes = await addNewSupportTicket(updatedFormData);
     }
 
