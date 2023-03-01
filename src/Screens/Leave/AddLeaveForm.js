@@ -11,14 +11,13 @@ import Select from 'Elements/Select';
 import Editor from 'Elements/Editor';
 import { leaveTypes, leave } from 'Helpers/Global';
 import { Check, Error } from '@mui/icons-material';
-import { formatDate } from '@fullcalendar/react';
 import { addNewLeave, updateLeave } from '../../APIs/Leave';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const initialValues = {
   fromDate: moment().format('YYYY-MM-DD'),
   toDate: moment().format('YYYY-MM-DD'),
-  leaveReason: ''
+  reason: ''
 };
 
 const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isEdit, title }) => {
@@ -30,22 +29,24 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
 
   useEffect(() => {
     if (selectedData !== null) {
+      console.log('selectedData -> ', selectedData);
+
       Object.keys(data).map((key) => {
         data[key] = selectedData[key];
         if (key === 'fromDate') {
-          data[key] = moment(selectedData.from).format('YYYY-MM-DD');
+          data[key] = moment(selectedData.fromDate).format('YYYY-MM-DD');
         }
         if (key === 'toDate') {
-          data[key] = moment(selectedData.to).format('YYYY-MM-DD');
+          data[key] = moment(selectedData.toDate).format('YYYY-MM-DD');
         }
       });
       setData(data);
-      setSelectType(leave.find((value) => value.label === selectedData.leave));
-      setLeaveType(leaveTypes.find((value) => value.label === selectedData.leaveType));
+      setSelectType(leave.find((value) => value.value === selectedData.leave));
+      setLeaveType(leaveTypes.find((value) => value.value === selectedData.leaveType));
     } else {
       initialValues.fromDate = moment().format('YYYY-MM-DD');
       initialValues.toDate = moment().format('YYYY-MM-DD');
-      initialValues.leaveReason = '';
+      initialValues.reason = '';
       setData(initialValues);
     }
   }, [selectedData]);
@@ -61,29 +62,29 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
   const onSubmitNewLeave = async (formData) => {
     let updatedFormData = {};
     let leaveRes;
-    console.log('formData', formData);
 
-    // if(formData.leaveReason === undefined || formData.leaveReason === null){
+    // if(formData.reason === undefined || formData.reason === null){
     if (selectType.value === 'halfDay') {
       updatedFormData = {
-        leaveType: leaveType.label,
-        selectType: selectType.label,
+        leaveType: leaveType.value,
+        selectType: selectType.value,
         fromDate: formData.fromDate,
         toDate: formData.fromDate,
-        reason: formData.leaveReason
+        reason: formData.reason
       };
     } else {
       updatedFormData = {
-        leaveType: leaveType.label,
-        selectType: selectType.label,
+        leaveType: leaveType.value,
+        selectType: selectType.value,
         fromDate: formData.fromDate,
         toDate: formData.toDate,
-        reason: formData.leaveReason
+        reason: formData.reason
       };
     }
 
-    console.log('formData', formatDate);
-    console.log('updatedFormData', updatedFormData);
+    // console.log('SelectType -> ', selectType)
+    // console.log('formData', formData);
+    // console.log('updatedFormData', updatedFormData);
 
     setLoader(true);
     if (isEdit) {
@@ -115,6 +116,10 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
     }
     handleDialog();
   };
+
+  console.log('SelectType -> ', selectType);
+  // console.log('formData', formData);
+  // console.log('updatedFormData', updatedFormData);
 
   return (
     <>
@@ -181,7 +186,7 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                         id="fromDate"
                         name="fromDate"
                         label="From Date"
-                        defaultValue={values.fromDate}
+                        value={values.fromDate}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         errorText={errors.fromDate && touched.fromDate && errors.fromDate}
@@ -190,38 +195,38 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                       />
                     </Box>
                   </Grid>
-                  {selectType.value === 'fullDay' && (
-                    <Grid item xs={12} md={6}>
-                      <Box>
-                        <Input
-                          type="date"
-                          placeholder="To Date"
-                          size="large"
-                          fullWidth
-                          id="toDate"
-                          name="toDate"
-                          label="To Date"
-                          defaultValue={values.toDate}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          errorText={errors.toDate && touched.toDate && errors.toDate}
-                          error={errors.toDate && touched.toDate}
-                          success={!errors.toDate && touched.toDate}
-                        />
-                      </Box>
-                    </Grid>
-                  )}
+                  {/* {(selectType.value === 'fullDay' || (selectedData && selectedData.selectType === 'fullDay')) && ( */}
+                  <Grid item xs={12} md={6}>
+                    <Box>
+                      <Input
+                        type="date"
+                        placeholder="To Date"
+                        size="large"
+                        fullWidth
+                        id="toDate"
+                        name="toDate"
+                        label="To Date"
+                        value={values.toDate}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={errors.toDate && touched.toDate && errors.toDate}
+                        error={errors.toDate && touched.toDate}
+                        success={!errors.toDate && touched.toDate}
+                      />
+                    </Box>
+                  </Grid>
+                  {/* )} */}
                   <Grid item xs={12}>
                     <Box>
                       <Editor
                         title="Leave Reason"
                         label="Leave Reason"
-                        id="leaveReason"
-                        name="leaveReason"
-                        value={values.leaveReason}
+                        id="reason"
+                        name="reason"
+                        value={values.reason}
                         backgroundContainerColor="white"
                         onChange={(value) => {
-                          setFieldValue('leaveReason', value);
+                          setFieldValue('reason', value);
                         }}
                       />
                     </Box>

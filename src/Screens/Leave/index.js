@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Card, Icon, Grid } from '@mui/material';
+// import Badge from '../../Elements/Badge';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
@@ -13,7 +14,6 @@ import DialogMenu from '../../Elements/Dialog';
 import ViewLeaveDetails from './ViewLeaveDetails';
 import { getLeaveLists } from '../../APIs/Leave';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
-import Badge from '../../Elements/Badge';
 
 const Leave = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
@@ -29,6 +29,7 @@ const Leave = () => {
   const [counts, setCounts] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [selectedId, setSelectedId] = useState('');
 
   const [allLeaveList, setAllLeaveList] = useState([]);
   const [leaveListCount, setLeaveListCount] = useState(0);
@@ -40,7 +41,7 @@ const Leave = () => {
   const [isSearch, setIsSearch] = useState(false);
 
   const getAllLeaveList = async (
-    selectedSortKey = 'fromDate',
+    selectedSortKey = 'createdAt',
     selectedSortOrder = 'asc',
     selectedPage = 0,
     text = '',
@@ -67,26 +68,7 @@ const Leave = () => {
       message
     } = leaveRes;
     if (status) {
-      const leaveStatusData = rows.map((rowId) => ({
-        ...rowId,
-        status: (
-          <Badge
-            variant="gradient"
-            badgeContent={rowId.status}
-            color={
-              rowId.status === 'pending'
-                ? 'warning'
-                : rowId.status === 'approved'
-                ? 'success'
-                : 'error'
-            }
-            size="xs"
-            container
-            customWidth={100}
-          />
-        )
-      }));
-      setAllLeaveList(leaveStatusData);
+      setAllLeaveList(rows);
       setCounts(leaveRes.data.count);
       setLeaveListCount(leaveRes.data.count.total);
       setLoader(false);
@@ -124,20 +106,49 @@ const Leave = () => {
     setIsViewLeaveDialogOpen(false);
   };
 
+  // const onClickView = (row) => {
+  //   const setViewData = {
+  //     leaveType: row.leaveType,
+  //     selectType: row.selectType,
+  //     fromDate: row.fromDate,
+  //     toDate: row.toDate,
+  //     noOfDays: row.noOfDays,
+  //     apporvedBy: row.approvedBy,
+  //     status: row.status,
+  //     reason: row.reason.replace(/(<([^>]+)>)/gi, '')
+  //   };
+  //   setSelectedData(setViewData);
+  //   setIsViewLeaveDialogOpen(true);
+  //   handleOpenDialog();
+  // };
+
   const onClickView = (row) => {
-    const setViewData = {
-      leaveType: row.leaveType,
-      selectType: row.selectType,
-      fromDate: row.fromDate,
-      toDate: row.toDate,
-      noOfDays: row.noOfDays,
-      apporvedBy: row.approvedBy,
-      status: row.status,
-      reason: row.reason.replace(/(<([^>]+)>)/gi, '')
-    };
-    setSelectedData(setViewData);
-    setIsViewLeaveDialogOpen(true);
+    setSelectedData(row);
     handleOpenDialog();
+  };
+
+  const onClickAction = (key, index) => {
+    if (key === 'edit') {
+      setIsEdit(true);
+      setSelectedData(allLeaveList.find((o) => o.id === index));
+      setIsDialogOpen(!isDialogOpen);
+    } else if (key === 'view') {
+      const viewData = allLeaveList.find((o) => o.id === index);
+      const setViewData = {
+        leaveType: viewData.leaveType,
+        selectType: viewData.selectType,
+        fromDate: viewData.fromDate,
+        toDate: viewData.toDate,
+        noOfDays: viewData.noOfDays,
+        apporvedBy: viewData.approvedBy,
+        status: viewData.status,
+        reason: viewData.reason.replace(/(<([^>]+)>)/gi, '')
+      };
+      setSelectedData(setViewData);
+      setIsViewLeaveDialogOpen(true);
+    } else {
+      setSelectedId(index);
+    }
   };
 
   const handleChangeStartDate = (event, string) => {
@@ -187,6 +198,8 @@ const Leave = () => {
       getAllLeaveList(sortKey, sortOrder, page, '', fromDate, toDate);
     }
   }, [isClear]);
+
+  console.log('selectedData -> ', selectedId);
 
   return (
     <>
@@ -295,14 +308,14 @@ const Leave = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allLeaveList}
-          // onClickAction={(value, id) => onClickAction(value, id)}
-          isAction={role === 'admin'}
-          // options={[
-          //   { title: 'Edit', value: 'edit' },
-          //   { title: 'View', value: 'view' },
-          //   // { title: 'Delete', value: 'delete' }
-          // ]}
-          isView={role !== 'admin'}
+          onClickAction={(value, id) => onClickAction(value, id)}
+          isAction={role !== 'admin'}
+          options={[
+            { title: 'Edit', value: 'edit' },
+            { title: 'View', value: 'view' }
+            // { title: 'Delete', value: 'delete' }
+          ]}
+          isView={role === 'admin'}
           isDialogAction={(row) => onClickView(row)}
           rowsCount={leaveListCount}
           initialPage={page}
