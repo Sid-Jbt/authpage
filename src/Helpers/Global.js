@@ -206,7 +206,6 @@ export const SupportTicketStatus = [
 ];
 
 export const isTokenExpire = async (response) => {
-  console.log('response', response);
   let apiResponse = null;
   if (response.statusText === 'OK') {
     try {

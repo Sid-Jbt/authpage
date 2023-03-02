@@ -6,7 +6,6 @@ import Typography from 'Elements/Typography';
 import { getDashboardPattern } from 'Routes/routeConfig';
 
 const Breadcrumbs = ({ icon, title, route, light }) => {
-  console.log('title', title);
   const routes = route.slice(0, -1);
 
   return (

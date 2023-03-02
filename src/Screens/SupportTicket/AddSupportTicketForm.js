@@ -67,7 +67,6 @@ const AddSupportTicketDialog = ({
     if (isEdit) {
       supportTicketRes = await updateSupportTicket(updatedFormData, selectedData.id);
     } else {
-      console.log('uploddd', updatedFormData);
       supportTicketRes = await addNewSupportTicket(updatedFormData);
     }
 
@@ -207,7 +206,13 @@ const AddSupportTicketDialog = ({
                       disabled={loader}
                       sx={loader && { height: '40px !important', width: '80% !important' }}
                     >
-                      {loader ? <CircularProgress color="inherit" /> : 'Save'}
+                      {loader ? (
+                        <CircularProgress color="inherit" />
+                      ) : 'isEdit' ? (
+                        'Update Ticket'
+                      ) : (
+                        'Add Ticket'
+                      )}
                     </Button>
                   </Grid>
                 </Grid>

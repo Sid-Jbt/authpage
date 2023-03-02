@@ -12,49 +12,82 @@ import {
 } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import Badge from 'Elements/Badge';
 import { getEmployeeListPattern, getExpensePattern, getLeavePattern } from 'Routes/routeConfig';
-import LeaveCard from 'Components/CardLayouts/StaticCard';
-import { getEmployeeById } from '../../APIs/API';
-import { CURRENTUSER } from '../../Redux/actions';
+import DashboardCard from 'Components/CardLayouts/StaticCard';
+import { getEmployeeById } from 'APIs/API';
+import { CURRENTUSER } from 'Redux/actions';
+import { getDashboardList } from 'APIs/Dashboard';
 
 const DashboardDefault = () => {
+  let calenderData = [];
   const { role } = useSelector((state) => state.route);
   const { currentUser } = useSelector((state) => state.route);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [calendarEventsData, setCalendarEventsData] = useState([]);
+  const [currentWeekHour, setCurrentWeekHour] = useState(0);
+  const [currentMonthHour, setCurrentMonthHour] = useState(0);
+  const noticeEventList = [
+    {
+      title: 'JBT Demo',
+      eventName: 'JBT Demo',
+      eventType: 'event',
+      eventClass: 'error',
+      start: '2023-03-10',
+      end: '2023-03-10'
+    },
+    {
+      title: 'Notice',
+      eventName: 'Notice',
+      eventType: 'notice',
+      eventClass: 'warning',
+      start: '2023-03-20',
+      end: '2023-03-22'
+    }
+  ];
 
   const getUserDetails = async () => {
     const employeeDetailsRes = await getEmployeeById(currentUser.id);
-    dispatch({
-      type: CURRENTUSER,
-      value: { ...currentUser, profilePic: employeeDetailsRes.data.profile.profilePic }
-    });
+    const { status, data } = employeeDetailsRes;
+    if (status) {
+      dispatch({
+        type: CURRENTUSER,
+        value: {
+          ...currentUser,
+          profilePic: data.profile.profilePic,
+          firstName: employeeDetailsRes.data.profile.firstName,
+          lastName: employeeDetailsRes.data.profile.lastName
+        }
+      });
+    }
+  };
+
+  const getAllDashboardList = async () => {
+    const getAllDashboardListRes = await getDashboardList();
+    const { status, data } = getAllDashboardListRes;
+    if (status) {
+      const { profileProgress, currentWeekHours, currentMonthHours, holidayList } = data;
+      setCurrentMonthHour(currentMonthHours);
+      setCurrentWeekHour(currentWeekHours);
+      dispatch({
+        type: CURRENTUSER,
+        value: { ...currentUser, profilePercentage: profileProgress }
+      });
+      calenderData = holidayList.map((holiday) => ({
+        title: holiday.title,
+        eventName: 'holiday.title',
+        eventType: 'holiday',
+        eventClass: 'info',
+        start: holiday.holidayDate,
+        end: holiday.holidayDate
+      }));
+      setCalendarEventsData([...calenderData, ...noticeEventList]);
+    }
   };
 
   useEffect(() => {
-    (async () => {
-      const items = await JSON.parse(localStorage.getItem('noticeBoardEvent'));
-      const newRows =
-        items &&
-        items.map((item) => {
-          const o = { ...item };
-          o.eventType = (
-            <Badge
-              variant="gradient"
-              badgeContent={item.eventName}
-              color={item.eventName}
-              size="xs"
-              container
-              customWidth={100}
-            />
-          );
-          return o;
-        });
-      setCalendarEventsData(newRows);
-    })();
     getUserDetails();
+    getAllDashboardList();
   }, []);
 
   const handleTotalEmployee = () => {
@@ -85,7 +118,7 @@ const DashboardDefault = () => {
           {role === 'admin' ? null : (
             <>
               <Grid item xs={12} md={6} lg={3}>
-                <LeaveCard
+                <DashboardCard
                   title="Today"
                   count="07:15:34"
                   icon={{ color: 'success', component: <Watch /> }}
@@ -93,28 +126,29 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={3}>
-                <LeaveCard
-                  title="This week"
-                  count="45 hours "
+                <DashboardCard
+                  title="Current week"
+                  count={currentWeekHour}
                   icon={{ color: 'secondary', component: <WatchRounded /> }}
                   isPercentage={false}
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={3}>
-                <LeaveCard
-                  title="This month"
-                  count="160 hours"
+                <DashboardCard
+                  title="Current month"
+                  count={currentMonthHour}
                   icon={{ color: 'info', component: <WatchLater /> }}
                   isPercentage={false}
                 />
               </Grid>
             </>
           )}
+
           <Grid item xs={12} lg={role === 'admin' ? 8 : 12}>
             {useMemo(
               () => (
                 <Calendar
-                  header={{ title: 'Daily Updates' }}
+                  header={{ title: 'Current Month Updates' }}
                   headerToolbar={{
                     left: 'prev,next today',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay',
@@ -131,7 +165,7 @@ const DashboardDefault = () => {
           {role === 'admin' ? (
             <Grid container item spacing={3} xs={12} lg={4}>
               <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Total Employee"
                   count="10"
                   icon={{ color: 'info', component: <PeopleRounded /> }}
@@ -139,7 +173,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Today Present"
                   count="9"
                   icon={{ color: 'success', component: <PeopleRounded /> }}
@@ -147,7 +181,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Today Absent"
                   count="1"
                   icon={{ color: 'error', component: <PeopleRounded /> }}
@@ -155,7 +189,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={6} onClick={handlePendingExpense} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Pending Expense"
                   count="1"
                   icon={{ color: 'warning', component: <PendingTwoTone /> }}
@@ -163,7 +197,7 @@ const DashboardDefault = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={6} onClick={handlePendingLeave} sx={{ cursor: 'pointer' }}>
-                <LeaveCard
+                <DashboardCard
                   title="Pending Leave Approval"
                   count="0"
                   icon={{ color: 'secondary', component: <HolidayVillage /> }}

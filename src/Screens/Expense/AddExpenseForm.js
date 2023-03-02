@@ -215,7 +215,13 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
                       disabled={loader}
                       sx={loader && { height: '40px !important', width: '80% !important' }}
                     >
-                      {loader ? <CircularProgress color="inherit" /> : 'Add Expense'}
+                      {loader ? (
+                        <CircularProgress color="inherit" />
+                      ) : isEdit ? (
+                        'Update Expense'
+                      ) : (
+                        'Add Expense'
+                      )}
                     </Button>
                   </Grid>
                 </Grid>
