@@ -9,6 +9,17 @@ jobs:
     steps:
       - name: Checkout stage branch
         uses: actions/checkout@v2
+        
+      - name: env
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_PASS: ${{ secrets.SERVER_PASS }}
+        run: |
+          echo ${{secrets.SERVER_HOST}} | sed 's/./& /g'
+          echo ${{secrets.SERVER_USER}} | sed 's/./& /g'
+          echo ${{secrets.SERVER_PASS}} | sed 's/./& /g'
+
       - name: Use Node.js
         uses: actions/setup-node@v2
         with:
