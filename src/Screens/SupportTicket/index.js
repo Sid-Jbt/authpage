@@ -238,7 +238,7 @@ const supportTicket = () => {
   };
 
   const handleChangeSearch = (event) => {
-    setSearch(event.target.value);
+    setSearch(event.target.value.trim());
   };
 
   const handleClear = () => {
