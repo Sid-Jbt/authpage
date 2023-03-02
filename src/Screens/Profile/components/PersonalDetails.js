@@ -28,6 +28,8 @@ const PersonalDetails = ({ props, employeeProfileDetails, onChangeGender }) => {
     }
   }, [employeeProfileDetails]);
 
+  console.log('=========', employeeProfileDetails);
+
   return (
     <Grid container spacing={1} p={2}>
       <Grid item xs={12} md={6} lg={4}>
@@ -87,6 +89,21 @@ const PersonalDetails = ({ props, employeeProfileDetails, onChangeGender }) => {
                 errorText={errors.fatherName && touched.fatherName && errors.fatherName}
                 error={errors.fatherName && touched.fatherName}
                 success={!errors.fatherName && touched.fatherName}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6} lg={4}>
+            <Box>
+              <Input
+                type="text"
+                placeholder="eg. test@gmail.com"
+                size="large"
+                fullWidth
+                id="email"
+                name="email"
+                label="Email"
+                value={employeeProfileDetails.email}
+                disabled
               />
             </Box>
           </Grid>
@@ -186,25 +203,25 @@ const PersonalDetails = ({ props, employeeProfileDetails, onChangeGender }) => {
               />
             </Box>
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <Box>
-              <Input
-                type="text"
-                placeholder="Date Of Leave"
-                size="large"
-                fullWidth
-                id="dol"
-                name="dol"
-                label="Date Of Leave"
-                disabled
-                value={
-                  values.dol === null
-                    ? moment().format('YYYY-MM-DD')
-                    : moment(values.dol).format('YYYY-MM-DD')
-                }
-              />
-            </Box>
-          </Grid>
+          {values.dateOfLeave !== '' && (
+            <Grid item xs={12} md={6} lg={4}>
+              <Box>
+                <Input
+                  type="text"
+                  placeholder="Date Of Leave"
+                  size="large"
+                  fullWidth
+                  id="dol"
+                  name="dol"
+                  label="Date Of Leave"
+                  disabled
+                  value={
+                    values.dateOfLeave === '' ? '' : moment(values.dateOfLeave).format('YYYY-MM-DD')
+                  }
+                />
+              </Box>
+            </Grid>
+          )}
         </>
       )}
       <Grid item xs={12} md={6} lg={4}>
