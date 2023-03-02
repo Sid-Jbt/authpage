@@ -27,7 +27,7 @@ const AddSupportTicketDialog = ({
   isEdit
 }) => {
   const [department, setDepartment] = useState(Department[0]);
-  const [priority, setPriority] = useState(Priority[3]);
+  const [priority, setPriority] = useState(Priority[0]);
   const [data, setData] = useState(initialValues);
   const { setSnack } = useContext(SnackbarContext);
   const [loader, setLoader] = useState(false);
@@ -56,43 +56,54 @@ const AddSupportTicketDialog = ({
   };
 
   const onSubmitNewSupportTicket = async (formData) => {
-    let supportTicketRes;
-    const updatedFormData = {
-      subject: formData.subject,
-      priority: priority.value,
-      department: department.value,
-      message: formData.message
-    };
-    setLoader(true);
-    if (isEdit) {
-      supportTicketRes = await updateSupportTicket(updatedFormData, selectedData.id);
-    } else {
-      supportTicketRes = await addNewSupportTicket(updatedFormData);
-    }
-
-    const { status, message } = supportTicketRes;
-    if (status) {
-      setSnack({
-        title: 'Success',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'success',
-        open: true
-      });
-      setLoader(false);
-    } else {
+    if (formData.message === '') {
       setSnack({
         title: 'Error',
-        message,
+        message: 'Message is required',
         time: false,
         icon: <Error color="white" />,
         color: 'error',
         open: true
       });
-      setLoader(false);
+    } else {
+      let supportTicketRes;
+      const updatedFormData = {
+        subject: formData.subject,
+        priority: priority.value,
+        department: department.value,
+        message: formData.message
+      };
+      setLoader(true);
+      if (isEdit) {
+        supportTicketRes = await updateSupportTicket(updatedFormData, selectedData.id);
+      } else {
+        supportTicketRes = await addNewSupportTicket(updatedFormData);
+      }
+
+      const { status, message } = supportTicketRes;
+      if (status) {
+        setSnack({
+          title: 'Success',
+          message,
+          time: false,
+          icon: <Check color="white" />,
+          color: 'success',
+          open: true
+        });
+        setLoader(false);
+      } else {
+        setSnack({
+          title: 'Error',
+          message,
+          time: false,
+          icon: <Error color="white" />,
+          color: 'error',
+          open: true
+        });
+        setLoader(false);
+      }
+      handleDialog();
     }
-    handleDialog();
   };
 
   return (

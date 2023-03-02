@@ -17,11 +17,7 @@ export const isTokenExpire = async (response) => {
   return apiResponse;
 };
 
-export const handleNetworkError = async (responseError) => {
-  if (responseError.name !== 'AbortError') {
-    console.log('Network request error. Please try again.');
-  }
-};
+export const handleNetworkError = async () => {};
 
 export const convertFormData = async (data) => {
   const formData = new FormData();
