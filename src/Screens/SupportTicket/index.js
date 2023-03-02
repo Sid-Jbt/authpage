@@ -72,7 +72,7 @@ const supportTicket = () => {
       search: text,
       startDate: date,
       priority: selectedPriority,
-      isStatus: selectedStatus,
+      status: selectedStatus,
       count
     };
     const ticketsRes = await getSupportTicketLists(ticketsData);
