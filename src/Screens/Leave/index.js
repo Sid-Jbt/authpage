@@ -56,7 +56,7 @@ const Leave = () => {
 
   const getAllLeaveList = async (
     selectedSortKey = 'createdAt',
-    selectedSortOrder = 'asc',
+    selectedSortOrder = 'desc',
     selectedPage = 0,
     text = '',
     startDate = '',
