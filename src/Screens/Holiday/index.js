@@ -86,6 +86,7 @@ const Holiday = () => {
   };
 
   const handleDrawer = () => {
+    setSelectedData(null);
     setIsDrawerOpen(true);
   };
 
@@ -103,12 +104,11 @@ const Holiday = () => {
     setIsEdit(false);
   };
 
-  const onOpenEdit = (value, index) => {
+  const onClickAction = (value, index) => {
     if (value === 'edit') {
       setIsEdit(true);
-      setSelectedData(allHolidayList.find((o) => o.id === index));
-      // setIsEdit(value === 'edit');
-      handleDrawer();
+      setSelectedData(allHolidayList.find((o) => o.id === index.id));
+      setIsDrawerOpen(true);
     } else if (value === 'delete') {
       setSelectedId(index);
       setIsEdit(value === 'delete');
@@ -206,7 +206,7 @@ const Holiday = () => {
         <Table
           columns={prCols}
           rows={allHolidayList}
-          onClickAction={(value, id) => onOpenEdit(value, id)}
+          onClickAction={(value, id) => onClickAction(value, id)}
           isAction={role === 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
