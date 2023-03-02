@@ -48,8 +48,8 @@ const Leave = () => {
 
   const [allLeaveList, setAllLeaveList] = useState([]);
   const [leaveListCount, setLeaveListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('fromDate');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortKey, setSortKey] = useState('createdAt');
+  const [sortOrder, setSortOrder] = useState('desc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isSearch, setIsSearch] = useState(false);
