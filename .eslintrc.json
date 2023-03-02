@@ -36,6 +36,8 @@
       }
     ],
     "prefer-destructuring": "off",
+    "no-console": "error",
+    "no-alert": "error",
     "no-restricted-syntax": "off",
     "no-prototype-builtins": "off",
     "semi": 2,
