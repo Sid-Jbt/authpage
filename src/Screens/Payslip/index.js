@@ -7,9 +7,9 @@ import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Months, Years } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
+import { SnackbarContext } from 'Context/SnackbarProvider';
+import { getPayslipList } from 'APIs/Payslip';
 import payslipColumns from './data/payslipData';
-import { SnackbarContext } from '../../Context/SnackbarProvider';
-import { getPayslipList } from '../../APIs/Payslip';
 
 // const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
 

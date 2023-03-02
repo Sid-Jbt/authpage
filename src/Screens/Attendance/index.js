@@ -14,11 +14,11 @@ import Select from 'Elements/Select';
 import { Months, Years, Status } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
+import LeaveCard from 'Components/CardLayouts/StaticCard';
+import Badge from 'Elements/Badge';
+import { getAttendanceList } from 'APIs/Attendance';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 import attendanceColumn from './data/attendanceData';
-import LeaveCard from '../../Components/CardLayouts/StaticCard';
-import Badge from '../../Elements/Badge';
-import { getAttendanceList } from '../../APIs/Attendance';
-import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;

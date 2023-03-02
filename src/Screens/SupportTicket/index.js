@@ -8,14 +8,14 @@ import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Priority, SupportTicketStatus } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
-import supportTicketData from './data/SupportTicketData';
-import AddSupportTicketForm from './AddSupportTicketForm';
-import TicketCard from '../../Components/CardLayouts/StaticCard';
-import DeleteDialog from '../../Components/DeleteDialog';
-import DialogMenu from '../../Elements/Dialog';
+import TicketCard from 'Components/CardLayouts/StaticCard';
+import DeleteDialog from 'Components/DeleteDialog';
+import DialogMenu from 'Elements/Dialog';
+import { SnackbarContext } from 'Context/SnackbarProvider';
+import { getSupportTicketLists } from 'APIs/SupportTicket';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
-import { SnackbarContext } from '../../Context/SnackbarProvider';
-import { getSupportTicketLists } from '../../APIs/SupportTicket';
+import AddSupportTicketForm from './AddSupportTicketForm';
+import supportTicketData from './data/SupportTicketData';
 
 // const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
 

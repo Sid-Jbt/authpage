@@ -1,10 +1,5 @@
 import axios from 'axios';
-import {
-  convertFormData,
-  queryString,
-  isTokenExpire,
-  handleNetworkError
-} from '../../Helpers/Global';
+import { isTokenExpire, handleNetworkError, convertFormData, queryString } from '../API';
 import { store } from '../../Redux/store';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;

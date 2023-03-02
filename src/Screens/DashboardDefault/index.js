@@ -14,9 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { getEmployeeListPattern, getExpensePattern, getLeavePattern } from 'Routes/routeConfig';
 import DashboardCard from 'Components/CardLayouts/StaticCard';
-import { getEmployeeById } from 'APIs/API';
 import { CURRENTUSER } from 'Redux/actions';
 import { getDashboardList } from 'APIs/Dashboard';
+import { getEmployeeById } from 'APIs/Employee';
 
 const DashboardDefault = () => {
   let calenderData = [];

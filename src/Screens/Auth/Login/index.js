@@ -20,7 +20,7 @@ import { CURRENTUSER, REMEMBERME, ROLE, ROLELIST } from 'Redux/actions';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import { AdminRoleList, EmployeeRoleList } from 'Helpers/Global';
 import Loader from 'Elements/Loader';
-import { login } from 'APIs/API';
+import { login } from 'APIs/Auth';
 
 const Login = () => {
   const dispatch = useDispatch();
