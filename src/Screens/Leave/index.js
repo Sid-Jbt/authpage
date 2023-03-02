@@ -15,12 +15,12 @@ import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
 import DeleteDialog from 'Components/DeleteDialog';
+import DialogMenu from 'Elements/Dialog';
+import { getLeaveLists, deleteLeave } from 'APIs/Leave';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
-import DialogMenu from '../../Elements/Dialog';
 import ViewLeaveDetails from './ViewLeaveDetails';
-import { getLeaveLists, deleteLeave } from '../../APIs/Leave';
-import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const adminLeaveOptions = [{ title: 'View', value: 'view' }];
 const empLeaveOptions = [
@@ -365,7 +365,9 @@ const Leave = () => {
               <DeleteDialog
                 handleDialogClose={handleDialogClose}
                 selectedId={selectedId}
+                message="Are you sure want to delete this?"
                 deleteItem={onDelete}
+                buttonTitle="Delete"
               />
             }
           />

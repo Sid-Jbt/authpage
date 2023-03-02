@@ -11,8 +11,8 @@ import Select from 'Elements/Select';
 import Editor from 'Elements/Editor';
 import { leave, leaveDayType } from 'Helpers/Global';
 import { Check, Error } from '@mui/icons-material';
-import { addNewLeave, updateLeave } from '../../APIs/Leave';
-import { SnackbarContext } from '../../Context/SnackbarProvider';
+import { addNewLeave, updateLeave } from 'APIs/Leave';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const initialValues = {
   fromDate: moment().format('YYYY-MM-DD'),
@@ -171,7 +171,8 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                         fullWidth
                         id="fromDate"
                         name="fromDate"
-                        label="From Date"
+                        // label="From Date"
+                        label={selectType.value === 'halfDay' ? 'Date' : 'From Date'}
                         value={values.fromDate}
                         onChange={handleChange}
                         onBlur={handleBlur}
