@@ -140,6 +140,7 @@ const EmployeeList = () => {
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
+    setPage(0);
     await getAllCompanyEmployee(sortKey, sortOrder, '', '', '', '', '', selectedLimit);
   };
 

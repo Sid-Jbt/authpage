@@ -176,6 +176,7 @@ const Payslip = () => {
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
+    setPage(0);
     await getAllPayslipList(sortKey, sortOrder, '', '', '', '', 0, selectedLimit);
   };
 

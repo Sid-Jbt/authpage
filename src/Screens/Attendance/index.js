@@ -153,6 +153,7 @@ const AttendanceList = () => {
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
+    setPage(0);
     await getAllAttendanceList(sortKey, sortOrder, 0, '', '', '', '', 0, selectedLimit);
   };
 

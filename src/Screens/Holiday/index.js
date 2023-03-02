@@ -145,6 +145,7 @@ const Holiday = () => {
   };
 
   const onRowsPerPageChange = async (selectedLimit) => {
+    setPage(0);
     setLimit(selectedLimit);
     await getAllHolidayList(sortKey, sortOrder, '', '', '', selectedLimit);
   };

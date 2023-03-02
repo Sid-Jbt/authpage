@@ -75,6 +75,7 @@ const supportTicket = () => {
       isStatus: selectedStatus,
       count
     };
+    console.log('========', ticketsData);
     const ticketsRes = await getSupportTicketLists(ticketsData);
     const {
       status,
@@ -100,6 +101,7 @@ const supportTicket = () => {
   };
 
   useEffect(() => {
+    console.log('dsijkfgsufuafu');
     getAllSupportTicketList();
   }, [isDialogOpen, isDeleteDialogOpen]);
 
@@ -269,6 +271,7 @@ const supportTicket = () => {
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
+    setPage(0);
     await getAllSupportTicketList(sortKey, sortOrder, 0, '', '', '', '', 0, selectedLimit);
   };
 

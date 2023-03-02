@@ -8,7 +8,7 @@ const Pagination = ({ rows, initialPage, onChangePage, rowsPerPage, onRowsPerPag
 
   const handleChangeRowsPerPage = (event) => {
     onRowsPerPageChange(parseInt(event.target.value, 10));
-    onChangePage(0);
+    // onChangePage(0);
   };
 
   return (
@@ -16,10 +16,10 @@ const Pagination = ({ rows, initialPage, onChangePage, rowsPerPage, onRowsPerPag
       component="div"
       count={rows}
       page={initialPage}
-      onPageChange={handleChangePage}
+      onPageChange={(event, newPage) => handleChangePage(event, newPage)}
       rowsPerPage={rowsPerPage}
       rowsPerPageOptions={[5, 10, 25, { label: 'All', value: rows }]}
-      onRowsPerPageChange={handleChangeRowsPerPage}
+      onRowsPerPageChange={(event) => handleChangeRowsPerPage(event)}
     />
   );
 };
