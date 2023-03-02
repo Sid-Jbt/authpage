@@ -5,10 +5,12 @@ jobs:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout stage branch
+        uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: '16.x.x'
+          node-version: '16.10.0'
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
@@ -17,8 +19,8 @@ jobs:
         run: |
           yarn policies set-version
           yarn install --frozen-lockfile
-      - name: Copy config
-        run: cp src/common/config.test.js src/common/config.js
+      - name: Copy env
+        run: cp .env.test .env
       - name: Validate Code Style
         run: yarn check-all
       - name: Build
