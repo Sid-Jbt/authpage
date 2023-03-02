@@ -35,5 +35,6 @@ jobs:
           password: ${{ secrets.SERVER_PASS }}
           debug: true
           script: |
+            whoami
             cd jbt-timer-web
             yarn stage-setup
