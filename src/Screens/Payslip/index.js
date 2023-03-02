@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Card, Grid, FormLabel, FormControl } from '@mui/material';
-// import { Check, ImportExportRounded } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
-// import Button from 'Elements/Button';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Months, Years } from 'Helpers/Global';
@@ -28,7 +26,6 @@ const Payslip = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [isClear, setIsClear] = useState(false);
   // const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
 
@@ -163,8 +160,7 @@ const Payslip = () => {
     setMonth('');
     setYear('');
     setSearch('');
-    setIsClear(!isClear);
-    getAllPayslipList(sortKey, sortOrder, page, '', month, year);
+    getAllPayslipList();
   };
 
   const onClickSearch = () => {
@@ -188,12 +184,6 @@ const Payslip = () => {
     setSortOrder(selectedSortOrder);
     await getAllPayslipList(selectedSortKey, selectedSortOrder, page, month, year);
   };
-
-  useEffect(() => {
-    if (isClear) {
-      getAllPayslipList(sortKey, sortOrder, page, '', month, year);
-    }
-  }, [isClear]);
 
   return (
     <>

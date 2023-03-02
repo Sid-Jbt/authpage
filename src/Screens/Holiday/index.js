@@ -31,7 +31,6 @@ const Holiday = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [isClear, setIsClear] = useState(false);
   const [loader, setLoader] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
 
@@ -131,15 +130,8 @@ const Holiday = () => {
 
   const handleClear = () => {
     setSearch('');
-    setIsClear(!isClear);
     getAllHolidayList(sortKey, sortOrder, page, '');
   };
-
-  useEffect(() => {
-    if (isClear) {
-      getAllHolidayList(sortKey, sortOrder, page, '');
-    }
-  }, [isClear]);
 
   const onClickSearch = () => {
     setLoader(true);
