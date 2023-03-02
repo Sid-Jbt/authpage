@@ -278,13 +278,15 @@ const Table = ({
                 <TableCell
                   colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
                 >
-                  <Pagination
-                    rows={rowsCount}
-                    initialPage={initialPage}
-                    onChangePage={(page) => onChangePage(page)}
-                    rowsPerPage={rowsPerPage}
-                    onRowsPerPageChange={(rowsPage) => onRowsPerPageChange(rowsPage)}
-                  />
+                  {renderRows && rowsCount > 10 && (
+                    <Pagination
+                      rows={rowsCount}
+                      initialPage={initialPage}
+                      onChangePage={(page) => onChangePage(page)}
+                      rowsPerPage={rowsPerPage}
+                      onRowsPerPageChange={(rowsPage) => onRowsPerPageChange(rowsPage)}
+                    />
+                  )}
                 </TableCell>
               </>
             ) : (

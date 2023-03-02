@@ -100,7 +100,6 @@ const supportTicket = () => {
   };
 
   useEffect(() => {
-    console.log('dsijkfgsufuafu');
     getAllSupportTicketList();
   }, [isDialogOpen, isDeleteDialogOpen]);
 
