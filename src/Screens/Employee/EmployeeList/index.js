@@ -31,7 +31,6 @@ const EmployeeList = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [isClear, setIsClear] = useState(false);
 
   const getAllCompanyEmployee = async (
     selectedSortKey = 'email',
@@ -122,18 +121,12 @@ const EmployeeList = () => {
     });
   };
 
-  useEffect(() => {
-    if (isClear) {
-      getAllCompanyEmployee(sortKey, sortOrder, page, '');
-    }
-  }, [isClear]);
-
   const handleClear = () => {
     setFromDate('');
     setToDate('');
     setSelectedRole('');
     setSearch('');
-    setIsClear(!isClear);
+    getAllCompanyEmployee();
   };
 
   const onClickSearch = () => {

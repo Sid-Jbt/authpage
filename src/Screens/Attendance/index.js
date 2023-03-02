@@ -2,23 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
-import {
-  Add,
-  // Check,
-  DirectionsRun,
-  // ImportExportRounded,
-  MoreTime,
-  WatchOff
-} from '@mui/icons-material';
+import { Add, DirectionsRun, MoreTime, WatchOff } from '@mui/icons-material';
 import Select from 'Elements/Select';
 import { Months, Years, Status } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
+import AttendanceCard from 'Components/CardLayouts/StaticCard';
+import Badge from 'Elements/Badge';
+import { getAttendanceList } from 'APIs/Attendance';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 import attendanceColumn from './data/attendanceData';
-import LeaveCard from '../../Components/CardLayouts/StaticCard';
-import Badge from '../../Elements/Badge';
-import { getAttendanceList } from '../../APIs/Attendance';
-import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
@@ -38,7 +31,6 @@ const AttendanceList = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [isClear, setIsClear] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
 
   const getAllAttendanceList = async (
@@ -145,8 +137,7 @@ const AttendanceList = () => {
     setMonth('');
     setYear('');
     setSearch('');
-    setIsClear(!isClear);
-    getAllAttendanceList(sortKey, sortOrder, page, '');
+    getAllAttendanceList();
   };
 
   const onClickSearch = () => {
@@ -171,17 +162,11 @@ const AttendanceList = () => {
     await getAllAttendanceList(selectedSortKey, selectedSortOrder, page);
   };
 
-  useEffect(() => {
-    if (isClear) {
-      getAllAttendanceList(sortKey, sortOrder, page, '');
-    }
-  }, [isClear]);
-
   return (
     <>
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} md={6} lg={4}>
-          <LeaveCard
+          <AttendanceCard
             title="Total Late Coming"
             count={counts === null ? 0 : counts.lateComingRes}
             icon={{ color: 'error', component: <WatchOff /> }}
@@ -189,7 +174,7 @@ const AttendanceList = () => {
           />
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
-          <LeaveCard
+          <AttendanceCard
             title="Total Early Leaving"
             count={counts === null ? 0 : counts.earlyLeavingRes}
             icon={{ color: 'info', component: <DirectionsRun /> }}
@@ -197,7 +182,7 @@ const AttendanceList = () => {
           />
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
-          <LeaveCard
+          <AttendanceCard
             title="Total Overtime"
             count={counts === null ? 0 : counts.overTimeRes}
             icon={{ color: 'warning', component: <MoreTime /> }}
