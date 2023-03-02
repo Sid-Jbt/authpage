@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { store } from 'Redux/store';
-import { convertFormData, queryString, isTokenExpire, handleNetworkError } from '../API';
+import { isTokenExpire, handleNetworkError, convertFormData, queryString } from '../API';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-export const getHolidayList = async (data) =>
+export const getCompanyEmployee = async (data) =>
   axios({
-    url: `${API_BASE_URL}/holiday/list?${queryString(data)}`,
+    url: `${API_BASE_URL}/?${queryString(data)}`,
     method: 'GET',
     headers: {
       Accept: 'application/x-www-form-urlencoded',
@@ -16,9 +16,9 @@ export const getHolidayList = async (data) =>
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
 
-export const addHoliday = async (data) =>
+export const addEmployee = async (data) =>
   axios({
-    url: `${API_BASE_URL}/holiday`,
+    url: `${API_BASE_URL}/employee/signup`,
     method: 'POST',
     headers: {
       Accept: 'application/x-www-form-urlencoded',
@@ -29,9 +29,21 @@ export const addHoliday = async (data) =>
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
 
-export const updateHoliday = async (data, id) =>
+export const getEmployeeById = async (employeeId) =>
   axios({
-    url: `${API_BASE_URL}/holiday/${id}`,
+    url: `${API_BASE_URL}/employee/${employeeId}`,
+    method: 'GET',
+    headers: {
+      Accept: 'application/x-www-form-urlencoded',
+      Authorization: store.getState().route.currentUser.token
+    }
+  })
+    .then(async (response) => isTokenExpire(response))
+    .catch((error) => handleNetworkError(error));
+
+export const updateEmployee = async (data) =>
+  axios({
+    url: `${API_BASE_URL}/employee/profile`,
     method: 'PUT',
     headers: {
       Accept: 'application/x-www-form-urlencoded',
@@ -40,16 +52,4 @@ export const updateHoliday = async (data, id) =>
     data: await convertFormData(data)
   })
     .then(async (response) => isTokenExpire(response))
-    .catch((error) => handleNetworkError(error));
-
-export const deleteHoliday = async (id) =>
-  axios({
-    url: `${API_BASE_URL}/holiday/${id}`,
-    method: 'DELETE',
-    headers: {
-      Accept: 'application/x-www-form-urlencoded',
-      Authorization: store.getState().route.currentUser.token
-    }
-  })
-    .then(async (response) => isTokenExpire(response.json()))
     .catch((error) => handleNetworkError(error));

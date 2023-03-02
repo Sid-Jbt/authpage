@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router';
 import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
 import { useSelector } from 'react-redux';
 import { SnackbarContext } from 'Context/SnackbarProvider';
-import { getCompanyEmployee } from 'APIs/API';
+import { getCompanyEmployee } from 'APIs/Employee';
 import AddEmployeeForm from './AddEmployeeForm';
 import employeeListData from './data/employeeListData';
 

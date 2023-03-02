@@ -45,16 +45,16 @@ const Expense = () => {
 
   const [allExpenseList, setAllExpenseList] = useState([]);
   const [expenseListCount, setExpenseListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('itemName');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortKey, setSortKey] = useState('createdAt');
+  const [sortOrder, setSortOrder] = useState('desc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   // const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
 
   const getAllExpenseList = async (
-    selectedSortKey = 'itemName',
-    selectedSortOrder = 'asc',
+    selectedSortKey = 'createdAt',
+    selectedSortOrder = 'desc',
     selectedPage = 0,
     text = '',
     count = 0,
@@ -63,7 +63,7 @@ const Expense = () => {
     const expenseData = {
       limit: dataLimit,
       page: selectedPage,
-      sortKey: selectedSortKey.toLowerCase(),
+      sortKey: selectedSortKey,
       sortOrder: selectedSortOrder.toLowerCase(),
       search: text,
       count

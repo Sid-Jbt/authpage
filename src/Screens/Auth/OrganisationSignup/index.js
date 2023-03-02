@@ -10,7 +10,7 @@ import { Formik } from 'formik';
 import { Check, Error, Visibility, VisibilityOff } from '@mui/icons-material';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import { organisationSignupSchema } from 'Helpers/ValidationSchema';
-import { companySignUp } from 'APIs/API';
+import { companySignUp } from 'APIs/Auth';
 
 const image = 'https://jarvisbitz.com/wp-content/uploads/2022/02/banner-shape-1.png';
 

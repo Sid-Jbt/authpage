@@ -8,9 +8,9 @@ import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { SnackbarContext } from 'Context/SnackbarProvider';
-import { employeeChangePassword } from 'APIs/API';
 import { useNavigate } from 'react-router-dom';
-import { getDashboardPattern } from '../../../Routes/routeConfig';
+import { employeeChangePassword } from 'APIs/Settings';
+import { getDashboardPattern } from 'Routes/routeConfig';
 
 const ChangePasswordSetting = () => {
   const [showPassword, setShowPassword] = React.useState(false);

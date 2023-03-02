@@ -10,8 +10,8 @@ import Editor from 'Elements/Editor';
 import Button from 'Elements/Button';
 import { Department, Priority } from 'Helpers/Global';
 import { Check, Error } from '@mui/icons-material';
-import { addNewSupportTicket, updateSupportTicket } from '../../APIs/SupportTicket';
-import { SnackbarContext } from '../../Context/SnackbarProvider';
+import { addNewSupportTicket, updateSupportTicket } from 'APIs/SupportTicket';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const initialValues = {
   subject: '',

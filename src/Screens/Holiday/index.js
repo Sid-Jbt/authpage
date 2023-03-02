@@ -4,14 +4,14 @@ import { Add, ImportExportRounded } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import { useSelector } from 'react-redux';
+import FilterLayout from 'Components/FilterLayout';
+import DeleteDialog from 'Components/DeleteDialog';
+import { getHolidayList, deleteHoliday } from 'APIs/Holiday';
+import { SnackbarContext } from 'Context/SnackbarProvider';
+import DialogMenu from 'Elements/Dialog';
 import holidayListData from './data/holidayListData';
-import FilterLayout from '../../Components/FilterLayout';
-import DialogMenu from '../../Elements/Dialog';
 import ManageHolidayForm from './ManageHolidayForm';
-import DeleteDialog from '../../Components/DeleteDialog';
 import ImportDialog from './ImportDialog';
-import { getHolidayList, deleteHoliday } from '../../APIs/Holiday';
-import { SnackbarContext } from '../../Context/SnackbarProvider';
 
 const Holiday = () => {
   const { columns: prCols } = holidayListData;
