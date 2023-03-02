@@ -183,7 +183,7 @@ export const buildFormData = (formData, data, parentKey) => {
 
 export const SupportTicketStatus = [
   { value: 'approved', label: 'Approved' },
-  { value: 'declined', label: 'Declined' },
+  { value: 'rejected', label: 'Rejected' },
   { value: 'pending', label: 'Pending' }
 ];
 

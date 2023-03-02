@@ -72,7 +72,7 @@ const supportTicket = () => {
       search: text,
       startDate: date,
       priority: selectedPriority,
-      isStatus: selectedStatus,
+      status: selectedStatus,
       count
     };
     const ticketsRes = await getSupportTicketLists(ticketsData);
@@ -237,7 +237,7 @@ const supportTicket = () => {
   };
 
   const handleChangeSearch = (event) => {
-    setSearch(event.target.value);
+    setSearch(event.target.value.trim());
   };
 
   const handleClear = () => {
