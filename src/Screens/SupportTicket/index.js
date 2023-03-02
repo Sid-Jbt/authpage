@@ -75,7 +75,6 @@ const supportTicket = () => {
       isStatus: selectedStatus,
       count
     };
-    console.log('========', ticketsData);
     const ticketsRes = await getSupportTicketLists(ticketsData);
     const {
       status,
