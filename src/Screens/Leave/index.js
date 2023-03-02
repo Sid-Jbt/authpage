@@ -25,8 +25,7 @@ import ViewLeaveDetails from './ViewLeaveDetails';
 const adminLeaveOptions = [{ title: 'View', value: 'view' }];
 const empLeaveOptions = [
   { title: 'Edit', value: 'edit' },
-  { title: 'View', value: 'view' },
-  { title: 'Delete', value: 'delete' }
+  { title: 'View', value: 'view' }
 ];
 
 const Leave = () => {
