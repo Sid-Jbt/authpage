@@ -20,4 +20,4 @@ jobs:
           debug: true
           script: |
             whoami
-            cd jbt-timer-web
+            cd jbt-timer-web && yarn stage-setup
