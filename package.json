@@ -47,7 +47,8 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
+    "node": "16.x.x",
+    "yarn": "1.22.x"
   },
   "eslintConfig": {
     "extends": [
