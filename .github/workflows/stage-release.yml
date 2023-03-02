@@ -21,4 +21,3 @@ jobs:
           script: |
             whoami
             cd jbt-timer-web
-            yarn stage-setup
