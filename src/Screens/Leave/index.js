@@ -22,6 +22,13 @@ import ViewLeaveDetails from './ViewLeaveDetails';
 import { getLeaveLists, deleteLeave } from '../../APIs/Leave';
 import { SnackbarContext } from '../../Context/SnackbarProvider';
 
+const adminLeaveOptions = [{ title: 'View', value: 'view' }];
+const empLeaveOptions = [
+  { title: 'Edit', value: 'edit' },
+  { title: 'View', value: 'view' },
+  { title: 'Delete', value: 'delete' }
+];
+
 const Leave = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
   const { role } = useSelector((state) => state.route);
@@ -124,19 +131,23 @@ const Leave = () => {
       setSelectedData(allLeaveList.find((o) => o.id === data.id));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      const viewData = allLeaveList.find((o) => o.id === data.id);
-      const setViewData = {
-        leaveType: viewData.leaveType,
-        selectType: viewData.selectType,
-        fromDate: viewData.fromDate,
-        toDate: viewData.toDate,
-        noOfDays: viewData.noOfDays,
-        apporvedBy: viewData.approvedBy,
-        status: viewData.status,
-        reason: viewData.reason.replace(/(<([^>]+)>)/gi, '')
-      };
-      setSelectedData(setViewData);
-      setIsViewLeaveDialogOpen(true);
+      if (role === 'admin') {
+        onClickView(data);
+      } else {
+        const viewData = allLeaveList.find((o) => o.id === data.id);
+        const setViewData = {
+          leaveType: viewData.leaveType,
+          selectType: viewData.selectType,
+          fromDate: viewData.fromDate,
+          toDate: viewData.toDate,
+          noOfDays: viewData.noOfDays,
+          apporvedBy: viewData.approvedBy,
+          status: viewData.status,
+          reason: viewData.reason.replace(/(<([^>]+)>)/gi, '')
+        };
+        setSelectedData(setViewData);
+        setIsViewLeaveDialogOpen(true);
+      }
     } else {
       setSelectedId(data.id);
       setIsDeleteDialogOpen(true);
@@ -221,7 +232,7 @@ const Leave = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Total Leave"
-            count={counts && counts.total}
+            count={counts && counts.totalLeave}
             icon={{ color: 'info', component: <CalendarMonth /> }}
             isPercentage={false}
           />
@@ -323,14 +334,8 @@ const Leave = () => {
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allLeaveList}
           onClickAction={(value, data) => onClickAction(value, data)}
-          isAction={role !== 'admin'}
-          options={[
-            { title: 'Edit', value: 'edit' },
-            { title: 'View', value: 'view' },
-            { title: 'Delete', value: 'delete' }
-          ]}
-          isView={role === 'admin'}
-          isDialogAction={(row) => onClickView(row)}
+          isAction
+          options={role === 'admin' ? adminLeaveOptions : empLeaveOptions}
           rowsCount={leaveListCount}
           initialPage={page}
           onChangePage={(value) => onPage(value)}
