@@ -188,27 +188,18 @@ const AddSupportTicketDialog = ({
                     </Box>
                   </Grid>
 
-                  <Grid
-                    item
-                    sm={12}
-                    md={4}
-                    lg={6}
-                    xl={12}
-                    sx={{
-                      marginRight: '10px'
-                    }}
-                  >
+                  <Grid item xs={12} md={4} lg={6}>
                     <Button
                       type="submit"
                       color="info"
                       variant="contained"
-                      size="small"
+                      size="medium"
                       disabled={loader}
                       sx={loader && { height: '40px !important', width: '80% !important' }}
                     >
                       {loader ? (
                         <CircularProgress color="inherit" />
-                      ) : 'isEdit' ? (
+                      ) : isEdit ? (
                         'Update Ticket'
                       ) : (
                         'Add Ticket'
