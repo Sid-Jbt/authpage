@@ -10,7 +10,7 @@ import { Visibility, VisibilityOff, Check, Error } from '@mui/icons-material';
 import { resetPasswordSchema } from 'Helpers/ValidationSchema';
 import { defaultPattern, getDefaultPattern } from 'Routes/routeConfig';
 import { SnackbarContext } from 'Context/SnackbarProvider';
-import { companyResetPassword } from 'APIs/API';
+import { companyResetPassword } from 'APIs/Auth';
 
 const RestPassword = () => {
   const [showPassword, setShowPassword] = React.useState(false);

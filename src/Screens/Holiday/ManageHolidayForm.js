@@ -8,8 +8,8 @@ import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { Check, Error } from '@mui/icons-material';
-import { addHoliday, updateHoliday } from '../../APIs/Holiday/index';
-import { SnackbarContext } from '../../Context/SnackbarProvider';
+import { SnackbarContext } from 'Context/SnackbarProvider';
+import { addHoliday, updateHoliday } from 'APIs/Holiday';
 
 const initialValues = {
   title: '',

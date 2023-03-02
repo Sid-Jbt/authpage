@@ -1,6 +1,4 @@
 // Get array of months
-import { getLoginPattern } from '../Routes/routeConfig';
-
 export const Months = [
   { value: 'january', label: 'January' },
   { value: 'February', label: 'February' },
@@ -183,49 +181,11 @@ export const buildFormData = (formData, data, parentKey) => {
   }
 };
 
-export const convertFormData = async (data) => {
-  const formData = new FormData();
-  buildFormData(formData, data);
-  return formData;
-};
-
-// CONVERT OBJECT TO QUERY STRING
-export const queryString = (obj) => {
-  const str = [];
-  for (const p in obj)
-    if (obj.hasOwnProperty(p)) {
-      str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
-    }
-  return str.join('&');
-};
-
 export const SupportTicketStatus = [
   { value: 'approved', label: 'Approved' },
   { value: 'declined', label: 'Declined' },
   { value: 'pending', label: 'Pending' }
 ];
-
-export const isTokenExpire = async (response) => {
-  let apiResponse = null;
-  if (response.statusText === 'OK') {
-    try {
-      apiResponse = await response.data;
-    } catch (e) {
-      apiResponse = null;
-    }
-  } else if (response.status === 401) {
-    getLoginPattern();
-  } else {
-    apiResponse = await response.data;
-  }
-  return apiResponse;
-};
-
-export const handleNetworkError = async (responseError) => {
-  if (responseError.name !== 'AbortError') {
-    console.log('Network request error. Please try again.');
-  }
-};
 
 export const badgePriorityColor = {
   medium: 'warning',

@@ -8,8 +8,8 @@ import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import moment from 'moment';
-import { addEmployee } from 'APIs/API';
 import { SnackbarContext } from 'Context/SnackbarProvider';
+import { addEmployee } from 'APIs/Employee';
 
 const renderAddEmployeeDialog = ({ isDialogOpen, handleDialog }) => {
   const [showPassword, setShowPassword] = React.useState(false);

@@ -9,7 +9,7 @@ import { forgotPasswordSchema } from 'Helpers/ValidationSchema';
 import { defaultPattern, getDefaultPattern } from 'Routes/routeConfig';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import { Check, Error } from '@mui/icons-material';
-import { companyForgotPassword } from 'APIs/API';
+import { companyForgotPassword } from 'APIs/Auth';
 
 const ForgotPassword = () => {
   const { setSnack } = useContext(SnackbarContext);
