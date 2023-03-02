@@ -1,4 +1,6 @@
 #!/bin/bash
+node -v
+
 BRANCH="stage"
 if [[ "$BRANCH" != "" ]];
 then
