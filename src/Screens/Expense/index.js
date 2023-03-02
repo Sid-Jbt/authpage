@@ -42,6 +42,7 @@ const Expense = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [counts, setCounts] = useState(null);
   const [loader, setLoader] = useState(false);
+  console.log('loder');
 
   const [allExpenseList, setAllExpenseList] = useState([]);
   const [expenseListCount, setExpenseListCount] = useState(0);
