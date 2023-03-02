@@ -34,7 +34,7 @@ export const Roles = [
   { value: 'employee', label: 'Employee' }
 ];
 
-export const leaveTypes = [
+export const leaveDayType = [
   { value: 'fullDay', label: 'Full Day' },
   { value: 'halfDay', label: 'Half Day' }
 ];

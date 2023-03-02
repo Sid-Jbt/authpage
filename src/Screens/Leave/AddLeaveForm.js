@@ -1,62 +1,110 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
 import { leaveFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
-import { FormControl, FormLabel, Grid } from '@mui/material';
+import { CircularProgress, FormControl, FormLabel, Grid } from '@mui/material';
+import Input from 'Elements/Input';
+import Button from 'Elements/Button';
 import Box from 'Elements/Box';
 import Select from 'Elements/Select';
-import Input from 'Elements/Input';
 import Editor from 'Elements/Editor';
-import Button from 'Elements/Button';
-import { leaveTypes, leave } from 'Helpers/Global';
+import { leave, leaveDayType } from 'Helpers/Global';
+import { Check, Error } from '@mui/icons-material';
+import { addNewLeave, updateLeave } from 'APIs/Leave';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const initialValues = {
   fromDate: moment().format('YYYY-MM-DD'),
   toDate: moment().format('YYYY-MM-DD'),
-  leaveReason: ''
+  reason: ''
 };
 
-const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSelectedData }) => {
-  const [leaveType, setLeaveType] = useState(leaveTypes[0]);
-  const [leaveTypeReason, setLeaveTypeReason] = useState(leave[0]);
-  const [title, setTitle] = useState('');
+const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isEdit, title }) => {
+  const [leaveType, setLeaveType] = useState(leave[0]);
+  const [selectType, setSelectType] = useState(leaveDayType[0]);
   const [data, setData] = useState(initialValues);
-
-  const handleChangeLeaveTypeReason = (selectedLeaveReasonType) => {
-    setLeaveTypeReason(selectedLeaveReasonType);
-  };
-
-  const handleChangeLeave = (selectedLeaveType) => {
-    setLeaveType(selectedLeaveType);
-  };
+  const { setSnack } = useContext(SnackbarContext);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     if (selectedData !== null) {
-      setTitle('EDIT LEAVE');
       Object.keys(data).map((key) => {
         data[key] = selectedData[key];
         if (key === 'fromDate') {
-          data[key] = moment(selectedData.from).format('YYYY-MM-DD');
+          data[key] = moment(selectedData.fromDate).format('YYYY-MM-DD');
         }
         if (key === 'toDate') {
-          data[key] = moment(selectedData.to).format('YYYY-MM-DD');
+          data[key] = moment(selectedData.toDate).format('YYYY-MM-DD');
         }
       });
       setData(data);
-      setLeaveType(leaveTypes.find((value) => value.label === selectedData.leaveType));
-      setLeaveTypeReason(leave.find((value) => value.label === selectedData.leave));
+      setSelectType(
+        leaveDayType.find(
+          (value) =>
+            value.value === selectedData.selectType || value.label === selectedData.selectType
+        )
+      );
+      setLeaveType(
+        leave.find(
+          (value) =>
+            value.value === selectedData.leaveType || value.label === selectedData.leaveType
+        )
+      );
     } else {
       initialValues.fromDate = moment().format('YYYY-MM-DD');
       initialValues.toDate = moment().format('YYYY-MM-DD');
-      initialValues.leaveReason = '';
+      initialValues.reason = '';
       setData(initialValues);
-      setTitle('ADD NEW LEAVE');
     }
   }, [selectedData]);
 
-  const onSubmit = (formData) => {
-    console.log('formData', formData);
+  const handleChangeLeaveType = (selectedLeaveType) => {
+    setLeaveType(selectedLeaveType);
+  };
+
+  const handleChangeSelectType = (selectedLeave) => {
+    setSelectType(selectedLeave);
+  };
+
+  const onSubmitNewLeave = async (formData) => {
+    let leaveRes;
+    const updatedFormData = {
+      leaveType: leaveType.value,
+      selectType: selectType.value,
+      fromDate: formData.fromDate,
+      toDate: selectType.value === 'halfDay' ? formData.fromDate : formData.toDate,
+      reason: formData.reason
+    };
+    setLoader(true);
+    if (isEdit) {
+      leaveRes = await updateLeave(updatedFormData, selectedData.id);
+    } else {
+      leaveRes = await addNewLeave(updatedFormData);
+    }
+    const { status, message } = leaveRes;
+    if (status) {
+      setSnack({
+        title: 'Success',
+        message,
+        time: false,
+        icon: <Check color="white" />,
+        color: 'success',
+        open: true
+      });
+      setLoader(false);
+    } else {
+      setSnack({
+        title: 'Error',
+        message,
+        time: false,
+        icon: <Error color="white" />,
+        color: 'error',
+        open: true
+      });
+      setLoader(false);
+    }
+    handleDialog();
   };
 
   return (
@@ -64,9 +112,8 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSele
       <SideDrawer
         open={Boolean(isDialogOpen)}
         onClose={() => {
-          setTitle('');
-          setSelectedData(null);
           handleDialog();
+          setIsEdit(false);
         }}
         title={title}
       >
@@ -74,12 +121,20 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSele
           enableReinitialize
           initialValues={data}
           onSubmit={(formData) => {
-            onSubmit(formData);
+            onSubmitNewLeave(formData);
           }}
           validationSchema={leaveFormSchema}
         >
           {(props) => {
-            const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+            const {
+              values,
+              touched,
+              errors,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              setFieldValue
+            } = props;
             return (
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={1} justifyContent="space-between">
@@ -88,9 +143,9 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSele
                       <FormControl sx={{ width: '100%' }}>
                         <FormLabel>Select Leave</FormLabel>
                         <Select
-                          value={leaveTypeReason}
+                          value={leaveType}
                           options={leave}
-                          onChange={(value) => handleChangeLeaveTypeReason(value)}
+                          onChange={(value) => handleChangeLeaveType(value)}
                         />
                       </FormControl>
                     </Box>
@@ -100,9 +155,9 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSele
                       <FormControl sx={{ width: '100%' }}>
                         <FormLabel>Select Type</FormLabel>
                         <Select
-                          value={leaveType}
-                          options={leaveTypes}
-                          onChange={(value) => handleChangeLeave(value)}
+                          value={selectType}
+                          options={leaveDayType}
+                          onChange={(value) => handleChangeSelectType(value)}
                         />
                       </FormControl>
                     </Box>
@@ -116,8 +171,9 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSele
                         fullWidth
                         id="fromDate"
                         name="fromDate"
-                        label="From Date"
-                        defaultValue={values.fromDate}
+                        // label="From Date"
+                        label={selectType.value === 'halfDay' ? 'Date' : 'From Date'}
+                        value={values.fromDate}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         errorText={errors.fromDate && touched.fromDate && errors.fromDate}
@@ -126,7 +182,7 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSele
                       />
                     </Box>
                   </Grid>
-                  {leaveType.value === 'fullDay' && (
+                  {selectType.value === 'fullDay' && (
                     <Grid item xs={12} md={6}>
                       <Box>
                         <Input
@@ -147,14 +203,18 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSele
                       </Box>
                     </Grid>
                   )}
-
                   <Grid item xs={12}>
                     <Box>
                       <Editor
                         title="Leave Reason"
                         label="Leave Reason"
-                        value={values.leaveReason}
+                        id="reason"
+                        name="reason"
+                        value={values.reason}
                         backgroundContainerColor="white"
+                        onChange={(value) => {
+                          setFieldValue('reason', value);
+                        }}
                       />
                     </Box>
                   </Grid>
@@ -168,8 +228,21 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSele
                       marginRight: '10px'
                     }}
                   >
-                    <Button type="submit" color="info" variant="contained" size="medium">
-                      SAVE
+                    <Button
+                      type="submit"
+                      color="info"
+                      variant="contained"
+                      size="medium"
+                      disabled={loader}
+                      sx={loader && { height: '40px !important', width: '80% !important' }}
+                    >
+                      {loader ? (
+                        <CircularProgress color="inherit" />
+                      ) : isEdit ? (
+                        'Update Leave'
+                      ) : (
+                        'Add Leave'
+                      )}
                     </Button>
                   </Grid>
                 </Grid>
@@ -182,4 +255,4 @@ const renderDialogContent = ({ isDialogOpen, handleDialog, selectedData, setSele
   );
 };
 
-export default renderDialogContent;
+export default AddLeaveForm;

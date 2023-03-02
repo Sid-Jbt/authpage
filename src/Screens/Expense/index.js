@@ -408,6 +408,8 @@ const Expense = () => {
                 handleDialogClose={handleDialogClose}
                 selectedId={selectedId}
                 deleteItem={onDelete}
+                message="Are you sure want to delete this?"
+                buttonTitle="Delete"
               />
             }
           />

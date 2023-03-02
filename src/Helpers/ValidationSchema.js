@@ -20,8 +20,8 @@ export const loginSchema = yup.object().shape({
 
 export const leaveFormSchema = yup.object().shape({
   fromDate: yup.string().required('From date is required'),
-  toDate: yup.string().required('To date is required'),
-  noOfDays: yup.string().required('No of days is required')
+  toDate: yup.string().required('To date is required')
+  // leaveReason: yup.string().required('Leave reason is required')
 });
 
 export const forgotPasswordSchema = yup.object().shape({

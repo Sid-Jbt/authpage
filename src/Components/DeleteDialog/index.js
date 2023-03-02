@@ -4,12 +4,12 @@ import Box from '../../Elements/Box';
 import Typography from '../../Elements/Typography';
 import Button from '../../Elements/Button';
 
-const DeleteDialog = ({ handleDialogClose, selectedId, deleteItem }) => (
+const DeleteDialog = ({ handleDialogClose, selectedId, deleteItem, message, buttonTitle }) => (
   <>
     <Box sx={{ height: '100%' }}>
       <Grid>
         <Typography variant="button" fontWeight="bold" mr={10}>
-          Are you sure you want to delete this ?
+          {message}
         </Typography>
       </Grid>
       <Box
@@ -39,7 +39,7 @@ const DeleteDialog = ({ handleDialogClose, selectedId, deleteItem }) => (
           size="small"
           onClick={() => deleteItem(selectedId)}
         >
-          Delete
+          {buttonTitle}
         </Button>
       </Box>
     </Box>

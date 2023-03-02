@@ -48,7 +48,7 @@ const EditorRoot = styled('div')(({ theme, backgroundContainerColor }) => {
 const Editor = (props) => (
   <EditorRoot {...props}>
     <Typography className="typography">{props.title}</Typography>
-    <ReactQuill theme="snow" {...props} />
+    <ReactQuill theme="snow" {...props} preserveWhitespace />
   </EditorRoot>
 );
 
