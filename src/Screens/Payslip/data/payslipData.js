@@ -11,10 +11,10 @@ const action = (
 
 const empListData = {
   columns: [
-    { id: 'sl', name: 'sl', align: 'center', headerName: 'Sl', mobileHeader: 'Sl' },
+    // { id: 'sl', name: 'sl', align: 'center', headerName: 'Sl', mobileHeader: 'Sl' },
     {
       id: 'paymentMonth',
-      name: 'paymentMonth',
+      name: 'month',
       align: 'center',
       headerName: 'Payment Month',
       mobileHeader: 'Month'
@@ -28,7 +28,7 @@ const empListData = {
     },
     {
       id: 'paidAmount',
-      name: 'paidAmount',
+      name: 'amount',
       align: 'center',
       headerName: 'Paid Amount',
       mobileHeader: 'Amount'
@@ -44,7 +44,7 @@ const empListData = {
   ],
 
   adminColumns: [
-    { id: 'sl', name: 'sl', align: 'center', headerName: 'Sl', mobileHeader: 'Sl' },
+    // { id: 'sl', name: 'sl', align: 'center', headerName: 'Sl', mobileHeader: 'Sl' },
     {
       id: 'email',
       name: 'email',
@@ -54,7 +54,7 @@ const empListData = {
     },
     {
       id: 'paymentMonth',
-      name: 'paymentMonth',
+      name: 'month',
       align: 'center',
       headerName: 'Payment Month',
       mobileHeader: 'Month'
@@ -68,7 +68,7 @@ const empListData = {
     },
     {
       id: 'paidAmount',
-      name: 'paidAmount',
+      name: 'amount',
       align: 'center',
       headerName: 'Paid Amount',
       mobileHeader: 'Amount'
