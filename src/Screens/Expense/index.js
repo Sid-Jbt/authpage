@@ -42,7 +42,6 @@ const Expense = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [counts, setCounts] = useState(null);
   const [loader, setLoader] = useState(false);
-  console.log('loder');
 
   const [allExpenseList, setAllExpenseList] = useState([]);
   const [expenseListCount, setExpenseListCount] = useState(0);
@@ -148,7 +147,7 @@ const Expense = () => {
   };
 
   const handleChangeSearch = (event) => {
-    setSearch(event.target.value);
+    setSearch(event.target.value.trim());
   };
 
   const handleClear = () => {

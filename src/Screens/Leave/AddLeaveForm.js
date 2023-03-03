@@ -68,43 +68,55 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
   };
 
   const onSubmitNewLeave = async (formData) => {
-    let leaveRes;
-    const updatedFormData = {
-      leaveType: leaveType.value,
-      selectType: selectType.value,
-      fromDate: formData.fromDate,
-      toDate: selectType.value === 'halfDay' ? formData.fromDate : formData.toDate,
-      reason: formData.reason
-    };
-    setLoader(true);
-    if (isEdit) {
-      leaveRes = await updateLeave(updatedFormData, selectedData.id);
-    } else {
-      leaveRes = await addNewLeave(updatedFormData);
-    }
-    const { status, message } = leaveRes;
-    if (status) {
-      setSnack({
-        title: 'Success',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'success',
-        open: true
-      });
-      setLoader(false);
-    } else {
+    if (formData.reason === '') {
       setSnack({
         title: 'Error',
-        message,
+        message: 'Reason is required',
         time: false,
         icon: <Error color="white" />,
         color: 'error',
         open: true
       });
-      setLoader(false);
+    } else {
+      let leaveRes;
+      const updatedFormData = {
+        leaveType: leaveType.value,
+        selectType: selectType.value,
+        fromDate: formData.fromDate,
+        toDate: selectType.value === 'halfDay' ? formData.fromDate : formData.toDate,
+        reason: formData.reason
+      };
+      setLoader(true);
+      if (isEdit) {
+        const data12 = { leaveId: selectedData.id };
+        leaveRes = await updateLeave(updatedFormData, data12);
+      } else {
+        leaveRes = await addNewLeave(updatedFormData);
+      }
+      const { status, message } = leaveRes;
+      if (status) {
+        setSnack({
+          title: 'Success',
+          message,
+          time: false,
+          icon: <Check color="white" />,
+          color: 'success',
+          open: true
+        });
+        setLoader(false);
+      } else {
+        setSnack({
+          title: 'Error',
+          message,
+          time: false,
+          icon: <Error color="white" />,
+          color: 'error',
+          open: true
+        });
+        setLoader(false);
+      }
+      handleDialog();
     }
-    handleDialog();
   };
 
   return (

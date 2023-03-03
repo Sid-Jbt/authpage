@@ -29,10 +29,10 @@ export const addNewLeave = async (data) =>
     .then(async (response) => isTokenExpire(response))
     .catch((error) => handleNetworkError(error));
 
-export const updateLeave = async (data, id) =>
+export const updateLeave = async (data, data21) =>
   axios({
-    url: `${API_BASE_URL}/employee/leave/${id}`,
-    method: 'PUT',
+    url: `${API_BASE_URL}/employee/leave?${queryString(data21)}`,
+    method: 'POST',
     headers: {
       Accept: 'application/x-www-form-urlencoded',
       Authorization: store.getState().route.currentUser.token

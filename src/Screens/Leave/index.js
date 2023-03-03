@@ -25,8 +25,8 @@ import ViewLeaveDetails from './ViewLeaveDetails';
 const adminLeaveOptions = [{ title: 'View', value: 'view' }];
 const empLeaveOptions = [
   { title: 'Edit', value: 'edit' },
-  { title: 'View', value: 'view' },
-  { title: 'Delete', value: 'delete' }
+  { title: 'View', value: 'view' }
+  // { title: 'Delete', value: 'delete' }
 ];
 
 const Leave = () => {
@@ -163,7 +163,7 @@ const Leave = () => {
   };
 
   const handleChangeSearch = (event) => {
-    setSearch(event.target.value);
+    setSearch(event.target.value.trim());
   };
 
   const handleDialogClose = () => {
