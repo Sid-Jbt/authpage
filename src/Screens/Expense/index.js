@@ -281,7 +281,7 @@ const Expense = () => {
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
             title="Total Expense"
-            count={counts && counts.total}
+            count={counts && counts.totalExpense}
             icon={{ color: 'success', component: <SummarizeRounded /> }}
             isPercentage={false}
           />

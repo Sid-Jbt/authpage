@@ -285,7 +285,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Total Tickets"
-            count={counts && counts.total}
+            count={counts && counts.totalSupportTicket}
             icon={{ color: 'success', component: <SummarizeRounded /> }}
             isPercentage={false}
           />
