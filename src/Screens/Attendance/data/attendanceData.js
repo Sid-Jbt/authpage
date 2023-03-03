@@ -2,9 +2,8 @@ import Badge from 'Elements/Badge';
 
 const attendanceData = {
   columns: [
-    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    // { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
     { name: 'attendanceDate', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
-    // { name: 'username', align: 'center', headerName: 'User name', mobileHeader: 'User name' },
     { name: 'punchIn', align: 'center', headerName: 'Punch In', mobileHeader: 'In' },
     { name: 'punchOut', align: 'center', headerName: 'Punch Out', mobileHeader: 'Out' },
     { name: 'late', align: 'center', headerName: 'Late', mobileHeader: 'Late' },
@@ -20,7 +19,7 @@ const attendanceData = {
   ],
 
   adminColumns: [
-    { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    // { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
     { name: 'attendanceDate', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
     { name: 'username', align: 'center', headerName: 'User name', mobileHeader: 'User' },
     { name: 'punchIn', align: 'center', headerName: 'Punch In', mobileHeader: 'In' },
