@@ -195,8 +195,8 @@ const PersonalDetails = ({ props, employeeProfileDetails, onChangeGender }) => {
                 disabled
                 value={
                   values.dateOfJoin === null
-                    ? moment().format('YYYY-MM-DD')
-                    : moment(values.dateOfJoin).format('YYYY-MM-DD')
+                    ? moment().format('DD/MM/YYYY')
+                    : moment(values.dateOfJoin).format('DD/MM/YYYY')
                 }
               />
             </Box>
@@ -214,7 +214,7 @@ const PersonalDetails = ({ props, employeeProfileDetails, onChangeGender }) => {
                   label="Date Of Leave"
                   disabled
                   value={
-                    values.dateOfLeave === '' ? '' : moment(values.dateOfLeave).format('YYYY-MM-DD')
+                    values.dateOfLeave === '' ? '' : moment(values.dateOfLeave).format('DD/MM/YYYY')
                   }
                 />
               </Box>

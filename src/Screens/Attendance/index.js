@@ -27,14 +27,14 @@ const AttendanceList = () => {
 
   const [attendanceList, setAttendanceList] = useState([]);
   const [attendanceListCount, setAttendanceListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('createdAt');
+  const [sortKey, setSortKey] = useState('attendanceDate');
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isSearch, setIsSearch] = useState(false);
 
   const getAllAttendanceList = async (
-    selectedSortKey = 'createdAt',
+    selectedSortKey = 'attendanceDate',
     selectedSortOrder = 'asc',
     selectedPage = 0,
     text = '',
@@ -46,7 +46,7 @@ const AttendanceList = () => {
     const attendanceData = {
       limit: dataLimit,
       page: selectedPage,
-      sortKey: selectedSortKey,
+      sortKey: selectedSortKey.toLowerCase(),
       sortOrder: selectedSortOrder.toLowerCase(),
       search: text,
       month: selectedMonth,

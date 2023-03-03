@@ -184,8 +184,10 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                         fullWidth
                         id="fromDate"
                         name="fromDate"
-                        // label="From Date"
-                        label={selectType.value === 'halfDay' ? 'Date' : 'From Date'}
+                        inputProps={{
+                          min: moment().format('YYYY-MM-DD')
+                        }}
+                        label="From Date"
                         value={values.fromDate}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -198,6 +200,9 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                   <Grid item xs={12} md={6}>
                     <Box>
                       <Input
+                        inputProps={{
+                          min: moment().format('YYYY-MM-DD')
+                        }}
                         type="date"
                         placeholder="To Date"
                         size="large"

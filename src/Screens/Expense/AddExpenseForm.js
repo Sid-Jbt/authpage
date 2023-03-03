@@ -160,6 +160,9 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Input
+                      inputProps={{
+                        max: moment().format('YYYY-MM-DD')
+                      }}
                       type="date"
                       placeholder="Purchase date"
                       label="PURCHASE DATE"
