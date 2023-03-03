@@ -23,6 +23,7 @@ import { profileSetupPattern, getLoginPattern, getProfilePattern } from 'Routes/
 import { LOGOUT } from 'Redux/actions';
 import CircularProgressWithLabel from 'Elements/CircularProgressWithLabel';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
+import { getEmployeeById } from '../../../APIs/Employee';
 
 const DashboardNavbar = ({ isMini }) => {
   const customization = useSelector((state) => state.customization);
@@ -34,19 +35,29 @@ const DashboardNavbar = ({ isMini }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
   const [isProfileComplete, setIsProfileComplete] = useState(false);
+  const [name, setName] = useState('');
   const [userProfilePic, setUserProfilePic] = useState('');
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
   const profileSetup = pathname !== profileSetupPattern;
 
+  const getUserDetails = async () => {
+    const employeeDetailsRes = await getEmployeeById(currentUser.id);
+    const {
+      status,
+      data: { profile }
+    } = employeeDetailsRes;
+    if (status) {
+      setName(`${profile.firstName} ${profile.lastName}`);
+      setUserProfilePic(profile.profilePic);
+    }
+  };
+
   useEffect(() => {
-    if (
-      currentUser.hasOwnProperty('profilePercentage') &&
-      currentUser.hasOwnProperty('profilePic')
-    ) {
-      const { profilePercentage, profilePic } = currentUser;
+    getUserDetails();
+    if (currentUser.hasOwnProperty('profilePercentage')) {
+      const { profilePercentage } = currentUser;
       setIsProfileComplete(profilePercentage > 100);
-      setUserProfilePic(profilePic);
     }
   }, []);
 
@@ -133,10 +144,7 @@ const DashboardNavbar = ({ isMini }) => {
     >
       <NotificationItem
         color="secondary"
-        title={[
-          'Hello,',
-          `${profileSetup ? `${currentUser.firstName} ${currentUser.lastName}` : 'Welcome'}`
-        ]}
+        title={['Hello,', `${profileSetup ? name : 'Welcome'}`]}
         disabled
         onClick={handleProfileMenu}
         width={200}
