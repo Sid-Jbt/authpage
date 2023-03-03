@@ -137,6 +137,14 @@ const ProfileSetup = () => {
 
   const onChangeGender = () => setGender(gender === 'male' ? 'female' : 'male');
 
+  const validate = (values) => {
+    const errors = {};
+    if (values.phoneNumber === values.alternatePhone) {
+      errors.alternatePhone = 'Alternate number should not be same as phone number';
+    }
+    return errors;
+  };
+
   return (
     <>
       {employeeDetails !== null && (
@@ -180,6 +188,7 @@ const ProfileSetup = () => {
                         ? basicSchema
                         : ''
                     }
+                    validate={activeStep === 1 && validate}
                   >
                     {(props) => (
                       <form onSubmit={props.handleSubmit}>
