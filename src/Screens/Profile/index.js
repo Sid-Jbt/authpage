@@ -124,6 +124,14 @@ const Profile = () => {
 
   const onChangeGender = () => setGender(gender === 'male' ? 'female' : 'male');
 
+  const validate = (values) => {
+    const errors = {};
+    if (values.phoneNumber === values.alternatePhone) {
+      errors.alternatePhone = 'Alternate number should not be same as phone number';
+    }
+    return errors;
+  };
+
   return (
     employeeDetails !== null && (
       <Box>
@@ -145,6 +153,7 @@ const Profile = () => {
               onSubmitProfile(values, false);
             }}
             validationSchema={tabIndex === 0 ? profileSchema : bankFormSchema}
+            validate={tabIndex === 0 && validate}
             innerRef={formikRef}
           >
             {(props) => (
