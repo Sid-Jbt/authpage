@@ -201,10 +201,6 @@ const Basic = ({ props, onChangeGender }) => {
                         label="Date Of Birth"
                         value={moment(values.dob).format('YYYY-MM-DD')}
                         onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.dob && touched.dob && errors.dob}
-                        error={errors.dob && touched.dob}
-                        success={!errors.dob && touched.dob}
                       />
                     </Box>
                   </Grid>
