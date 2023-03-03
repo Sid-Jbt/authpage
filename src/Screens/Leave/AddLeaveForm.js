@@ -201,7 +201,7 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                     <Box>
                       <Input
                         inputProps={{
-                          min: moment().format('YYYY-MM-DD')
+                          min: moment(values.fromDate).format('YYYY-MM-DD')
                         }}
                         type="date"
                         placeholder="To Date"
