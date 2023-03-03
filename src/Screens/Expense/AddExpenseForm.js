@@ -96,6 +96,7 @@ const AddExpenseForm = ({ isDialogOpen, handleDialog, setIsEdit, selectedData, t
       setLoader(false);
     }
     handleDialog();
+    setIsEdit(false);
   };
 
   const uploadFile = (file) => {

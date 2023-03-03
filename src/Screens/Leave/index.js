@@ -25,8 +25,8 @@ import ViewLeaveDetails from './ViewLeaveDetails';
 const adminLeaveOptions = [{ title: 'View', value: 'view' }];
 const empLeaveOptions = [
   { title: 'Edit', value: 'edit' },
-  { title: 'View', value: 'view' }
-  // { title: 'Delete', value: 'delete' }
+  { title: 'View', value: 'view' },
+  { title: 'Delete', value: 'delete' }
 ];
 
 const Leave = () => {
@@ -348,7 +348,7 @@ const Leave = () => {
         {isDialogOpen && (
           <AddLeaveForm
             isDialogOpen={isDialogOpen}
-            handleDialog={handleDialog}
+            handleDialog={() => handleDialog()}
             title={isEdit ? 'EDIT YOUR LEAVE' : 'ADD NEW LEAVE'}
             setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
@@ -359,14 +359,14 @@ const Leave = () => {
         {isDeleteDialogOpen && (
           <DialogMenu
             isOpen={isDeleteDialogOpen}
-            onClose={handleDialogClose}
+            onClose={() => handleDialogClose()}
             dialogTitle="Delete"
             dialogContent={
               <DeleteDialog
-                handleDialogClose={handleDialogClose}
+                handleDialogClose={() => handleDialogClose()}
                 selectedId={selectedId}
                 message="Are you sure want to delete this?"
-                deleteItem={onDelete}
+                deleteItem={() => onDelete()}
                 buttonTitle="Delete"
               />
             }
@@ -389,7 +389,7 @@ const Leave = () => {
                     color="info"
                     variant="contained"
                     size="small"
-                    onClick={handleCloseDialog}
+                    onClick={() => handleCloseDialog()}
                   >
                     Approve
                   </Button>
@@ -399,7 +399,7 @@ const Leave = () => {
                     color="error"
                     variant="contained"
                     size="small"
-                    onClick={handleCloseDialog}
+                    onClick={() => handleCloseDialog()}
                   >
                     Reject
                   </Button>

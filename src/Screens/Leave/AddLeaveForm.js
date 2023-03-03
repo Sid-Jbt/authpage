@@ -83,7 +83,7 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
         leaveType: leaveType.value,
         selectType: selectType.value,
         fromDate: formData.fromDate,
-        toDate: selectType.value === 'halfDay' ? formData.fromDate : formData.toDate,
+        toDate: formData.toDate,
         reason: formData.reason
       };
       setLoader(true);
@@ -116,6 +116,7 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
         setLoader(false);
       }
       handleDialog();
+      setIsEdit(false);
     }
   };
 
@@ -194,27 +195,26 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                       />
                     </Box>
                   </Grid>
-                  {selectType.value === 'fullDay' && (
-                    <Grid item xs={12} md={6}>
-                      <Box>
-                        <Input
-                          type="date"
-                          placeholder="To Date"
-                          size="large"
-                          fullWidth
-                          id="toDate"
-                          name="toDate"
-                          label="To Date"
-                          defaultValue={values.toDate}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          errorText={errors.toDate && touched.toDate && errors.toDate}
-                          error={errors.toDate && touched.toDate}
-                          success={!errors.toDate && touched.toDate}
-                        />
-                      </Box>
-                    </Grid>
-                  )}
+                  <Grid item xs={12} md={6}>
+                    <Box>
+                      <Input
+                        type="date"
+                        placeholder="To Date"
+                        size="large"
+                        fullWidth
+                        id="toDate"
+                        name="toDate"
+                        label="To Date"
+                        defaultValue={values.toDate}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={errors.toDate && touched.toDate && errors.toDate}
+                        error={errors.toDate && touched.toDate}
+                        success={!errors.toDate && touched.toDate}
+                      />
+                    </Box>
+                  </Grid>
+
                   <Grid item xs={12}>
                     <Box>
                       <Editor

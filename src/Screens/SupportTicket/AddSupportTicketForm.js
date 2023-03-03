@@ -103,6 +103,7 @@ const AddSupportTicketDialog = ({
         setLoader(false);
       }
       handleDialog();
+      setIsEdit(false);
     }
   };
 

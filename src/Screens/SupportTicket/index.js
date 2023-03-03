@@ -245,7 +245,7 @@ const supportTicket = () => {
     setPriority('');
     setIsStatus('');
     setSearch('');
-    getAllSupportTicketList(sortKey, sortOrder, page, '', selectDate);
+    getAllSupportTicketList();
   };
   const onClickSearch = () => {
     setLoader(true);
