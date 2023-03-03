@@ -36,7 +36,7 @@ const ViewExpenseDetails = ({ info }) => {
           <Typography variant="button" fontWeight="bold" textTransform="capitalize">
             {label}: &nbsp;
           </Typography>
-          <Typography variant="button" fontWeight="regular" color="text">
+          <Typography variant="button" fontWeight="regular" color="text" textTransform="capitalize">
             &nbsp;{values[key]}
           </Typography>
         </>
