@@ -3,10 +3,10 @@ import Badge from 'Elements/Badge';
 const attendanceData = {
   columns: [
     { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
-    { name: 'date', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
+    { name: 'attendanceDate', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
     // { name: 'username', align: 'center', headerName: 'User name', mobileHeader: 'User name' },
-    { name: 'in', align: 'center', headerName: 'Punch In', mobileHeader: 'In' },
-    { name: 'out', align: 'center', headerName: 'Punch Out', mobileHeader: 'Out' },
+    { name: 'punchIn', align: 'center', headerName: 'Punch In', mobileHeader: 'In' },
+    { name: 'punchOut', align: 'center', headerName: 'Punch Out', mobileHeader: 'Out' },
     { name: 'late', align: 'center', headerName: 'Late', mobileHeader: 'Late' },
     { name: 'earlyLeaving', align: 'center', headerName: ' Early Leaving', mobileHeader: 'Early' },
     { name: 'overtime', align: 'center', headerName: 'Overtime', mobileHeader: 'Overtime' },
@@ -21,10 +21,10 @@ const attendanceData = {
 
   adminColumns: [
     { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
-    { name: 'date', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
+    { name: 'attendanceDate', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
     { name: 'username', align: 'center', headerName: 'User name', mobileHeader: 'User' },
-    { name: 'in', align: 'center', headerName: 'Punch In', mobileHeader: 'In' },
-    { name: 'out', align: 'center', headerName: 'Punch Out', mobileHeader: 'Out' },
+    { name: 'punchIn', align: 'center', headerName: 'Punch In', mobileHeader: 'In' },
+    { name: 'punchOut', align: 'center', headerName: 'Punch Out', mobileHeader: 'Out' },
     { name: 'late', align: 'center', headerName: 'Late', mobileHeader: 'Late' },
     { name: 'earlyLeaving', align: 'center', headerName: ' Early Leaving', mobileHeader: 'Early' },
     { name: 'overtime', align: 'center', headerName: 'Overtime', mobileHeader: 'Overtime' },

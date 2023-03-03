@@ -120,7 +120,7 @@ const DashboardDefault = () => {
               <Grid item xs={12} md={6} lg={3}>
                 <DashboardCard
                   title="Today"
-                  count="07:15:34"
+                  count="00:00:00"
                   icon={{ color: 'success', component: <Watch /> }}
                   isPercentage={false}
                 />

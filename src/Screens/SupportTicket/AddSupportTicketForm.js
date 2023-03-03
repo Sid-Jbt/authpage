@@ -56,7 +56,7 @@ const AddSupportTicketDialog = ({
   };
 
   const onSubmitNewSupportTicket = async (formData) => {
-    if (formData.message === '') {
+    if (formData.message === '' || formData.message.includes('<p><br></p>')) {
       setSnack({
         title: 'Error',
         message: 'Message is required',
@@ -103,6 +103,7 @@ const AddSupportTicketDialog = ({
         setLoader(false);
       }
       handleDialog();
+      setIsEdit(false);
     }
   };
 

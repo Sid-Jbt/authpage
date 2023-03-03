@@ -83,7 +83,7 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
         leaveType: leaveType.value,
         selectType: selectType.value,
         fromDate: formData.fromDate,
-        toDate: selectType.value === 'halfDay' ? formData.fromDate : formData.toDate,
+        toDate: formData.toDate,
         reason: formData.reason
       };
       setLoader(true);
@@ -104,6 +104,8 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
           open: true
         });
         setLoader(false);
+        handleDialog();
+        setIsEdit(false);
       } else {
         setSnack({
           title: 'Error',
@@ -115,7 +117,6 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
         });
         setLoader(false);
       }
-      handleDialog();
     }
   };
 
@@ -183,8 +184,10 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                         fullWidth
                         id="fromDate"
                         name="fromDate"
-                        // label="From Date"
-                        label={selectType.value === 'halfDay' ? 'Date' : 'From Date'}
+                        inputProps={{
+                          min: moment().format('YYYY-MM-DD')
+                        }}
+                        label="From Date"
                         value={values.fromDate}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -194,27 +197,29 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                       />
                     </Box>
                   </Grid>
-                  {selectType.value === 'fullDay' && (
-                    <Grid item xs={12} md={6}>
-                      <Box>
-                        <Input
-                          type="date"
-                          placeholder="To Date"
-                          size="large"
-                          fullWidth
-                          id="toDate"
-                          name="toDate"
-                          label="To Date"
-                          defaultValue={values.toDate}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          errorText={errors.toDate && touched.toDate && errors.toDate}
-                          error={errors.toDate && touched.toDate}
-                          success={!errors.toDate && touched.toDate}
-                        />
-                      </Box>
-                    </Grid>
-                  )}
+                  <Grid item xs={12} md={6}>
+                    <Box>
+                      <Input
+                        inputProps={{
+                          min: moment().format('YYYY-MM-DD')
+                        }}
+                        type="date"
+                        placeholder="To Date"
+                        size="large"
+                        fullWidth
+                        id="toDate"
+                        name="toDate"
+                        label="To Date"
+                        defaultValue={values.toDate}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={errors.toDate && touched.toDate && errors.toDate}
+                        error={errors.toDate && touched.toDate}
+                        success={!errors.toDate && touched.toDate}
+                      />
+                    </Box>
+                  </Grid>
+
                   <Grid item xs={12}>
                     <Box>
                       <Editor
