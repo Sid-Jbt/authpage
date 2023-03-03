@@ -104,6 +104,8 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
           open: true
         });
         setLoader(false);
+        handleDialog();
+        setIsEdit(false);
       } else {
         setSnack({
           title: 'Error',
@@ -115,8 +117,6 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
         });
         setLoader(false);
       }
-      handleDialog();
-      setIsEdit(false);
     }
   };
 
