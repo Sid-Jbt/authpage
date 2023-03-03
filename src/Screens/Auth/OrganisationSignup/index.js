@@ -173,7 +173,7 @@ const OrganisationSignup = () => {
                             onClick={() => handleSetAgreement()}
                             sx={{ cursor: 'pointer', userSelect: 'none' }}
                           >
-                            &nbsp;&nbsp;I agree the&nbsp;
+                            &nbsp;&nbsp;I agree to the&nbsp;
                           </Typography>
                           <Typography
                             component="a"
