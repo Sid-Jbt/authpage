@@ -16,7 +16,6 @@ import { getEmployeeListPattern, getExpensePattern, getLeavePattern } from 'Rout
 import DashboardCard from 'Components/CardLayouts/StaticCard';
 import { CURRENTUSER } from 'Redux/actions';
 import { getDashboardList } from 'APIs/Dashboard';
-import { getEmployeeById } from 'APIs/Employee';
 
 const DashboardDefault = () => {
   let calenderData = [];
@@ -46,22 +45,6 @@ const DashboardDefault = () => {
     }
   ];
 
-  const getUserDetails = async () => {
-    const employeeDetailsRes = await getEmployeeById(currentUser.id);
-    const { status, data } = employeeDetailsRes;
-    if (status) {
-      dispatch({
-        type: CURRENTUSER,
-        value: {
-          ...currentUser,
-          profilePic: data.profile.profilePic,
-          firstName: employeeDetailsRes.data.profile.firstName,
-          lastName: employeeDetailsRes.data.profile.lastName
-        }
-      });
-    }
-  };
-
   const getAllDashboardList = async () => {
     const getAllDashboardListRes = await getDashboardList();
     const { status, data } = getAllDashboardListRes;
@@ -86,7 +69,6 @@ const DashboardDefault = () => {
   };
 
   useEffect(() => {
-    getUserDetails();
     getAllDashboardList();
   }, []);
 
