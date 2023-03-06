@@ -1,14 +1,3 @@
-import Icon from '@mui/material/Icon';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-
-const onClickAction = () => {};
-
-const action = (
-  <Icon sx={{ cursor: 'pointer', fontWeight: 'bold' }} fontSize="small">
-    <FileDownloadIcon onClick={onClickAction} />
-  </Icon>
-);
-
 const empListData = {
   columns: [
     // { id: 'sl', name: 'sl', align: 'center', headerName: 'Sl', mobileHeader: 'Sl' },
@@ -39,8 +28,8 @@ const empListData = {
       align: 'center',
       headerName: 'Payment Type',
       mobileHeader: 'Type'
-    },
-    { id: 'action', name: 'action', align: 'center', headerName: 'Action', mobileHeader: 'Action' }
+    }
+    /* { id: 'action', name: 'action', align: 'center', headerName: 'Action', mobileHeader: 'Action' } */
   ],
 
   adminColumns: [
@@ -79,8 +68,8 @@ const empListData = {
       align: 'center',
       headerName: 'Payment Type',
       mobileHeader: 'Type'
-    },
-    { id: 'action', name: 'action', align: 'center', headerName: 'Action', mobileHeader: 'Action' }
+    }
+    /* { id: 'action', name: 'action', align: 'center', headerName: 'Action', mobileHeader: 'Action' } */
   ],
 
   rows: [
@@ -91,8 +80,7 @@ const empListData = {
       paymentMonth: 'October, 2020',
       paymentDate: '10 Oct 2020',
       paidAmount: 25000,
-      paymentType: 'Cheque',
-      action
+      paymentType: 'Cheque'
     },
     {
       id: '2',
@@ -101,8 +89,7 @@ const empListData = {
       paymentMonth: 'November, 2020',
       paymentDate: '10 Nov 2020',
       paidAmount: 30000,
-      paymentType: 'Bank Transfer',
-      action
+      paymentType: 'Bank Transfer'
     },
     {
       id: '3',
@@ -111,8 +98,7 @@ const empListData = {
       paymentMonth: 'December, 2020',
       paymentDate: '10 Dec 2020',
       paidAmount: 25000,
-      paymentType: 'Bank Transfer',
-      action
+      paymentType: 'Bank Transfer'
     },
     {
       id: '4',
@@ -121,8 +107,7 @@ const empListData = {
       paymentMonth: 'January, 2021',
       paymentDate: '10 Jan 2020',
       paidAmount: 15000,
-      paymentType: 'Bank Transfer',
-      action
+      paymentType: 'Bank Transfer'
     },
     {
       id: '5',
@@ -131,8 +116,7 @@ const empListData = {
       paymentMonth: 'February, 2021',
       paymentDate: '10 Feb 2020',
       paidAmount: 25000,
-      paymentType: 'Bank Transfer',
-      action
+      paymentType: 'Bank Transfer'
     },
     {
       id: '6',
@@ -141,8 +125,7 @@ const empListData = {
       paymentMonth: 'March, 2021',
       paymentDate: '10 Mar 2020',
       paidAmount: 35000,
-      paymentType: 'Cash',
-      action
+      paymentType: 'Cash'
     },
     {
       id: '7',
@@ -151,8 +134,7 @@ const empListData = {
       paymentMonth: 'April, 2021',
       paymentDate: '10 Apr 2020',
       paidAmount: 37500,
-      paymentType: 'Cheque',
-      action
+      paymentType: 'Cheque'
     },
     {
       id: '8',
@@ -161,8 +143,7 @@ const empListData = {
       paymentMonth: 'May, 2021',
       paymentDate: '10 May 2020',
       paidAmount: 25500,
-      paymentType: 'Cash',
-      action
+      paymentType: 'Cash'
     },
     {
       id: '9',
@@ -171,8 +152,7 @@ const empListData = {
       paymentMonth: 'May, 2021',
       paymentDate: '10 May 2020',
       paidAmount: 25500,
-      paymentType: 'Cash',
-      action
+      paymentType: 'Cash'
     },
     {
       id: '10',
@@ -181,8 +161,7 @@ const empListData = {
       paymentMonth: 'May, 2021',
       paymentDate: '10 May 2020',
       paidAmount: 25500,
-      paymentType: 'Cash',
-      action
+      paymentType: 'Cash'
     },
     {
       id: '11',
@@ -191,8 +170,7 @@ const empListData = {
       paymentMonth: 'May, 2021',
       paymentDate: '10 May 2020',
       paidAmount: 25500,
-      paymentType: 'Cash',
-      action
+      paymentType: 'Cash'
     }
   ]
 };

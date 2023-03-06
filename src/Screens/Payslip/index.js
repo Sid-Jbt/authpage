@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Card, Grid, FormLabel, FormControl } from '@mui/material';
+import { Check, FileDownload } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
@@ -10,6 +11,8 @@ import { getPayslipList } from 'APIs/Payslip';
 import payslipColumns from './data/payslipData';
 
 // const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
+
+const downloadOption = [{ title: <FileDownload />, value: 'download' }];
 
 const Payslip = () => {
   const { columns: prCols, adminColumns: adminPrCol } = payslipColumns;
@@ -144,6 +147,17 @@ const Payslip = () => {
     }
   }; */
 
+  const onClickAction = (key, data) => {
+    setSnack({
+      title: 'Warning',
+      message: `Payslip list export coming soon... ${key} ${data}`,
+      time: false,
+      icon: <Check color="white" />,
+      color: 'warning',
+      open: true
+    });
+  };
+
   const handleChangeMonth = (value) => {
     setMonth(value);
   };
@@ -243,6 +257,9 @@ const Payslip = () => {
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allPayslipList}
           rowsCount={payslipListCount}
+          onClickAction={(value, row) => onClickAction(value, row)}
+          isAction
+          options={downloadOption}
           initialPage={page}
           onChangePage={(value) => onPage(value)}
           rowsPerPage={limit}
