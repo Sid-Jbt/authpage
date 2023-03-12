@@ -2,7 +2,13 @@ import AuthLayout from 'Components/AuthLayout';
 import ForgotPassword from 'Screens/Auth/ForgotPassword';
 import ResetPassword from 'Screens/Auth/ResetPassword';
 import Login from 'Screens/Auth/Login';
-import { defaultPattern, forgotPasswordPattern, resetPasswordPattern } from './routeConfig';
+import OrganisationSignup from 'Screens/Auth/OrganisationSignup';
+import {
+  defaultPattern,
+  forgotPasswordPattern,
+  organisationSignupPattern,
+  resetPasswordPattern
+} from './routeConfig';
 
 const AuthRoutes = {
   path: defaultPattern,
@@ -19,6 +25,10 @@ const AuthRoutes = {
     {
       path: resetPasswordPattern,
       element: <ResetPassword />
+    },
+    {
+      path: organisationSignupPattern,
+      element: <OrganisationSignup />
     }
   ]
 };

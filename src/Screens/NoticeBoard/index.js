@@ -12,7 +12,7 @@ import AddCalendarEventDialog from './AddCalendarEvent';
 import CalendarEventsData from './data/CalendarEvents';
 
 export const NoticeBoard = () => {
-  const { role } = useSelector((state) => state.route);
+  const { role } = useSelector((state) => state.login);
   const { columns: prCols } = CalendarEventsData;
   const { setSnack } = useContext(SnackbarContext);
   const [rows, setRows] = useState([]);

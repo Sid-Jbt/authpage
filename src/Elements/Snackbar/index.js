@@ -1,5 +1,5 @@
 import { Close } from '@mui/icons-material';
-import { styled, Icon, Fade, IconButton, Divider, Snackbar } from '@mui/material';
+import { styled, Icon, IconButton, Divider, Snackbar, Slide } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import typography from 'Theme/base/typography';
@@ -55,7 +55,7 @@ const CustomSnackbar = ({ color, icon, title, dateTime, content, close, bgWhite,
 
   return (
     <Snackbar
-      TransitionComponent={Fade}
+      TransitionComponent={Slide}
       autoHideDuration={2500}
       anchorOrigin={{
         vertical: 'bottom',

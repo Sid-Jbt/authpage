@@ -1,55 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Typography from 'Elements/Typography';
 import { Card, CircularProgress, Grid, IconButton, InputAdornment } from '@mui/material';
 import { Formik } from 'formik';
-import { Check, Error, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { changePasswordSchema } from 'Helpers/ValidationSchema';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
-import { SnackbarContext } from 'Context/SnackbarProvider';
-import { useNavigate } from 'react-router-dom';
-import { employeeChangePassword } from 'APIs/Settings';
-import { getDashboardPattern } from 'Routes/routeConfig';
 
-const ChangePasswordSetting = () => {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [loader, setLoader] = useState(false);
-  const { setSnack } = useContext(SnackbarContext);
-  const navigate = useNavigate();
+const ChangePasswordSetting = ({ Loading }) => {
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
-  };
-
-  const onSubmit = async (formData, actions) => {
-    setLoader(true);
-    actions.setSubmitting(false);
-    const loginRes = await employeeChangePassword(formData);
-    setLoader(false);
-    const { status, message } = loginRes;
-    if (status) {
-      setSnack({
-        title: 'Success',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'success',
-        open: true
-      });
-      navigate(getDashboardPattern());
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        icon: <Error color="white" />,
-        color: 'error',
-        open: true
-      });
-    }
   };
 
   return (
@@ -61,7 +26,8 @@ const ChangePasswordSetting = () => {
         enableReinitialize
         initialValues={{ oldPassword: '', newPassword: '', confirmNewPassword: '' }}
         onSubmit={(values, actions) => {
-          onSubmit(values, actions);
+          // eslint-disable-next-line no-console
+          console.log(values, actions);
         }}
         validationSchema={changePasswordSchema}
       >
@@ -168,9 +134,9 @@ const ChangePasswordSetting = () => {
                     color="dark"
                     size="small"
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={Loading || isSubmitting}
                   >
-                    {loader ? (
+                    {Loading ? (
                       <CircularProgress disableShrink color="inherit" />
                     ) : (
                       'Update Password'

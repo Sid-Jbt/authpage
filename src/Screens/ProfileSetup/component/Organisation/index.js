@@ -4,7 +4,7 @@ import Input from 'Elements/Input';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Avatar from 'Elements/Avatar';
-import UserPic from 'Assets/Images/no-profile.png';
+import team2 from 'Assets/Images/team-4-800x800.jpg';
 import Button from 'Elements/Button';
 import Icon from '@mui/material/Icon';
 import { Edit } from '@mui/icons-material';
@@ -13,24 +13,27 @@ import { WorkingHours } from 'Helpers/Global';
 
 const Organisation = (props) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props.props;
-  const [smallLogoUrl, setSmallLogoUrl] = useState('');
-  const [largeLogoUrl, setLargeLogoUrl] = useState('');
   const smallLogoInputFile = useRef(null);
   const largeLogoInputFile = useRef(null);
+  const [workingHours, setWorkingHours] = useState(WorkingHours[0]);
+  const [smallLogo, setSmallLogo] = useState('');
+  const [largeLogo, setLargeLogo] = useState('');
 
   const onClickLogoUpload = (e, logo) => {
     const file = e.target.files[0];
     if (logo === 'small') {
       const url = URL.createObjectURL(file);
-      setSmallLogoUrl(url);
+      setSmallLogo(url);
+      setFieldValue('smallLogo', file);
     } else {
       const url = URL.createObjectURL(file);
-      setLargeLogoUrl(url);
+      setLargeLogo(url);
+      setFieldValue('largeLogo', file);
     }
   };
 
   return (
-    <Box>
+    <>
       <Box width="80%" textAlign="center" mx="auto" mb={4}>
         <Box mb={1}>
           <Typography variant="h5" fontWeight="regular">
@@ -57,7 +60,7 @@ const Organisation = (props) => {
                   onChange={(e) => onClickLogoUpload(e, 'small')}
                 />
                 <Avatar
-                  src={smallLogoUrl === '' ? UserPic : smallLogoUrl}
+                  src={smallLogo === '' ? team2 : smallLogo}
                   alt="small picture"
                   size="xxl"
                   variant="rounded"
@@ -91,7 +94,7 @@ const Organisation = (props) => {
                   onChange={(e) => onClickLogoUpload(e, 'large')}
                 />
                 <Avatar
-                  src={largeLogoUrl === '' ? UserPic : largeLogoUrl}
+                  src={largeLogo === '' ? team2 : largeLogo}
                   alt="large picture"
                   size="xxl"
                   variant="rounded"
@@ -117,9 +120,12 @@ const Organisation = (props) => {
               <FormLabel> Select Working Hours </FormLabel>
               <Select
                 name="workingHours"
-                value={values.workingHours === '' ? WorkingHours[0] : values.workingHours}
+                value={workingHours}
                 options={WorkingHours}
-                onChange={(selectedHour) => setFieldValue('workingHours', selectedHour)}
+                onChange={(selectedHour) => {
+                  setWorkingHours(selectedHour);
+                  setFieldValue('workingHours', selectedHour.value);
+                }}
               />
             </FormControl>
           </Grid>
@@ -148,7 +154,7 @@ const Organisation = (props) => {
           </Grid>
         </Grid>
       </Box>
-    </Box>
+    </>
   );
 };
 

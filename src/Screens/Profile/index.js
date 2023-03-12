@@ -1,17 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import breakpoints from 'Theme/base/breakpoints';
-import { useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
-import { Check, Error } from '@mui/icons-material';
-import { SnackbarContext } from 'Context/SnackbarProvider';
-import { getDashboardPattern } from 'Routes/routeConfig';
 import { Grid, Card } from '@mui/material';
 import { bankFormSchema, profileSchema } from 'Helpers/ValidationSchema';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
-import { getEmployeeById, updateEmployee } from 'APIs/Employee';
 import BankInfo from './components/BankInfo';
 import PersonalDetails from './components/PersonalDetails';
 import Header from './components/Header';
@@ -40,11 +34,8 @@ const bankInitialValues = {
 const Profile = () => {
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
   const [tabIndex, setTabIndex] = useState(0);
-  const [employeeDetails, setEmployeeDetails] = useState(null);
+  const [employeeDetails] = useState(null);
   const [gender, setGender] = useState('male');
-  const { currentUser } = useSelector((state) => state.route);
-  const navigate = useNavigate();
-  const { setSnack } = useContext(SnackbarContext);
   const formikRef = useRef();
 
   useEffect(() => {
@@ -57,18 +48,6 @@ const Profile = () => {
     handleTabsOrientation();
     return () => window.removeEventListener('resize', handleTabsOrientation);
   }, [tabsOrientation]);
-
-  const getEmployeeDetails = async () => {
-    const employeeDetailsRes = await getEmployeeById(currentUser.id);
-    const { status, data } = employeeDetailsRes;
-    if (status) {
-      setEmployeeDetails(data);
-    }
-  };
-
-  useEffect(() => {
-    getEmployeeDetails();
-  }, [tabIndex]);
 
   const onSubmitProfile = async (data = null, isProfilePic = false) => {
     const res = {};
@@ -96,28 +75,6 @@ const Profile = () => {
     delete res.id;
     delete res.employeeCode;
     res.gender = gender;
-    const updateEmployeeRes = await updateEmployee(res);
-    const { status, message } = updateEmployeeRes;
-    if (status) {
-      setSnack({
-        title: 'Success',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'success',
-        open: true
-      });
-      navigate(getDashboardPattern());
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        icon: <Error color="white" />,
-        color: 'error',
-        open: true
-      });
-    }
   };
 
   const handleSetTabIndex = (event, newValue) => setTabIndex(newValue);

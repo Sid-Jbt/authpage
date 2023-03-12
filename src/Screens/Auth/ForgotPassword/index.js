@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
@@ -6,55 +6,38 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { forgotPasswordSchema } from 'Helpers/ValidationSchema';
-import { defaultPattern, getDefaultPattern } from 'Routes/routeConfig';
-import { SnackbarContext } from 'Context/SnackbarProvider';
-import { Check, Error } from '@mui/icons-material';
-import { companyForgotPassword } from 'APIs/Auth';
+import { getDefaultPattern } from 'Routes/routeConfig';
+import withStateDispatch from 'Helpers/withStateDispatch';
+import { CircularProgress } from '@mui/material';
 
-const ForgotPassword = () => {
-  const { setSnack } = useContext(SnackbarContext);
+const ForgotPassword = ({ GetForgotPassword, Loading }) => {
   const navigate = useNavigate();
-
-  const onSubmit = async (formData, actions) => {
-    const forgotPasswordRes = await companyForgotPassword(formData);
-    const { status, message } = forgotPasswordRes;
-    if (status) {
-      setSnack({
-        title: 'Success',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'success',
-        open: true
-      });
-      actions.setSubmitting(false);
-      navigate(getDefaultPattern());
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        icon: <Error color="white" />,
-        color: 'error',
-        open: true
-      });
-    }
-  };
-
   return (
     <>
-      <Box mb={1}>
+      <Box mb={1} textAlign="center">
         <Typography variant="h4" fontWeight="bold">
           Forgot Password
         </Typography>
       </Box>
-      <Typography variant="body2" fontWeight="regular" color="text">
+      <Typography variant="body2" textAlign="center" fontWeight="regular" color="text">
         Enter your email to get the link
       </Typography>
       <Formik
         initialValues={{ email: '' }}
         onSubmit={(values, actions) => {
-          onSubmit(values, actions);
+          GetForgotPassword(
+            { email: values.email },
+            (res) => {
+              if (res.data.status) {
+                navigate(getDefaultPattern());
+              }
+            },
+            (err) => {
+              // eslint-disable-next-line no-console
+              console.log(err);
+            }
+          );
+          actions.setSubmitting(false);
         }}
         validationSchema={forgotPasswordSchema}
       >
@@ -85,9 +68,13 @@ const ForgotPassword = () => {
                   size="large"
                   fullWidth
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || Loading}
                 >
-                  Forgot Password Link
+                  {Loading ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : (
+                    'Forgot Password Link'
+                  )}
                 </Button>
               </Box>
             </form>
@@ -99,7 +86,7 @@ const ForgotPassword = () => {
           Already have an account?&nbsp;
           <Typography
             component={Link}
-            to={defaultPattern}
+            to={getDefaultPattern()}
             variant="button"
             color="info"
             fontWeight="medium"
@@ -112,4 +99,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default withStateDispatch(ForgotPassword);

@@ -1,20 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Formik } from 'formik';
 import { Grid, IconButton, InputAdornment } from '@mui/material';
-import { Check, Error, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import SideDrawer from 'Elements/SideDrawer';
 import { addEmployeeSchema } from 'Helpers/ValidationSchema';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import moment from 'moment';
-import { SnackbarContext } from 'Context/SnackbarProvider';
-import { addEmployee } from 'APIs/Employee';
 
 const renderAddEmployeeDialog = ({ isDialogOpen, handleDialog }) => {
   const [showPassword, setShowPassword] = React.useState(false);
-  const { setSnack } = useContext(SnackbarContext);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -22,27 +18,8 @@ const renderAddEmployeeDialog = ({ isDialogOpen, handleDialog }) => {
   };
 
   const onSubmit = async (formData) => {
-    const addEmployeeRes = await addEmployee(formData);
-    const { status, message } = addEmployeeRes;
-    if (status) {
-      setSnack({
-        title: 'Success',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'success',
-        open: true
-      });
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        icon: <Error color="white" />,
-        color: 'error',
-        open: true
-      });
-    }
+    // eslint-disable-next-line no-console
+    console.log('loginRes', formData);
     handleDialog();
   };
 

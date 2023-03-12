@@ -14,7 +14,7 @@ import componentStyleOverrides from './compStyleOverride';
 export const theme = (customization) => {
   const themeOptions = {
     breakpoints: { ...breakpoints },
-    palette: { ...colors },
+    palette: { mode: 'light', ...colors },
     typography: { ...typography },
     boxShadows: { ...boxShadows },
     borders: { ...borders },
@@ -30,7 +30,6 @@ export const theme = (customization) => {
 
   const themes = createTheme(themeOptions);
   themes.components = componentStyleOverrides(themeOptions);
-
   return themes;
 };
 

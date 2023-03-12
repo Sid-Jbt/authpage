@@ -1,23 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
 import { Card, Grid, FormLabel, FormControl } from '@mui/material';
-import { Check, FileDownload } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Months, Years } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
-import { SnackbarContext } from 'Context/SnackbarProvider';
-import { getPayslipList } from 'APIs/Payslip';
 import payslipColumns from './data/payslipData';
-
-// const EXPORT_URL = process.env.REACT_APP_EXPORT_URL;
-
-const downloadOption = [{ title: <FileDownload />, value: 'download' }];
 
 const Payslip = () => {
   const { columns: prCols, adminColumns: adminPrCol } = payslipColumns;
-  const { role } = useSelector((state) => state.route);
-  const { setSnack } = useContext(SnackbarContext);
+  const { role } = useSelector((state) => state.login);
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [search, setSearch] = useState('');
@@ -31,132 +24,6 @@ const Payslip = () => {
   const [limit, setLimit] = useState(10);
   // const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
-
-  const getAllPayslipList = async (
-    selectedSortKey = 'id',
-    selectedSortOrder = 'asc',
-    selectedPage = 0,
-    text = '',
-    selectedMonth = '',
-    selectedYear = '',
-    count = 0,
-    dataLimit = limit
-  ) => {
-    const payslipData = {
-      limit: dataLimit,
-      page: selectedPage,
-      sortKey: selectedSortKey.toLowerCase(),
-      sortOrder: selectedSortOrder.toLowerCase(),
-      search: text,
-      month: selectedMonth,
-      year: selectedYear,
-      count
-    };
-    const payslipRes = await getPayslipList(payslipData);
-    const {
-      status,
-      data: { rows },
-      message
-    } = payslipRes;
-    if (status) {
-      setAllPayslipList(rows);
-      setPayslipListCount(payslipRes.data.count);
-      setLoader(false);
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        color: 'error',
-        open: true
-      });
-      setLoader(false);
-    }
-  };
-
-  useEffect(() => {
-    getAllPayslipList();
-  }, []);
-
-  /* const onClickExport = async (
-    // selectedSortKey = 'paymentMonth',
-    // selectedSortOrder = 'asc',
-    // selectedPage = 0,
-    text = '',
-    // selectedMonth = month,
-    // selectedYear = year,
-    count = 0,
-    dataLimit = limit
-  ) => {
-    const exportData = {
-      limit: dataLimit,
-      page: 0,
-      // sortKey: selectedSortKey.toLowerCase(),
-      // sortOrder: selectedSortOrder.toLowerCase(),
-      search: text,
-      month: '',
-      year: '',
-      count
-    };
-    let exportRes;
-    setIsExport(true);
-    setLoader(true);
-    if (role === 'admin') {
-      // Replace with getExportPayslipLists
-      // exportRes = await getEmployeePayslipExportList(exportData);
-    } else {
-      exportRes = await getEmployeePayslipExportList(exportData);
-    }
-
-    const { status, message, data } = exportRes;
-    if (status) {
-      setSnack({
-        title: 'Success',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'success',
-        open: true
-      });
-      setLoader(false);
-      setIsExport(false);
-      window.open(`${EXPORT_URL}/${data}`, '', 'width=900, height=900');
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'error',
-        open: true
-      });
-      setLoader(false);
-      setIsExport(false);
-    }
-    if (role === 'admin') {
-      setSnack({
-        title: 'Warning',
-        message: 'Payslip list export coming soon...',
-        time: false,
-        icon: <Check color="white" />,
-        color: 'warning',
-        open: true
-      });
-      setLoader(false);
-      setIsExport(false);
-    }
-  }; */
-
-  const onClickAction = (key, data) => {
-    setSnack({
-      title: 'Warning',
-      message: `Payslip list export coming soon... ${key} ${data}`,
-      time: false,
-      icon: <Check color="white" />,
-      color: 'warning',
-      open: true
-    });
-  };
 
   const handleChangeMonth = (value) => {
     setMonth(value);
@@ -174,30 +41,24 @@ const Payslip = () => {
     setMonth('');
     setYear('');
     setSearch('');
-    getAllPayslipList();
   };
 
   const onClickSearch = () => {
     setLoader(true);
     setIsSearch(true);
-    getAllPayslipList(sortKey, sortOrder, page, search, month.value, year.value, 0);
   };
 
   const onPage = async (selectedPage) => {
     setPage(selectedPage);
-    await getAllPayslipList(sortKey, sortOrder, selectedPage, month, year);
   };
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
-    setPage(0);
-    await getAllPayslipList(sortKey, sortOrder, '', '', '', '', 0, selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {
     setSortKey(selectedSortKey);
     setSortOrder(selectedSortOrder);
-    await getAllPayslipList(selectedSortKey, selectedSortOrder, page, month, year);
   };
 
   return (
@@ -257,9 +118,9 @@ const Payslip = () => {
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allPayslipList}
           rowsCount={payslipListCount}
-          onClickAction={(value, row) => onClickAction(value, row)}
+          // onClickAction={(value, row) => onClickAction(value, row)}
           isAction
-          options={downloadOption}
+          // options={downloadOption}
           initialPage={page}
           onChangePage={(value) => onPage(value)}
           rowsPerPage={limit}

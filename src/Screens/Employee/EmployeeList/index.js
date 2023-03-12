@@ -1,24 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
 import { Card, FormControl, FormLabel, Icon, Grid } from '@mui/material';
-import { Add, Check, ImportExportRounded } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import Select from 'Elements/Select';
 import { Roles } from 'Helpers/Global';
-import { useNavigate } from 'react-router';
+import { useNavigate, useOutletContext } from 'react-router';
 import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
-import { useSelector } from 'react-redux';
-import { SnackbarContext } from 'Context/SnackbarProvider';
-import { getCompanyEmployee } from 'APIs/Employee';
 import AddEmployeeForm from './AddEmployeeForm';
 import employeeListData from './data/employeeListData';
 
 const EmployeeList = () => {
-  const { role } = useSelector((state) => state.route);
+  const { role } = useOutletContext();
   const { columns: prCols } = employeeListData;
-  const { setSnack } = useContext(SnackbarContext);
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState('');
@@ -31,50 +28,6 @@ const EmployeeList = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-
-  const getAllCompanyEmployee = async (
-    selectedSortKey = 'email',
-    selectedSortOrder = 'asc',
-    selectedPage = 0,
-    text = '',
-    count = 0,
-    startDate = '',
-    endDate = '',
-    dataLimit = limit
-  ) => {
-    const employeeData = {
-      limit: dataLimit,
-      page: selectedPage,
-      sortKey: selectedSortKey.toLowerCase(),
-      sortOrder: selectedSortOrder.toLowerCase(),
-      search: text,
-      count,
-      startDate,
-      endDate
-    };
-    const employeeRes = await getCompanyEmployee(employeeData);
-    const {
-      status,
-      data: { rows },
-      message
-    } = employeeRes;
-    if (status) {
-      setAllEmployee(rows);
-      setEmployeeCount(employeeRes.data.count);
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        color: 'success',
-        open: true
-      });
-    }
-  };
-
-  useEffect(() => {
-    getAllCompanyEmployee();
-  }, [isDialogOpen]);
 
   const handleChangeStartDate = (event, string) => {
     if (string === 'fromDate') {
@@ -96,29 +49,10 @@ const EmployeeList = () => {
     setIsDialogOpen(!isDialogOpen);
   };
 
-  const onClickExport = () => {
-    setSnack({
-      title: 'Warning',
-      message: 'Export coming soon...',
-      time: false,
-      icon: <Check color="white" />,
-      color: 'warning',
-      open: true
-    });
-  };
-
   const onClickAction = (value, id) => {
     if (value === 'details') {
       return navigate(getEmployeeDetailsPattern(id));
     }
-    setSnack({
-      title: 'Success',
-      message: `Selected employee data deleted successfully.`,
-      time: false,
-      icon: <Check color="white" />,
-      color: 'success',
-      open: true
-    });
   };
 
   const handleClear = () => {
@@ -126,28 +60,19 @@ const EmployeeList = () => {
     setToDate('');
     setSelectedRole('');
     setSearch('');
-    getAllCompanyEmployee();
-  };
-
-  const onClickSearch = () => {
-    getAllCompanyEmployee(sortKey, sortOrder, page, search, 0, fromDate, toDate);
   };
 
   const onPage = async (selectedPage) => {
     setPage(selectedPage);
-    await getAllCompanyEmployee(sortKey, sortOrder, selectedPage);
   };
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
-    setPage(0);
-    await getAllCompanyEmployee(sortKey, sortOrder, '', '', '', '', '', selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {
     setSortKey(selectedSortKey);
     setSortOrder(selectedSortOrder);
-    await getAllCompanyEmployee(selectedSortKey, selectedSortOrder, page);
   };
 
   return (
@@ -163,14 +88,14 @@ const EmployeeList = () => {
                 Add
               </Button>
             </Grid>
-            <Grid item xs="auto">
+            {/* <Grid item xs="auto">
               <Button color="white" variant="outlined" size="small" onClick={onClickExport}>
                 <Icon sx={{ mr: 1 }}>
                   <ImportExportRounded />
                 </Icon>
                 Export
               </Button>
-            </Grid>
+            </Grid> */}
           </>
         ) : null}
       </Grid>
@@ -185,7 +110,7 @@ const EmployeeList = () => {
           search={search}
           handleSearch={handleChangeSearch}
           handleClear={() => handleClear()}
-          onClickSearch={() => onClickSearch()}
+          // onClickSearch={() => onClickSearch()}
         >
           <Grid item xs={6} md={4} lg={3}>
             <Input

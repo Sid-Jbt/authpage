@@ -4,14 +4,7 @@ import Snackbar from 'Elements/Snackbar';
 export const SnackbarContext = createContext({});
 
 const SnackbarProvider = ({ children }) => {
-  const [snack, setSnack] = useState({
-    title: '',
-    message: '',
-    time: false,
-    color: '',
-    icon: false,
-    open: false
-  });
+  const [snack, setSnack] = useState([]);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {

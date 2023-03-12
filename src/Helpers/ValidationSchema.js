@@ -199,24 +199,33 @@ export const noticeEventSchema = yup.object().shape({
   end: yup.string().required('End date is required')
 });
 
-export const basicSchema = yup.object().shape({
-  firstName: yup
-    .string()
-    .required('First name is required')
-    .min(3, 'Too Short!')
-    .max(50, 'Too Long!')
-    .matches(/^[A-Za-z ]*$/, 'Please enter valid first name'),
-  lastName: yup
-    .string()
-    .required('Last name is required')
-    .min(3, 'Too Short!')
-    .max(50, 'Too Long!')
-    .matches(/^[A-Za-z ]*$/, 'Please enter valid last name')
-});
+export const basicSchema = [
+  yup.object().shape({
+    firstName: yup
+      .string()
+      .required('First name is required')
+      .min(3, 'Too Short!')
+      .max(50, 'Too Long!')
+      .matches(/^[A-Za-z ]*$/, 'Please enter valid first name'),
+    lastName: yup
+      .string()
+      .required('Last name is required')
+      .min(3, 'Too Short!')
+      .max(50, 'Too Long!')
+      .matches(/^[A-Za-z ]*$/, 'Please enter valid last name')
+  })
+];
 
-export const organisationSchema = yup.object().shape({
-  organizationAddress: yup.string().required('Permanent Address is required')
-});
+export const organisationSchema = [
+  yup.object().shape({
+    organizationAddress: yup.string().required('Organisation Address is required')
+  }),
+  yup.object().shape({
+    firstName: yup.string().required('Firstname is required'),
+    lastName: yup.string().required('Lastname is required')
+  }),
+  yup.object().shape({})
+];
 
 export const organisationSignupSchema = yup.object().shape({
   organisationName: yup.string().required('Organisation name is required'),

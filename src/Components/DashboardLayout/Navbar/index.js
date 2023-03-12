@@ -1,7 +1,6 @@
 import { AppBar, Divider, Grid, Icon, IconButton, Menu, Toolbar, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Box from 'Elements/Box';
-import { MINI_SIDENAV } from 'Redux/actions/ui/actions';
 import {
   Home,
   Logout,
@@ -11,55 +10,32 @@ import {
   Person,
   Settings
 } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import NotificationItem from 'Elements/Item';
 
-import NoUserPic from 'Assets/Images/no-profile.png';
+import UserPic from 'Assets/Images/team-4-800x800.jpg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Breadcrumbs from 'Elements/Breadcrumbs';
 import Avatar from 'Elements/Avatar';
 import useWindowPosition from 'Hooks/useWindowPosition';
-import { profileSetupPattern, getLoginPattern, getProfilePattern } from 'Routes/routeConfig';
-import { LOGOUT } from 'Redux/actions';
-import CircularProgressWithLabel from 'Elements/CircularProgressWithLabel';
+import { getLoginPattern, getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
+import CircularProgressWithLabel from 'Elements/CircularProgress';
+import { MINI_SIDENAV, LOGOUT } from 'APIs/constants';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
-import { getEmployeeById } from '../../../APIs/Employee';
 
-const DashboardNavbar = ({ isMini }) => {
+const DashboardNavbar = ({ user, isMini }) => {
   const customization = useSelector((state) => state.customization);
-  const { currentUser } = useSelector((state) => state.route);
   const themes = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [openMenu, setOpenMenu] = useState(false);
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
-  const [isProfileComplete, setIsProfileComplete] = useState(false);
-  const [name, setName] = useState('');
-  const [userProfilePic, setUserProfilePic] = useState('');
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
-  const profileSetup = pathname !== profileSetupPattern;
-
-  const getUserDetails = async () => {
-    const employeeDetailsRes = await getEmployeeById(currentUser.id);
-    const {
-      status,
-      data: { profile }
-    } = employeeDetailsRes;
-    if (status) {
-      setName(`${profile.firstName} ${profile.lastName}`);
-      setUserProfilePic(profile.profilePic);
-    }
-  };
-
-  useEffect(() => {
-    getUserDetails();
-    if (currentUser.hasOwnProperty('profilePercentage')) {
-      const { profilePercentage } = currentUser;
-      setIsProfileComplete(profilePercentage > 100);
-    }
-  }, []);
+  const profileSetup = pathname !== getProfileSetupPattern();
+  // eslint-disable-next-line no-console
+  console.log(user);
 
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
@@ -144,7 +120,7 @@ const DashboardNavbar = ({ isMini }) => {
     >
       <NotificationItem
         color="secondary"
-        title={['Hello,', `${profileSetup ? name : 'Welcome'}`]}
+        title={['Hello,', `${profileSetup ? `${user.firstName} ${user.lastName}` : 'Welcome'}`]}
         disabled
         onClick={handleProfileMenu}
         width={200}
@@ -246,15 +222,15 @@ const DashboardNavbar = ({ isMini }) => {
               ) : null}
             </Grid>
             <Grid item onClick={handleProfileCircle}>
-              {profileSetup && !isProfileComplete ? (
-                <CircularProgressWithLabel value={currentUser.profilePercentage} />
+              {profileSetup && !user.isProfileComplete ? (
+                <CircularProgressWithLabel value={user.profilePercentage} />
               ) : null}
             </Grid>
             <Grid item>
               <Avatar
-                src={userProfilePic !== '' ? NoUserPic : userProfilePic}
-                alt={NoUserPic}
-                size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'lg'}
+                src={UserPic}
+                alt={UserPic}
+                size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'md'}
                 variant="circle"
                 onClick={handleProfileMenu}
               />

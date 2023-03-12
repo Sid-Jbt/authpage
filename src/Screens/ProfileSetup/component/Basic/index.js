@@ -7,14 +7,12 @@ import Typography from 'Elements/Typography';
 import Avatar from 'Elements/Avatar';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
+import team2 from 'Assets/Images/team-4-800x800.jpg';
 import { Edit } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
-import UserPic from 'Assets/Images/no-profile.png';
 
-const Basic = ({ props, onChangeGender }) => {
-  const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
+const Basic = ({ props }) => {
+  const { values, touched, errors, handleChange, handleBlur, role, setFieldValue } = props;
   const theme = useTheme();
-  const { role } = useSelector((state) => state.route);
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const [gender, setGender] = useState('male');
   const inputFile = useRef(null);
@@ -38,7 +36,6 @@ const Basic = ({ props, onChangeGender }) => {
   };
 
   const onClickGender = (genderValue) => {
-    onChangeGender();
     setGender(genderValue);
     setFieldValue('gender', genderValue);
   };
@@ -69,7 +66,7 @@ const Basic = ({ props, onChangeGender }) => {
                   name="profilePic"
                 />
                 <Avatar
-                  src={profilePicUrl === '' ? UserPic : profilePicUrl}
+                  src={profilePicUrl === '' ? team2 : profilePicUrl}
                   alt="profile picture"
                   size="xxl"
                   variant="rounded"

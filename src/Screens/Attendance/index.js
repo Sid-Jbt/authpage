@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
 import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
@@ -8,15 +9,11 @@ import { Months, Years, Status } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
 import AttendanceCard from 'Components/CardLayouts/StaticCard';
-import Badge from 'Elements/Badge';
-import { getAttendanceList } from 'APIs/Attendance';
-import { SnackbarContext } from 'Context/SnackbarProvider';
 import attendanceColumn from './data/attendanceData';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
-  const { role } = useSelector((state) => state.route);
-  const { setSnack } = useContext(SnackbarContext);
+  const { role } = useSelector((state) => state.login);
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [isStatus, setIsStatus] = useState('');
@@ -32,76 +29,6 @@ const AttendanceList = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isSearch, setIsSearch] = useState(false);
-
-  const getAllAttendanceList = async (
-    selectedSortKey = 'attendanceDate',
-    selectedSortOrder = 'asc',
-    selectedPage = 0,
-    text = '',
-    selectedMonth = '',
-    selectedYear = '',
-    count = 0,
-    dataLimit = limit
-  ) => {
-    const attendanceData = {
-      limit: dataLimit,
-      page: selectedPage,
-      sortKey: selectedSortKey.toLowerCase(),
-      sortOrder: selectedSortOrder.toLowerCase(),
-      search: text,
-      month: selectedMonth,
-      year: selectedYear,
-      count
-    };
-
-    const attendanceRes = await getAttendanceList(attendanceData);
-    const {
-      status,
-      data: { rows },
-      message
-    } = attendanceRes;
-    if (status) {
-      const attendanceStatusData = rows.map((rowId) => ({
-        ...rowId,
-        status: (
-          <Badge
-            variant="gradient"
-            badgeContent={rowId.status}
-            color={
-              rowId.status === 'Late'
-                ? 'warning'
-                : rowId.status === 'Present'
-                ? 'success'
-                : rowId.status === 'Overtime'
-                ? 'Info'
-                : 'error'
-            }
-            size="xs"
-            container
-            customWidth={100}
-          />
-        )
-      }));
-      setCounts(attendanceRes.data.count);
-      setAttendanceList(attendanceStatusData);
-      setAttendanceListCount(attendanceRes.data.count.total);
-      setLoader(false);
-      setIsSearch(false);
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        color: 'error',
-        open: true
-      });
-      setLoader(false);
-    }
-  };
-
-  useEffect(() => {
-    getAllAttendanceList();
-  }, []);
 
   const handleChangeStatus = (value) => {
     setIsStatus(value);
@@ -124,7 +51,7 @@ const AttendanceList = () => {
 
   /*  const onClickExport = () => {
     setSnack({
-      title: 'Warning',
+      title: 'Coming Soon',
       message: 'Export coming soon...',
       time: false,
       icon: <Check color="white" />,
@@ -137,30 +64,24 @@ const AttendanceList = () => {
     setMonth('');
     setYear('');
     setSearch('');
-    getAllAttendanceList();
   };
 
   const onClickSearch = () => {
     setLoader(true);
     setIsSearch(true);
-    getAllAttendanceList(sortKey, sortOrder, page, search, month.value, year.value, 0);
   };
 
   const onPage = async (selectedPage) => {
     setPage(selectedPage);
-    await getAllAttendanceList(sortKey, sortOrder, selectedPage);
   };
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
-    setPage(0);
-    await getAllAttendanceList(sortKey, sortOrder, 0, '', '', '', '', 0, selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {
     setSortKey(selectedSortKey);
     setSortOrder(selectedSortOrder);
-    await getAllAttendanceList(selectedSortKey, selectedSortOrder, page);
   };
 
   return (
