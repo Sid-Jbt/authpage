@@ -4,8 +4,7 @@ import {
   getForgotPassword,
   getResetPassword,
   getProfileUpdate,
-  getDashboard,
-  getOrganisationProfileUpdate
+  getDashboard
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -21,8 +20,6 @@ const mapDispatchToProps = (dispatch) => ({
   GetOrganistationSignup: (data, resolve, reject) =>
     dispatch(getOrganisationSignup(data, resolve, reject)),
   GetProfileUpdate: (data, resolve, reject) => dispatch(getProfileUpdate(data, resolve, reject)),
-  GetOrganisationProfileUpdate: (data, resolve, reject) =>
-    dispatch(getOrganisationProfileUpdate(data, resolve, reject)),
   GetDashboard: (data, resolve, reject) => dispatch(getDashboard(data, resolve, reject))
 });
 

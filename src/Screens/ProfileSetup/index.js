@@ -56,7 +56,7 @@ function getStepContent(role, stepIndex, props) {
   }
 }
 
-const ProfileSetup = ({ GetProfileUpdate, GetOrganisationProfileUpdate, Loading }) => {
+const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
   const { role } = useSelector((state) => state.login);
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
@@ -65,15 +65,7 @@ const ProfileSetup = ({ GetProfileUpdate, GetOrganisationProfileUpdate, Loading 
     role === 'admin' ? organisationSchema[activeStep] : basicSchema[activeStep];
 
   const handleNext = (values, actions) => {
-    if (role === 'admin' && activeStep === 1) {
-      GetOrganisationProfileUpdate(values, (res) => {
-        const data = res.data;
-        if (data.status) {
-          navigate(getDashboardPattern());
-        }
-      });
-      actions.setSubmitting(false);
-    } else if (activeStep === 2) {
+    if (activeStep === 2) {
       GetProfileUpdate(values, (res) => {
         const data = res.data;
         if (data.status) {
