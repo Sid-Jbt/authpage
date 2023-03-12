@@ -6,7 +6,7 @@ import {
   setLoaderStart,
   getProfileUpdateError
 } from '../actions';
-import { API_URL, BASE_URL } from '../config';
+import { API_URL, BASE_URL } from '../api.config';
 import { instance } from '../index';
 
 async function getProfileUpdateApi(data) {

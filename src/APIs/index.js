@@ -3,7 +3,7 @@ import axios from 'axios';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import { useContext, useMemo } from 'react';
 import { setLoaderStart } from './actions';
-import { BASE_URL } from './config';
+import { BASE_URL } from './api.config';
 import { store } from './store';
 
 export const instance = axios.create({

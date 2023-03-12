@@ -1,7 +1,7 @@
 import { put, takeLatest, call } from 'redux-saga/effects';
 import { GET_LOGIN } from '../constants';
 import { getLoginSuccess, setLoaderComplete, setLoaderStart, getLoginError } from '../actions';
-import { API_URL, BASE_URL } from '../config';
+import { API_URL, BASE_URL } from '../api.config';
 import { instance } from '../index';
 
 async function getLoginApi(data) {
