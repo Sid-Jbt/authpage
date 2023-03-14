@@ -63,7 +63,7 @@ const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => 
       >
         <DashboardNavbar
           progress={DashboardData && DashboardData.profileProgress}
-          user={DashboardData && DashboardData.user}
+          user={DashboardData && DashboardData.user.profile}
         />
         <Box
           sx={({ breakpoints }) => ({

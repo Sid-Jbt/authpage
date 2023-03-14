@@ -23,7 +23,7 @@ import CircularProgressWithLabel from 'Elements/CircularProgressWithLabel';
 import { MINI_SIDENAV, LOGOUT } from 'APIs/constants';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
-const DashboardNavbar = ({ user, progress, isMini }) => {
+const DashboardNavbar = ({ profile, progress, isMini }) => {
   const customization = useSelector((state) => state.customization);
   const themes = useTheme();
   const dispatch = useDispatch();
@@ -116,7 +116,7 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
     >
       <NotificationItem
         color="secondary"
-        title={['Hello,', `${user ? `${user.firstName} ${user.lastName}` : 'Welcome'}`]}
+        title={['Hello,', `${profile ? `${profile.firstName} ${profile.lastName}` : 'Welcome'}`]}
         disabled
         onClick={handleProfileMenu}
         width={200}
