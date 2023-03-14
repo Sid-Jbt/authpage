@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => ({
   Loading: state.loader.loading,
-  UserData: state.login
+  DashboardData: state.dashboard
 });
 
 const mapDispatchToProps = (dispatch) => ({

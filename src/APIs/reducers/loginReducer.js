@@ -3,8 +3,7 @@ import { GET_LOGIN_SUCCESS, LOGOUT } from '../constants';
 const initialState = {
   role: '',
   roleList: null,
-  token: '',
-  isLoginFirstTime: true
+  token: ''
 };
 
 const AdminRole = [
@@ -56,16 +55,13 @@ export default function loginReducer(state = initialState, action) {
     case GET_LOGIN_SUCCESS:
       if (action.payload && action.payload.data) {
         role = action.payload.data.role;
-        role = action.payload.data.role;
         roleList = action.payload.data.role === 'admin' ? AdminRole : EmployeeRole;
       }
       return {
         ...state,
         role,
         roleList,
-        token: action.payload.data.token,
-        // isLoginFirstTime: action.payload.data.isLoginFirstTime <= 1
-        isLoginFirstTime: true
+        token: action.payload.data.token
       };
 
     case LOGOUT: {
@@ -73,8 +69,7 @@ export default function loginReducer(state = initialState, action) {
         ...state,
         roleList: initialState.roleList,
         role: initialState.role,
-        token: initialState.token,
-        isLoginFirstTime: initialState.isLoginFirstTime
+        token: initialState.token
       };
     }
 

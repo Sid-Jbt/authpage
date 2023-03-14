@@ -34,8 +34,6 @@ const DashboardNavbar = ({ user, isMini }) => {
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
   const profileSetup = pathname !== getProfileSetupPattern();
-  // eslint-disable-next-line no-console
-  console.log(user);
 
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });

@@ -4,6 +4,7 @@ const initialState = {
   user: '',
   profileProgress: '',
   holidayList: '',
+  isLoginFirstTime: 1,
   currentWeekHours: 0,
   currentMonthHours: 0
 };
@@ -14,6 +15,7 @@ export default function dashboardReducer(state = initialState, action) {
       return {
         ...state,
         user: action.payload.data.user,
+        isLoginFirstTime: action.payload.data.user.loginCount === 1,
         holidayList: action.payload.data.holidayList,
         profileProgress: action.payload.data.profileProgress,
         currentWeekHours: action.payload.data.currentWeekHours,

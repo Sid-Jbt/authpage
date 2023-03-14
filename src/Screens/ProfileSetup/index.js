@@ -15,7 +15,7 @@ import Address from './component/Address';
 import Account from './component/Account';
 import Organisation from './component/Organisation';
 
-const initialValues = {
+const adminInitialValues = {
   workingHours: WorkingHours[0].value,
   organizationAddress: '',
   firstName: '',
@@ -25,6 +25,25 @@ const initialValues = {
   gender: 'male',
   largeLogo: '',
   smallLogo: ''
+};
+
+const userInitialValues = {
+  firstName: '',
+  lastName: '',
+  fatherName: '',
+  department: '',
+  designation: '',
+  phoneNumber: '',
+  alternatePhone: '',
+  permanentAddress: '',
+  presentAddress: '',
+  gender: 'male',
+  bankName: '',
+  branchName: '',
+  accountName: '',
+  accountNumber: '',
+  ifscCode: '',
+  panNumber: ''
 };
 
 function getSteps(role) {
@@ -94,6 +113,14 @@ const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
     </Button>
   );
 
+  const validate = (values) => {
+    const errors = {};
+    if (values.phoneNumber === values.alternatePhone) {
+      errors.alternatePhone = 'Alternate number should not be same as phone number';
+    }
+    return errors;
+  };
+
   return (
     <Box pt={3} pb={3} position="relative">
       <Grid container justifyContent="center">
@@ -117,9 +144,12 @@ const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
           <Card>
             <Box p={2}>
               <Formik
-                initialValues={initialValues}
+                initialValues={role === 'admin' ? adminInitialValues : userInitialValues}
                 onSubmit={handleNext}
                 validationSchema={currentValidationSchema}
+                validate={
+                  role === 'admin' ? activeStep === 1 && validate : activeStep === 0 && validate
+                }
               >
                 {(props) => {
                   const { values, handleSubmit, isSubmitting } = props;

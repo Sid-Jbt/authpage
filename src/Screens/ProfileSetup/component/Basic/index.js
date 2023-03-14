@@ -10,8 +10,8 @@ import Input from 'Elements/Input';
 import team2 from 'Assets/Images/team-4-800x800.jpg';
 import { Edit } from '@mui/icons-material';
 
-const Basic = ({ props }) => {
-  const { values, touched, errors, handleChange, handleBlur, role, setFieldValue } = props;
+const Basic = ({ role, props }) => {
+  const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const theme = useTheme();
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const [gender, setGender] = useState('male');
@@ -186,107 +186,107 @@ const Basic = ({ props }) => {
                       />
                     </Box>
                   </Grid>
-                  <Grid item xs={12} md={5}>
-                    <Box>
-                      <Input
-                        type="date"
-                        placeholder="Date Of Birth"
-                        size="medium"
-                        fullWidth
-                        id="dob"
-                        name="dob"
-                        label="Date Of Birth"
-                        value={moment(values.dob).format('YYYY-MM-DD')}
-                        onChange={handleChange}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} md={5}>
-                    <Box>
-                      <Input
-                        type="number"
-                        placeholder="+91 925 532 5324"
-                        size="medium"
-                        fullWidth
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        label="Phone Number"
-                        minLength="9"
-                        maxLength="14"
-                        value={values.phoneNumber}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
-                        error={errors.phoneNumber && touched.phoneNumber}
-                        success={!errors.phoneNumber && touched.phoneNumber}
-                        onKeyDown={(evt) =>
-                          ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
-                        }
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} md={5}>
-                    <Box>
-                      <Input
-                        type="number"
-                        placeholder="+91 925 532 5325"
-                        size="medium"
-                        fullWidth
-                        id="alternatePhone"
-                        name="alternatePhone"
-                        label="Alternative Number"
-                        value={values.alternatePhone}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={
-                          errors.alternatePhone && touched.alternatePhone && errors.alternatePhone
-                        }
-                        error={errors.alternatePhone && touched.alternatePhone}
-                        success={!errors.alternatePhone && touched.alternatePhone}
-                        onKeyDown={(evt) =>
-                          ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
-                        }
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} md={5}>
-                    <Box>
-                      <FormLabel>Gender</FormLabel>
-                      <RadioGroup
-                        row
-                        sx={{ p: 2, pt: 0, pb: 0 }}
-                        aria-label="font-family"
-                        name="gender"
-                        value={gender}
-                        onChange={(event) => onClickGender(event.target.value)}
-                      >
-                        <FormControlLabel
-                          value="male"
-                          control={<Radio />}
-                          label="Male"
-                          sx={{
-                            '& .MuiSvgIcon-root': { fontSize: 28 },
-                            '& .MuiFormControlLabel-label': {
-                              color: theme.palette.grey[900]
-                            }
-                          }}
-                        />
-                        <FormControlLabel
-                          value="female"
-                          control={<Radio />}
-                          label="Female"
-                          sx={{
-                            '& .MuiSvgIcon-root': { fontSize: 28 },
-                            '& .MuiFormControlLabel-label': {
-                              color: theme.palette.grey[900]
-                            }
-                          }}
-                        />
-                      </RadioGroup>
-                    </Box>
-                  </Grid>
                 </>
               )}
+              <Grid item xs={12} md={5}>
+                <Box>
+                  <Input
+                    type="date"
+                    placeholder="Date Of Birth"
+                    size="medium"
+                    fullWidth
+                    id="dob"
+                    name="dob"
+                    label="Date Of Birth"
+                    value={moment(values.dob).format('YYYY-MM-DD')}
+                    onChange={handleChange}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={5}>
+                <Box>
+                  <Input
+                    type="number"
+                    placeholder="+91 925 532 5324"
+                    size="medium"
+                    fullWidth
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    label="Phone Number"
+                    minLength="9"
+                    maxLength="14"
+                    value={values.phoneNumber}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
+                    error={errors.phoneNumber && touched.phoneNumber}
+                    success={!errors.phoneNumber && touched.phoneNumber}
+                    onKeyDown={(evt) =>
+                      ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
+                    }
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={5}>
+                <Box>
+                  <Input
+                    type="number"
+                    placeholder="+91 925 532 5325"
+                    size="medium"
+                    fullWidth
+                    id="alternatePhone"
+                    name="alternatePhone"
+                    label="Alternative Number"
+                    value={values.alternatePhone}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={
+                      errors.alternatePhone && touched.alternatePhone && errors.alternatePhone
+                    }
+                    error={errors.alternatePhone && touched.alternatePhone}
+                    success={!errors.alternatePhone && touched.alternatePhone}
+                    onKeyDown={(evt) =>
+                      ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
+                    }
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={5}>
+                <Box>
+                  <FormLabel>Gender</FormLabel>
+                  <RadioGroup
+                    row
+                    sx={{ p: 2, pt: 0, pb: 0 }}
+                    aria-label="font-family"
+                    name="gender"
+                    value={gender}
+                    onChange={(event) => onClickGender(event.target.value)}
+                  >
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio />}
+                      label="Male"
+                      sx={{
+                        '& .MuiSvgIcon-root': { fontSize: 28 },
+                        '& .MuiFormControlLabel-label': {
+                          color: theme.palette.grey[900]
+                        }
+                      }}
+                    />
+                    <FormControlLabel
+                      value="female"
+                      control={<Radio />}
+                      label="Female"
+                      sx={{
+                        '& .MuiSvgIcon-root': { fontSize: 28 },
+                        '& .MuiFormControlLabel-label': {
+                          color: theme.palette.grey[900]
+                        }
+                      }}
+                    />
+                  </RadioGroup>
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

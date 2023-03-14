@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import Logo from 'Assets/logo/jbt-logo.svg';
 import FullLogo from 'Assets/logo/jbt-full-logo.svg';
-import { getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
+import { getDashboardPattern, getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
 import Images from 'Assets/Images/team-4-800x800.jpg';
 import withStateDispatch from 'Helpers/withStateDispatch';
 import { useEffect } from 'react';
@@ -11,17 +11,19 @@ import DashboardNavbar from './Navbar';
 import Sidenav from './Sidenav';
 import Footer from './Footer';
 
-const DashboardLayout = ({ GetDashboard, UserData, children, ...rest }) => {
+const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => {
   const { customization } = useSelector((state) => state);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const bgImage = Images;
 
   useEffect(() => {
-    if (UserData && UserData.isLoginFirstTime) {
+    if (DashboardData && DashboardData.isLoginFirstTime) {
       navigate(getProfileSetupPattern());
+    } else {
+      navigate(getDashboardPattern());
     }
-  }, [UserData]);
+  }, [DashboardData]);
 
   useEffect(() => {
     GetDashboard();
@@ -68,14 +70,14 @@ const DashboardLayout = ({ GetDashboard, UserData, children, ...rest }) => {
           }
         })}
       >
-        <DashboardNavbar user={UserData && UserData.user} />
+        <DashboardNavbar user={DashboardData && DashboardData.user} />
         <Box
           sx={({ breakpoints }) => ({
             [breakpoints.down('md')]: { p: 1, pt: 0 },
             [breakpoints.up('md')]: { p: 3, pt: 0 }
           })}
         >
-          <Outlet context={{ role: UserData.role }} />
+          <Outlet context={{ role: DashboardData.role }} />
         </Box>
         <Footer />
       </Box>
