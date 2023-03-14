@@ -1,9 +1,9 @@
 import Box from 'Elements/Box';
 import { useSelector } from 'react-redux';
-import { Outlet, useLocation, useNavigate } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import Logo from 'Assets/logo/jbt-logo.svg';
 import FullLogo from 'Assets/logo/jbt-full-logo.svg';
-import { getDashboardPattern, getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
+import { getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
 import Images from 'Assets/Images/team-4-800x800.jpg';
 import withStateDispatch from 'Helpers/withStateDispatch';
 import { useEffect } from 'react';
@@ -14,16 +14,7 @@ import Footer from './Footer';
 const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => {
   const { customization } = useSelector((state) => state);
   const { pathname } = useLocation();
-  const navigate = useNavigate();
   const bgImage = Images;
-
-  useEffect(() => {
-    if (DashboardData && DashboardData.isLoginFirstTime) {
-      navigate(getProfileSetupPattern());
-    } else {
-      navigate(getDashboardPattern());
-    }
-  }, [DashboardData]);
 
   useEffect(() => {
     GetDashboard();
@@ -70,7 +61,10 @@ const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => 
           }
         })}
       >
-        <DashboardNavbar user={DashboardData && DashboardData.user} />
+        <DashboardNavbar
+          progress={DashboardData && DashboardData.profileProgress}
+          user={DashboardData && DashboardData.user}
+        />
         <Box
           sx={({ breakpoints }) => ({
             [breakpoints.down('md')]: { p: 1, pt: 0 },

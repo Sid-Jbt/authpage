@@ -18,12 +18,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Breadcrumbs from 'Elements/Breadcrumbs';
 import Avatar from 'Elements/Avatar';
 import useWindowPosition from 'Hooks/useWindowPosition';
-import { getLoginPattern, getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
-import CircularProgressWithLabel from 'Elements/CircularProgress';
+import { getLoginPattern, getProfilePattern } from 'Routes/routeConfig';
+import CircularProgressWithLabel from 'Elements/CircularProgressWithLabel';
 import { MINI_SIDENAV, LOGOUT } from 'APIs/constants';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
-const DashboardNavbar = ({ user, isMini }) => {
+const DashboardNavbar = ({ user, progress, isMini }) => {
   const customization = useSelector((state) => state.customization);
   const themes = useTheme();
   const dispatch = useDispatch();
@@ -33,8 +33,6 @@ const DashboardNavbar = ({ user, isMini }) => {
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
-  const profileSetup = pathname !== getProfileSetupPattern();
-
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
 
@@ -118,34 +116,31 @@ const DashboardNavbar = ({ user, isMini }) => {
     >
       <NotificationItem
         color="secondary"
-        title={['Hello,', `${profileSetup ? `${user.firstName} ${user.lastName}` : 'Welcome'}`]}
+        title={['Hello,', `${user ? `${user.firstName} ${user.lastName}` : 'Welcome'}`]}
         disabled
         onClick={handleProfileMenu}
         width={200}
       />
       <Divider />
-      {profileSetup ? (
-        <NotificationItem
-          color="secondary"
-          image={<Person />}
-          title={['Profile']}
-          onClick={handleProfileMenu}
-          component={Link}
-          to="/profile"
-          width={200}
-        />
-      ) : null}
-      {profileSetup ? (
-        <NotificationItem
-          color="secondary"
-          image={<Settings />}
-          title={['Settings']}
-          onClick={handleProfileMenu}
-          component={Link}
-          to="/setting"
-          width={200}
-        />
-      ) : null}
+
+      <NotificationItem
+        color="secondary"
+        image={<Person />}
+        title={['Profile']}
+        onClick={handleProfileMenu}
+        component={Link}
+        to="/profile"
+        width={200}
+      />
+      <NotificationItem
+        color="secondary"
+        image={<Settings />}
+        title={['Settings']}
+        onClick={handleProfileMenu}
+        component={Link}
+        to="/setting"
+        width={200}
+      />
       <NotificationItem
         color="secondary"
         image={<Logout />}
@@ -170,59 +165,51 @@ const DashboardNavbar = ({ user, isMini }) => {
     >
       <Toolbar sx={(theme) => navbarContainer(theme, { position: 'static' })}>
         <Box color="white" sx={(theme) => navbarRow(theme, { isMini })}>
-          {profileSetup ? (
-            !customization.miniSidenav ? (
-              <IconButton
-                size="large"
-                color={position > 10 ? 'dark' : 'white'}
-                sx={navbarIconButton}
-                variant="contained"
-                onClick={handleMiniSidenav}
-              >
-                <MenuTwoTone />
-              </IconButton>
-            ) : (
-              <IconButton
-                size="large"
-                color={position > 10 ? 'dark' : 'white'}
-                sx={navbarIconButton}
-                variant="contained"
-                onClick={handleMiniSidenav}
-              >
-                <MenuOpenTwoTone />
-              </IconButton>
-            )
-          ) : null}
+          {!customization.miniSidenav ? (
+            <IconButton
+              size="large"
+              color={position > 10 ? 'dark' : 'white'}
+              sx={navbarIconButton}
+              variant="contained"
+              onClick={handleMiniSidenav}
+            >
+              <MenuTwoTone />
+            </IconButton>
+          ) : (
+            <IconButton
+              size="large"
+              color={position > 10 ? 'dark' : 'white'}
+              sx={navbarIconButton}
+              variant="contained"
+              onClick={handleMiniSidenav}
+            >
+              <MenuOpenTwoTone />
+            </IconButton>
+          )}
         </Box>
         <Box sx={{ flex: 1 }}>
-          {profileSetup ? (
-            <Breadcrumbs
-              icon={<Home />}
-              title={route[route.length - 1]}
-              route={route}
-              light={false}
-            />
-          ) : null}
+          <Breadcrumbs
+            icon={<Home />}
+            title={route[route.length - 1]}
+            route={route}
+            light={false}
+          />
         </Box>
         <Box sx={(theme) => navbarRow(theme, { isMini })}>
           <Grid container columnGap={2} alignItems="center">
             <Grid item>
-              {profileSetup ? (
-                <IconButton
-                  size="large"
-                  color={position > 10 ? 'dark' : 'white'}
-                  sx={navbarIconButton}
-                  variant="contained"
-                  onClick={handleMenu}
-                >
-                  <Notifications />
-                </IconButton>
-              ) : null}
+              <IconButton
+                size="large"
+                color={position > 10 ? 'dark' : 'white'}
+                sx={navbarIconButton}
+                variant="contained"
+                onClick={handleMenu}
+              >
+                <Notifications />
+              </IconButton>
             </Grid>
             <Grid item onClick={handleProfileCircle}>
-              {profileSetup && !user.isProfileComplete ? (
-                <CircularProgressWithLabel value={user.profilePercentage} />
-              ) : null}
+              <CircularProgressWithLabel value={progress || 0} />
             </Grid>
             <Grid item>
               <Avatar

@@ -27,10 +27,14 @@ const OrganisationSignup = ({ GetOrganistationSignup }) => {
       </Typography>
       <Formik
         enableReinitialize
-        initialValues={{ name: '', email: '', password: '' }}
+        initialValues={{ organisationName: '', email: '', password: '' }}
         onSubmit={(values, actions) => {
           GetOrganistationSignup(
-            { email: values.email, password: values.password, name: values.name },
+            {
+              email: values.email,
+              password: values.password,
+              organisationName: values.organisationName
+            },
             (res) => {
               if (res.data.status) {
                 navigate(getLoginPattern());
@@ -56,14 +60,16 @@ const OrganisationSignup = ({ GetOrganistationSignup }) => {
                   placeholder="Name"
                   size="large"
                   fullWidth
-                  id="name"
-                  name="name"
-                  value={values.name}
+                  id="organisationName"
+                  name="organisationName"
+                  value={values.organisationName}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  errorText={errors.name && touched.name && errors.name}
-                  error={errors.name && touched.name}
-                  success={!errors.name && touched.name}
+                  errorText={
+                    errors.organisationName && touched.organisationName && errors.organisationName
+                  }
+                  error={errors.organisationName && touched.organisationName}
+                  success={!errors.organisationName && touched.organisationName}
                 />
               </Box>
               <Box mb={0.5}>

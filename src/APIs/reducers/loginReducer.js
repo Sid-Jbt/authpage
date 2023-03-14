@@ -8,7 +8,6 @@ const initialState = {
 
 const AdminRole = [
   'dashboard',
-  'profilesetup',
   'employee',
   'profile',
   'privacy',
@@ -31,7 +30,6 @@ const AdminRole = [
 
 const EmployeeRole = [
   'dashboard',
-  'profilesetup',
   'profile',
   'privacy',
   'expense',
