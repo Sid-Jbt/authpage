@@ -17,6 +17,7 @@ const profileInitialValues = {
   fatherName: '',
   department: '',
   designation: '',
+  gender: 'male',
   permanentAddress: '',
   presentAddress: '',
   alternatePhone: '',
@@ -35,7 +36,9 @@ const bankInitialValues = {
 const Profile = () => {
   const { role, user } = useOutletContext();
   const [tabIndex, setTabIndex] = useState(0);
+
   const handleSetTabIndex = (event, newValue) => setTabIndex(newValue);
+
   const validate = (values) => {
     const errors = {};
     if (values.phoneNumber === values.alternatePhone) {
@@ -77,7 +80,11 @@ const Profile = () => {
               >
                 <Grid item>
                   <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
-                    My Account
+                    {tabIndex === 0
+                      ? 'Basic Details'
+                      : tabIndex === 1
+                      ? 'Bank Details'
+                      : 'Salary Details'}
                   </Typography>
                 </Grid>
                 <Grid item>

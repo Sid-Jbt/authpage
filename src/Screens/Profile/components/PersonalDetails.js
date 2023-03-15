@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FormControlLabel,
   Grid,
@@ -13,8 +13,19 @@ import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 
 const PersonalDetails = ({ props }) => {
-  const { values, touched, errors, handleChange, handleBlur } = props;
   const theme = useTheme();
+  const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
+  const [gender, setGender] = useState('male');
+
+  useEffect(() => {
+    if (values !== null) {
+      setGender(values.hasOwnProperty('gender') ? values.gender !== null && values.gender : 'male');
+    }
+  }, []);
+  const onClickGender = (genderValue) => {
+    setGender(genderValue);
+    setFieldValue('gender', genderValue);
+  };
   return (
     <Card>
       <Grid container spacing={1} p={2}>
@@ -294,8 +305,9 @@ const PersonalDetails = ({ props }) => {
             row
             sx={{ p: 2, pt: 0, pb: 0 }}
             aria-label="font-family"
-            value={values.gender}
             name="gender"
+            value={gender}
+            onChange={(event) => onClickGender(event.target.value)}
           >
             <FormControlLabel
               value="male"

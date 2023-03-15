@@ -65,18 +65,17 @@ const Header = ({ tabIndex, handleSetTabIndex, role }) => {
           </Typography>
         </Grid>
         <Grid item xs={12} md={6} lg={4} sx={{ ml: 'auto' }}>
-          <Tabs value={tabIndex} onChange={(event, value) => handleSetTabIndex(event, value)}>
-            <Tab label="Personal" icon={<PersonOutlined style={{ marginRight: '8px' }} />} />
-            {role === 'admin' && (
-              <>
-                <Tab label="Account" icon={<AccountBalance style={{ marginRight: '8px' }} />} />
-                <Tab
-                  label="Salary"
-                  icon={<CurrencyRupeeOutlined style={{ marginRight: '8px' }} />}
-                />
-              </>
-            )}
-          </Tabs>
+          {role !== 'admin' ? (
+            <Tabs value={tabIndex} onChange={(event, value) => handleSetTabIndex(event, value)}>
+              <Tab label="Personal" icon={<PersonOutlined style={{ marginRight: '8px' }} />} />
+            </Tabs>
+          ) : (
+            <Tabs value={tabIndex} onChange={(event, value) => handleSetTabIndex(event, value)}>
+              <Tab label="Personal" icon={<PersonOutlined style={{ marginRight: '8px' }} />} />
+              <Tab label="Account" icon={<AccountBalance style={{ marginRight: '8px' }} />} />
+              <Tab label="Salary" icon={<CurrencyRupeeOutlined style={{ marginRight: '8px' }} />} />
+            </Tabs>
+          )}
         </Grid>
       </Grid>
     </Card>
