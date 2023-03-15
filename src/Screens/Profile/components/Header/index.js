@@ -1,33 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import Typography from 'Elements/Typography';
 import UserPic from 'Assets/Images/no-profile.png';
 import { Card, Grid, Tab, Tabs, Icon } from '@mui/material';
-import { AccountBalance, Edit, PersonOutlined } from '@mui/icons-material';
+import { AccountBalance, CurrencyRupeeOutlined, Edit, PersonOutlined } from '@mui/icons-material';
 import Avatar from 'Elements/Avatar';
-import { useSelector } from 'react-redux';
 import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 
-const Header = ({
-  tabIndex,
-  tabsOrientation,
-  handleSetTabIndex,
-  profileUpdate,
-  employeeProfileDetails
-}) => {
-  const { firstName, lastName, designation } = employeeProfileDetails.profile;
-  const { role } = useSelector((state) => state.route);
+const Header = ({ tabIndex, handleSetTabIndex, role }) => {
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const inputFile = useRef(null);
 
-  useEffect(() => {
-    if (employeeProfileDetails !== null)
-      setProfilePicUrl(employeeProfileDetails.profile.profilePic);
-  }, [profilePicUrl]);
-
   const profilePicUpload = (e) => {
     const file = e.target.files[0];
-    profileUpdate(file);
     const url = URL.createObjectURL(file);
     setProfilePicUrl(url);
   };
@@ -73,32 +58,25 @@ const Header = ({
         </Grid>
         <Grid item>
           <Typography variant="h4" fontWeight="medium">
-            {firstName} {lastName}
+            Full Name
           </Typography>
           <Typography variant="subtitle2" color="text" fontWeight="light">
-            {designation}
+            Designation
           </Typography>
         </Grid>
         <Grid item xs={12} md={6} lg={4} sx={{ ml: 'auto' }}>
-          {role === 'admin' ? (
-            <Tabs
-              orientation={tabsOrientation}
-              value={tabIndex}
-              onChange={(event, value) => handleSetTabIndex(event, value)}
-            >
-              <Tab label="Personal" icon={<PersonOutlined style={{ marginRight: '8px' }} />} />
-            </Tabs>
-          ) : (
-            <Tabs
-              orientation={tabsOrientation}
-              value={tabIndex}
-              onChange={(event, value) => handleSetTabIndex(event, value)}
-            >
-              <Tab label="Personal" icon={<PersonOutlined style={{ marginRight: '8px' }} />} />
-              <Tab label="Account" icon={<AccountBalance style={{ marginRight: '8px' }} />} />
-              {/* <Tab label="Salary" icon={<CurrencyRupeeOutlined style={{ marginRight: '8px' }} />} /> */}
-            </Tabs>
-          )}
+          <Tabs value={tabIndex} onChange={(event, value) => handleSetTabIndex(event, value)}>
+            <Tab label="Personal" icon={<PersonOutlined style={{ marginRight: '8px' }} />} />
+            {role === 'admin' && (
+              <>
+                <Tab label="Account" icon={<AccountBalance style={{ marginRight: '8px' }} />} />
+                <Tab
+                  label="Salary"
+                  icon={<CurrencyRupeeOutlined style={{ marginRight: '8px' }} />}
+                />
+              </>
+            )}
+          </Tabs>
         </Grid>
       </Grid>
     </Card>
