@@ -56,6 +56,7 @@ const Organisation = (props) => {
                 <input
                   ref={smallLogoInputFile}
                   type="file"
+                  accept="image/*"
                   hidden
                   onChange={(e) => onClickLogoUpload(e, 'small')}
                 />
@@ -90,6 +91,7 @@ const Organisation = (props) => {
                 <input
                   ref={largeLogoInputFile}
                   type="file"
+                  accept="image/*"
                   hidden
                   onChange={(e) => onClickLogoUpload(e, 'large')}
                 />

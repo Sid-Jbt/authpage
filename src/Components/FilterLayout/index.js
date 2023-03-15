@@ -81,7 +81,6 @@ const FilterLayout = ({
             >
               <Button
                 color="info"
-                variant="gradient"
                 size="small"
                 disabled={loader}
                 sx={

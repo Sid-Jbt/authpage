@@ -240,6 +240,11 @@ export const organisationSignupSchema = yup.object().shape({
     .required('Password is required')
 });
 
+export const organisationProfileSchema = yup.object().shape({
+  organisationName: yup.string().required('Organisation name is required'),
+  organizationAddress: yup.string().required('Organisation Address is required')
+});
+
 export const addEmployeeSchema = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   password: yup

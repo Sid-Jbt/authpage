@@ -61,6 +61,7 @@ const Basic = ({ role, props }) => {
                 <input
                   ref={inputFile}
                   type="file"
+                  accept="image/*"
                   hidden
                   onChange={(e) => profilePicUpload(e)}
                   name="profilePic"

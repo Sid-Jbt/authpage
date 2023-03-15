@@ -133,7 +133,7 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
       <NotificationItem
         color="secondary"
         image={<Person />}
-        title={['Profile']}
+        title={['Manage Account']}
         onClick={handleProfileMenu}
         component={Link}
         to="/profile"
