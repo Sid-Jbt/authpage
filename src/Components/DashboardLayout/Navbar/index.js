@@ -116,7 +116,14 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
     >
       <NotificationItem
         color="secondary"
-        title={['Hello,', `${user ? `${user.firstName} ${user.lastName}` : 'Welcome'}`]}
+        title={[
+          'Hello,',
+          `${
+            user.firstName !== null || user.lastName !== null
+              ? `${user.firstName} ${user.lastName}`
+              : 'Welcome'
+          }`
+        ]}
         disabled
         onClick={handleProfileMenu}
         width={200}
