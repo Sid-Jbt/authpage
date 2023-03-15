@@ -3,7 +3,7 @@ import { Card, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 
-const BankInfo = ({ props }) => {
+const BankInfo = ({ isEdit, props }) => {
   const { values, touched, errors, handleChange, handleBlur } = props;
 
   return (
@@ -25,6 +25,7 @@ const BankInfo = ({ props }) => {
               errorText={errors.bankName && touched.bankName && errors.bankName}
               error={errors.bankName && touched.bankName}
               success={!errors.bankName && touched.bankName}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>
@@ -44,6 +45,7 @@ const BankInfo = ({ props }) => {
               errorText={errors.branchName && touched.branchName && errors.branchName}
               error={errors.branchName && touched.branchName}
               success={!errors.branchName && touched.branchName}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>
@@ -63,6 +65,7 @@ const BankInfo = ({ props }) => {
               errorText={errors.accountName && touched.accountName && errors.accountName}
               error={errors.accountName && touched.accountName}
               success={!errors.accountName && touched.accountName}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>
@@ -82,6 +85,7 @@ const BankInfo = ({ props }) => {
               errorText={errors.accountNumber && touched.accountNumber && errors.accountNumber}
               error={errors.accountNumber && touched.accountNumber}
               success={!errors.accountNumber && touched.accountNumber}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>
@@ -101,6 +105,7 @@ const BankInfo = ({ props }) => {
               errorText={errors.ifscCode && touched.ifscCode && errors.ifscCode}
               error={errors.ifscCode && touched.ifscCode}
               success={!errors.ifscCode && touched.ifscCode}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>
@@ -120,6 +125,7 @@ const BankInfo = ({ props }) => {
               errorText={errors.panNumber && touched.panNumber && errors.panNumber}
               error={errors.panNumber && touched.panNumber}
               success={!errors.panNumber && touched.panNumber}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>

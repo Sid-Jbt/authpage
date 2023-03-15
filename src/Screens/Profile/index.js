@@ -36,8 +36,11 @@ const bankInitialValues = {
 const Profile = () => {
   const { role, user } = useOutletContext();
   const [tabIndex, setTabIndex] = useState(0);
+  const [isEdit, setIsEdit] = useState(false);
 
   const handleSetTabIndex = (event, newValue) => setTabIndex(newValue);
+
+  const handleSetIsEdit = () => setIsEdit(!isEdit);
 
   const validate = (values) => {
     const errors = {};
@@ -88,14 +91,19 @@ const Profile = () => {
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Button type="button" color="info" variant="contained">
-                    Edit
+                  <Button
+                    type="button"
+                    color="info"
+                    variant="contained"
+                    onClick={() => handleSetIsEdit()}
+                  >
+                    {!isEdit ? 'Edit' : 'Save'}
                   </Button>
                 </Grid>
               </Grid>
               <>
-                {tabIndex === 0 && <PersonalDetails props={props} />}
-                {tabIndex === 1 && <BankInfo props={props} />}
+                {tabIndex === 0 && <PersonalDetails isEdit={isEdit} props={props} />}
+                {tabIndex === 1 && <BankInfo isEdit={isEdit} props={props} />}
                 {tabIndex === 2 && <SalaryDetails />}
               </>
             </form>

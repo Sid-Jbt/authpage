@@ -12,7 +12,7 @@ import moment from 'moment';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 
-const PersonalDetails = ({ props }) => {
+const PersonalDetails = ({ isEdit, props }) => {
   const theme = useTheme();
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const [gender, setGender] = useState('male');
@@ -45,6 +45,7 @@ const PersonalDetails = ({ props }) => {
               errorText={errors.firstName && touched.firstName && errors.firstName}
               error={errors.firstName && touched.firstName}
               success={!errors.firstName && touched.firstName}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>
@@ -65,6 +66,7 @@ const PersonalDetails = ({ props }) => {
               errorText={errors.lastName && touched.lastName && errors.lastName}
               error={errors.lastName && touched.lastName}
               success={!errors.lastName && touched.lastName}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>
@@ -85,6 +87,7 @@ const PersonalDetails = ({ props }) => {
                 errorText={errors.fatherName && touched.fatherName && errors.fatherName}
                 error={errors.fatherName && touched.fatherName}
                 success={!errors.fatherName && touched.fatherName}
+                disabled={!isEdit}
               />
             </Box>
           </Grid>
@@ -119,6 +122,7 @@ const PersonalDetails = ({ props }) => {
                 errorText={errors.department && touched.department && errors.department}
                 error={errors.department && touched.department}
                 success={!errors.department && touched.department}
+                disabled={!isEdit}
               />
             </Box>
           </Grid>
@@ -138,6 +142,7 @@ const PersonalDetails = ({ props }) => {
                 errorText={errors.designation && touched.designation && errors.designation}
                 error={errors.designation && touched.designation}
                 success={!errors.designation && touched.designation}
+                disabled={!isEdit}
               />
             </Box>
           </Grid>
@@ -174,6 +179,7 @@ const PersonalDetails = ({ props }) => {
                   : moment(values.dob).format('YYYY-MM-DD')
               }
               onChange={handleChange}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>
@@ -236,6 +242,7 @@ const PersonalDetails = ({ props }) => {
               error={errors.phoneNumber && touched.phoneNumber}
               success={!errors.phoneNumber && touched.phoneNumber}
               onKeyDown={(evt) => ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>
@@ -256,6 +263,7 @@ const PersonalDetails = ({ props }) => {
               error={errors.alternatePhone && touched.alternatePhone}
               success={!errors.alternatePhone && touched.alternatePhone}
               onKeyDown={(evt) => ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>
@@ -277,6 +285,7 @@ const PersonalDetails = ({ props }) => {
               }
               error={errors.permanentAddress && touched.permanentAddress}
               success={!errors.permanentAddress && touched.permanentAddress}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>
@@ -296,6 +305,7 @@ const PersonalDetails = ({ props }) => {
               errorText={errors.presentAddress && touched.presentAddress && errors.presentAddress}
               error={errors.presentAddress && touched.presentAddress}
               success={!errors.presentAddress && touched.presentAddress}
+              disabled={!isEdit}
             />
           </Box>
         </Grid>
@@ -317,6 +327,7 @@ const PersonalDetails = ({ props }) => {
                 '& .MuiSvgIcon-root': { fontSize: 28 },
                 '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
               }}
+              disabled={!isEdit}
             />
             <FormControlLabel
               value="female"
@@ -326,6 +337,7 @@ const PersonalDetails = ({ props }) => {
                 '& .MuiSvgIcon-root': { fontSize: 28 },
                 '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
               }}
+              disabled={!isEdit}
             />
           </RadioGroup>
         </Grid>
