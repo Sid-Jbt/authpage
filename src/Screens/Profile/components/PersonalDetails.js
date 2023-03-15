@@ -12,7 +12,7 @@ import moment from 'moment';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 
-const PersonalDetails = ({ isEdit, props }) => {
+const PersonalDetails = ({ isEdit, role, props }) => {
   const theme = useTheme();
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const [gender, setGender] = useState('male');
@@ -49,7 +49,6 @@ const PersonalDetails = ({ isEdit, props }) => {
             />
           </Box>
         </Grid>
-
         <Grid item xs={12} md={6} lg={4}>
           <Box>
             <Input
@@ -70,7 +69,7 @@ const PersonalDetails = ({ isEdit, props }) => {
             />
           </Box>
         </Grid>
-        <>
+        {role !== 'admin' && (
           <Grid item xs={12} md={6} lg={4}>
             <Box>
               <Input
@@ -91,77 +90,82 @@ const PersonalDetails = ({ isEdit, props }) => {
               />
             </Box>
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <Box>
-              <Input
-                type="text"
-                placeholder="eg. test@gmail.com"
-                size="large"
-                fullWidth
-                id="email"
-                name="email"
-                label="Email"
-                value={values.email}
-                disabled
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <Box>
-              <Input
-                type="text"
-                placeholder="eg. Development"
-                size="large"
-                fullWidth
-                id="department"
-                name="department"
-                label="Department"
-                value={values.department}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                errorText={errors.department && touched.department && errors.department}
-                error={errors.department && touched.department}
-                success={!errors.department && touched.department}
-                disabled={!isEdit}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <Box>
-              <Input
-                type="text"
-                placeholder="ex. Web Developer"
-                size="large"
-                fullWidth
-                id="designation"
-                name="designation"
-                label="Designation"
-                value={values.designation}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                errorText={errors.designation && touched.designation && errors.designation}
-                error={errors.designation && touched.designation}
-                success={!errors.designation && touched.designation}
-                disabled={!isEdit}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <Box>
-              <Input
-                type="text"
-                placeholder="Emp001"
-                size="large"
-                fullWidth
-                id="employeeCode"
-                name="employeeCode"
-                label="Employee Code"
-                value={values.employeeCode}
-                disabled
-              />
-            </Box>
-          </Grid>
-        </>
+        )}
+
+        <Grid item xs={12} md={6} lg={4}>
+          <Box>
+            <Input
+              type="text"
+              placeholder="eg. test@gmail.com"
+              size="large"
+              fullWidth
+              id="email"
+              name="email"
+              label="Email"
+              value={values.email}
+              disabled
+            />
+          </Box>
+        </Grid>
+        {role !== 'admin' && (
+          <>
+            <Grid item xs={12} md={6} lg={4}>
+              <Box>
+                <Input
+                  type="text"
+                  placeholder="eg. Development"
+                  size="large"
+                  fullWidth
+                  id="department"
+                  name="department"
+                  label="Department"
+                  value={values.department}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errorText={errors.department && touched.department && errors.department}
+                  error={errors.department && touched.department}
+                  success={!errors.department && touched.department}
+                  disabled={!isEdit}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <Box>
+                <Input
+                  type="text"
+                  placeholder="ex. Web Developer"
+                  size="large"
+                  fullWidth
+                  id="designation"
+                  name="designation"
+                  label="Designation"
+                  value={values.designation}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errorText={errors.designation && touched.designation && errors.designation}
+                  error={errors.designation && touched.designation}
+                  success={!errors.designation && touched.designation}
+                  disabled={!isEdit}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <Box>
+                <Input
+                  type="text"
+                  placeholder="Emp001"
+                  size="large"
+                  fullWidth
+                  id="employeeCode"
+                  name="employeeCode"
+                  label="Employee Code"
+                  value={values.employeeCode}
+                  disabled
+                />
+              </Box>
+            </Grid>
+          </>
+        )}
 
         <Grid item xs={12} md={6} lg={4}>
           <Box>

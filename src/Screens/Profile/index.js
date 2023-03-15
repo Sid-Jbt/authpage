@@ -160,7 +160,7 @@ const Profile = () => {
                 </Grid>
               </Grid>
               <>
-                {tabIndex === 0 && <PersonalDetails isEdit={isEdit} props={props} />}
+                {tabIndex === 0 && <PersonalDetails isEdit={isEdit} role={role} props={props} />}
                 {tabIndex === 1 && <OrganisationDetails isEdit={isEdit} props={props} />}
                 {tabIndex === 2 && <BankInfo isEdit={isEdit} props={props} />}
                 {tabIndex === 3 && <SalaryDetails props={props} />}
