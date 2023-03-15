@@ -57,12 +57,12 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
       sx={({ breakpoints }) => ({
         mt: 2,
         [breakpoints.down('sm')]: {
-          top: 50,
-          left: 0
+          top: 40,
+          left: -90
         },
         [breakpoints.up('md')]: {
-          top: 60,
-          left: -20
+          top: 55,
+          left: -140
         }
       })}
     >
@@ -105,11 +105,11 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
       sx={({ breakpoints }) => ({
         mt: 2,
         [breakpoints.down('sm')]: {
-          top: 50,
+          top: 40,
           left: 0
         },
         [breakpoints.up('md')]: {
-          top: 60,
+          top: 55,
           left: -20
         }
       })}
