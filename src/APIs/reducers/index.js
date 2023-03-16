@@ -4,7 +4,7 @@ import loginReducer from './loginReducer';
 import customizationReducer from './customizationReducer';
 // import forgotPasswordReducer from './forgotPasswordReducer';
 // import resetPasswordReducer from './resetPasswordReducer';
-import profileUpdateReducer from './profileUpdateReducer';
+// import profileUpdateReducer from './profileUpdateReducer';
 import dashboardReducer from './dashboardReducer';
 
 const rootReducer = combineReducers({
@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   login: loginReducer,
   // forgotPassword: forgotPasswordReducer,
   // resetPassword: resetPasswordReducer,
-  profileUpdate: profileUpdateReducer,
+  // profileUpdate: profileUpdateReducer,
   dashboard: dashboardReducer
 });
 
