@@ -6,6 +6,8 @@ import customizationReducer from './customizationReducer';
 // import resetPasswordReducer from './resetPasswordReducer';
 // import profileUpdateReducer from './profileUpdateReducer';
 import dashboardReducer from './dashboardReducer';
+// import employeeListReducer from './employee/employeeList';
+// import employeeAddReducer from './employee/employeeAdd';
 
 const rootReducer = combineReducers({
   customization: customizationReducer,
@@ -14,7 +16,9 @@ const rootReducer = combineReducers({
   // forgotPassword: forgotPasswordReducer,
   // resetPassword: resetPasswordReducer,
   // profileUpdate: profileUpdateReducer,
+  // employeeAdd: employeeAddReducer,
   dashboard: dashboardReducer
+  // employeeList: employeeListReducer
 });
 
 export default rootReducer;

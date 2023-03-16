@@ -10,6 +10,7 @@ import {
   IconButton
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import moment from 'moment';
 
 const InputRoot = styled(InputBase)(({ theme, ownerState }) => {
   const { palette, functions, typography, borders, boxShadows } = theme;
@@ -122,7 +123,21 @@ const MyFormHelperText = ({ errorText }) => {
 
 // eslint-disable-next-line react/display-name
 const TextField = forwardRef(
-  ({ size, error, success, disabled, errorText, errorFalse, label = '', type, ...rest }, ref) => {
+  (
+    {
+      size,
+      error,
+      success,
+      disabled,
+      errorText,
+      errorFalse,
+      label = '',
+      type,
+      inputProps,
+      ...rest
+    },
+    ref
+  ) => {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -132,6 +147,13 @@ const TextField = forwardRef(
         <InputRoot
           {...rest}
           type={showPassword ? 'text' : type}
+          inputProps={
+            type === 'date' && {
+              min: rest.value,
+              max: moment().format('YYYY-MM-DD'),
+              ...inputProps
+            }
+          }
           endAdornment={
             type === 'password' ? (
               <InputAdornment position="end">

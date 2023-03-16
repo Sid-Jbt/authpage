@@ -12,7 +12,7 @@ import { instance } from '../index';
 async function getResetPasswordApi(data) {
   return instance.request({
     method: 'post',
-    url: BASE_URL + API_URL.RESRT_PASSWORD_URL,
+    url: BASE_URL + API_URL.RESET_PASSWORD_URL,
     data
   });
 }

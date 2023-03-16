@@ -5,3 +5,5 @@ export * from './forgotPassword';
 export * from './resetPassword';
 export * from './profileUpdate';
 export * from './dashboard';
+export * from './employee/employeeAdd';
+export * from './employee/employeeList';

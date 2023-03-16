@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Icon, Grid } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
@@ -9,18 +9,20 @@ import FilterLayout from 'Components/FilterLayout';
 import Select from 'Elements/Select';
 import { Roles } from 'Helpers/Global';
 import { useNavigate, useOutletContext } from 'react-router';
-import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
+import { getDashboardPattern, getEmployeeDetailsPattern } from 'Routes/routeConfig';
+import moment from 'moment/moment';
 import AddEmployeeForm from './AddEmployeeForm';
 import employeeListData from './data/employeeListData';
+import withStateDispatch from '../../../Helpers/withStateDispatch';
 
-const EmployeeList = () => {
+const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
   const { role } = useOutletContext();
   const { columns: prCols } = employeeListData;
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState('');
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [search, setSearch] = useState('');
   const [allEmployee, setAllEmployee] = useState([]);
   const [employeeCount, setEmployeeCount] = useState(0);
@@ -28,14 +30,7 @@ const EmployeeList = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-
-  const handleChangeStartDate = (event, string) => {
-    if (string === 'fromDate') {
-      setFromDate(event.target.value);
-    } else {
-      setToDate(event.target.value);
-    }
-  };
+  const [filter, setFilter] = useState(false);
 
   const handleChangeRole = (value) => {
     setSelectedRole(value);
@@ -45,21 +40,38 @@ const EmployeeList = () => {
     setSearch(event.target.value.trim());
   };
 
-  const handleDialog = () => {
-    setIsDialogOpen(!isDialogOpen);
-  };
-
   const onClickAction = (value, id) => {
     if (value === 'details') {
       return navigate(getEmployeeDetailsPattern(id));
     }
   };
 
+  const onClickSearch = () => {
+    setFilter(!filter);
+  };
+
+  useEffect(() => {
+    if (!isDialogOpen) {
+      GetEmployeeList(
+        { limit, startDate, endDate, role: selectedRole.value, search, page, sortKey, sortOrder },
+        (res) => {
+          if (res && res.data && res.data.data) {
+            setAllEmployee(res.data.data.rows);
+            setEmployeeCount(res.data.data.count);
+            setFilter(false);
+          }
+        }
+      );
+    }
+    return () => {};
+  }, [isDialogOpen, filter]);
+
   const handleClear = () => {
-    setFromDate('');
-    setToDate('');
+    setEndDate('');
+    setStartDate('');
     setSelectedRole('');
     setSearch('');
+    setFilter(false);
   };
 
   const onPage = async (selectedPage) => {
@@ -81,7 +93,12 @@ const EmployeeList = () => {
         {role === 'admin' ? (
           <>
             <Grid item xs="auto">
-              <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
+              <Button
+                color="white"
+                variant="outlined"
+                size="small"
+                onClick={() => setIsDialogOpen(true)}
+              >
                 <Icon sx={{ mr: 1 }}>
                   <Add />
                 </Icon>
@@ -109,8 +126,8 @@ const EmployeeList = () => {
         <FilterLayout
           search={search}
           handleSearch={handleChangeSearch}
-          handleClear={() => handleClear()}
-          // onClickSearch={() => onClickSearch()}
+          handleClear={handleClear}
+          onClickSearch={onClickSearch}
         >
           <Grid item xs={6} md={4} lg={3}>
             <Input
@@ -120,8 +137,8 @@ const EmployeeList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
-              value={fromDate !== '' ? fromDate : ''}
-              onChange={(value) => handleChangeStartDate(value, 'fromDate')}
+              value={startDate !== '' ? startDate : ''}
+              onChange={(e) => setStartDate(e.target.value)}
               errorFalse
             />
           </Grid>
@@ -133,8 +150,11 @@ const EmployeeList = () => {
               fullWidth
               id="toDate"
               name="toDate"
-              value={toDate !== '' ? toDate : ''}
-              onChange={(value) => handleChangeStartDate(value, 'toDate')}
+              inputProps={{
+                min: startDate
+              }}
+              value={endDate !== '' ? endDate : ''}
+              onChange={(e) => setEndDate(e.target.value)}
               errorFalse
             />
           </Grid>
@@ -167,10 +187,15 @@ const EmployeeList = () => {
           sortOrder={sortOrder}
           handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
         />
-        <AddEmployeeForm isDialogOpen={isDialogOpen} handleDialog={handleDialog} />
+        <AddEmployeeForm
+          GetEmployeeAdd={GetEmployeeAdd}
+          isDialogOpen={isDialogOpen}
+          handleDialog={() => setIsDialogOpen(false)}
+          Loading={Loading}
+        />
       </Card>
     </>
   );
 };
 
-export default EmployeeList;
+export default withStateDispatch(EmployeeList);

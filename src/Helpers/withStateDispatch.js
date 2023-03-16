@@ -4,7 +4,9 @@ import {
   getForgotPassword,
   getResetPassword,
   getProfileUpdate,
-  getDashboard
+  getDashboard,
+  getEmployeeAdd,
+  getEmployeeList
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -20,7 +22,9 @@ const mapDispatchToProps = (dispatch) => ({
   GetOrganistationSignup: (data, resolve, reject) =>
     dispatch(getOrganisationSignup(data, resolve, reject)),
   GetProfileUpdate: (data, resolve, reject) => dispatch(getProfileUpdate(data, resolve, reject)),
-  GetDashboard: (data, resolve, reject) => dispatch(getDashboard(data, resolve, reject))
+  GetDashboard: (data, resolve, reject) => dispatch(getDashboard(data, resolve, reject)),
+  GetEmployeeAdd: (data, resolve, reject) => dispatch(getEmployeeAdd(data, resolve, reject)),
+  GetEmployeeList: (data, resolve, reject) => dispatch(getEmployeeList(data, resolve, reject))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);
