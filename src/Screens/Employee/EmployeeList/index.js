@@ -31,6 +31,7 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [filter, setFilter] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
 
   const handleChangeRole = (value) => {
     setSelectedRole(value);
@@ -47,6 +48,7 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
   };
 
   const onClickSearch = () => {
+    setIsSearch(true);
     setFilter(!filter);
   };
 
@@ -128,6 +130,8 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
           handleSearch={handleChangeSearch}
           handleClear={handleClear}
           onClickSearch={onClickSearch}
+          loader={Loading}
+          isSearch={isSearch}
         >
           <Grid item xs={6} md={4} lg={3}>
             <Input
