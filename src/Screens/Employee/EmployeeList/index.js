@@ -41,9 +41,9 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
     setSearch(event.target.value.trim());
   };
 
-  const onClickAction = (value, id) => {
-    if (value === 'details') {
-      return navigate(getEmployeeDetailsPattern(id));
+  const onClickAction = (key, value) => {
+    if (key === 'details') {
+      return navigate(getEmployeeDetailsPattern(value.slug));
     }
   };
 
