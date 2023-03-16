@@ -9,9 +9,10 @@ import { Months, Years, Status } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
 import AttendanceCard from 'Components/CardLayouts/StaticCard';
+import withStateDispatch from 'Helpers/withStateDispatch';
 import attendanceColumn from './data/attendanceData';
 
-const AttendanceList = () => {
+const AttendanceList = ({ Loading }) => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
   const { role } = useSelector((state) => state.login);
   const [month, setMonth] = useState('');
@@ -20,7 +21,6 @@ const AttendanceList = () => {
   const [user, setUser] = useState('');
   const [search, setSearch] = useState('');
   const [counts, setCounts] = useState(null);
-  const [loader, setLoader] = useState(false);
 
   const [attendanceList, setAttendanceList] = useState([]);
   const [attendanceListCount, setAttendanceListCount] = useState(0);
@@ -67,7 +67,6 @@ const AttendanceList = () => {
   };
 
   const onClickSearch = () => {
-    setLoader(true);
     setIsSearch(true);
   };
 
@@ -139,18 +138,12 @@ const AttendanceList = () => {
             color="white"
             variant="outlined"
             size="small"
-            sx={({ breakpoints, palette: { dark } }) => ({
-              [breakpoints.down('xl' && 'lg')]: {
-                color: dark.main,
-                borderColor: dark.main
-              }
-            })}
             onClick={onClickExport}
           >
             <Icon sx={{ mr: 1 }}>
               <ImportExportRounded />
             </Icon>
-            Export
+            {Loading && isExport ? <CircularProgress  size={20} color="inherit" /> : 'Export'}
           </Button>
         </Grid> */}
       </Grid>
@@ -167,7 +160,7 @@ const AttendanceList = () => {
           handleSearch={handleChangeSearch}
           handleClear={() => handleClear()}
           onClickSearch={() => onClickSearch()}
-          loader={loader}
+          loader={Loading}
           isSearch={isSearch}
         >
           {role === 'admin' && (
@@ -227,4 +220,4 @@ const AttendanceList = () => {
     </>
   );
 };
-export default AttendanceList;
+export default withStateDispatch(AttendanceList);

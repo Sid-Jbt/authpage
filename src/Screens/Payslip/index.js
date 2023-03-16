@@ -6,15 +6,15 @@ import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Months, Years } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
+import withStateDispatch from 'Helpers/withStateDispatch';
 import payslipColumns from './data/payslipData';
 
-const Payslip = () => {
+const Payslip = ({ Loading }) => {
   const { columns: prCols, adminColumns: adminPrCol } = payslipColumns;
   const { role } = useSelector((state) => state.login);
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [search, setSearch] = useState('');
-  const [loader, setLoader] = useState(false);
 
   const [allPayslipList, setAllPayslipList] = useState([]);
   const [payslipListCount, setPayslipListCount] = useState(0);
@@ -44,7 +44,6 @@ const Payslip = () => {
   };
 
   const onClickSearch = () => {
-    setLoader(true);
     setIsSearch(true);
   };
 
@@ -78,7 +77,7 @@ const Payslip = () => {
             <Icon sx={{ mr: 1 }}>
               <ImportExportRounded />
             </Icon>
-            {loader && isExport ? <CircularProgress color="inherit" /> : 'Export'}
+            {Loading && isExport ? <CircularProgress  size={20} color="inherit" /> : 'Export'}
           </Button>
         </Grid> */}
       </Grid>
@@ -94,7 +93,7 @@ const Payslip = () => {
           handleSearch={handleChangeSearch}
           handleClear={() => handleClear()}
           onClickSearch={() => onClickSearch()}
-          loader={loader}
+          loader={Loading}
           isSearch={isSearch}
         >
           <Grid item xs={12} md={4} lg={3}>
@@ -134,4 +133,4 @@ const Payslip = () => {
   );
 };
 
-export default Payslip;
+export default withStateDispatch(Payslip);
