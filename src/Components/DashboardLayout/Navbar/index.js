@@ -119,7 +119,7 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
         title={[
           'Hello,',
           `${
-            user.firstName !== null || user.lastName !== null
+            user && (user.firstName !== null || user.lastName !== null)
               ? `${user.firstName} ${user.lastName}`
               : 'Welcome'
           }`
