@@ -284,7 +284,9 @@ const Table = ({
                       initialPage={initialPage}
                       onChangePage={(page) => onChangePage(page)}
                       rowsPerPage={rowsPerPage}
-                      onRowsPerPageChange={(rowsPage) => onRowsPerPageChange(rowsPage)}
+                      onRowsPerPageChange={(rowsPage) => {
+                        onRowsPerPageChange(rowsPage);
+                      }}
                     />
                   )}
                 </TableCell>

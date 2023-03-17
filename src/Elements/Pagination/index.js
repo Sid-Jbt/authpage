@@ -19,7 +19,9 @@ const Pagination = ({ rows, initialPage, onChangePage, rowsPerPage, onRowsPerPag
       onPageChange={(event, newPage) => handleChangePage(event, newPage)}
       rowsPerPage={rowsPerPage}
       rowsPerPageOptions={[10, 20, 30, { label: 'All', value: rows }]}
-      onRowsPerPageChange={(event) => handleChangeRowsPerPage(event)}
+      onRowsPerPageChange={(event) => {
+        handleChangeRowsPerPage(event);
+      }}
     />
   );
 };

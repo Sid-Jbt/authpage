@@ -4,28 +4,13 @@ import {
   FilterListTwoTone,
   SearchRounded
 } from '@mui/icons-material';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Grid,
-  Icon,
-  CircularProgress
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Grid, Icon } from '@mui/material';
 import Button from 'Elements/Button';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import React, { useState } from 'react';
 
-const FilterLayout = ({
-  children,
-  handleClear,
-  search,
-  handleSearch,
-  onClickSearch,
-  loader,
-  isSearch
-}) => {
+const FilterLayout = ({ children, handleClear, search, handleSearch, onClickSearch }) => {
   const [expanded, setExpanded] = useState(false);
   const innerWidth = window.innerWidth;
 
@@ -82,11 +67,11 @@ const FilterLayout = ({
               })}
             >
               <Grid item sm={12} md="auto">
-                <Button color="info" size="small" disabled={loader} onClick={() => onClickSearch()}>
+                <Button color="info" size="small" onClick={() => onClickSearch()}>
                   <Icon sx={{ mr: 1 }}>
                     <SearchRounded />
                   </Icon>
-                  {loader && isSearch ? <CircularProgress size={20} color="inherit" /> : 'Search'}
+                  Search
                 </Button>
               </Grid>
               <Grid item sm={12} md="auto">

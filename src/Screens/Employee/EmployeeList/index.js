@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Icon, Grid } from '@mui/material';
 import { Add } from '@mui/icons-material';
@@ -9,8 +8,7 @@ import FilterLayout from 'Components/FilterLayout';
 import Select from 'Elements/Select';
 import { Roles } from 'Helpers/Global';
 import { useNavigate, useOutletContext } from 'react-router';
-import { getDashboardPattern, getEmployeeDetailsPattern } from 'Routes/routeConfig';
-import moment from 'moment/moment';
+import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
 import AddEmployeeForm from './AddEmployeeForm';
 import employeeListData from './data/employeeListData';
 import withStateDispatch from '../../../Helpers/withStateDispatch';
@@ -26,36 +24,24 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
   const [search, setSearch] = useState('');
   const [allEmployee, setAllEmployee] = useState([]);
   const [employeeCount, setEmployeeCount] = useState(0);
-  const [sortKey, setSortKey] = useState('email');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sort, setSort] = useState({ key: 'email', order: 'asc' });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [filter, setFilter] = useState(false);
-  const [isSearch, setIsSearch] = useState(false);
-
-  const handleChangeRole = (value) => {
-    setSelectedRole(value);
-  };
-
-  const handleChangeSearch = (event) => {
-    setSearch(event.target.value.trim());
-  };
-
-  const onClickAction = (key, value) => {
-    if (key === 'details') {
-      return navigate(getEmployeeDetailsPattern(value.slug));
-    }
-  };
-
-  const onClickSearch = () => {
-    setIsSearch(true);
-    setFilter(!filter);
-  };
 
   useEffect(() => {
     if (!isDialogOpen) {
       GetEmployeeList(
-        { limit, startDate, endDate, role: selectedRole.value, search, page, sortKey, sortOrder },
+        {
+          limit,
+          startDate,
+          endDate,
+          role: selectedRole.value,
+          search,
+          page,
+          sortKey: sort.key,
+          sortOrder: sort.order
+        },
         (res) => {
           if (res && res.data && res.data.data) {
             setAllEmployee(res.data.data.rows);
@@ -66,7 +52,7 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
       );
     }
     return () => {};
-  }, [isDialogOpen, filter]);
+  }, [isDialogOpen, filter, page, sort]);
 
   const handleClear = () => {
     setEndDate('');
@@ -74,19 +60,6 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
     setSelectedRole('');
     setSearch('');
     setFilter(false);
-  };
-
-  const onPage = async (selectedPage) => {
-    setPage(selectedPage);
-  };
-
-  const onRowsPerPageChange = async (selectedLimit) => {
-    setLimit(selectedLimit);
-  };
-
-  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
-    setSortKey(selectedSortKey);
-    setSortOrder(selectedSortOrder);
   };
 
   return (
@@ -127,11 +100,11 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
       >
         <FilterLayout
           search={search}
-          handleSearch={handleChangeSearch}
+          handleSearch={(e) => setSearch(e.target.value.trim())}
           handleClear={handleClear}
-          onClickSearch={onClickSearch}
-          loader={Loading}
-          isSearch={isSearch}
+          onClickSearch={() => {
+            setFilter(!filter);
+          }}
         >
           <Grid item xs={6} md={4} lg={3}>
             <Input
@@ -168,7 +141,7 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
               <Select
                 value={selectedRole}
                 options={Roles}
-                onChange={(value) => handleChangeRole(value)}
+                onChange={(value) => setSelectedRole(value)}
               />
             </FormControl>
           </Grid>
@@ -176,20 +149,26 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
         <Table
           columns={prCols}
           rows={allEmployee}
-          onClickAction={(value, id) => onClickAction(value, id)}
+          onClickAction={(key, value) =>
+            key === 'edit' && navigate(getEmployeeDetailsPattern(value.slug))
+          }
           rowsCount={employeeCount}
           isAction
           options={[
-            { title: 'Details', value: 'details' },
+            { title: 'Edit', value: 'edit' },
             { title: 'Delete', value: 'delete' }
           ]}
           initialPage={page}
-          onChangePage={(value) => onPage(value)}
+          onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
-          sortKey={sortKey}
-          sortOrder={sortOrder}
-          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
+          onRowsPerPageChange={(rowsPerPage) => {
+            setLimit(rowsPerPage);
+          }}
+          sortKey={sort.key}
+          sortOrder={sort.order}
+          handleRequestSort={(event, orderKey, orderName) =>
+            setSort({ order: orderName, key: orderKey })
+          }
         />
         <AddEmployeeForm
           GetEmployeeAdd={GetEmployeeAdd}
