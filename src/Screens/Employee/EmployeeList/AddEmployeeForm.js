@@ -27,7 +27,6 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
         initialValues={{
           email: '',
           password: '',
-          employeeCode: '',
           dateOfJoin: moment().format('YYYY-MM-DD')
         }}
         onSubmit={(values) => onSubmit(values)}
