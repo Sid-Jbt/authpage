@@ -54,6 +54,7 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
     return () => {};
   }, [isDialogOpen, filter, page, sort]);
 
+  // After clear need to call GetEmployeeList
   const handleClear = () => {
     setEndDate('');
     setStartDate('');
@@ -150,7 +151,7 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
           columns={prCols}
           rows={allEmployee}
           onClickAction={(key, value) =>
-            key === 'edit' && navigate(getEmployeeDetailsPattern(value.slug))
+            key === 'edit' && navigate(getEmployeeDetailsPattern(value.id))
           }
           rowsCount={employeeCount}
           isAction
