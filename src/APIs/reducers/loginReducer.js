@@ -10,6 +10,7 @@ const AdminRole = [
   'dashboard',
   'employee',
   'profile',
+  'profilesetup',
   'privacy',
   'employeeDetails',
   'expense',
@@ -31,6 +32,7 @@ const AdminRole = [
 const EmployeeRole = [
   'dashboard',
   'profile',
+  'profilesetup',
   'privacy',
   'expense',
   'leave',

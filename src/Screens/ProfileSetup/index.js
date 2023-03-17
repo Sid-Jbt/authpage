@@ -84,19 +84,15 @@ const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
     role === 'admin' ? organisationSchema[activeStep] : basicSchema[activeStep];
 
   const handleNext = (values, actions) => {
-    if (activeStep === 2) {
-      GetProfileUpdate(values, (res) => {
-        const data = res.data;
-        if (data.status) {
-          navigate(getDashboardPattern());
-        }
-      });
-      actions.setSubmitting(false);
-    } else {
-      setActiveStep(activeStep + 1);
-      actions.setTouched({});
-      actions.setSubmitting(false);
-    }
+    GetProfileUpdate(values, (res) => {
+      const data = res.data;
+      if (data.status) {
+        navigate(getDashboardPattern());
+      }
+    });
+    setActiveStep(activeStep + 1);
+    actions.setTouched({});
+    actions.setSubmitting(false);
   };
 
   const handleBack = () => setActiveStep(activeStep - 1);

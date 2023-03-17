@@ -8,11 +8,11 @@ import {
   PaymentRounded,
   SettingsRounded,
   DateRangeTwoTone,
-  // VerifiedUserOutlined,
   HolidayVillage,
   ViewArrayOutlined,
   SupportAgent,
-  AnnouncementRounded
+  AnnouncementRounded,
+  VerifiedUserOutlined
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -28,7 +28,7 @@ import {
   payslipPattern,
   settingPattern,
   attendancePattern,
-  // profileSetupPattern,
+  profileSetupPattern,
   employeeDetailsPattern,
   holidayPattern,
   rolePattern,
@@ -39,7 +39,7 @@ import colors from '../Theme/base/colors';
 
 const DashboardDefault = Loadable(lazy(() => import('../Screens/DashboardDefault')));
 const Profile = Loadable(lazy(() => import('../Screens/Profile')));
-// const ProfileSetup = Loadable(lazy(() => import('../Screens/ProfileSetup')));
+const ProfileSetup = Loadable(lazy(() => import('../Screens/ProfileSetup')));
 const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
 const EmployeeList = Loadable(lazy(() => import('../Screens/Employee/EmployeeList')));
 const EmployeeDetails = Loadable(lazy(() => import('../Screens/Employee/EmployeeDetails')));
@@ -227,16 +227,16 @@ const MainRoutes = [
     key: 'report',
     element: <Navigate to={allReportPattern} />
   }, */
-  // {
-  //   type: 'unroute',
-  //   noCollapse: true,
-  //   name: 'Profile Setup',
-  //   icon: <VerifiedUserOutlined sx={{ color: colors.error.main }} />,
-  //   path: profileSetupPattern,
-  //   route: profileSetupPattern,
-  //   key: 'profilesetup',
-  //   element: <ProfileSetup />
-  // },
+  {
+    type: 'unroute',
+    noCollapse: true,
+    name: 'Profile Setup',
+    icon: <VerifiedUserOutlined sx={{ color: colors.error.main }} />,
+    path: profileSetupPattern,
+    route: profileSetupPattern,
+    key: 'profilesetup',
+    element: <ProfileSetup />
+  },
   {
     type: 'collapse',
     noCollapse: true,

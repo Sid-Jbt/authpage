@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from 'Elements/Box';
 import { Outlet } from 'react-router';
-import { Card, Grid, useTheme } from '@mui/material';
+import { Card, Grid, Link, Typography, useTheme } from '@mui/material';
 import linearGradient from 'Theme/functions/linearGradient';
 import LogoWithName from 'Assets/logo/jbt-full-logo.svg';
 import bgImage from 'Assets/Illustrations/404.svg';
@@ -31,7 +31,13 @@ const AuthLayout = () => {
         left={0}
         opacity={0.7}
       />
-      <Grid container minHeight="100vh" alignItems="center" justifyContent="center">
+      <Grid
+        container
+        minHeight="100vh"
+        alignItems="end"
+        justifyContent="center"
+        sx={{ zIndex: 9999 }}
+      >
         <Grid item xs={11} sm={8} md={6} lg={4} xl={3}>
           <Card sx={{ p: 3 }}>
             <Box
@@ -52,6 +58,16 @@ const AuthLayout = () => {
               })}
             />
             <Outlet />
+          </Card>
+        </Grid>
+        <Grid item xs={12}>
+          <Card sx={{ background: 'transparent', boxShadow: 'none', p: 1 }}>
+            <Typography textAlign="center" fontSize="medium">
+              Powered By{' '}
+              <Link href="www.jarvisbitz.com" target="_blank" color="info" underline="hover">
+                JarvisBitz Tech
+              </Link>
+            </Typography>
           </Card>
         </Grid>
       </Grid>
