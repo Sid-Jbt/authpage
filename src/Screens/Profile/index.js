@@ -52,7 +52,7 @@ const TabsList = [
   {
     key: 'personal',
     title: 'Personal',
-    role: ['admin', 'user'],
+    role: ['admin', 'employee'],
     icon: <PersonOutlined style={{ marginRight: '8px' }} />
   },
   {
@@ -64,13 +64,13 @@ const TabsList = [
   {
     key: 'account',
     title: 'Account',
-    role: ['user'],
+    role: ['employee'],
     icon: <AccountBalance style={{ marginRight: '8px' }} />
   },
   {
     key: 'salary',
     title: 'Salary',
-    role: ['user'],
+    role: ['employee'],
     icon: <CurrencyRupeeOutlined style={{ marginRight: '8px' }} />
   }
 ];
@@ -109,8 +109,10 @@ const Profile = () => {
           initialValues={
             tabIndex === 0
               ? profileInitialValues
-              : tabIndex === 1
+              : role === 'admin' && tabIndex === 1
               ? orgInitialValues
+              : role !== 'admin' && tabIndex === 1
+              ? bankInitialValues
               : bankInitialValues
           }
           onSubmit={(values) => {
@@ -120,8 +122,10 @@ const Profile = () => {
           validationSchema={
             tabIndex === 0
               ? profileSchema
-              : tabIndex === 1
+              : role === 'admin ' && tabIndex === 1
               ? organisationProfileSchema
+              : role !== 'admin' && tabIndex === 1
+              ? bankFormSchema
               : bankFormSchema
           }
           validate={tabIndex === 0 && validate}
@@ -140,30 +144,36 @@ const Profile = () => {
                   <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
                     {tabIndex === 0
                       ? 'Basic Details'
-                      : tabIndex === 1
+                      : role === 'admin' && tabIndex === 1
                       ? 'Organisation Details'
-                      : tabIndex === 2
+                      : role !== 'admin' && tabIndex === 1
                       ? 'Bank Details'
                       : 'Salary Details'}
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <Button
-                    type="button"
-                    color="info"
-                    variant="contained"
-                    size="small"
-                    onClick={() => handleSetIsEdit()}
-                  >
-                    {!isEdit ? 'Edit' : 'Save'}
-                  </Button>
-                </Grid>
+                {tabIndex !== 2 && (
+                  <Grid item>
+                    <Button
+                      type="button"
+                      color="info"
+                      variant="contained"
+                      size="small"
+                      onClick={() => handleSetIsEdit()}
+                    >
+                      {!isEdit ? 'Edit' : 'Save'}
+                    </Button>
+                  </Grid>
+                )}
               </Grid>
               <>
                 {tabIndex === 0 && <PersonalDetails isEdit={isEdit} role={role} props={props} />}
-                {tabIndex === 1 && <OrganisationDetails isEdit={isEdit} props={props} />}
-                {tabIndex === 2 && <BankInfo isEdit={isEdit} props={props} />}
-                {tabIndex === 3 && <SalaryDetails props={props} />}
+                {role === 'admin' && tabIndex === 1 && (
+                  <OrganisationDetails isEdit={isEdit} role={role} props={props} />
+                )}
+                {role !== 'admin' && tabIndex === 1 && (
+                  <BankInfo isEdit={isEdit} role={role} props={props} />
+                )}
+                {tabIndex === 2 && <SalaryDetails role={role} props={props} />}
               </>
             </form>
           )}
