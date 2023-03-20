@@ -7,6 +7,7 @@ import { getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
 import Images from 'Assets/Images/team-4-800x800.jpg';
 import withStateDispatch from 'Helpers/withStateDispatch';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DashboardNavbar from './Navbar';
 import Sidenav from './Sidenav';
 import Footer from './Footer';
@@ -14,11 +15,18 @@ import Footer from './Footer';
 const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => {
   const { customization } = useSelector((state) => state);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const bgImage = Images;
 
   useEffect(() => {
     GetDashboard();
   }, []);
+
+  useEffect(() => {
+    if (DashboardData && DashboardData.isLoginFirstTime) {
+      navigate(getProfileSetupPattern());
+    }
+  }, [DashboardData]);
 
   return (
     <>

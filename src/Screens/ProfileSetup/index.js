@@ -4,7 +4,7 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import { Card, CircularProgress, Grid, Step, StepLabel, Stepper } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import withStateDispatch from 'Helpers/withStateDispatch';
 import { WorkingHours } from 'Helpers/Global';
 import { organisationSchema, basicSchema } from 'Helpers/ValidationSchema';
@@ -78,6 +78,7 @@ function getStepContent(role, stepIndex, props) {
 const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
   const { role } = useSelector((state) => state.login);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps(role);
   const currentValidationSchema = () =>
@@ -87,6 +88,9 @@ const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
     GetProfileUpdate(values, (res) => {
       const data = res.data;
       if (data.status) {
+        if (activeStep === 2) {
+          dispatch({ type: 'LOGIN_COMPLETED' });
+        }
         navigate(getDashboardPattern());
       }
     });
