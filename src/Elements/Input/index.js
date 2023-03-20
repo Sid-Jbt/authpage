@@ -148,11 +148,13 @@ const TextField = forwardRef(
           {...rest}
           type={showPassword ? 'text' : type}
           inputProps={
-            type === 'date' && {
-              min: rest.value,
-              max: moment().format('YYYY-MM-DD'),
-              ...inputProps
-            }
+            type === 'date'
+              ? {
+                  min: rest.value,
+                  max: moment().format('YYYY-MM-DD'),
+                  ...inputProps
+                }
+              : {}
           }
           endAdornment={
             type === 'password' ? (

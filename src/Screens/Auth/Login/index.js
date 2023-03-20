@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { CircularProgress, Switch } from '@mui/material';
+import React from 'react';
+import { CircularProgress, FormControlLabel, Switch } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
@@ -11,9 +11,7 @@ import { getForgotPasswordPattern, getDashboardPattern } from 'Routes/routeConfi
 import withStateDispatch from 'Helpers/withStateDispatch';
 
 const Login = ({ GetLogin, Loading }) => {
-  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
   return (
     <>
@@ -28,22 +26,34 @@ const Login = ({ GetLogin, Loading }) => {
 
       <Formik
         enableReinitialize
-        initialValues={{ email: '', password: '' }}
+        initialValues={{ email: '', password: '', rememberMe: false }}
         onSubmit={(values, actions) => {
-          GetLogin({ email: values.email, password: values.password }, () => {
-            navigate(getDashboardPattern());
-          });
+          GetLogin(
+            { email: values.email, password: values.password, rememberMe: values.rememberMe },
+            () => {
+              navigate(getDashboardPattern());
+            }
+          );
           actions.setSubmitting(false);
         }}
         validationSchema={loginSchema}
       >
         {(props) => {
-          const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =
-            props;
+          const {
+            values,
+            touched,
+            errors,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+            setFieldValue
+          } = props;
           return (
             <form onSubmit={handleSubmit}>
               <Box mb={0.5}>
                 <Input
+                  autoComplete="username"
                   type="email"
                   placeholder="Email"
                   size="large"
@@ -58,9 +68,9 @@ const Login = ({ GetLogin, Loading }) => {
                   success={!errors.email && touched.email}
                 />
               </Box>
-
               <Box mb={0.5}>
                 <Input
+                  autoComplete="current-password"
                   placeholder="Password"
                   size="large"
                   fullWidth
@@ -82,30 +92,38 @@ const Login = ({ GetLogin, Loading }) => {
                   justifyContent: 'space-between'
                 }}
               >
-                <Box>
-                  <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-                  <Typography
-                    variant="button"
-                    fontWeight="regular"
-                    onClick={handleSetRememberMe}
-                    sx={{ cursor: 'pointer', userSelect: 'none' }}
-                  >
-                    &nbsp;&nbsp;Remember me
-                  </Typography>
-                </Box>
-
-                <Box>
-                  <Typography
-                    component={Link}
-                    to={getForgotPasswordPattern()}
-                    variant="button"
-                    color="info"
-                    fontWeight="medium"
-                    underline="true"
-                  >
-                    Forgot Password?
-                  </Typography>
-                </Box>
+                <FormControlLabel
+                  sx={{ m: 0, fontSize: '14px' }}
+                  value={values.rememberMe}
+                  control={
+                    <Switch
+                      checked={values.rememberMe}
+                      color="primary"
+                      name="remember"
+                      onChange={(e) => setFieldValue('rememberMe', e.target.checked)}
+                    />
+                  }
+                  label={
+                    <Typography
+                      variant="button"
+                      fontWeight="regular"
+                      sx={{ cursor: 'pointer', userSelect: 'none' }}
+                    >
+                      Remember Me
+                    </Typography>
+                  }
+                  labelPlacement="end"
+                />
+                <Typography
+                  component={Link}
+                  to={getForgotPasswordPattern()}
+                  variant="button"
+                  color="info"
+                  fontWeight="medium"
+                  underline="true"
+                >
+                  Forgot Password?
+                </Typography>
               </Box>
               <Box mt={4} mb={1}>
                 <Button

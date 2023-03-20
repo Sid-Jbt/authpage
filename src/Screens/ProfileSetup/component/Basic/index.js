@@ -139,7 +139,7 @@ const Basic = ({ role, props }) => {
                         fullWidth
                         id="fatherName"
                         name="fatherName"
-                        label="Father Name"
+                        label="Middle Name"
                         value={values.fatherName}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -160,11 +160,7 @@ const Basic = ({ role, props }) => {
                         name="department"
                         label="Department"
                         value={values.department}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.department && touched.department && errors.department}
-                        error={errors.department && touched.department}
-                        success={!errors.department && touched.department}
+                        disabled
                       />
                     </Box>
                   </Grid>
@@ -177,7 +173,7 @@ const Basic = ({ role, props }) => {
                         fullWidth
                         id="designation"
                         name="designation"
-                        label="Designation"
+                        label="Title"
                         value={values.designation}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -208,14 +204,14 @@ const Basic = ({ role, props }) => {
                 <Box>
                   <Input
                     type="number"
-                    placeholder="+91 925 532 5324"
+                    placeholder="9255325324"
                     size="medium"
                     fullWidth
                     id="phoneNumber"
                     name="phoneNumber"
                     label="Phone Number"
-                    minLength="9"
-                    maxLength="14"
+                    minLength="10"
+                    maxLength="13"
                     value={values.phoneNumber}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -223,7 +219,7 @@ const Basic = ({ role, props }) => {
                     error={errors.phoneNumber && touched.phoneNumber}
                     success={!errors.phoneNumber && touched.phoneNumber}
                     onKeyDown={(evt) =>
-                      ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
+                      ['e', 'E', '-', '+', '.'].includes(evt.key) && evt.preventDefault()
                     }
                   />
                 </Box>
@@ -232,12 +228,14 @@ const Basic = ({ role, props }) => {
                 <Box>
                   <Input
                     type="number"
-                    placeholder="+91 925 532 5325"
+                    placeholder="9255325325"
                     size="medium"
                     fullWidth
                     id="alternatePhone"
                     name="alternatePhone"
                     label="Alternative Number"
+                    minLength="10"
+                    maxLength="13"
                     value={values.alternatePhone}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -247,7 +245,7 @@ const Basic = ({ role, props }) => {
                     error={errors.alternatePhone && touched.alternatePhone}
                     success={!errors.alternatePhone && touched.alternatePhone}
                     onKeyDown={(evt) =>
-                      ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
+                      ['e', 'E', '-', '+', '.'].includes(evt.key) && evt.preventDefault()
                     }
                   />
                 </Box>
