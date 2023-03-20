@@ -58,7 +58,7 @@ const BankInfo = ({ isEdit, props }) => {
               fullWidth
               id="accountName"
               name="accountName"
-              label="Account Name"
+              label="Account Holder Name"
               value={values.accountName}
               onChange={handleChange}
               onBlur={handleBlur}

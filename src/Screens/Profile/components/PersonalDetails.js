@@ -79,7 +79,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                 fullWidth
                 id="fatherName"
                 name="fatherName"
-                label="Father Name"
+                label="Middle Name"
                 value={values.fatherName}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -120,12 +120,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   name="department"
                   label="Department"
                   value={values.department}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errorText={errors.department && touched.department && errors.department}
-                  error={errors.department && touched.department}
-                  success={!errors.department && touched.department}
-                  disabled={!isEdit}
+                  disabled
                 />
               </Box>
             </Grid>
@@ -138,7 +133,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   fullWidth
                   id="designation"
                   name="designation"
-                  label="Designation"
+                  label="Title"
                   value={values.designation}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -231,7 +226,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
           <Box>
             <Input
               type="number"
-              placeholder="+91 925 532 5324"
+              placeholder="9255325324"
               size="large"
               fullWidth
               id="phoneNumber"
@@ -245,7 +240,9 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
               error={errors.phoneNumber && touched.phoneNumber}
               success={!errors.phoneNumber && touched.phoneNumber}
-              onKeyDown={(evt) => ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()}
+              onKeyDown={(evt) =>
+                ['e', 'E', '-', '+', '.'].includes(evt.key) && evt.preventDefault()
+              }
               disabled={!isEdit}
             />
           </Box>
@@ -254,7 +251,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
           <Box>
             <Input
               type="number"
-              placeholder="+91 925 532 5325"
+              placeholder="9255325325"
               size="large"
               fullWidth
               id="alternatePhone"
@@ -266,7 +263,9 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               errorText={errors.alternatePhone && touched.alternatePhone && errors.alternatePhone}
               error={errors.alternatePhone && touched.alternatePhone}
               success={!errors.alternatePhone && touched.alternatePhone}
-              onKeyDown={(evt) => ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()}
+              onKeyDown={(evt) =>
+                ['e', 'E', '-', '+', '.'].includes(evt.key) && evt.preventDefault()
+              }
               disabled={!isEdit}
             />
           </Box>
