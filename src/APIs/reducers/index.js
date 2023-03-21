@@ -10,6 +10,7 @@ import employeeBySlugReducer from './employee/employeeBySlug';
 import leaveAddUpdateReducer from './leave/leaveAddUpdate';
 import leaveListReducer from './leave/leaveList';
 import leaveDeleteReducer from './leave/leaveDelete';
+import domainReducer from './getDomain';
 // import employeeListReducer from './employee/employeeList';
 // import employeeAddReducer from './employee/employeeAdd';
 
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
   employeeBySlug: employeeBySlugReducer,
   leaveAddUpdate: leaveAddUpdateReducer,
   leaveList: leaveListReducer,
-  leaveDelete: leaveDeleteReducer
+  leaveDelete: leaveDeleteReducer,
+  domain: domainReducer
 });
 
 export default rootReducer;

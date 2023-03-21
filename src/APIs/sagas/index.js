@@ -11,11 +11,13 @@ import { getEmployeeBySlugWatcher } from './employee/employeeBySlug';
 import { getLeaveAddUpdateWatcher } from './leave/leaveAddUpdate';
 import { getLeaveListWatcher } from './leave/leaveList';
 import { getLeaveDeleteWatcher } from './leave/leaveDelete';
+import { getDomainWatcher } from './getDomain';
 
 export default function* rootSaga() {
   yield all([
     getLoginWatcher(),
     getOrganisationSignupWatcher(),
+    getDomainWatcher(),
     getForgotPasswordWatcher(),
     getResetPasswordWatcher(),
     getProfileUpdateWatcher(),

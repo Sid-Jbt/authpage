@@ -5,6 +5,7 @@ export const API_URL = {
   FORGOT_PASSWORD_URL: '/forgot-password',
   RESET_PASSWORD_URL: '/reset-forgot-password',
   ORGANISATION_SIGNUP_URL: '/admin/signup',
+  DOMAIN_URL: '/check/domain',
   PROFIlE_SETUP_URL: '/profile-setup',
   PROFIlE_UPDATE_URL: '/profile',
   DASHBOARD_URL: '/dashboard',

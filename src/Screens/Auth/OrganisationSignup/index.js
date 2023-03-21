@@ -1,5 +1,5 @@
-import { Checkbox } from '@mui/material';
 import React, { useState } from 'react';
+import { Checkbox, InputAdornment } from '@mui/material';
 import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 import Typography from 'Elements/Typography';
@@ -9,10 +9,26 @@ import { getLoginPattern, loginPattern } from 'Routes/routeConfig';
 import { Formik } from 'formik';
 import { organisationSignupSchema } from 'Helpers/ValidationSchema';
 import withStateDispatch from 'Helpers/withStateDispatch';
+import { orgNameKeyPress } from '../../../Helpers/Global';
 
-const OrganisationSignup = ({ GetOrganisationSignup }) => {
+export const PROVIDER_DOMAIN = process.env.REACT_APP_PROVIDER_DOMAIN;
+
+const OrganisationSignup = ({ GetOrganisationSignup, GetDomain }) => {
   const navigate = useNavigate();
-  const [agreement, setAgreemment] = useState(false);
+  const [agreement, setAgreement] = useState(false);
+  const [domain, setDomain] = useState(null);
+
+  const getDomain = (value) => {
+    GetDomain({ domain: value }, (res) => {
+      if (res && res.data) {
+        if (res.data.status) {
+          setDomain(1);
+        } else {
+          setDomain(0);
+        }
+      }
+    });
+  };
 
   return (
     <>
@@ -29,16 +45,13 @@ const OrganisationSignup = ({ GetOrganisationSignup }) => {
             {
               email: values.email,
               password: values.password,
-              organisationName: values.organisationName
+              organisationName: values.organisationName,
+              domain: values.domain
             },
             (res) => {
               if (res.data.status) {
                 navigate(getLoginPattern());
               }
-            },
-            (err) => {
-              // eslint-disable-next-line no-console
-              console.log(err);
             }
           );
           actions.setSubmitting(false);
@@ -46,8 +59,16 @@ const OrganisationSignup = ({ GetOrganisationSignup }) => {
         validationSchema={organisationSignupSchema}
       >
         {(props) => {
-          const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =
-            props;
+          const {
+            values,
+            touched,
+            errors,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+            setFieldError
+          } = props;
           return (
             <form onSubmit={handleSubmit}>
               <Box mb={0.5}>
@@ -66,26 +87,45 @@ const OrganisationSignup = ({ GetOrganisationSignup }) => {
                   }
                   error={errors.organisationName && touched.organisationName}
                   success={!errors.organisationName && touched.organisationName}
+                  onKeyDown={(evt) => orgNameKeyPress.includes(evt.key) && evt.preventDefault()}
                 />
               </Box>
               <Box mb={0.5}>
                 <Input
                   placeholder="White Label Domain"
+                  type="text"
                   size="large"
                   fullWidth
                   id="domain"
                   name="domain"
-                  value={values.domain}
+                  value={values.domain.toLowerCase()}
                   onChange={handleChange}
-                  onBlur={handleBlur}
-                  errorText={errors.domain && touched.domain && errors.domain}
-                  error={errors.domain && touched.domain}
-                  success={!errors.domain && touched.domain}
-                  type="text"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <Typography variant="caption" fontWeight="regular">
+                        {PROVIDER_DOMAIN}
+                      </Typography>
+                    </InputAdornment>
+                  }
+                  onBlur={(e) => {
+                    if (e.target.value) {
+                      getDomain(e.target.value);
+                    } else {
+                      setFieldError('domain', 'Required');
+                    }
+                  }}
+                  errorText={
+                    (errors.domain && touched.domain && errors.domain) ||
+                    (domain === 0 && 'Domain already used')
+                  }
+                  error={(errors.domain && touched.domain) || domain === 0}
+                  success={domain === 1}
+                  onKeyDown={(evt) => orgNameKeyPress.includes(evt.key) && evt.preventDefault()}
                 />
               </Box>
               <Box mb={0.5}>
                 <Input
+                  autoComplete="username"
                   type="email"
                   placeholder="Email"
                   size="large"
@@ -102,6 +142,7 @@ const OrganisationSignup = ({ GetOrganisationSignup }) => {
               </Box>
               <Box mb={0.5}>
                 <Input
+                  autoComplete="current-password"
                   placeholder="Password"
                   size="large"
                   fullWidth
@@ -117,11 +158,11 @@ const OrganisationSignup = ({ GetOrganisationSignup }) => {
                 />
               </Box>
               <Box display="flex" alignItems="center">
-                <Checkbox checked={agreement} onChange={() => setAgreemment(!agreement)} />
+                <Checkbox checked={agreement} onChange={() => setAgreement(!agreement)} />
                 <Typography
                   variant="button"
                   fontWeight="regular"
-                  onClick={() => setAgreemment(!agreement)}
+                  onClick={() => setAgreement(!agreement)}
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                 >
                   &nbsp;&nbsp;I agree the&nbsp;
