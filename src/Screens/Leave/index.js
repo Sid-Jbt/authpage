@@ -22,7 +22,7 @@ const empLeaveOptions = [
   { title: 'Delete', value: 'delete' }
 ];
 
-const LeaveList = ({ GetLeaveAdd, GetLeaveList }) => {
+const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
   const { role } = useSelector((state) => state.login);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -123,7 +123,7 @@ const LeaveList = ({ GetLeaveAdd, GetLeaveList }) => {
   };
 
   const onDelete = async () => {
-    handleDialogClose();
+    GetLeaveDelete(selectedId, () => handleDialogClose());
   };
 
   const handleClear = () => {
@@ -265,7 +265,7 @@ const LeaveList = ({ GetLeaveAdd, GetLeaveList }) => {
             selectedData={selectedData}
             setSelectedData={(value) => setSelectedData(value)}
             isEdit={isEdit}
-            GetLeaveAdd={GetLeaveAdd}
+            GetLeaveAddUpdate={GetLeaveAddUpdate}
           />
         )}
         {isDeleteDialogOpen && (

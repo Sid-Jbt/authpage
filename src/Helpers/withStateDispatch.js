@@ -8,8 +8,9 @@ import {
   getEmployeeAdd,
   getEmployeeList,
   getEmployeeBySlug,
-  getLeaveAdd,
-  getLeaveList
+  getLeaveAddUpdate,
+  getLeaveList,
+  getLeaveDelete
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -29,8 +30,9 @@ const mapDispatchToProps = (dispatch) => ({
   GetEmployeeAdd: (data, resolve, reject) => dispatch(getEmployeeAdd(data, resolve, reject)),
   GetEmployeeList: (data, resolve, reject) => dispatch(getEmployeeList(data, resolve, reject)),
   GetEmployeeBySlug: (data, resolve, reject) => dispatch(getEmployeeBySlug(data, resolve, reject)),
-  GetLeaveAdd: (data, resolve, reject) => dispatch(getLeaveAdd(data, resolve, reject)),
-  GetLeaveList: (data, resolve, reject) => dispatch(getLeaveList(data, resolve, reject))
+  GetLeaveAddUpdate: (data, resolve, reject) => dispatch(getLeaveAddUpdate(data, resolve, reject)),
+  GetLeaveList: (data, resolve, reject) => dispatch(getLeaveList(data, resolve, reject)),
+  GetLeaveDelete: (data, resolve, reject) => dispatch(getLeaveDelete(data, resolve, reject))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);

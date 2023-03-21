@@ -4,6 +4,8 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import FormField from 'Elements/FormField';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getSupportTicketPattern } from '../../Routes/routeConfig';
 
 const ViewLeaveDetails = ({ info }) => {
   const { role } = useSelector((state) => state.login);
@@ -59,6 +61,22 @@ const ViewLeaveDetails = ({ info }) => {
             disabled={role !== 'admin'}
           />
         </Grid>
+        {info.status === 'rejected' && (
+          <Grid item xs={12}>
+            <Box display="flex" py={0.5} pr={2}>
+              <Typography
+                component={Link}
+                to={getSupportTicketPattern()}
+                variant="button"
+                color="info"
+                fontWeight="medium"
+                underline="true"
+              >
+                &nbsp; Support Ticket
+              </Typography>
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </>
   );

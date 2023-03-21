@@ -7,8 +7,9 @@ import customizationReducer from './customizationReducer';
 // import profileUpdateReducer from './profileUpdateReducer';
 import dashboardReducer from './dashboardReducer';
 import employeeBySlugReducer from './employee/employeeBySlug';
-import leaveAddReducer from './leave/leaveAdd';
+import leaveAddUpdateReducer from './leave/leaveAddUpdate';
 import leaveListReducer from './leave/leaveList';
+import leaveDeleteReducer from './leave/leaveDelete';
 // import employeeListReducer from './employee/employeeList';
 // import employeeAddReducer from './employee/employeeAdd';
 
@@ -23,8 +24,9 @@ const rootReducer = combineReducers({
   dashboard: dashboardReducer,
   // employeeList: employeeListReducer
   employeeBySlug: employeeBySlugReducer,
-  leaveAdd: leaveAddReducer,
-  leaveList: leaveListReducer
+  leaveAddUpdate: leaveAddUpdateReducer,
+  leaveList: leaveListReducer,
+  leaveDelete: leaveDeleteReducer
 });
 
 export default rootReducer;

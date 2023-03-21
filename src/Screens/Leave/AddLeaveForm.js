@@ -25,7 +25,7 @@ const AddLeaveForm = ({
   setIsEdit,
   isEdit,
   title,
-  GetLeaveAdd
+  GetLeaveAddUpdate
 }) => {
   const [leaveType, setLeaveType] = useState(leave[0]);
   const [selectType, setSelectType] = useState(leaveDayType[0]);
@@ -79,13 +79,23 @@ const AddLeaveForm = ({
       toDate: selectType.value === 'full' ? values.toDate : values.fromDate,
       reason: values.reason
     };
-    GetLeaveAdd(formData, (res) => {
-      const { status } = res.data;
-      if (status) {
-        handleDialog();
-        setIsEdit(false);
-      }
-    });
+    if (isEdit) {
+      GetLeaveAddUpdate({ data: formData, leaveId: selectedData.id }, (res) => {
+        const { status } = res.data;
+        if (status) {
+          handleDialog();
+          setIsEdit(false);
+        }
+      });
+    } else {
+      GetLeaveAddUpdate({ data: formData }, (res) => {
+        const { status } = res.data;
+        if (status) {
+          handleDialog();
+          setIsEdit(false);
+        }
+      });
+    }
   };
 
   return (
@@ -150,6 +160,9 @@ const AddLeaveForm = ({
                         fullWidth
                         id="fromDate"
                         name="fromDate"
+                        inputProps={{
+                          min: moment().format('YYYY-MM-DD')
+                        }}
                         label="From Date"
                         value={values.fromDate}
                         onChange={handleChange}
@@ -164,6 +177,9 @@ const AddLeaveForm = ({
                     <Grid item xs={12} md={6}>
                       <Box>
                         <Input
+                          inputProps={{
+                            min: moment(values.fromDate).format('YYYY-MM-DD')
+                          }}
                           type="date"
                           placeholder="To Date"
                           size="large"
