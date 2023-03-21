@@ -8,6 +8,7 @@ import { getResetPasswordWatcher } from './resetPassword';
 import { getEmployeeAddWatcher } from './employee/employeeAdd';
 import { getEmployeeListWatcher } from './employee/employeeList';
 import { getEmployeeBySlugWatcher } from './employee/employeeBySlug';
+import { getExpenseAddWatcher } from './expense/expenseAdd';
 
 export default function* rootSaga() {
   yield all([
@@ -19,6 +20,7 @@ export default function* rootSaga() {
     getDashboardWatcher(),
     getEmployeeAddWatcher(),
     getEmployeeListWatcher(),
-    getEmployeeBySlugWatcher()
+    getEmployeeBySlugWatcher(),
+    getExpenseAddWatcher()
   ]);
 }

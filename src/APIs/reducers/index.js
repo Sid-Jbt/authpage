@@ -9,6 +9,8 @@ import dashboardReducer from './dashboardReducer';
 import employeeBySlugReducer from './employee/employeeBySlug';
 // import employeeListReducer from './employee/employeeList';
 // import employeeAddReducer from './employee/employeeAdd';
+import expenseAddReducer from './expense/expenseAdd';
+import expenseListReducer from './expense/expenseList';
 
 const rootReducer = combineReducers({
   customization: customizationReducer,
@@ -20,7 +22,9 @@ const rootReducer = combineReducers({
   // employeeAdd: employeeAddReducer,
   dashboard: dashboardReducer,
   // employeeList: employeeListReducer
-  employeeBySlug: employeeBySlugReducer
+  employeeBySlug: employeeBySlugReducer,
+  expenseAdd: expenseAddReducer,
+  expenseList: expenseListReducer
 });
 
 export default rootReducer;

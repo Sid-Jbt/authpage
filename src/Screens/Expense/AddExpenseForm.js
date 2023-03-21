@@ -7,19 +7,23 @@ import SideDrawer from 'Elements/SideDrawer';
 import { FormLabel, Grid, CircularProgress } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
-import withStateDispatch from 'Helpers/withStateDispatch';
 import Dropzone from '../../Elements/Dropzone';
 
-const AddExpenseForm = ({
+const AddExpenseDialog = ({
+  GetExpenseAdd,
   isDialogOpen,
   handleDialog,
   setIsEdit,
   selectedData,
   title,
   isEdit,
-  Loading
-}) => (
-  <>
+  Loading,
+  button
+}) => {
+  const onSubmit = async (formData) => {
+    GetExpenseAdd(formData, () => handleDialog());
+  };
+  return (
     <SideDrawer
       open={Boolean(isDialogOpen)}
       onClose={() => {
@@ -27,6 +31,7 @@ const AddExpenseForm = ({
         setIsEdit(false);
       }}
       title={title}
+      button={button}
     >
       <Formik
         enableReinitialize
@@ -37,10 +42,11 @@ const AddExpenseForm = ({
           amount: '',
           document: ''
         }}
-        onSubmit={(values, actions) => {
-          // eslint-disable-next-line no-console
-          console.log(values, actions);
-        }}
+        onSubmit={(values) => onSubmit(values)}
+        // onSubmit={(values, actions) => {
+        //     // eslint-disable-next-line no-console
+        //     console.log(values, actions);
+        // }}
         validationSchema={expenseFormSchema}
       >
         {(props) => {
@@ -48,7 +54,7 @@ const AddExpenseForm = ({
             props;
           return (
             <form onSubmit={handleSubmit}>
-              <Grid container spacing={1} justifyContent="space-between">
+              <Grid container columnSpacing={2} justifyContent="space-between">
                 <Grid item xs={12}>
                   <Input
                     placeholder="Item name"
@@ -139,7 +145,11 @@ const AddExpenseForm = ({
                     size="medium"
                     disabled={isSubmitting || Loading}
                   >
-                    {Loading ? <CircularProgress size={20} color="inherit" /> : 'Add Expense'}
+                    {Loading ? (
+                      <CircularProgress size={20} color="inherit" title="Adding" />
+                    ) : (
+                      button
+                    )}
                   </Button>
                 </Grid>
               </Grid>
@@ -148,7 +158,7 @@ const AddExpenseForm = ({
         }}
       </Formik>
     </SideDrawer>
-  </>
-);
+  );
+};
 
-export default withStateDispatch(AddExpenseForm);
+export default AddExpenseDialog;

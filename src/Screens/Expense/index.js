@@ -7,11 +7,14 @@ import Table from 'Elements/Tables/Table';
 import { useSelector } from 'react-redux';
 import DialogMenu from 'Elements/Dialog';
 import { DeleteDialogAction, DeleteDialogContent } from 'Components/DeleteDialog';
+import { getExpensePattern } from 'Routes/routeConfig';
+import { useNavigate } from 'react-router';
 import expenseListData from './data/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
 import ExpenseCard from '../../Components/CardLayouts/StaticCard';
 import ViewExpenseDetails from './ViewExpenseDetails';
-import AddExpenseForm from './AddExpenseForm';
+import AddExpenseDialog from './AddExpenseForm';
+import withStateDispatch from '../../Helpers/withStateDispatch';
 
 const adminExpenseOptions = [{ title: 'View', value: 'view' }];
 const empExpenseOptions = [
@@ -20,9 +23,10 @@ const empExpenseOptions = [
   { title: 'Delete', value: 'delete' }
 ];
 
-const Expense = () => {
+const Expense = ({ GetExpenseAdd, Loading }) => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
   const { role } = useSelector((state) => state.login);
+  const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [search, setSearch] = useState('');
@@ -36,12 +40,13 @@ const Expense = () => {
 
   const [allExpenseList, setAllExpenseList] = useState([]);
   const [expenseListCount, setExpenseListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('createdAt');
-  const [sortOrder, setSortOrder] = useState('desc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  // const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
+  const [sort, setSort] = useState({ key: 'createdAt', order: 'desc' });
+  // const [sortKey, setSortKey] = useState('createdAt');
+  // const [sortOrder, setSortOrder] = useState('desc');
+  // const [isExport, setIsExport] = useState(false);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -64,16 +69,16 @@ const Expense = () => {
     handleOpenDialog();
   };
 
-  const onClickAction = (key, data) => {
-    if (key === 'edit') {
+  const onClickAction = (key, value) => {
+    if (key === 'edit' && navigate(getExpensePattern(value.id))) {
       setIsEdit(true);
-      setSelectedData(allExpenseList.find((o) => o.id === data.id));
+      setSelectedData(allExpenseList.find((o) => o.id === value.id));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
       if (role === 'admin') {
-        onClickView(data);
+        onClickView(value);
       } else {
-        const viewData = allExpenseList.find((o) => o.id === data.id);
+        const viewData = allExpenseList.find((o) => o.id === value.id);
         const setViewData = {
           itemName: viewData.itemName,
           purchaseFrom: viewData.purchaseFrom,
@@ -87,7 +92,7 @@ const Expense = () => {
         setIsViewExpenseDialogOpen(true);
       }
     } else {
-      setSelectedId(data.id);
+      setSelectedId(value.id);
       setIsDeleteDialogOpen(true);
     }
   };
@@ -112,21 +117,21 @@ const Expense = () => {
     // getAllExpenseList(sortKey, sortOrder, page, search, 0);
   };
 
-  const onPage = async (selectedPage) => {
-    setPage(selectedPage);
-    // await getAllExpenseList(sortKey, sortOrder, selectedPage);
-  };
-
-  const onRowsPerPageChange = async (selectedLimit) => {
-    setLimit(selectedLimit);
-    // await getAllExpenseList(sortKey, sortOrder, selectedLimit);
-  };
-
-  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
-    setSortKey(selectedSortKey);
-    setSortOrder(selectedSortOrder);
-    // await getAllExpenseList(selectedSortKey, selectedSortOrder, page);
-  };
+  // const onPage = async (selectedPage) => {
+  //   setPage(selectedPage);
+  //   // await getAllExpenseList(sortKey, sortOrder, selectedPage);
+  // };
+  //
+  // const onRowsPerPageChange = async (selectedLimit) => {
+  //   setLimit(selectedLimit);
+  //   // await getAllExpenseList(sortKey, sortOrder, selectedLimit);
+  // };
+  //
+  // const onSort = async (e, selectedSortKey, selectedSortOrder) => {
+  //   setSortKey(selectedSortKey);
+  //   setSortOrder(selectedSortOrder);
+  //   // await getAllExpenseList(selectedSortKey, selectedSortOrder, page);
+  // };
 
   return (
     <>
@@ -228,27 +233,33 @@ const Expense = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allExpenseList}
-          onClickAction={(value, row) => onClickAction(value, row)}
+          onClickAction={(value, key) => onClickAction(value, key)}
           isAction
           options={role === 'admin' ? adminExpenseOptions : empExpenseOptions}
           rowsCount={expenseListCount}
           initialPage={page}
-          onChangePage={(value) => onPage(value)}
+          onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
-          sortKey={sortKey}
-          sortOrder={sortOrder}
-          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
+          onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
+          sortKey={sort.Key}
+          sortOrder={sort.Order}
+          handleRequestSort={(event, orderName, orderKey) =>
+            setSort({ order: orderName, key: orderKey })
+          }
         />
+
         {isDialogOpen && (
-          <AddExpenseForm
+          <AddExpenseDialog
+            GetExpenseAdd={GetExpenseAdd}
             isDialogOpen={isDialogOpen}
             handleDialog={handleDialog}
-            title={isEdit ? 'EDIT YOUR EXPENSE' : 'ADD NEW EXPENSE'}
+            title={isEdit ? 'UPDATE EXPENSE' : 'NEW EXPENSE'}
+            button={isEdit ? 'UPDATE YOUR EXPENSE' : 'ADD YOUR EXPENSE'}
             setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             setSelectedData={(value) => setSelectedData(value)}
             isEdit={isEdit}
+            Loading={Loading}
           />
         )}
         {isDeleteDialogOpen && (
@@ -278,6 +289,15 @@ const Expense = () => {
           dialogAction={
             role === 'admin' && (
               <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
+                {/* <Card sx={{ background: 'transparent', boxShadow: 'none', p: 1 }}> */}
+                {/*  <Typography textAlign="center" fontSize="medium"> */}
+                {/*    If you have any query then raise your {' '} */}
+                {/*    <Link href="http://localhost:3001/supportTicket" target="_blank" color="info" underline="hover"> */}
+                {/*      Support Ticket */}
+                {/*    </Link> */}
+                {/*  </Typography> */}
+                {/* </Card> */}
+
                 <Grid item>
                   <Button
                     type="submit"
@@ -308,4 +328,4 @@ const Expense = () => {
   );
 };
 
-export default Expense;
+export default withStateDispatch(Expense);

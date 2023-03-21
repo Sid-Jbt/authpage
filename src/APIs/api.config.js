@@ -10,5 +10,7 @@ export const API_URL = {
   DASHBOARD_URL: '/dashboard',
   EMPLOYEE_LIST_URL: '/admin/user',
   EMPLOYEE_ADD_URL: '/user/signup',
-  EMPLOYEE_BY_SLUG_URL: '/'
+  EMPLOYEE_BY_SLUG_URL: '/',
+  EXPENSE_ADD_URL: '/user/expense',
+  EXPENSE_LIST_URL: '/expense'
 };

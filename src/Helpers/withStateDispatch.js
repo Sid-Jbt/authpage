@@ -7,7 +7,8 @@ import {
   getDashboard,
   getEmployeeAdd,
   getEmployeeList,
-  getEmployeeBySlug
+  getEmployeeBySlug,
+  getExpenseAdd
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -26,7 +27,8 @@ const mapDispatchToProps = (dispatch) => ({
   GetDashboard: (data, resolve, reject) => dispatch(getDashboard(data, resolve, reject)),
   GetEmployeeAdd: (data, resolve, reject) => dispatch(getEmployeeAdd(data, resolve, reject)),
   GetEmployeeList: (data, resolve, reject) => dispatch(getEmployeeList(data, resolve, reject)),
-  GetEmployeeBySlug: (data, resolve, reject) => dispatch(getEmployeeBySlug(data, resolve, reject))
+  GetEmployeeBySlug: (data, resolve, reject) => dispatch(getEmployeeBySlug(data, resolve, reject)),
+  GetExpenseAdd: (data, resolve, reject) => dispatch(getExpenseAdd(data, resolve, reject))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);
