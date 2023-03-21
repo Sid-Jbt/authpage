@@ -134,6 +134,7 @@ const TextField = forwardRef(
       label = '',
       type,
       inputProps,
+      endAdornment,
       ...rest
     },
     ref
@@ -167,7 +168,9 @@ const TextField = forwardRef(
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
-            ) : null
+            ) : (
+              endAdornment
+            )
           }
           ref={ref}
           ownerState={{ size, error, success, disabled, type }}
