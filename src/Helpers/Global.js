@@ -200,3 +200,5 @@ export const badgeStatusColor = {
   approved: 'success',
   rejected: 'error'
 };
+
+export const validationMessage = 'Required';

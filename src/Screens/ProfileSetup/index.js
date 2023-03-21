@@ -7,7 +7,7 @@ import { Card, CircularProgress, Grid, Step, StepLabel, Stepper } from '@mui/mat
 import { useDispatch, useSelector } from 'react-redux';
 import withStateDispatch from 'Helpers/withStateDispatch';
 import { WorkingHours } from 'Helpers/Global';
-import { organisationSchema, basicSchema } from 'Helpers/ValidationSchema';
+import { organisationSchema, userSchema } from 'Helpers/ValidationSchema';
 import { useNavigate } from 'react-router';
 import { getDashboardPattern } from 'Routes/routeConfig';
 import Basic from './component/Basic';
@@ -82,16 +82,15 @@ const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps(role);
   const currentValidationSchema = () =>
-    role === 'admin' ? organisationSchema[activeStep] : basicSchema[activeStep];
-
+    role === 'admin' ? organisationSchema[activeStep] : userSchema[activeStep];
   const handleNext = (values, actions) => {
     GetProfileUpdate(values, (res) => {
       const data = res.data;
       if (data.status) {
         if (activeStep === 2) {
           dispatch({ type: 'LOGIN_COMPLETED' });
+          navigate(getDashboardPattern());
         }
-        navigate(getDashboardPattern());
       }
     });
     setActiveStep(activeStep + 1);
@@ -167,8 +166,8 @@ const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
                         {role !== 'admin'
                           ? activeStep === 0
                             ? Continue(isSubmitting)
-                            : (activeStep === 1 && values.address !== '') ||
-                              values.currentAdd !== ''
+                            : (activeStep === 1 && values.permanentAddress !== '') ||
+                              values.presentAddress !== ''
                             ? Continue(isSubmitting)
                             : (activeStep === 2 && values.bankName !== '') ||
                               values.branchName !== '' ||
