@@ -130,7 +130,7 @@ const OrganisationSignup = ({ GetOrganisationSignup }) => {
                   Terms and Conditions
                 </Typography>
               </Box>
-              <Box mt={4} mb={1}>
+              <Box mt={1}>
                 <Button
                   variant="gradient"
                   color="dark"
@@ -142,7 +142,7 @@ const OrganisationSignup = ({ GetOrganisationSignup }) => {
                   Sign up
                 </Button>
               </Box>
-              <Box mt={2}>
+              <Box mt={0.5}>
                 <Typography variant="button" color="text" fontWeight="regular">
                   Already have an account?&nbsp;
                   <Typography
