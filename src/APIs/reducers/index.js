@@ -7,6 +7,7 @@ import customizationReducer from './customizationReducer';
 // import profileUpdateReducer from './profileUpdateReducer';
 import dashboardReducer from './dashboardReducer';
 import employeeBySlugReducer from './employee/employeeBySlug';
+import domainReducer from './getDomain';
 // import employeeListReducer from './employee/employeeList';
 // import employeeAddReducer from './employee/employeeAdd';
 
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   // employeeAdd: employeeAddReducer,
   dashboard: dashboardReducer,
   // employeeList: employeeListReducer
-  employeeBySlug: employeeBySlugReducer
+  employeeBySlug: employeeBySlugReducer,
+  domain: domainReducer
 });
 
 export default rootReducer;
