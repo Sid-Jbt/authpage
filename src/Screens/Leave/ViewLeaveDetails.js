@@ -6,7 +6,7 @@ import FormField from 'Elements/FormField';
 import { useSelector } from 'react-redux';
 
 const ViewLeaveDetails = ({ info }) => {
-  const { role } = useSelector((state) => state.route);
+  const { role } = useSelector((state) => state.login);
   const labels = [];
   const values = [];
 

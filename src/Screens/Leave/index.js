@@ -13,6 +13,7 @@ import { DeleteDialogAction, DeleteDialogContent } from 'Components/DeleteDialog
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 import ViewLeaveDetails from './ViewLeaveDetails';
+import withStateDispatch from '../../Helpers/withStateDispatch';
 
 const adminLeaveOptions = [{ title: 'View', value: 'view' }];
 const empLeaveOptions = [
@@ -21,55 +22,50 @@ const empLeaveOptions = [
   { title: 'Delete', value: 'delete' }
 ];
 
-const LeaveList = () => {
+const LeaveList = ({ GetLeaveAdd, GetLeaveList }) => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
   const { role } = useSelector((state) => state.login);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [selectedId, setSelectedId] = useState('');
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
   const [search, setSearch] = useState('');
   const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
   const [isViewLeaveDialogOpen, setIsViewLeaveDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [counts, setCounts] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
-  const [loader, setLoader] = useState(false);
-
-  const [allLeaveList, setAllLeaveList] = useState([]);
-  const [leaveListCount, setLeaveListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('createdAt');
-  const [sortOrder, setSortOrder] = useState('desc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [isSearch, setIsSearch] = useState(false);
-
-  const getAllLeaveList = async (
-    selectedSortKey = 'createdAt',
-    selectedSortOrder = 'desc',
-    selectedPage = 0,
-    text = '',
-    startDate = '',
-    endDate = '',
-    count = 0,
-    dataLimit = limit
-  ) => {
-    const leaveData = {
-      limit: dataLimit,
-      page: selectedPage,
-      sortKey: selectedSortKey.toLowerCase(),
-      sortOrder: selectedSortOrder.toLowerCase(),
-      search: text,
-      startDate,
-      endDate,
-      count
-    };
-  };
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [sort, setSort] = useState({ key: 'fromDate', order: 'asc' });
+  const [filter, setFilter] = useState(false);
+  const [allLeave, setAllLeave] = useState([]);
+  const [leaveCount, setLeaveCount] = useState({});
 
   useEffect(() => {
-    getAllLeaveList();
-  }, [isDialogOpen]);
+    if (!isDialogOpen) {
+      GetLeaveList(
+        {
+          limit,
+          startDate,
+          endDate,
+          search,
+          page,
+          sortKey: sort.key,
+          sortOrder: sort.order
+        },
+        (res) => {
+          if (res && res.data && res.data.data) {
+            const { rows, count } = res.data.data;
+            setAllLeave(rows);
+            setLeaveCount(count);
+            setFilter(false);
+          }
+        }
+      );
+    }
+    return () => {};
+  }, [isDialogOpen, page, sort, filter]);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -96,13 +92,13 @@ const LeaveList = () => {
   const onClickAction = (key, data) => {
     if (key === 'edit') {
       setIsEdit(true);
-      setSelectedData(allLeaveList.find((o) => o.id === data.id));
+      setSelectedData(allLeave.find((o) => o.id === data.id));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
       if (role === 'admin') {
         onClickView(data);
       } else {
-        const viewData = allLeaveList.find((o) => o.id === data.id);
+        const viewData = allLeave.find((o) => o.id === data.id);
         const setViewData = {
           leaveType: viewData.leaveType,
           selectType: viewData.selectType,
@@ -122,18 +118,6 @@ const LeaveList = () => {
     }
   };
 
-  const handleChangeStartDate = (event, string) => {
-    if (string === 'fromDate') {
-      setFromDate(event.target.value);
-    } else {
-      setToDate(event.target.value);
-    }
-  };
-
-  const handleChangeSearch = (event) => {
-    setSearch(event.target.value.trim());
-  };
-
   const handleDialogClose = () => {
     setIsDeleteDialogOpen(false);
   };
@@ -143,28 +127,10 @@ const LeaveList = () => {
   };
 
   const handleClear = () => {
-    setFromDate('');
-    setToDate('');
+    setEndDate('');
+    setStartDate('');
     setSearch('');
-    getAllLeaveList();
-  };
-
-  const onClickSearch = () => {
-    setLoader(true);
-    setIsSearch(true);
-  };
-
-  const onPage = async (selectedPage) => {
-    setPage(selectedPage);
-  };
-
-  const onRowsPerPageChange = async (selectedLimit) => {
-    setLimit(selectedLimit);
-  };
-
-  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
-    setSortKey(selectedSortKey);
-    setSortOrder(selectedSortOrder);
+    setFilter(false);
   };
 
   return (
@@ -173,7 +139,7 @@ const LeaveList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Total Leave"
-            count={counts && counts.totalLeave}
+            count={leaveCount.totalLeave}
             icon={{ color: 'info', component: <CalendarMonth /> }}
             isPercentage={false}
           />
@@ -181,7 +147,7 @@ const LeaveList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Medical Leave"
-            count={counts && counts.medicalLeave}
+            count={leaveCount.medicalLeave}
             icon={{ color: 'warning', component: <Vaccines /> }}
             isPercentage={false}
           />
@@ -189,7 +155,7 @@ const LeaveList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Other Leave"
-            count={counts && counts.otherLeave}
+            count={leaveCount.otherLeave}
             icon={{ color: 'primary', component: <Celebration /> }}
             isPercentage={false}
           />
@@ -197,7 +163,7 @@ const LeaveList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Remaining Leave"
-            count={counts && counts.remainingLeave}
+            count={leaveCount.remainingLeave}
             icon={{ color: 'success', component: <DirectionsRun /> }}
             isPercentage={false}
           />
@@ -237,11 +203,11 @@ const LeaveList = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={handleChangeSearch}
-          handleClear={() => handleClear()}
-          onClickSearch={() => onClickSearch()}
-          loader={loader}
-          isSearch={isSearch}
+          handleSearch={(e) => setSearch(e.target.value.trim())}
+          handleClear={handleClear}
+          onClickSearch={() => {
+            setFilter(!filter);
+          }}
         >
           <Grid item xs={6} md={4} lg={3}>
             <Input
@@ -251,8 +217,8 @@ const LeaveList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
-              value={fromDate !== '' ? fromDate : ''}
-              onChange={(value) => handleChangeStartDate(value, 'fromDate')}
+              value={startDate !== '' ? startDate : ''}
+              onChange={(e) => setStartDate(e.target.value)}
               errorFalse
             />
           </Grid>
@@ -264,8 +230,8 @@ const LeaveList = () => {
               fullWidth
               id="toDate"
               name="toDate"
-              value={toDate !== '' ? toDate : ''}
-              onChange={(value) => handleChangeStartDate(value, 'toDate')}
+              value={endDate !== '' ? endDate : ''}
+              onChange={(e) => setEndDate(e.target.value)}
               errorFalse
             />
           </Grid>
@@ -273,28 +239,33 @@ const LeaveList = () => {
 
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
-          rows={allLeaveList}
+          rows={allLeave}
           onClickAction={(value, data) => onClickAction(value, data)}
           isAction
           options={role === 'admin' ? adminLeaveOptions : empLeaveOptions}
-          rowsCount={leaveListCount}
+          rowsCount={leaveCount.total}
           initialPage={page}
-          onChangePage={(value) => onPage(value)}
+          onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
-          sortKey={sortKey}
-          sortOrder={sortOrder}
-          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
+          onRowsPerPageChange={(rowsPerPage) => {
+            setLimit(rowsPerPage);
+          }}
+          sortKey={sort.key}
+          sortOrder={sort.order}
+          handleRequestSort={(event, orderKey, orderName) =>
+            setSort({ order: orderName, key: orderKey })
+          }
         />
         {isDialogOpen && (
           <AddLeaveForm
             isDialogOpen={isDialogOpen}
             handleDialog={() => handleDialog()}
-            title={isEdit ? 'EDIT YOUR LEAVE' : 'ADD NEW LEAVE'}
+            title={isEdit ? 'UPDATE LEAVE' : 'ADD LEAVE'}
             setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             setSelectedData={(value) => setSelectedData(value)}
             isEdit={isEdit}
+            GetLeaveAdd={GetLeaveAdd}
           />
         )}
         {isDeleteDialogOpen && (
@@ -355,4 +326,4 @@ const LeaveList = () => {
   );
 };
 
-export default LeaveList;
+export default withStateDispatch(LeaveList);

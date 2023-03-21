@@ -35,7 +35,7 @@ export const Roles = [
 ];
 
 export const leaveDayType = [
-  { value: 'fullDay', label: 'Full Day' },
+  { value: 'full', label: 'Full Day' },
   { value: 'half', label: 'Half Day' }
 ];
 

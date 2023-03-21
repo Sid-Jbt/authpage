@@ -1,18 +1,16 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
 import { leaveFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
-import { CircularProgress, FormControl, FormLabel, Grid } from '@mui/material';
+import { FormControl, FormLabel, Grid } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import Box from 'Elements/Box';
 import Select from 'Elements/Select';
 import Editor from 'Elements/Editor';
 import { leave, leaveDayType } from 'Helpers/Global';
-import { Check, Error } from '@mui/icons-material';
-import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const initialValues = {
   fromDate: moment().format('YYYY-MM-DD'),
@@ -20,12 +18,18 @@ const initialValues = {
   reason: ''
 };
 
-const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isEdit, title }) => {
+const AddLeaveForm = ({
+  isDialogOpen,
+  handleDialog,
+  selectedData,
+  setIsEdit,
+  isEdit,
+  title,
+  GetLeaveAdd
+}) => {
   const [leaveType, setLeaveType] = useState(leave[0]);
   const [selectType, setSelectType] = useState(leaveDayType[0]);
   const [data, setData] = useState(initialValues);
-  const { setSnack } = useContext(SnackbarContext);
-  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     if (selectedData !== null) {
@@ -67,57 +71,21 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
     setSelectType(selectedLeave);
   };
 
-  const onSubmitNewLeave = async (formData) => {
-    if (formData.reason === '') {
-      setSnack({
-        title: 'Error',
-        message: 'Reason is required',
-        time: false,
-        icon: <Error color="white" />,
-        color: 'error',
-        open: true
-      });
-    } else {
-      let leaveRes;
-      const updatedFormData = {
-        leaveType: leaveType.value,
-        selectType: selectType.value,
-        fromDate: formData.fromDate,
-        toDate: formData.toDate,
-        reason: formData.reason
-      };
-      setLoader(true);
-      if (isEdit) {
-        const data12 = { leaveId: selectedData.id };
-        // leaveRes = await updateLeave(updatedFormData, data12);
-      } else {
-        // leaveRes = await addNewLeave(updatedFormData);
-      }
-      const { status, message } = leaveRes;
+  const onSubmit = (values) => {
+    const formData = {
+      leaveType: leaveType.value,
+      selectType: selectType.value,
+      fromDate: values.fromDate,
+      toDate: selectType.value === 'full' ? values.toDate : values.fromDate,
+      reason: values.reason
+    };
+    GetLeaveAdd(formData, (res) => {
+      const { status } = res.data;
       if (status) {
-        setSnack({
-          title: 'Success',
-          message,
-          time: false,
-          icon: <Check color="white" />,
-          color: 'success',
-          open: true
-        });
-        setLoader(false);
         handleDialog();
         setIsEdit(false);
-      } else {
-        setSnack({
-          title: 'Error',
-          message,
-          time: false,
-          icon: <Error color="white" />,
-          color: 'error',
-          open: true
-        });
-        setLoader(false);
       }
-    }
+    });
   };
 
   return (
@@ -133,9 +101,7 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
         <Formik
           enableReinitialize
           initialValues={data}
-          onSubmit={(formData) => {
-            onSubmitNewLeave(formData);
-          }}
+          onSubmit={(values) => onSubmit(values)}
           validationSchema={leaveFormSchema}
         >
           {(props) => {
@@ -184,9 +150,6 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                         fullWidth
                         id="fromDate"
                         name="fromDate"
-                        inputProps={{
-                          min: moment().format('YYYY-MM-DD')
-                        }}
                         label="From Date"
                         value={values.fromDate}
                         onChange={handleChange}
@@ -197,28 +160,27 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                       />
                     </Box>
                   </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Box>
-                      <Input
-                        inputProps={{
-                          min: moment(values.fromDate).format('YYYY-MM-DD')
-                        }}
-                        type="date"
-                        placeholder="To Date"
-                        size="large"
-                        fullWidth
-                        id="toDate"
-                        name="toDate"
-                        label="To Date"
-                        defaultValue={values.toDate}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.toDate && touched.toDate && errors.toDate}
-                        error={errors.toDate && touched.toDate}
-                        success={!errors.toDate && touched.toDate}
-                      />
-                    </Box>
-                  </Grid>
+                  {selectType.value === 'full' && (
+                    <Grid item xs={12} md={6}>
+                      <Box>
+                        <Input
+                          type="date"
+                          placeholder="To Date"
+                          size="large"
+                          fullWidth
+                          id="toDate"
+                          name="toDate"
+                          label="To Date"
+                          defaultValue={values.toDate}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          errorText={errors.toDate && touched.toDate && errors.toDate}
+                          error={errors.toDate && touched.toDate}
+                          success={!errors.toDate && touched.toDate}
+                        />
+                      </Box>
+                    </Grid>
+                  )}
 
                   <Grid item xs={12}>
                     <Box>
@@ -245,21 +207,8 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                       marginRight: '10px'
                     }}
                   >
-                    <Button
-                      type="submit"
-                      color="info"
-                      variant="contained"
-                      size="medium"
-                      disabled={loader}
-                      sx={loader && { height: '40px !important', width: '80% !important' }}
-                    >
-                      {loader ? (
-                        <CircularProgress color="inherit" />
-                      ) : isEdit ? (
-                        'Update Leave'
-                      ) : (
-                        'Add Leave'
-                      )}
+                    <Button type="submit" color="info" variant="contained" size="medium">
+                      {isEdit ? 'Update Leave' : 'Add Leave'}
                     </Button>
                   </Grid>
                 </Grid>
