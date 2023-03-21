@@ -202,9 +202,6 @@ export const badgeStatusColor = {
 };
 
 export const validationMessage = 'Required';
-
-export const provideDomain = '.jbt-timer.com';
-
 export const orgNameKeyPress = [
   '&',
   '^',

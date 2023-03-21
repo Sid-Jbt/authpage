@@ -9,7 +9,9 @@ import { getLoginPattern, loginPattern } from 'Routes/routeConfig';
 import { Formik } from 'formik';
 import { organisationSignupSchema } from 'Helpers/ValidationSchema';
 import withStateDispatch from 'Helpers/withStateDispatch';
-import { orgNameKeyPress, provideDomain } from '../../../Helpers/Global';
+import { orgNameKeyPress } from '../../../Helpers/Global';
+
+export const PROVIDER_DOMAIN = process.env.REACT_APP_PROVIDER_DOMAIN;
 
 const OrganisationSignup = ({ GetOrganisationSignup, GetDomain }) => {
   const navigate = useNavigate();
@@ -101,7 +103,7 @@ const OrganisationSignup = ({ GetOrganisationSignup, GetDomain }) => {
                   endAdornment={
                     <InputAdornment position="end">
                       <Typography variant="caption" fontWeight="regular">
-                        {provideDomain}
+                        {PROVIDER_DOMAIN}
                       </Typography>
                     </InputAdornment>
                   }
