@@ -202,3 +202,25 @@ export const badgeStatusColor = {
 };
 
 export const validationMessage = 'Required';
+export const orgNameKeyPress = [
+  '&',
+  '^',
+  '-',
+  '+',
+  '*',
+  '(',
+  ')',
+  '=',
+  '[',
+  ']',
+  '{',
+  '}',
+  '!',
+  '#',
+  '$',
+  '%',
+  '@',
+  '/',
+  '|',
+  '?'
+];
