@@ -38,27 +38,30 @@ const Interceptor = ({ children }) => {
     instance.interceptors.response.use(
       (response) => {
         setLoaderStart(true);
-        if (response && response.data) {
-          if (response.data.status) {
-            if (response.data.message) {
+        if (response && !response.config.url.split('/').includes('domain')) {
+          if (response.data) {
+            if (response.data.status) {
+              if (response.data.message) {
+                setSnack({
+                  title: 'Success',
+                  message: response.data.message,
+                  time: false,
+                  icon: <Check color="white" />,
+                  color: 'success',
+                  open: true
+                });
+              }
+            } else {
               setSnack({
-                title: 'Success',
+                autoHide: 3000,
+                title: 'Error',
                 message: response.data.message,
                 time: false,
                 icon: <Check color="white" />,
-                color: 'success',
+                color: 'error',
                 open: true
               });
             }
-          } else {
-            setSnack({
-              title: 'Error',
-              message: response.data.message,
-              time: false,
-              icon: <Check color="white" />,
-              color: 'error',
-              open: true
-            });
           }
         }
         return response;

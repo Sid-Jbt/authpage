@@ -48,7 +48,7 @@ const AuthLayout = () => {
                 width: '70%',
                 ml: 'auto',
                 mr: 'auto',
-                mb: 3,
+                mb: 1,
                 [breakpoints.down('md')]: {
                   width: '60%',
                   ml: 'auto',

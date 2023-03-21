@@ -6,6 +6,8 @@ const numberRegx = /^((\+*)((0[ -]*)*|((91 )*))((\d{12})+|(\d{10})+))|\d{5}([- ]
 const holderNameRegx = /^[a-zA-Z0-9\s]*$/g;
 const accNumberRegx = /^\d{9,18}$/;
 const ifscCodeRegx = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+const organisationName = /^[a-zA-Z0-9\s]{1,80}$/;
+const domainRegx = /^[a-z]+$/;
 
 export const loginSchema = yup.object().shape({
   email: yup.string().email('Enter a valid email').required(validationMessage),
@@ -231,8 +233,24 @@ export const organisationSchema = [
 ];
 
 export const organisationSignupSchema = yup.object().shape({
-  organisationName: yup.string().required(validationMessage),
-  email: yup.string().email('Enter a valid email').required(validationMessage),
+  organisationName: yup
+    .string()
+    .required(validationMessage)
+    .min(1, 'Too Short!')
+    .max(80, 'Too Long!')
+    .matches(organisationName, 'Allow only alphanumeric and one special char @ '),
+  domain: yup
+    .string()
+    .required(validationMessage)
+    .min(1, 'Too Short!')
+    .max(80, 'Too Long!')
+    .matches(domainRegx, 'Only allow alphabets'),
+  email: yup
+    .string()
+    .email('Enter a valid email')
+    .required(validationMessage)
+    .min(1, 'Too Short!')
+    .max(80, 'Too Long!'),
   password: yup
     .string()
     .matches(
@@ -240,6 +258,7 @@ export const organisationSignupSchema = yup.object().shape({
       'One special characters, One upper character, Min 8 characters, One number'
     )
     .min(8, 'Password should be of minimum 8 characters length')
+    .max(50, 'Too Long!')
     .required(validationMessage)
 });
 

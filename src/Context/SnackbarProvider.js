@@ -16,6 +16,7 @@ const SnackbarProvider = ({ children }) => {
   return (
     <SnackbarContext.Provider value={{ snack, setSnack }}>
       <Snackbar
+        autoHide={snack.autoHide}
         color={snack.color}
         icon={snack.icon}
         title={snack.title}
