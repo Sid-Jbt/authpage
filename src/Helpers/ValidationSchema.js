@@ -193,7 +193,7 @@ export const noticeEventSchema = yup.object().shape({
   end: yup.string().required('Required')
 });
 
-export const basicSchema = [
+export const userSchema = [
   yup.object().shape({
     firstName: yup
       .string()
@@ -207,7 +207,9 @@ export const basicSchema = [
       .min(3, 'Too Short!')
       .max(50, 'Too Long!')
       .matches(/^[A-Za-z ]*$/, 'Please enter valid last name')
-  })
+  }),
+  yup.object().shape({}),
+  yup.object().shape({})
 ];
 
 export const organisationSchema = [

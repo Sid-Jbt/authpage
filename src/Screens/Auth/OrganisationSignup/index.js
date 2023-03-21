@@ -10,26 +10,22 @@ import { Formik } from 'formik';
 import { organisationSignupSchema } from 'Helpers/ValidationSchema';
 import withStateDispatch from 'Helpers/withStateDispatch';
 
-const OrganisationSignup = ({ GetOrganistationSignup }) => {
+const OrganisationSignup = ({ GetOrganisationSignup }) => {
   const navigate = useNavigate();
-  const [agreement, setAgremment] = useState(false);
-  const handleSetAgremment = () => setAgremment(!agreement);
+  const [agreement, setAgreemment] = useState(false);
 
   return (
     <>
       <Box mb={1} textAlign="center">
         <Typography variant="h4" fontWeight="bold">
-          Create your Organisation
+          Create Organisation
         </Typography>
       </Box>
-      <Typography variant="body2" fontWeight="regular" textAlign="center" color="text" mb={1}>
-        Enter your email and password to create your organisation and start managing
-      </Typography>
       <Formik
         enableReinitialize
-        initialValues={{ organisationName: '', email: '', password: '' }}
+        initialValues={{ organisationName: '', email: '', password: '', domain: '' }}
         onSubmit={(values, actions) => {
-          GetOrganistationSignup(
+          GetOrganisationSignup(
             {
               email: values.email,
               password: values.password,
@@ -74,6 +70,22 @@ const OrganisationSignup = ({ GetOrganistationSignup }) => {
               </Box>
               <Box mb={0.5}>
                 <Input
+                  placeholder="White Label Domain"
+                  size="large"
+                  fullWidth
+                  id="domain"
+                  name="domain"
+                  value={values.domain}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errorText={errors.domain && touched.domain && errors.domain}
+                  error={errors.domain && touched.domain}
+                  success={!errors.domain && touched.domain}
+                  type="text"
+                />
+              </Box>
+              <Box mb={0.5}>
+                <Input
                   type="email"
                   placeholder="Email"
                   size="large"
@@ -105,11 +117,11 @@ const OrganisationSignup = ({ GetOrganistationSignup }) => {
                 />
               </Box>
               <Box display="flex" alignItems="center">
-                <Checkbox checked={agreement} onChange={handleSetAgremment} />
+                <Checkbox checked={agreement} onChange={() => setAgreemment(!agreement)} />
                 <Typography
                   variant="button"
                   fontWeight="regular"
-                  onClick={handleSetAgremment}
+                  onClick={() => setAgreemment(!agreement)}
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                 >
                   &nbsp;&nbsp;I agree the&nbsp;
