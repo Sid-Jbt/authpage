@@ -1,23 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
 import { Card, Icon, Grid } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
-import {
-  Add,
-  DirectionsRun,
-  Vaccines,
-  CalendarMonth,
-  Celebration,
-  Check
-} from '@mui/icons-material';
+import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
 import LeaveCard from 'Components/CardLayouts/StaticCard';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
-import DeleteDialog from 'Components/DeleteDialog';
 import DialogMenu from 'Elements/Dialog';
-import { getLeaveLists, deleteLeave } from 'APIs/Leave';
-import { SnackbarContext } from 'Context/SnackbarProvider';
+import { DeleteDialogAction, DeleteDialogContent } from 'Components/DeleteDialog';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 import ViewLeaveDetails from './ViewLeaveDetails';
@@ -29,10 +21,9 @@ const empLeaveOptions = [
   { title: 'Delete', value: 'delete' }
 ];
 
-const Leave = () => {
-  const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
-  const { role } = useSelector((state) => state.route);
-  const { setSnack } = useContext(SnackbarContext);
+const LeaveList = () => {
+  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
+  const { role } = useSelector((state) => state.login);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [selectedId, setSelectedId] = useState('');
@@ -74,29 +65,6 @@ const Leave = () => {
       endDate,
       count
     };
-
-    const leaveRes = await getLeaveLists(leaveData);
-    const {
-      status,
-      data: { rows },
-      message
-    } = leaveRes;
-    if (status) {
-      setAllLeaveList(rows);
-      setCounts(leaveRes.data.count);
-      setLeaveListCount(leaveRes.data.count.total);
-      setLoader(false);
-      setIsSearch(false);
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        color: 'error',
-        open: true
-      });
-      setLoader(false);
-    }
   };
 
   useEffect(() => {
@@ -172,29 +140,6 @@ const Leave = () => {
 
   const onDelete = async () => {
     handleDialogClose();
-    const deleteRes = await deleteLeave(selectedId);
-    const { status, message } = deleteRes;
-    setLoader(false);
-    if (status) {
-      setSnack({
-        title: 'Success',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'success',
-        open: true
-      });
-      getAllLeaveList();
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'error',
-        open: true
-      });
-    }
   };
 
   const handleClear = () => {
@@ -207,23 +152,19 @@ const Leave = () => {
   const onClickSearch = () => {
     setLoader(true);
     setIsSearch(true);
-    getAllLeaveList(sortKey, sortOrder, page, search, fromDate, toDate, 0);
   };
 
   const onPage = async (selectedPage) => {
     setPage(selectedPage);
-    await getAllLeaveList(sortKey, sortOrder, selectedPage);
   };
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
-    await getAllLeaveList(sortKey, sortOrder, 0, '', '', '', selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {
     setSortKey(selectedSortKey);
     setSortOrder(selectedSortOrder);
-    await getAllLeaveList(selectedSortKey, selectedSortOrder, page);
   };
 
   return (
@@ -361,9 +302,10 @@ const Leave = () => {
             isOpen={isDeleteDialogOpen}
             onClose={() => handleDialogClose()}
             dialogTitle="Delete"
-            dialogContent={
-              <DeleteDialog
-                handleDialogClose={() => handleDialogClose()}
+            dialogContent={<DeleteDialogContent content="Are you sure you want to delete this ?" />}
+            dialogAction={
+              <DeleteDialogAction
+                handleDialogClose={handleDialogClose}
                 selectedId={selectedId}
                 message="Are you sure want to delete this?"
                 deleteItem={() => onDelete()}
@@ -413,4 +355,4 @@ const Leave = () => {
   );
 };
 
-export default Leave;
+export default LeaveList;

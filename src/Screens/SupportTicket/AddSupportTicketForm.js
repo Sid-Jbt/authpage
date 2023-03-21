@@ -1,17 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { supportTicketFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
-import { CircularProgress, FormControl, FormLabel, Grid } from '@mui/material';
+import { FormControl, FormLabel, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Select from 'Elements/Select';
 import Input from 'Elements/Input';
 import Editor from 'Elements/Editor';
 import Button from 'Elements/Button';
 import { Department, Priority } from 'Helpers/Global';
-import { Check, Error } from '@mui/icons-material';
-import { addNewSupportTicket, updateSupportTicket } from 'APIs/SupportTicket';
-import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const initialValues = {
   subject: '',
@@ -29,8 +26,6 @@ const AddSupportTicketDialog = ({
   const [department, setDepartment] = useState(Department[0]);
   const [priority, setPriority] = useState(Priority[0]);
   const [data, setData] = useState(initialValues);
-  const { setSnack } = useContext(SnackbarContext);
-  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     if (selectedData !== null) {
@@ -56,55 +51,9 @@ const AddSupportTicketDialog = ({
   };
 
   const onSubmitNewSupportTicket = async (formData) => {
-    if (formData.message === '' || formData.message.includes('<p><br></p>')) {
-      setSnack({
-        title: 'Error',
-        message: 'Message is required',
-        time: false,
-        icon: <Error color="white" />,
-        color: 'error',
-        open: true
-      });
-    } else {
-      let supportTicketRes;
-      const updatedFormData = {
-        subject: formData.subject,
-        priority: priority.value,
-        department: department.value,
-        message: formData.message
-      };
-      setLoader(true);
-      if (isEdit) {
-        supportTicketRes = await updateSupportTicket(updatedFormData, selectedData.id);
-      } else {
-        supportTicketRes = await addNewSupportTicket(updatedFormData);
-      }
-
-      const { status, message } = supportTicketRes;
-      if (status) {
-        setSnack({
-          title: 'Success',
-          message,
-          time: false,
-          icon: <Check color="white" />,
-          color: 'success',
-          open: true
-        });
-        setLoader(false);
-      } else {
-        setSnack({
-          title: 'Error',
-          message,
-          time: false,
-          icon: <Error color="white" />,
-          color: 'error',
-          open: true
-        });
-        setLoader(false);
-      }
-      handleDialog();
-      setIsEdit(false);
-    }
+    // eslint-disable-next-line no-console
+    console.log(formData);
+    handleDialog();
   };
 
   return (
@@ -201,21 +150,8 @@ const AddSupportTicketDialog = ({
                   </Grid>
 
                   <Grid item xs={12} md={4} lg={6}>
-                    <Button
-                      type="submit"
-                      color="info"
-                      variant="contained"
-                      size="medium"
-                      disabled={loader}
-                      sx={loader && { height: '40px !important', width: '80% !important' }}
-                    >
-                      {loader ? (
-                        <CircularProgress color="inherit" />
-                      ) : isEdit ? (
-                        'Update Ticket'
-                      ) : (
-                        'Add Ticket'
-                      )}
+                    <Button type="submit" color="info" variant="contained" size="medium">
+                      {isEdit ? 'Update Ticket' : 'Add Ticket'}
                     </Button>
                   </Grid>
                 </Grid>

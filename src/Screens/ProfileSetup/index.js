@@ -1,35 +1,43 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
-import { Card, Grid, Step, StepLabel, Stepper } from '@mui/material';
-import { getDashboardPattern } from 'Routes/routeConfig';
+import { Card, CircularProgress, Grid, Step, StepLabel, Stepper } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import withStateDispatch from 'Helpers/withStateDispatch';
+import { WorkingHours } from 'Helpers/Global';
+import { organisationSchema, userSchema } from 'Helpers/ValidationSchema';
 import { useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
-import { basicSchema, organisationSchema } from 'Helpers/ValidationSchema';
-import { Check, Error } from '@mui/icons-material';
-import { SnackbarContext } from 'Context/SnackbarProvider';
-import { getEmployeeById, updateEmployee } from '../../APIs/Employee';
+import { getDashboardPattern } from 'Routes/routeConfig';
 import Basic from './component/Basic';
 import Address from './component/Address';
 import Account from './component/Account';
 import Organisation from './component/Organisation';
 
-const orgInitialValues = {
-  workingHours: '',
+const adminInitialValues = {
+  workingHours: WorkingHours[0].value,
   organizationAddress: '',
   firstName: '',
   lastName: '',
   permanentAddress: '',
-  presentAddress: ''
+  presentAddress: '',
+  gender: 'male',
+  largeLogo: '',
+  smallLogo: ''
 };
 
-const employeeInitialValues = {
+const userInitialValues = {
   firstName: '',
   lastName: '',
+  fatherName: '',
+  department: '',
+  designation: '',
+  phoneNumber: '',
+  alternatePhone: '',
   permanentAddress: '',
   presentAddress: '',
+  gender: 'male',
   bankName: '',
   branchName: '',
   accountName: '',
@@ -38,201 +46,154 @@ const employeeInitialValues = {
   panNumber: ''
 };
 
-function getSteps() {
-  const customization = useSelector((state) => state.route);
-
-  return customization.role === 'admin'
-    ? ['Organisation', 'Basic', 'Address']
-    : ['Basic', 'Address', 'Account'];
+function getSteps(role) {
+  return role === 'admin' ? ['Organisation', 'Basic', 'Address'] : ['Basic', 'Address', 'Account'];
 }
 
-function getStepContent(stepIndex, props, employeeDetails, onChangeGender) {
-  const customization = useSelector((state) => state.route);
-
+function getStepContent(role, stepIndex, props) {
   switch (stepIndex) {
     case 0:
-      return customization.role === 'admin' ? (
-        <Organisation props={props} />
+      return role === 'admin' ? (
+        <Organisation role={role} props={props} />
       ) : (
-        <Basic
-          props={props}
-          employeeProfileDetails={employeeDetails}
-          onChangeGender={() => onChangeGender()}
-        />
+        <Basic role={role} props={props} />
       );
     case 1:
-      return customization.role === 'admin' ? (
-        <Basic
-          props={props}
-          employeeProfileDetails={employeeDetails}
-          onChangeGender={() => onChangeGender()}
-        />
+      return role === 'admin' ? (
+        <Basic role={role} props={props} />
       ) : (
-        <Address props={props} />
+        <Address role={role} props={props} />
       );
     case 2:
-      return customization.role === 'admin' ? <Address props={props} /> : <Account props={props} />;
+      return role === 'admin' ? (
+        <Address role={role} props={props} />
+      ) : (
+        <Account role={role} props={props} />
+      );
     default:
       return null;
   }
 }
 
-const ProfileSetup = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [employeeDetails, setEmployeeDetails] = useState(null);
+const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
+  const { role } = useSelector((state) => state.login);
   const navigate = useNavigate();
-  const steps = getSteps();
-  const isLastStep = activeStep === steps.length - 1;
-  const { role } = useSelector((state) => state.route);
-  const { currentUser } = useSelector((state) => state.route);
-  const { setSnack } = useContext(SnackbarContext);
-  const [gender, setGender] = useState('male');
-
-  const getEmployeeDetails = async () => {
-    const employeeDetailsRes = await getEmployeeById(currentUser.id);
-    const { status, data } = employeeDetailsRes;
-    if (status) {
-      setEmployeeDetails(data);
-    }
-  };
-
-  useEffect(() => {
-    getEmployeeDetails();
-  }, []);
-
-  const handleNext = async (formData) => {
-    if (!isLastStep) {
-      setActiveStep(activeStep + 1);
-    } else if (role !== 'admin') {
-      delete formData.workingHours;
-      formData.gender = gender;
-      const updateEmployeeRes = await updateEmployee(formData);
-      const { status, message } = updateEmployeeRes;
-      if (status) {
-        setSnack({
-          title: 'Success',
-          message,
-          time: false,
-          icon: <Check color="white" />,
-          color: 'success',
-          open: true
-        });
-        navigate(getDashboardPattern());
-      } else {
-        setSnack({
-          title: 'Error',
-          message,
-          time: false,
-          icon: <Error color="white" />,
-          color: 'error',
-          open: true
-        });
+  const dispatch = useDispatch();
+  const [activeStep, setActiveStep] = useState(0);
+  const steps = getSteps(role);
+  const currentValidationSchema = () =>
+    role === 'admin' ? organisationSchema[activeStep] : userSchema[activeStep];
+  const handleNext = (values, actions) => {
+    GetProfileUpdate(values, (res) => {
+      const data = res.data;
+      if (data.status) {
+        if (activeStep === 2) {
+          dispatch({ type: 'LOGIN_COMPLETED' });
+          navigate(getDashboardPattern());
+        }
       }
-    } else {
-      navigate(getDashboardPattern());
-    }
+    });
+    setActiveStep(activeStep + 1);
+    actions.setTouched({});
+    actions.setSubmitting(false);
   };
 
   const handleBack = () => setActiveStep(activeStep - 1);
 
-  const onChangeGender = () => setGender(gender === 'male' ? 'female' : 'male');
+  const Continue = (isSubmitting) => (
+    <Button variant="gradient" color="dark" type="submit" disabled={isSubmitting || Loading}>
+      {Loading ? <CircularProgress size={20} color="inherit" /> : 'Continue'}
+    </Button>
+  );
+
+  const Skip = () => (
+    <Button variant="gradient" color="dark" type="button" onClick={() => handleNext()}>
+      Skip
+    </Button>
+  );
+
+  const validate = (values) => {
+    const errors = {};
+    if (values.phoneNumber === values.alternatePhone) {
+      errors.alternatePhone = 'Alternate number should not be same as phone number';
+    }
+    return errors;
+  };
 
   return (
-    <>
-      {employeeDetails !== null && (
-        <Box pt={3} pb={8} position="relative">
-          <Grid container justifyContent="center">
-            <Grid item xs={12} lg={8}>
-              <Box mt={2} mb={12} textAlign="center">
-                <Box mb={1}>
-                  <Typography variant="h3" color="white" fontWeight="bold">
-                    Setup Your Profile
-                  </Typography>
-                </Box>
-                <Typography variant="h5" fontWeight="regular" color="white">
-                  This information will let us know more about you.
-                </Typography>
-              </Box>
+    <Box pt={3} pb={3} position="relative">
+      <Grid container justifyContent="center">
+        <Grid item xs={12} lg={8}>
+          <Box mt={2} mb={14} textAlign="center">
+            <Typography variant="h3" color="white" fontWeight="bold">
+              Setup Your Profile
+            </Typography>
+            <Typography variant="h5" fontWeight="regular" color="white">
+              This information will let us know more about you.
+            </Typography>
+          </Box>
 
-              <Stepper activeStep={activeStep} alternativeLabel>
-                {steps.map((label) => (
-                  <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-              <Card>
-                <Box p={2}>
-                  <Formik
-                    enableReinitialize
-                    initialValues={role === 'admin' ? orgInitialValues : employeeInitialValues}
-                    onSubmit={(values) => {
-                      handleNext(values);
-                    }}
-                    validationSchema={
-                      role === 'admin'
-                        ? activeStep === 0
-                          ? organisationSchema
-                          : activeStep === 1
-                          ? basicSchema
-                          : ''
-                        : activeStep === 0
-                        ? basicSchema
-                        : ''
-                    }
-                  >
-                    {(props) => (
-                      <form onSubmit={props.handleSubmit}>
-                        {getStepContent(activeStep, props, employeeDetails, onChangeGender)}
-                        <Box mt={3} width="100%" display="flex" justifyContent="space-between">
-                          {activeStep === 0 ? (
-                            <Box />
-                          ) : (
-                            <Button variant="gradient" color="light" onClick={() => handleBack()}>
-                              Back
-                            </Button>
-                          )}
-                          <Button variant="gradient" color="dark" type="submit">
-                            {role !== 'admin'
-                              ? activeStep === 0
-                                ? 'Continue'
-                                : activeStep === 1
-                                ? props.values.presentAddress === '' &&
-                                  props.values.permanentAddress === ''
-                                  ? 'Skip'
-                                  : 'Continue'
-                                : activeStep === 2
-                                ? props.values.bankName === '' &&
-                                  props.values.branchName === '' &&
-                                  props.values.accountName === '' &&
-                                  props.values.accountNumber === '' &&
-                                  props.values.ifscCode === '' &&
-                                  props.values.panNumber === ''
-                                  ? 'Skip'
-                                  : 'Continue'
-                                : 'Skip'
-                              : activeStep === 0
-                              ? 'Continue'
-                              : activeStep === 1
-                              ? 'Continue'
-                              : activeStep === 2 &&
-                                props.values.presentAddress === '' &&
-                                props.values.permanentAddress === ''
-                              ? 'Continue'
-                              : 'Skip'}
+          <Stepper activeStep={activeStep} alternativeLabel sx={{ mb: 2 }}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          <Card>
+            <Box p={2}>
+              <Formik
+                initialValues={role === 'admin' ? adminInitialValues : userInitialValues}
+                onSubmit={handleNext}
+                validationSchema={currentValidationSchema}
+                validate={
+                  role === 'admin' ? activeStep === 1 && validate : activeStep === 0 && validate
+                }
+              >
+                {(props) => {
+                  const { values, handleSubmit, isSubmitting } = props;
+                  return (
+                    <form onSubmit={handleSubmit}>
+                      {role && getStepContent(role, activeStep, props)}
+                      <Box mt={3} width="100%" display="flex" justifyContent="space-between">
+                        {activeStep === 0 ? (
+                          <Box />
+                        ) : (
+                          <Button variant="gradient" color="light" onClick={() => handleBack()}>
+                            Back
                           </Button>
-                        </Box>
-                      </form>
-                    )}
-                  </Formik>
-                </Box>
-              </Card>
-            </Grid>
-          </Grid>
-        </Box>
-      )}
-    </>
+                        )}
+                        {role !== 'admin'
+                          ? activeStep === 0
+                            ? Continue(isSubmitting)
+                            : (activeStep === 1 && values.permanentAddress !== '') ||
+                              values.presentAddress !== ''
+                            ? Continue(isSubmitting)
+                            : (activeStep === 2 && values.bankName !== '') ||
+                              values.branchName !== '' ||
+                              values.accountName !== '' ||
+                              values.accountNumber !== '' ||
+                              values.ifscCode !== '' ||
+                              values.panNumber !== ''
+                            ? Continue(isSubmitting)
+                            : Skip()
+                          : activeStep === 0 || activeStep === 1
+                          ? Continue(isSubmitting)
+                          : activeStep === 2 &&
+                            (values.permanentAddress !== '' || values.presentAddress !== '')
+                          ? Continue(isSubmitting)
+                          : Skip()}
+                      </Box>
+                    </form>
+                  );
+                }}
+              </Formik>
+            </Box>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 
-export default ProfileSetup;
+export default withStateDispatch(ProfileSetup);

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
@@ -11,7 +12,6 @@ import Select from 'Elements/Select';
 import Editor from 'Elements/Editor';
 import { leave, leaveDayType } from 'Helpers/Global';
 import { Check, Error } from '@mui/icons-material';
-import { addNewLeave, updateLeave } from 'APIs/Leave';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const initialValues = {
@@ -89,9 +89,9 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
       setLoader(true);
       if (isEdit) {
         const data12 = { leaveId: selectedData.id };
-        leaveRes = await updateLeave(updatedFormData, data12);
+        // leaveRes = await updateLeave(updatedFormData, data12);
       } else {
-        leaveRes = await addNewLeave(updatedFormData);
+        // leaveRes = await addNewLeave(updatedFormData);
       }
       const { status, message } = leaveRes;
       if (status) {
@@ -201,7 +201,7 @@ const AddLeaveForm = ({ isDialogOpen, handleDialog, selectedData, setIsEdit, isE
                     <Box>
                       <Input
                         inputProps={{
-                          min: moment().format('YYYY-MM-DD')
+                          min: moment(values.fromDate).format('YYYY-MM-DD')
                         }}
                         type="date"
                         placeholder="To Date"

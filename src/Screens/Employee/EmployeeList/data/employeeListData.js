@@ -7,14 +7,6 @@ const empListData = {
       headerName: 'Name',
       mobileHeader: 'Name'
     },
-    {
-      id: 'employeeCode',
-      name: 'employeeCode',
-      align: 'center',
-      headerName: 'Emp Code',
-      mobileHeader: 'ECode'
-    },
-
     { id: 'role', name: 'role', align: 'center', headerName: 'Role', mobileHeader: 'Role' },
     {
       id: 'email',

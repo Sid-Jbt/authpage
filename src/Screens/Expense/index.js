@@ -1,24 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
-import {
-  Add,
-  Check,
-  PendingTwoTone,
-  SummarizeRounded,
-  ThumbDown,
-  ThumbUpAlt
-} from '@mui/icons-material';
+import { Add, PendingTwoTone, SummarizeRounded, ThumbDown, ThumbUpAlt } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import { useSelector } from 'react-redux';
 import DialogMenu from 'Elements/Dialog';
-import FilterLayout from 'Components/FilterLayout';
-import ExpenseCard from 'Components/CardLayouts/StaticCard';
-import DeleteDialog from 'Components/DeleteDialog';
-import { SnackbarContext } from 'Context/SnackbarProvider';
-import { getExpenseLists, deleteExpense } from 'APIs/Expense';
-import ViewExpenseDetails from './ViewExpenseDetails';
+import { DeleteDialogAction, DeleteDialogContent } from 'Components/DeleteDialog';
 import expenseListData from './data/expenseListData';
+import FilterLayout from '../../Components/FilterLayout';
+import ExpenseCard from '../../Components/CardLayouts/StaticCard';
+import ViewExpenseDetails from './ViewExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
 
 const adminExpenseOptions = [{ title: 'View', value: 'view' }];
@@ -30,8 +22,7 @@ const empExpenseOptions = [
 
 const Expense = () => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
-  const { role } = useSelector((state) => state.route);
-  const { setSnack } = useContext(SnackbarContext);
+  const { role } = useSelector((state) => state.login);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [search, setSearch] = useState('');
@@ -51,51 +42,6 @@ const Expense = () => {
   const [limit, setLimit] = useState(10);
   // const [isExport, setIsExport] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
-
-  const getAllExpenseList = async (
-    selectedSortKey = 'createdAt',
-    selectedSortOrder = 'desc',
-    selectedPage = 0,
-    text = '',
-    count = 0,
-    dataLimit = limit
-  ) => {
-    const expenseData = {
-      limit: dataLimit,
-      page: selectedPage,
-      sortKey: selectedSortKey,
-      sortOrder: selectedSortOrder.toLowerCase(),
-      search: text,
-      count
-    };
-
-    const expenseRes = await getExpenseLists(expenseData);
-    const {
-      status,
-      data: { rows },
-      message
-    } = expenseRes;
-    if (status) {
-      setCounts(expenseRes.data.count);
-      setAllExpenseList(rows);
-      setExpenseListCount(expenseRes.data.count.total);
-      setLoader(false);
-      setIsSearch(false);
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        color: 'error',
-        open: true
-      });
-      setLoader(false);
-    }
-  };
-
-  useEffect(() => {
-    getAllExpenseList();
-  }, [isDialogOpen]);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -152,7 +98,6 @@ const Expense = () => {
 
   const handleClear = () => {
     setSearch('');
-    getAllExpenseList(sortKey, sortOrder, page, '');
   };
 
   const handleDialogClose = () => {
@@ -161,118 +106,26 @@ const Expense = () => {
 
   const onDelete = async () => {
     handleDialogClose();
-    const deleteRes = await deleteExpense(selectedId);
-    const { status, message } = deleteRes;
-    setLoader(false);
-    if (status) {
-      setSnack({
-        title: 'Success',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'success',
-        open: true
-      });
-      getAllExpenseList();
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'error',
-        open: true
-      });
-    }
   };
 
-  /* // Need to rectify file export
-  const onClickExport = async (
-    // selectedSortKey = 'itemName',
-    // selectedSortOrder = 'asc',
-    // selectedPage = 0,
-    text = '',
-    count = 0,
-    dataLimit = limit
-  ) => {
-    const exportData = {
-      limit: dataLimit,
-      page: 0,
-      // sortKey: selectedSortKey.toLowerCase(),
-      // sortOrder: selectedSortOrder.toLowerCase(),
-      search: text,
-      count
-    };
-    let exportRes;
-    setIsExport(true);
-    setLoader(true);
-    if (role === 'admin') {
-      // Replace with getExportExpenseLists
-      // exportRes = await getEmployeeExpenseExportList(exportData);
-    } else {
-      exportRes = await getEmployeeExpenseExportList(exportData);
-    }
-
-    const { status, message, data } = exportRes;
-    if (status) {
-      setSnack({
-        title: 'Success',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'success',
-        open: true
-      });
-      setLoader(false);
-      setIsExport(false);
-      window.open(`${EXPORT_URL}/${data}`, '', 'width=900, height=900');
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        icon: <Check color="white" />,
-        color: 'error',
-        open: true
-      });
-      setLoader(false);
-      setIsExport(false);
-    }
-    if (role === 'admin') {
-      setSnack({
-        title: 'Warning',
-        message: 'Expense list export coming soon...',
-        time: false,
-        icon: <Check color="white" />,
-        color: 'warning',
-        open: true
-      });
-      setLoader(false);
-      setIsExport(false);
-    }
-  }; */
-
   const onClickSearch = () => {
-    setLoader(true);
-    setIsSearch(true);
-    getAllExpenseList(sortKey, sortOrder, page, search, 0);
+    // getAllExpenseList(sortKey, sortOrder, page, search, 0);
   };
 
   const onPage = async (selectedPage) => {
     setPage(selectedPage);
-    await getAllExpenseList(sortKey, sortOrder, selectedPage);
+    // await getAllExpenseList(sortKey, sortOrder, selectedPage);
   };
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setLimit(selectedLimit);
-    setPage(0);
-    await getAllExpenseList(sortKey, sortOrder, '', '', '', selectedLimit);
+    // await getAllExpenseList(sortKey, sortOrder, selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {
     setSortKey(selectedSortKey);
     setSortOrder(selectedSortOrder);
-    await getAllExpenseList(selectedSortKey, selectedSortOrder, page);
+    // await getAllExpenseList(selectedSortKey, selectedSortOrder, page);
   };
 
   return (
@@ -281,7 +134,7 @@ const Expense = () => {
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
             title="Total Expense"
-            count={counts && counts.total}
+            count={counts && counts.totalExpense}
             icon={{ color: 'success', component: <SummarizeRounded /> }}
             isPercentage={false}
           />
@@ -403,8 +256,9 @@ const Expense = () => {
             isOpen={isDeleteDialogOpen}
             onClose={handleDialogClose}
             dialogTitle="Delete"
-            dialogContent={
-              <DeleteDialog
+            dialogContent={<DeleteDialogContent content="Are you sure you want to delete this ?" />}
+            dialogAction={
+              <DeleteDialogAction
                 handleDialogClose={handleDialogClose}
                 selectedId={selectedId}
                 deleteItem={onDelete}

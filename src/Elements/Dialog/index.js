@@ -23,7 +23,7 @@ const DialogMenu = ({ isOpen, onClose, dialogTitle, dialogContent, dialogAction 
     aria-labelledby="alert-dialog-title"
     aria-describedby="alert-dialog-description"
   >
-    <DialogTitle>
+    <DialogTitle sx={{ textTransform: 'capitalize' }}>
       {dialogTitle}
       {isOpen && (
         <IconButton

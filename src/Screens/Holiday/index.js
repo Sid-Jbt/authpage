@@ -1,22 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
 import { Add, ImportExportRounded } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import { useSelector } from 'react-redux';
 import FilterLayout from 'Components/FilterLayout';
-import DeleteDialog from 'Components/DeleteDialog';
-import { getHolidayList, deleteHoliday } from 'APIs/Holiday';
-import { SnackbarContext } from 'Context/SnackbarProvider';
 import DialogMenu from 'Elements/Dialog';
+import { DeleteDialogAction, DeleteDialogContent } from 'Components/DeleteDialog';
 import holidayListData from './data/holidayListData';
-import ManageHolidayForm from './ManageHolidayForm';
 import ImportDialog from './ImportDialog';
+import ManageHolidayForm from './ManageHolidayForm';
 
 const Holiday = () => {
   const { columns: prCols } = holidayListData;
-  const { role } = useSelector((state) => state.route);
-  const { setSnack } = useContext(SnackbarContext);
+  const { role } = useSelector((state) => state.login);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
@@ -33,48 +31,6 @@ const Holiday = () => {
   const [limit, setLimit] = useState(10);
   const [loader, setLoader] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
-
-  const getAllHolidayList = async (
-    selectedSortKey = 'holidayDate',
-    selectedSortOrder = 'asc',
-    selectedPage = 0,
-    text = '',
-    count = 0,
-    dataLimit = limit
-  ) => {
-    const holidayData = {
-      limit: dataLimit,
-      page: selectedPage,
-      sortKey: selectedSortKey.toLowerCase(),
-      sortOrder: selectedSortOrder.toLowerCase(),
-      search: text,
-      count
-    };
-    const holidayListRes = await getHolidayList(holidayData);
-    const {
-      status,
-      data: { rows },
-      message
-    } = holidayListRes;
-    if (status) {
-      setAllHolidayList(rows);
-      setHolidayListCount(holidayListRes.data.count);
-      setLoader(false);
-    } else {
-      setSnack({
-        title: 'Error',
-        message,
-        time: false,
-        color: 'error',
-        open: true
-      });
-      setLoader(false);
-    }
-  };
-
-  useEffect(() => {
-    getAllHolidayList();
-  }, [isDrawerOpen, isDialogOpen]);
 
   const handleMouseEnter = () => {
     setIsHover(true);
@@ -120,7 +76,7 @@ const Holiday = () => {
   };
 
   const onDelete = async () => {
-    await deleteHoliday(selectedId);
+    // await deleteHoliday(selectedId);
     handleDialogClose();
   };
 
@@ -130,30 +86,30 @@ const Holiday = () => {
 
   const handleClear = () => {
     setSearch('');
-    getAllHolidayList(sortKey, sortOrder, page, '');
+    // getAllHolidayList(sortKey, sortOrder, page, '');
   };
 
   const onClickSearch = () => {
     setLoader(true);
     setIsSearch(true);
-    getAllHolidayList(sortKey, sortOrder, page, search, 0);
+    // getAllHolidayList(sortKey, sortOrder, page, search, 0);
   };
 
   const onPage = async (selectedPage) => {
     setPage(selectedPage);
-    await getAllHolidayList(sortKey, sortOrder, selectedPage);
+    // await getAllHolidayList(sortKey, sortOrder, selectedPage);
   };
 
   const onRowsPerPageChange = async (selectedLimit) => {
     setPage(0);
     setLimit(selectedLimit);
-    await getAllHolidayList(sortKey, sortOrder, '', '', '', selectedLimit);
+    // await getAllHolidayList(sortKey, sortOrder, selectedLimit);
   };
 
   const onSort = async (e, selectedSortKey, selectedSortOrder) => {
     setSortKey(selectedSortKey);
     setSortOrder(selectedSortOrder);
-    await getAllHolidayList(selectedSortKey, selectedSortOrder, page);
+    // await getAllHolidayList(selectedSortKey, selectedSortOrder, page);
   };
 
   return (
@@ -214,20 +170,13 @@ const Holiday = () => {
           sortOrder={sortOrder}
           handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
         />
-
         <DialogMenu
           isOpen={isDialogOpen}
           onClose={handleDialogClose}
           dialogTitle={isEdit ? 'Delete' : 'Import Files'}
           dialogContent={
             isEdit ? (
-              <DeleteDialog
-                handleDialogClose={handleDialogClose}
-                selectedId={selectedId}
-                deleteItem={onDelete}
-                message="Are you sure want to delete this?"
-                buttonTitle="Delete"
-              />
+              <DeleteDialogContent content="Are you sure you want to delete this ?" />
             ) : (
               <ImportDialog
                 isHover={isHover}
@@ -236,6 +185,13 @@ const Holiday = () => {
                 handleDialogClose={handleDialogClose}
               />
             )
+          }
+          dialogAction={
+            <DeleteDialogAction
+              handleDialogClose={handleDialogClose}
+              selectedId={selectedId}
+              deleteItem={onDelete}
+            />
           }
         />
         <ManageHolidayForm

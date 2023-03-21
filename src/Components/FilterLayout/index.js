@@ -4,28 +4,13 @@ import {
   FilterListTwoTone,
   SearchRounded
 } from '@mui/icons-material';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Grid,
-  Icon,
-  CircularProgress
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Grid, Icon } from '@mui/material';
 import Button from 'Elements/Button';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
 import React, { useState } from 'react';
 
-const FilterLayout = ({
-  children,
-  handleClear,
-  search,
-  handleSearch,
-  onClickSearch,
-  loader,
-  isSearch
-}) => {
+const FilterLayout = ({ children, handleClear, search, handleSearch, onClickSearch }) => {
   const [expanded, setExpanded] = useState(false);
   const innerWidth = window.innerWidth;
 
@@ -70,6 +55,8 @@ const FilterLayout = ({
             </Grid>
             <Grid
               item
+              container
+              spacing={2}
               sm={12}
               md={8}
               lg={3}
@@ -79,33 +66,22 @@ const FilterLayout = ({
                 }
               })}
             >
-              <Button
-                color="info"
-                variant="gradient"
-                size="small"
-                disabled={loader}
-                sx={
-                  loader && isSearch
-                    ? {
-                        marginRight: '10px',
-                        height: '2rem !important',
-                        width: '48% !important'
-                      }
-                    : { marginRight: '10px' }
-                }
-                onClick={() => onClickSearch()}
-              >
-                <Icon sx={{ mr: 1 }}>
-                  <SearchRounded />
-                </Icon>
-                {loader && isSearch ? <CircularProgress color="inherit" /> : 'Search'}
-              </Button>
-              <Button color="error" variant="gradient" size="small" onClick={() => handleClear()}>
-                <Icon sx={{ mr: 1 }}>
-                  <ClearRounded />
-                </Icon>
-                Clear
-              </Button>
+              <Grid item sm={12} md="auto">
+                <Button color="info" size="small" onClick={() => onClickSearch()}>
+                  <Icon sx={{ mr: 1 }}>
+                    <SearchRounded />
+                  </Icon>
+                  Search
+                </Button>
+              </Grid>
+              <Grid item sm={12} md="auto">
+                <Button color="error" variant="gradient" size="small" onClick={() => handleClear()}>
+                  <Icon sx={{ mr: 1 }}>
+                    <ClearRounded />
+                  </Icon>
+                  Clear
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </AccordionDetails>

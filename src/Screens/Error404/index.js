@@ -11,11 +11,11 @@ import { useSelector } from 'react-redux';
 
 const Error404 = () => {
   const { d1, d3, d4, d5 } = typography;
-  const { route } = useSelector((state) => state);
+  const { login } = useSelector((state) => state);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!route.role) {
+    if (!login.role) {
       navigate(getLoginPattern());
     }
   }, []);

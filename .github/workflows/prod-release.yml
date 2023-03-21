@@ -20,7 +20,7 @@ jobs:
           yarn policies set-version
           yarn install --frozen-lockfile
       - name: Copy env
-        run: cp .env.test .env
+        run: cp .env.stage .env
       - name: Validate Code Style
         run: yarn check-all
       - name: Build

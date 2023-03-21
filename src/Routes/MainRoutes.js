@@ -8,11 +8,11 @@ import {
   PaymentRounded,
   SettingsRounded,
   DateRangeTwoTone,
-  VerifiedUserOutlined,
   HolidayVillage,
   ViewArrayOutlined,
   SupportAgent,
-  AnnouncementRounded
+  AnnouncementRounded,
+  VerifiedUserOutlined
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -180,35 +180,35 @@ const MainRoutes = [
     key: 'supportTicket',
     element: <SupportTicket />
   },
-  /* {
-    type: 'collapse',
-    name: 'Reports',
-    key: 'report',
-    icon: <ListAltTwoTone sx={{ color: '#DAA520' }} />,
-    children: [
-      {
-        name: 'All Reports',
-        key: 'allreport',
-        path: allReportPattern,
-        route: allReportPattern,
-        element: <AllReport />
-      },
-      {
-        name: 'Time & Activity',
-        key: 'timeactivity',
-        path: '/report/timeactivity',
-        route: '/report/timeactivity',
-        element: <TimeActivity />
-      },
-      {
-        name: 'Weekly Limit',
-        key: 'weeklylimit',
-        path: '/report/weeklylimit',
-        route: '/report/weeklylimit',
-        element: <TimeActivity />
-      }
-    ]
-  }, */
+  // {
+  //   type: 'collapse',
+  //   name: 'Reports',
+  //   key: 'report',
+  //   icon: <ListAltTwoTone sx={{ color: '#DAA520' }} />,
+  //   children: [
+  //     {
+  //       name: 'All Reports',
+  //       key: 'allreport',
+  //       path: allReportPattern,
+  //       route: allReportPattern,
+  //       element: <AllReport />
+  //     },
+  //     {
+  //       name: 'Time & Activity',
+  //       key: 'timeactivity',
+  //       path: '/report/timeactivity',
+  //       route: '/report/timeactivity',
+  //       element: <TimeActivity />
+  //     },
+  //     {
+  //       name: 'Weekly Limit',
+  //       key: 'weeklylimit',
+  //       path: '/report/weeklylimit',
+  //       route: '/report/weeklylimit',
+  //       element: <TimeActivity />
+  //     }
+  //   ]
+  // },
   {
     type: 'collapse',
     noCollapse: true,
@@ -250,7 +250,7 @@ const MainRoutes = [
 ];
 
 const Route = () => {
-  const { roleList } = useSelector((state) => state.route);
+  const { roleList } = useSelector((state) => state.login);
   const childrenList = MainRoutes.filter((item) => roleList && roleList.includes(item.key));
 
   const DashboardRoutes = {

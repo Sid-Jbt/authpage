@@ -21,7 +21,7 @@ const Breadcrumbs = ({ icon, title, route, light }) => {
           <Typography
             component="span"
             variant="body2"
-            color={light ? 'white' : 'dark'}
+            color="light"
             opacity={light ? 0.8 : 0.5}
             sx={{ lineHeight: 0 }}
           >
@@ -35,7 +35,7 @@ const Breadcrumbs = ({ icon, title, route, light }) => {
               variant="button"
               fontWeight="regular"
               textTransform="capitalize"
-              color={light ? 'white' : 'dark'}
+              color="light"
               opacity={light ? 0.8 : 0.5}
               sx={{ lineHeight: 0 }}
             >
@@ -43,22 +43,7 @@ const Breadcrumbs = ({ icon, title, route, light }) => {
             </Typography>
           </Link>
         ))}
-        {/* <Typography
-          variant="button"
-          fontWeight="regular"
-          textTransform="capitalize"
-          color={light ? 'white' : 'dark'}
-          sx={{ lineHeight: 0 }}
-        >
-          {title.replace('-', ' ')}
-        </Typography> */}
-        <Typography
-          fontWeight="bold"
-          textTransform="capitalize"
-          variant="h6"
-          color={light ? 'white' : 'dark'}
-          noWrap
-        >
+        <Typography fontWeight="bold" textTransform="capitalize" variant="h6" color="light" noWrap>
           {title.replace('-', ' ')}
         </Typography>
       </MuiBreadcrumbs>

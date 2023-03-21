@@ -5,6 +5,7 @@ import { CssBaseline, StyledEngineProvider } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import SnackbarProvider from 'Context/SnackbarProvider';
+import Interceptor from 'APIs';
 import RootRoutes from './Routes/index';
 
 const App = () => {
@@ -21,7 +22,9 @@ const App = () => {
       <ThemeProvider theme={theme(customization)}>
         <CssBaseline />
         <SnackbarProvider>
-          <RootRoutes name="app" path="/" handler={App} />
+          <Interceptor>
+            <RootRoutes name="app" path="/" handler={App} />
+          </Interceptor>
         </SnackbarProvider>
       </ThemeProvider>
     </StyledEngineProvider>

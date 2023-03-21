@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useMemo, useState } from 'react';
 import Box from 'Elements/Box';
 import { Grid } from '@mui/material';
 import Calendar from 'Components/Calendar';
@@ -10,85 +11,16 @@ import {
   WatchLater,
   WatchRounded
 } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useOutletContext } from 'react-router';
 import { getEmployeeListPattern, getExpensePattern, getLeavePattern } from 'Routes/routeConfig';
 import DashboardCard from 'Components/CardLayouts/StaticCard';
-import { CURRENTUSER } from 'Redux/actions';
-import { getDashboardList } from 'APIs/Dashboard';
-import { getEmployeeById } from 'APIs/Employee';
 
 const DashboardDefault = () => {
-  let calenderData = [];
-  const { role } = useSelector((state) => state.route);
-  const { currentUser } = useSelector((state) => state.route);
-  const dispatch = useDispatch();
+  const { role } = useOutletContext();
   const navigate = useNavigate();
   const [calendarEventsData, setCalendarEventsData] = useState([]);
   const [currentWeekHour, setCurrentWeekHour] = useState(0);
   const [currentMonthHour, setCurrentMonthHour] = useState(0);
-  const noticeEventList = [
-    {
-      title: 'JBT Demo',
-      eventName: 'JBT Demo',
-      eventType: 'event',
-      eventClass: 'error',
-      start: '2023-03-10',
-      end: '2023-03-10'
-    },
-    {
-      title: 'Notice',
-      eventName: 'Notice',
-      eventType: 'notice',
-      eventClass: 'warning',
-      start: '2023-03-20',
-      end: '2023-03-22'
-    }
-  ];
-
-  const getUserDetails = async () => {
-    const employeeDetailsRes = await getEmployeeById(currentUser.id);
-    const { status, data } = employeeDetailsRes;
-    if (status) {
-      dispatch({
-        type: CURRENTUSER,
-        value: {
-          ...currentUser,
-          profilePic: data.profile.profilePic,
-          firstName: employeeDetailsRes.data.profile.firstName,
-          lastName: employeeDetailsRes.data.profile.lastName
-        }
-      });
-    }
-  };
-
-  const getAllDashboardList = async () => {
-    const getAllDashboardListRes = await getDashboardList();
-    const { status, data } = getAllDashboardListRes;
-    if (status) {
-      const { profileProgress, currentWeekHours, currentMonthHours, holidayList } = data;
-      setCurrentMonthHour(currentMonthHours);
-      setCurrentWeekHour(currentWeekHours);
-      dispatch({
-        type: CURRENTUSER,
-        value: { ...currentUser, profilePercentage: profileProgress }
-      });
-      calenderData = holidayList.map((holiday) => ({
-        title: holiday.title,
-        eventName: 'holiday.title',
-        eventType: 'holiday',
-        eventClass: 'info',
-        start: holiday.holidayDate,
-        end: holiday.holidayDate
-      }));
-      setCalendarEventsData([...calenderData, ...noticeEventList]);
-    }
-  };
-
-  useEffect(() => {
-    getUserDetails();
-    getAllDashboardList();
-  }, []);
 
   const handleTotalEmployee = () => {
     navigate(getEmployeeListPattern());

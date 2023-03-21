@@ -1,7 +1,6 @@
 import { AppBar, Divider, Grid, Icon, IconButton, Menu, Toolbar, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Box from 'Elements/Box';
-import { MINI_SIDENAV } from 'Redux/actions/ui/actions';
 import {
   Home,
   Logout,
@@ -11,45 +10,29 @@ import {
   Person,
   Settings
 } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import NotificationItem from 'Elements/Item';
 
-import NoUserPic from 'Assets/Images/no-profile.png';
+import UserPic from 'Assets/Images/team-4-800x800.jpg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Breadcrumbs from 'Elements/Breadcrumbs';
 import Avatar from 'Elements/Avatar';
 import useWindowPosition from 'Hooks/useWindowPosition';
-import { profileSetupPattern, getLoginPattern, getProfilePattern } from 'Routes/routeConfig';
-import { LOGOUT } from 'Redux/actions';
+import { getLoginPattern, getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
 import CircularProgressWithLabel from 'Elements/CircularProgressWithLabel';
+import { MINI_SIDENAV, LOGOUT } from 'APIs/constants';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
-const DashboardNavbar = ({ isMini }) => {
+const DashboardNavbar = ({ user, progress, isMini }) => {
   const customization = useSelector((state) => state.customization);
-  const { currentUser } = useSelector((state) => state.route);
   const themes = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [openMenu, setOpenMenu] = useState(false);
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
-  const [isProfileComplete, setIsProfileComplete] = useState(false);
-  const [userProfilePic, setUserProfilePic] = useState('');
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
-  const profileSetup = pathname !== profileSetupPattern;
-
-  useEffect(() => {
-    if (
-      currentUser.hasOwnProperty('profilePercentage') &&
-      currentUser.hasOwnProperty('profilePic')
-    ) {
-      const { profilePercentage, profilePic } = currentUser;
-      setIsProfileComplete(profilePercentage > 100);
-      setUserProfilePic(profilePic);
-    }
-  }, []);
-
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
 
@@ -74,12 +57,12 @@ const DashboardNavbar = ({ isMini }) => {
       sx={({ breakpoints }) => ({
         mt: 2,
         [breakpoints.down('sm')]: {
-          top: 50,
-          left: 0
+          top: 40,
+          left: -90
         },
         [breakpoints.up('md')]: {
-          top: 60,
-          left: -20
+          top: 55,
+          left: -140
         }
       })}
     >
@@ -122,11 +105,11 @@ const DashboardNavbar = ({ isMini }) => {
       sx={({ breakpoints }) => ({
         mt: 2,
         [breakpoints.down('sm')]: {
-          top: 50,
+          top: 40,
           left: 0
         },
         [breakpoints.up('md')]: {
-          top: 60,
+          top: 55,
           left: -20
         }
       })}
@@ -135,34 +118,38 @@ const DashboardNavbar = ({ isMini }) => {
         color="secondary"
         title={[
           'Hello,',
-          `${profileSetup ? `${currentUser.firstName} ${currentUser.lastName}` : 'Welcome'}`
+          `${
+            user && (user.firstName !== null || user.lastName !== null)
+              ? `${user.firstName} ${user.lastName}`
+              : 'Welcome'
+          }`
         ]}
         disabled
         onClick={handleProfileMenu}
         width={200}
       />
       <Divider />
-      {profileSetup ? (
-        <NotificationItem
-          color="secondary"
-          image={<Person />}
-          title={['Profile']}
-          onClick={handleProfileMenu}
-          component={Link}
-          to="/profile"
-          width={200}
-        />
-      ) : null}
-      {profileSetup ? (
-        <NotificationItem
-          color="secondary"
-          image={<Settings />}
-          title={['Settings']}
-          onClick={handleProfileMenu}
-          component={Link}
-          to="/setting"
-          width={200}
-        />
+      {pathname !== getProfileSetupPattern() ? (
+        <>
+          <NotificationItem
+            color="secondary"
+            image={<Person />}
+            title={['Manage Account']}
+            onClick={handleProfileMenu}
+            component={Link}
+            to="/profile"
+            width={200}
+          />
+          <NotificationItem
+            color="secondary"
+            image={<Settings />}
+            title={['Settings']}
+            onClick={handleProfileMenu}
+            component={Link}
+            to="/setting"
+            width={200}
+          />
+        </>
       ) : null}
       <NotificationItem
         color="secondary"
@@ -187,66 +174,68 @@ const DashboardNavbar = ({ isMini }) => {
       blur={10}
     >
       <Toolbar sx={(theme) => navbarContainer(theme, { position: 'static' })}>
-        <Box color="white" sx={(theme) => navbarRow(theme, { isMini })}>
-          {profileSetup ? (
-            !customization.miniSidenav ? (
-              <IconButton
-                size="large"
-                color={position > 10 ? 'dark' : 'white'}
-                sx={navbarIconButton}
-                variant="contained"
-                onClick={handleMiniSidenav}
-              >
-                <MenuTwoTone />
-              </IconButton>
-            ) : (
-              <IconButton
-                size="large"
-                color={position > 10 ? 'dark' : 'white'}
-                sx={navbarIconButton}
-                variant="contained"
-                onClick={handleMiniSidenav}
-              >
-                <MenuOpenTwoTone />
-              </IconButton>
-            )
-          ) : null}
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          {profileSetup ? (
-            <Breadcrumbs
-              icon={<Home />}
-              title={route[route.length - 1]}
-              route={route}
-              light={false}
-            />
-          ) : null}
-        </Box>
-        <Box sx={(theme) => navbarRow(theme, { isMini })}>
-          <Grid container columnGap={2} alignItems="center">
-            <Grid item>
-              {profileSetup ? (
+        {pathname !== getProfileSetupPattern() ? (
+          <>
+            <Box color="white" sx={(theme) => navbarRow(theme, { isMini })}>
+              {!customization.miniSidenav ? (
                 <IconButton
                   size="large"
                   color={position > 10 ? 'dark' : 'white'}
                   sx={navbarIconButton}
                   variant="contained"
-                  onClick={handleMenu}
+                  onClick={handleMiniSidenav}
                 >
-                  <Notifications />
+                  <MenuTwoTone />
                 </IconButton>
-              ) : null}
-            </Grid>
-            <Grid item onClick={handleProfileCircle}>
-              {profileSetup && !isProfileComplete ? (
-                <CircularProgressWithLabel value={currentUser.profilePercentage} />
-              ) : null}
-            </Grid>
+              ) : (
+                <IconButton
+                  size="large"
+                  color={position > 10 ? 'dark' : 'white'}
+                  sx={navbarIconButton}
+                  variant="contained"
+                  onClick={handleMiniSidenav}
+                >
+                  <MenuOpenTwoTone />
+                </IconButton>
+              )}
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <Breadcrumbs
+                icon={<Home />}
+                title={route[route.length - 1]}
+                route={route}
+                light={false}
+              />
+            </Box>
+          </>
+        ) : (
+          <Box />
+        )}
+        <Box sx={(theme) => navbarRow(theme, { isMini })}>
+          <Grid container columnGap={2} alignItems="center">
+            {pathname !== getProfileSetupPattern() ? (
+              <>
+                <Grid item>
+                  <IconButton
+                    size="large"
+                    color={position > 10 ? 'dark' : 'white'}
+                    sx={navbarIconButton}
+                    variant="contained"
+                    onClick={handleMenu}
+                  >
+                    <Notifications />
+                  </IconButton>
+                </Grid>
+                <Grid item onClick={handleProfileCircle}>
+                  <CircularProgressWithLabel value={progress || 0} />
+                </Grid>
+              </>
+            ) : null}
             <Grid item>
               <Avatar
-                src={userProfilePic !== '' ? NoUserPic : userProfilePic}
-                alt={NoUserPic}
-                size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'lg'}
+                src={UserPic}
+                alt={UserPic}
+                size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'md'}
                 variant="circle"
                 onClick={handleProfileMenu}
               />

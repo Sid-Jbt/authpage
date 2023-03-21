@@ -3,19 +3,33 @@ import { useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router';
 import Logo from 'Assets/logo/jbt-logo.svg';
 import FullLogo from 'Assets/logo/jbt-full-logo.svg';
-import { profilePattern, profileSetupPattern } from 'Routes/routeConfig';
+import { getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
 import Images from 'Assets/Images/team-4-800x800.jpg';
+import withStateDispatch from 'Helpers/withStateDispatch';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DashboardNavbar from './Navbar';
 import Sidenav from './Sidenav';
 import Footer from './Footer';
 
-const DashboardLayout = ({ children, ...rest }) => {
+const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => {
   const { customization } = useSelector((state) => state);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const bgImage = Images;
 
+  useEffect(() => {
+    GetDashboard();
+  }, []);
+
+  useEffect(() => {
+    if (DashboardData && DashboardData.isLoginFirstTime) {
+      navigate(getProfileSetupPattern());
+    }
+  }, [DashboardData]);
+
   return (
-    <Box>
+    <>
       <Box
         bgColor="info"
         height="300px"
@@ -25,7 +39,7 @@ const DashboardLayout = ({ children, ...rest }) => {
         left={0}
         zIndex={-1}
         sx={
-          pathname === profilePattern && {
+          pathname === getProfilePattern() && {
             backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
               `${linearGradient(
                 rgba(gradients.info.main, 1),
@@ -36,14 +50,14 @@ const DashboardLayout = ({ children, ...rest }) => {
         }
         {...rest}
       />
-      {pathname !== profileSetupPattern ? (
+      {pathname !== getProfileSetupPattern() ? (
         <Sidenav brandFullLogo={FullLogo} brandSmallLogo={Logo} brandName="Jarvis Bitz" />
       ) : null}
       <Box
         sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
           [breakpoints.up('xl')]: {
             marginLeft:
-              pathname !== profileSetupPattern
+              pathname !== getProfileSetupPattern()
                 ? customization.miniSidenav
                   ? pxToRem(120)
                   : pxToRem(274)
@@ -55,19 +69,22 @@ const DashboardLayout = ({ children, ...rest }) => {
           }
         })}
       >
-        <DashboardNavbar />
+        <DashboardNavbar
+          progress={DashboardData && DashboardData.profileProgress}
+          user={DashboardData && DashboardData.user.profile}
+        />
         <Box
           sx={({ breakpoints }) => ({
             [breakpoints.down('md')]: { p: 1, pt: 0 },
             [breakpoints.up('md')]: { p: 3, pt: 0 }
           })}
         >
-          <Outlet />
+          <Outlet context={{ role: DashboardData.user.role, user: DashboardData.user }} />
         </Box>
         <Footer />
       </Box>
-    </Box>
+    </>
   );
 };
 
-export default DashboardLayout;
+export default withStateDispatch(DashboardLayout);

@@ -1,33 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import Typography from 'Elements/Typography';
-import UserPic from 'Assets/Images/no-profile.png';
+import UserPic from 'Assets/Images/team-4-800x800.jpg';
 import { Card, Grid, Tab, Tabs, Icon } from '@mui/material';
-import { AccountBalance, Edit, PersonOutlined } from '@mui/icons-material';
 import Avatar from 'Elements/Avatar';
-import { useSelector } from 'react-redux';
 import Box from 'Elements/Box';
 import Button from 'Elements/Button';
+import { Edit } from '@mui/icons-material';
 
-const Header = ({
-  tabIndex,
-  tabsOrientation,
-  handleSetTabIndex,
-  profileUpdate,
-  employeeProfileDetails
-}) => {
-  const { firstName, lastName, designation } = employeeProfileDetails.profile;
-  const { role } = useSelector((state) => state.route);
+const Header = ({ tabIndex, handleSetTabIndex, TabsList, role }) => {
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const inputFile = useRef(null);
 
-  useEffect(() => {
-    if (employeeProfileDetails !== null)
-      setProfilePicUrl(employeeProfileDetails.profile.profilePic);
-  }, [profilePicUrl]);
-
   const profilePicUpload = (e) => {
     const file = e.target.files[0];
-    profileUpdate(file);
     const url = URL.createObjectURL(file);
     setProfilePicUrl(url);
   };
@@ -49,7 +34,13 @@ const Header = ({
               size="xl"
               variant="rounded"
             />
-            <input ref={inputFile} type="file" hidden onChange={(e) => profilePicUpload(e)} />
+            <input
+              ref={inputFile}
+              type="file"
+              accept="image/*"
+              hidden
+              onChange={(e) => profilePicUpload(e)}
+            />
             <Box alt="spotify logo" position="absolute" pl={5.5} bottom={0} mr={-1} mb={-1}>
               <Button
                 variant="gradient"
@@ -73,32 +64,22 @@ const Header = ({
         </Grid>
         <Grid item>
           <Typography variant="h4" fontWeight="medium">
-            {firstName} {lastName}
+            Full Name
           </Typography>
           <Typography variant="subtitle2" color="text" fontWeight="light">
-            {designation}
+            Designation
           </Typography>
         </Grid>
-        <Grid item xs={12} md={6} lg={4} sx={{ ml: 'auto' }}>
-          {role === 'admin' ? (
-            <Tabs
-              orientation={tabsOrientation}
-              value={tabIndex}
-              onChange={(event, value) => handleSetTabIndex(event, value)}
-            >
-              <Tab label="Personal" icon={<PersonOutlined style={{ marginRight: '8px' }} />} />
-            </Tabs>
-          ) : (
-            <Tabs
-              orientation={tabsOrientation}
-              value={tabIndex}
-              onChange={(event, value) => handleSetTabIndex(event, value)}
-            >
-              <Tab label="Personal" icon={<PersonOutlined style={{ marginRight: '8px' }} />} />
-              <Tab label="Account" icon={<AccountBalance style={{ marginRight: '8px' }} />} />
-              {/* <Tab label="Salary" icon={<CurrencyRupeeOutlined style={{ marginRight: '8px' }} />} /> */}
-            </Tabs>
-          )}
+        <Grid item xs={12} md={6} lg={5} sx={{ ml: 'auto' }}>
+          <Tabs value={tabIndex} onChange={(event, value) => handleSetTabIndex(event, value)}>
+            {TabsList &&
+              TabsList.map(
+                (item, index) =>
+                  item.role.includes(role) && (
+                    <Tab key={index} label={item.title} icon={item.icon} />
+                  )
+              )}
+          </Tabs>
         </Grid>
       </Grid>
     </Card>

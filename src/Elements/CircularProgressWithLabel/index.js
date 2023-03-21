@@ -1,17 +1,17 @@
 import { Box, CircularProgress, circularProgressClasses, Tooltip } from '@mui/material';
 import Typography from 'Elements/Typography';
-import { useSelector } from 'react-redux';
+import useWindowPosition from '../../Hooks/useWindowPosition';
 
 const CircularProgressWithLabel = (props) => {
-  const { currentUser } = useSelector((state) => state.route);
+  const position = useWindowPosition();
 
   return (
-    <Tooltip title={`Your Profile is ${currentUser.profilePercentage}% completed`}>
+    <Tooltip title={`Your Profile is ${props.value}% completed`}>
       <Box sx={{ position: 'relative', display: 'flex', cursor: 'pointer', alignItems: 'center' }}>
         <CircularProgress
           variant="determinate"
           sx={{
-            color: (theme) => theme.palette.grey[800]
+            color: (theme) => theme.palette.grey[700]
           }}
           size={40}
           thickness={4}
@@ -46,7 +46,7 @@ const CircularProgressWithLabel = (props) => {
             justifyContent: 'center'
           }}
         >
-          <Typography variant="caption" component="div" color="text.secondary">
+          <Typography variant="caption" component="div" color={position > 10 ? 'dark' : 'white'}>
             {`${Math.round(props.value)}%`}
           </Typography>
         </Box>
