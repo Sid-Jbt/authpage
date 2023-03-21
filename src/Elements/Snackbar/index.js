@@ -33,7 +33,17 @@ const RootSnackbar = styled(Icon)(({ theme, ownerState }) => {
   };
 });
 
-const CustomSnackbar = ({ color, icon, title, dateTime, content, close, bgWhite, ...rest }) => {
+const CustomSnackbar = ({
+  color,
+  icon,
+  title,
+  dateTime,
+  content,
+  close,
+  bgWhite,
+  autoHide,
+  ...rest
+}) => {
   const { size } = typography;
   let titleColor;
   let dateTimeColor;
@@ -56,7 +66,7 @@ const CustomSnackbar = ({ color, icon, title, dateTime, content, close, bgWhite,
   return (
     <Snackbar
       TransitionComponent={Slide}
-      autoHideDuration={2500}
+      autoHideDuration={autoHide || 10000}
       anchorOrigin={{
         vertical: 'bottom',
         horizontal: 'right'

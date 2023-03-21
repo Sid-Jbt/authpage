@@ -53,6 +53,7 @@ const Interceptor = ({ children }) => {
               }
             } else {
               setSnack({
+                autoHide: 3000,
                 title: 'Error',
                 message: response.data.message,
                 time: false,
