@@ -17,7 +17,7 @@ import Organisation from './component/Organisation';
 
 const adminInitialValues = {
   workingHours: WorkingHours[0].value,
-  organizationAddress: '',
+  location: '',
   firstName: '',
   lastName: '',
   permanentAddress: '',
@@ -75,7 +75,7 @@ function getStepContent(role, stepIndex, props) {
   }
 }
 
-const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
+const ProfileSetup = ({ GetProfileSetup, Loading }) => {
   const { role } = useSelector((state) => state.login);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -84,7 +84,7 @@ const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
   const currentValidationSchema = () =>
     role === 'admin' ? organisationSchema[activeStep] : userSchema[activeStep];
   const handleNext = (values, actions) => {
-    GetProfileUpdate(values, (res) => {
+    GetProfileSetup(values, (res) => {
       const data = res.data;
       if (data.status) {
         if (activeStep === 2) {

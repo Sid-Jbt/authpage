@@ -139,18 +139,14 @@ const Organisation = (props) => {
                 size="medium"
                 fullWidth
                 id="organizationAddress"
-                name="organizationAddress"
+                name="location"
                 label="Organisation Address"
-                value={values.organizationAddress}
+                value={values.location}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                errorText={
-                  errors.organizationAddress &&
-                  touched.organizationAddress &&
-                  errors.organizationAddress
-                }
-                error={errors.organizationAddress && touched.organizationAddress}
-                success={!errors.organizationAddress && touched.organizationAddress}
+                errorText={errors.location && touched.location && errors.location}
+                error={errors.location && touched.location}
+                success={!errors.location && touched.location}
               />
             </Box>
           </Grid>
