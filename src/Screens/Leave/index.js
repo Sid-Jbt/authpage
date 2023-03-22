@@ -299,7 +299,7 @@ const LeaveList = ({
           isOpen={isViewLeaveDialogOpen}
           onClose={handleCloseViewDialog}
           dialogTitle={`Leave Details: ${selectedData.leaveType}`}
-          dialogContent={<ViewLeaveDetails info={selectedData} />}
+          dialogContent={<ViewLeaveDetails data={selectedData} role={role} />}
           dialogAction={
             role === 'admin' && (
               <Grid container spacing={2} alignItems="center" justifyContent="flex-end">

@@ -7,7 +7,6 @@ import SideDrawer from 'Elements/SideDrawer';
 import { FormControl, FormLabel, Grid } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
-import Box from 'Elements/Box';
 import Select from 'Elements/Select';
 import Editor from 'Elements/Editor';
 import { leave, leaveDayType } from 'Helpers/Global';
@@ -82,7 +81,7 @@ const AddLeaveForm = ({
       reason: values.reason
     };
     if (isEdit) {
-      GetLeaveAddUpdate({ data: formData, leaveId: selectedData }, (res) => {
+      GetLeaveAddUpdate({ data: formData, params: selectedData }, (res) => {
         const { status } = res.data;
         if (status) {
           handleDialog();
@@ -130,92 +129,82 @@ const AddLeaveForm = ({
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={1} justifyContent="space-between">
                   <Grid item xs={12} md={6}>
-                    <Box>
-                      <FormControl sx={{ width: '100%' }}>
-                        <FormLabel>Select Leave</FormLabel>
-                        <Select
-                          value={leaveType}
-                          options={leave}
-                          onChange={(value) => handleChangeLeaveType(value)}
-                        />
-                      </FormControl>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Box>
-                      <FormControl sx={{ width: '100%' }}>
-                        <FormLabel>Select Type</FormLabel>
-                        <Select
-                          value={selectType}
-                          options={leaveDayType}
-                          onChange={(value) => handleChangeSelectType(value)}
-                        />
-                      </FormControl>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Box>
-                      <Input
-                        type="date"
-                        placeholder="From Date"
-                        size="large"
-                        fullWidth
-                        id="fromDate"
-                        name="fromDate"
-                        label="From Date"
-                        value={values.fromDate}
-                        inputProps={{
-                          min: moment().format('YYYY-MM-DD'),
-                          max: moment().add(1, 'Y').format('YYYY-MM-DD')
-                        }}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        errorText={errors.fromDate && touched.fromDate && errors.fromDate}
-                        error={errors.fromDate && touched.fromDate}
-                        success={!errors.fromDate && touched.fromDate}
+                    <FormControl sx={{ width: '100%' }}>
+                      <FormLabel>Select Leave</FormLabel>
+                      <Select
+                        value={leaveType}
+                        options={leave}
+                        onChange={(value) => handleChangeLeaveType(value)}
                       />
-                    </Box>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <FormControl sx={{ width: '100%' }}>
+                      <FormLabel>Select Type</FormLabel>
+                      <Select
+                        value={selectType}
+                        options={leaveDayType}
+                        onChange={(value) => handleChangeSelectType(value)}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Input
+                      type="date"
+                      placeholder="From Date"
+                      size="large"
+                      fullWidth
+                      id="fromDate"
+                      name="fromDate"
+                      label="From Date"
+                      value={values.fromDate}
+                      inputProps={{
+                        min: moment().format('YYYY-MM-DD'),
+                        max: moment().add(1, 'Y').format('YYYY-MM-DD')
+                      }}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      errorText={errors.fromDate && touched.fromDate && errors.fromDate}
+                      error={errors.fromDate && touched.fromDate}
+                      success={!errors.fromDate && touched.fromDate}
+                    />
                   </Grid>
                   {selectType.value === 'full' && (
                     <Grid item xs={12} md={6}>
-                      <Box>
-                        <Input
-                          inputProps={{
-                            min: moment(values.fromDate).format('YYYY-MM-DD'),
-                            max: moment().add(1, 'Y').format('YYYY-MM-DD')
-                          }}
-                          type="date"
-                          placeholder="To Date"
-                          size="large"
-                          fullWidth
-                          id="toDate"
-                          name="toDate"
-                          label="To Date"
-                          value={values.toDate}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          errorText={errors.toDate && touched.toDate && errors.toDate}
-                          error={errors.toDate && touched.toDate}
-                          success={!errors.toDate && touched.toDate}
-                        />
-                      </Box>
+                      <Input
+                        inputProps={{
+                          min: moment(values.fromDate).format('YYYY-MM-DD'),
+                          max: moment().add(1, 'Y').format('YYYY-MM-DD')
+                        }}
+                        type="date"
+                        placeholder="To Date"
+                        size="large"
+                        fullWidth
+                        id="toDate"
+                        name="toDate"
+                        label="To Date"
+                        value={values.toDate}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={errors.toDate && touched.toDate && errors.toDate}
+                        error={errors.toDate && touched.toDate}
+                        success={!errors.toDate && touched.toDate}
+                      />
                     </Grid>
                   )}
 
                   <Grid item xs={12}>
-                    <Box>
-                      <Editor
-                        title="Leave Reason"
-                        label="Leave Reason"
-                        id="reason"
-                        name="reason"
-                        value={values.reason}
-                        backgroundContainerColor="white"
-                        onChange={(value) => {
-                          setFieldValue('reason', value);
-                        }}
-                      />
-                    </Box>
+                    <Editor
+                      title="Leave Reason"
+                      label="Leave Reason"
+                      id="reason"
+                      name="reason"
+                      value={values.reason}
+                      backgroundContainerColor="white"
+                      onChange={(value) => {
+                        setFieldValue('reason', value);
+                      }}
+                    />
                   </Grid>
                   <Grid
                     item

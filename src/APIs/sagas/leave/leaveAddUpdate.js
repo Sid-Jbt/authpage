@@ -9,12 +9,12 @@ import {
 import { API_URL, BASE_URL } from '../../api.config';
 import { instance } from '../../index';
 
-async function getLeaveAddUpdateApi({ data, leaveId }) {
+async function getLeaveAddUpdateApi({ data, params }) {
   return instance.request({
     method: 'post',
     url: BASE_URL + API_URL.LEAVE_ADD_UPDATE_URL,
     data,
-    params: { leaveId }
+    params: { params }
   });
 }
 
