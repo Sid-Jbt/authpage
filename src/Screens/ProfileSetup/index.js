@@ -31,7 +31,7 @@ const userInitialValues = {
   firstName: '',
   lastName: '',
   fatherName: '',
-  department: '',
+  // department: '',
   designation: '',
   phoneNumber: '',
   alternatePhone: '',
