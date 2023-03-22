@@ -12,8 +12,7 @@ import { instance } from '../../index';
 async function getLeaveDeleteApi(params) {
   return instance.request({
     method: 'delete',
-    url: BASE_URL + API_URL.LEAVE_DELETE_URL,
-    params
+    url: `${BASE_URL + API_URL.LEAVE_DELETE_URL}/${params.selectedId}`
   });
 }
 

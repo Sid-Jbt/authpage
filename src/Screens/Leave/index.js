@@ -123,7 +123,7 @@ const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
   };
 
   const onDelete = async () => {
-    GetLeaveDelete(selectedId, () => handleDialogClose());
+    GetLeaveDelete({ selectedId }, () => handleDialogClose());
   };
 
   const handleClear = () => {
