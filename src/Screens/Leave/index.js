@@ -133,7 +133,7 @@ const LeaveList = ({
   const handleLeaveStatus = (status) => {
     const reasonData = {
       status,
-      comment: 'fghjd'
+      comment: ''
     };
     GetLeaveReason({ data: reasonData, id: selectedData.id }, () =>
       setIsViewLeaveDialogOpen(false)
