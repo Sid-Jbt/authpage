@@ -12,3 +12,5 @@ export * from './employee/employeeBySlug';
 export * from './leave/leaveAddUpdate';
 export * from './leave/leaveList';
 export * from './leave/leaveDelete';
+export * from './leave/leaveReason';
+export * from './leave/leaveById';

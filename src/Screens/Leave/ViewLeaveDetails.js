@@ -9,20 +9,25 @@ import { getSupportTicketPattern } from '../../Routes/routeConfig';
 
 const ViewLeaveDetails = ({ info }) => {
   const { role } = useSelector((state) => state.login);
-  const labels = [];
+  let labels = [];
   const values = [];
 
   // Convert this form `objectKey` of the object key in to this `object key`
   Object.keys(info).forEach((el) => {
-    if (el !== 'reason') {
-      if (el.match(/[A-Z\s]+/)) {
-        const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
-        const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
-
-        labels.push(newElement);
-      } else {
-        labels.push(el);
-      }
+    if (el.match(/[A-Z\s]+/)) {
+      const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
+      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
+      labels.push(newElement);
+    } else {
+      labels.push(el);
+    }
+    labels = labels.filter(function (e) {
+      return e !== 'id';
+    });
+    if (role !== 'admin') {
+      labels = labels.filter(function (e) {
+        return e !== 'reason';
+      });
     }
   });
 
@@ -52,9 +57,11 @@ const ViewLeaveDetails = ({ info }) => {
         <Grid item xs={12}>
           <FormField
             type="textarea"
-            placeholder="Please Enter the reason of approve or reject"
-            label="Reason"
-            value={info.reason}
+            placeholder={
+              role === 'admin' ? 'Enter the reason of approve or reject leave' : 'Reason'
+            }
+            label={role === 'admin' ? 'Reason of approve or reject leave' : 'Reason'}
+            value={role === 'admin' ? '' : info.reason}
             multiline
             rows={5}
             errorFalse

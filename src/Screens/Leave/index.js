@@ -22,14 +22,19 @@ const empLeaveOptions = [
   { title: 'Delete', value: 'delete' }
 ];
 
-const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
+const LeaveList = ({
+  GetLeaveAddUpdate,
+  GetLeaveList,
+  GetLeaveDelete,
+  GetLeaveReason,
+  GetLeaveById
+}) => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
   const { role } = useSelector((state) => state.login);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [selectedId, setSelectedId] = useState('');
   const [search, setSearch] = useState('');
-  const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
   const [isViewLeaveDialogOpen, setIsViewLeaveDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -43,7 +48,7 @@ const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
   const [leaveCount, setLeaveCount] = useState({});
 
   useEffect(() => {
-    if (!isDialogOpen || !isDeleteDialogOpen) {
+    if (!isDialogOpen || !isDeleteDialogOpen || isViewLeaveDialogOpen) {
       GetLeaveList(
         {
           limit,
@@ -65,55 +70,47 @@ const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
       );
     }
     return () => {};
-  }, [isDialogOpen, page, sort, filter, isDeleteDialogOpen]);
+  }, [isDialogOpen, page, sort, filter, isDeleteDialogOpen, isViewLeaveDialogOpen]);
 
   const handleDialog = () => {
     setSelectedData(null);
     setIsDialogOpen(!isDialogOpen);
   };
 
-  const handleOpenDialog = () => {
-    setIsLeaveDialogOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setIsLeaveDialogOpen(false);
-  };
-
   const handleCloseViewDialog = () => {
     setIsViewLeaveDialogOpen(false);
   };
 
-  const onClickView = (row) => {
-    setSelectedData(row);
-    handleOpenDialog();
-  };
-
-  const onClickAction = (key, data) => {
+  const onClickAction = (key, selectedLeaveData) => {
     if (key === 'edit') {
       setIsEdit(true);
-      setSelectedData(allLeave.find((o) => o.id === data.id));
+      setSelectedData(selectedLeaveData.id);
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      if (role === 'admin') {
-        onClickView(data);
-      } else {
-        const viewData = allLeave.find((o) => o.id === data.id);
-        const setViewData = {
-          leaveType: viewData.leaveType,
-          selectType: viewData.selectType,
-          fromDate: viewData.fromDate,
-          toDate: viewData.toDate,
-          noOfDays: viewData.noOfDays,
-          approvedBy: viewData.approvedBy,
-          status: viewData.status,
-          reason: viewData.reason.replace(/(<([^>]+)>)/gi, '')
-        };
-        setSelectedData(setViewData);
-        setIsViewLeaveDialogOpen(true);
-      }
+      GetLeaveById({ id: selectedLeaveData.id }, (res) => {
+        if (res && res.data && res.data.data) {
+          const { data } = res.data;
+          const setViewData = {
+            leaveType: data.leaveType,
+            selectType: data.selectType,
+            fromDate: data.fromDate,
+            toDate: data.toDate,
+            noOfDays: data.noOfDays,
+            approvedBy: data.approvedBy,
+            status: data.status,
+            reason: data.reason.replace(/(<([^>]+)>)/gi, ''),
+            id: data.id
+          };
+          setSelectedData(setViewData);
+          if (role === 'admin') {
+            setIsViewLeaveDialogOpen(true);
+          } else {
+            setIsViewLeaveDialogOpen(true);
+          }
+        }
+      });
     } else {
-      setSelectedId(data.id);
+      setSelectedId(selectedLeaveData.id);
       setIsDeleteDialogOpen(true);
     }
   };
@@ -131,6 +128,16 @@ const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
     setStartDate('');
     setSearch('');
     setFilter(false);
+  };
+
+  const handleLeaveStatus = (status) => {
+    const reasonData = {
+      status,
+      comment: 'fghjd'
+    };
+    GetLeaveReason({ data: reasonData, id: selectedData.id }, () =>
+      setIsViewLeaveDialogOpen(false)
+    );
   };
 
   return (
@@ -263,9 +270,9 @@ const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
             title={isEdit ? 'UPDATE LEAVE' : 'ADD LEAVE'}
             setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
-            setSelectedData={(value) => setSelectedData(value)}
             isEdit={isEdit}
             GetLeaveAddUpdate={GetLeaveAddUpdate}
+            GetLeaveById={GetLeaveById}
           />
         )}
         {isDeleteDialogOpen && (
@@ -287,10 +294,10 @@ const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
         )}
       </Card>
 
-      {(isLeaveDialogOpen || isViewLeaveDialogOpen) && selectedData && (
+      {isViewLeaveDialogOpen && selectedData && (
         <DialogMenu
-          isOpen={isLeaveDialogOpen || isViewLeaveDialogOpen}
-          onClose={isLeaveDialogOpen ? handleCloseDialog : handleCloseViewDialog}
+          isOpen={isViewLeaveDialogOpen}
+          onClose={handleCloseViewDialog}
           dialogTitle={`Leave Details: ${selectedData.leaveType}`}
           dialogContent={<ViewLeaveDetails info={selectedData} />}
           dialogAction={
@@ -302,7 +309,7 @@ const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
                     color="info"
                     variant="contained"
                     size="small"
-                    onClick={() => handleCloseDialog()}
+                    onClick={() => handleLeaveStatus('approved')}
                   >
                     Approve
                   </Button>
@@ -312,7 +319,7 @@ const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
                     color="error"
                     variant="contained"
                     size="small"
-                    onClick={() => handleCloseDialog()}
+                    onClick={() => handleLeaveStatus('reject')}
                   >
                     Reject
                   </Button>

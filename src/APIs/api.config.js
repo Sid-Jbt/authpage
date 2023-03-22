@@ -14,5 +14,7 @@ export const API_URL = {
   EMPLOYEE_BY_SLUG_URL: '/',
   LEAVE_ADD_UPDATE_URL: '/user/leave',
   LEAVE_LIST_URL: '/leave',
-  LEAVE_DELETE_URL: '/user/leave/'
+  LEAVE_DELETE_URL: '/user/leave',
+  LEAVE_REASON_URL: '/admin/leave/status',
+  LEAVE_BY_ID_URL: '/leave'
 };

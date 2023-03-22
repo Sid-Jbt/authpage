@@ -25,41 +25,43 @@ const AddLeaveForm = ({
   setIsEdit,
   isEdit,
   title,
-  GetLeaveAddUpdate
+  GetLeaveAddUpdate,
+  GetLeaveById
 }) => {
   const [leaveType, setLeaveType] = useState(leave[0]);
   const [selectType, setSelectType] = useState(leaveDayType[0]);
-  const [data, setData] = useState(initialValues);
+  const [leaveData, setLeaveData] = useState(initialValues);
 
   useEffect(() => {
     if (selectedData !== null) {
-      Object.keys(data).map((key) => {
-        data[key] = selectedData[key];
-        if (key === 'fromDate') {
-          data[key] = moment(selectedData.fromDate).format('YYYY-MM-DD');
-        }
-        if (key === 'toDate') {
-          data[key] = moment(selectedData.toDate).format('YYYY-MM-DD');
+      GetLeaveById({ id: selectedData }, (res) => {
+        if (res && res.data && res.data.data) {
+          const { data } = res.data;
+          Object.keys(leaveData).map((key) => {
+            leaveData[key] = data[key];
+            if (key === 'fromDate') {
+              leaveData.fromDate = moment(data.fromDate).format('YYYY-MM-DD');
+            }
+            if (key === 'toDate') {
+              leaveData[key] = moment(data.toDate).format('YYYY-MM-DD');
+            }
+          });
+          setLeaveData(leaveData);
+          setSelectType(
+            leaveDayType.find(
+              (value) => value.value === data.selectType || value.label === data.selectType
+            )
+          );
+          setLeaveType(
+            leave.find((value) => value.value === data.leaveType || value.label === data.leaveType)
+          );
         }
       });
-      setData(data);
-      setSelectType(
-        leaveDayType.find(
-          (value) =>
-            value.value === selectedData.selectType || value.label === selectedData.selectType
-        )
-      );
-      setLeaveType(
-        leave.find(
-          (value) =>
-            value.value === selectedData.leaveType || value.label === selectedData.leaveType
-        )
-      );
     } else {
       initialValues.fromDate = moment().format('YYYY-MM-DD');
       initialValues.toDate = moment().format('YYYY-MM-DD');
       initialValues.reason = '';
-      setData(initialValues);
+      setLeaveData(initialValues);
     }
   }, [selectedData]);
 
@@ -80,7 +82,7 @@ const AddLeaveForm = ({
       reason: values.reason
     };
     if (isEdit) {
-      GetLeaveAddUpdate({ data: formData, leaveId: selectedData.id }, (res) => {
+      GetLeaveAddUpdate({ data: formData, leaveId: selectedData }, (res) => {
         const { status } = res.data;
         if (status) {
           handleDialog();
@@ -110,7 +112,7 @@ const AddLeaveForm = ({
       >
         <Formik
           enableReinitialize
-          initialValues={data}
+          initialValues={leaveData}
           onSubmit={(values) => onSubmit(values)}
           validationSchema={leaveFormSchema}
         >
@@ -161,7 +163,7 @@ const AddLeaveForm = ({
                         id="fromDate"
                         name="fromDate"
                         label="From Date"
-                        defaultValue={values.fromDate}
+                        value={values.fromDate}
                         inputProps={{
                           min: moment().format('YYYY-MM-DD'),
                           max: moment().add(1, 'Y').format('YYYY-MM-DD')
@@ -189,7 +191,7 @@ const AddLeaveForm = ({
                           id="toDate"
                           name="toDate"
                           label="To Date"
-                          defaultValue={values.toDate}
+                          value={values.toDate}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           errorText={errors.toDate && touched.toDate && errors.toDate}

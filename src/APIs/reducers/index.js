@@ -11,6 +11,8 @@ import leaveAddUpdateReducer from './leave/leaveAddUpdate';
 import leaveListReducer from './leave/leaveList';
 import leaveDeleteReducer from './leave/leaveDelete';
 import domainReducer from './getDomain';
+import leaveReasonReducer from './leave/leaveReason';
+import leaveByIdReducer from './leave/leaveById';
 // import employeeListReducer from './employee/employeeList';
 // import employeeAddReducer from './employee/employeeAdd';
 
@@ -28,7 +30,9 @@ const rootReducer = combineReducers({
   leaveAddUpdate: leaveAddUpdateReducer,
   leaveList: leaveListReducer,
   leaveDelete: leaveDeleteReducer,
-  domain: domainReducer
+  domain: domainReducer,
+  leaveReason: leaveReasonReducer,
+  leaveById: leaveByIdReducer
 });
 
 export default rootReducer;

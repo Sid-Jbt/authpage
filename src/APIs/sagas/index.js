@@ -12,6 +12,8 @@ import { getLeaveAddUpdateWatcher } from './leave/leaveAddUpdate';
 import { getLeaveListWatcher } from './leave/leaveList';
 import { getLeaveDeleteWatcher } from './leave/leaveDelete';
 import { getDomainWatcher } from './getDomain';
+import { getLeaveReasonWatcher } from './leave/leaveReason';
+import { getLeaveByIdWatcher } from './leave/leaveById';
 
 export default function* rootSaga() {
   yield all([
@@ -27,6 +29,8 @@ export default function* rootSaga() {
     getEmployeeBySlugWatcher(),
     getLeaveAddUpdateWatcher(),
     getLeaveListWatcher(),
-    getLeaveDeleteWatcher()
+    getLeaveDeleteWatcher(),
+    getLeaveReasonWatcher(),
+    getLeaveByIdWatcher()
   ]);
 }
