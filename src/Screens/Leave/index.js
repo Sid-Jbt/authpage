@@ -43,7 +43,7 @@ const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
   const [leaveCount, setLeaveCount] = useState({});
 
   useEffect(() => {
-    if (!isDialogOpen) {
+    if (!isDialogOpen || !isDeleteDialogOpen) {
       GetLeaveList(
         {
           limit,
@@ -65,7 +65,7 @@ const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
       );
     }
     return () => {};
-  }, [isDialogOpen, page, sort, filter]);
+  }, [isDialogOpen, page, sort, filter, isDeleteDialogOpen]);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -105,7 +105,7 @@ const LeaveList = ({ GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete }) => {
           fromDate: viewData.fromDate,
           toDate: viewData.toDate,
           noOfDays: viewData.noOfDays,
-          apporvedBy: viewData.approvedBy,
+          approvedBy: viewData.approvedBy,
           status: viewData.status,
           reason: viewData.reason.replace(/(<([^>]+)>)/gi, '')
         };
