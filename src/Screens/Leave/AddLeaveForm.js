@@ -160,11 +160,12 @@ const AddLeaveForm = ({
                         fullWidth
                         id="fromDate"
                         name="fromDate"
-                        inputProps={{
-                          min: moment().format('YYYY-MM-DD')
-                        }}
                         label="From Date"
-                        value={values.fromDate}
+                        defaultValue={values.fromDate}
+                        inputProps={{
+                          min: moment().format('YYYY-MM-DD'),
+                          max: moment().add(1, 'Y').format('YYYY-MM-DD')
+                        }}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         errorText={errors.fromDate && touched.fromDate && errors.fromDate}
@@ -178,7 +179,8 @@ const AddLeaveForm = ({
                       <Box>
                         <Input
                           inputProps={{
-                            min: moment(values.fromDate).format('YYYY-MM-DD')
+                            min: moment(values.fromDate).format('YYYY-MM-DD'),
+                            max: moment().add(1, 'Y').format('YYYY-MM-DD')
                           }}
                           type="date"
                           placeholder="To Date"

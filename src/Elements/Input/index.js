@@ -10,6 +10,7 @@ import {
   IconButton
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import moment from 'moment';
 
 const InputRoot = styled(InputBase)(({ theme, ownerState }) => {
   const { palette, functions, typography, borders, boxShadows } = theme;
@@ -150,8 +151,8 @@ const TextField = forwardRef(
           inputProps={
             type === 'date'
               ? {
-                  /* min: rest.value,
-                  max: moment().format('YYYY-MM-DD'), */
+                  min: rest.value,
+                  max: moment().format('YYYY-MM-DD'),
                   ...inputProps
                 }
               : {}
