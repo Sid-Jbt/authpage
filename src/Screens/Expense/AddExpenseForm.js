@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
 import { expenseFormSchema } from 'Helpers/ValidationSchema';
@@ -9,20 +9,78 @@ import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import Dropzone from '../../Elements/Dropzone';
 
-const AddExpenseDialog = ({
-  GetExpenseAdd,
+const initialValues = {
+  itemName: '',
+  purchaseFrom: '',
+  purchaseDate: moment().format('YYYY-MM-DD'),
+  amount: '',
+  document: ''
+};
+
+const AddExpenseForm = ({
   isDialogOpen,
   handleDialog,
   setIsEdit,
-  selectedData,
   title,
   isEdit,
+  selectedData,
   Loading,
-  button
+  button,
+  GetExpenseAdd,
+  GetExpenseUpdate,
+  GetExpenseById
 }) => {
-  const onSubmit = async (formData) => {
-    GetExpenseAdd(formData, () => handleDialog());
+  const [expenseData, setExpenseData] = useState(initialValues);
+
+  useEffect(() => {
+    if (selectedData !== null) {
+      GetExpenseById({ id: selectedData }, (res) => {
+        if (res && res.data && res.data.data) {
+          const { data } = res.data;
+          Object.keys(expenseData).map((key) => {
+            expenseData[key] = data[key];
+          });
+          setExpenseData(expenseData);
+        }
+      });
+    } else {
+      initialValues.itemName = '';
+      initialValues.purchaseFrom = '';
+      initialValues.purchaseDate = moment().format('YYYY-MM-DD');
+      initialValues.amount = '';
+      initialValues.document = '';
+      setExpenseData(initialValues);
+    }
+  }, [selectedData]);
+
+  const onSubmit = (values) => {
+    // console.log("values => ", values)
+    const formData = {
+      itemName: values.itemName,
+      purchaseFrom: values.purchaseFrom,
+      purchaseDate: values.purchaseDate,
+      amount: values.amount,
+      document: values.document
+    };
+    if (isEdit) {
+      GetExpenseUpdate({ data: formData, params: selectedData }, (res) => {
+        const { status } = res.data;
+        if (status) {
+          handleDialog();
+          setIsEdit(false);
+        }
+      });
+    } else {
+      GetExpenseAdd({ data: formData }, (res) => {
+        const { status } = res.data;
+        if (status) {
+          handleDialog();
+          setIsEdit(false);
+        }
+      });
+    }
   };
+
   return (
     <SideDrawer
       open={Boolean(isDialogOpen)}
@@ -35,18 +93,8 @@ const AddExpenseDialog = ({
     >
       <Formik
         enableReinitialize
-        initialValues={{
-          itemName: '',
-          purchaseFrom: '',
-          purchaseDate: moment().format('YYYY-MM-DD'),
-          amount: '',
-          document: ''
-        }}
+        initialValues={expenseData}
         onSubmit={(values) => onSubmit(values)}
-        // onSubmit={(values, actions) => {
-        //     // eslint-disable-next-line no-console
-        //     console.log(values, actions);
-        // }}
         validationSchema={expenseFormSchema}
       >
         {(props) => {
@@ -57,6 +105,7 @@ const AddExpenseDialog = ({
               <Grid container columnSpacing={2} justifyContent="space-between">
                 <Grid item xs={12}>
                   <Input
+                    type="text"
                     placeholder="Item name"
                     label="ITEM NAME"
                     size="large"
@@ -73,6 +122,7 @@ const AddExpenseDialog = ({
                 </Grid>
                 <Grid item xs={12}>
                   <Input
+                    type="text"
                     placeholder="Purchase from"
                     label="PURCHASE FROM"
                     size="large"
@@ -137,7 +187,7 @@ const AddExpenseDialog = ({
                     // success={!errors.document && touched.document}
                   />
                 </Grid>
-                <Grid item xs={12} md={4} lg={6}>
+                <Grid item sm={12} md={4} lg={6} xl={12} pt={2}>
                   <Button
                     type="submit"
                     color="info"
@@ -161,4 +211,4 @@ const AddExpenseDialog = ({
   );
 };
 
-export default AddExpenseDialog;
+export default AddExpenseForm;

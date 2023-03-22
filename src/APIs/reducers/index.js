@@ -8,10 +8,12 @@ import customizationReducer from './customizationReducer';
 import dashboardReducer from './dashboardReducer';
 import employeeBySlugReducer from './employee/employeeBySlug';
 import domainReducer from './getDomain';
-// import employeeListReducer from './employee/employeeList';
-// import employeeAddReducer from './employee/employeeAdd';
 import expenseAddReducer from './expense/expenseAdd';
 import expenseListReducer from './expense/expenseList';
+import expenseUpdateReducer from './expense/expenseUpdate';
+import expenseDeleteReducer from './expense/expenseDelete';
+// import employeeListReducer from './employee/employeeList';
+// import employeeAddReducer from './employee/employeeAdd';
 
 const rootReducer = combineReducers({
   customization: customizationReducer,
@@ -21,11 +23,13 @@ const rootReducer = combineReducers({
   // resetPassword: resetPasswordReducer,
   // profileUpdate: profileUpdateReducer,
   // employeeAdd: employeeAddReducer,
-  dashboard: dashboardReducer,
-  // employeeList: employeeListReducer
+  // employeeList: employeeListReducer,
   employeeBySlug: employeeBySlugReducer,
-  expenseAdd: expenseAddReducer,
+  dashboard: dashboardReducer,
   expenseList: expenseListReducer,
+  expenseAdd: expenseAddReducer,
+  expenseUpdate: expenseUpdateReducer,
+  expenseDelete: expenseDeleteReducer,
   domain: domainReducer
 });
 

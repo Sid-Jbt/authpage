@@ -11,3 +11,5 @@ export * from './employee/employeeList';
 export * from './employee/employeeBySlug';
 export * from './expense/expenseAdd';
 export * from './expense/expenseList';
+export * from './expense/expenseUpdate';
+export * from './expense/expenseDelete';
