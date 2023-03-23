@@ -42,7 +42,7 @@ const CropperImage = ({ src, getCroppedFile, imageType }) => {
   return (
     <>
       {loading && <Skeleton variant="rectangular" width="100%" height={400} />}
-      <Box display="flex" justifyContent="flex-end" mb={1}>
+      <Box display="flex" justifyContent="flex-start" mb={1} pb={0}>
         <ButtonGroup disableElevation variant="contained">
           <Button onClick={rotate}>Rotate</Button>
           <Button onClick={() => flip('h')}>Flip H</Button>
@@ -66,8 +66,7 @@ const CropperImage = ({ src, getCroppedFile, imageType }) => {
           mt: 1
         }}
         onClick={handleClick}
-        autoFocus
-        color="success"
+        color="dark"
         variant="contained"
       >
         Crop
