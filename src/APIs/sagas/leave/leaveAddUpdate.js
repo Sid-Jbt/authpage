@@ -14,7 +14,7 @@ async function getLeaveAddUpdateApi({ data, params }) {
     method: 'post',
     url: BASE_URL + API_URL.LEAVE_ADD_UPDATE_URL,
     data,
-    params: { params }
+    params
   });
 }
 

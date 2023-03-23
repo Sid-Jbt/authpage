@@ -13,9 +13,6 @@ async function getLeaveReasonApi({ data, id }) {
   return instance.request({
     method: 'put',
     url: `${BASE_URL + API_URL.LEAVE_REASON_URL}/${id}`,
-    headers: {
-      'Content-Type': 'application/json'
-    },
     data
   });
 }

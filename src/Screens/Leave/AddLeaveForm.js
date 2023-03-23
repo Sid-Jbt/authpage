@@ -72,33 +72,6 @@ const AddLeaveForm = ({
     setSelectType(selectedLeave);
   };
 
-  const onSubmit = (values) => {
-    const formData = {
-      leaveType: leaveType.value,
-      selectType: selectType.value,
-      fromDate: values.fromDate,
-      toDate: selectType.value === 'full' ? values.toDate : values.fromDate,
-      reason: values.reason
-    };
-    if (isEdit) {
-      GetLeaveAddUpdate({ data: formData, params: selectedData }, (res) => {
-        const { status } = res.data;
-        if (status) {
-          handleDialog();
-          setIsEdit(false);
-        }
-      });
-    } else {
-      GetLeaveAddUpdate({ data: formData }, (res) => {
-        const { status } = res.data;
-        if (status) {
-          handleDialog();
-          setIsEdit(false);
-        }
-      });
-    }
-  };
-
   return (
     <>
       <SideDrawer
@@ -112,7 +85,22 @@ const AddLeaveForm = ({
         <Formik
           enableReinitialize
           initialValues={leaveData}
-          onSubmit={(values) => onSubmit(values)}
+          onSubmit={(values) => {
+            const formData = {
+              leaveType: leaveType.value,
+              selectType: selectType.value,
+              fromDate: values.fromDate,
+              toDate: selectType.value === 'full' ? values.toDate : values.fromDate,
+              reason: values.reason
+            };
+            GetLeaveAddUpdate({ data: formData, params: { leaveId: selectedData } }, (res) => {
+              const { status } = res.data;
+              if (status) {
+                handleDialog();
+                setIsEdit(false);
+              }
+            });
+          }}
           validationSchema={leaveFormSchema}
         >
           {(props) => {
