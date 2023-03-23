@@ -8,7 +8,6 @@ import { Months, Years } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
 import withStateDispatch from 'Helpers/withStateDispatch';
 import payslipColumns from './data/payslipData';
-import { getEmployeeDetailsPattern } from '../../Routes/routeConfig';
 
 const Payslip = ({ GetPayslipList, Loading }) => {
   const { columns: prCols, adminColumns: adminPrCol } = payslipColumns;
@@ -22,7 +21,7 @@ const Payslip = ({ GetPayslipList, Loading }) => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   // const [isExport, setIsExport] = useState(false);
-  const [sort, setSort] = useState({ key: 'email', order: 'asc' });
+  const [sort, setSort] = useState({ key: 'id', order: 'asc' });
   const [filter, setFilter] = useState(false);
 
   useEffect(() => {
@@ -121,21 +120,6 @@ const Payslip = ({ GetPayslipList, Loading }) => {
             setSort({ order: orderName, key: orderKey })
           }
         />
-        {/* <Table
-          columns={role === 'admin' ? adminPrCol : prCols}
-          rows={allPayslipList}
-          rowsCount={payslipListCount}
-          // onClickAction={(value, row) => onClickAction(value, row)}
-          isAction
-          // options={downloadOption}
-          initialPage={page}
-          onChangePage={(value) => onPage(value)}
-          rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
-          sortKey={sortKey}
-          sortOrder={sortOrder}
-          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
-        /> */}
       </Card>
     </>
   );
