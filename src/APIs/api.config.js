@@ -12,5 +12,6 @@ export const API_URL = {
   EMPLOYEE_LIST_URL: '/admin/user',
   EMPLOYEE_ADD_URL: '/user/signup',
   EMPLOYEE_BY_SLUG_URL: '/',
-  PAYSLIP_LIST_URL: '/payslip/list'
+  PAYSLIP_LIST_URL: '/payslip/list',
+  ATTENDANCE_LIST_URL: '/attendance/list'
 };

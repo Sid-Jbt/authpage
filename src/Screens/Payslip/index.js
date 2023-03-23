@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import withStateDispatch from 'Helpers/withStateDispatch';
 import payslipColumns from './data/payslipData';
 
-const Payslip = ({ GetPayslipList, Loading }) => {
+const Payslip = ({ GetPayslipList }) => {
   const { columns: prCols, adminColumns: adminPrCol } = payslipColumns;
   const { role } = useSelector((state) => state.login);
   const [month, setMonth] = useState('');
@@ -28,8 +28,8 @@ const Payslip = ({ GetPayslipList, Loading }) => {
     GetPayslipList(
       {
         limit,
-        month,
-        year,
+        month: month.value,
+        year: year.value,
         search,
         page,
         sortKey: sort.key,

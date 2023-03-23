@@ -50,7 +50,7 @@ export const leave = [
   { value: 'earnedLeave', label: 'Earned Leave' }
 ];
 
-export const Status = [
+export const attendanceStatus = [
   { value: 'all', label: 'All' },
   { value: 'present', label: 'Present' },
   { value: 'absent', label: 'Absent' },
