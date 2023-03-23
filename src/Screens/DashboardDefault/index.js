@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Box from 'Elements/Box';
 import { Grid } from '@mui/material';
 import Calendar from 'Components/Calendar';
 import {
   HolidayVillage,
+  PendingActionsRounded,
   PendingTwoTone,
   PeopleRounded,
   Watch,
@@ -12,15 +13,25 @@ import {
   WatchRounded
 } from '@mui/icons-material';
 import { useNavigate, useOutletContext } from 'react-router';
-import { getEmployeeListPattern, getExpensePattern, getLeavePattern } from 'Routes/routeConfig';
+import {
+  getEmployeeListPattern,
+  getExpensePattern,
+  getLeavePattern,
+  getSupportTicketPattern
+} from 'Routes/routeConfig';
 import DashboardCard from 'Components/CardLayouts/StaticCard';
+import withStateDispatch from '../../Helpers/withStateDispatch';
 
-const DashboardDefault = () => {
+const DashboardDefault = ({ GetDashboard }) => {
   const { role } = useOutletContext();
   const navigate = useNavigate();
   const [calendarEventsData, setCalendarEventsData] = useState([]);
   const [currentWeekHour, setCurrentWeekHour] = useState(0);
   const [currentMonthHour, setCurrentMonthHour] = useState(0);
+
+  useEffect(() => {
+    GetDashboard();
+  }, []);
 
   const handleTotalEmployee = () => {
     navigate(getEmployeeListPattern());
@@ -96,7 +107,13 @@ const DashboardDefault = () => {
           </Grid>
           {role === 'admin' ? (
             <Grid container item spacing={3} xs={12} lg={4}>
-              <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
+              <Grid
+                item
+                xs={12}
+                lg={6}
+                onClick={() => navigate(getEmployeeListPattern())}
+                sx={{ cursor: 'pointer' }}
+              >
                 <DashboardCard
                   title="Total Employee"
                   count="10"
@@ -104,7 +121,13 @@ const DashboardDefault = () => {
                   isPercentage={false}
                 />
               </Grid>
-              <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
+              <Grid
+                item
+                xs={12}
+                lg={6}
+                onClick={() => navigate(getEmployeeListPattern())}
+                sx={{ cursor: 'pointer' }}
+              >
                 <DashboardCard
                   title="Today Present"
                   count="9"
@@ -112,7 +135,13 @@ const DashboardDefault = () => {
                   isPercentage={false}
                 />
               </Grid>
-              <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
+              <Grid
+                item
+                xs={12}
+                lg={6}
+                onClick={() => navigate(getEmployeeListPattern())}
+                sx={{ cursor: 'pointer' }}
+              >
                 <DashboardCard
                   title="Today Absent"
                   count="1"
@@ -120,7 +149,13 @@ const DashboardDefault = () => {
                   isPercentage={false}
                 />
               </Grid>
-              <Grid item xs={12} lg={6} onClick={handlePendingExpense} sx={{ cursor: 'pointer' }}>
+              <Grid
+                item
+                xs={12}
+                lg={6}
+                onClick={() => navigate(getExpensePattern())}
+                sx={{ cursor: 'pointer' }}
+              >
                 <DashboardCard
                   title="Pending Expense"
                   count="1"
@@ -128,11 +163,31 @@ const DashboardDefault = () => {
                   isPercentage={false}
                 />
               </Grid>
-              <Grid item xs={12} lg={6} onClick={handlePendingLeave} sx={{ cursor: 'pointer' }}>
+              <Grid
+                item
+                xs={12}
+                lg={6}
+                onClick={() => navigate(getLeavePattern())}
+                sx={{ cursor: 'pointer' }}
+              >
                 <DashboardCard
                   title="Pending Leave Approval"
                   count="0"
                   icon={{ color: 'secondary', component: <HolidayVillage /> }}
+                  isPercentage={false}
+                />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                lg={6}
+                onClick={() => navigate(getSupportTicketPattern())}
+                sx={{ cursor: 'pointer' }}
+              >
+                <DashboardCard
+                  title="Pending Support Tickets"
+                  count="0"
+                  icon={{ color: 'secondary', component: <PendingActionsRounded /> }}
                   isPercentage={false}
                 />
               </Grid>
@@ -144,4 +199,4 @@ const DashboardDefault = () => {
   );
 };
 
-export default DashboardDefault;
+export default withStateDispatch(DashboardDefault);
