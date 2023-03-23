@@ -16,6 +16,7 @@ import TicketCard from '../../Components/CardLayouts/StaticCard';
 import DialogMenu from '../../Elements/Dialog';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
 import withStateDispatch from '../../Helpers/withStateDispatch';
+import { getEmployeeDetailsPattern } from '../../Routes/routeConfig';
 
 const adminSupportOptions = [{ title: 'View', value: 'view' }];
 
@@ -47,10 +48,10 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
   const [sort, setSort] = useState({ key: 'priority', order: 'asc' });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [selectDate, setSelectDate] = useState('');
+  const [startDate, setStartDate] = useState('');
   const [filter, setFilter] = useState(false);
   const [priority, setPriority] = useState('');
-  const [isStatus, setIsStatus] = useState('');
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
     if (!isDialogOpen) {
@@ -61,9 +62,9 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
           page,
           sortKey: sort.key,
           sortOrder: sort.order,
-          priority,
-          status: isStatus,
-          startDate: selectDate
+          priority: priority.value,
+          status: status.value,
+          startDate
         },
         (res) => {
           if (res && res.data && res.data.data) {
@@ -133,45 +134,11 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
     handleDialogClose();
   };
 
-  const handleChangeStatus = (value) => {
-    setIsStatus(value);
-  };
-
-  const handleChangePriority = (value) => {
-    setPriority(value);
-  };
-
-  const handleChangeStartDate = (event) => {
-    setSelectDate(event.target.value);
-  };
-
-  const handleChangeSearch = (event) => {
-    setSearch(event.target.value.trim());
-  };
-
   const handleClear = () => {
-    setSelectDate('');
+    setStartDate('');
     setPriority('');
-    setIsStatus('');
+    setStatus('');
     setSearch('');
-  };
-  const onClickSearch = () => {
-    setLoader(true);
-    setIsSearch(true);
-  };
-
-  const onPage = async (selectedPage) => {
-    setPage(selectedPage);
-  };
-
-  const onRowsPerPageChange = async (selectedLimit) => {
-    setLimit(selectedLimit);
-    setPage(0);
-  };
-
-  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
-    setSortKey(selectedSortKey);
-    setSortOrder(selectedSortOrder);
   };
 
   return (
@@ -260,12 +227,11 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
         }}
       >
         <FilterLayout
-          search={search}
-          handleSearch={handleChangeSearch}
-          handleClear={() => handleClear()}
-          onClickSearch={() => onClickSearch()}
-          loader={loader}
-          isSearch={isSearch}
+          handleSearch={(e) => setSearch(e.target.value.trim())}
+          handleClear={handleClear}
+          onClickSearch={() => {
+            setFilter(!filter);
+          }}
         >
           <Grid item xs={12} md={4} lg={3}>
             <Input
@@ -274,9 +240,9 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
               size="small"
               fullWidth
               id="date"
-              name="Date"
-              value={selectDate !== '' ? selectDate : ''}
-              onChange={(value) => handleChangeStartDate(value)}
+              name="startDate"
+              value={startDate !== '' ? startDate : ''}
+              onChange={(event) => setStartDate(event.target.value)}
               errorFalse
             />
           </Grid>
@@ -286,7 +252,7 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
               <Select
                 value={priority}
                 options={Priority}
-                onChange={(value) => handleChangePriority(value)}
+                onChange={(value) => setPriority(value)}
               />
             </FormControl>
           </Grid>
@@ -294,9 +260,9 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Status</FormLabel>
               <Select
-                value={isStatus}
+                value={status}
                 options={SupportTicketStatus}
-                onChange={(value) => handleChangeStatus(value)}
+                onChange={(value) => setStatus(value)}
               />
             </FormControl>
           </Grid>
@@ -310,12 +276,16 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
           options={role === 'admin' ? adminSupportOptions : empSupportOptions}
           rowsCount={spTicketListCount}
           initialPage={page}
-          onChangePage={(value) => onPage(value)}
+          onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
-          sortKey={sortKey}
-          sortOrder={sortOrder}
-          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
+          onRowsPerPageChange={(rowsPerPage) => {
+            setLimit(rowsPerPage);
+          }}
+          sortKey={sort.key}
+          sortOrder={sort.order}
+          handleRequestSort={(event, orderKey, orderName) =>
+            setSort({ order: orderName, key: orderKey })
+          }
         />
         {isDialogOpen && (
           <AddSupportTicketForm
