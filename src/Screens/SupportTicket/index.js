@@ -293,7 +293,7 @@ const supportTicket = () => {
           <AddSupportTicketForm
             isDialogOpen={isDialogOpen}
             handleDialog={handleDialog}
-            title={isEdit ? 'EDIT YOUR SUPPORT TICKET' : 'ADD NEW SUPPORT TICKET'}
+            title={isEdit ? 'UPDATE SUPPORT TICKET' : 'NEW SUPPORT TICKET'}
             setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             setSelectedData={(value) => setSelectedData(value)}
