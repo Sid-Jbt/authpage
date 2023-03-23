@@ -10,3 +10,4 @@ export * from './dashboard';
 export * from './employee/employeeList';
 export * from './employee/employeeAdd';
 export * from './employee/employeeBySlug';
+export * from './payslip/payslipList';
