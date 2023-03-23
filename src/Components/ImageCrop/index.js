@@ -15,7 +15,13 @@ const CropperImage = ({ src, getCroppedFile, imageType }) => {
     const imageElement = cropperRef?.current;
     const cropper = imageElement?.cropper;
     const img = cropper.getCroppedCanvas().toDataURL();
-    getCroppedFile(img, imageType);
+    // convert to file
+    let mimeType = 'image/png';
+    if (img.toLowerCase() !== 'png') {
+      mimeType = 'image/jpeg';
+    }
+    const file = new File([img], 'File name', { type: mimeType });
+    getCroppedFile(file, img, imageType);
   };
   const rotate = () => {
     const imageElement = cropperRef?.current;

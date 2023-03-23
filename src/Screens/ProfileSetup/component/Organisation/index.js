@@ -25,12 +25,6 @@ const Organisation = (props) => {
 
   const handleImageChange = (e, type) => {
     e.preventDefault();
-    let files;
-    if (e.dataTransfer) {
-      files = e.dataTransfer.files;
-    } else if (e.target) {
-      files = e.target.files;
-    }
     const reader = new FileReader();
     reader.onload = () => {
       setCropClose(true);
@@ -42,7 +36,7 @@ const Organisation = (props) => {
         setLargeLogo(reader.result);
       }
     };
-    reader.readAsDataURL(files[0]);
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   return (
@@ -63,7 +57,7 @@ const Organisation = (props) => {
           <Grid item xs={6} sm={3} lg={4} container justifyContent="center">
             <Box position="relative" height="max-content" mx="auto">
               <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-                Small Logo (1/1)
+                Small Logo (1x1 px)
               </Typography>
               <Box>
                 <input
@@ -98,7 +92,7 @@ const Organisation = (props) => {
           <Grid item xs={6} sm={3} lg={4} container>
             <Box position="relative" height="max-content" mx="auto">
               <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-                Large Logo (16/9)
+                Large Logo (16x9 px)
               </Typography>
               <Box>
                 <input
@@ -170,13 +164,15 @@ const Organisation = (props) => {
         onClose={() => setCropClose(false)}
         dialogContent={
           <CropperImage
-            src={smallLogo || largeLogo}
+            src={logoType === 'large' ? largeLogo : smallLogo}
             imageType={logoType}
-            getCroppedFile={(image, type) => {
+            getCroppedFile={(file, image, type) => {
               if (type === 'large') {
                 setLargeLogo(image);
+                setFieldValue('largeLogo', file);
               } else {
                 setSmallLogo(image);
+                setFieldValue('smallLogo', file);
               }
               setCropClose(false);
             }}
