@@ -73,7 +73,21 @@ const Organisation = (props) => {
                   size="xxl"
                   variant="rounded"
                 />
-                <Box alt="spotify logo" position="absolute" right={0} bottom={0} mr={-1} mb={-1}>
+                <Box
+                  alt="spotify logo"
+                  position="absolute"
+                  right={0}
+                  bottom={0}
+                  sx={({ breakpoints }) => ({
+                    mr: 3.5,
+                    mb: -1,
+                    [breakpoints.down('md')]: {
+                      ml: 7,
+                      mr: 0.5,
+                      mb: -1
+                    }
+                  })}
+                >
                   <Button
                     variant="gradient"
                     color="light"
@@ -108,7 +122,21 @@ const Organisation = (props) => {
                   size="xxl"
                   variant="rounded"
                 />
-                <Box alt="spotify logo" position="absolute" right={0} bottom={0} mr={-1} mb={-1}>
+                <Box
+                  alt="spotify logo"
+                  position="absolute"
+                  right={0}
+                  bottom={0}
+                  sx={({ breakpoints }) => ({
+                    mr: 3.5,
+                    mb: -1,
+                    [breakpoints.down('md')]: {
+                      ml: 7,
+                      mr: 0.5,
+                      mb: -1
+                    }
+                  })}
+                >
                   <Button
                     variant="gradient"
                     color="light"
