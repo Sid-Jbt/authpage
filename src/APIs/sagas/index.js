@@ -13,6 +13,8 @@ import { getExpenseAddWatcher } from './expense/expenseAdd';
 import { getExpenseListWatcher } from './expense/expenseList';
 import { getExpenseUpdateWatcher } from './expense/expenseUpdate';
 import { getExpenseDeleteWatcher } from './expense/expenseDelete';
+import { getExpenseByIdWatcher } from './expense/expenseByID';
+import { getExpenseReasonWatcher } from './expense/expenseReason';
 
 export default function* rootSaga() {
   yield all([
@@ -29,6 +31,8 @@ export default function* rootSaga() {
     getExpenseAddWatcher(),
     getExpenseListWatcher(),
     getExpenseUpdateWatcher(),
-    getExpenseDeleteWatcher()
+    getExpenseDeleteWatcher(),
+    getExpenseByIdWatcher(),
+    getExpenseReasonWatcher()
   ]);
 }

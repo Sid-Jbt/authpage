@@ -20,10 +20,10 @@ const initialValues = {
 const AddExpenseForm = ({
   isDialogOpen,
   handleDialog,
-  setIsEdit,
-  title,
-  isEdit,
   selectedData,
+  setIsEdit,
+  isEdit,
+  title,
   Loading,
   button,
   GetExpenseAdd,
@@ -59,8 +59,8 @@ const AddExpenseForm = ({
       itemName: values.itemName,
       purchaseFrom: values.purchaseFrom,
       purchaseDate: values.purchaseDate,
-      amount: values.amount,
-      document: values.document
+      amount: values.amount
+      // document: values.document
     };
     if (isEdit) {
       GetExpenseUpdate({ data: formData, params: selectedData }, (res) => {
@@ -179,8 +179,8 @@ const AddExpenseForm = ({
                   <Dropzone
                     setExistingFile={values.document}
                     // eslint-disable-next-line no-console
-                    selectedFile={(files) => console.log(files)}
-                    // onChange={handleChange}
+                    selectedFile={(files) => console.log('files', files)}
+                    onChange={handleChange}
                     // onBlur={handleBlur}
                     // errorText={errors.document && touched.document && errors.document}
                     // error={errors.document && touched.document}

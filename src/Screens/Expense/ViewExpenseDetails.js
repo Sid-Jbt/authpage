@@ -4,13 +4,13 @@ import Avatar from 'Elements/Avatar';
 import { Grid } from '@mui/material';
 import React from 'react';
 import FormField from 'Elements/FormField';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getSupportTicketPattern } from '../../Routes/routeConfig';
 
-const ViewExpenseDetails = ({ data }) => {
-  const { role } = useSelector((state) => state.login);
-  const labels = [];
+const ViewExpenseDetails = ({ data, role }) => {
+  // const { role } = useSelector((state) => state.login);
+  let labels = [];
   const values = [];
 
   // Convert this form `objectKey` of the object key in to this `object key`
@@ -19,10 +19,17 @@ const ViewExpenseDetails = ({ data }) => {
       if (el.match(/[A-Z\s]+/)) {
         const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
         const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
-
         labels.push(newElement);
       } else {
         labels.push(el);
+      }
+      labels = labels.filter(function (e) {
+        return e !== 'id';
+      });
+      if (role !== 'admin') {
+        labels = labels.filter(function (e) {
+          return e !== 'comment';
+        });
       }
     }
   });
@@ -62,9 +69,11 @@ const ViewExpenseDetails = ({ data }) => {
         <Grid item xs={12}>
           <FormField
             type="textarea"
-            placeholder="Please Enter the reason of approve or reject"
-            label="Reason"
-            value={data.comment}
+            placeholder={
+              role === 'admin' ? 'Enter the reason of approve or reject expense' : 'Comment'
+            }
+            label={role === 'admin' ? 'Reason of approve or reject expense' : 'Comment'}
+            value={role === 'admin' ? '' : data.reason}
             multiline
             rows={5}
             errorFalse

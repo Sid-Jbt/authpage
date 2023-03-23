@@ -26,7 +26,8 @@ const ExpenseList = ({
   GetExpenseUpdate,
   GetExpenseList,
   GetExpenseDelete,
-  GetExpenseById
+  GetExpenseById,
+  GetExpenseReason
 }) => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
   const { role } = useSelector((state) => state.login);
@@ -36,18 +37,18 @@ const ExpenseList = ({
   const [search, setSearch] = useState('');
   const [isViewExpenseDialogOpen, setIsViewExpenseDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [sort, setSort] = useState({ key: 'createdAt', order: 'asc' });
   const [filter, setFilter] = useState(false);
   const [allExpense, setAllExpense] = useState([]);
-  const [expenseCount, setExpenseCount] = useState(0);
+  const [expenseCount, setExpenseCount] = useState({});
   // const [isSearch, setIsSearch] = useState(false);
   // const [sortKey, setSortKey] = useState('createdAt');
   // const [sortOrder, setSortOrder] = useState('desc');
   // const [isExport, setIsExport] = useState(false);
+  // const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState(false);
 
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen || isViewExpenseDialogOpen) {
@@ -62,7 +63,6 @@ const ExpenseList = ({
         (res) => {
           // console.log("data===" , res)
           if (res && res.data && res.data.data) {
-            // console.log("data===" , res)
             const { rows, count } = res.data.data;
             setAllExpense(rows);
             setExpenseCount(count);
@@ -79,22 +79,9 @@ const ExpenseList = ({
     setIsDialogOpen(!isDialogOpen);
   };
 
-  // const handleOpenDialog = () => {
-  //   setIsExpenseDialogOpen(true);
-  // };
-
-  const handleCloseDialog = () => {
-    setIsExpenseDialogOpen(false);
-  };
-
   const handleCloseViewDialog = () => {
     setIsViewExpenseDialogOpen(false);
   };
-
-  // const onClickView = (row) => {
-  //   setSelectedData(row);
-  //   handleOpenDialog();
-  // };
 
   const onClickAction = (key, selectedExpenseData) => {
     if (key === 'edit') {
@@ -142,25 +129,15 @@ const ExpenseList = ({
     setFilter(false);
   };
 
-  // const onClickSearch = () => {
-  //   // getAllExpenseList(sortKey, sortOrder, page, search, 0);
-  // };
-
-  // const onPage = async (selectedPage) => {
-  //   setPage(selectedPage);
-  //   // await getAllExpenseList(sortKey, sortOrder, selectedPage);
-  // };
-  //
-  // const onRowsPerPageChange = async (selectedLimit) => {
-  //   setLimit(selectedLimit);
-  //   // await getAllExpenseList(sortKey, sortOrder, selectedLimit);
-  // };
-  //
-  // const onSort = async (e, selectedSortKey, selectedSortOrder) => {
-  //   setSortKey(selectedSortKey);
-  //   setSortOrder(selectedSortOrder);
-  //   // await getAllExpenseList(selectedSortKey, selectedSortOrder, page);
-  // };
+  const handleExpenseStatus = (status) => {
+    const reasonData = {
+      status,
+      comment: ''
+    };
+    GetExpenseReason({ data: reasonData, id: selectedData.id }, () =>
+      setIsViewExpenseDialogOpen(false)
+    );
+  };
 
   return (
     <>
@@ -223,6 +200,7 @@ const ExpenseList = ({
           </Grid>
         </>
       )}
+
       {/* <Grid item xs="auto">
           <Button
             sx={({ breakpoints, palette: { dark } }) =>
@@ -261,8 +239,6 @@ const ExpenseList = ({
           onClickSearch={() => {
             setFilter(!filter);
           }}
-          // loader={loader}
-          // isSearch={isSearch}
         />
 
         <Table
@@ -291,9 +267,7 @@ const ExpenseList = ({
             button={isEdit ? 'UPDATE YOUR EXPENSE' : 'ADD YOUR EXPENSE'}
             setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
-            // setSelectedData={(value) => setSelectedData(value)}
             isEdit={isEdit}
-            // Loading={Loading}
             GetExpenseAdd={GetExpenseAdd}
             GetExpenseUpdate={GetExpenseUpdate}
             GetExpenseById={GetExpenseById}
@@ -310,8 +284,8 @@ const ExpenseList = ({
               <DeleteDialogAction
                 handleDialogClose={handleDialogClose}
                 selectedId={selectedId}
-                deleteItem={() => onDelete()}
                 message="Are you sure want to delete this?"
+                deleteItem={() => onDelete()}
                 buttonTitle="Delete"
               />
             }
@@ -334,7 +308,7 @@ const ExpenseList = ({
                     color="info"
                     variant="contained"
                     size="small"
-                    onClick={() => handleCloseDialog()}
+                    onClick={() => handleExpenseStatus('approved')}
                   >
                     Approve
                   </Button>
@@ -344,7 +318,7 @@ const ExpenseList = ({
                     color="error"
                     variant="contained"
                     size="small"
-                    onClick={() => handleCloseDialog()}
+                    onClick={() => handleExpenseStatus('reject')}
                   >
                     Reject
                   </Button>

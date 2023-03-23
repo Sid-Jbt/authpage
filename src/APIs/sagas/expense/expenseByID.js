@@ -1,43 +1,40 @@
 import { put, takeLatest, call } from 'redux-saga/effects';
-import { GET_EXPENSE_ADD } from '../../constants';
+import { GET_EXPENSE_ID_DATA } from '../../constants';
 import {
-  getExpenseAddSuccess,
-  getExpenseAddError,
+  getExpenseByIdError,
+  getExpenseByIdSuccess,
   setLoaderComplete,
   setLoaderStart
 } from '../../actions';
 import { API_URL, BASE_URL } from '../../api.config';
 import { instance } from '../../index';
 
-async function getExpenseAddApi({ data, params }) {
+async function getExpenseByIdApi(params) {
   return instance.request({
-    method: 'post',
-    url: BASE_URL + API_URL.EXPENSE_ADD_URL,
-    data,
-    params: { params }
+    method: 'get',
+    url: `${BASE_URL + API_URL.EXPENSE_BY_ID_URL}/${params.id}`
   });
 }
-
-function* getExpenseAddAction(action) {
+function* getExpenseByIdAction(action) {
   const { payload, resolve, reject } = action;
   try {
     yield put(setLoaderStart());
-    const response = yield call(getExpenseAddApi, payload);
+    const response = yield call(getExpenseByIdApi, payload);
     yield put(setLoaderComplete());
     if (response.status === 200) {
-      yield put(getExpenseAddSuccess(response.data));
+      yield put(getExpenseByIdSuccess(response.data));
       if (resolve) resolve(response);
     } else {
-      yield put(getExpenseAddError(response));
+      yield put(getExpenseByIdError(response));
       if (reject) reject(response);
     }
   } catch (e) {
     yield put(setLoaderComplete());
-    yield put(getExpenseAddError(e));
+    yield put(getExpenseByIdError(e));
     if (reject) reject(e);
   }
 }
 
-export function* getExpenseAddWatcher() {
-  yield takeLatest(GET_EXPENSE_ADD, getExpenseAddAction);
+export function* getExpenseByIdWatcher() {
+  yield takeLatest(GET_EXPENSE_ID_DATA, getExpenseByIdAction);
 }

@@ -8,10 +8,12 @@ import customizationReducer from './customizationReducer';
 import dashboardReducer from './dashboardReducer';
 import employeeBySlugReducer from './employee/employeeBySlug';
 import domainReducer from './getDomain';
-import expenseAddReducer from './expense/expenseAdd';
-import expenseListReducer from './expense/expenseList';
-import expenseUpdateReducer from './expense/expenseUpdate';
-import expenseDeleteReducer from './expense/expenseDelete';
+// import expenseAddReducer from './expense/expenseAdd';
+// import expenseListReducer from './expense/expenseList';
+// import expenseUpdateReducer from './expense/expenseUpdate';
+// import expenseDeleteReducer from './expense/expenseDelete';
+// import expenseByIdReducer from "./expense/expenseById";
+// import expenseReasonReducer from "./expense/expenseReason";
 // import employeeListReducer from './employee/employeeList';
 // import employeeAddReducer from './employee/employeeAdd';
 
@@ -26,10 +28,12 @@ const rootReducer = combineReducers({
   // employeeList: employeeListReducer,
   employeeBySlug: employeeBySlugReducer,
   dashboard: dashboardReducer,
-  expenseList: expenseListReducer,
-  expenseAdd: expenseAddReducer,
-  expenseUpdate: expenseUpdateReducer,
-  expenseDelete: expenseDeleteReducer,
+  // expenseList: expenseListReducer,
+  // expenseAdd: expenseAddReducer,
+  // expenseUpdate: expenseUpdateReducer,
+  // expenseDelete: expenseDeleteReducer,
+  // expenseById: expenseByIdReducer,
+  // expenseReason: expenseReasonReducer,
   domain: domainReducer
 });
 

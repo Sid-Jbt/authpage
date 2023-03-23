@@ -12,6 +12,8 @@ import {
   getExpenseList,
   getExpenseUpdate,
   getExpenseDelete,
+  getExpenseById,
+  getExpenseReason,
   getDomain
 } from 'APIs/actions';
 import { connect } from 'react-redux';
@@ -36,7 +38,9 @@ const mapDispatchToProps = (dispatch) => ({
   GetExpenseAdd: (data, resolve, reject) => dispatch(getExpenseAdd(data, resolve, reject)),
   GetExpenseUpdate: (data, resolve, reject) => dispatch(getExpenseUpdate(data, resolve, reject)),
   GetExpenseList: (data, resolve, reject) => dispatch(getExpenseList(data, resolve, reject)),
-  GetExpenseDelete: (data, resolve, reject) => dispatch(getExpenseDelete(data, resolve, reject))
+  GetExpenseDelete: (data, resolve, reject) => dispatch(getExpenseDelete(data, resolve, reject)),
+  GetExpenseReason: (data, resolve, reject) => dispatch(getExpenseReason(data, resolve, reject)),
+  GetExpenseById: (data, resolve, reject) => dispatch(getExpenseById(data, resolve, reject))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);

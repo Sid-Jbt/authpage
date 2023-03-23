@@ -13,7 +13,7 @@ async function getExpenseUpdateApi({ data, params }) {
   return instance.request({
     method: 'post',
     url: BASE_URL + API_URL.EXPENSE_UPDATE_URL,
-    params,
+    params: { params },
     data
   });
 }

@@ -14,3 +14,5 @@ export * from './expense/expenseAdd';
 export * from './expense/expenseList';
 export * from './expense/expenseUpdate';
 export * from './expense/expenseDelete';
+export * from './expense/expenseById';
+export * from './expense/expenseReason';

@@ -12,7 +12,7 @@ import { instance } from '../../index';
 async function getExpenseDeleteApi(params) {
   return instance.request({
     method: 'delete',
-    url: `${BASE_URL + API_URL.EXPENSE_DELETE_URL}/${params}`
+    url: `${BASE_URL + API_URL.EXPENSE_DELETE_URL}/${params.selectedId}`
   });
 }
 

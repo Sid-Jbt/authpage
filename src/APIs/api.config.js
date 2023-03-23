@@ -13,7 +13,9 @@ export const API_URL = {
   EMPLOYEE_ADD_URL: '/user/signup',
   EMPLOYEE_BY_SLUG_URL: '/',
   EXPENSE_ADD_URL: '/user/expense',
-  EXPENSE_LIST_URL: '/expense',
   EXPENSE_UPDATE_URL: '/user/expense',
-  EXPENSE_DELETE_URL: '/user/expense'
+  EXPENSE_DELETE_URL: '/user/expense',
+  EXPENSE_LIST_URL: '/expense',
+  EXPENSE_BY_ID_URL: '/expense',
+  EXPENSE_REASON_URL: '/admin/expense/action'
 };
