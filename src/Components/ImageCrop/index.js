@@ -40,16 +40,8 @@ const CropperImage = ({ src, getCroppedFile, imageType }) => {
     }
   };
   return (
-    <>
+    <Box pt={2}>
       {loading && <Skeleton variant="rectangular" width="100%" height={400} />}
-      <Box display="flex" justifyContent="flex-start" mb={1} pb={0}>
-        <ButtonGroup disableElevation variant="contained">
-          <Button onClick={rotate}>Rotate</Button>
-          <Button onClick={() => flip('h')}>Flip H</Button>
-          <Button onClick={() => flip('v')}>Flip V</Button>
-        </ButtonGroup>
-      </Box>
-
       <Cropper
         src={src}
         style={{ height: 400, width: '100%' }}
@@ -60,10 +52,30 @@ const CropperImage = ({ src, getCroppedFile, imageType }) => {
         }}
         ref={cropperRef}
       />
+      <Box
+        display="flex"
+        justifyContent="flex-start"
+        mt={2}
+        pb={0}
+        sx={{ display: 'inline-block' }}
+      >
+        <ButtonGroup disableElevation variant="contained">
+          <Button variant="contained" color="dark" onClick={rotate}>
+            Rotate
+          </Button>
+          <Button variant="contained" color="dark" onClick={() => flip('h')}>
+            Flip H
+          </Button>
+          <Button variant="contained" color="dark" onClick={() => flip('v')}>
+            Flip V
+          </Button>
+        </ButtonGroup>
+      </Box>
+
       <Button
         sx={{
           float: 'right',
-          mt: 1
+          mt: 2
         }}
         onClick={handleClick}
         color="dark"
@@ -71,7 +83,7 @@ const CropperImage = ({ src, getCroppedFile, imageType }) => {
       >
         Crop
       </Button>
-    </>
+    </Box>
   );
 };
 
