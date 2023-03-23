@@ -45,7 +45,7 @@ const CropperImage = ({ src, getCroppedFile, imageType }) => {
       <Cropper
         src={src}
         style={{ height: 400, width: '100%' }}
-        initialAspectRatio={16 / 9}
+        initialAspectRatio={imageType === 'small' ? 1 : 16 / 9}
         guides={false}
         ready={() => {
           setLoading(false);
@@ -60,13 +60,13 @@ const CropperImage = ({ src, getCroppedFile, imageType }) => {
         sx={{ display: 'inline-block' }}
       >
         <ButtonGroup disableElevation variant="contained">
-          <Button variant="contained" color="dark" onClick={rotate}>
+          <Button variant="contained" color="dark" onClick={rotate} sx={{ width: '85px' }}>
             Rotate
           </Button>
-          <Button variant="contained" color="dark" onClick={() => flip('h')}>
+          <Button variant="contained" color="dark" onClick={() => flip('h')} sx={{ width: '85px' }}>
             Flip H
           </Button>
-          <Button variant="contained" color="dark" onClick={() => flip('v')}>
+          <Button variant="contained" color="dark" onClick={() => flip('v')} sx={{ width: '85px' }}>
             Flip V
           </Button>
         </ButtonGroup>
@@ -75,7 +75,8 @@ const CropperImage = ({ src, getCroppedFile, imageType }) => {
       <Button
         sx={{
           float: 'right',
-          mt: 2
+          mt: 2,
+          width: '85px'
         }}
         onClick={handleClick}
         color="dark"
