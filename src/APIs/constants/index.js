@@ -11,3 +11,4 @@ export * from './employee/employeeList';
 export * from './employee/employeeAdd';
 export * from './employee/employeeBySlug';
 export * from './supportTicket/supportAdd';
+export * from './supportTicket/supportList';

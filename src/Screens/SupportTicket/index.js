@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
 import { Add, Pending, SummarizeRounded, ThumbDown, ThumbUp } from '@mui/icons-material';
 import Button from 'Elements/Button';
@@ -24,16 +24,12 @@ const empSupportOptions = [
   { title: 'View', value: 'view' }
 ];
 
-const supportTicket = ({ GetSupportAdd }) => {
+const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
   const { role } = useSelector((state) => state.login);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const [selectDate, setSelectDate] = useState('');
   const [isEdit, setIsEdit] = useState(false);
-  const [priority, setPriority] = useState('');
-  const [isStatus, setIsStatus] = useState('');
-  const [search, setSearch] = useState('');
   const [selectedId, setSelectedId] = useState('');
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isSupportTicketDialogOpen, setIsSupportTicketDialogOpen] = useState(false);
@@ -45,10 +41,41 @@ const supportTicket = ({ GetSupportAdd }) => {
   const [spTicketListCount, setSpTicketListCount] = useState(0);
   const [sortKey, setSortKey] = useState('subject');
   const [sortOrder, setSortOrder] = useState('asc');
+  const [isSearch, setIsSearch] = useState(false);
+
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState({ key: 'priority', order: 'asc' });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  // const [isExport, setIsExport] = useState(false);
-  const [isSearch, setIsSearch] = useState(false);
+  const [selectDate, setSelectDate] = useState('');
+  const [filter, setFilter] = useState(false);
+  const [priority, setPriority] = useState('');
+  const [isStatus, setIsStatus] = useState('');
+
+  useEffect(() => {
+    if (!isDialogOpen) {
+      GetSupportList(
+        {
+          limit,
+          search,
+          page,
+          sortKey: sort.key,
+          sortOrder: sort.order,
+          priority,
+          status: isStatus,
+          startDate: selectDate
+        },
+        (res) => {
+          if (res && res.data && res.data.data) {
+            setAllSpTicketList(res.data.data.rows);
+            setSpTicketListCount(res.data.data.count);
+            setFilter(false);
+          }
+        }
+      );
+    }
+    return () => {};
+  }, [isDialogOpen, filter, page, sort]);
 
   const handleDialog = () => {
     setSelectedData(null);

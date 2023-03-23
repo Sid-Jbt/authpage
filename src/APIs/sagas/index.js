@@ -10,6 +10,7 @@ import { getEmployeeListWatcher } from './employee/employeeList';
 import { getEmployeeBySlugWatcher } from './employee/employeeBySlug';
 import { getDomainWatcher } from './getDomain';
 import { getSupportAddWatcher } from './supportTicket/supportAdd';
+import { getSupportListWatcher } from './supportTicket/supportList';
 
 export default function* rootSaga() {
   yield all([
@@ -23,6 +24,7 @@ export default function* rootSaga() {
     getEmployeeAddWatcher(),
     getEmployeeListWatcher(),
     getEmployeeBySlugWatcher(),
-    getSupportAddWatcher()
+    getSupportAddWatcher(),
+    getSupportListWatcher()
   ]);
 }
