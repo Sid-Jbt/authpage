@@ -74,6 +74,7 @@ const ViewExpenseDetails = ({ data, role }) => {
             }
             label={role === 'admin' ? 'Reason of approve or reject expense' : 'Comment'}
             value={role === 'admin' ? '' : data.reason}
+            // onChange={handleInputChange}
             multiline
             rows={5}
             errorFalse

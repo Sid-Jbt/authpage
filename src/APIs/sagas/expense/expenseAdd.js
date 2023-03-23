@@ -9,12 +9,11 @@ import {
 import { API_URL, BASE_URL } from '../../api.config';
 import { instance } from '../../index';
 
-async function getExpenseAddApi({ data, params }) {
+async function getExpenseAddApi({ data }) {
   return instance.request({
     method: 'post',
     url: BASE_URL + API_URL.EXPENSE_ADD_URL,
-    data,
-    params: { params }
+    data
   });
 }
 

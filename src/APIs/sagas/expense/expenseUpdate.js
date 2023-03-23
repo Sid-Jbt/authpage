@@ -9,11 +9,19 @@ import {
 import { API_URL, BASE_URL } from '../../api.config';
 import { instance } from '../../index';
 
+// async function getExpenseUpdateApi({ data, params }) {
+//   return instance.request({
+//     method: 'post',
+//     url: `${BASE_URL + API_URL.EXPENSE_UPDATE_URL}/${params}`,
+//     data
+//   });
+//   console.log('data,params =>', data, params)
+// }
+
 async function getExpenseUpdateApi({ data, params }) {
   return instance.request({
-    method: 'post',
-    url: BASE_URL + API_URL.EXPENSE_UPDATE_URL,
-    params: { params },
+    method: 'put',
+    url: `${BASE_URL + API_URL.EXPENSE_UPDATE_URL}/${params}`,
     data
   });
 }

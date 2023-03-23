@@ -13,9 +13,6 @@ async function getExpenseReasonApi({ data, id }) {
   return instance.request({
     method: 'put',
     url: `${BASE_URL + API_URL.EXPENSE_REASON_URL}/${id}`,
-    headers: {
-      'Content-Type': 'application/json'
-    },
     data
   });
 }

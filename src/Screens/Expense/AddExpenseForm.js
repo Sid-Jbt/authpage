@@ -60,7 +60,7 @@ const AddExpenseForm = ({
       purchaseFrom: values.purchaseFrom,
       purchaseDate: values.purchaseDate,
       amount: values.amount
-      // document: values.document
+      // document: ''
     };
     if (isEdit) {
       GetExpenseUpdate({ data: formData, params: selectedData }, (res) => {
@@ -79,6 +79,7 @@ const AddExpenseForm = ({
         }
       });
     }
+    // console.log('data1,params1 =>', data, params)
   };
 
   return (
@@ -180,7 +181,7 @@ const AddExpenseForm = ({
                     setExistingFile={values.document}
                     // eslint-disable-next-line no-console
                     selectedFile={(files) => console.log('files', files)}
-                    onChange={handleChange}
+                    // onChange={handleChange}
                     // onBlur={handleBlur}
                     // errorText={errors.document && touched.document && errors.document}
                     // error={errors.document && touched.document}
