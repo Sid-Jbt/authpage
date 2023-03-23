@@ -13,6 +13,7 @@ import { getSupportAddWatcher } from './supportTicket/supportAdd';
 import { getSupportListWatcher } from './supportTicket/supportList';
 import { getSupportUpdateWatcher } from './supportTicket/supportUpdate';
 import { getSupportByIdWatcher } from './supportTicket/supportById';
+import { getSupportDeleteWatcher } from './supportTicket/supportDelete';
 
 export default function* rootSaga() {
   yield all([
@@ -29,6 +30,7 @@ export default function* rootSaga() {
     getSupportAddWatcher(),
     getSupportListWatcher(),
     getSupportUpdateWatcher(),
-    getSupportByIdWatcher()
+    getSupportByIdWatcher(),
+    getSupportDeleteWatcher()
   ]);
 }

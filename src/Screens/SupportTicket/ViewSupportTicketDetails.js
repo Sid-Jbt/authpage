@@ -3,10 +3,8 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import { Grid } from '@mui/material';
 import FormField from 'Elements/FormField';
-import { useSelector } from 'react-redux';
 
-const ViewSupportTicketDetails = ({ info }) => {
-  const { role } = useSelector((state) => state.route);
+const ViewSupportTicketDetails = ({ info, role }) => {
   const labels = [];
   const values = [];
 

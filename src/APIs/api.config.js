@@ -15,5 +15,6 @@ export const API_URL = {
   SUPPORT_ADD_URL: '/user/support-ticket',
   SUPPORT_GET_URL: '/support-ticket/list',
   SUPPORT_UPDATE_URL: '/user/support-ticket',
-  SUPPORT_BY_ID_URL: '/support-ticket'
+  SUPPORT_BY_ID_URL: '/support-ticket',
+  SUPPORT_DELETE_URL: '/user/support-ticket'
 };

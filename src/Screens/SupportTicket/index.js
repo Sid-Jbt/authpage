@@ -20,18 +20,23 @@ const adminSupportOptions = [{ title: 'View', value: 'view' }];
 
 const empSupportOptions = [
   { title: 'Edit', value: 'edit' },
-  { title: 'View', value: 'view' }
+  { title: 'View', value: 'view' },
+  { title: 'Delete', value: 'delete' }
 ];
 
-const supportTicket = ({ GetSupportAdd, GetSupportList, GetSupportUpdate, GetSupportById }) => {
+const supportTicket = ({
+  GetSupportAdd,
+  GetSupportList,
+  GetSupportUpdate,
+  GetSupportById,
+  GetSupportDelete
+}) => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
   const { role } = useSelector((state) => state.login);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
-  const [selectedId, setSelectedId] = useState('');
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isSupportTicketDialogOpen, setIsSupportTicketDialogOpen] = useState(false);
   const [isViewSupportTicketDialogOpen, setIsViewSupportTicketDialogOpen] = useState(false);
 
   const [allSpTicketList, setAllSpTicketList] = useState([]);
@@ -46,7 +51,7 @@ const supportTicket = ({ GetSupportAdd, GetSupportList, GetSupportUpdate, GetSup
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (!isDialogOpen) {
+    if (!isDialogOpen || !isDeleteDialogOpen) {
       GetSupportList(
         {
           limit,
@@ -69,62 +74,44 @@ const supportTicket = ({ GetSupportAdd, GetSupportList, GetSupportUpdate, GetSup
       );
     }
     return () => {};
-  }, [isDialogOpen, filter, page, sort]);
+  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen]);
 
   const handleDialog = () => {
     setSelectedData(null);
     setIsDialogOpen(!isDialogOpen);
   };
 
-  const handleOpenDialog = () => {
-    setIsSupportTicketDialogOpen(true);
-  };
-  const handleCloseDialog = () => {
-    setIsSupportTicketDialogOpen(false);
-  };
-
   const handleCloseViewDialog = () => {
     setIsViewSupportTicketDialogOpen(false);
   };
 
-  const onClickView = (row) => {
-    setSelectedData(row);
-    handleOpenDialog();
-  };
-
-  const onClickAction = (key, data) => {
-    setSelectedData(data.id);
+  const onClickAction = (key, selectedSupportData) => {
+    setSelectedData(selectedSupportData.id);
     if (key === 'edit') {
       setIsEdit(true);
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
-      if (role === 'admin') {
-        onClickView(data);
-      } else {
-        const viewData = allSpTicketList.find((o) => o.id === data.id);
-        const setViewData = {
-          subject: viewData.subject,
-          date: viewData.ticketDate,
-          department: viewData.department,
-          priority: viewData.priority,
-          status: viewData.status,
-          message: viewData.message.replace(/(<([^>]+)>)/gi, '')
-        };
-        setSelectedData(setViewData);
-        setIsViewSupportTicketDialogOpen(true);
-      }
+      GetSupportById({ id: selectedSupportData.id }, (res) => {
+        if (res && res.data && res.data.data) {
+          const { data } = res.data;
+          setSelectedData({
+            subject: data.subject,
+            date: data.ticketDate,
+            department: data.department,
+            priority: data.priority,
+            status: data.status,
+            message: data.message.replace(/(<([^>]+)>)/gi, '')
+          });
+        }
+      });
+      setIsViewSupportTicketDialogOpen(true);
     } else {
-      setSelectedId(data.id);
       setIsDeleteDialogOpen(true);
     }
   };
 
-  const handleDialogClose = () => {
-    setIsDeleteDialogOpen(false);
-  };
-
   const onDelete = () => {
-    handleDialogClose();
+    GetSupportDelete(selectedData, () => setIsDeleteDialogOpen(false));
   };
 
   const handleClear = () => {
@@ -296,25 +283,25 @@ const supportTicket = ({ GetSupportAdd, GetSupportList, GetSupportUpdate, GetSup
         {isDeleteDialogOpen && (
           <DialogMenu
             isOpen={isDeleteDialogOpen}
-            onClose={handleDialogClose}
+            onClose={() => setIsDeleteDialogOpen(false)}
             dialogTitle="Delete"
             dialogContent={<DeleteDialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
               <DeleteDialogAction
-                handleDialogClose={handleDialogClose}
-                selectedId={selectedId}
-                deleteItem={onDelete}
+                handleDialogClose={() => setIsDeleteDialogOpen(false)}
+                selectedId={selectedData.id}
+                deleteItem={() => onDelete()}
               />
             }
           />
         )}
       </Card>
-      {(isSupportTicketDialogOpen || isViewSupportTicketDialogOpen) && selectedData && (
+      {isViewSupportTicketDialogOpen && selectedData && (
         <DialogMenu
-          isOpen={isSupportTicketDialogOpen || isViewSupportTicketDialogOpen}
-          onClose={isSupportTicketDialogOpen ? handleCloseDialog : handleCloseViewDialog}
+          isOpen={isViewSupportTicketDialogOpen}
+          onClose={handleCloseViewDialog}
           dialogTitle={`Ticket Details: ${selectedData.subject}`}
-          dialogContent={<ViewSupportTicketDetails info={selectedData} />}
+          dialogContent={<ViewSupportTicketDetails info={selectedData} role={role} />}
           dialogAction={
             role === 'admin' && (
               <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
@@ -324,7 +311,7 @@ const supportTicket = ({ GetSupportAdd, GetSupportList, GetSupportUpdate, GetSup
                     color="info"
                     variant="contained"
                     size="small"
-                    onClick={handleCloseDialog}
+                    onClick={() => setIsViewSupportTicketDialogOpen(false)}
                   >
                     Approve
                   </Button>
@@ -334,7 +321,7 @@ const supportTicket = ({ GetSupportAdd, GetSupportList, GetSupportUpdate, GetSup
                     color="error"
                     variant="contained"
                     size="small"
-                    onClick={handleCloseDialog}
+                    onClick={() => setIsViewSupportTicketDialogOpen(false)}
                   >
                     Reject
                   </Button>
