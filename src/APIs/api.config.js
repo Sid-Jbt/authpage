@@ -13,5 +13,7 @@ export const API_URL = {
   EMPLOYEE_ADD_URL: '/user/signup',
   EMPLOYEE_BY_SLUG_URL: '/',
   SUPPORT_ADD_URL: '/user/support-ticket',
-  SUPPORT_GET_URL: '/support-ticket/list'
+  SUPPORT_GET_URL: '/support-ticket/list',
+  SUPPORT_UPDATE_URL: '/user/support-ticket',
+  SUPPORT_BY_ID_URL: '/support-ticket'
 };

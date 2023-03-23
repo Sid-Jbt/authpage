@@ -20,47 +20,52 @@ const AddSupportTicketDialog = ({
   handleDialog,
   setIsEdit,
   title,
-  selectedData,
+  selectedSupportId,
   isEdit,
-  GetSupportAdd
+  GetSupportAdd,
+  GetSupportUpdate,
+  GetSupportById
 }) => {
   const [department, setDepartment] = useState(Department[0]);
   const [priority, setPriority] = useState(Priority[0]);
-  const [data, setData] = useState(initialValues);
+  const [supportData, setSupportData] = useState(initialValues);
 
   useEffect(() => {
-    if (selectedData !== null) {
-      Object.keys(data).map((key) => {
-        data[key] = selectedData[key];
+    if (selectedSupportId !== null) {
+      GetSupportById({ id: selectedSupportId }, (res) => {
+        if (res && res.data && res.data.data) {
+          const { data } = res.data;
+          supportData.subject = data.subject;
+          supportData.message = data.message;
+          setDepartment(Department.find((value) => value.value === data.department.toLowerCase()));
+          setPriority(Priority.find((value) => value.value === data.priority.toLowerCase()));
+        }
       });
-      setData(data);
-      setDepartment(Department.find((value) => value.value === selectedData.department));
-      setPriority(Priority.find((value) => value.value === selectedData.priority));
     } else {
       initialValues.subject = '';
       initialValues.message = '';
-      setData(initialValues);
+      setSupportData(initialValues);
     }
-  }, [selectedData]);
-
-  const handleChangeDepartment = (selectedDepartment) => {
-    setDepartment(selectedDepartment);
-  };
-
-  const handleChangePriority = (selectedPriority) => {
-    setPriority(selectedPriority);
-  };
+  }, [selectedSupportId]);
 
   const onSubmit = async (formData) => {
-    formData.priority = priority.value;
-    formData.department = department.value;
-    GetSupportAdd(formData, (res) => {
-      const { status } = res.data;
-      if (status) {
-        handleDialog();
-        setIsEdit(false);
-      }
-    });
+    if (isEdit) {
+      GetSupportUpdate({ data: formData, params: selectedSupportId }, (res) => {
+        const { status } = res.data;
+        if (status) {
+          handleDialog();
+          setIsEdit(false);
+        }
+      });
+    } else {
+      GetSupportAdd(formData, (res) => {
+        const { status } = res.data;
+        if (status) {
+          handleDialog();
+          setIsEdit(false);
+        }
+      });
+    }
   };
 
   return (
@@ -75,8 +80,10 @@ const AddSupportTicketDialog = ({
       >
         <Formik
           enableReinitialize
-          initialValues={data}
+          initialValues={supportData}
           onSubmit={(formData) => {
+            formData.priority = priority.value;
+            formData.department = department.value;
             onSubmit(formData);
           }}
           validationSchema={supportTicketFormSchema}
@@ -121,7 +128,7 @@ const AddSupportTicketDialog = ({
                           value={department}
                           options={Department}
                           fullWidth
-                          onChange={(value) => handleChangeDepartment(value)}
+                          onChange={(value) => setDepartment(value)}
                         />
                       </FormControl>
                     </Box>
@@ -134,7 +141,7 @@ const AddSupportTicketDialog = ({
                           value={priority}
                           options={Priority}
                           fullWidth
-                          onChange={(value) => handleChangePriority(value)}
+                          onChange={(value) => setPriority(value)}
                         />
                       </FormControl>
                     </Box>

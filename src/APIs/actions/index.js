@@ -11,3 +11,5 @@ export * from './employee/employeeList';
 export * from './employee/employeeBySlug';
 export * from './supportTicket/supportAdd';
 export * from './supportTicket/supportList';
+export * from './supportTicket/supportUpdate';
+export * from './supportTicket/supportById';

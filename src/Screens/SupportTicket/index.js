@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
 import { Add, Pending, SummarizeRounded, ThumbDown, ThumbUp } from '@mui/icons-material';
@@ -10,13 +9,12 @@ import FilterLayout from 'Components/FilterLayout';
 import { Priority, SupportTicketStatus } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
 import { DeleteDialogAction, DeleteDialogContent } from 'Components/DeleteDialog';
+import withStateDispatch from 'Helpers/withStateDispatch';
+import DialogMenu from 'Elements/Dialog';
+import TicketCard from 'Components/CardLayouts/StaticCard';
 import supportTicketData from './data/SupportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
-import TicketCard from '../../Components/CardLayouts/StaticCard';
-import DialogMenu from '../../Elements/Dialog';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
-import withStateDispatch from '../../Helpers/withStateDispatch';
-import { getEmployeeDetailsPattern } from '../../Routes/routeConfig';
 
 const adminSupportOptions = [{ title: 'View', value: 'view' }];
 
@@ -25,7 +23,7 @@ const empSupportOptions = [
   { title: 'View', value: 'view' }
 ];
 
-const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
+const supportTicket = ({ GetSupportAdd, GetSupportList, GetSupportUpdate, GetSupportById }) => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
   const { role } = useSelector((state) => state.login);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -35,15 +33,9 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isSupportTicketDialogOpen, setIsSupportTicketDialogOpen] = useState(false);
   const [isViewSupportTicketDialogOpen, setIsViewSupportTicketDialogOpen] = useState(false);
-  const [counts, setCounts] = useState(null);
-  const [loader, setLoader] = useState(false);
 
   const [allSpTicketList, setAllSpTicketList] = useState([]);
   const [spTicketListCount, setSpTicketListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('subject');
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [isSearch, setIsSearch] = useState(false);
-
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState({ key: 'priority', order: 'asc' });
   const [page, setPage] = useState(0);
@@ -68,8 +60,9 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
         },
         (res) => {
           if (res && res.data && res.data.data) {
-            setAllSpTicketList(res.data.data.rows);
-            setSpTicketListCount(res.data.data.count);
+            const { data } = res.data;
+            setAllSpTicketList(data.rows);
+            setSpTicketListCount(data.count);
             setFilter(false);
           }
         }
@@ -100,9 +93,9 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
   };
 
   const onClickAction = (key, data) => {
+    setSelectedData(data.id);
     if (key === 'edit') {
       setIsEdit(true);
-      setSelectedData(allSpTicketList.find((o) => o.id === data.id));
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
       if (role === 'admin') {
@@ -147,7 +140,7 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Total Tickets"
-            count={counts && counts.totalSupportTicket}
+            count={spTicketListCount && spTicketListCount.totalSupportTicket}
             icon={{ color: 'success', component: <SummarizeRounded /> }}
             isPercentage={false}
           />
@@ -155,7 +148,7 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Approved"
-            count={counts && counts.approved}
+            count={spTicketListCount && spTicketListCount.approved}
             icon={{ color: 'success', component: <ThumbUp /> }}
             isPercentage={false}
           />
@@ -163,7 +156,7 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Declined"
-            count={counts && counts.rejected}
+            count={spTicketListCount && spTicketListCount.rejected}
             icon={{ color: 'error', component: <ThumbDown /> }}
             isPercentage={false}
           />
@@ -171,7 +164,7 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Pending"
-            count={counts && counts.pending}
+            count={spTicketListCount && spTicketListCount.pending}
             icon={{ color: 'info', component: <Pending /> }}
             isPercentage={false}
           />
@@ -274,7 +267,7 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
           onClickAction={(value, row) => onClickAction(value, row)}
           isAction
           options={role === 'admin' ? adminSupportOptions : empSupportOptions}
-          rowsCount={spTicketListCount}
+          rowsCount={spTicketListCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
@@ -293,10 +286,11 @@ const supportTicket = ({ GetSupportAdd, GetSupportList }) => {
             handleDialog={handleDialog}
             title={isEdit ? 'UPDATE SUPPORT TICKET' : 'NEW SUPPORT TICKET'}
             setIsEdit={(value) => setIsEdit(value)}
-            selectedData={selectedData}
-            setSelectedData={(value) => setSelectedData(value)}
+            selectedSupportId={selectedData}
             isEdit={isEdit}
             GetSupportAdd={GetSupportAdd}
+            GetSupportUpdate={GetSupportUpdate}
+            GetSupportById={GetSupportById}
           />
         )}
         {isDeleteDialogOpen && (

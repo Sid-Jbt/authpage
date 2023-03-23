@@ -10,7 +10,9 @@ import {
   getEmployeeBySlug,
   getDomain,
   getSupportAdd,
-  getSupportList
+  getSupportList,
+  getSupportUpdate,
+  getSupportById
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -32,7 +34,9 @@ const mapDispatchToProps = (dispatch) => ({
   GetEmployeeList: (data, resolve, reject) => dispatch(getEmployeeList(data, resolve, reject)),
   GetEmployeeBySlug: (data, resolve, reject) => dispatch(getEmployeeBySlug(data, resolve, reject)),
   GetSupportAdd: (data, resolve, reject) => dispatch(getSupportAdd(data, resolve, reject)),
-  GetSupportList: (data, resolve, reject) => dispatch(getSupportList(data, resolve, reject))
+  GetSupportList: (data, resolve, reject) => dispatch(getSupportList(data, resolve, reject)),
+  GetSupportUpdate: (data, resolve, reject) => dispatch(getSupportUpdate(data, resolve, reject)),
+  GetSupportById: (data, resolve, reject) => dispatch(getSupportById(data, resolve, reject))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);
