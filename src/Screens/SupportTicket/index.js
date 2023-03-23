@@ -15,6 +15,7 @@ import AddSupportTicketForm from './AddSupportTicketForm';
 import TicketCard from '../../Components/CardLayouts/StaticCard';
 import DialogMenu from '../../Elements/Dialog';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
+import withStateDispatch from '../../Helpers/withStateDispatch';
 
 const adminSupportOptions = [{ title: 'View', value: 'view' }];
 
@@ -23,7 +24,7 @@ const empSupportOptions = [
   { title: 'View', value: 'view' }
 ];
 
-const supportTicket = () => {
+const supportTicket = ({ GetSupportAdd }) => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
   const { role } = useSelector((state) => state.login);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -293,11 +294,12 @@ const supportTicket = () => {
           <AddSupportTicketForm
             isDialogOpen={isDialogOpen}
             handleDialog={handleDialog}
-            title={isEdit ? 'EDIT YOUR SUPPORT TICKET' : 'ADD NEW SUPPORT TICKET'}
+            title={isEdit ? 'UPDATE SUPPORT TICKET' : 'NEW SUPPORT TICKET'}
             setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             setSelectedData={(value) => setSelectedData(value)}
             isEdit={isEdit}
+            GetSupportAdd={GetSupportAdd}
           />
         )}
         {isDeleteDialogOpen && (
@@ -354,4 +356,4 @@ const supportTicket = () => {
     </>
   );
 };
-export default supportTicket;
+export default withStateDispatch(supportTicket);

@@ -9,3 +9,4 @@ export * from './dashboard';
 export * from './employee/employeeAdd';
 export * from './employee/employeeList';
 export * from './employee/employeeBySlug';
+export * from './supportTicket/supportAdd';

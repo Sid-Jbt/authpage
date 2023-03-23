@@ -21,7 +21,8 @@ const AddSupportTicketDialog = ({
   setIsEdit,
   title,
   selectedData,
-  isEdit
+  isEdit,
+  GetSupportAdd
 }) => {
   const [department, setDepartment] = useState(Department[0]);
   const [priority, setPriority] = useState(Priority[0]);
@@ -50,10 +51,16 @@ const AddSupportTicketDialog = ({
     setPriority(selectedPriority);
   };
 
-  const onSubmitNewSupportTicket = async (formData) => {
-    // eslint-disable-next-line no-console
-    console.log(formData);
-    handleDialog();
+  const onSubmit = async (formData) => {
+    formData.priority = priority.value;
+    formData.department = department.value;
+    GetSupportAdd(formData, (res) => {
+      const { status } = res.data;
+      if (status) {
+        handleDialog();
+        setIsEdit(false);
+      }
+    });
   };
 
   return (
@@ -70,7 +77,7 @@ const AddSupportTicketDialog = ({
           enableReinitialize
           initialValues={data}
           onSubmit={(formData) => {
-            onSubmitNewSupportTicket(formData);
+            onSubmit(formData);
           }}
           validationSchema={supportTicketFormSchema}
         >
