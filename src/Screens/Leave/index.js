@@ -9,7 +9,7 @@ import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
 import DialogMenu from 'Elements/Dialog';
-import { DeleteDialogAction, DeleteDialogContent } from 'Components/DeleteDialog';
+import { DialogAction, DialogContent } from 'Components/Dialog';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 import ViewLeaveDetails from './ViewLeaveDetails';
@@ -302,9 +302,9 @@ const LeaveList = () => {
             isOpen={isDeleteDialogOpen}
             onClose={() => handleDialogClose()}
             dialogTitle="Delete"
-            dialogContent={<DeleteDialogContent content="Are you sure you want to delete this ?" />}
+            dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
-              <DeleteDialogAction
+              <DialogAction
                 handleDialogClose={handleDialogClose}
                 selectedId={selectedId}
                 message="Are you sure want to delete this?"
@@ -321,32 +321,15 @@ const LeaveList = () => {
           isOpen={isLeaveDialogOpen || isViewLeaveDialogOpen}
           onClose={isLeaveDialogOpen ? handleCloseDialog : handleCloseViewDialog}
           dialogTitle={`Leave Details: ${selectedData.leaveType}`}
-          dialogContent={<ViewLeaveDetails info={selectedData} />}
+          dialogContent={<DialogContent customContent={<ViewLeaveDetails info={selectedData} />} />}
           dialogAction={
             role === 'admin' && (
-              <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
-                <Grid item>
-                  <Button
-                    type="submit"
-                    color="info"
-                    variant="contained"
-                    size="small"
-                    onClick={() => handleCloseDialog()}
-                  >
-                    Approve
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    color="error"
-                    variant="contained"
-                    size="small"
-                    onClick={() => handleCloseDialog()}
-                  >
-                    Reject
-                  </Button>
-                </Grid>
-              </Grid>
+              <DialogAction
+                approveTitle="Approve"
+                rejectTitle="Reject"
+                handleApprove={handleCloseDialog}
+                handleReject={handleDialogClose}
+              />
             )
           }
         />

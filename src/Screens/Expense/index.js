@@ -6,7 +6,12 @@ import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import { useSelector } from 'react-redux';
 import DialogMenu from 'Elements/Dialog';
-import { DeleteDialogAction, DeleteDialogContent } from 'Components/DeleteDialog';
+import {
+  DeleteDialogAction,
+  DeleteDialogContent,
+  DialogAction,
+  DialogContent
+} from 'Components/Dialog';
 import expenseListData from './data/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
 import ExpenseCard from '../../Components/CardLayouts/StaticCard';
@@ -256,14 +261,13 @@ const Expense = () => {
             isOpen={isDeleteDialogOpen}
             onClose={handleDialogClose}
             dialogTitle="Delete"
-            dialogContent={<DeleteDialogContent content="Are you sure you want to delete this ?" />}
+            dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
-              <DeleteDialogAction
-                handleDialogClose={handleDialogClose}
-                selectedId={selectedId}
-                deleteItem={onDelete}
-                message="Are you sure want to delete this?"
-                buttonTitle="Delete"
+              <DialogAction
+                handleReject={handleDialogClose}
+                handleApprove={() => onDelete(selectedId)}
+                approveTitle="Delete"
+                rejectTitle="Cancel"
               />
             }
           />
@@ -274,32 +278,17 @@ const Expense = () => {
           isOpen={isExpenseDialogOpen || isViewExpenseDialogOpen}
           onClose={isExpenseDialogOpen ? handleCloseDialog : handleCloseViewDialog}
           dialogTitle={`Expense Details: ${selectedData.itemName}`}
-          dialogContent={<ViewExpenseDetails info={selectedData} />}
+          dialogContent={
+            <DialogContent customContent={<ViewExpenseDetails info={selectedData} />} />
+          }
           dialogAction={
             role === 'admin' && (
-              <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
-                <Grid item>
-                  <Button
-                    type="submit"
-                    color="info"
-                    variant="contained"
-                    size="small"
-                    onClick={handleCloseDialog}
-                  >
-                    Approve
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    color="error"
-                    variant="contained"
-                    size="small"
-                    onClick={handleCloseDialog}
-                  >
-                    Reject
-                  </Button>
-                </Grid>
-              </Grid>
+              <DialogAction
+                handleReject={handleCloseDialog}
+                handleApprove={handleCloseDialog}
+                approveTitle="Approve"
+                rejectTitle="Reject"
+              />
             )
           }
         />
