@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
 import { Add, ImportExportRounded } from '@mui/icons-material';
@@ -7,12 +8,18 @@ import { useSelector } from 'react-redux';
 import FilterLayout from 'Components/FilterLayout';
 import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
+import withStateDispatch from 'Helpers/withStateDispatch';
 import holidayListData from './data/holidayListData';
 import ImportDialog from './ImportDialog';
 import ManageHolidayForm from './ManageHolidayForm';
-import withStateDispatch from '../../Helpers/withStateDispatch';
 
-const Holiday = ({ GetHolidayList, GetHolidayAdd }) => {
+const Holiday = ({
+  GetHolidayList,
+  GetHolidayAdd,
+  GetHolidayUpdate,
+  GetHolidayById,
+  GetHolidayDelete
+}) => {
   const { columns: prCols } = holidayListData;
   const { role } = useSelector((state) => state.login);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -79,10 +86,10 @@ const Holiday = ({ GetHolidayList, GetHolidayAdd }) => {
     setIsEdit(false);
   };
 
-  const onClickAction = (value, index) => {
+  const onClickAction = (value, data) => {
+    setSelectedData(data.id);
     if (value === 'edit') {
       setIsEdit(true);
-      setSelectedData(allHolidayList.find((o) => o.id === index.id));
       setIsDrawerOpen(true);
     } else if (value === 'delete') {
       setIsEdit(value === 'delete');
@@ -94,7 +101,7 @@ const Holiday = ({ GetHolidayList, GetHolidayAdd }) => {
   };
 
   const onDelete = async () => {
-    handleDialogClose();
+    GetHolidayDelete(selectedData, () => handleDialogClose());
   };
 
   return (
@@ -140,7 +147,7 @@ const Holiday = ({ GetHolidayList, GetHolidayAdd }) => {
         <Table
           columns={prCols}
           rows={allHolidayList}
-          onClickAction={(value, id) => onClickAction(value, id)}
+          onClickAction={(value, data) => onClickAction(value, data)}
           isAction={role === 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
@@ -163,28 +170,14 @@ const Holiday = ({ GetHolidayList, GetHolidayAdd }) => {
           isOpen={isDialogOpen}
           onClose={handleDialogClose}
           dialogTitle={isEdit ? 'Delete' : 'Import Files'}
-          dialogContent={
-            <DialogContent
-              content={!isEdit && 'Are you sure you want to delete this ?'}
-              customContent={
-                isEdit && (
-                  <ImportDialog
-                    isHover={isHover}
-                    handleMouseEnter={handleMouseEnter}
-                    handleMouseLeave={handleMouseLeave}
-                    handleDialogClose={handleDialogClose}
-                  />
-                )
-              }
-            />
-          }
+          dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
           dialogAction={
             isEdit && (
               <DialogAction
                 rejectTitle="Cancel"
                 approveTitle="Delete"
                 handleReject={handleDialogClose}
-                handleApprove={() => onDelete(selectedData)}
+                handleApprove={() => onDelete()}
               />
             )
           }
@@ -192,12 +185,14 @@ const Holiday = ({ GetHolidayList, GetHolidayAdd }) => {
         <ManageHolidayForm
           isDrawerOpen={Boolean(isDrawerOpen)}
           handleDrawerClose={() => handleDrawerClose()}
-          title={isEdit ? 'EDIT HOLIDAY' : 'ADD HOLIDAY'}
+          title={isEdit ? 'UPDATE HOLIDAY' : 'ADD HOLIDAY'}
           setIsEdit={(value) => setIsEdit(value)}
           selectedData={selectedData}
           setSelectedData={(value) => setSelectedData(value)}
           isEdit={isEdit}
           GetHolidayAdd={GetHolidayAdd}
+          GetHolidayUpdate={GetHolidayUpdate}
+          GetHolidayById={GetHolidayById}
         />
       </Card>
     </>

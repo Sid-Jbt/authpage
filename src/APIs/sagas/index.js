@@ -14,6 +14,9 @@ import { getPayslipListWatcher } from './payslip/payslipList';
 import { getAttendanceListWatcher } from './attendance/attendanceList';
 import { getHolidayListWatcher } from './holiday/holidayList';
 import { getHolidayAddWatcher } from './holiday/holidayAdd';
+import { getHolidayUpdateWatcher } from './holiday/holidayUpdate';
+import { getHolidayByIdWatcher } from './holiday/holidayById';
+import { getHolidayDeleteWatcher } from './holiday/holidayDelete';
 
 export default function* rootSaga() {
   yield all([
@@ -31,6 +34,9 @@ export default function* rootSaga() {
     getPayslipListWatcher(),
     getAttendanceListWatcher(),
     getHolidayListWatcher(),
-    getHolidayAddWatcher()
+    getHolidayAddWatcher(),
+    getHolidayUpdateWatcher(),
+    getHolidayByIdWatcher(),
+    getHolidayDeleteWatcher()
   ]);
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
 import { holidayFormSchema } from 'Helpers/ValidationSchema';
@@ -8,17 +8,59 @@ import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 
+const initialValues = {
+  title: '',
+  holidayDate: moment().format('DD/MM/YYYY')
+};
+
 const ManageHolidayForm = ({
   isDrawerOpen,
   handleDrawerClose,
   title,
   Loading,
   GetHolidayAdd,
-  setIsEdit
+  setIsEdit,
+  isEdit,
+  GetHolidayUpdate,
+  selectedData,
+  GetHolidayById
 }) => {
-  const onSubmit = (formData) => {
-    GetHolidayAdd(formData);
-    handleDrawerClose();
+  const [holidayData, setHolidayDay] = useState(initialValues);
+
+  useEffect(() => {
+    if (selectedData !== null) {
+      GetHolidayById({ id: selectedData }, (res) => {
+        if (res && res.data && res.data.data) {
+          const { data } = res.data;
+          holidayData.title = data.title;
+          holidayData.holidayDate = data.holidayDate;
+        } else {
+          initialValues.title = '';
+          initialValues.holidayDate = '';
+          setHolidayDay(initialValues);
+        }
+      });
+    }
+  }, [selectedData]);
+
+  const onSubmit = async (formData) => {
+    if (isEdit) {
+      GetHolidayUpdate({ data: formData, params: selectedData }, (res) => {
+        const { status } = res.data;
+        if (status) {
+          handleDrawerClose();
+          setIsEdit(false);
+        }
+      });
+    } else {
+      GetHolidayAdd(formData, (res) => {
+        const { status } = res.data;
+        if (status) {
+          handleDrawerClose();
+          setIsEdit(false);
+        }
+      });
+    }
   };
 
   return (
@@ -33,10 +75,7 @@ const ManageHolidayForm = ({
       >
         <Formik
           enableReinitialize
-          initialValues={{
-            title: '',
-            holidayDate: moment().format('DD/MM/YYYY')
-          }}
+          initialValues={holidayData}
           onSubmit={(values) => {
             onSubmit(values);
           }}
@@ -80,6 +119,10 @@ const ManageHolidayForm = ({
                     dateformat="yyyy-MM-dd"
                     id="holidayDate"
                     name="holidayDate"
+                    inputProps={{
+                      min: moment().subtract(1, 'Y').format('YYYY-MM-DD'),
+                      max: moment().add(1, 'Y').format('YYYY-MM-DD')
+                    }}
                     value={values.holidayDate}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -105,7 +148,7 @@ const ManageHolidayForm = ({
                     size="small"
                     disabled={isSubmitting || Loading}
                   >
-                    {Loading ? <CircularProgress size={20} color="inherit" /> : 'Add Holiday'}
+                    {Loading ? <CircularProgress size={20} color="inherit" /> : title}
                   </Button>
                 </Grid>
               </form>

@@ -13,3 +13,6 @@ export * from './payslip/payslipList';
 export * from './attendance/attendanceList';
 export * from './holiday/holidayList';
 export * from './holiday/holidayAdd';
+export * from './holiday/holidayUpdate';
+export * from './holiday/holidayById';
+export * from './holiday/holidayDelete';

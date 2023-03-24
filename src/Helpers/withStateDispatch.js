@@ -13,7 +13,10 @@ import {
   getPayslipList,
   getAttendanceList,
   getHolidayList,
-  getHolidayAdd
+  getHolidayAdd,
+  getHolidayUpdate,
+  getHolidayById,
+  getHolidayDelete
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -38,7 +41,10 @@ const mapDispatchToProps = (dispatch) => ({
   GetPayslipList: (data, resolve, reject) => dispatch(getPayslipList(data, resolve, reject)),
   GetAttendanceList: (data, resolve, reject) => dispatch(getAttendanceList(data, resolve, reject)),
   GetHolidayList: (data, resolve, reject) => dispatch(getHolidayList(data, resolve, reject)),
-  GetHolidayAdd: (data, resolve, reject) => dispatch(getHolidayAdd(data, resolve, reject))
+  GetHolidayAdd: (data, resolve, reject) => dispatch(getHolidayAdd(data, resolve, reject)),
+  GetHolidayUpdate: (data, resolve, reject) => dispatch(getHolidayUpdate(data, resolve, reject)),
+  GetHolidayById: (data, resolve, reject) => dispatch(getHolidayById(data, resolve, reject)),
+  GetHolidayDelete: (data, resolve, reject) => dispatch(getHolidayDelete(data, resolve, reject))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);
