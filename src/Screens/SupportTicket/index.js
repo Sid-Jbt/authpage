@@ -86,7 +86,7 @@ const supportTicket = ({
   };
 
   const onClickAction = (key, selectedSupportData) => {
-    setSelectedData(selectedSupportData.id);
+    setSelectedData(selectedSupportData);
     if (key === 'edit') {
       setIsEdit(true);
       setIsDialogOpen(!isDialogOpen);
@@ -273,7 +273,7 @@ const supportTicket = ({
             handleDialog={handleDialog}
             title={isEdit ? 'UPDATE SUPPORT TICKET' : 'NEW SUPPORT TICKET'}
             setIsEdit={(value) => setIsEdit(value)}
-            selectedSupportId={selectedData}
+            selectedSupportId={selectedData && selectedData.id}
             isEdit={isEdit}
             GetSupportAdd={GetSupportAdd}
             GetSupportUpdate={GetSupportUpdate}
