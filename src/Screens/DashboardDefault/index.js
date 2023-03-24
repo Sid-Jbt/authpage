@@ -30,20 +30,14 @@ const DashboardDefault = ({ GetDashboard }) => {
   const [currentMonthHour, setCurrentMonthHour] = useState(0);
 
   useEffect(() => {
-    GetDashboard();
+    GetDashboard({}, (res) => {
+      if (res && res.data && res.data.data) {
+        setCalendarEventsData(res.data.data.holidayList);
+        setCurrentWeekHour(res.data.data.currentWeekHours);
+        setCurrentMonthHour(res.data.data.currentMonthHours);
+      }
+    });
   }, []);
-
-  const handleTotalEmployee = () => {
-    navigate(getEmployeeListPattern());
-  };
-
-  const handlePendingExpense = () => {
-    navigate(getExpensePattern());
-  };
-
-  const handlePendingLeave = () => {
-    navigate(getLeavePattern());
-  };
 
   return (
     <Box mb={3}>
