@@ -28,6 +28,24 @@ const DashboardDefault = ({ GetDashboard }) => {
   const [calendarEventsData, setCalendarEventsData] = useState([]);
   const [currentWeekHour, setCurrentWeekHour] = useState(0);
   const [currentMonthHour, setCurrentMonthHour] = useState(0);
+  const noticeEventList = [
+    {
+      title: 'JBT Timer',
+      eventName: 'JBT Timer',
+      eventType: 'event',
+      eventClass: 'error',
+      start: '2023-03-31',
+      end: '2023-03-31'
+    },
+    {
+      title: 'Notice',
+      eventName: 'Notice',
+      eventType: 'notice',
+      eventClass: 'warning',
+      start: '2023-03-20',
+      end: '2023-03-22'
+    }
+  ];
 
   useEffect(() => {
     GetDashboard({}, (res) => {
