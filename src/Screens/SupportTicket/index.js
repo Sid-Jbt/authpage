@@ -30,7 +30,8 @@ const supportTicket = ({
   GetSupportUpdate,
   GetSupportById,
   GetSupportDelete,
-  GetSupportReason
+  GetSupportReason,
+  Loading
 }) => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
   const { role } = useSelector((state) => state.login);
@@ -283,6 +284,7 @@ const supportTicket = ({
             GetSupportAdd={GetSupportAdd}
             GetSupportUpdate={GetSupportUpdate}
             GetSupportById={GetSupportById}
+            Loading={Loading}
           />
         )}
         {isDeleteDialogOpen && (

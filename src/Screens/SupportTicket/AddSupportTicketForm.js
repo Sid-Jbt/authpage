@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { supportTicketFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
-import { FormControl, FormLabel, Grid } from '@mui/material';
+import { CircularProgress, FormControl, FormLabel, Grid } from '@mui/material';
 import Select from 'Elements/Select';
 import Input from 'Elements/Input';
 import Editor from 'Elements/Editor';
@@ -23,7 +23,8 @@ const AddSupportTicketDialog = ({
   isEdit,
   GetSupportAdd,
   GetSupportUpdate,
-  GetSupportById
+  GetSupportById,
+  Loading
 }) => {
   const [department, setDepartment] = useState(Department[0]);
   const [priority, setPriority] = useState(Priority[0]);
@@ -156,7 +157,13 @@ const AddSupportTicketDialog = ({
 
                   <Grid item xs={12} md={4} lg={6}>
                     <Button type="submit" color="info" variant="contained" size="medium">
-                      {isEdit ? 'Update Ticket' : 'Add Ticket'}
+                      {Loading ? (
+                        <CircularProgress size={20} color="inherit" />
+                      ) : isEdit ? (
+                        'Update Ticket'
+                      ) : (
+                        'Add Ticket'
+                      )}
                     </Button>
                   </Grid>
                 </Grid>
