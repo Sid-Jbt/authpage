@@ -58,7 +58,7 @@ const Organisation = (props) => {
           <Grid item xs={6} sm={3} lg={4} container justifyContent="center">
             <Box position="relative" height="max-content" mx="auto">
               <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-                Small Logo (1x1 px)
+                Logo (1x1)
               </Typography>
               <Box>
                 <input
@@ -79,15 +79,10 @@ const Organisation = (props) => {
                   position="absolute"
                   right={0}
                   bottom={0}
-                  sx={({ breakpoints }) => ({
-                    mr: 3.5,
-                    mb: -1,
-                    [breakpoints.down('md')]: {
-                      ml: 7,
-                      mr: 0.5,
-                      mb: -1
-                    }
-                  })}
+                  sx={{
+                    mr: -1.5,
+                    mb: -1
+                  }}
                 >
                   <Button
                     variant="gradient"
@@ -107,7 +102,7 @@ const Organisation = (props) => {
           <Grid item xs={6} sm={3} lg={4} container>
             <Box position="relative" height="max-content" mx="auto">
               <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-                Large Logo (16x9 px)
+                Logo (16x9)
               </Typography>
               <Box>
                 <input
@@ -128,15 +123,10 @@ const Organisation = (props) => {
                   position="absolute"
                   right={0}
                   bottom={0}
-                  sx={({ breakpoints }) => ({
-                    mr: 3.5,
-                    mb: -1,
-                    [breakpoints.down('md')]: {
-                      ml: 7,
-                      mr: 0.5,
-                      mb: -1
-                    }
-                  })}
+                  sx={{
+                    mr: -1.5,
+                    mb: -1
+                  }}
                 >
                   <Button
                     variant="gradient"

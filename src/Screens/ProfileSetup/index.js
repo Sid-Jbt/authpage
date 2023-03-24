@@ -126,7 +126,7 @@ const ProfileSetup = ({ GetProfileSetup, Loading }) => {
               </Step>
             ))}
           </Stepper>
-          <Card>
+          <Card sx={{ overflow: 'visible' }}>
             <Box p={2}>
               <Formik
                 initialValues={role === 'admin' ? adminInitialValues : userInitialValues}
