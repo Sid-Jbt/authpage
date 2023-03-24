@@ -77,10 +77,6 @@ const LeaveList = ({
     setIsDialogOpen(!isDialogOpen);
   };
 
-  const handleCloseViewDialog = () => {
-    setIsViewLeaveDialogOpen(false);
-  };
-
   const onClickAction = (key, selectedLeaveData) => {
     if (key === 'edit') {
       setIsEdit(true);
@@ -294,7 +290,7 @@ const LeaveList = ({
       {isViewLeaveDialogOpen && selectedData && (
         <DialogMenu
           isOpen={isViewLeaveDialogOpen}
-          onClose={handleCloseViewDialog}
+          onClose={() => setIsViewLeaveDialogOpen(false)}
           dialogTitle={`Leave Details: ${selectedData.leaveType}`}
           dialogContent={<DialogContent customContent={<ViewLeaveDetails data={selectedData} />} />}
           dialogAction={
