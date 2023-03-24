@@ -10,6 +10,9 @@ import Icon from '@mui/material/Icon';
 import { Edit } from '@mui/icons-material';
 import Select from 'Elements/Select';
 import { WorkingHours } from 'Helpers/Global';
+import CropperImage from 'Components/ImageCrop';
+import DialogMenu from 'Elements/Dialog';
+import { DialogContent } from '../../../../Components/Dialog';
 
 const Organisation = (props) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props.props;
@@ -18,18 +21,24 @@ const Organisation = (props) => {
   const [workingHours, setWorkingHours] = useState(WorkingHours[0]);
   const [smallLogo, setSmallLogo] = useState('');
   const [largeLogo, setLargeLogo] = useState('');
+  const [logoType, setLogoType] = useState('');
+  const [cropperImage, setCropperImage] = useState('');
+  const [cropClose, setCropClose] = useState(false);
 
-  const onClickLogoUpload = (e, logo) => {
-    const file = e.target.files[0];
-    if (logo === 'small') {
-      const url = URL.createObjectURL(file);
-      setSmallLogo(url);
-      setFieldValue('smallLogo', file);
-    } else {
-      const url = URL.createObjectURL(file);
-      setLargeLogo(url);
-      setFieldValue('largeLogo', file);
-    }
+  const handleImageChange = (e, type) => {
+    e.preventDefault();
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCropClose(true);
+      if (type === 'small') {
+        setLogoType('small');
+        setCropperImage(reader.result);
+      } else {
+        setLogoType('large');
+        setCropperImage(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   return (
@@ -50,7 +59,7 @@ const Organisation = (props) => {
           <Grid item xs={6} sm={3} lg={4} container justifyContent="center">
             <Box position="relative" height="max-content" mx="auto">
               <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-                Small Logo
+                Logo (1x1)
               </Typography>
               <Box>
                 <input
@@ -58,7 +67,7 @@ const Organisation = (props) => {
                   type="file"
                   accept="image/*"
                   hidden
-                  onChange={(e) => onClickLogoUpload(e, 'small')}
+                  onChange={(e) => handleImageChange(e, 'small')}
                 />
                 <Avatar
                   src={smallLogo === '' ? team2 : smallLogo}
@@ -66,7 +75,16 @@ const Organisation = (props) => {
                   size="xxl"
                   variant="rounded"
                 />
-                <Box alt="spotify logo" position="absolute" right={0} bottom={0} mr={-1} mb={-1}>
+                <Box
+                  alt="spotify logo"
+                  position="absolute"
+                  right={0}
+                  bottom={0}
+                  sx={{
+                    mr: -1.5,
+                    mb: -1
+                  }}
+                >
                   <Button
                     variant="gradient"
                     color="light"
@@ -85,7 +103,7 @@ const Organisation = (props) => {
           <Grid item xs={6} sm={3} lg={4} container>
             <Box position="relative" height="max-content" mx="auto">
               <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-                Large Logo
+                Logo (16x9)
               </Typography>
               <Box>
                 <input
@@ -93,7 +111,7 @@ const Organisation = (props) => {
                   type="file"
                   accept="image/*"
                   hidden
-                  onChange={(e) => onClickLogoUpload(e, 'large')}
+                  onChange={(e) => handleImageChange(e, 'large')}
                 />
                 <Avatar
                   src={largeLogo === '' ? team2 : largeLogo}
@@ -101,7 +119,16 @@ const Organisation = (props) => {
                   size="xxl"
                   variant="rounded"
                 />
-                <Box alt="spotify logo" position="absolute" right={0} bottom={0} mr={-1} mb={-1}>
+                <Box
+                  alt="spotify logo"
+                  position="absolute"
+                  right={0}
+                  bottom={0}
+                  sx={{
+                    mr: -1.5,
+                    mb: -1
+                  }}
+                >
                   <Button
                     variant="gradient"
                     color="light"
@@ -139,23 +166,52 @@ const Organisation = (props) => {
                 size="medium"
                 fullWidth
                 id="organizationAddress"
-                name="organizationAddress"
+                name="location"
                 label="Organisation Address"
-                value={values.organizationAddress}
+                value={values.location}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                errorText={
-                  errors.organizationAddress &&
-                  touched.organizationAddress &&
-                  errors.organizationAddress
-                }
-                error={errors.organizationAddress && touched.organizationAddress}
-                success={!errors.organizationAddress && touched.organizationAddress}
+                errorText={errors.location && touched.location && errors.location}
+                error={errors.location && touched.location}
+                success={!errors.location && touched.location}
               />
             </Box>
           </Grid>
         </Grid>
       </Box>
+      <DialogMenu
+        isOpen={cropClose}
+        onClose={() => {
+          setCropClose(false);
+          if (logoType === 'large') {
+            setLargeLogo(largeLogo);
+            setFieldValue('largeLogo', largeLogo);
+          } else {
+            setSmallLogo(smallLogo);
+            setFieldValue('smallLogo', smallLogo);
+          }
+        }}
+        dialogContent={
+          <DialogContent
+            customContent={
+              <CropperImage
+                src={cropperImage}
+                imageType={logoType}
+                getCroppedFile={(file, image, type) => {
+                  if (type === 'large') {
+                    setLargeLogo(image);
+                    setFieldValue('largeLogo', file);
+                  } else {
+                    setSmallLogo(image);
+                    setFieldValue('smallLogo', file);
+                  }
+                  setCropClose(false);
+                }}
+              />
+            }
+          />
+        }
+      />
     </>
   );
 };

@@ -25,18 +25,11 @@ const ForgotPassword = ({ GetForgotPassword, Loading }) => {
       <Formik
         initialValues={{ email: '' }}
         onSubmit={(values, actions) => {
-          GetForgotPassword(
-            { email: values.email },
-            (res) => {
-              if (res.data.status) {
-                navigate(getDefaultPattern());
-              }
-            },
-            (err) => {
-              // eslint-disable-next-line no-console
-              console.log(err);
+          GetForgotPassword({ email: values.email }, (res) => {
+            if (res.data.status) {
+              navigate(getDefaultPattern());
             }
-          );
+          });
           actions.setSubmitting(false);
         }}
         validationSchema={forgotPasswordSchema}

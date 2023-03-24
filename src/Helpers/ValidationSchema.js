@@ -223,7 +223,7 @@ export const userSchema = [
 
 export const organisationSchema = [
   yup.object().shape({
-    organizationAddress: yup.string().required(validationMessage)
+    location: yup.string().required(validationMessage)
   }),
   yup.object().shape({
     firstName: yup.string().required(validationMessage),
