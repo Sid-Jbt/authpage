@@ -1,17 +1,17 @@
 // Get array of months
 export const Months = [
-  { value: 'january', label: 'January' },
-  { value: 'February', label: 'February' },
-  { value: 'march', label: 'March' },
-  { value: 'april', label: 'April' },
-  { value: 'may', label: 'May' },
-  { value: 'june', label: 'June' },
-  { value: 'july', label: 'July' },
-  { value: 'august', label: 'August' },
-  { value: 'september', label: 'September' },
-  { value: 'october', label: 'October' },
-  { value: 'november', label: 'November' },
-  { value: 'december', label: 'December' }
+  { value: 1, label: 'January' },
+  { value: 2, label: 'February' },
+  { value: 3, label: 'March' },
+  { value: 4, label: 'April' },
+  { value: 5, label: 'May' },
+  { value: 6, label: 'June' },
+  { value: 7, label: 'July' },
+  { value: 8, label: 'August' },
+  { value: 9, label: 'September' },
+  { value: 10, label: 'October' },
+  { value: 11, label: 'November' },
+  { value: 12, label: 'December' }
 ];
 
 // Get array of years
@@ -50,7 +50,7 @@ export const leave = [
   { value: 'earnedLeave', label: 'Earned Leave' }
 ];
 
-export const Status = [
+export const attendanceStatus = [
   { value: 'all', label: 'All' },
   { value: 'present', label: 'Present' },
   { value: 'absent', label: 'Absent' },
