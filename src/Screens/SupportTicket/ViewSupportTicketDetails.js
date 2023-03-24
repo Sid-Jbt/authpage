@@ -4,28 +4,34 @@ import Typography from 'Elements/Typography';
 import { Grid } from '@mui/material';
 import FormField from 'Elements/FormField';
 
-const ViewSupportTicketDetails = ({ info, role }) => {
-  const labels = [];
+const ViewSupportTicketDetails = ({ data, role }) => {
+  let labels = [];
   const values = [];
 
   // Convert this form `objectKey` of the object key in to this `object key`
-  Object.keys(info).forEach((el) => {
-    if (el !== 'message') {
-      if (el.match(/[A-Z\s]+/)) {
-        const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
-        const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
+  Object.keys(data).forEach((el) => {
+    if (el.match(/[A-Z\s]+/)) {
+      const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
+      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
 
-        labels.push(newElement);
-      } else {
-        labels.push(el);
-      }
+      labels.push(newElement);
+    } else {
+      labels.push(el);
+    }
+    labels = labels.filter(function (e) {
+      return e !== 'id';
+    });
+    if (role !== 'admin') {
+      labels = labels.filter(function (e) {
+        return e !== 'message';
+      });
     }
   });
 
   // Push the object values into the values array
-  Object.values(info).forEach((el) => values.push(el));
+  Object.values(data).forEach((el) => values.push(el));
 
-  // Render the card info items
+  // Render the card data items
   const renderItems = labels.map((label, key) => (
     <Box key={label} display="flex" py={0.5} pr={2}>
       {label !== 'image' && (
@@ -48,9 +54,11 @@ const ViewSupportTicketDetails = ({ info, role }) => {
         <Grid item xs={12}>
           <FormField
             type="textarea"
-            placeholder="Please Enter the message of approve or reject"
-            label="Message"
-            value={info.message}
+            placeholder={
+              role === 'admin' ? 'Enter the reason of approve or reject message' : 'Message'
+            }
+            label={role === 'admin' ? 'Reason of approve or reject message' : 'Message'}
+            value={role === 'admin' ? '' : data.message}
             multiline
             rows={5}
             errorFalse

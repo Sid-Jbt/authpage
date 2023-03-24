@@ -15,7 +15,8 @@ import {
   getSupportList,
   getSupportUpdate,
   getSupportById,
-  getSupportDelete
+  getSupportDelete,
+  getSupportReason
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -42,7 +43,8 @@ const mapDispatchToProps = (dispatch) => ({
   GetSupportList: (data, resolve, reject) => dispatch(getSupportList(data, resolve, reject)),
   GetSupportUpdate: (data, resolve, reject) => dispatch(getSupportUpdate(data, resolve, reject)),
   GetSupportById: (data, resolve, reject) => dispatch(getSupportById(data, resolve, reject)),
-  GetSupportDelete: (data, resolve, reject) => dispatch(getSupportDelete(data, resolve, reject))
+  GetSupportDelete: (data, resolve, reject) => dispatch(getSupportDelete(data, resolve, reject)),
+  GetSupportReason: (data, resolve, reject) => dispatch(getSupportReason(data, resolve, reject))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);

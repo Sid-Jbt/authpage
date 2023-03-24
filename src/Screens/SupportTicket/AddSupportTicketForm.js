@@ -3,7 +3,6 @@ import { Formik } from 'formik';
 import { supportTicketFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
 import { FormControl, FormLabel, Grid } from '@mui/material';
-import Box from 'Elements/Box';
 import Select from 'Elements/Select';
 import Input from 'Elements/Input';
 import Editor from 'Elements/Editor';
@@ -101,66 +100,58 @@ const AddSupportTicketDialog = ({
             return (
               <form onSubmit={handleSubmit}>
                 <Grid item xs={12} md={6}>
-                  <Box>
-                    <Input
-                      type="text"
-                      placeholder="Write here..."
-                      size="medium"
-                      id="subject"
-                      name="subject"
-                      label="SUBJECT"
-                      fullWidth
-                      value={values.subject}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      errorText={errors.subject && touched.subject && errors.subject}
-                      error={errors.subject && touched.subject}
-                      success={!errors.subject && touched.subject}
-                    />
-                  </Box>
+                  <Input
+                    type="text"
+                    placeholder="Write here..."
+                    size="medium"
+                    id="subject"
+                    name="subject"
+                    label="SUBJECT"
+                    fullWidth
+                    value={values.subject}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.subject && touched.subject && errors.subject}
+                    error={errors.subject && touched.subject}
+                    success={!errors.subject && touched.subject}
+                  />
                 </Grid>
                 <Grid container spacing={1} justifyContent="space-between">
                   <Grid item xs={12} md={6}>
-                    <Box>
-                      <FormControl sx={{ width: '100%' }}>
-                        <FormLabel> DEPARTMENT </FormLabel>
-                        <Select
-                          value={department}
-                          options={Department}
-                          fullWidth
-                          onChange={(value) => setDepartment(value)}
-                        />
-                      </FormControl>
-                    </Box>
+                    <FormControl sx={{ width: '100%' }}>
+                      <FormLabel> DEPARTMENT </FormLabel>
+                      <Select
+                        value={department}
+                        options={Department}
+                        fullWidth
+                        onChange={(value) => setDepartment(value)}
+                      />
+                    </FormControl>
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <Box>
-                      <FormControl sx={{ width: '100%' }}>
-                        <FormLabel> Priority </FormLabel>
-                        <Select
-                          value={priority}
-                          options={Priority}
-                          fullWidth
-                          onChange={(value) => setPriority(value)}
-                        />
-                      </FormControl>
-                    </Box>
+                    <FormControl sx={{ width: '100%' }}>
+                      <FormLabel> Priority </FormLabel>
+                      <Select
+                        value={priority}
+                        options={Priority}
+                        fullWidth
+                        onChange={(value) => setPriority(value)}
+                      />
+                    </FormControl>
                   </Grid>
 
                   <Grid item xs={12}>
-                    <Box>
-                      <Editor
-                        title="MESSAGE"
-                        label="MESSAGE"
-                        id="message"
-                        name="message"
-                        value={values.message}
-                        backgroundContainerColor="white"
-                        onChange={(value) => {
-                          setFieldValue('message', value);
-                        }}
-                      />
-                    </Box>
+                    <Editor
+                      title="MESSAGE"
+                      label="MESSAGE"
+                      id="message"
+                      name="message"
+                      value={values.message}
+                      backgroundContainerColor="white"
+                      onChange={(value) => {
+                        setFieldValue('message', value);
+                      }}
+                    />
                   </Grid>
 
                   <Grid item xs={12} md={4} lg={6}>

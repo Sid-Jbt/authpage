@@ -29,7 +29,8 @@ const supportTicket = ({
   GetSupportList,
   GetSupportUpdate,
   GetSupportById,
-  GetSupportDelete
+  GetSupportDelete,
+  GetSupportReason
 }) => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
   const { role } = useSelector((state) => state.login);
@@ -51,7 +52,7 @@ const supportTicket = ({
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (!isDialogOpen || !isDeleteDialogOpen) {
+    if (!isDialogOpen || !isDeleteDialogOpen || !isViewSupportTicketDialogOpen) {
       GetSupportList(
         {
           limit,
@@ -74,7 +75,7 @@ const supportTicket = ({
       );
     }
     return () => {};
-  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen]);
+  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewSupportTicketDialogOpen]);
 
   const handleDialog = () => {
     setSelectedData(null);
@@ -95,6 +96,7 @@ const supportTicket = ({
         if (res && res.data && res.data.data) {
           const { data } = res.data;
           setSelectedData({
+            id: data.id,
             subject: data.subject,
             date: data.ticketDate,
             department: data.department,
@@ -120,6 +122,16 @@ const supportTicket = ({
     setPriority('');
     setStatus('');
     setSearch('');
+  };
+
+  const handleSupportStatus = (supportReason) => {
+    const reasonData = {
+      status: supportReason,
+      reason: ''
+    };
+    GetSupportReason({ data: reasonData, id: selectedData.id }, () =>
+      setIsViewSupportTicketDialogOpen(false)
+    );
   };
 
   return (
@@ -303,7 +315,7 @@ const supportTicket = ({
           isOpen={isViewSupportTicketDialogOpen}
           onClose={handleCloseViewDialog}
           dialogTitle={`Ticket Details: ${selectedData.subject}`}
-          dialogContent={<ViewSupportTicketDetails info={selectedData} role={role} />}
+          dialogContent={<ViewSupportTicketDetails data={selectedData} role={role} />}
           dialogAction={
             role === 'admin' && (
               <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
@@ -313,7 +325,7 @@ const supportTicket = ({
                     color="info"
                     variant="contained"
                     size="small"
-                    onClick={() => setIsViewSupportTicketDialogOpen(false)}
+                    onClick={() => handleSupportStatus('approved')}
                   >
                     Approve
                   </Button>
@@ -323,7 +335,7 @@ const supportTicket = ({
                     color="error"
                     variant="contained"
                     size="small"
-                    onClick={() => setIsViewSupportTicketDialogOpen(false)}
+                    onClick={() => handleSupportStatus('reject')}
                   >
                     Reject
                   </Button>

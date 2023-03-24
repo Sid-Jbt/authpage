@@ -16,3 +16,4 @@ export * from './supportTicket/supportList';
 export * from './supportTicket/supportUpdate';
 export * from './supportTicket/supportById';
 export * from './supportTicket/supportDelete';
+export * from './supportTicket/supportReason';
