@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Select from 'Elements/Select';
@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import withStateDispatch from 'Helpers/withStateDispatch';
 import payslipColumns from './data/payslipData';
 
-const Payslip = ({ Loading }) => {
+const Payslip = ({ GetPayslipList }) => {
   const { columns: prCols, adminColumns: adminPrCol } = payslipColumns;
   const { role } = useSelector((state) => state.login);
   const [month, setMonth] = useState('');
@@ -18,46 +18,38 @@ const Payslip = ({ Loading }) => {
 
   const [allPayslipList, setAllPayslipList] = useState([]);
   const [payslipListCount, setPayslipListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('id');
-  const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   // const [isExport, setIsExport] = useState(false);
-  const [isSearch, setIsSearch] = useState(false);
+  const [sort, setSort] = useState({ key: 'id', order: 'asc' });
+  const [filter, setFilter] = useState(false);
 
-  const handleChangeMonth = (value) => {
-    setMonth(value);
-  };
-
-  const handleChangeYear = (value) => {
-    setYear(value);
-  };
-
-  const handleChangeSearch = (event) => {
-    setSearch(event.target.value.trim());
-  };
+  useEffect(() => {
+    GetPayslipList(
+      {
+        limit,
+        month: month.value,
+        year: year.value,
+        search,
+        page,
+        sortKey: sort.key,
+        sortOrder: sort.order
+      },
+      (res) => {
+        if (res && res.data && res.data.data) {
+          setAllPayslipList(res.data.data.rows);
+          setPayslipListCount(res.data.data.count);
+          setFilter(false);
+        }
+      }
+    );
+    return () => {};
+  }, [filter, page, sort]);
 
   const handleClear = () => {
     setMonth('');
     setYear('');
     setSearch('');
-  };
-
-  const onClickSearch = () => {
-    setIsSearch(true);
-  };
-
-  const onPage = async (selectedPage) => {
-    setPage(selectedPage);
-  };
-
-  const onRowsPerPageChange = async (selectedLimit) => {
-    setLimit(selectedLimit);
-  };
-
-  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
-    setSortKey(selectedSortKey);
-    setSortOrder(selectedSortOrder);
   };
 
   return (
@@ -90,26 +82,22 @@ const Payslip = ({ Loading }) => {
       >
         <FilterLayout
           search={search}
-          handleSearch={handleChangeSearch}
-          handleClear={() => handleClear()}
-          onClickSearch={() => onClickSearch()}
-          loader={Loading}
-          isSearch={isSearch}
+          handleSearch={(e) => setSearch(e.target.value.trim())}
+          handleClear={handleClear}
+          onClickSearch={() => {
+            setFilter(!filter);
+          }}
         >
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Month</FormLabel>
-              <Select
-                value={month}
-                options={Months}
-                onChange={(value) => handleChangeMonth(value)}
-              />
+              <Select value={month} options={Months} onChange={(value) => setMonth(value)} />
             </FormControl>
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Year</FormLabel>
-              <Select value={year} options={Years} onChange={(value) => handleChangeYear(value)} />
+              <Select value={year} options={Years} onChange={(value) => setYear(value)} />
             </FormControl>
           </Grid>
         </FilterLayout>
@@ -121,12 +109,16 @@ const Payslip = ({ Loading }) => {
           isAction
           // options={downloadOption}
           initialPage={page}
-          onChangePage={(value) => onPage(value)}
+          onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
-          sortKey={sortKey}
-          sortOrder={sortOrder}
-          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
+          onRowsPerPageChange={(rowsPerPage) => {
+            setLimit(rowsPerPage);
+          }}
+          sortKey={sort.key}
+          sortOrder={sort.order}
+          handleRequestSort={(event, orderKey, orderName) =>
+            setSort({ order: orderName, key: orderKey })
+          }
         />
       </Card>
     </>
