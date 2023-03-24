@@ -21,6 +21,7 @@ const Organisation = (props) => {
   const [smallLogo, setSmallLogo] = useState('');
   const [largeLogo, setLargeLogo] = useState('');
   const [logoType, setLogoType] = useState('');
+  const [cropperImage, setCropperImage] = useState('');
   const [cropClose, setCropClose] = useState(false);
 
   const handleImageChange = (e, type) => {
@@ -30,10 +31,10 @@ const Organisation = (props) => {
       setCropClose(true);
       if (type === 'small') {
         setLogoType('small');
-        setSmallLogo(reader.result);
+        setCropperImage(reader.result);
       } else {
         setLogoType('large');
-        setLargeLogo(reader.result);
+        setCropperImage(reader.result);
       }
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -189,10 +190,19 @@ const Organisation = (props) => {
       </Box>
       <DialogMenu
         isOpen={cropClose}
-        onClose={() => setCropClose(false)}
+        onClose={() => {
+          setCropClose(false);
+          if (logoType === 'large') {
+            setLargeLogo(largeLogo);
+            setFieldValue('largeLogo', largeLogo);
+          } else {
+            setSmallLogo(smallLogo);
+            setFieldValue('smallLogo', smallLogo);
+          }
+        }}
         dialogContent={
           <CropperImage
-            src={logoType === 'large' ? largeLogo : smallLogo}
+            src={cropperImage}
             imageType={logoType}
             getCroppedFile={(file, image, type) => {
               if (type === 'large') {
