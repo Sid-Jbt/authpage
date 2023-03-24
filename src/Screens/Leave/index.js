@@ -130,11 +130,7 @@ const LeaveList = ({
     setFilter(false);
   };
 
-  const handleLeaveStatus = (status) => {
-    const reasonData = {
-      status,
-      comment: ''
-    };
+  const handleLeaveStatus = (reasonData) => {
     GetLeaveReason({ data: reasonData, id: selectedData.id }, () =>
       setIsViewLeaveDialogOpen(false)
     );
@@ -308,8 +304,18 @@ const LeaveList = ({
                 rejectColor="error"
                 approveTitle="Approve"
                 rejectTitle="Reject"
-                handleApprove={() => handleLeaveStatus('approved')}
-                handleReject={() => handleLeaveStatus('reject')}
+                handleApprove={() =>
+                  handleLeaveStatus({
+                    status: 'approved',
+                    comment: ''
+                  })
+                }
+                handleReject={() =>
+                  handleLeaveStatus({
+                    status: 'reject',
+                    comment: ''
+                  })
+                }
               />
             )
           }
