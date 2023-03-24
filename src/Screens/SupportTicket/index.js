@@ -8,7 +8,7 @@ import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Priority, SupportTicketStatus } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
-import { DeleteDialogAction, DeleteDialogContent } from 'Components/DeleteDialog';
+import { DialogAction, DialogContent } from 'Components/Dialog';
 import withStateDispatch from 'Helpers/withStateDispatch';
 import DialogMenu from 'Elements/Dialog';
 import TicketCard from 'Components/CardLayouts/StaticCard';
@@ -112,7 +112,7 @@ const supportTicket = ({
   };
 
   const onDelete = () => {
-    GetSupportDelete(selectedData, () => setIsDeleteDialogOpen(false));
+    GetSupportDelete(selectedData.id, () => setIsDeleteDialogOpen(false));
   };
 
   const handleClear = () => {
@@ -272,7 +272,7 @@ const supportTicket = ({
           <AddSupportTicketForm
             isDialogOpen={isDialogOpen}
             handleDialog={handleDialog}
-            title={isEdit ? 'UPDATE SUPPORT TICKET' : 'NEW SUPPORT TICKET'}
+            title={isEdit ? 'EDIT YOUR SUPPORT TICKET' : 'ADD NEW SUPPORT TICKET'}
             setIsEdit={(value) => setIsEdit(value)}
             selectedSupportId={selectedData && selectedData.id}
             isEdit={isEdit}
@@ -286,12 +286,13 @@ const supportTicket = ({
             isOpen={isDeleteDialogOpen}
             onClose={() => setIsDeleteDialogOpen(false)}
             dialogTitle="Delete"
-            dialogContent={<DeleteDialogContent content="Are you sure you want to delete this ?" />}
+            dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
-              <DeleteDialogAction
-                handleDialogClose={() => setIsDeleteDialogOpen(false)}
-                selectedId={selectedData.id}
-                deleteItem={() => onDelete()}
+              <DialogAction
+                rejectTitle="Cancel"
+                approveTitle="Delete"
+                handleReject={() => setIsDeleteDialogOpen(false)}
+                handleApprove={() => onDelete()}
               />
             }
           />
