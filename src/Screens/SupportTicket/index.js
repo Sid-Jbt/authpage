@@ -86,8 +86,8 @@ const supportTicket = ({
   };
 
   const onClickAction = (key, selectedSupportData) => {
-    setSelectedData(selectedSupportData);
     if (key === 'edit') {
+      setSelectedData(selectedSupportData);
       setIsEdit(true);
       setIsDialogOpen(!isDialogOpen);
     } else if (key === 'view') {
@@ -105,7 +105,8 @@ const supportTicket = ({
         }
       });
       setIsViewSupportTicketDialogOpen(true);
-    } else {
+    } else if (key === 'delete') {
+      setSelectedData(selectedSupportData);
       setIsDeleteDialogOpen(true);
     }
   };
