@@ -13,3 +13,4 @@ export * from './employee/employeeBySlug';
 export * from './payslip/payslipList';
 export * from './attendance/attendanceList';
 export * from './holiday/holidayList';
+export * from './holiday/holidayAdd';

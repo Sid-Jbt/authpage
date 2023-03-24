@@ -14,5 +14,6 @@ export const API_URL = {
   EMPLOYEE_BY_SLUG_URL: '/',
   PAYSLIP_LIST_URL: '/payslip/list',
   ATTENDANCE_LIST_URL: '/attendance/list',
-  HOLIDAY_LIST_URL: '/holiday/list'
+  HOLIDAY_LIST_URL: '/holiday/list',
+  HOLIDAY_ADD_URL: '/admin/holiday'
 };

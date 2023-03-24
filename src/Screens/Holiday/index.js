@@ -12,7 +12,7 @@ import ImportDialog from './ImportDialog';
 import ManageHolidayForm from './ManageHolidayForm';
 import withStateDispatch from '../../Helpers/withStateDispatch';
 
-const Holiday = ({ GetHolidayList }) => {
+const Holiday = ({ GetHolidayList, GetHolidayAdd }) => {
   const { columns: prCols } = holidayListData;
   const { role } = useSelector((state) => state.login);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -30,7 +30,7 @@ const Holiday = ({ GetHolidayList }) => {
   const [filter, setFilter] = useState(false);
 
   useEffect(() => {
-    if (!isDialogOpen) {
+    if (!isDialogOpen || !isDrawerOpen) {
       GetHolidayList(
         {
           limit,
@@ -50,7 +50,7 @@ const Holiday = ({ GetHolidayList }) => {
       );
     }
     return () => {};
-  }, [isDialogOpen, filter, page, sort]);
+  }, [isDialogOpen, isDrawerOpen, filter, page, sort]);
 
   const handleMouseEnter = () => {
     setIsHover(true);
@@ -191,12 +191,13 @@ const Holiday = ({ GetHolidayList }) => {
         />
         <ManageHolidayForm
           isDrawerOpen={Boolean(isDrawerOpen)}
-          handleDrawerClose={handleDrawerClose}
+          handleDrawerClose={() => handleDrawerClose()}
           title={isEdit ? 'EDIT HOLIDAY' : 'ADD HOLIDAY'}
           setIsEdit={(value) => setIsEdit(value)}
           selectedData={selectedData}
           setSelectedData={(value) => setSelectedData(value)}
           isEdit={isEdit}
+          GetHolidayAdd={GetHolidayAdd}
         />
       </Card>
     </>
