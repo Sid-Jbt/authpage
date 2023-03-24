@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
 import { Add, ImportExportRounded } from '@mui/icons-material';
 import Button from 'Elements/Button';
@@ -11,26 +10,47 @@ import { DialogAction, DialogContent } from 'Components/Dialog';
 import holidayListData from './data/holidayListData';
 import ImportDialog from './ImportDialog';
 import ManageHolidayForm from './ManageHolidayForm';
+import withStateDispatch from '../../Helpers/withStateDispatch';
 
-const Holiday = () => {
+const Holiday = ({ GetHolidayList }) => {
   const { columns: prCols } = holidayListData;
   const { role } = useSelector((state) => state.login);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [selectedId, setSelectedId] = useState('');
   const [selectedData, setSelectedData] = useState(null);
-  const [search, setSearch] = useState('');
 
+  const [search, setSearch] = useState('');
   const [allHolidayList, setAllHolidayList] = useState([]);
   const [holidayListCount, setHolidayListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('holidayDate');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sort, setSort] = useState({ key: 'title', order: 'asc' });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [loader, setLoader] = useState(false);
-  const [isSearch, setIsSearch] = useState(false);
+  const [filter, setFilter] = useState(false);
+
+  useEffect(() => {
+    if (!isDialogOpen) {
+      GetHolidayList(
+        {
+          limit,
+          search,
+          page,
+          sortKey: sort.key,
+          sortOrder: sort.order
+        },
+        (res) => {
+          if (res && res.data && res.data.data) {
+            const { rows, count } = res.data.data;
+            setAllHolidayList(rows);
+            setHolidayListCount(count);
+            setFilter(false);
+          }
+        }
+      );
+    }
+    return () => {};
+  }, [isDialogOpen, filter, page, sort]);
 
   const handleMouseEnter = () => {
     setIsHover(true);
@@ -65,51 +85,16 @@ const Holiday = () => {
       setSelectedData(allHolidayList.find((o) => o.id === index.id));
       setIsDrawerOpen(true);
     } else if (value === 'delete') {
-      setSelectedId(index);
       setIsEdit(value === 'delete');
       handleDialog();
     } else {
       setIsEdit(false);
       handleDialog();
     }
-    setSelectedId(index);
   };
 
   const onDelete = async () => {
-    // await deleteHoliday(selectedId);
     handleDialogClose();
-  };
-
-  const handleChangeSearch = (event) => {
-    setSearch(event.target.value.trim());
-  };
-
-  const handleClear = () => {
-    setSearch('');
-    // getAllHolidayList(sortKey, sortOrder, page, '');
-  };
-
-  const onClickSearch = () => {
-    setLoader(true);
-    setIsSearch(true);
-    // getAllHolidayList(sortKey, sortOrder, page, search, 0);
-  };
-
-  const onPage = async (selectedPage) => {
-    setPage(selectedPage);
-    // await getAllHolidayList(sortKey, sortOrder, selectedPage);
-  };
-
-  const onRowsPerPageChange = async (selectedLimit) => {
-    setPage(0);
-    setLimit(selectedLimit);
-    // await getAllHolidayList(sortKey, sortOrder, selectedLimit);
-  };
-
-  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
-    setSortKey(selectedSortKey);
-    setSortOrder(selectedSortOrder);
-    // await getAllHolidayList(selectedSortKey, selectedSortOrder, page);
   };
 
   return (
@@ -145,11 +130,11 @@ const Holiday = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={handleChangeSearch}
-          handleClear={() => handleClear()}
-          onClickSearch={() => onClickSearch()}
-          loader={loader}
-          isSearch={isSearch}
+          handleSearch={(e) => setSearch(e.target.value.trim())}
+          handleClear={() => setSearch('')}
+          onClickSearch={() => {
+            setFilter(!filter);
+          }}
         />
 
         <Table
@@ -163,12 +148,16 @@ const Holiday = () => {
           ]}
           rowsCount={holidayListCount}
           initialPage={page}
-          onChangePage={(value) => onPage(value)}
+          onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
-          sortKey={sortKey}
-          sortOrder={sortOrder}
-          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
+          onRowsPerPageChange={(rowsPerPage) => {
+            setLimit(rowsPerPage);
+          }}
+          sortKey={sort.key}
+          sortOrder={sort.order}
+          handleRequestSort={(event, orderKey, orderName) =>
+            setSort({ order: orderName, key: orderKey })
+          }
         />
         <DialogMenu
           isOpen={isDialogOpen}
@@ -213,4 +202,4 @@ const Holiday = () => {
     </>
   );
 };
-export default Holiday;
+export default withStateDispatch(Holiday);

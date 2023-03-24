@@ -12,6 +12,7 @@ import { getDomainWatcher } from './getDomain';
 import { getProfileSetupWatcher } from './profileSetup';
 import { getPayslipListWatcher } from './payslip/payslipList';
 import { getAttendanceListWatcher } from './attendance/attendanceList';
+import { getHolidayListWatcher } from './holiday/holidayList';
 
 export default function* rootSaga() {
   yield all([
@@ -27,6 +28,7 @@ export default function* rootSaga() {
     getEmployeeListWatcher(),
     getEmployeeBySlugWatcher(),
     getPayslipListWatcher(),
-    getAttendanceListWatcher()
+    getAttendanceListWatcher(),
+    getHolidayListWatcher()
   ]);
 }
