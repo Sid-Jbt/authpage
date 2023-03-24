@@ -27,7 +27,8 @@ const LeaveList = ({
   GetLeaveList,
   GetLeaveDelete,
   GetLeaveReason,
-  GetLeaveById
+  GetLeaveById,
+  Loading
 }) => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
   const { role } = useSelector((state) => state.login);

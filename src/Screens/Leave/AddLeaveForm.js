@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import moment from 'moment';
 import { leaveFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
-import { FormControl, FormLabel, Grid } from '@mui/material';
+import { CircularProgress, FormControl, FormLabel, Grid } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import Select from 'Elements/Select';
@@ -25,7 +25,8 @@ const AddLeaveForm = ({
   isEdit,
   title,
   GetLeaveAddUpdate,
-  GetLeaveById
+  GetLeaveById,
+  Loading
 }) => {
   const [leaveType, setLeaveType] = useState(leave[0]);
   const [selectType, setSelectType] = useState(leaveDayType[0]);
@@ -205,7 +206,13 @@ const AddLeaveForm = ({
                     }}
                   >
                     <Button type="submit" color="info" variant="contained" size="medium">
-                      {isEdit ? 'Update Leave' : 'Add Leave'}
+                      {Loading ? (
+                        <CircularProgress size={20} color="inherit" />
+                      ) : isEdit ? (
+                        'Update Leave'
+                      ) : (
+                        'Add Leave'
+                      )}
                     </Button>
                   </Grid>
                 </Grid>
