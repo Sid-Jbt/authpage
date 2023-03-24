@@ -82,10 +82,6 @@ const supportTicket = ({
     setIsDialogOpen(!isDialogOpen);
   };
 
-  const handleCloseViewDialog = () => {
-    setIsViewSupportTicketDialogOpen(false);
-  };
-
   const onClickAction = (key, selectedSupportData) => {
     if (key === 'edit') {
       setSelectedData(selectedSupportData);
@@ -124,11 +120,7 @@ const supportTicket = ({
     setSearch('');
   };
 
-  const handleSupportStatus = (supportReason) => {
-    const reasonData = {
-      status: supportReason,
-      reason: ''
-    };
+  const handleSupportStatus = (reasonData) => {
     GetSupportReason({ data: reasonData, id: selectedData.id }, () =>
       setIsViewSupportTicketDialogOpen(false)
     );
@@ -313,34 +305,33 @@ const supportTicket = ({
       {isViewSupportTicketDialogOpen && selectedData && (
         <DialogMenu
           isOpen={isViewSupportTicketDialogOpen}
-          onClose={handleCloseViewDialog}
+          onClose={() => setIsViewSupportTicketDialogOpen(false)}
           dialogTitle={`Ticket Details: ${selectedData.subject}`}
-          dialogContent={<ViewSupportTicketDetails data={selectedData} role={role} />}
+          dialogContent={
+            <DialogContent
+              customContent={<ViewSupportTicketDetails data={selectedData} role={role} />}
+            />
+          }
           dialogAction={
             role === 'admin' && (
-              <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
-                <Grid item>
-                  <Button
-                    type="submit"
-                    color="info"
-                    variant="contained"
-                    size="small"
-                    onClick={() => handleSupportStatus('approved')}
-                  >
-                    Approve
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    color="error"
-                    variant="contained"
-                    size="small"
-                    onClick={() => handleSupportStatus('reject')}
-                  >
-                    Reject
-                  </Button>
-                </Grid>
-              </Grid>
+              <DialogAction
+                approveColor="success"
+                rejectColor="error"
+                approveTitle="Approve"
+                rejectTitle="Reject"
+                handleApprove={() =>
+                  handleSupportStatus({
+                    status: 'approved',
+                    reason: ''
+                  })
+                }
+                handleReject={() =>
+                  handleSupportStatus({
+                    status: 'reject',
+                    reason: ''
+                  })
+                }
+              />
             )
           }
         />
