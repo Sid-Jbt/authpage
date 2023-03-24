@@ -1277,7 +1277,8 @@ export default function componentStyleOverrides(theme) {
         root: {
           padding: pxToRem(16),
           fontSize: size.md,
-          color: text.main
+          color: text.main,
+          paddingBottom: 0
         },
 
         dividers: {

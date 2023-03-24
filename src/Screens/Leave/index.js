@@ -9,7 +9,7 @@ import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
 import DialogMenu from 'Elements/Dialog';
-import { DeleteDialogAction, DeleteDialogContent } from 'Components/DeleteDialog';
+import { DialogAction, DialogContent } from 'Components/Dialog';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 import ViewLeaveDetails from './ViewLeaveDetails';
@@ -278,16 +278,17 @@ const LeaveList = ({
         {isDeleteDialogOpen && (
           <DialogMenu
             isOpen={isDeleteDialogOpen}
-            onClose={() => handleDialogClose()}
+            onClose={() => setIsDeleteDialogOpen(false)}
             dialogTitle="Delete"
-            dialogContent={<DeleteDialogContent content="Are you sure you want to delete this ?" />}
+            dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
-              <DeleteDialogAction
-                handleDialogClose={handleDialogClose}
-                selectedId={selectedId}
-                message="Are you sure want to delete this?"
-                deleteItem={() => onDelete()}
-                buttonTitle="Delete"
+              <DialogAction
+                approveColor="error"
+                rejectColor="info"
+                approveTitle="Delete"
+                rejectTitle="Cancel"
+                handleApprove={() => onDelete()}
+                handleReject={() => setIsDeleteDialogOpen(false)}
               />
             }
           />
@@ -299,32 +300,17 @@ const LeaveList = ({
           isOpen={isViewLeaveDialogOpen}
           onClose={handleCloseViewDialog}
           dialogTitle={`Leave Details: ${selectedData.leaveType}`}
-          dialogContent={<ViewLeaveDetails data={selectedData} role={role} />}
+          dialogContent={<DialogContent customContent={<ViewLeaveDetails data={selectedData} />} />}
           dialogAction={
             role === 'admin' && (
-              <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
-                <Grid item>
-                  <Button
-                    type="submit"
-                    color="info"
-                    variant="contained"
-                    size="small"
-                    onClick={() => handleLeaveStatus('approved')}
-                  >
-                    Approve
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    color="error"
-                    variant="contained"
-                    size="small"
-                    onClick={() => handleLeaveStatus('reject')}
-                  >
-                    Reject
-                  </Button>
-                </Grid>
-              </Grid>
+              <DialogAction
+                approveColor="success"
+                rejectColor="error"
+                approveTitle="Approve"
+                rejectTitle="Reject"
+                handleApprove={() => handleLeaveStatus('approved')}
+                handleReject={() => handleLeaveStatus('reject')}
+              />
             )
           }
         />

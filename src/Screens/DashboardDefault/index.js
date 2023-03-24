@@ -19,8 +19,8 @@ const DashboardDefault = () => {
   const { role } = useOutletContext();
   const navigate = useNavigate();
   const [calendarEventsData, setCalendarEventsData] = useState([]);
-  const [currentWeekHour, setCurrentWeekHour] = useState(0);
-  const [currentMonthHour, setCurrentMonthHour] = useState(0);
+  const [currentWeekHour, setCurrentWeekHour] = useState('00:00:00');
+  const [currentMonthHour, setCurrentMonthHour] = useState('00:00:00');
 
   const handleTotalEmployee = () => {
     navigate(getEmployeeListPattern());

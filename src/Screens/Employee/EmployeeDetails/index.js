@@ -12,7 +12,6 @@ import withStateDispatch from '../../../Helpers/withStateDispatch';
 const EmployeeDetails = ({ GetEmployeeBySlug }) => {
   // eslint-disable-next-line no-console
   console.log('GetEmployeeBySlug --> ', GetEmployeeBySlug);
-
   return (
     <Box mt={4}>
       <Grid container spacing={3}>

@@ -17,7 +17,7 @@ import Organisation from './component/Organisation';
 
 const adminInitialValues = {
   workingHours: WorkingHours[0].value,
-  organizationAddress: '',
+  location: '',
   firstName: '',
   lastName: '',
   permanentAddress: '',
@@ -31,7 +31,7 @@ const userInitialValues = {
   firstName: '',
   lastName: '',
   fatherName: '',
-  department: '',
+  // department: '',
   designation: '',
   phoneNumber: '',
   alternatePhone: '',
@@ -75,7 +75,7 @@ function getStepContent(role, stepIndex, props) {
   }
 }
 
-const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
+const ProfileSetup = ({ GetProfileSetup, Loading }) => {
   const { role } = useSelector((state) => state.login);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -84,7 +84,7 @@ const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
   const currentValidationSchema = () =>
     role === 'admin' ? organisationSchema[activeStep] : userSchema[activeStep];
   const handleNext = (values, actions) => {
-    GetProfileUpdate(values, (res) => {
+    GetProfileSetup(values, (res) => {
       const data = res.data;
       if (data.status) {
         if (activeStep === 2) {
@@ -97,20 +97,6 @@ const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
     actions.setTouched({});
     actions.setSubmitting(false);
   };
-
-  const handleBack = () => setActiveStep(activeStep - 1);
-
-  const Continue = (isSubmitting) => (
-    <Button variant="gradient" color="dark" type="submit" disabled={isSubmitting || Loading}>
-      {Loading ? <CircularProgress size={20} color="inherit" /> : 'Continue'}
-    </Button>
-  );
-
-  const Skip = () => (
-    <Button variant="gradient" color="dark" type="button" onClick={() => handleNext()}>
-      Skip
-    </Button>
-  );
 
   const validate = (values) => {
     const errors = {};
@@ -140,7 +126,7 @@ const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
               </Step>
             ))}
           </Stepper>
-          <Card>
+          <Card sx={{ overflow: 'visible' }}>
             <Box p={2}>
               <Formik
                 initialValues={role === 'admin' ? adminInitialValues : userInitialValues}
@@ -151,7 +137,7 @@ const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
                 }
               >
                 {(props) => {
-                  const { values, handleSubmit, isSubmitting } = props;
+                  const { handleSubmit, isSubmitting } = props;
                   return (
                     <form onSubmit={handleSubmit}>
                       {role && getStepContent(role, activeStep, props)}
@@ -159,30 +145,18 @@ const ProfileSetup = ({ GetProfileUpdate, Loading }) => {
                         {activeStep === 0 ? (
                           <Box />
                         ) : (
-                          <Button variant="gradient" color="light" onClick={() => handleBack()}>
-                            Back
+                          <Button variant="gradient" color="light" onClick={() => handleNext()}>
+                            Skip
                           </Button>
                         )}
-                        {role !== 'admin'
-                          ? activeStep === 0
-                            ? Continue(isSubmitting)
-                            : (activeStep === 1 && values.permanentAddress !== '') ||
-                              values.presentAddress !== ''
-                            ? Continue(isSubmitting)
-                            : (activeStep === 2 && values.bankName !== '') ||
-                              values.branchName !== '' ||
-                              values.accountName !== '' ||
-                              values.accountNumber !== '' ||
-                              values.ifscCode !== '' ||
-                              values.panNumber !== ''
-                            ? Continue(isSubmitting)
-                            : Skip()
-                          : activeStep === 0 || activeStep === 1
-                          ? Continue(isSubmitting)
-                          : activeStep === 2 &&
-                            (values.permanentAddress !== '' || values.presentAddress !== '')
-                          ? Continue(isSubmitting)
-                          : Skip()}
+                        <Button
+                          variant="gradient"
+                          color="dark"
+                          type="submit"
+                          disabled={isSubmitting || Loading}
+                        >
+                          {Loading ? <CircularProgress size={20} color="inherit" /> : 'Continue'}
+                        </Button>
                       </Box>
                     </form>
                   );

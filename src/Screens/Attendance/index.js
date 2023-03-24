@@ -1,53 +1,54 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, MoreTime, WatchOff } from '@mui/icons-material';
 import Select from 'Elements/Select';
-import { Months, Years, Status } from 'Helpers/Global';
+import { Months, Years, attendanceStatus } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import { useSelector } from 'react-redux';
 import AttendanceCard from 'Components/CardLayouts/StaticCard';
 import withStateDispatch from 'Helpers/withStateDispatch';
 import attendanceColumn from './data/attendanceData';
 
-const AttendanceList = ({ Loading }) => {
+const AttendanceList = ({ GetAttendanceList }) => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
   const { role } = useSelector((state) => state.login);
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
-  const [isStatus, setIsStatus] = useState('');
+  const [status, setStatus] = useState('');
   const [user, setUser] = useState('');
   const [search, setSearch] = useState('');
-  const [counts, setCounts] = useState(null);
-
   const [attendanceList, setAttendanceList] = useState([]);
   const [attendanceListCount, setAttendanceListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('attendanceDate');
-  const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [isSearch, setIsSearch] = useState(false);
+  const [sort, setSort] = useState({ key: 'attendanceDate', order: 'asc' });
+  const [filter, setFilter] = useState(false);
 
-  const handleChangeStatus = (value) => {
-    setIsStatus(value);
-  };
-
-  const handleChangeMonth = (value) => {
-    setMonth(value);
-  };
-
-  const handleChangeYear = (value) => {
-    setYear(value);
-  };
-
-  const handleChangeUser = (value) => {
-    setUser(value);
-  };
-  const handleChangeSearch = (event) => {
-    setSearch(event.target.value.trim());
-  };
+  useEffect(() => {
+    GetAttendanceList(
+      {
+        limit,
+        month: month.value,
+        year: year.value,
+        status: status.value,
+        search,
+        page,
+        sortKey: sort.key,
+        sortOrder: sort.order
+      },
+      (res) => {
+        if (res && res.data && res.data.data) {
+          setAttendanceList(res.data.data.rows);
+          setAttendanceListCount(res.data.data.count);
+          setFilter(false);
+        }
+      }
+    );
+    return () => {};
+  }, [filter, page, sort]);
 
   /*  const onClickExport = () => {
     setSnack({
@@ -66,30 +67,13 @@ const AttendanceList = ({ Loading }) => {
     setSearch('');
   };
 
-  const onClickSearch = () => {
-    setIsSearch(true);
-  };
-
-  const onPage = async (selectedPage) => {
-    setPage(selectedPage);
-  };
-
-  const onRowsPerPageChange = async (selectedLimit) => {
-    setLimit(selectedLimit);
-  };
-
-  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
-    setSortKey(selectedSortKey);
-    setSortOrder(selectedSortOrder);
-  };
-
   return (
     <>
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} md={6} lg={4}>
           <AttendanceCard
             title="Total Late Coming"
-            count={counts === null ? 0 : counts.lateComingRes}
+            count={attendanceListCount && attendanceListCount.lateComingRes}
             icon={{ color: 'error', component: <WatchOff /> }}
             isPercentage={false}
           />
@@ -97,7 +81,7 @@ const AttendanceList = ({ Loading }) => {
         <Grid item xs={12} md={6} lg={4}>
           <AttendanceCard
             title="Total Early Leaving"
-            count={counts === null ? 0 : counts.earlyLeavingRes}
+            count={attendanceListCount && attendanceListCount.earlyLeavingRes}
             icon={{ color: 'info', component: <DirectionsRun /> }}
             isPercentage={false}
           />
@@ -105,7 +89,7 @@ const AttendanceList = ({ Loading }) => {
         <Grid item xs={12} md={6} lg={4}>
           <AttendanceCard
             title="Total Overtime"
-            count={counts === null ? 0 : counts.overTimeRes}
+            count={attendanceListCount && attendanceListCount.overTimeRes}
             icon={{ color: 'warning', component: <MoreTime /> }}
             isPercentage={false}
           />
@@ -157,11 +141,11 @@ const AttendanceList = ({ Loading }) => {
       >
         <FilterLayout
           search={search}
-          handleSearch={handleChangeSearch}
-          handleClear={() => handleClear()}
-          onClickSearch={() => onClickSearch()}
-          loader={Loading}
-          isSearch={isSearch}
+          handleSearch={(e) => setSearch(e.target.value.trim())}
+          handleClear={handleClear}
+          onClickSearch={() => {
+            setFilter(!filter);
+          }}
         >
           {role === 'admin' && (
             <Grid item sm={12} md={4} lg={3}>
@@ -169,7 +153,7 @@ const AttendanceList = ({ Loading }) => {
                 <FormLabel>Select User</FormLabel>
                 <Select
                   value={user}
-                  onChange={handleChangeUser}
+                  onChange={(value) => setUser(value)}
                   displayEmpty
                   renderValue={user !== '' ? undefined : () => 'Select...'}
                 />
@@ -180,41 +164,42 @@ const AttendanceList = ({ Loading }) => {
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Month</FormLabel>
-              <Select
-                value={month}
-                options={Months}
-                onChange={(value) => handleChangeMonth(value)}
-              />
+              <Select value={month} options={Months} onChange={(value) => setMonth(value)} />
             </FormControl>
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Year</FormLabel>
-              <Select value={year} options={Years} onChange={(value) => handleChangeYear(value)} />
+              <Select value={year} options={Years} onChange={(value) => setYear(value)} />
             </FormControl>
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Status</FormLabel>
               <Select
-                value={isStatus}
-                options={Status}
-                onChange={(value) => handleChangeStatus(value)}
+                value={status}
+                options={attendanceStatus}
+                onChange={(value) => setStatus(value)}
               />
             </FormControl>
           </Grid>
         </FilterLayout>
+
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={attendanceList}
-          rowsCount={attendanceListCount}
+          rowsCount={attendanceListCount.total}
           initialPage={page}
-          onChangePage={(value) => onPage(value)}
+          onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
-          sortKey={sortKey}
-          sortOrder={sortOrder}
-          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
+          onRowsPerPageChange={(rowsPerPage) => {
+            setLimit(rowsPerPage);
+          }}
+          sortKey={sort.key}
+          sortOrder={sort.order}
+          handleRequestSort={(event, orderKey, orderName) =>
+            setSort({ order: orderName, key: orderKey })
+          }
         />
       </Card>
     </>
