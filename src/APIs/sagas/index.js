@@ -9,6 +9,9 @@ import { getEmployeeAddWatcher } from './employee/employeeAdd';
 import { getEmployeeListWatcher } from './employee/employeeList';
 import { getEmployeeBySlugWatcher } from './employee/employeeBySlug';
 import { getDomainWatcher } from './getDomain';
+import { getProfileSetupWatcher } from './profileSetup';
+import { getPayslipListWatcher } from './payslip/payslipList';
+import { getAttendanceListWatcher } from './attendance/attendanceList';
 
 export default function* rootSaga() {
   yield all([
@@ -17,10 +20,13 @@ export default function* rootSaga() {
     getDomainWatcher(),
     getForgotPasswordWatcher(),
     getResetPasswordWatcher(),
+    getProfileSetupWatcher(),
     getProfileUpdateWatcher(),
     getDashboardWatcher(),
     getEmployeeAddWatcher(),
     getEmployeeListWatcher(),
-    getEmployeeBySlugWatcher()
+    getEmployeeBySlugWatcher(),
+    getPayslipListWatcher(),
+    getAttendanceListWatcher()
   ]);
 }

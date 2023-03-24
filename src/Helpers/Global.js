@@ -1,17 +1,17 @@
 // Get array of months
 export const Months = [
-  { value: 'january', label: 'January' },
-  { value: 'February', label: 'February' },
-  { value: 'march', label: 'March' },
-  { value: 'april', label: 'April' },
-  { value: 'may', label: 'May' },
-  { value: 'june', label: 'June' },
-  { value: 'july', label: 'July' },
-  { value: 'august', label: 'August' },
-  { value: 'september', label: 'September' },
-  { value: 'october', label: 'October' },
-  { value: 'november', label: 'November' },
-  { value: 'december', label: 'December' }
+  { value: 1, label: 'January' },
+  { value: 2, label: 'February' },
+  { value: 3, label: 'March' },
+  { value: 4, label: 'April' },
+  { value: 5, label: 'May' },
+  { value: 6, label: 'June' },
+  { value: 7, label: 'July' },
+  { value: 8, label: 'August' },
+  { value: 9, label: 'September' },
+  { value: 10, label: 'October' },
+  { value: 11, label: 'November' },
+  { value: 12, label: 'December' }
 ];
 
 // Get array of years
@@ -50,7 +50,7 @@ export const leave = [
   { value: 'earnedLeave', label: 'Earned Leave' }
 ];
 
-export const Status = [
+export const attendanceStatus = [
   { value: 'all', label: 'All' },
   { value: 'present', label: 'Present' },
   { value: 'absent', label: 'Absent' },
@@ -98,18 +98,18 @@ export const Days = [
 ];
 
 export const WorkingHours = [
-  { value: '01:00', label: '01:00' },
-  { value: '02:00', label: '02:00' },
-  { value: '03:00', label: '03:00' },
-  { value: '04:00', label: '04:00' },
-  { value: '05:00', label: '05:00' },
-  { value: '06:00', label: '06:00' },
-  { value: '07:00', label: '07:00' },
-  { value: '08:00', label: '08:00' },
-  { value: '09:00', label: '09:00' },
-  { value: '10:00', label: '10:00' },
-  { value: '11:00', label: '11:00' },
-  { value: '12:00', label: '12:00' }
+  { value: '1', label: '01:00' },
+  { value: '2', label: '02:00' },
+  { value: '3', label: '03:00' },
+  { value: '4', label: '04:00' },
+  { value: '5', label: '05:00' },
+  { value: '6', label: '06:00' },
+  { value: '7', label: '07:00' },
+  { value: '8', label: '08:00' },
+  { value: '9', label: '09:00' },
+  { value: '10', label: '10:00' },
+  { value: '11', label: '11:00' },
+  { value: '12', label: '12:00' }
 ];
 
 export const Priority = [

@@ -56,7 +56,7 @@ export default (selectSize, selectError, selectSuccess, darkMode) => {
   }
 
   // animations
-  const prespective = keyframes`
+  const perspective = keyframes`
     from {
       opacity: 0;
       transform: perspective(999px) rotateX(-10deg) translateZ(0) translate3d(0, 0, 0);
@@ -149,7 +149,7 @@ export default (selectSize, selectError, selectSuccess, darkMode) => {
       backgroundColor: darkMode ? background.dark : white.main,
       borderRadius: borderRadius.md,
       transformOrigin: '50% 0',
-      animation: `${prespective} 250ms ease forwards !important`
+      animation: `${perspective} 250ms ease forwards !important`
     }),
 
     menuList: (provided) => ({
