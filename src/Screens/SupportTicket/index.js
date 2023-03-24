@@ -9,7 +9,7 @@ import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Priority, SupportTicketStatus } from 'Helpers/Global';
 import { useSelector } from 'react-redux';
-import { DeleteDialogAction, DeleteDialogContent } from 'Components/DeleteDialog';
+import { DialogAction, DialogContent } from 'Components/Dialog';
 import supportTicketData from './data/SupportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
 import TicketCard from '../../Components/CardLayouts/StaticCard';
@@ -305,12 +305,13 @@ const supportTicket = () => {
             isOpen={isDeleteDialogOpen}
             onClose={handleDialogClose}
             dialogTitle="Delete"
-            dialogContent={<DeleteDialogContent content="Are you sure you want to delete this ?" />}
+            dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
-              <DeleteDialogAction
-                handleDialogClose={handleDialogClose}
-                selectedId={selectedId}
-                deleteItem={onDelete}
+              <DialogAction
+                rejectTitle="Cancel"
+                approveTitle="Delete"
+                handleReject={handleDialogClose}
+                handleApprove={() => onDelete(selectedId)}
               />
             }
           />
