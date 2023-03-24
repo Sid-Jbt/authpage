@@ -7,14 +7,27 @@ import { changePasswordSchema } from 'Helpers/ValidationSchema';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
+import { useNavigate } from 'react-router';
+import { getDashboardPattern } from '../../../Routes/routeConfig';
 
-const ChangePasswordSetting = ({ Loading }) => {
+const ChangePasswordSetting = ({ GetChangePassword, Loading }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const onSubmit = async (data) => {
+    GetChangePassword(data, (res) => {
+      if (res && res.data) {
+        if (res.data.status) {
+          navigate(getDashboardPattern());
+        }
+      }
+    });
   };
 
   return (
@@ -25,10 +38,7 @@ const ChangePasswordSetting = ({ Loading }) => {
       <Formik
         enableReinitialize
         initialValues={{ oldPassword: '', newPassword: '', confirmNewPassword: '' }}
-        onSubmit={(values, actions) => {
-          // eslint-disable-next-line no-console
-          console.log(values, actions);
-        }}
+        onSubmit={(values) => onSubmit(values)}
         validationSchema={changePasswordSchema}
       >
         {(props) => {
