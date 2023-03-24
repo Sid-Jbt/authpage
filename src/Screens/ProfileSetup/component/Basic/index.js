@@ -149,7 +149,7 @@ const Basic = ({ role, props }) => {
                       />
                     </Box>
                   </Grid>
-                  <Grid item xs={12} md={5}>
+                  {/*  <Grid item xs={12} md={5}>
                     <Box>
                       <Input
                         type="text"
@@ -163,7 +163,7 @@ const Basic = ({ role, props }) => {
                         disabled
                       />
                     </Box>
-                  </Grid>
+                  </Grid> */}
                   <Grid item xs={12} md={5}>
                     <Box>
                       <Input

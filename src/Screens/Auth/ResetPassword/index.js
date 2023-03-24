@@ -24,18 +24,11 @@ const ResetPassword = ({ GetForgotPassword }) => {
         initialValues={{ password: '', resetPassword: '' }}
         onSubmit={(values, actions) => {
           // token to be added TODO
-          GetForgotPassword(
-            { token: values.token, password: values.password },
-            (res) => {
-              if (res.data.status) {
-                navigate(getDefaultPattern());
-              }
-            },
-            (err) => {
-              // eslint-disable-next-line no-console
-              console.log(err);
+          GetForgotPassword({ token: values.token, password: values.password }, (res) => {
+            if (res.data.status) {
+              navigate(getDefaultPattern());
             }
-          );
+          });
           actions.setSubmitting(false);
         }}
         validationSchema={resetPasswordSchema}
