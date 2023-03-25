@@ -4,11 +4,18 @@ import Input from '../Input';
 
 const FormField = ({ label, ...rest }) => (
   <>
-    <Box ml={0.5} lineHeight={0} display="inline-block">
-      <Typography component="label" variant="caption" fontWeight="bold" textTransform="capitalize">
-        {label}
-      </Typography>
-    </Box>
+    {label && (
+      <Box ml={0.5} lineHeight={0} display="inline-block">
+        <Typography
+          component="label"
+          variant="caption"
+          fontWeight="bold"
+          textTransform="capitalize"
+        >
+          {label}
+        </Typography>
+      </Box>
+    )}
     <Input {...rest} />
   </>
 );

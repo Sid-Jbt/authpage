@@ -23,7 +23,7 @@ const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => 
   }, []);
 
   useEffect(() => {
-    if (DashboardData && DashboardData.isLoginFirstTime) {
+    if (DashboardData && DashboardData.isLoginFirstTime && DashboardData.isProfileSetup) {
       navigate(getProfileSetupPattern());
     }
   }, [DashboardData]);
