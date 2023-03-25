@@ -50,12 +50,6 @@ const AddSupportTicketDialog = ({
     setPriority(selectedPriority);
   };
 
-  const onSubmitNewSupportTicket = async (formData) => {
-    // eslint-disable-next-line no-console
-    console.log(formData);
-    handleDialog();
-  };
-
   return (
     <>
       <SideDrawer
@@ -69,8 +63,8 @@ const AddSupportTicketDialog = ({
         <Formik
           enableReinitialize
           initialValues={data}
-          onSubmit={(formData) => {
-            onSubmitNewSupportTicket(formData);
+          onSubmit={() => {
+            handleDialog();
           }}
           validationSchema={supportTicketFormSchema}
         >

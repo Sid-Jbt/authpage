@@ -25,10 +25,7 @@ const ChangePasswordSetting = ({ Loading }) => {
       <Formik
         enableReinitialize
         initialValues={{ oldPassword: '', newPassword: '', confirmNewPassword: '' }}
-        onSubmit={(values, actions) => {
-          // eslint-disable-next-line no-console
-          console.log(values, actions);
-        }}
+        onSubmit={() => {}}
         validationSchema={changePasswordSchema}
       >
         {(props) => {
