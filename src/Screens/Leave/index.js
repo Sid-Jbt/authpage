@@ -181,7 +181,7 @@ const LeaveList = ({
               setSelectedData(id);
               setIsDeleteDialogOpen(true);
             } else {
-              GetLeaveById({ id }, (res) => {
+              GetLeaveById(id, (res) => {
                 if (res && res.data && res.data.data) {
                   const { data } = res.data;
                   const setViewData = {
