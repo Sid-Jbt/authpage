@@ -46,7 +46,6 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
           if (res && res.data && res.data.data) {
             setAllEmployee(res.data.data.rows);
             setEmployeeCount(res.data.data.count);
-            setFilter(false);
           }
         }
       );
@@ -67,29 +66,19 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
         {role === 'admin' ? (
-          <>
-            <Grid item xs="auto">
-              <Button
-                color="white"
-                variant="outlined"
-                size="small"
-                onClick={() => setIsDialogOpen(true)}
-              >
-                <Icon sx={{ mr: 1 }}>
-                  <Add />
-                </Icon>
-                Add
-              </Button>
-            </Grid>
-            {/* <Grid item xs="auto">
-              <Button color="white" variant="outlined" size="small" onClick={onClickExport}>
-                <Icon sx={{ mr: 1 }}>
-                  <ImportExportRounded />
-                </Icon>
-                Export
-              </Button>
-            </Grid> */}
-          </>
+          <Grid item xs="auto">
+            <Button
+              color="white"
+              variant="outlined"
+              size="small"
+              onClick={() => setIsDialogOpen(true)}
+            >
+              <Icon sx={{ mr: 1 }}>
+                <Add />
+              </Icon>
+              Add
+            </Button>
+          </Grid>
         ) : null}
       </Grid>
       <Card
@@ -167,9 +156,7 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
           }}
           sortKey={sort.key}
           sortOrder={sort.order}
-          handleRequestSort={(event, orderKey, orderName) =>
-            setSort({ order: orderName, key: orderKey })
-          }
+          handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}
         />
         <AddEmployeeForm
           GetEmployeeAdd={GetEmployeeAdd}

@@ -5,6 +5,7 @@ const initialState = {
   profileProgress: '',
   holidayList: '',
   isLoginFirstTime: false,
+  isProfileSetup: true,
   currentWeekHours: 0,
   currentMonthHours: 0
 };
@@ -24,7 +25,7 @@ export default function dashboardReducer(state = initialState, action) {
     case 'LOGIN_COMPLETED': {
       return {
         ...state,
-        isLoginFirstTime: false
+        isProfileSetup: false
       };
     }
     default:

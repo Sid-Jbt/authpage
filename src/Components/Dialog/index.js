@@ -27,10 +27,12 @@ export const DialogAction = ({
     sx={{
       display: 'flex',
       flexDirection: { xs: 'column', md: 'row' },
+      gap: 2,
       alignItems: 'right',
       justifyContent: 'right',
       textAlign: 'end',
-      mt: 3
+      pr: 1,
+      pl: 1
     }}
   >
     <Button
@@ -38,7 +40,6 @@ export const DialogAction = ({
       color={rejectColor}
       variant="contained"
       size="small"
-      sx={{ marginRight: '10px' }}
       onClick={handleReject}
     >
       {rejectTitle}

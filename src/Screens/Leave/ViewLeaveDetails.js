@@ -53,18 +53,16 @@ const ViewLeaveDetails = ({ data, role }) => {
       <Grid container spacing={2} alignItems="center" justifyContent="space-between">
         <Grid item>{renderItems}</Grid>
         <Grid item xs={12}>
-          <FormField
-            type="textarea"
-            placeholder={
-              role === 'admin' ? 'Enter the reason of approve or reject leave' : 'Reason'
-            }
-            label={role === 'admin' ? 'Reason of approve or reject leave' : 'Reason'}
-            value={role === 'admin' ? '' : data.reason}
-            multiline
-            rows={5}
-            errorFalse
-            disabled={role !== 'admin'}
-          />
+          {role === 'admin' ? (
+            <FormField
+              type="textarea"
+              placeholder="Reason approve or reject"
+              value=""
+              multiline
+              rows={5}
+              errorFalse
+            />
+          ) : null}
         </Grid>
         {data.status === 'reject' && (
           <Grid item xs={12}>

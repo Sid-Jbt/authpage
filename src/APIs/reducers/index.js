@@ -6,8 +6,8 @@ import customizationReducer from './customizationReducer';
 // import resetPasswordReducer from './resetPasswordReducer';
 // import profileUpdateReducer from './profileUpdateReducer';
 import dashboardReducer from './dashboardReducer';
-import employeeBySlugReducer from './employee/employeeBySlug';
-import domainReducer from './getDomain';
+// import employeeBySlugReducer from './employee/employeeBySlug';
+// import domainReducer from './getDomain';
 // import employeeListReducer from './employee/employeeList';
 // import employeeAddReducer from './employee/employeeAdd';
 
@@ -19,10 +19,17 @@ const rootReducer = combineReducers({
   // resetPassword: resetPasswordReducer,
   // profileUpdate: profileUpdateReducer,
   // employeeAdd: employeeAddReducer,
-  dashboard: dashboardReducer,
+  dashboard: dashboardReducer
   // employeeList: employeeListReducer
-  employeeBySlug: employeeBySlugReducer,
-  domain: domainReducer
+  // employeeBySlug: employeeBySlugReducer,
+  // domain: domainReducer
 });
 
-export default rootReducer;
+const appReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    return rootReducer(undefined, action);
+  }
+  return rootReducer(state, action);
+};
+
+export default appReducer;
