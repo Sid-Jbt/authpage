@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Card, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
@@ -52,75 +51,54 @@ const Payslip = () => {
   };
 
   return (
-    <>
-      <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        {/* <Grid item xs="auto">
-          <Button color="white" variant="outlined" size="small" onClick={onClickExport}>
-        <Grid item xs="auto">
-          <Button
-            color="white"
-            variant="outlined"
-            size="small"
-            onClick={onClickExport}
-            disabled={loader}
-            sx={loader && isExport && { height: '40px !important' }}
-          >
-            <Icon sx={{ mr: 1 }}>
-              <ImportExportRounded />
-            </Icon>
-            {Loading && isExport ? <CircularProgress  size={20} color="inherit" /> : 'Export'}
-          </Button>
-        </Grid> */}
-      </Grid>
-      <Card
-        sx={{
-          background: ({ palette: { grey } }) => grey[100],
-          borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
-          boxShadow: ({ boxShadows: { md } }) => md
+    <Card
+      sx={{
+        background: ({ palette: { grey } }) => grey[100],
+        borderRadius: ({ borders: { borderRadius } }) => borderRadius.xl,
+        boxShadow: ({ boxShadows: { md } }) => md
+      }}
+    >
+      <FilterLayout
+        search={search}
+        handleSearch={(e) => setSearch(e.target.value.trim())}
+        handleClear={handleClear}
+        onClickSearch={() => {
+          setFilter(!filter);
         }}
       >
-        <FilterLayout
-          search={search}
-          handleSearch={(e) => setSearch(e.target.value.trim())}
-          handleClear={handleClear}
-          onClickSearch={() => {
-            setFilter(!filter);
-          }}
-        >
-          <Grid item xs={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Month</FormLabel>
-              <Select value={month} options={Months} onChange={(value) => setMonth(value)} />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Year</FormLabel>
-              <Select value={year} options={Years} onChange={(value) => setYear(value)} />
-            </FormControl>
-          </Grid>
-        </FilterLayout>
-        <Table
-          columns={role === 'admin' ? adminPrCol : prCols}
-          rows={allPayslipList}
-          rowsCount={payslipListCount}
-          // onClickAction={(value, row) => onClickAction(value, row)}
-          isAction
-          // options={downloadOption}
-          initialPage={page}
-          onChangePage={(value) => setPage(value)}
-          rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => {
-            setLimit(rowsPerPage);
-          }}
-          sortKey={sort.key}
-          sortOrder={sort.order}
-          handleRequestSort={(event, orderKey, orderName) =>
-            setSort({ order: orderName, key: orderKey })
-          }
-        />
-      </Card>
-    </>
+        <Grid item xs={12} md={4} lg={3}>
+          <FormControl sx={{ width: '100%' }}>
+            <FormLabel>Select Month</FormLabel>
+            <Select value={month} options={Months} onChange={(value) => setMonth(value)} />
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} md={4} lg={3}>
+          <FormControl sx={{ width: '100%' }}>
+            <FormLabel>Select Year</FormLabel>
+            <Select value={year} options={Years} onChange={(value) => setYear(value)} />
+          </FormControl>
+        </Grid>
+      </FilterLayout>
+      <Table
+        columns={role === 'admin' ? adminPrCol : prCols}
+        rows={allPayslipList}
+        rowsCount={payslipListCount}
+        // onClickAction={(value, row) => onClickAction(value, row)}
+        isAction
+        // options={downloadOption}
+        initialPage={page}
+        onChangePage={(value) => setPage(value)}
+        rowsPerPage={limit}
+        onRowsPerPageChange={(rowsPerPage) => {
+          setLimit(rowsPerPage);
+        }}
+        sortKey={sort.key}
+        sortOrder={sort.order}
+        handleRequestSort={(event, orderKey, orderName) =>
+          setSort({ order: orderName, key: orderKey })
+        }
+      />
+    </Card>
   );
 };
 
