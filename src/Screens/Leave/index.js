@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Card, Icon, Grid } from '@mui/material';
 import Table from 'Elements/Tables/Table';
@@ -15,7 +14,7 @@ import AddLeaveForm from './AddLeaveForm';
 import ViewLeaveDetails from './ViewLeaveDetails';
 
 const LeaveList = () => {
-  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
+  const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
   const {
     role,
     GetLeaveAddUpdate,
@@ -176,6 +175,7 @@ const LeaveList = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allLeave}
+          loading={Loading}
           onClickAction={(value, { id }) => {
             if (value === 'delete') {
               setSelectedData(id);

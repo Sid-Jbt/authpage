@@ -6,7 +6,8 @@ import {
   TableContainer,
   TableRow,
   TableSortLabel,
-  Checkbox
+  Checkbox,
+  CircularProgress
 } from '@mui/material';
 import Avatar from 'Elements/Avatar';
 import Box from 'Elements/Box';
@@ -37,7 +38,8 @@ const Table = ({
   onRowsPerPageChange,
   sortKey = 'id',
   sortOrder = 'asc',
-  handleRequestSort
+  handleRequestSort,
+  loading
 }) => {
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
@@ -294,22 +296,26 @@ const Table = ({
             ) : (
               <TableRow>
                 <Box component="td" colSpan={10} p={1} textAlign="center">
-                  <Typography
-                    variant="button"
-                    fontWeight="regular"
-                    color="secondary"
-                    sx={{
-                      pt: '1.5',
-                      pb: '1.25',
-                      textAlign: 'center',
-                      fontSize: size.sm,
-                      fontWeight: fontWeightBold,
-                      color: 'dark',
-                      opacity: '0.8'
-                    }}
-                  >
-                    No Data Found!
-                  </Typography>
+                  {loading ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : (
+                    <Typography
+                      variant="button"
+                      fontWeight="regular"
+                      color="secondary"
+                      sx={{
+                        pt: '1.5',
+                        pb: '1.25',
+                        textAlign: 'center',
+                        fontSize: size.sm,
+                        fontWeight: fontWeightBold,
+                        color: 'dark',
+                        opacity: '0.8'
+                      }}
+                    >
+                      No Data Found!
+                    </Typography>
+                  )}
                 </Box>
               </TableRow>
             )}
