@@ -15,15 +15,8 @@ import ViewLeaveDetails from './ViewLeaveDetails';
 
 const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
-  const {
-    role,
-    GetLeaveAddUpdate,
-    GetLeaveList,
-    GetLeaveDelete,
-    GetLeaveReason,
-    GetLeaveById,
-    Loading
-  } = useOutletContext();
+  const { role, GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete, GetLeaveReason, GetLeaveById } =
+    useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [search, setSearch] = useState('');
@@ -175,7 +168,6 @@ const LeaveList = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allLeave}
-          loading={Loading}
           onClickAction={(value, { id }) => {
             if (value === 'delete') {
               setSelectedData(id);
