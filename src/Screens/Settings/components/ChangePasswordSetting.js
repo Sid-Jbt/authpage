@@ -8,6 +8,7 @@ import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { useNavigate } from 'react-router';
+import withStateDispatch from 'Helpers/withStateDispatch';
 import { getDashboardPattern } from '../../../Routes/routeConfig';
 
 const ChangePasswordSetting = ({ GetChangePassword, Loading }) => {
@@ -151,4 +152,4 @@ const ChangePasswordSetting = ({ GetChangePassword, Loading }) => {
   );
 };
 
-export default ChangePasswordSetting;
+export default withStateDispatch(ChangePasswordSetting);
