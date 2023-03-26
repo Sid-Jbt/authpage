@@ -3,23 +3,23 @@ import { Card, Grid, Icon } from '@mui/material';
 import { Add, ImportExportRounded } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
-import { useSelector } from 'react-redux';
 import FilterLayout from 'Components/FilterLayout';
 import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
-import withStateDispatch from 'Helpers/withStateDispatch';
+import { useOutletContext } from 'react-router';
 import holidayListData from './data/holidayListData';
 import ManageHolidayForm from './ManageHolidayForm';
 
-const Holiday = ({
-  GetHolidayList,
-  GetHolidayAdd,
-  GetHolidayUpdate,
-  GetHolidayById,
-  GetHolidayDelete
-}) => {
+const Holiday = () => {
   const { columns: prCols } = holidayListData;
-  const { role } = useSelector((state) => state.login);
+  const {
+    role,
+    GetHolidayList,
+    GetHolidayAdd,
+    GetHolidayUpdate,
+    GetHolidayById,
+    GetHolidayDelete
+  } = useOutletContext();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -184,4 +184,4 @@ const Holiday = ({
     </>
   );
 };
-export default withStateDispatch(Holiday);
+export default Holiday;
