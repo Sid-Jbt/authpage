@@ -23,9 +23,7 @@ const ManageHolidayForm = ({ isDrawerOpen, handleDrawerClose, title, Loading }) 
           title: '',
           holidayDate: moment().format('DD/MM/YYYY')
         }}
-        onSubmit={(values, actions) => {
-          // eslint-disable-next-line no-console
-          console.log(values, actions);
+        onSubmit={() => {
           handleDrawerClose();
         }}
         validationSchema={holidayFormSchema}

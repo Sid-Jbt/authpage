@@ -7,15 +7,13 @@ import { changePasswordSchema } from 'Helpers/ValidationSchema';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
+import { useNavigate } from 'react-router';
+import withStateDispatch from 'Helpers/withStateDispatch';
+import { getDashboardPattern } from '../../../Routes/routeConfig';
 
-const ChangePasswordSetting = ({ Loading }) => {
+const ChangePasswordSetting = ({ GetChangePassword, Loading }) => {
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  const navigate = useNavigate();
 
   return (
     <Card id="change-pass-setting">
@@ -25,10 +23,15 @@ const ChangePasswordSetting = ({ Loading }) => {
       <Formik
         enableReinitialize
         initialValues={{ oldPassword: '', newPassword: '', confirmNewPassword: '' }}
-        onSubmit={(values, actions) => {
-          // eslint-disable-next-line no-console
-          console.log(values, actions);
-        }}
+        onSubmit={(values) =>
+          GetChangePassword(values, (res) => {
+            if (res && res.data) {
+              if (res.data.status) {
+                navigate(getDashboardPattern());
+              }
+            }
+          })
+        }
         validationSchema={changePasswordSchema}
       >
         {(props) => {
@@ -55,8 +58,7 @@ const ChangePasswordSetting = ({ Loading }) => {
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
+                            onClick={() => setShowPassword((show) => !show)}
                             edge="end"
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -84,8 +86,7 @@ const ChangePasswordSetting = ({ Loading }) => {
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
+                            onClick={() => setShowPassword((show) => !show)}
                             edge="end"
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -117,8 +118,7 @@ const ChangePasswordSetting = ({ Loading }) => {
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
+                            onClick={() => setShowPassword((show) => !show)}
                             edge="end"
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -152,4 +152,4 @@ const ChangePasswordSetting = ({ Loading }) => {
   );
 };
 
-export default ChangePasswordSetting;
+export default withStateDispatch(ChangePasswordSetting);

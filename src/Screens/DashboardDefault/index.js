@@ -1,38 +1,97 @@
-/* eslint-disable no-unused-vars */
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Box from 'Elements/Box';
 import { Grid } from '@mui/material';
 import Calendar from 'Components/Calendar';
 import {
   HolidayVillage,
+  PendingActionsRounded,
   PendingTwoTone,
   PeopleRounded,
   Watch,
   WatchLater,
   WatchRounded
 } from '@mui/icons-material';
-import { useNavigate, useOutletContext } from 'react-router';
-import { getEmployeeListPattern, getExpensePattern, getLeavePattern } from 'Routes/routeConfig';
+import { useOutletContext } from 'react-router';
+import {
+  getAttendancePattern,
+  getEmployeeListPattern,
+  getExpensePattern,
+  getLeavePattern,
+  getSupportTicketPattern
+} from 'Routes/routeConfig';
 import DashboardCard from 'Components/CardLayouts/StaticCard';
+import withStateDispatch from '../../Helpers/withStateDispatch';
 
-const DashboardDefault = () => {
+const DashboardDefault = ({ DashboardData }) => {
   const { role } = useOutletContext();
-  const navigate = useNavigate();
   const [calendarEventsData, setCalendarEventsData] = useState([]);
-  const [currentWeekHour, setCurrentWeekHour] = useState(0);
-  const [currentMonthHour, setCurrentMonthHour] = useState(0);
+  const [workingTime, setWorkingTime] = useState({
+    todayHours: 0,
+    currentWeekHours: 0,
+    currentMonthHours: 0
+  });
+  const [count, setCount] = useState({
+    employeeCount: 0,
+    presentCount: 0,
+    absentCount: 0,
+    expenseCount: 0,
+    leaveCount: 0,
+    ticketCount: 0
+  });
 
-  const handleTotalEmployee = () => {
-    navigate(getEmployeeListPattern());
-  };
-
-  const handlePendingExpense = () => {
-    navigate(getExpensePattern());
-  };
-
-  const handlePendingLeave = () => {
-    navigate(getLeavePattern());
-  };
+  useEffect(() => {
+    if (DashboardData) {
+      const {
+        holidayList,
+        noticeList,
+        currentWeekHours,
+        currentMonthHours,
+        todayHours,
+        totalEmployee,
+        totalPresent,
+        totalAbsent,
+        totalPendingExpense,
+        totalPendingLeave,
+        totalPendingSupportTicket
+      } = DashboardData;
+      const calenderData = holidayList
+        ? holidayList.map((holiday) => ({
+            title: holiday.title,
+            eventName: 'holiday.title',
+            eventType: 'holiday',
+            eventClass: 'info',
+            start: holiday.holidayDate,
+            end: holiday.holidayDate
+          }))
+        : [];
+      const noticeData = noticeList
+        ? noticeList.map((notice) => ({
+            title: notice.title,
+            eventName: 'notice.title',
+            eventType: 'notice',
+            eventClass: 'info',
+            start: notice.noticeStartDate,
+            end: notice.noticeEndDate
+          }))
+        : [];
+      setCalendarEventsData([...calenderData, ...noticeData]);
+      setWorkingTime((prev) => ({
+        ...prev,
+        todayHours,
+        currentWeekHours,
+        currentMonthHours
+      }));
+      setCount((prev) => ({
+        ...prev,
+        employeeCount: totalEmployee,
+        presentCount: totalPresent,
+        absentCount: totalAbsent,
+        expenseCount: totalPendingExpense,
+        leaveCount: totalPendingLeave,
+        ticketCount: totalPendingSupportTicket
+      }));
+    }
+  }, []);
 
   return (
     <Box mb={3}>
@@ -52,7 +111,11 @@ const DashboardDefault = () => {
               <Grid item xs={12} md={6} lg={3}>
                 <DashboardCard
                   title="Today"
-                  count="00:00:00"
+                  count={
+                    workingTime.todayHours === 0 || workingTime.todayHours === undefined
+                      ? '00:00:00'
+                      : workingTime.todayHours
+                  }
                   icon={{ color: 'success', component: <Watch /> }}
                   isPercentage={false}
                 />
@@ -60,7 +123,9 @@ const DashboardDefault = () => {
               <Grid item xs={12} md={6} lg={3}>
                 <DashboardCard
                   title="Current week"
-                  count={currentWeekHour}
+                  count={
+                    workingTime.currentWeekHours === 0 ? '00:00:00' : workingTime.currentWeekHours
+                  }
                   icon={{ color: 'secondary', component: <WatchRounded /> }}
                   isPercentage={false}
                 />
@@ -68,7 +133,9 @@ const DashboardDefault = () => {
               <Grid item xs={12} md={6} lg={3}>
                 <DashboardCard
                   title="Current month"
-                  count={currentMonthHour}
+                  count={
+                    workingTime.currentMonthHours === 0 ? '00:00:00' : workingTime.currentMonthHours
+                  }
                   icon={{ color: 'info', component: <WatchLater /> }}
                   isPercentage={false}
                 />
@@ -96,44 +163,58 @@ const DashboardDefault = () => {
           </Grid>
           {role === 'admin' ? (
             <Grid container item spacing={3} xs={12} lg={4}>
-              <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
+              <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Total Employee"
-                  count="10"
+                  count={count && count.employeeCount}
                   icon={{ color: 'info', component: <PeopleRounded /> }}
                   isPercentage={false}
+                  link={getEmployeeListPattern()}
                 />
               </Grid>
-              <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
+              <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Today Present"
-                  count="9"
+                  count={count && count.presentCount}
                   icon={{ color: 'success', component: <PeopleRounded /> }}
                   isPercentage={false}
+                  link={getAttendancePattern()}
                 />
               </Grid>
-              <Grid item xs={12} lg={6} onClick={handleTotalEmployee} sx={{ cursor: 'pointer' }}>
+              <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Today Absent"
-                  count="1"
+                  count={count && count.absentCount}
                   icon={{ color: 'error', component: <PeopleRounded /> }}
                   isPercentage={false}
+                  link={getAttendancePattern()}
                 />
               </Grid>
-              <Grid item xs={12} lg={6} onClick={handlePendingExpense} sx={{ cursor: 'pointer' }}>
+              <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Pending Expense"
-                  count="1"
+                  count={count && count.expenseCount}
                   icon={{ color: 'warning', component: <PendingTwoTone /> }}
                   isPercentage={false}
+                  link={getExpensePattern()}
                 />
               </Grid>
-              <Grid item xs={12} lg={6} onClick={handlePendingLeave} sx={{ cursor: 'pointer' }}>
+              <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Pending Leave Approval"
-                  count="0"
+                  count={count && count.leaveCount}
                   icon={{ color: 'secondary', component: <HolidayVillage /> }}
                   isPercentage={false}
+                  link={getLeavePattern()}
+                />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                <DashboardCard
+                  title="Pending Support Tickets"
+                  count={count && count.ticketCount}
+                  icon={{ color: 'secondary', component: <PendingActionsRounded /> }}
+                  isPercentage={false}
+                  link={getSupportTicketPattern()}
                 />
               </Grid>
             </Grid>
@@ -144,4 +225,4 @@ const DashboardDefault = () => {
   );
 };
 
-export default DashboardDefault;
+export default withStateDispatch(DashboardDefault);

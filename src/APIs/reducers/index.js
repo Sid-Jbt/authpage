@@ -7,13 +7,14 @@ import customizationReducer from './customizationReducer';
 // import profileUpdateReducer from './profileUpdateReducer';
 import dashboardReducer from './dashboardReducer';
 import employeeBySlugReducer from './employee/employeeBySlug';
-import domainReducer from './getDomain';
 // import expenseAddReducer from './expense/expenseAdd';
 // import expenseListReducer from './expense/expenseList';
 // import expenseUpdateReducer from './expense/expenseUpdate';
 // import expenseDeleteReducer from './expense/expenseDelete';
 // import expenseByIdReducer from "./expense/expenseById";
 // import expenseReasonReducer from "./expense/expenseReason";
+// import employeeBySlugReducer from './employee/employeeBySlug';
+// import domainReducer from './getDomain';
 // import employeeListReducer from './employee/employeeList';
 // import employeeAddReducer from './employee/employeeAdd';
 
@@ -27,14 +28,23 @@ const rootReducer = combineReducers({
   // employeeAdd: employeeAddReducer,
   // employeeList: employeeListReducer,
   employeeBySlug: employeeBySlugReducer,
-  dashboard: dashboardReducer,
+  dashboard: dashboardReducer
   // expenseList: expenseListReducer,
   // expenseAdd: expenseAddReducer,
   // expenseUpdate: expenseUpdateReducer,
   // expenseDelete: expenseDeleteReducer,
   // expenseById: expenseByIdReducer,
   // expenseReason: expenseReasonReducer,
-  domain: domainReducer
+  // employeeList: employeeListReducer
+  // employeeBySlug: employeeBySlugReducer,
+  // domain: domainReducer
 });
 
-export default rootReducer;
+const appReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    return rootReducer(undefined, action);
+  }
+  return rootReducer(state, action);
+};
+
+export default appReducer;

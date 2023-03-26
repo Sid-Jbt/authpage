@@ -3,10 +3,16 @@ import { applyMiddleware, createStore } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import reduxStorage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
+import { encryptTransform } from 'redux-persist-transform-encrypt';
 import rootReducer from '../reducers';
 
 const persistedReducer = persistReducer(
-  { key: 'root', storage: reduxStorage, blacklist: [''] },
+  {
+    transforms: [encryptTransform({ secretKey: process.env.REACT_APP_LOCAL_STORAGE_SCRET_KEY })],
+    key: 'root',
+    storage: reduxStorage,
+    blacklist: ['']
+  },
   rootReducer
 );
 

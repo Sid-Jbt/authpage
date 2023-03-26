@@ -7,7 +7,7 @@ import Table from 'Elements/Tables/Table';
 import { useSelector } from 'react-redux';
 import FilterLayout from 'Components/FilterLayout';
 import DialogMenu from 'Elements/Dialog';
-import { DeleteDialogAction, DeleteDialogContent } from 'Components/DeleteDialog';
+import { DialogAction, DialogContent } from 'Components/Dialog';
 import holidayListData from './data/holidayListData';
 import ImportDialog from './ImportDialog';
 import ManageHolidayForm from './ManageHolidayForm';
@@ -175,23 +175,29 @@ const Holiday = () => {
           onClose={handleDialogClose}
           dialogTitle={isEdit ? 'Delete' : 'Import Files'}
           dialogContent={
-            isEdit ? (
-              <DeleteDialogContent content="Are you sure you want to delete this ?" />
-            ) : (
-              <ImportDialog
-                isHover={isHover}
-                handleMouseEnter={handleMouseEnter}
-                handleMouseLeave={handleMouseLeave}
-                handleDialogClose={handleDialogClose}
-              />
-            )
+            <DialogContent
+              content={!isEdit && 'Are you sure you want to delete this ?'}
+              customContent={
+                isEdit && (
+                  <ImportDialog
+                    isHover={isHover}
+                    handleMouseEnter={handleMouseEnter}
+                    handleMouseLeave={handleMouseLeave}
+                    handleDialogClose={handleDialogClose}
+                  />
+                )
+              }
+            />
           }
           dialogAction={
-            <DeleteDialogAction
-              handleDialogClose={handleDialogClose}
-              selectedId={selectedId}
-              deleteItem={onDelete}
-            />
+            isEdit && (
+              <DialogAction
+                rejectTitle="Cancel"
+                approveTitle="Delete"
+                handleReject={handleDialogClose}
+                handleApprove={() => onDelete(selectedData)}
+              />
+            )
           }
         />
         <ManageHolidayForm
