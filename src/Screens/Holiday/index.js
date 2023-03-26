@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
 import { Add, ImportExportRounded } from '@mui/icons-material';
@@ -10,7 +9,6 @@ import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import withStateDispatch from 'Helpers/withStateDispatch';
 import holidayListData from './data/holidayListData';
-import ImportDialog from './ImportDialog';
 import ManageHolidayForm from './ManageHolidayForm';
 
 const Holiday = ({
@@ -24,7 +22,6 @@ const Holiday = ({
   const { role } = useSelector((state) => state.login);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isHover, setIsHover] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
 
@@ -59,14 +56,6 @@ const Holiday = ({
     return () => {};
   }, [isDialogOpen, isDrawerOpen, filter, page, sort]);
 
-  const handleMouseEnter = () => {
-    setIsHover(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHover(false);
-  };
-
   const handleDrawer = () => {
     setSelectedData(null);
     setIsDrawerOpen(true);
@@ -75,10 +64,6 @@ const Holiday = ({
   const handleDrawerClose = () => {
     setIsDrawerOpen(false);
     setIsEdit(false);
-  };
-
-  const handleDialog = () => {
-    setIsDialogOpen(true);
   };
 
   const handleDialogClose = () => {
@@ -93,15 +78,11 @@ const Holiday = ({
       setIsDrawerOpen(true);
     } else if (value === 'delete') {
       setIsEdit(value === 'delete');
-      handleDialog();
+      setIsDialogOpen(true);
     } else {
       setIsEdit(false);
-      handleDialog();
+      setIsDialogOpen(true);
     }
-  };
-
-  const onDelete = async () => {
-    GetHolidayDelete(selectedData, () => handleDialogClose());
   };
 
   return (
@@ -117,7 +98,12 @@ const Holiday = ({
             </Button>
           </Grid>
           <Grid item xs={12} md="auto">
-            <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
+            <Button
+              color="white"
+              variant="outlined"
+              size="small"
+              onClick={() => setIsDialogOpen(true)}
+            >
               <Icon sx={{ mr: 1 }}>
                 <ImportExportRounded />
               </Icon>
@@ -177,21 +163,11 @@ const Holiday = ({
                 rejectTitle="Cancel"
                 approveTitle="Delete"
                 handleReject={handleDialogClose}
-                handleApprove={() => onDelete()}
+                handleApprove={() => GetHolidayDelete(selectedData, () => handleDialogClose())}
               />
             )
           }
         />
-        {/* customContent={
-          isEdit && (
-              <ImportDialog
-                  isHover={isHover}
-                  handleMouseEnter={handleMouseEnter}
-                  handleMouseLeave={handleMouseLeave}
-                  handleDialogClose={handleDialogClose}
-              />
-          )
-      } */}
         <ManageHolidayForm
           isDrawerOpen={Boolean(isDrawerOpen)}
           handleDrawerClose={() => handleDrawerClose()}
