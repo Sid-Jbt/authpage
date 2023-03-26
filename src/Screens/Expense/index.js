@@ -199,7 +199,6 @@ const ExpenseList = () => {
             handleDialog={() => setIsDialogOpen(!isDialogOpen)}
             title={isEdit ? 'UPDATE EXPENSE' : 'NEW EXPENSE'}
             button={isEdit ? 'UPDATE YOUR EXPENSE' : 'ADD YOUR EXPENSE'}
-            setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             isEdit={isEdit}
             GetExpenseAddUpdate={GetExpenseAddUpdate}

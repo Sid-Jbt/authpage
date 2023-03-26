@@ -26,6 +26,10 @@ import { getSupportUpdateWatcher } from './supportTicket/supportUpdate';
 import { getSupportByIdWatcher } from './supportTicket/supportById';
 import { getSupportDeleteWatcher } from './supportTicket/supportDelete';
 import { getSupportReasonWatcher } from './supportTicket/supportReason';
+import { getHolidayListWatcher } from './holiday/holidayList';
+import { getHolidayAddUpdateWatcher } from './holiday/holidayAddUpdate';
+import { getHolidayByIdWatcher } from './holiday/holidayById';
+import { getHolidayDeleteWatcher } from './holiday/holidayDelete';
 import { getChangePasswordWatcher } from './settings/changePassword';
 import { getLeaveReasonWatcher } from './leave/leaveReason';
 import { getLeaveByIdWatcher } from './leave/leaveById';
@@ -56,6 +60,10 @@ export default function* rootSaga() {
     getSupportByIdWatcher(),
     getSupportDeleteWatcher(),
     getSupportReasonWatcher(),
+    getHolidayListWatcher(),
+    getHolidayAddUpdateWatcher(),
+    getHolidayByIdWatcher(),
+    getHolidayDeleteWatcher(),
     getChangePasswordWatcher(),
     getLeaveAddUpdateWatcher(),
     getLeaveListWatcher(),

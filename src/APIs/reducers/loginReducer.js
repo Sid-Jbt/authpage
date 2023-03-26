@@ -44,8 +44,7 @@ const EmployeeRole = [
   'report',
   'allreport',
   'timeactivity',
-  'weeklylimit',
-  'holiday'
+  'weeklylimit'
 ];
 
 export default function loginReducer(state = initialState, action) {

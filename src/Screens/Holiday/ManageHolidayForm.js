@@ -8,91 +8,104 @@ import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 
-const ManageHolidayForm = ({ isDrawerOpen, handleDrawerClose, title, Loading }) => (
-  <>
-    <SideDrawer
-      open={Boolean(isDrawerOpen)}
-      onClose={() => {
-        handleDrawerClose();
+const initialValues = {
+  title: '',
+  holidayDate: moment().format('DD/MM/YYYY')
+};
+
+const ManageHolidayForm = ({
+  isDrawerOpen,
+  handleDrawerClose,
+  title,
+  Loading,
+  GetHolidayAddUpdate,
+  isEdit,
+  selectedData
+}) => (
+  <SideDrawer open={Boolean(isDrawerOpen)} onClose={handleDrawerClose} title={title}>
+    <Formik
+      enableReinitialize
+      initialValues={selectedData || initialValues}
+      onSubmit={(values, action) => {
+        const data = isEdit ? { values, selectedData } : { values };
+        GetHolidayAddUpdate(data, (res) => {
+          const { status } = res.data;
+          if (status) {
+            handleDrawerClose();
+          }
+        });
+        action.setSubmitting(false);
       }}
-      title={title}
+      validationSchema={holidayFormSchema}
     >
-      <Formik
-        enableReinitialize
-        initialValues={{
-          title: '',
-          holidayDate: moment().format('DD/MM/YYYY')
-        }}
-        onSubmit={() => {
-          handleDrawerClose();
-        }}
-        validationSchema={holidayFormSchema}
-      >
-        {(props) => {
-          const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =
-            props;
-          return (
-            <form onSubmit={handleSubmit}>
-              <Box mb={0.5}>
-                <Input
-                  placeholder="Title"
-                  label="Title"
-                  size="large"
-                  fullWidth
-                  id="title"
-                  name="title"
-                  value={values.title}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errorText={errors.title && touched.title && errors.title}
-                  error={errors.title && touched.title}
-                  success={!errors.title && touched.title}
-                />
-              </Box>
-              <Box mb={0.5}>
-                <Input
-                  type="date"
-                  placeholder="Date"
-                  label="DATE"
-                  size="large"
-                  fullWidth
-                  dateformat="yyyy-MM-dd"
-                  id="holidayDate"
-                  name="holidayDate"
-                  value={values.holidayDate}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errorText={errors.holidayDate && touched.holidayDate && errors.holidayDate}
-                  error={errors.holidayDate && touched.holidayDate}
-                  success={!errors.holidayDate && touched.holidayDate}
-                />
-              </Box>
-              <Grid
-                item
-                sm={12}
-                md={4}
-                lg={6}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center'
+      {(props) => {
+        const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =
+          props;
+        return (
+          <form onSubmit={handleSubmit}>
+            <Box mb={0.5}>
+              <Input
+                placeholder="Title"
+                label="Title"
+                size="large"
+                fullWidth
+                id="title"
+                name="title"
+                value={values.title}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorText={errors.title && touched.title && errors.title}
+                error={errors.title && touched.title}
+                success={!errors.title && touched.title}
+              />
+            </Box>
+            <Box mb={0.5}>
+              <Input
+                type="date"
+                placeholder="Date"
+                label="DATE"
+                size="large"
+                fullWidth
+                dateformat="yyyy-MM-dd"
+                id="holidayDate"
+                name="holidayDate"
+                inputProps={{
+                  min: moment().subtract(1, 'Y').format('YYYY-MM-DD'),
+                  max: moment().add(1, 'Y').format('YYYY-MM-DD')
                 }}
+                value={values.holidayDate}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorText={errors.holidayDate && touched.holidayDate && errors.holidayDate}
+                error={errors.holidayDate && touched.holidayDate}
+                success={!errors.holidayDate && touched.holidayDate}
+              />
+            </Box>
+            <Grid
+              item
+              sm={12}
+              md={4}
+              lg={6}
+              sx={{
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              <Button
+                type="submit"
+                color="info"
+                variant="contained"
+                size="small"
+                disabled={isSubmitting || Loading}
               >
-                <Button
-                  type="submit"
-                  color="info"
-                  variant="contained"
-                  size="small"
-                  disabled={isSubmitting || Loading}
-                >
-                  {Loading ? <CircularProgress size={20} color="inherit" /> : 'Add Holiday'}
-                </Button>
-              </Grid>
-            </form>
-          );
-        }}
-      </Formik>
-    </SideDrawer>
-  </>
+                {Loading ? <CircularProgress size={20} color="inherit" /> : title}
+              </Button>
+            </Grid>
+          </form>
+        );
+      }}
+    </Formik>
+  </SideDrawer>
 );
 
 export default ManageHolidayForm;
