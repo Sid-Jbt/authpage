@@ -1,17 +1,11 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
 import { Add, PendingTwoTone, SummarizeRounded, ThumbDown, ThumbUpAlt } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
-import { useSelector } from 'react-redux';
 import DialogMenu from 'Elements/Dialog';
-import {
-  DeleteDialogAction,
-  DeleteDialogContent,
-  DialogAction,
-  DialogContent
-} from 'Components/Dialog';
+import { DialogAction, DialogContent } from 'Components/Dialog';
+import { useOutletContext } from 'react-router';
 import expenseListData from './data/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
 import ExpenseCard from '../../Components/CardLayouts/StaticCard';
@@ -19,44 +13,30 @@ import ViewExpenseDetails from './ViewExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
 import withStateDispatch from '../../Helpers/withStateDispatch';
 
-const adminExpenseOptions = [{ title: 'View', value: 'view' }];
-const empExpenseOptions = [
-  { title: 'Edit', value: 'edit' },
-  { title: 'View', value: 'view' },
-  { title: 'Delete', value: 'delete' }
-];
-
 const ExpenseList = ({
-  GetExpenseAdd,
-  GetExpenseUpdate,
+  GetExpenseAddUpdate,
   GetExpenseList,
   GetExpenseDelete,
   GetExpenseById,
   GetExpenseReason
 }) => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
-  const { role } = useSelector((state) => state.login);
+  const { role } = useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const [selectedId, setSelectedId] = useState('');
-  const [search, setSearch] = useState('');
   const [isViewExpenseDialogOpen, setIsViewExpenseDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [sort, setSort] = useState({ key: 'createdAt', order: 'asc' });
   const [filter, setFilter] = useState(false);
   const [allExpense, setAllExpense] = useState([]);
   const [expenseCount, setExpenseCount] = useState({});
-  // const [isSearch, setIsSearch] = useState(false);
-  // const [sortKey, setSortKey] = useState('createdAt');
-  // const [sortOrder, setSortOrder] = useState('desc');
-  // const [isExport, setIsExport] = useState(false);
-  // const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState(false);
 
   useEffect(() => {
-    if (!isDialogOpen || !isDeleteDialogOpen || isViewExpenseDialogOpen) {
+    if (!isDialogOpen || !isDeleteDialogOpen) {
       GetExpenseList(
         {
           limit,
@@ -66,82 +46,20 @@ const ExpenseList = ({
           sortOrder: sort.order
         },
         (res) => {
-          // console.log("data===" , res)
           if (res && res.data && res.data.data) {
             const { rows, count } = res.data.data;
             setAllExpense(rows);
             setExpenseCount(count);
-            setFilter(false);
           }
         }
       );
     }
     return () => {};
-  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewExpenseDialogOpen]);
-
-  const handleDialog = () => {
-    setSelectedData(null);
-    setIsDialogOpen(!isDialogOpen);
-  };
-
-  const handleCloseViewDialog = () => {
-    setIsViewExpenseDialogOpen(false);
-  };
-
-  const onClickAction = (key, selectedExpenseData) => {
-    if (key === 'edit') {
-      setIsEdit(true);
-      setSelectedData(selectedExpenseData.id);
-      setIsDialogOpen(!isDialogOpen);
-    } else if (key === 'view') {
-      GetExpenseById({ id: selectedExpenseData.id }, (res) => {
-        if (res && res.data && res.data.data) {
-          const { data } = res.data;
-          const setViewData = {
-            itemName: data.itemName,
-            purchaseFrom: data.purchaseFrom,
-            purchaseDate: data.purchaseDate,
-            amount: data.amount,
-            status: data.status,
-            document: data.document,
-            comment: data.comment,
-            id: data.id
-          };
-          setSelectedData(setViewData);
-          if (role === 'admin') {
-            setIsViewExpenseDialogOpen(true);
-          } else {
-            setIsViewExpenseDialogOpen(true);
-          }
-        }
-      });
-    } else {
-      setSelectedId(selectedExpenseData.id);
-      setIsDeleteDialogOpen(true);
-    }
-  };
-
-  const handleDialogClose = () => {
-    setIsDeleteDialogOpen(false);
-  };
-
-  const onDelete = async () => {
-    GetExpenseDelete({ selectedId }, () => handleDialogClose());
-  };
+  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen]);
 
   const handleClear = () => {
     setSearch('');
     setFilter(false);
-  };
-
-  const handleExpenseStatus = (status) => {
-    const reasonData = {
-      status,
-      comment: ''
-    };
-    GetExpenseReason({ data: reasonData, id: selectedData.id }, () =>
-      setIsViewExpenseDialogOpen(false)
-    );
   };
 
   return (
@@ -194,7 +112,7 @@ const ExpenseList = ({
                 })}
                 variant="outlined"
                 size="small"
-                onClick={() => handleDialog()}
+                onClick={() => setIsDialogOpen(!isDialogOpen)}
               >
                 <Icon sx={{ mr: 1 }}>
                   <Add />
@@ -205,30 +123,6 @@ const ExpenseList = ({
           </Grid>
         </>
       )}
-
-      {/* <Grid item xs="auto">
-          <Button
-            sx={({ breakpoints, palette: { dark } }) =>
-              ({
-                [breakpoints.down('xl' && 'lg')]: {
-                  color: dark.main,
-                  borderColor: dark.main
-                }
-              } &&
-              loader &&
-              isExport && { height: '40px !important' })
-            }
-            variant="outlined"
-            size="small"
-            disabled={loader}
-            onClick={onClickExport}
-          >
-            <Icon sx={{ mr: 1 }}>
-              <ImportExportRounded />
-            </Icon>
-            {loader && isExport ? <CircularProgress color="inherit" /> : 'Export'}
-          </Button>
-        </Grid> */}
 
       <Card
         sx={{
@@ -249,16 +143,51 @@ const ExpenseList = ({
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allExpense}
-          onClickAction={(data, value) => onClickAction(data, value)}
+          onClickAction={(value, { id }) => {
+            if (value === 'delete') {
+              setSelectedData(id);
+              setIsDeleteDialogOpen(true);
+            } else {
+              GetExpenseById(id, (res) => {
+                if (res && res.data && res.data.data) {
+                  const { data } = res.data;
+                  const setViewData = {
+                    itemName: data.itemName,
+                    purchaseFrom: data.purchaseFrom,
+                    purchaseDate: data.purchaseDate,
+                    amount: data.amount,
+                    status: data.status,
+                    document: data.document,
+                    comment: data.comment,
+                    id: data.id
+                  };
+                  if (value === 'edit') {
+                    setIsEdit(true);
+                    setIsDialogOpen(true);
+                  } else if (value === 'view') {
+                    setSelectedData(setViewData);
+                    setIsViewExpenseDialogOpen(true);
+                  }
+                }
+              });
+            }
+          }}
           isAction
-          options={role === 'admin' ? adminExpenseOptions : empExpenseOptions}
+          options={
+            role === 'admin'
+              ? [{ title: 'View', value: 'view' }]
+              : [
+                  { title: 'Edit', value: 'edit' },
+                  { title: 'Delete', value: 'delete' }
+                ]
+          }
           rowsCount={expenseCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
           onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
-          sortKey={sort.Key}
-          sortOrder={sort.Order}
+          sortKey={sort.key}
+          sortOrder={sort.order}
           handleRequestSort={(event, orderName, orderKey) =>
             setSort({ order: orderName, key: orderKey })
           }
@@ -267,14 +196,13 @@ const ExpenseList = ({
         {isDialogOpen && (
           <AddExpenseForm
             isDialogOpen={isDialogOpen}
-            handleDialog={() => handleDialog()}
+            handleDialog={() => setIsDialogOpen(!isDialogOpen)}
             title={isEdit ? 'UPDATE EXPENSE' : 'NEW EXPENSE'}
             button={isEdit ? 'UPDATE YOUR EXPENSE' : 'ADD YOUR EXPENSE'}
             setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             isEdit={isEdit}
-            GetExpenseAdd={GetExpenseAdd}
-            GetExpenseUpdate={GetExpenseUpdate}
+            GetExpenseAddUpdate={GetExpenseAddUpdate}
             GetExpenseById={GetExpenseById}
           />
         )}
@@ -282,15 +210,19 @@ const ExpenseList = ({
         {isDeleteDialogOpen && (
           <DialogMenu
             isOpen={isDeleteDialogOpen}
-            onClose={() => handleDialogClose()}
+            onClose={() => setIsDeleteDialogOpen(false)}
             dialogTitle="Delete"
             dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
               <DialogAction
-                handleReject={handleDialogClose}
-                handleApprove={() => onDelete(selectedId)}
                 approveTitle="Delete"
                 rejectTitle="Cancel"
+                approveColor="error"
+                rejectColor="info"
+                handleReject={() => setIsDeleteDialogOpen(false)}
+                handleApprove={() =>
+                  GetExpenseDelete({ selectedData }, () => setIsDeleteDialogOpen(false))
+                }
               />
             }
           />
@@ -300,18 +232,42 @@ const ExpenseList = ({
       {isViewExpenseDialogOpen && selectedData && (
         <DialogMenu
           isOpen={isViewExpenseDialogOpen}
-          onClose={handleCloseViewDialog}
+          onClose={() => setIsViewExpenseDialogOpen(false)}
           dialogTitle={`Expense Details: ${selectedData.itemName}`}
           dialogContent={
-            <DialogContent customContent={<ViewExpenseDetails info={selectedData} />} />
+            <DialogContent customContent={<ViewExpenseDetails info={selectedData} role={role} />} />
           }
           dialogAction={
             role === 'admin' && (
               <DialogAction
-                handleReject={handleCloseViewDialog}
-                handleApprove={handleCloseViewDialog}
+                approveColor="success"
+                rejectColor="error"
                 approveTitle="Approve"
                 rejectTitle="Reject"
+                handleApprove={() =>
+                  GetExpenseReason(
+                    {
+                      data: {
+                        status: 'approved',
+                        comment: ''
+                      },
+                      id: selectedData
+                    },
+                    () => setIsViewExpenseDialogOpen(false)
+                  )
+                }
+                handleReject={() =>
+                  GetExpenseReason(
+                    {
+                      data: {
+                        status: 'reject',
+                        comment: ''
+                      },
+                      id: selectedData
+                    },
+                    () => setIsViewExpenseDialogOpen(false)
+                  )
+                }
               />
             )
           }

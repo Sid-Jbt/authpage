@@ -7,9 +7,8 @@ import customizationReducer from './customizationReducer';
 // import profileUpdateReducer from './profileUpdateReducer';
 import dashboardReducer from './dashboardReducer';
 import employeeBySlugReducer from './employee/employeeBySlug';
-// import expenseAddReducer from './expense/expenseAdd';
+// import expenseAddUpdateReducer from './expense/expenseAddUpdate';
 // import expenseListReducer from './expense/expenseList';
-// import expenseUpdateReducer from './expense/expenseUpdate';
 // import expenseDeleteReducer from './expense/expenseDelete';
 // import expenseByIdReducer from "./expense/expenseById";
 // import expenseReasonReducer from "./expense/expenseReason";
@@ -30,8 +29,7 @@ const rootReducer = combineReducers({
   employeeBySlug: employeeBySlugReducer,
   dashboard: dashboardReducer
   // expenseList: expenseListReducer,
-  // expenseAdd: expenseAddReducer,
-  // expenseUpdate: expenseUpdateReducer,
+  // expenseAddUpdate: expenseAddUpdateReducer,
   // expenseDelete: expenseDeleteReducer,
   // expenseById: expenseByIdReducer,
   // expenseReason: expenseReasonReducer,

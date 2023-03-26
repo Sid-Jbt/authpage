@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
@@ -26,8 +25,7 @@ const AddExpenseForm = ({
   title,
   Loading,
   button,
-  GetExpenseAdd,
-  GetExpenseUpdate,
+  GetExpenseAddUpdate,
   GetExpenseById
 }) => {
   const [expenseData, setExpenseData] = useState(initialValues);
@@ -53,35 +51,6 @@ const AddExpenseForm = ({
     }
   }, [selectedData]);
 
-  const onSubmit = (values) => {
-    // console.log("values => ", values)
-    const formData = {
-      itemName: values.itemName,
-      purchaseFrom: values.purchaseFrom,
-      purchaseDate: values.purchaseDate,
-      amount: values.amount
-      // document: ''
-    };
-    if (isEdit) {
-      GetExpenseUpdate({ data: formData, params: selectedData }, (res) => {
-        const { status } = res.data;
-        if (status) {
-          handleDialog();
-          setIsEdit(false);
-        }
-      });
-    } else {
-      GetExpenseAdd({ data: formData }, (res) => {
-        const { status } = res.data;
-        if (status) {
-          handleDialog();
-          setIsEdit(false);
-        }
-      });
-    }
-    // console.log('data1,params1 =>', data, params)
-  };
-
   return (
     <SideDrawer
       open={Boolean(isDialogOpen)}
@@ -95,7 +64,17 @@ const AddExpenseForm = ({
       <Formik
         enableReinitialize
         initialValues={expenseData}
-        onSubmit={(values) => onSubmit(values)}
+        onSubmit={(values, action) => {
+          const data = isEdit ? { values, selectedData } : { values };
+          GetExpenseAddUpdate(data, (res) => {
+            const { status } = res.data;
+            if (status) {
+              handleDialog();
+              setIsEdit(false);
+            }
+          });
+          action.setSubmitting(false);
+        }}
         validationSchema={expenseFormSchema}
       >
         {(props) => {
@@ -197,9 +176,11 @@ const AddExpenseForm = ({
                     disabled={isSubmitting || Loading}
                   >
                     {Loading ? (
-                      <CircularProgress size={20} color="inherit" title="Adding" />
+                      <CircularProgress size={20} color="inherit" />
+                    ) : isEdit ? (
+                      'Update Expense'
                     ) : (
-                      button
+                      'Add Expense'
                     )}
                   </Button>
                 </Grid>

@@ -12,9 +12,8 @@ import { getLeaveAddUpdateWatcher } from './leave/leaveAddUpdate';
 import { getLeaveListWatcher } from './leave/leaveList';
 import { getLeaveDeleteWatcher } from './leave/leaveDelete';
 import { getDomainWatcher } from './getDomain';
-import { getExpenseAddWatcher } from './expense/expenseAdd';
+import { getExpenseAddUpdateWatcher } from './expense/expenseAddUpdate';
 import { getExpenseListWatcher } from './expense/expenseList';
-import { getExpenseUpdateWatcher } from './expense/expenseUpdate';
 import { getExpenseDeleteWatcher } from './expense/expenseDelete';
 import { getExpenseByIdWatcher } from './expense/expenseByID';
 import { getExpenseReasonWatcher } from './expense/expenseReason';
@@ -38,9 +37,8 @@ export default function* rootSaga() {
     getEmployeeAddWatcher(),
     getEmployeeListWatcher(),
     getEmployeeBySlugWatcher(),
-    getExpenseAddWatcher(),
+    getExpenseAddUpdateWatcher(),
     getExpenseListWatcher(),
-    getExpenseUpdateWatcher(),
     getExpenseDeleteWatcher(),
     getExpenseByIdWatcher(),
     getExpenseReasonWatcher(),
