@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
 import { expenseFormSchema } from 'Helpers/ValidationSchema';
@@ -7,19 +6,52 @@ import SideDrawer from 'Elements/SideDrawer';
 import { FormLabel, Grid, CircularProgress } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
-import withStateDispatch from 'Helpers/withStateDispatch';
 import Dropzone from '../../Elements/Dropzone';
+
+const initialValues = {
+  itemName: '',
+  purchaseFrom: '',
+  purchaseDate: moment().format('YYYY-MM-DD'),
+  amount: '',
+  document: ''
+};
 
 const AddExpenseForm = ({
   isDialogOpen,
   handleDialog,
-  setIsEdit,
   selectedData,
-  title,
+  setIsEdit,
   isEdit,
-  Loading
-}) => (
-  <>
+  title,
+  Loading,
+  button,
+  GetExpenseAddUpdate,
+  GetExpenseById
+}) => {
+  const [expenseData, setExpenseData] = useState(initialValues);
+
+  useEffect(() => {
+    if (selectedData !== null) {
+      GetExpenseById({ id: selectedData }, (res) => {
+        if (res && res.data && res.data.data) {
+          const { data } = res.data;
+          Object.keys(expenseData).map((key) => {
+            expenseData[key] = data[key];
+          });
+          setExpenseData(expenseData);
+        }
+      });
+    } else {
+      initialValues.itemName = '';
+      initialValues.purchaseFrom = '';
+      initialValues.purchaseDate = moment().format('YYYY-MM-DD');
+      initialValues.amount = '';
+      initialValues.document = '';
+      setExpenseData(initialValues);
+    }
+  }, [selectedData]);
+
+  return (
     <SideDrawer
       open={Boolean(isDialogOpen)}
       onClose={() => {
@@ -27,19 +59,21 @@ const AddExpenseForm = ({
         setIsEdit(false);
       }}
       title={title}
+      button={button}
     >
       <Formik
         enableReinitialize
-        initialValues={{
-          itemName: '',
-          purchaseFrom: '',
-          purchaseDate: moment().format('YYYY-MM-DD'),
-          amount: '',
-          document: ''
-        }}
-        onSubmit={(values, actions) => {
-          // eslint-disable-next-line no-console
-          console.log(values, actions);
+        initialValues={expenseData}
+        onSubmit={(values, action) => {
+          const data = isEdit ? { values, selectedData } : { values };
+          GetExpenseAddUpdate(data, (res) => {
+            const { status } = res.data;
+            if (status) {
+              handleDialog();
+              setIsEdit(false);
+            }
+          });
+          action.setSubmitting(false);
         }}
         validationSchema={expenseFormSchema}
       >
@@ -48,9 +82,10 @@ const AddExpenseForm = ({
             props;
           return (
             <form onSubmit={handleSubmit}>
-              <Grid container spacing={1} justifyContent="space-between">
+              <Grid container columnSpacing={2} justifyContent="space-between">
                 <Grid item xs={12}>
                   <Input
+                    type="text"
                     placeholder="Item name"
                     label="ITEM NAME"
                     size="large"
@@ -67,6 +102,7 @@ const AddExpenseForm = ({
                 </Grid>
                 <Grid item xs={12}>
                   <Input
+                    type="text"
                     placeholder="Purchase from"
                     label="PURCHASE FROM"
                     size="large"
@@ -123,7 +159,7 @@ const AddExpenseForm = ({
                   <Dropzone
                     setExistingFile={values.document}
                     // eslint-disable-next-line no-console
-                    selectedFile={(files) => console.log(files)}
+                    selectedFile={(files) => console.log('files', files)}
                     // onChange={handleChange}
                     // onBlur={handleBlur}
                     // errorText={errors.document && touched.document && errors.document}
@@ -131,7 +167,7 @@ const AddExpenseForm = ({
                     // success={!errors.document && touched.document}
                   />
                 </Grid>
-                <Grid item xs={12} md={4} lg={6}>
+                <Grid item sm={12} md={4} lg={6} xl={12} pt={2}>
                   <Button
                     type="submit"
                     color="info"
@@ -139,7 +175,13 @@ const AddExpenseForm = ({
                     size="medium"
                     disabled={isSubmitting || Loading}
                   >
-                    {Loading ? <CircularProgress size={20} color="inherit" /> : 'Add Expense'}
+                    {Loading ? (
+                      <CircularProgress size={20} color="inherit" />
+                    ) : isEdit ? (
+                      'Update Expense'
+                    ) : (
+                      'Add Expense'
+                    )}
                   </Button>
                 </Grid>
               </Grid>
@@ -148,7 +190,7 @@ const AddExpenseForm = ({
         }}
       </Formik>
     </SideDrawer>
-  </>
-);
+  );
+};
 
-export default withStateDispatch(AddExpenseForm);
+export default AddExpenseForm;

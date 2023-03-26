@@ -111,7 +111,6 @@ const BadgeRoot = styled(Badge)(({ theme, ownerState }) => {
   };
 });
 
-// eslint-disable-next-line react/display-name
 const CustomBadge = forwardRef(
   (
     {
