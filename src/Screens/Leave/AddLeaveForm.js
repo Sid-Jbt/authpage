@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
@@ -65,14 +64,6 @@ const AddLeaveForm = ({
     }
   }, [selectedData]);
 
-  const handleChangeLeaveType = (selectedLeaveType) => {
-    setLeaveType(selectedLeaveType);
-  };
-
-  const handleChangeSelectType = (selectedLeave) => {
-    setSelectType(selectedLeave);
-  };
-
   return (
     <>
       <SideDrawer
@@ -86,7 +77,7 @@ const AddLeaveForm = ({
         <Formik
           enableReinitialize
           initialValues={leaveData}
-          onSubmit={(values) => {
+          onSubmit={(values, action) => {
             const formData = {
               leaveType: leaveType.value,
               selectType: selectType.value,
@@ -101,6 +92,7 @@ const AddLeaveForm = ({
                 setIsEdit(false);
               }
             });
+            action.setSubmitting(false);
           }}
           validationSchema={leaveFormSchema}
         >
@@ -123,7 +115,7 @@ const AddLeaveForm = ({
                       <Select
                         value={leaveType}
                         options={leave}
-                        onChange={(value) => handleChangeLeaveType(value)}
+                        onChange={(value) => setLeaveType(value)}
                       />
                     </FormControl>
                   </Grid>
@@ -133,7 +125,7 @@ const AddLeaveForm = ({
                       <Select
                         value={selectType}
                         options={leaveDayType}
-                        onChange={(value) => handleChangeSelectType(value)}
+                        onChange={(value) => setSelectType(value)}
                       />
                     </FormControl>
                   </Grid>
