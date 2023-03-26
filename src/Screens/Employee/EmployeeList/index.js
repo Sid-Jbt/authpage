@@ -11,10 +11,9 @@ import { useNavigate, useOutletContext } from 'react-router';
 import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
 import AddEmployeeForm from './AddEmployeeForm';
 import employeeListData from './data/employeeListData';
-import withStateDispatch from '../../../Helpers/withStateDispatch';
 
-const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
-  const { role } = useOutletContext();
+const EmployeeList = () => {
+  const { role, GetEmployeeAdd, GetEmployeeList, Loading } = useOutletContext();
   const { columns: prCols } = employeeListData;
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -169,4 +168,4 @@ const EmployeeList = ({ GetEmployeeAdd, GetEmployeeList, Loading }) => {
   );
 };
 
-export default withStateDispatch(EmployeeList);
+export default EmployeeList;

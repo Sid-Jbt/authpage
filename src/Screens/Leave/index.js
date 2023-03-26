@@ -13,18 +13,18 @@ import { useOutletContext } from 'react-router';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 import ViewLeaveDetails from './ViewLeaveDetails';
-import withStateDispatch from '../../Helpers/withStateDispatch';
 
-const LeaveList = ({
-  GetLeaveAddUpdate,
-  GetLeaveList,
-  GetLeaveDelete,
-  GetLeaveReason,
-  GetLeaveById,
-  Loading
-}) => {
+const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
-  const { role } = useOutletContext();
+  const {
+    role,
+    GetLeaveAddUpdate,
+    GetLeaveList,
+    GetLeaveDelete,
+    GetLeaveReason,
+    GetLeaveById,
+    Loading
+  } = useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [search, setSearch] = useState('');
@@ -310,4 +310,4 @@ const LeaveList = ({
   );
 };
 
-export default withStateDispatch(LeaveList);
+export default LeaveList;

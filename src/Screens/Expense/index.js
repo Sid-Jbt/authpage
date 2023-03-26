@@ -11,17 +11,17 @@ import FilterLayout from '../../Components/FilterLayout';
 import ExpenseCard from '../../Components/CardLayouts/StaticCard';
 import ViewExpenseDetails from './ViewExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
-import withStateDispatch from '../../Helpers/withStateDispatch';
 
-const ExpenseList = ({
-  GetExpenseAddUpdate,
-  GetExpenseList,
-  GetExpenseDelete,
-  GetExpenseById,
-  GetExpenseReason
-}) => {
+const ExpenseList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
-  const { role } = useOutletContext();
+  const {
+    role,
+    GetExpenseAddUpdate,
+    GetExpenseList,
+    GetExpenseDelete,
+    GetExpenseById,
+    GetExpenseReason
+  } = useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [isViewExpenseDialogOpen, setIsViewExpenseDialogOpen] = useState(false);
@@ -161,11 +161,11 @@ const ExpenseList = ({
                     comment: data.comment,
                     id: data.id
                   };
+                  setSelectedData(setViewData);
                   if (value === 'edit') {
                     setIsEdit(true);
                     setIsDialogOpen(true);
                   } else if (value === 'view') {
-                    setSelectedData(setViewData);
                     setIsViewExpenseDialogOpen(true);
                   }
                 }
@@ -203,7 +203,6 @@ const ExpenseList = ({
             selectedData={selectedData}
             isEdit={isEdit}
             GetExpenseAddUpdate={GetExpenseAddUpdate}
-            GetExpenseById={GetExpenseById}
           />
         )}
 
@@ -277,4 +276,4 @@ const ExpenseList = ({
   );
 };
 
-export default withStateDispatch(ExpenseList);
+export default ExpenseList;

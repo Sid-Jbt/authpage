@@ -20,10 +20,9 @@ import {
   getSupportTicketPattern
 } from 'Routes/routeConfig';
 import DashboardCard from 'Components/CardLayouts/StaticCard';
-import withStateDispatch from '../../Helpers/withStateDispatch';
 
-const DashboardDefault = ({ DashboardData }) => {
-  const { role } = useOutletContext();
+const DashboardDefault = () => {
+  const { role, DashboardData } = useOutletContext();
   const [calendarEventsData, setCalendarEventsData] = useState([]);
   const [workingTime, setWorkingTime] = useState({
     todayHours: 0,
@@ -225,4 +224,4 @@ const DashboardDefault = ({ DashboardData }) => {
   );
 };
 
-export default withStateDispatch(DashboardDefault);
+export default DashboardDefault;

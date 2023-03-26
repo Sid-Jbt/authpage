@@ -56,7 +56,7 @@ const LeaveCard = ({
                   {icon.component}
                 </Icon>
               ) : (
-                <Box fontSize="1.75rem" display="grid" placeItems="center" color="inherit">
+                <Box fontSize="1.75rem" display="grid" placeitems="center" color="inherit">
                   {icon.component}
                 </Box>
               )}

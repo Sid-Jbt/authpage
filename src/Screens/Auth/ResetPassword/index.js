@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -7,10 +7,10 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { resetPasswordSchema } from 'Helpers/ValidationSchema';
 import { getDefaultPattern } from 'Routes/routeConfig';
-import withStateDispatch from 'Helpers/withStateDispatch';
 
-const ResetPassword = ({ GetForgotPassword }) => {
+const ResetPassword = () => {
   const navigate = useNavigate();
+  const { GetForgotPassword } = useOutletContext();
 
   return (
     <>
@@ -102,4 +102,4 @@ const ResetPassword = ({ GetForgotPassword }) => {
   );
 };
 
-export default withStateDispatch(ResetPassword);
+export default ResetPassword;
