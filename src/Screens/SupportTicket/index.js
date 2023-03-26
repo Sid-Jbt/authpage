@@ -7,11 +7,10 @@ import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Priority, SupportTicketStatus } from 'Helpers/Global';
-import { useSelector } from 'react-redux';
 import { DialogAction, DialogContent } from 'Components/Dialog';
-import withStateDispatch from 'Helpers/withStateDispatch';
 import DialogMenu from 'Elements/Dialog';
 import TicketCard from 'Components/CardLayouts/StaticCard';
+import { useOutletContext } from 'react-router';
 import supportTicketData from './data/SupportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
@@ -24,17 +23,18 @@ const empSupportOptions = [
   { title: 'Delete', value: 'delete' }
 ];
 
-const supportTicket = ({
-  GetSupportAdd,
-  GetSupportList,
-  GetSupportUpdate,
-  GetSupportById,
-  GetSupportDelete,
-  GetSupportReason,
-  Loading
-}) => {
+const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
-  const { role } = useSelector((state) => state.login);
+  const {
+    role,
+    GetSupportAdd,
+    GetSupportList,
+    GetSupportUpdate,
+    GetSupportById,
+    GetSupportDelete,
+    GetSupportReason,
+    Loading
+  } = useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
@@ -341,4 +341,4 @@ const supportTicket = ({
     </>
   );
 };
-export default withStateDispatch(supportTicket);
+export default supportTicket;
