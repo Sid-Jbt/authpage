@@ -36,9 +36,10 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
 
-  const handleMenu = () => setOpenMenu(!openMenu);
-
-  const handleProfileMenu = () => setOpenProfileMenu(!openProfileMenu);
+  const handleMenu = (event) => setOpenMenu(event.currentTarget);
+  const handleMenuClose = () => setOpenMenu(false);
+  const handleProfileMenu = (event) => setOpenProfileMenu(event.currentTarget);
+  const handleProfileMenuClose = () => setOpenProfileMenu(false);
 
   const renderMenu = () => (
     <Menu
@@ -49,9 +50,8 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
         horizontal: 'right'
       }}
       open={Boolean(openMenu)}
-      onClose={handleMenu}
+      onClose={handleMenuClose}
       sx={({ breakpoints }) => ({
-        mt: 2,
         [breakpoints.down('sm')]: {
           top: 40,
           left: -90
@@ -66,13 +66,13 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
         image={<Person />}
         title={['New message', 'from Laur']}
         date="13 minutes ago"
-        onClick={handleMenu}
+        onClick={handleMenuClose}
       />
       <NotificationItem
         image={<Person />}
         title={['New album', 'by Travis Scott']}
         date="1 day"
-        onClick={handleMenu}
+        onClick={handleMenuClose}
       />
       <NotificationItem
         color="secondary"
@@ -83,7 +83,7 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
         }
         title={['', 'Payment successfully completed']}
         date="2 days"
-        onClick={handleMenu}
+        onClick={handleMenuClose}
       />
     </Menu>
   );
@@ -97,7 +97,7 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
         horizontal: 'right'
       }}
       open={Boolean(openProfileMenu)}
-      onClose={handleProfileMenu}
+      onClose={handleProfileMenuClose}
       sx={({ breakpoints }) => ({
         mt: 2,
         [breakpoints.down('sm')]: {
@@ -121,7 +121,7 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
           }`
         ]}
         disabled
-        onClick={handleProfileMenu}
+        onClick={handleProfileMenuClose}
         width={200}
       />
       <Divider />
@@ -130,7 +130,7 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
           color="secondary"
           image={<Person />}
           title={['Manage Account']}
-          onClick={handleProfileMenu}
+          onClick={handleProfileMenuClose}
           component={Link}
           to="/profile"
           width={200}
@@ -141,7 +141,7 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
           color="secondary"
           image={<Settings />}
           title={['Settings']}
-          onClick={handleProfileMenu}
+          onClick={handleProfileMenuClose}
           component={Link}
           to="/setting"
           width={200}
@@ -152,8 +152,7 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
         image={<Logout />}
         title={['Logout']}
         onClick={() => {
-          localStorage.removeItem('noticeBoardEvent');
-          handleProfileMenu();
+          handleProfileMenuClose();
           navigate(getLoginPattern());
           dispatch({ type: LOGOUT });
         }}
