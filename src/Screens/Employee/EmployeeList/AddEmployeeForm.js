@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { CircularProgress, Grid, IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -9,16 +9,7 @@ import Button from 'Elements/Button';
 import moment from 'moment';
 
 const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading }) => {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const onSubmit = async (formData) => {
-    GetEmployeeAdd(formData, () => handleDialog());
-  };
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title="ADD NEW EMPLOYEE">
@@ -29,7 +20,7 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
           password: '',
           dateOfJoin: moment().format('YYYY-MM-DD')
         }}
-        onSubmit={(values) => onSubmit(values)}
+        onSubmit={(values) => GetEmployeeAdd(values, () => handleDialog())}
         validationSchema={addEmployeeSchema}
       >
         {(props) => {
@@ -37,23 +28,6 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
           return (
             <form onSubmit={handleSubmit}>
               <Grid container justifyContent="space-between" columnSpacing={2}>
-                {/* <Grid item xs={12} md={6}> */}
-                {/*   <Input */}
-                {/*     type="text" */}
-                {/*     placeholder="eg. JBT0001" */}
-                {/*     size="large" */}
-                {/*     fullWidth */}
-                {/*     id="employeeCode" */}
-                {/*     name="employeeCode" */}
-                {/*     label="Employee Code" */}
-                {/*     value={values.employeeCode} */}
-                {/*     onChange={handleChange} */}
-                {/*     onBlur={handleBlur} */}
-                {/*     errorText={errors.employeeCode && touched.employeeCode && errors.employeeCode} */}
-                {/*     error={errors.employeeCode && touched.employeeCode} */}
-                {/*     success={!errors.employeeCode && touched.employeeCode} */}
-                {/*   /> */}
-                {/* </Grid> */}
                 <Grid item xs={12}>
                   <Input
                     type="date"
@@ -106,8 +80,7 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
+                          onClick={() => setShowPassword((show) => !show)}
                           edge="end"
                         >
                           {showPassword ? <VisibilityOff /> : <Visibility />}

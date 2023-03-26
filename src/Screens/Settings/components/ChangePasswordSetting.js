@@ -14,22 +14,6 @@ const ChangePasswordSetting = ({ GetChangePassword, Loading }) => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const onSubmit = async (data) => {
-    GetChangePassword(data, (res) => {
-      if (res && res.data) {
-        if (res.data.status) {
-          navigate(getDashboardPattern());
-        }
-      }
-    });
-  };
-
   return (
     <Card id="change-pass-setting">
       <Box p={3} pb={0}>
@@ -38,7 +22,15 @@ const ChangePasswordSetting = ({ GetChangePassword, Loading }) => {
       <Formik
         enableReinitialize
         initialValues={{ oldPassword: '', newPassword: '', confirmNewPassword: '' }}
-        onSubmit={(values) => onSubmit(values)}
+        onSubmit={(values) =>
+          GetChangePassword(values, (res) => {
+            if (res && res.data) {
+              if (res.data.status) {
+                navigate(getDashboardPattern());
+              }
+            }
+          })
+        }
         validationSchema={changePasswordSchema}
       >
         {(props) => {
@@ -65,8 +57,7 @@ const ChangePasswordSetting = ({ GetChangePassword, Loading }) => {
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
+                            onClick={() => setShowPassword((show) => !show)}
                             edge="end"
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -94,8 +85,7 @@ const ChangePasswordSetting = ({ GetChangePassword, Loading }) => {
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
+                            onClick={() => setShowPassword((show) => !show)}
                             edge="end"
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -127,8 +117,7 @@ const ChangePasswordSetting = ({ GetChangePassword, Loading }) => {
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
+                            onClick={() => setShowPassword((show) => !show)}
                             edge="end"
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
