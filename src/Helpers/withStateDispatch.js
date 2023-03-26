@@ -16,7 +16,8 @@ import {
   getDomain,
   getProfileSetup,
   getPayslipList,
-  getAttendanceList
+  getAttendanceList,
+  getChangePassword
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -40,6 +41,7 @@ const mapDispatchToProps = (dispatch) => ({
   GetEmployeeBySlug: (data, resolve, reject) => dispatch(getEmployeeBySlug(data, resolve, reject)),
   GetPayslipList: (data, resolve, reject) => dispatch(getPayslipList(data, resolve, reject)),
   GetAttendanceList: (data, resolve, reject) => dispatch(getAttendanceList(data, resolve, reject)),
+  GetChangePassword: (data, resolve, reject) => dispatch(getChangePassword(data, resolve, reject)),
   GetLeaveAddUpdate: (data, resolve, reject) => dispatch(getLeaveAddUpdate(data, resolve, reject)),
   GetLeaveList: (data, resolve, reject) => dispatch(getLeaveList(data, resolve, reject)),
   GetLeaveDelete: (data, resolve, reject) => dispatch(getLeaveDelete(data, resolve, reject)),

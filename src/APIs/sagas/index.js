@@ -15,6 +15,7 @@ import { getDomainWatcher } from './getDomain';
 import { getProfileSetupWatcher } from './profileSetup';
 import { getPayslipListWatcher } from './payslip/payslipList';
 import { getAttendanceListWatcher } from './attendance/attendanceList';
+import { getChangePasswordWatcher } from './settings/changePassword';
 import { getLeaveReasonWatcher } from './leave/leaveReason';
 import { getLeaveByIdWatcher } from './leave/leaveById';
 
@@ -33,6 +34,7 @@ export default function* rootSaga() {
     getEmployeeBySlugWatcher(),
     getPayslipListWatcher(),
     getAttendanceListWatcher(),
+    getChangePasswordWatcher(),
     getLeaveAddUpdateWatcher(),
     getLeaveListWatcher(),
     getLeaveDeleteWatcher(),

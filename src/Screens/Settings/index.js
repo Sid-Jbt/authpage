@@ -4,8 +4,9 @@ import breakpoints from 'Theme/base/breakpoints';
 import Header from './components/Header';
 import ChangePasswordSetting from './components/ChangePasswordSetting';
 import NotificationSetting from './components/NotificationSetting';
+import withStateDispatch from '../../Helpers/withStateDispatch';
 
-const Setting = () => {
+const Setting = ({ GetChangePassword }) => {
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -30,11 +31,11 @@ const Setting = () => {
         handleSetTabIndex={(event, value) => handleSetTabIndex(event, value)}
       />
       <Box mt={3}>
-        {tabIndex === 0 && <ChangePasswordSetting />}
+        {tabIndex === 0 && <ChangePasswordSetting GetChangePassword={GetChangePassword} />}
         {tabIndex === 1 && <NotificationSetting />}
       </Box>
     </Box>
   );
 };
 
-export default Setting;
+export default withStateDispatch(Setting);
