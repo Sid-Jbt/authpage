@@ -20,22 +20,13 @@ const AddExpenseForm = ({
   isDialogOpen,
   handleDialog,
   selectedData,
-  setIsEdit,
   isEdit,
   title,
   Loading,
   button,
   GetExpenseAddUpdate
 }) => (
-  <SideDrawer
-    open={Boolean(isDialogOpen)}
-    onClose={() => {
-      handleDialog();
-      setIsEdit(false);
-    }}
-    title={title}
-    button={button}
-  >
+  <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title={title} button={button}>
     <Formik
       enableReinitialize
       initialValues={selectedData || initialValues}
@@ -45,7 +36,6 @@ const AddExpenseForm = ({
           const { status } = res.data;
           if (status) {
             handleDialog();
-            setIsEdit(false);
           }
         });
         action.setSubmitting(false);

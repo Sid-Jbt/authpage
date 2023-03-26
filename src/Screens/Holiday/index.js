@@ -12,14 +12,8 @@ import ManageHolidayForm from './ManageHolidayForm';
 
 const Holiday = () => {
   const { columns: prCols } = holidayListData;
-  const {
-    role,
-    GetHolidayList,
-    GetHolidayAdd,
-    GetHolidayUpdate,
-    GetHolidayById,
-    GetHolidayDelete
-  } = useOutletContext();
+  const { role, GetHolidayList, GetHolidayAddUpdate, GetHolidayById, GetHolidayDelete } =
+    useOutletContext();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -65,25 +59,6 @@ const Holiday = () => {
     setIsEdit(false);
   };
 
-  const handleDialogClose = () => {
-    setIsDialogOpen(false);
-    setIsEdit(false);
-  };
-
-  const onClickAction = (value, data) => {
-    setSelectedData(data.id);
-    if (value === 'edit') {
-      setIsEdit(true);
-      setIsDrawerOpen(true);
-    } else if (value === 'delete') {
-      setIsEdit(value === 'delete');
-      setIsDialogOpen(true);
-    } else {
-      setIsEdit(false);
-      setIsDialogOpen(true);
-    }
-  };
-
   return (
     <>
       {role === 'admin' && (
@@ -97,12 +72,7 @@ const Holiday = () => {
             </Button>
           </Grid>
           <Grid item xs={12} md="auto">
-            <Button
-              color="white"
-              variant="outlined"
-              size="small"
-              onClick={() => setIsDialogOpen(true)}
-            >
+            <Button color="white" variant="outlined" size="small" disabled>
               <Icon sx={{ mr: 1 }}>
                 <ImportExportRounded />
               </Icon>
@@ -132,7 +102,28 @@ const Holiday = () => {
         <Table
           columns={prCols}
           rows={allHolidayList}
-          onClickAction={(value, data) => onClickAction(value, data)}
+          onClickAction={(value, { id }) => {
+            if (value === 'delete') {
+              setIsEdit(true);
+              setSelectedData(id);
+              setIsDialogOpen(true);
+            } else {
+              GetHolidayById(id, (res) => {
+                if (res && res.data && res.data.data) {
+                  const { data } = res.data;
+                  const setViewData = {
+                    title: data.title,
+                    holidayDate: data.holidayDate
+                  };
+                  setSelectedData(setViewData);
+                  if (value === 'edit') {
+                    setIsEdit(true);
+                    setIsDrawerOpen(true);
+                  }
+                }
+              });
+            }
+          }}
           isAction={role === 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
@@ -153,7 +144,7 @@ const Holiday = () => {
         />
         <DialogMenu
           isOpen={isDialogOpen}
-          onClose={handleDialogClose}
+          onClose={() => setIsDialogOpen(false)}
           dialogTitle={isEdit ? 'Delete' : 'Import Files'}
           dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
           dialogAction={
@@ -161,8 +152,13 @@ const Holiday = () => {
               <DialogAction
                 rejectTitle="Cancel"
                 approveTitle="Delete"
-                handleReject={handleDialogClose}
-                handleApprove={() => GetHolidayDelete(selectedData, () => handleDialogClose())}
+                handleReject={() => setIsDialogOpen(false)}
+                handleApprove={() =>
+                  GetHolidayDelete(selectedData, () => {
+                    setIsDialogOpen(false);
+                    setIsEdit(false);
+                  })
+                }
               />
             )
           }
@@ -173,10 +169,8 @@ const Holiday = () => {
           title={isEdit ? 'UPDATE HOLIDAY' : 'ADD HOLIDAY'}
           setIsEdit={(value) => setIsEdit(value)}
           selectedData={selectedData}
-          setSelectedData={(value) => setSelectedData(value)}
           isEdit={isEdit}
-          GetHolidayAdd={GetHolidayAdd}
-          GetHolidayUpdate={GetHolidayUpdate}
+          GetHolidayAddUpdate={GetHolidayAddUpdate}
           GetHolidayById={GetHolidayById}
         />
       </Card>

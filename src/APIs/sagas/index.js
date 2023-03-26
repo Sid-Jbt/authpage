@@ -21,8 +21,7 @@ import { getProfileSetupWatcher } from './profileSetup';
 import { getPayslipListWatcher } from './payslip/payslipList';
 import { getAttendanceListWatcher } from './attendance/attendanceList';
 import { getHolidayListWatcher } from './holiday/holidayList';
-import { getHolidayAddWatcher } from './holiday/holidayAdd';
-import { getHolidayUpdateWatcher } from './holiday/holidayUpdate';
+import { getHolidayAddUpdateWatcher } from './holiday/holidayAddUpdate';
 import { getHolidayByIdWatcher } from './holiday/holidayById';
 import { getHolidayDeleteWatcher } from './holiday/holidayDelete';
 import { getChangePasswordWatcher } from './settings/changePassword';
@@ -50,8 +49,7 @@ export default function* rootSaga() {
     getPayslipListWatcher(),
     getAttendanceListWatcher(),
     getHolidayListWatcher(),
-    getHolidayAddWatcher(),
-    getHolidayUpdateWatcher(),
+    getHolidayAddUpdateWatcher(),
     getHolidayByIdWatcher(),
     getHolidayDeleteWatcher(),
     getChangePasswordWatcher(),

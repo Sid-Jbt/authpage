@@ -9,10 +9,10 @@ import {
 import { API_URL, BASE_URL } from '../../api.config';
 import { instance } from '../../index';
 
-async function getHolidayByIdApi(params) {
+async function getHolidayByIdApi(id) {
   return instance.request({
     method: 'get',
-    url: `${BASE_URL + API_URL.HOLIDAY_BY_ID_URL}/${params.id}`
+    url: `${BASE_URL + API_URL.HOLIDAY_BY_ID_URL}/${id}`
   });
 }
 
