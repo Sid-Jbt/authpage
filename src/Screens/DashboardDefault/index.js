@@ -56,7 +56,7 @@ const DashboardDefault = () => {
       const calenderData = holidayList
         ? holidayList.map((holiday) => ({
             title: holiday.title,
-            eventName: 'holiday.title',
+            eventName: holiday.title,
             eventType: 'holiday',
             eventClass: 'info',
             start: holiday.holidayDate,

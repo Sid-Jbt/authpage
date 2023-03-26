@@ -1,44 +1,53 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
 import { Add, ImportExportRounded } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
-import { useSelector } from 'react-redux';
 import FilterLayout from 'Components/FilterLayout';
 import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
+import { useOutletContext } from 'react-router';
 import holidayListData from './data/holidayListData';
-import ImportDialog from './ImportDialog';
 import ManageHolidayForm from './ManageHolidayForm';
 
 const Holiday = () => {
   const { columns: prCols } = holidayListData;
-  const { role } = useSelector((state) => state.login);
+  const { role, GetHolidayList, GetHolidayAddUpdate, GetHolidayById, GetHolidayDelete } =
+    useOutletContext();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isHover, setIsHover] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [selectedId, setSelectedId] = useState('');
   const [selectedData, setSelectedData] = useState(null);
-  const [search, setSearch] = useState('');
 
+  const [search, setSearch] = useState('');
   const [allHolidayList, setAllHolidayList] = useState([]);
   const [holidayListCount, setHolidayListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('holidayDate');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sort, setSort] = useState({ key: 'title', order: 'asc' });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [loader, setLoader] = useState(false);
-  const [isSearch, setIsSearch] = useState(false);
+  const [filter, setFilter] = useState(false);
 
-  const handleMouseEnter = () => {
-    setIsHover(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHover(false);
-  };
+  useEffect(() => {
+    if (!isDialogOpen || !isDrawerOpen) {
+      GetHolidayList(
+        {
+          limit,
+          search,
+          page,
+          sortKey: sort.key,
+          sortOrder: sort.order
+        },
+        (res) => {
+          if (res && res.data && res.data.data) {
+            const { rows, count } = res.data.data;
+            setAllHolidayList(rows);
+            setHolidayListCount(count);
+          }
+        }
+      );
+    }
+    return () => {};
+  }, [isDialogOpen, isDrawerOpen, filter, page, sort]);
 
   const handleDrawer = () => {
     setSelectedData(null);
@@ -48,68 +57,6 @@ const Holiday = () => {
   const handleDrawerClose = () => {
     setIsDrawerOpen(false);
     setIsEdit(false);
-  };
-
-  const handleDialog = () => {
-    setIsDialogOpen(true);
-  };
-
-  const handleDialogClose = () => {
-    setIsDialogOpen(false);
-    setIsEdit(false);
-  };
-
-  const onClickAction = (value, index) => {
-    if (value === 'edit') {
-      setIsEdit(true);
-      setSelectedData(allHolidayList.find((o) => o.id === index.id));
-      setIsDrawerOpen(true);
-    } else if (value === 'delete') {
-      setSelectedId(index);
-      setIsEdit(value === 'delete');
-      handleDialog();
-    } else {
-      setIsEdit(false);
-      handleDialog();
-    }
-    setSelectedId(index);
-  };
-
-  const onDelete = async () => {
-    // await deleteHoliday(selectedId);
-    handleDialogClose();
-  };
-
-  const handleChangeSearch = (event) => {
-    setSearch(event.target.value.trim());
-  };
-
-  const handleClear = () => {
-    setSearch('');
-    // getAllHolidayList(sortKey, sortOrder, page, '');
-  };
-
-  const onClickSearch = () => {
-    setLoader(true);
-    setIsSearch(true);
-    // getAllHolidayList(sortKey, sortOrder, page, search, 0);
-  };
-
-  const onPage = async (selectedPage) => {
-    setPage(selectedPage);
-    // await getAllHolidayList(sortKey, sortOrder, selectedPage);
-  };
-
-  const onRowsPerPageChange = async (selectedLimit) => {
-    setPage(0);
-    setLimit(selectedLimit);
-    // await getAllHolidayList(sortKey, sortOrder, selectedLimit);
-  };
-
-  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
-    setSortKey(selectedSortKey);
-    setSortOrder(selectedSortOrder);
-    // await getAllHolidayList(selectedSortKey, selectedSortOrder, page);
   };
 
   return (
@@ -125,7 +72,7 @@ const Holiday = () => {
             </Button>
           </Grid>
           <Grid item xs={12} md="auto">
-            <Button color="white" variant="outlined" size="small" onClick={handleDialog}>
+            <Button color="white" variant="outlined" size="small" disabled>
               <Icon sx={{ mr: 1 }}>
                 <ImportExportRounded />
               </Icon>
@@ -145,17 +92,38 @@ const Holiday = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={handleChangeSearch}
-          handleClear={() => handleClear()}
-          onClickSearch={() => onClickSearch()}
-          loader={loader}
-          isSearch={isSearch}
+          handleSearch={(e) => setSearch(e.target.value.trim())}
+          handleClear={() => setSearch('')}
+          onClickSearch={() => {
+            setFilter(!filter);
+          }}
         />
 
         <Table
           columns={prCols}
           rows={allHolidayList}
-          onClickAction={(value, id) => onClickAction(value, id)}
+          onClickAction={(value, { id }) => {
+            if (value === 'delete') {
+              setIsEdit(true);
+              setSelectedData(id);
+              setIsDialogOpen(true);
+            } else {
+              GetHolidayById(id, (res) => {
+                if (res && res.data && res.data.data) {
+                  const { data } = res.data;
+                  const setViewData = {
+                    title: data.title,
+                    holidayDate: data.holidayDate
+                  };
+                  setSelectedData(setViewData);
+                  if (value === 'edit') {
+                    setIsEdit(true);
+                    setIsDrawerOpen(true);
+                  }
+                }
+              });
+            }
+          }}
           isAction={role === 'admin'}
           options={[
             { title: 'Edit', value: 'edit' },
@@ -163,51 +131,47 @@ const Holiday = () => {
           ]}
           rowsCount={holidayListCount}
           initialPage={page}
-          onChangePage={(value) => onPage(value)}
+          onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
-          sortKey={sortKey}
-          sortOrder={sortOrder}
-          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
+          onRowsPerPageChange={(rowsPerPage) => {
+            setLimit(rowsPerPage);
+          }}
+          sortKey={sort.key}
+          sortOrder={sort.order}
+          handleRequestSort={(event, orderKey, orderName) =>
+            setSort({ order: orderName, key: orderKey })
+          }
         />
         <DialogMenu
           isOpen={isDialogOpen}
-          onClose={handleDialogClose}
+          onClose={() => setIsDialogOpen(false)}
           dialogTitle={isEdit ? 'Delete' : 'Import Files'}
-          dialogContent={
-            <DialogContent
-              content={!isEdit && 'Are you sure you want to delete this ?'}
-              customContent={
-                isEdit && (
-                  <ImportDialog
-                    isHover={isHover}
-                    handleMouseEnter={handleMouseEnter}
-                    handleMouseLeave={handleMouseLeave}
-                    handleDialogClose={handleDialogClose}
-                  />
-                )
-              }
-            />
-          }
+          dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
           dialogAction={
             isEdit && (
               <DialogAction
                 rejectTitle="Cancel"
                 approveTitle="Delete"
-                handleReject={handleDialogClose}
-                handleApprove={() => onDelete(selectedData)}
+                handleReject={() => setIsDialogOpen(false)}
+                handleApprove={() =>
+                  GetHolidayDelete(selectedData, () => {
+                    setIsDialogOpen(false);
+                    setIsEdit(false);
+                  })
+                }
               />
             )
           }
         />
         <ManageHolidayForm
           isDrawerOpen={Boolean(isDrawerOpen)}
-          handleDrawerClose={handleDrawerClose}
-          title={isEdit ? 'EDIT HOLIDAY' : 'ADD HOLIDAY'}
+          handleDrawerClose={() => handleDrawerClose()}
+          title={isEdit ? 'UPDATE HOLIDAY' : 'ADD HOLIDAY'}
           setIsEdit={(value) => setIsEdit(value)}
           selectedData={selectedData}
-          setSelectedData={(value) => setSelectedData(value)}
           isEdit={isEdit}
+          GetHolidayAddUpdate={GetHolidayAddUpdate}
+          GetHolidayById={GetHolidayById}
         />
       </Card>
     </>
