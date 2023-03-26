@@ -5,7 +5,6 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import { Card, CircularProgress, Grid, Step, StepLabel, Stepper } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import withStateDispatch from 'Helpers/withStateDispatch';
 import { WorkingHours } from 'Helpers/Global';
 import { organisationSchema, userSchema } from 'Helpers/ValidationSchema';
 import { useNavigate, useOutletContext } from 'react-router';
@@ -74,8 +73,8 @@ function getStepContent(role, stepIndex, props) {
   }
 }
 
-const ProfileSetup = ({ GetProfileSetup, DashboardData, Loading }) => {
-  const { role } = useOutletContext();
+const ProfileSetup = () => {
+  const { role, GetProfileSetup, DashboardData, Loading } = useOutletContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
@@ -176,4 +175,4 @@ const ProfileSetup = ({ GetProfileSetup, DashboardData, Loading }) => {
   );
 };
 
-export default withStateDispatch(ProfileSetup);
+export default ProfileSetup;

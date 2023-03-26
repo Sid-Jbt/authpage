@@ -20,7 +20,7 @@ const CircularProgressWithLabel = (props) => {
         />
         <CircularProgress
           variant="determinate"
-          disableShrink
+          disableShrink={false}
           sx={{
             color: (theme) => theme.palette.success.light,
             animationDuration: '550ms',

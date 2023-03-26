@@ -273,21 +273,23 @@ const Table = ({
             {renderRows && renderRows.length > 0 ? (
               <>
                 {renderRows}
-                <TableCell
-                  colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
-                >
-                  {renderRows && rowsCount > 10 && (
-                    <Pagination
-                      rows={rowsCount}
-                      initialPage={initialPage}
-                      onChangePage={(page) => onChangePage(page)}
-                      rowsPerPage={rowsPerPage}
-                      onRowsPerPageChange={(rowsPage) => {
-                        onRowsPerPageChange(rowsPage);
-                      }}
-                    />
-                  )}
-                </TableCell>
+                {renderRows && rowsCount > 10 && (
+                  <TableRow>
+                    <TableCell
+                      colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
+                    >
+                      <Pagination
+                        rows={rowsCount}
+                        initialPage={initialPage}
+                        onChangePage={(page) => onChangePage(page)}
+                        rowsPerPage={rowsPerPage}
+                        onRowsPerPageChange={(rowsPage) => {
+                          onRowsPerPageChange(rowsPage);
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                )}
               </>
             ) : (
               <TableRow>

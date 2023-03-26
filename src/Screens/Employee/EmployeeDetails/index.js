@@ -7,7 +7,6 @@ import ChangePassword from './components/ChangePassword';
 import DeleteAccount from './components/DeleteAccount';
 import BankDetails from './components/BankDetails';
 import SalaryInfo from './components/SalaryInfo';
-import withStateDispatch from '../../../Helpers/withStateDispatch';
 
 const EmployeeDetails = () => (
   <Box mt={4}>
@@ -40,4 +39,4 @@ const EmployeeDetails = () => (
   </Box>
 );
 
-export default withStateDispatch(EmployeeDetails);
+export default EmployeeDetails;

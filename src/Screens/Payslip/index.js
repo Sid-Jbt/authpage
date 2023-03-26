@@ -5,13 +5,12 @@ import Table from 'Elements/Tables/Table';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Months, Years } from 'Helpers/Global';
-import { useSelector } from 'react-redux';
-import withStateDispatch from 'Helpers/withStateDispatch';
+import { useOutletContext } from 'react-router';
 import payslipColumns from './data/payslipData';
 
-const Payslip = ({ GetPayslipList }) => {
+const Payslip = () => {
   const { columns: prCols, adminColumns: adminPrCol } = payslipColumns;
-  const { role } = useSelector((state) => state.login);
+  const { role, GetPayslipList } = useOutletContext();
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [search, setSearch] = useState('');
@@ -125,4 +124,4 @@ const Payslip = ({ GetPayslipList }) => {
   );
 };
 
-export default withStateDispatch(Payslip);
+export default Payslip;

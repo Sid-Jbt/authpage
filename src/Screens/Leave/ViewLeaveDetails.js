@@ -19,13 +19,9 @@ const ViewLeaveDetails = ({ data, role }) => {
     } else {
       labels.push(el);
     }
-    labels = labels.filter(function (e) {
-      return e !== 'id';
-    });
+    labels = labels.filter((e) => e !== 'id');
     if (role !== 'admin') {
-      labels = labels.filter(function (e) {
-        return e !== 'reason';
-      });
+      labels = labels.filter((e) => e !== 'reason');
     }
   });
 

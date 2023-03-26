@@ -79,7 +79,7 @@ const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => 
             [breakpoints.up('md')]: { p: 3, pt: 0 }
           })}
         >
-          <Outlet context={{ role: DashboardData.user.role, user: DashboardData.user }} />
+          <Outlet context={{ role: DashboardData.user.role, user: DashboardData.user, ...rest }} />
         </Box>
         <Footer />
       </Box>

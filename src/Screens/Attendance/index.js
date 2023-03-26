@@ -7,14 +7,13 @@ import { Add, DirectionsRun, MoreTime, WatchOff } from '@mui/icons-material';
 import Select from 'Elements/Select';
 import { Months, Years, attendanceStatus } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
-import { useSelector } from 'react-redux';
 import AttendanceCard from 'Components/CardLayouts/StaticCard';
-import withStateDispatch from 'Helpers/withStateDispatch';
+import { useOutletContext } from 'react-router';
 import attendanceColumn from './data/attendanceData';
 
-const AttendanceList = ({ GetAttendanceList }) => {
+const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
-  const { role } = useSelector((state) => state.login);
+  const { role, GetAttendanceList } = useOutletContext;
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [status, setStatus] = useState('');
@@ -205,4 +204,4 @@ const AttendanceList = ({ GetAttendanceList }) => {
     </>
   );
 };
-export default withStateDispatch(AttendanceList);
+export default AttendanceList;

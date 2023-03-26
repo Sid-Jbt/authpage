@@ -60,4 +60,4 @@ const mapDispatchToProps = (dispatch) => ({
   GetLeaveById: (data, resolve, reject) => dispatch(getLeaveById(data, resolve, reject))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps);
+export default (WrappedComponent) => connect(mapStateToProps, mapDispatchToProps)(WrappedComponent);
