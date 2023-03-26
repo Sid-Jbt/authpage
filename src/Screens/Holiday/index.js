@@ -48,7 +48,6 @@ const Holiday = () => {
             const { rows, count } = res.data.data;
             setAllHolidayList(rows);
             setHolidayListCount(count);
-            setFilter(false);
           }
         }
       );
