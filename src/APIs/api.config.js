@@ -19,5 +19,16 @@ export const API_URL = {
   SUPPORT_DELETE_URL: '/user/support-ticket',
   PAYSLIP_LIST_URL: '/payslip/list',
   ATTENDANCE_LIST_URL: '/attendance/list',
-  SUPPORT_REASON_URL: '/admin/support-ticket/status'
+  SUPPORT_REASON_URL: '/admin/support-ticket/status',
+  EXPENSE_ADD_UPDATE_URL: '/user/expense',
+  EXPENSE_DELETE_URL: '/user/expense',
+  EXPENSE_LIST_URL: '/expense',
+  EXPENSE_BY_ID_URL: '/expense',
+  EXPENSE_REASON_URL: '/admin/expense/action',
+  CHANGE_PASSWORD_URL: '/user/change-password',
+  LEAVE_ADD_UPDATE_URL: '/user/leave',
+  LEAVE_LIST_URL: '/leave',
+  LEAVE_DELETE_URL: '/user/leave',
+  LEAVE_REASON_URL: '/admin/leave/status',
+  LEAVE_BY_ID_URL: '/leave'
 };

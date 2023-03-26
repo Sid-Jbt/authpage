@@ -4,19 +4,19 @@ import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { getLoginPattern, loginPattern } from 'Routes/routeConfig';
 import { Formik } from 'formik';
 import { organisationSignupSchema } from 'Helpers/ValidationSchema';
-import withStateDispatch from 'Helpers/withStateDispatch';
 import { orgNameKeyPress } from '../../../Helpers/Global';
 
 export const PROVIDER_DOMAIN = process.env.REACT_APP_PROVIDER_DOMAIN;
 
-const OrganisationSignup = ({ GetOrganisationSignup, GetDomain }) => {
+const OrganisationSignup = () => {
   const navigate = useNavigate();
   const [agreement, setAgreement] = useState(false);
   const [domain, setDomain] = useState(null);
+  const { GetOrganisationSignup, GetDomain } = useOutletContext();
 
   const getDomain = (value) => {
     GetDomain({ domain: value }, (res) => {
@@ -206,4 +206,4 @@ const OrganisationSignup = ({ GetOrganisationSignup, GetDomain }) => {
   );
 };
 
-export default withStateDispatch(OrganisationSignup);
+export default OrganisationSignup;
