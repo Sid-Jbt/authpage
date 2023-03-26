@@ -48,7 +48,6 @@ const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => 
             backgroundPositionY: '50%'
           }
         }
-        {...rest}
       />
       {pathname !== getProfileSetupPattern() ? (
         <Sidenav brandFullLogo={FullLogo} brandSmallLogo={Logo} brandName="Jarvis Bitz" />

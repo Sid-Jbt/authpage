@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
@@ -13,7 +12,7 @@ import attendanceColumn from './data/attendanceData';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
-  const { role, GetAttendanceList } = useOutletContext;
+  const { role, GetAttendanceList } = useOutletContext();
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [status, setStatus] = useState('');
@@ -48,17 +47,6 @@ const AttendanceList = () => {
     );
     return () => {};
   }, [filter, page, sort]);
-
-  /*  const onClickExport = () => {
-    setSnack({
-      title: 'Coming Soon',
-      message: 'Export coming soon...',
-      time: false,
-      icon: <Check color="white" />,
-      color: 'warning',
-      open: true
-    });
-  }; */
 
   const handleClear = () => {
     setMonth('');
@@ -116,19 +104,6 @@ const AttendanceList = () => {
             </Button>
           </Grid>
         )}
-        {/* <Grid item xs="auto">
-          <Button
-            color="white"
-            variant="outlined"
-            size="small"
-            onClick={onClickExport}
-          >
-            <Icon sx={{ mr: 1 }}>
-              <ImportExportRounded />
-            </Icon>
-            {Loading && isExport ? <CircularProgress  size={20} color="inherit" /> : 'Export'}
-          </Button>
-        </Grid> */}
       </Grid>
       <Card
         mb={3}

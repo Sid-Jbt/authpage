@@ -40,10 +40,6 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
 
   const handleProfileMenu = () => setOpenProfileMenu(!openProfileMenu);
 
-  const handleProfileCircle = () => {
-    navigate(getProfilePattern());
-  };
-
   const renderMenu = () => (
     <Menu
       anchorEl={openMenu}
@@ -130,26 +126,26 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
       />
       <Divider />
       {pathname !== getProfileSetupPattern() ? (
-        <>
-          <NotificationItem
-            color="secondary"
-            image={<Person />}
-            title={['Manage Account']}
-            onClick={handleProfileMenu}
-            component={Link}
-            to="/profile"
-            width={200}
-          />
-          <NotificationItem
-            color="secondary"
-            image={<Settings />}
-            title={['Settings']}
-            onClick={handleProfileMenu}
-            component={Link}
-            to="/setting"
-            width={200}
-          />
-        </>
+        <NotificationItem
+          color="secondary"
+          image={<Person />}
+          title={['Manage Account']}
+          onClick={handleProfileMenu}
+          component={Link}
+          to="/profile"
+          width={200}
+        />
+      ) : null}
+      {pathname !== getProfileSetupPattern() ? (
+        <NotificationItem
+          color="secondary"
+          image={<Settings />}
+          title={['Settings']}
+          onClick={handleProfileMenu}
+          component={Link}
+          to="/setting"
+          width={200}
+        />
       ) : null}
       <NotificationItem
         color="secondary"
@@ -226,7 +222,7 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
                     <Notifications />
                   </IconButton>
                 </Grid>
-                <Grid item onClick={handleProfileCircle}>
+                <Grid item component={Link} to={getProfilePattern()}>
                   <CircularProgressWithLabel value={progress || 0} />
                 </Grid>
               </>
