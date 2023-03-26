@@ -5,7 +5,7 @@ import Logo from 'Assets/logo/jbt-logo.svg';
 import FullLogo from 'Assets/logo/jbt-full-logo.svg';
 import { getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
 import Images from 'Assets/Images/team-4-800x800.jpg';
-import withStateDispatch from 'Helpers/withStateDispatch';
+import { withStateDispatch } from 'Helpers/withStateDispatch';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashboardNavbar from './Navbar';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -7,11 +7,12 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { forgotPasswordSchema } from 'Helpers/ValidationSchema';
 import { getDefaultPattern } from 'Routes/routeConfig';
-import withStateDispatch from 'Helpers/withStateDispatch';
 import { CircularProgress } from '@mui/material';
 
-const ForgotPassword = ({ GetForgotPassword, Loading }) => {
+const ForgotPassword = () => {
   const navigate = useNavigate();
+  const { GetForgotPassword, Loading } = useOutletContext();
+
   return (
     <>
       <Box mb={1} textAlign="center">
@@ -92,4 +93,4 @@ const ForgotPassword = ({ GetForgotPassword, Loading }) => {
   );
 };
 
-export default withStateDispatch(ForgotPassword);
+export default ForgotPassword;
