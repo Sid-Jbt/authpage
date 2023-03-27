@@ -9,15 +9,15 @@ import {
 import { API_URL, BASE_URL } from '../../api.config';
 import { instance } from '../../index';
 
-async function getHolidayAddApi(data, id) {
-  const url = id
-    ? `${BASE_URL + API_URL.HOLIDAY_ADD_URL}/${id}`
+async function getHolidayAddApi(data) {
+  const url = data.id
+    ? `${BASE_URL + API_URL.HOLIDAY_ADD_URL}/${data.id}`
     : BASE_URL + API_URL.HOLIDAY_ADD_URL;
-  const method = id ? 'put' : 'post';
+  const method = data.id ? 'put' : 'post';
   return instance.request({
     method,
     url,
-    data: data.values
+    data: data.data
   });
 }
 
