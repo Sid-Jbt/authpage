@@ -83,36 +83,8 @@ const supportTicket = () => {
     setIsDialogOpen(!isDialogOpen);
   };
 
-  const onClickAction = (key, selectedSupportData) => {
-    if (key === 'edit') {
-      setSelectedData(selectedSupportData);
-      setIsEdit(true);
-      setIsDialogOpen(!isDialogOpen);
-    } else if (key === 'view') {
-      GetSupportById({ id: selectedSupportData.id }, (res) => {
-        if (res && res.data && res.data.data) {
-          const { data } = res.data;
-          setSelectedData({
-            id: data.id,
-            subject: data.subject,
-            date: data.ticketDate,
-            department: data.department,
-            priority: data.priority,
-            status: data.status,
-            message: data.message.replace(/(<([^>]+)>)/gi, ''),
-            reason: data.reason
-          });
-        }
-      });
-      setIsViewSupportTicketDialogOpen(true);
-    } else if (key === 'delete') {
-      setSelectedData(selectedSupportData);
-      setIsDeleteDialogOpen(true);
-    }
-  };
-
   const onDelete = () => {
-    GetSupportDelete(selectedData.id, () => setIsDeleteDialogOpen(false));
+    GetSupportDelete(selectedData, () => setIsDeleteDialogOpen(false));
   };
 
   const handleClear = () => {
@@ -258,7 +230,35 @@ const supportTicket = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allSpTicketList}
-          onClickAction={(value, row) => onClickAction(value, row)}
+          onClickAction={(value, { id }) => {
+            if (value === 'delete') {
+              setSelectedData(id);
+              setIsDeleteDialogOpen(true);
+            } else {
+              GetSupportById({ id }, (res) => {
+                if (res && res.data && res.data.data) {
+                  const { data } = res.data;
+                  const setViewData = {
+                    id: data.id,
+                    subject: data.subject,
+                    date: data.ticketDate,
+                    department: data.department,
+                    priority: data.priority,
+                    status: data.status,
+                    message: data.message.replace(/(<([^>]+)>)/gi, ''),
+                    reason: data.reason
+                  };
+                  setSelectedData(setViewData);
+                  if (value === 'edit') {
+                    setIsEdit(true);
+                    setIsDialogOpen(!isDialogOpen);
+                  } else if (value === 'view') {
+                    setIsViewSupportTicketDialogOpen(true);
+                  }
+                }
+              });
+            }
+          }}
           isAction
           options={role === 'admin' ? adminSupportOptions : empSupportOptions}
           rowsCount={spTicketListCount.total}
@@ -280,11 +280,10 @@ const supportTicket = () => {
             handleDialog={handleDialog}
             title={isEdit ? 'EDIT YOUR SUPPORT TICKET' : 'ADD NEW SUPPORT TICKET'}
             setIsEdit={(value) => setIsEdit(value)}
-            selectedSupportId={selectedData && selectedData.id}
+            selectedData={selectedData}
             isEdit={isEdit}
             GetSupportAdd={GetSupportAdd}
             GetSupportUpdate={GetSupportUpdate}
-            GetSupportById={GetSupportById}
             Loading={Loading}
           />
         )}

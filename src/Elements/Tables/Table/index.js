@@ -121,6 +121,10 @@ const Table = ({
     rows &&
     rows.length &&
     rows.map((row, key) => {
+      const isStatusPending = row.hasOwnProperty('status')
+        ? row.status === 'reject' || row.status === 'approved'
+        : false;
+
       const rowKey = `row-${key}`;
       const tableRow = columns.map(({ name, align }) => {
         const color =
@@ -208,7 +212,7 @@ const Table = ({
             </TableCell>
           )}
           {tableRow}
-          {isAction && (
+          {isAction && !isStatusPending && (
             <TableCell sx={{ textAlign: 'center' }}>
               <Action
                 id={row.id}

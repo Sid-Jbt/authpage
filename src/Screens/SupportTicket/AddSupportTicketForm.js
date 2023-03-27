@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { supportTicketFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
@@ -19,38 +19,22 @@ const AddSupportTicketDialog = ({
   handleDialog,
   setIsEdit,
   title,
-  selectedSupportId,
   isEdit,
   GetSupportAdd,
   GetSupportUpdate,
-  GetSupportById,
-  Loading
+  Loading,
+  selectedData
 }) => {
   const [department, setDepartment] = useState(Department[0]);
   const [priority, setPriority] = useState(Priority[0]);
-  const [supportData, setSupportData] = useState(initialValues);
-
-  useEffect(() => {
-    if (selectedSupportId !== null) {
-      GetSupportById({ id: selectedSupportId }, (res) => {
-        if (res && res.data && res.data.data) {
-          const { data } = res.data;
-          supportData.subject = data.subject;
-          supportData.message = data.message;
-          setDepartment(Department.find((value) => value.value === data.department.toLowerCase()));
-          setPriority(Priority.find((value) => value.value === data.priority.toLowerCase()));
-        }
-      });
-    } else {
-      initialValues.subject = '';
-      initialValues.message = '';
-      setSupportData(initialValues);
-    }
-  }, [selectedSupportId]);
 
   const onSubmit = async (formData) => {
     if (isEdit) {
-      GetSupportUpdate({ data: formData, params: selectedSupportId }, (res) => {
+      delete formData.id;
+      delete formData.date;
+      delete formData.status;
+      delete formData.reason;
+      GetSupportUpdate({ data: formData, params: selectedData.id }, (res) => {
         const { status } = res.data;
         if (status) {
           handleDialog();
@@ -80,7 +64,7 @@ const AddSupportTicketDialog = ({
       >
         <Formik
           enableReinitialize
-          initialValues={supportData}
+          initialValues={selectedData || initialValues}
           onSubmit={(formData) => {
             formData.priority = priority.value;
             formData.department = department.value;
