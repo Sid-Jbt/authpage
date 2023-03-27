@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Card, Icon, Grid } from '@mui/material';
 import Table from 'Elements/Tables/Table';
@@ -15,16 +14,9 @@ import AddLeaveForm from './AddLeaveForm';
 import ViewLeaveDetails from './ViewLeaveDetails';
 
 const LeaveList = () => {
-  const { columns: prCols, adminColumns: adminPrCol, rows: prRows } = leaveListData;
-  const {
-    role,
-    GetLeaveAddUpdate,
-    GetLeaveList,
-    GetLeaveDelete,
-    GetLeaveReason,
-    GetLeaveById,
-    Loading
-  } = useOutletContext();
+  const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
+  const { role, GetLeaveAddUpdate, GetLeaveList, GetLeaveDelete, GetLeaveReason, GetLeaveById } =
+    useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [search, setSearch] = useState('');
