@@ -237,7 +237,11 @@ const LeaveList = () => {
         {isDialogOpen && (
           <AddLeaveForm
             isDialogOpen={isDialogOpen}
-            handleDialog={() => setIsDialogOpen(!isDialogOpen)}
+            handleDialog={() => {
+              setIsDialogOpen(!isDialogOpen);
+              setIsEdit(false);
+              setSelectedData(null);
+            }}
             title={isEdit ? 'UPDATE LEAVE' : 'ADD LEAVE'}
             selectedData={selectedData}
             isEdit={isEdit}

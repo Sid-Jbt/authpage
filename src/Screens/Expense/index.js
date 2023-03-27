@@ -211,7 +211,11 @@ const ExpenseList = () => {
         {isDialogOpen && (
           <AddExpenseForm
             isDialogOpen={isDialogOpen}
-            handleDialog={() => setIsDialogOpen(!isDialogOpen)}
+            handleDialog={() => {
+              setIsDialogOpen(!isDialogOpen);
+              setIsEdit(false);
+              setSelectedData(null);
+            }}
             title={isEdit ? 'UPDATE EXPENSE' : 'NEW EXPENSE'}
             button={isEdit ? 'UPDATE YOUR EXPENSE' : 'ADD YOUR EXPENSE'}
             selectedData={selectedData}
