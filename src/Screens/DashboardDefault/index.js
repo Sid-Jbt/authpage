@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import Box from 'Elements/Box';
 import { Grid } from '@mui/material';
@@ -21,8 +20,7 @@ import {
   getSupportTicketPattern
 } from 'Routes/routeConfig';
 import DashboardCard from 'Components/CardLayouts/StaticCard';
-import withStateDispatch from '../../Helpers/withStateDispatch';
-import supportTicket from '../SupportTicket';
+import withStateDispatch from 'Helpers/withStateDispatch';
 
 const DashboardDefault = ({ GetDashboard }) => {
   const { role } = useOutletContext();
