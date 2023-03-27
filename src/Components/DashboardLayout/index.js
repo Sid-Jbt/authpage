@@ -5,14 +5,14 @@ import Logo from 'Assets/logo/jbt-logo.svg';
 import FullLogo from 'Assets/logo/jbt-full-logo.svg';
 import { getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
 import Images from 'Assets/Images/team-4-800x800.jpg';
-import withStateDispatch from 'Helpers/withStateDispatch';
+import { withStateDispatch } from 'Helpers/withStateDispatch';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashboardNavbar from './Navbar';
 import Sidenav from './Sidenav';
 import Footer from './Footer';
 
-const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => {
+const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
   const { customization } = useSelector((state) => state);
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => 
   }, []);
 
   useEffect(() => {
-    if (DashboardData && DashboardData.isLoginFirstTime) {
+    if (DashboardData && DashboardData.isLoginFirstTime && DashboardData.isProfileSetup) {
       navigate(getProfileSetupPattern());
     }
   }, [DashboardData]);
@@ -48,7 +48,6 @@ const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => 
             backgroundPositionY: '50%'
           }
         }
-        {...rest}
       />
       {pathname !== getProfileSetupPattern() ? (
         <Sidenav brandFullLogo={FullLogo} brandSmallLogo={Logo} brandName="Jarvis Bitz" />
@@ -79,7 +78,14 @@ const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => 
             [breakpoints.up('md')]: { p: 3, pt: 0 }
           })}
         >
-          <Outlet context={{ role: DashboardData.user.role, user: DashboardData.user }} />
+          <Outlet
+            context={{
+              role: DashboardData.user.role,
+              user: DashboardData.user,
+              DashboardData,
+              ...rest
+            }}
+          />
         </Box>
         <Footer />
       </Box>

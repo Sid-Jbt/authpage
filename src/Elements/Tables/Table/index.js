@@ -92,7 +92,6 @@ const Table = ({
         textAlign={align}
         fontSize={size.sm}
         fontWeight={fontWeightBold}
-        color="dark"
         opacity={0.7}
         sx={({ palette: { light } }) => ({ borderBottom: `${borderWidth[1]} solid ${light.main}` })}
       >
@@ -186,7 +185,7 @@ const Table = ({
                   sx={{
                     display: 'inline-block',
                     width: 'max-content',
-                    textTransform: 'capitalize'
+                    textTransform: name !== 'email' && 'capitalize'
                   }}
                 >
                   {row[name] === undefined || row[name] === null ? '-' : row[name]}
@@ -260,9 +259,8 @@ const Table = ({
                     pt: '1.5',
                     pb: '1.25',
                     textAlign: 'center',
-                    fontSize: 'size.sm',
-                    fontWeight: 'fontWeightBold',
-                    color: 'dark',
+                    fontSize: size.sm,
+                    fontWeight: fontWeightBold,
                     opacity: '0.7'
                   }}
                 >
@@ -275,10 +273,10 @@ const Table = ({
             {renderRows && renderRows.length > 0 ? (
               <>
                 {renderRows}
-                <TableCell
-                  colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
-                >
-                  {renderRows && rowsCount > 10 && (
+                <TableRow>
+                  <TableCell
+                    colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
+                  >
                     <Pagination
                       rows={rowsCount}
                       initialPage={initialPage}
@@ -288,8 +286,8 @@ const Table = ({
                         onRowsPerPageChange(rowsPage);
                       }}
                     />
-                  )}
-                </TableCell>
+                  </TableCell>
+                </TableRow>
               </>
             ) : (
               <TableRow>
@@ -302,10 +300,10 @@ const Table = ({
                       pt: '1.5',
                       pb: '1.25',
                       textAlign: 'center',
-                      fontSize: 'size.sm',
-                      fontWeight: 'fontWeightBold',
+                      fontSize: size.sm,
+                      fontWeight: fontWeightBold,
                       color: 'dark',
-                      opacity: '0.7'
+                      opacity: '0.8'
                     }}
                   >
                     No Data Found!

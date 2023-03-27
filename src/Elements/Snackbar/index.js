@@ -2,10 +2,8 @@ import { Close } from '@mui/icons-material';
 import { styled, Icon, IconButton, Divider, Snackbar, Slide } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
-import typography from 'Theme/base/typography';
 
 const RootSnackbar = styled(Icon)(({ theme, ownerState }) => {
-  // eslint-disable-next-line no-shadow
   const { palette, functions, typography } = theme;
   const { color, bgWhite } = ownerState;
 
@@ -44,7 +42,6 @@ const CustomSnackbar = ({
   autoHide,
   ...rest
 }) => {
-  const { size } = typography;
   let titleColor;
   let dateTimeColor;
   let dividerColor;
@@ -123,7 +120,13 @@ const CustomSnackbar = ({
           </Box>
         </Box>
         <Divider sx={{ margin: 0 }} light={dividerColor} />
-        <Box p={1.5} color={bgWhite || color === 'light' ? 'text' : 'white'} fontSize={size.sm}>
+        <Box
+          p={1.5}
+          color={bgWhite || color === 'light' ? 'text' : 'white'}
+          sx={{
+            fontSize: ({ typography: { size } }) => size.sm
+          }}
+        >
           {content}
         </Box>
       </Box>

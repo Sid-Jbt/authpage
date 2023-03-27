@@ -35,7 +35,7 @@ export const Roles = [
 ];
 
 export const leaveDayType = [
-  { value: 'fullDay', label: 'Full Day' },
+  { value: 'full', label: 'Full Day' },
   { value: 'half', label: 'Half Day' }
 ];
 
@@ -75,9 +75,9 @@ export const Priority = [
 ];
 
 export const Department = [
-  { value: 'HR', label: 'HR' },
+  { value: 'hr', label: 'HR' },
   { value: 'manager', label: 'Manager' },
-  { value: 'team leader', label: 'Team Leader' }
+  { value: 'teamLeader', label: 'Team Leader' }
 ];
 
 export const EventsType = [
