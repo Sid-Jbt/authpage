@@ -171,10 +171,10 @@ const ExpenseList = () => {
                     purchaseFrom: data.purchaseFrom,
                     purchaseDate: data.purchaseDate,
                     amount: data.amount,
-                    status: data.status,
                     document: data.document,
                     comment: data.comment,
-                    id: data.id
+                    id: data.id,
+                    ...(value === 'view' && { status: data.status })
                   };
                   setSelectedData(setViewData);
                   if (value === 'edit') {
