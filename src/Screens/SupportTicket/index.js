@@ -19,7 +19,6 @@ const adminSupportOptions = [{ title: 'View', value: 'view' }];
 
 const empSupportOptions = [
   { title: 'Edit', value: 'edit' },
-  { title: 'View', value: 'view' },
   { title: 'Delete', value: 'delete' }
 ];
 
@@ -51,6 +50,7 @@ const supportTicket = () => {
   const [filter, setFilter] = useState(false);
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
+  const [approveRejectReason, setApproveRejectReason] = useState('');
 
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen || !isViewSupportTicketDialogOpen) {
@@ -99,7 +99,8 @@ const supportTicket = () => {
             department: data.department,
             priority: data.priority,
             status: data.status,
-            message: data.message.replace(/(<([^>]+)>)/gi, '')
+            message: data.message.replace(/(<([^>]+)>)/gi, ''),
+            reason: data.reason
           });
         }
       });
@@ -311,7 +312,13 @@ const supportTicket = () => {
           dialogTitle={`Ticket Details: ${selectedData.subject}`}
           dialogContent={
             <DialogContent
-              customContent={<ViewSupportTicketDetails data={selectedData} role={role} />}
+              customContent={
+                <ViewSupportTicketDetails
+                  data={selectedData}
+                  role={role}
+                  approveRejectReason={(value) => setApproveRejectReason(value)}
+                />
+              }
             />
           }
           dialogAction={
@@ -324,13 +331,13 @@ const supportTicket = () => {
                 handleApprove={() =>
                   handleSupportStatus({
                     status: 'approved',
-                    reason: ''
+                    reason: approveRejectReason
                   })
                 }
                 handleReject={() =>
                   handleSupportStatus({
                     status: 'reject',
-                    reason: ''
+                    reason: approveRejectReason
                   })
                 }
               />

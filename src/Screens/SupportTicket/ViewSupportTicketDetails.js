@@ -4,27 +4,22 @@ import Typography from 'Elements/Typography';
 import { Grid } from '@mui/material';
 import FormField from 'Elements/FormField';
 
-const ViewSupportTicketDetails = ({ data, role }) => {
-  let labels = [];
+const ViewSupportTicketDetails = ({ data, approveRejectReason }) => {
+  delete data.id;
+  const labels = [];
   const values = [];
 
   // Convert this form `objectKey` of the object key in to this `object key`
   Object.keys(data).forEach((el) => {
-    if (el.match(/[A-Z\s]+/)) {
-      const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
-      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
+    if (el !== 'reason') {
+      if (el.match(/[A-Z\s]+/)) {
+        const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
+        const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
 
-      labels.push(newElement);
-    } else {
-      labels.push(el);
-    }
-    labels = labels.filter(function (e) {
-      return e !== 'id';
-    });
-    if (role !== 'admin') {
-      labels = labels.filter(function (e) {
-        return e !== 'message';
-      });
+        labels.push(newElement);
+      } else {
+        labels.push(el);
+      }
     }
   });
 
@@ -54,15 +49,13 @@ const ViewSupportTicketDetails = ({ data, role }) => {
         <Grid item xs={12}>
           <FormField
             type="textarea"
-            placeholder={
-              role === 'admin' ? 'Enter the reason of approve or reject message' : 'Message'
-            }
-            label={role === 'admin' ? 'Reason of approve or reject message' : 'Message'}
-            value={role === 'admin' ? '' : data.message}
+            placeholder="Enter the reason of approve or reject message"
+            label="Reason of approve or reject message"
+            defaultValue={data.reason}
+            onChange={(event) => approveRejectReason(event.target.value)}
             multiline
             rows={5}
             errorFalse
-            disabled={role !== 'admin'}
           />
         </Grid>
       </Grid>
