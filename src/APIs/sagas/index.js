@@ -8,10 +8,25 @@ import { getResetPasswordWatcher } from './resetPassword';
 import { getEmployeeAddWatcher } from './employee/employeeAdd';
 import { getEmployeeListWatcher } from './employee/employeeList';
 import { getEmployeeBySlugWatcher } from './employee/employeeBySlug';
+import { getLeaveAddUpdateWatcher } from './leave/leaveAddUpdate';
+import { getLeaveListWatcher } from './leave/leaveList';
+import { getLeaveDeleteWatcher } from './leave/leaveDelete';
 import { getDomainWatcher } from './getDomain';
+import { getExpenseAddUpdateWatcher } from './expense/expenseAddUpdate';
+import { getExpenseListWatcher } from './expense/expenseList';
+import { getExpenseDeleteWatcher } from './expense/expenseDelete';
+import { getExpenseByIdWatcher } from './expense/expenseByID';
+import { getExpenseReasonWatcher } from './expense/expenseReason';
 import { getProfileSetupWatcher } from './profileSetup';
 import { getPayslipListWatcher } from './payslip/payslipList';
 import { getAttendanceListWatcher } from './attendance/attendanceList';
+import { getHolidayListWatcher } from './holiday/holidayList';
+import { getHolidayAddUpdateWatcher } from './holiday/holidayAddUpdate';
+import { getHolidayByIdWatcher } from './holiday/holidayById';
+import { getHolidayDeleteWatcher } from './holiday/holidayDelete';
+import { getChangePasswordWatcher } from './settings/changePassword';
+import { getLeaveReasonWatcher } from './leave/leaveReason';
+import { getLeaveByIdWatcher } from './leave/leaveById';
 
 export default function* rootSaga() {
   yield all([
@@ -26,7 +41,22 @@ export default function* rootSaga() {
     getEmployeeAddWatcher(),
     getEmployeeListWatcher(),
     getEmployeeBySlugWatcher(),
+    getExpenseAddUpdateWatcher(),
+    getExpenseListWatcher(),
+    getExpenseDeleteWatcher(),
+    getExpenseByIdWatcher(),
+    getExpenseReasonWatcher(),
     getPayslipListWatcher(),
-    getAttendanceListWatcher()
+    getAttendanceListWatcher(),
+    getHolidayListWatcher(),
+    getHolidayAddUpdateWatcher(),
+    getHolidayByIdWatcher(),
+    getHolidayDeleteWatcher(),
+    getChangePasswordWatcher(),
+    getLeaveAddUpdateWatcher(),
+    getLeaveListWatcher(),
+    getLeaveDeleteWatcher(),
+    getLeaveReasonWatcher(),
+    getLeaveByIdWatcher()
   ]);
 }

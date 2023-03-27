@@ -5,8 +5,9 @@ import { Card, Grid, Link, Typography, useTheme } from '@mui/material';
 import linearGradient from 'Theme/functions/linearGradient';
 import LogoWithName from 'Assets/logo/jbt-full-logo.svg';
 import bgImage from 'Assets/Illustrations/404.svg';
+import { withStateDispatchAuth } from 'Helpers/withStateDispatch';
 
-const AuthLayout = () => {
+const AuthLayout = ({ ...rest }) => {
   const theme = useTheme();
 
   return (
@@ -57,7 +58,7 @@ const AuthLayout = () => {
                 }
               })}
             />
-            <Outlet />
+            <Outlet context={{ ...rest }} />
           </Card>
         </Grid>
         <Grid item xs={12}>
@@ -75,4 +76,4 @@ const AuthLayout = () => {
   );
 };
 
-export default AuthLayout;
+export default withStateDispatchAuth(AuthLayout);

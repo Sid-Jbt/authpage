@@ -1,6 +1,6 @@
 import React from 'react';
 import { CircularProgress, FormControlLabel, Switch } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -8,10 +8,10 @@ import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { loginSchema } from 'Helpers/ValidationSchema';
 import { getForgotPasswordPattern, getDashboardPattern } from 'Routes/routeConfig';
-import withStateDispatch from 'Helpers/withStateDispatch';
 
-const Login = ({ GetLogin, Loading }) => {
+const Login = () => {
   const navigate = useNavigate();
+  const { GetLogin, Loading } = useOutletContext();
 
   return (
     <>
@@ -145,4 +145,4 @@ const Login = ({ GetLogin, Loading }) => {
   );
 };
 
-export default withStateDispatch(Login);
+export default Login;

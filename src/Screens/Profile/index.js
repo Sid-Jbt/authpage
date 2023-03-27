@@ -115,10 +115,7 @@ const Profile = () => {
               ? bankInitialValues
               : bankInitialValues
           }
-          onSubmit={(values) => {
-            // eslint-disable-next-line no-console
-            console.log(values);
-          }}
+          onSubmit={() => {}}
           validationSchema={
             tabIndex === 0
               ? profileSchema

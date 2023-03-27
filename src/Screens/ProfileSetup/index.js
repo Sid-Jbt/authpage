@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import { Card, CircularProgress, Grid, Step, StepLabel, Stepper } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import withStateDispatch from 'Helpers/withStateDispatch';
+import { useDispatch } from 'react-redux';
 import { WorkingHours } from 'Helpers/Global';
 import { organisationSchema, userSchema } from 'Helpers/ValidationSchema';
-import { useNavigate } from 'react-router';
+import { useNavigate, useOutletContext } from 'react-router';
 import { getDashboardPattern } from 'Routes/routeConfig';
 import Basic from './component/Basic';
 import Address from './component/Address';
@@ -31,7 +30,6 @@ const userInitialValues = {
   firstName: '',
   lastName: '',
   fatherName: '',
-  // department: '',
   designation: '',
   phoneNumber: '',
   alternatePhone: '',
@@ -75,14 +73,13 @@ function getStepContent(role, stepIndex, props) {
   }
 }
 
-const ProfileSetup = ({ GetProfileSetup, Loading }) => {
-  const { role } = useSelector((state) => state.login);
+const ProfileSetup = () => {
+  const { role, GetProfileSetup, DashboardData, Loading } = useOutletContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps(role);
-  const currentValidationSchema = () =>
-    role === 'admin' ? organisationSchema[activeStep] : userSchema[activeStep];
+
   const handleNext = (values, actions) => {
     GetProfileSetup(values, (res) => {
       const data = res.data;
@@ -97,6 +94,12 @@ const ProfileSetup = ({ GetProfileSetup, Loading }) => {
     actions.setTouched({});
     actions.setSubmitting(false);
   };
+
+  useEffect(() => {
+    if (!DashboardData.isProfileSetup) {
+      navigate(getDashboardPattern());
+    }
+  }, [DashboardData]);
 
   const validate = (values) => {
     const errors = {};
@@ -131,7 +134,9 @@ const ProfileSetup = ({ GetProfileSetup, Loading }) => {
               <Formik
                 initialValues={role === 'admin' ? adminInitialValues : userInitialValues}
                 onSubmit={handleNext}
-                validationSchema={currentValidationSchema}
+                validationSchema={
+                  role === 'admin' ? organisationSchema[activeStep] : userSchema[activeStep]
+                }
                 validate={
                   role === 'admin' ? activeStep === 1 && validate : activeStep === 0 && validate
                 }
@@ -170,4 +175,4 @@ const ProfileSetup = ({ GetProfileSetup, Loading }) => {
   );
 };
 
-export default withStateDispatch(ProfileSetup);
+export default ProfileSetup;
