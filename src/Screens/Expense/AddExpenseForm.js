@@ -131,7 +131,9 @@ const AddExpenseForm = ({
                 <FormLabel>SELECT DOCUMENT</FormLabel>
                 <Dropzone
                   setExistingFile={values.document}
-                  selectedFile={(files) => setFieldValue('document', files[0])}
+                  selectedFile={(files) => {
+                    setFieldValue('document', files);
+                  }}
                 />
               </Grid>
               <Grid item sm={12} md={4} lg={6} xl={12} pt={2}>

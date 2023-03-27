@@ -42,7 +42,7 @@ const LeaveList = () => {
           limit,
           startDate,
           endDate,
-          status,
+          status: status.value,
           search,
           page,
           sortKey: sort.key,
@@ -73,7 +73,7 @@ const LeaveList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Total Leave"
-            count={leaveCount.totalLeave}
+            count={leaveCount && leaveCount.totalLeave}
             icon={{ color: 'info', component: <CalendarMonth /> }}
             isPercentage={false}
           />
@@ -81,7 +81,7 @@ const LeaveList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Medical Leave"
-            count={leaveCount.medicalLeave}
+            count={leaveCount && leaveCount.medicalLeave}
             icon={{ color: 'warning', component: <Vaccines /> }}
             isPercentage={false}
           />
@@ -89,7 +89,7 @@ const LeaveList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Other Leave"
-            count={leaveCount.otherLeave}
+            count={leaveCount && leaveCount.otherLeave}
             icon={{ color: 'primary', component: <Celebration /> }}
             isPercentage={false}
           />
@@ -97,7 +97,7 @@ const LeaveList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Remaining Leave"
-            count={leaveCount.remainingLeave}
+            count={leaveCount && leaveCount.remainingLeave}
             icon={{ color: 'success', component: <DirectionsRun /> }}
             isPercentage={false}
           />
@@ -221,7 +221,7 @@ const LeaveList = () => {
                   { title: 'Delete', value: 'delete' }
                 ]
           }
-          rowsCount={leaveCount.total}
+          rowsCount={leaveCount && leaveCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
