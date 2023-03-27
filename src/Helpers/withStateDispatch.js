@@ -81,14 +81,7 @@ const mapDispatchToPropsAuth = (dispatch) => ({
   GetResetPassword: (data, resolve, reject) => dispatch(getResetPassword(data, resolve, reject)),
   GetOrganisationSignup: (data, resolve, reject) =>
     dispatch(getOrganisationSignup(data, resolve, reject)),
-  GetDomain: (data, resolve, reject) => dispatch(getDomain(data, resolve, reject)),
-  GetAttendanceList: (data, resolve, reject) => dispatch(getAttendanceList(data, resolve, reject)),
-  GetSupportAdd: (data, resolve, reject) => dispatch(getSupportAdd(data, resolve, reject)),
-  GetSupportList: (data, resolve, reject) => dispatch(getSupportList(data, resolve, reject)),
-  GetSupportUpdate: (data, resolve, reject) => dispatch(getSupportUpdate(data, resolve, reject)),
-  GetSupportById: (data, resolve, reject) => dispatch(getSupportById(data, resolve, reject)),
-  GetSupportDelete: (data, resolve, reject) => dispatch(getSupportDelete(data, resolve, reject)),
-  GetSupportReason: (data, resolve, reject) => dispatch(getSupportReason(data, resolve, reject))
+  GetDomain: (data, resolve, reject) => dispatch(getDomain(data, resolve, reject))
 });
 
 export const withStateDispatch = (WrappedComponent) =>
