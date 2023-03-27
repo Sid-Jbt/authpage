@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Icon, Grid } from '@mui/material';
+import { Card, Icon, Grid, FormControl, FormLabel } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
@@ -12,6 +12,8 @@ import { useOutletContext } from 'react-router';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 import ViewLeaveDetails from './ViewLeaveDetails';
+import Select from '../../Elements/Select';
+import { actionStatus } from '../../Helpers/Global';
 
 const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
@@ -31,14 +33,16 @@ const LeaveList = () => {
   const [filter, setFilter] = useState(false);
   const [allLeave, setAllLeave] = useState([]);
   const [leaveCount, setLeaveCount] = useState({});
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (!isDialogOpen || !isDeleteDialogOpen) {
+    if (!isDialogOpen || !isDeleteDialogOpen || isViewLeaveDialogOpen) {
       GetLeaveList(
         {
           limit,
           startDate,
           endDate,
+          status: status.value,
           search,
           page,
           sortKey: sort.key,
@@ -54,7 +58,7 @@ const LeaveList = () => {
       );
     }
     return () => {};
-  }, [isDialogOpen, page, sort, filter, isDeleteDialogOpen]);
+  }, [isDialogOpen, page, sort, filter, isDeleteDialogOpen, isViewLeaveDialogOpen]);
 
   const handleClear = () => {
     setEndDate('');
@@ -69,7 +73,7 @@ const LeaveList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Total Leave"
-            count={leaveCount.totalLeave}
+            count={leaveCount && leaveCount.totalLeave}
             icon={{ color: 'info', component: <CalendarMonth /> }}
             isPercentage={false}
           />
@@ -77,7 +81,7 @@ const LeaveList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Medical Leave"
-            count={leaveCount.medicalLeave}
+            count={leaveCount && leaveCount.medicalLeave}
             icon={{ color: 'warning', component: <Vaccines /> }}
             isPercentage={false}
           />
@@ -85,7 +89,7 @@ const LeaveList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Other Leave"
-            count={leaveCount.otherLeave}
+            count={leaveCount && leaveCount.otherLeave}
             icon={{ color: 'primary', component: <Celebration /> }}
             isPercentage={false}
           />
@@ -93,7 +97,7 @@ const LeaveList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <LeaveCard
             title="Remaining Leave"
-            count={leaveCount.remainingLeave}
+            count={leaveCount && leaveCount.remainingLeave}
             icon={{ color: 'success', component: <DirectionsRun /> }}
             isPercentage={false}
           />
@@ -163,6 +167,16 @@ const LeaveList = () => {
               errorFalse
             />
           </Grid>
+          <Grid item xs={12} md={4} lg={3}>
+            <FormControl sx={{ width: '100%' }}>
+              <FormLabel>Select Status</FormLabel>
+              <Select
+                value={status}
+                options={actionStatus}
+                onChange={(value) => setStatus(value)}
+              />
+            </FormControl>
+          </Grid>
         </FilterLayout>
 
         <Table
@@ -183,15 +197,15 @@ const LeaveList = () => {
                     toDate: data.toDate,
                     noOfDays: data.noOfDays,
                     approvedBy: data.approvedBy,
-                    status: data.status,
                     reason: data.reason.replace(/(<([^>]+)>)/gi, ''),
-                    id: data.id
+                    id: data.id,
+                    ...(value === 'view' && { status: data.status })
                   };
+                  setSelectedData(setViewData);
                   if (value === 'edit') {
                     setIsEdit(true);
                     setIsDialogOpen(true);
                   } else if (value === 'view') {
-                    setSelectedData(setViewData);
                     setIsViewLeaveDialogOpen(true);
                   }
                 }
@@ -207,7 +221,7 @@ const LeaveList = () => {
                   { title: 'Delete', value: 'delete' }
                 ]
           }
-          rowsCount={leaveCount.total}
+          rowsCount={leaveCount && leaveCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
@@ -223,13 +237,15 @@ const LeaveList = () => {
         {isDialogOpen && (
           <AddLeaveForm
             isDialogOpen={isDialogOpen}
-            handleDialog={() => setIsDialogOpen(!isDialogOpen)}
+            handleDialog={() => {
+              setIsDialogOpen(!isDialogOpen);
+              setIsEdit(false);
+              setSelectedData(null);
+            }}
             title={isEdit ? 'UPDATE LEAVE' : 'ADD LEAVE'}
-            setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             isEdit={isEdit}
             GetLeaveAddUpdate={GetLeaveAddUpdate}
-            GetLeaveById={GetLeaveById}
           />
         )}
         {isDeleteDialogOpen && (
@@ -245,7 +261,10 @@ const LeaveList = () => {
                 approveTitle="Delete"
                 rejectTitle="Cancel"
                 handleApprove={() =>
-                  GetLeaveDelete(selectedData, () => setIsDeleteDialogOpen(false))
+                  GetLeaveDelete(selectedData, () => {
+                    setIsDeleteDialogOpen(false);
+                    setIsEdit(false);
+                  })
                 }
                 handleReject={() => setIsDeleteDialogOpen(false)}
               />
@@ -263,7 +282,8 @@ const LeaveList = () => {
             <DialogContent customContent={<ViewLeaveDetails data={selectedData} role={role} />} />
           }
           dialogAction={
-            role === 'admin' && (
+            role === 'admin' &&
+            selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"
                 rejectColor="error"
@@ -276,7 +296,7 @@ const LeaveList = () => {
                         status: 'approved',
                         comment: ''
                       },
-                      id: selectedData
+                      id: selectedData.id
                     },
                     () => setIsViewLeaveDialogOpen(false)
                   )
@@ -288,7 +308,7 @@ const LeaveList = () => {
                         status: 'reject',
                         comment: ''
                       },
-                      id: selectedData
+                      id: selectedData.id
                     },
                     () => setIsViewLeaveDialogOpen(false)
                   )
