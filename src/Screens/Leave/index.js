@@ -282,7 +282,8 @@ const LeaveList = () => {
             <DialogContent customContent={<ViewLeaveDetails data={selectedData} role={role} />} />
           }
           dialogAction={
-            role === 'admin' && (
+            role === 'admin' &&
+            selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"
                 rejectColor="error"
