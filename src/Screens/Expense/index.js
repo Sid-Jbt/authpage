@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Grid, Icon } from '@mui/material';
+import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
 import { Add, PendingTwoTone, SummarizeRounded, ThumbDown, ThumbUpAlt } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
+import { actionStatus } from 'Helpers/Global';
+import Select from 'Elements/Select';
 import expenseListData from './data/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
 import ExpenseCard from '../../Components/CardLayouts/StaticCard';
@@ -34,6 +36,7 @@ const ExpenseList = () => {
   const [filter, setFilter] = useState(false);
   const [allExpense, setAllExpense] = useState([]);
   const [expenseCount, setExpenseCount] = useState({});
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen) {
@@ -138,7 +141,18 @@ const ExpenseList = () => {
           onClickSearch={() => {
             setFilter(!filter);
           }}
-        />
+        >
+          <Grid item xs={12} md={4} lg={3}>
+            <FormControl sx={{ width: '100%' }}>
+              <FormLabel>Select Status</FormLabel>
+              <Select
+                value={status}
+                options={actionStatus}
+                onChange={(value) => setStatus(value)}
+              />
+            </FormControl>
+          </Grid>
+        </FilterLayout>
 
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
