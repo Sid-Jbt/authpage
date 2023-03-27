@@ -169,6 +169,7 @@ const Holiday = () => {
           handleDrawerClose={() => handleDrawerClose()}
           title={isEdit ? 'UPDATE HOLIDAY' : 'ADD HOLIDAY'}
           selectedData={selectedData}
+          isEdit={isEdit}
           GetHolidayAddUpdate={GetHolidayAddUpdate}
         />
       </Card>

@@ -10,14 +10,15 @@ import { API_URL, BASE_URL } from '../../api.config';
 import { instance } from '../../index';
 
 async function getHolidayAddApi(data) {
-  const url = data.id
-    ? `${BASE_URL + API_URL.HOLIDAY_ADD_URL}/${data.id}`
+  const { id, ...rest } = data;
+  const url = id
+    ? `${BASE_URL + API_URL.HOLIDAY_ADD_URL}/${id}`
     : BASE_URL + API_URL.HOLIDAY_ADD_URL;
   const method = data.id ? 'put' : 'post';
   return instance.request({
     method,
     url,
-    data: data.data
+    data: rest
   });
 }
 
