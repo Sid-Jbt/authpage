@@ -154,7 +154,7 @@ export const badgeStatusColor = {
   pending: 'warning',
   declined: 'error',
   approved: 'success',
-  rejected: 'error'
+  reject: 'error'
 };
 
 export const validationMessage = 'Required';
