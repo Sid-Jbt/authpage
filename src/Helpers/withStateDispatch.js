@@ -22,17 +22,17 @@ import {
   getProfileSetup,
   getPayslipList,
   getAttendanceList,
-  getHolidayList,
-  getHolidayAddUpdate,
-  getHolidayById,
-  getHolidayDelete,
-  getChangePassword,
   getSupportAdd,
   getSupportList,
   getSupportUpdate,
   getSupportById,
   getSupportDelete,
-  getSupportReason
+  getSupportReason,
+  getHolidayList,
+  getHolidayAddUpdate,
+  getHolidayById,
+  getHolidayDelete,
+  getChangePassword
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -56,6 +56,12 @@ const mapDispatchToProps = (dispatch) => ({
   GetExpenseById: (data, resolve, reject) => dispatch(getExpenseById(data, resolve, reject)),
   GetPayslipList: (data, resolve, reject) => dispatch(getPayslipList(data, resolve, reject)),
   GetAttendanceList: (data, resolve, reject) => dispatch(getAttendanceList(data, resolve, reject)),
+  GetSupportAdd: (data, resolve, reject) => dispatch(getSupportAdd(data, resolve, reject)),
+  GetSupportList: (data, resolve, reject) => dispatch(getSupportList(data, resolve, reject)),
+  GetSupportUpdate: (data, resolve, reject) => dispatch(getSupportUpdate(data, resolve, reject)),
+  GetSupportById: (data, resolve, reject) => dispatch(getSupportById(data, resolve, reject)),
+  GetSupportDelete: (data, resolve, reject) => dispatch(getSupportDelete(data, resolve, reject)),
+  GetSupportReason: (data, resolve, reject) => dispatch(getSupportReason(data, resolve, reject)),
   GetHolidayList: (data, resolve, reject) => dispatch(getHolidayList(data, resolve, reject)),
   GetHolidayAddUpdate: (data, resolve, reject) =>
     dispatch(getHolidayAddUpdate(data, resolve, reject)),

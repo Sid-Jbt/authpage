@@ -20,6 +20,12 @@ import { getExpenseReasonWatcher } from './expense/expenseReason';
 import { getProfileSetupWatcher } from './profileSetup';
 import { getPayslipListWatcher } from './payslip/payslipList';
 import { getAttendanceListWatcher } from './attendance/attendanceList';
+import { getSupportAddWatcher } from './supportTicket/supportAdd';
+import { getSupportListWatcher } from './supportTicket/supportList';
+import { getSupportUpdateWatcher } from './supportTicket/supportUpdate';
+import { getSupportByIdWatcher } from './supportTicket/supportById';
+import { getSupportDeleteWatcher } from './supportTicket/supportDelete';
+import { getSupportReasonWatcher } from './supportTicket/supportReason';
 import { getHolidayListWatcher } from './holiday/holidayList';
 import { getHolidayAddUpdateWatcher } from './holiday/holidayAddUpdate';
 import { getHolidayByIdWatcher } from './holiday/holidayById';
@@ -27,12 +33,6 @@ import { getHolidayDeleteWatcher } from './holiday/holidayDelete';
 import { getChangePasswordWatcher } from './settings/changePassword';
 import { getLeaveReasonWatcher } from './leave/leaveReason';
 import { getLeaveByIdWatcher } from './leave/leaveById';
-import { getSupportAddWatcher } from './supportTicket/supportAdd';
-import { getSupportListWatcher } from './supportTicket/supportList';
-import { getSupportUpdateWatcher } from './supportTicket/supportUpdate';
-import { getSupportByIdWatcher } from './supportTicket/supportById';
-import { getSupportDeleteWatcher } from './supportTicket/supportDelete';
-import { getSupportReasonWatcher } from './supportTicket/supportReason';
 
 export default function* rootSaga() {
   yield all([
@@ -54,6 +54,12 @@ export default function* rootSaga() {
     getExpenseReasonWatcher(),
     getPayslipListWatcher(),
     getAttendanceListWatcher(),
+    getSupportAddWatcher(),
+    getSupportListWatcher(),
+    getSupportUpdateWatcher(),
+    getSupportByIdWatcher(),
+    getSupportDeleteWatcher(),
+    getSupportReasonWatcher(),
     getHolidayListWatcher(),
     getHolidayAddUpdateWatcher(),
     getHolidayByIdWatcher(),
@@ -63,12 +69,6 @@ export default function* rootSaga() {
     getLeaveListWatcher(),
     getLeaveDeleteWatcher(),
     getLeaveReasonWatcher(),
-    getLeaveByIdWatcher(),
-    getSupportAddWatcher(),
-    getSupportListWatcher(),
-    getSupportUpdateWatcher(),
-    getSupportByIdWatcher(),
-    getSupportDeleteWatcher(),
-    getSupportReasonWatcher()
+    getLeaveByIdWatcher()
   ]);
 }
