@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Box from 'Elements/Box';
 import breakpoints from 'Theme/base/breakpoints';
+import { useOutletContext } from 'react-router';
 import Header from './components/Header';
 import ChangePasswordSetting from './components/ChangePasswordSetting';
 import NotificationSetting from './components/NotificationSetting';
 
 const Setting = () => {
+  const { GetChangePassword, Loading } = useOutletContext();
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -30,7 +32,9 @@ const Setting = () => {
         handleSetTabIndex={(event, value) => handleSetTabIndex(event, value)}
       />
       <Box mt={3}>
-        {tabIndex === 0 && <ChangePasswordSetting />}
+        {tabIndex === 0 && (
+          <ChangePasswordSetting GetChangePassword={GetChangePassword} Loading={Loading} />
+        )}
         {tabIndex === 1 && <NotificationSetting />}
       </Box>
     </Box>

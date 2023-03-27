@@ -1,9 +1,19 @@
 import { Card, Icon, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
+import { Link } from 'react-router-dom';
 
-const LeaveCard = ({ bgColor, title, count, isPercentage = true, percentage, icon, direction }) => (
-  <Card>
+const LeaveCard = ({
+  bgColor,
+  title,
+  count,
+  isPercentage = true,
+  percentage,
+  icon,
+  direction,
+  link
+}) => (
+  <Card component={link && Link} to={link}>
     <Box bgColor={bgColor} variant="gradient">
       <Box p={2}>
         <Grid container>
@@ -46,7 +56,7 @@ const LeaveCard = ({ bgColor, title, count, isPercentage = true, percentage, ico
                   {icon.component}
                 </Icon>
               ) : (
-                <Box fontSize="1.75rem" display="grid" placeItems="center" color="inherit">
+                <Box fontSize="1.75rem" display="grid" placeitems="center" color="inherit">
                   {icon.component}
                 </Box>
               )}

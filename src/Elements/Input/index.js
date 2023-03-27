@@ -121,7 +121,6 @@ const MyFormHelperText = ({ errorText }) => {
   );
 };
 
-// eslint-disable-next-line react/display-name
 const TextField = forwardRef(
   (
     {

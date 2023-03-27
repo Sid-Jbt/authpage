@@ -4,7 +4,10 @@ const initialState = {
   user: '',
   profileProgress: '',
   holidayList: '',
+  noticeListL: '',
   isLoginFirstTime: false,
+  todayHours: 0,
+  isProfileSetup: true,
   currentWeekHours: 0,
   currentMonthHours: 0
 };
@@ -17,14 +20,16 @@ export default function dashboardReducer(state = initialState, action) {
         user: action.payload.data.user,
         isLoginFirstTime: action.payload.data.user.loginCount === 1,
         holidayList: action.payload.data.holidayList,
+        noticeListL: action.payload.data.noticeList,
         profileProgress: action.payload.data.profileProgress,
+        todayHours: action.payload.data.todayHours,
         currentWeekHours: action.payload.data.currentWeekHours,
         currentMonthHours: action.payload.data.currentMonthHours
       };
     case 'LOGIN_COMPLETED': {
       return {
         ...state,
-        isLoginFirstTime: false
+        isProfileSetup: false
       };
     }
     default:

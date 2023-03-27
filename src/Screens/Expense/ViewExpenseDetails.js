@@ -4,29 +4,38 @@ import Avatar from 'Elements/Avatar';
 import { Grid } from '@mui/material';
 import React from 'react';
 import FormField from 'Elements/FormField';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getSupportTicketPattern } from '../../Routes/routeConfig';
 
-const ViewExpenseDetails = ({ info }) => {
-  const { role } = useSelector((state) => state.route);
-  const labels = [];
+const ViewExpenseDetails = ({ data, role }) => {
+  // const { role } = useSelector((state) => state.login);
+  let labels = [];
   const values = [];
 
   // Convert this form `objectKey` of the object key in to this `object key`
-  Object.keys(info).forEach((el) => {
+  Object.keys(data).forEach((el) => {
     if (el !== 'document' && el !== 'comment') {
       if (el.match(/[A-Z\s]+/)) {
         const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
         const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
-
         labels.push(newElement);
       } else {
         labels.push(el);
+      }
+      labels = labels.filter(function (e) {
+        return e !== 'id';
+      });
+      if (role !== 'admin') {
+        labels = labels.filter(function (e) {
+          return e !== 'comment';
+        });
       }
     }
   });
 
   // Push the object values into the values array
-  Object.values(info).forEach((el) => values.push(el));
+  Object.values(data).forEach((el) => values.push(el));
 
   // Render the card info items
   const renderItems = labels.map((label, key) => (
@@ -48,9 +57,9 @@ const ViewExpenseDetails = ({ info }) => {
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="space-between">
         <Grid item>{renderItems}</Grid>
-        <Grid item>
+        <Grid item xs={12}>
           <Avatar
-            src={info.document}
+            src={data.document}
             alt="profile-image"
             variant="rounded"
             size="xxl"
@@ -60,15 +69,34 @@ const ViewExpenseDetails = ({ info }) => {
         <Grid item xs={12}>
           <FormField
             type="textarea"
-            placeholder="Please Enter the reason of approve or reject"
-            label="Reason"
-            value={info.comment}
+            placeholder={
+              role === 'admin' ? 'Enter the reason of approve or reject expense' : 'Comment'
+            }
+            label={role === 'admin' ? 'Reason of approve or reject expense' : 'Comment'}
+            value={role === 'admin' ? '' : data.reason}
+            // onChange={handleInputChange}
             multiline
             rows={5}
             errorFalse
             disabled={role !== 'admin'}
           />
         </Grid>
+        {data.status === 'rejected' && (
+          <Grid item xs={12}>
+            <Box display="flex" py={0.5} pr={2}>
+              <Typography
+                component={Link}
+                to={getSupportTicketPattern()}
+                variant="button"
+                color="info"
+                fontWeight="medium"
+                underline="true"
+              >
+                &nbsp; Support Ticket
+              </Typography>
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </>
   );

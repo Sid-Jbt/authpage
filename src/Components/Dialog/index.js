@@ -15,28 +15,42 @@ export const DialogContent = ({ content, customContent }) =>
     </Box>
   );
 
-export const DialogAction = ({ handleReject, handleApprove, approveTitle, rejectTitle }) => (
+export const DialogAction = ({
+  handleReject,
+  handleApprove,
+  approveTitle,
+  rejectTitle,
+  approveColor = 'info',
+  rejectColor = 'error'
+}) => (
   <Box
     sx={{
       display: 'flex',
       flexDirection: { xs: 'column', md: 'row' },
+      gap: 2,
       alignItems: 'right',
       justifyContent: 'right',
       textAlign: 'end',
-      mt: 3
+      pr: 1,
+      pl: 1
     }}
   >
     <Button
       type="submit"
-      color="error"
+      color={rejectColor}
       variant="contained"
       size="small"
-      sx={{ marginRight: '10px' }}
       onClick={handleReject}
     >
       {rejectTitle}
     </Button>
-    <Button type="submit" color="info" variant="contained" size="small" onClick={handleApprove}>
+    <Button
+      type="submit"
+      color={approveColor}
+      variant="contained"
+      size="small"
+      onClick={handleApprove}
+    >
       {approveTitle}
     </Button>
   </Box>
