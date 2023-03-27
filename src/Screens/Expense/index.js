@@ -43,6 +43,7 @@ const ExpenseList = () => {
       GetExpenseList(
         {
           limit,
+          status,
           search,
           page,
           sortKey: sort.key,

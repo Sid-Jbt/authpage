@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Icon, Grid } from '@mui/material';
+import { Card, Icon, Grid, FormControl, FormLabel } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
@@ -12,6 +12,8 @@ import { useOutletContext } from 'react-router';
 import leaveListData from './data/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 import ViewLeaveDetails from './ViewLeaveDetails';
+import Select from '../../Elements/Select';
+import { actionStatus } from '../../Helpers/Global';
 
 const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
@@ -31,6 +33,7 @@ const LeaveList = () => {
   const [filter, setFilter] = useState(false);
   const [allLeave, setAllLeave] = useState([]);
   const [leaveCount, setLeaveCount] = useState({});
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen) {
@@ -39,6 +42,7 @@ const LeaveList = () => {
           limit,
           startDate,
           endDate,
+          status,
           search,
           page,
           sortKey: sort.key,
@@ -162,6 +166,16 @@ const LeaveList = () => {
               onChange={(e) => setEndDate(e.target.value)}
               errorFalse
             />
+          </Grid>
+          <Grid item xs={12} md={4} lg={3}>
+            <FormControl sx={{ width: '100%' }}>
+              <FormLabel>Select Status</FormLabel>
+              <Select
+                value={status}
+                options={actionStatus}
+                onChange={(value) => setStatus(value)}
+              />
+            </FormControl>
           </Grid>
         </FilterLayout>
 
