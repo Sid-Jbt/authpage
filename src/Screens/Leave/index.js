@@ -36,7 +36,7 @@ const LeaveList = () => {
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (!isDialogOpen || !isDeleteDialogOpen) {
+    if (!isDialogOpen || !isDeleteDialogOpen || isViewLeaveDialogOpen) {
       GetLeaveList(
         {
           limit,
@@ -58,7 +58,7 @@ const LeaveList = () => {
       );
     }
     return () => {};
-  }, [isDialogOpen, page, sort, filter, isDeleteDialogOpen]);
+  }, [isDialogOpen, page, sort, filter, isDeleteDialogOpen, isViewLeaveDialogOpen]);
 
   const handleClear = () => {
     setEndDate('');
@@ -197,15 +197,15 @@ const LeaveList = () => {
                     toDate: data.toDate,
                     noOfDays: data.noOfDays,
                     approvedBy: data.approvedBy,
-                    status: data.status,
                     reason: data.reason.replace(/(<([^>]+)>)/gi, ''),
-                    id: data.id
+                    id: data.id,
+                    ...(value === 'view' && { status: data.status })
                   };
+                  setSelectedData(setViewData);
                   if (value === 'edit') {
                     setIsEdit(true);
                     setIsDialogOpen(true);
                   } else if (value === 'view') {
-                    setSelectedData(setViewData);
                     setIsViewLeaveDialogOpen(true);
                   }
                 }
@@ -291,7 +291,7 @@ const LeaveList = () => {
                         status: 'approved',
                         comment: ''
                       },
-                      id: selectedData
+                      id: selectedData.id
                     },
                     () => setIsViewLeaveDialogOpen(false)
                   )
@@ -303,7 +303,7 @@ const LeaveList = () => {
                         status: 'reject',
                         comment: ''
                       },
-                      id: selectedData
+                      id: selectedData.id
                     },
                     () => setIsViewLeaveDialogOpen(false)
                   )

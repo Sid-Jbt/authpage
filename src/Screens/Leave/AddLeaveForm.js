@@ -37,9 +37,10 @@ const AddLeaveForm = ({
           selectType: values.selectType.value,
           fromDate: values.fromDate,
           toDate: values.selectType.value === 'full' ? values.toDate : values.fromDate,
-          reason: values.reason
+          reason: values.reason,
+          ...(isEdit && { id: selectedData.id })
         };
-        GetLeaveAddUpdate({ data: formData, selectedData }, (res) => {
+        GetLeaveAddUpdate(formData, (res) => {
           const { status } = res.data;
           if (status) {
             handleDialog();
