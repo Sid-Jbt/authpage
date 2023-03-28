@@ -56,8 +56,8 @@ const ViewSupportTicketDetails = ({ data, approveRejectReason }) => {
         <Grid item xs={12}>
           <FormField
             type="textarea"
-            placeholder="Enter the reason of approve or reject message"
-            label="Reason of approve or reject message"
+            placeholder="Reason"
+            label="Reason"
             defaultValue={viewData.reason}
             onChange={(event) => approveRejectReason(event.target.value)}
             multiline
