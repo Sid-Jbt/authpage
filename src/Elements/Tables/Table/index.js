@@ -280,23 +280,21 @@ const Table = ({
             {renderRows && renderRows.length > 0 ? (
               <>
                 {renderRows}
-                {renderRows && rowsCount > 10 && (
-                  <TableRow>
-                    <TableCell
-                      colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
-                    >
-                      <Pagination
-                        rows={rowsCount}
-                        initialPage={initialPage}
-                        onChangePage={(page) => onChangePage(page)}
-                        rowsPerPage={rowsPerPage}
-                        onRowsPerPageChange={(rowsPage) => {
-                          onRowsPerPageChange(rowsPage);
-                        }}
-                      />
-                    </TableCell>
-                  </TableRow>
-                )}
+                <TableRow>
+                  <TableCell
+                    colSpan={isChecked ? renderColumns.length + 2 : renderColumns.length + 1}
+                  >
+                    <Pagination
+                      rows={rowsCount}
+                      initialPage={initialPage}
+                      onChangePage={(page) => onChangePage(page)}
+                      rowsPerPage={rowsPerPage}
+                      onRowsPerPageChange={(rowsPage) => {
+                        onRowsPerPageChange(rowsPage);
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
               </>
             ) : (
               <TableRow>

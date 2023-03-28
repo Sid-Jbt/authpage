@@ -12,7 +12,7 @@ import DashboardNavbar from './Navbar';
 import Sidenav from './Sidenav';
 import Footer from './Footer';
 
-const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => {
+const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
   const { customization } = useSelector((state) => state);
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -78,7 +78,14 @@ const DashboardLayout = ({ GetDashboard, DashboardData, children, ...rest }) => 
             [breakpoints.up('md')]: { p: 3, pt: 0 }
           })}
         >
-          <Outlet context={{ role: DashboardData.user.role, user: DashboardData.user, ...rest }} />
+          <Outlet
+            context={{
+              role: DashboardData.user.role,
+              user: DashboardData.user,
+              DashboardData,
+              ...rest
+            }}
+          />
         </Box>
         <Footer />
       </Box>

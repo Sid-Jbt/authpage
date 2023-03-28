@@ -9,7 +9,6 @@ import { getSupportTicketPattern } from '../../Routes/routeConfig';
 const ViewLeaveDetails = ({ data, role }) => {
   let labels = [];
   const values = [];
-
   // Convert this form `objectKey` of the object key in to this `object key`
   Object.keys(data).forEach((el) => {
     if (el.match(/[A-Z\s]+/)) {
@@ -19,6 +18,7 @@ const ViewLeaveDetails = ({ data, role }) => {
     } else {
       labels.push(el);
     }
+
     labels = labels.filter((e) => e !== 'id');
     if (role !== 'admin') {
       labels = labels.filter((e) => e !== 'reason');
@@ -57,6 +57,7 @@ const ViewLeaveDetails = ({ data, role }) => {
               multiline
               rows={5}
               errorFalse
+              disabled={data.status === 'reject' || data.status === 'approved'}
             />
           ) : null}
         </Grid>

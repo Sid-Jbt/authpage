@@ -4,12 +4,18 @@ const initialState = {
   user: '',
   profileProgress: '',
   holidayList: '',
-  noticeListL: '',
+  noticeList: '',
   isLoginFirstTime: false,
   todayHours: 0,
   isProfileSetup: true,
   currentWeekHours: 0,
-  currentMonthHours: 0
+  currentMonthHours: 0,
+  totalEmployee: 0,
+  totalPresent: 0,
+  totalAbsent: 0,
+  totalPendingExpense: 0,
+  totalPendingLeave: 0,
+  totalPendingSupportTicket: 0
 };
 
 export default function dashboardReducer(state = initialState, action) {
@@ -20,9 +26,15 @@ export default function dashboardReducer(state = initialState, action) {
         user: action.payload.data.user,
         isLoginFirstTime: action.payload.data.user.loginCount === 1,
         holidayList: action.payload.data.holidayList,
-        noticeListL: action.payload.data.noticeList,
+        noticeList: action.payload.data.noticeList,
         profileProgress: action.payload.data.profileProgress,
         todayHours: action.payload.data.todayHours,
+        totalEmployee: action.payload.data.totalEmployee,
+        totalPresent: action.payload.data.totalPresent,
+        totalAbsent: action.payload.data.totalAbsent,
+        totalPendingExpense: action.payload.data.totalPendingExpense,
+        totalPendingLeave: action.payload.data.totalPendingLeave,
+        totalPendingSupportTicket: action.payload.data.totalPendingSupportTicket,
         currentWeekHours: action.payload.data.currentWeekHours,
         currentMonthHours: action.payload.data.currentMonthHours
       };

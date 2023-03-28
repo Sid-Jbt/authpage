@@ -9,10 +9,10 @@ import {
 import { API_URL, BASE_URL } from '../../api.config';
 import { instance } from '../../index';
 
-async function getExpenseDeleteApi(params) {
+async function getExpenseDeleteApi(id) {
   return instance.request({
     method: 'delete',
-    url: `${BASE_URL + API_URL.EXPENSE_DELETE_URL}/${params.selectedId}`
+    url: `${BASE_URL + API_URL.EXPENSE_DELETE_URL}/${id}`
   });
 }
 

@@ -4,18 +4,16 @@ import Avatar from 'Elements/Avatar';
 import { Grid } from '@mui/material';
 import React from 'react';
 import FormField from 'Elements/FormField';
-// import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getSupportTicketPattern } from '../../Routes/routeConfig';
 
 const ViewExpenseDetails = ({ data, role }) => {
-  // const { role } = useSelector((state) => state.login);
   let labels = [];
   const values = [];
 
   // Convert this form `objectKey` of the object key in to this `object key`
   Object.keys(data).forEach((el) => {
-    if (el !== 'document' && el !== 'comment') {
+    if (el && el !== 'document' && el !== 'comment') {
       if (el.match(/[A-Z\s]+/)) {
         const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
         const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);

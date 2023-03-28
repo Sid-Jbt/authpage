@@ -6,7 +6,7 @@ import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
-import { Priority, SupportTicketStatus } from 'Helpers/Global';
+import { Priority, actionStatus } from 'Helpers/Global';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import DialogMenu from 'Elements/Dialog';
 import TicketCard from 'Components/CardLayouts/StaticCard';
@@ -220,7 +220,7 @@ const supportTicket = () => {
               <FormLabel>Select Status</FormLabel>
               <Select
                 value={status}
-                options={SupportTicketStatus}
+                options={actionStatus}
                 onChange={(value) => setStatus(value)}
               />
             </FormControl>
@@ -278,7 +278,7 @@ const supportTicket = () => {
           <AddSupportTicketForm
             isDialogOpen={isDialogOpen}
             handleDialog={handleDialog}
-            title={isEdit ? 'EDIT YOUR SUPPORT TICKET' : 'ADD NEW SUPPORT TICKET'}
+            title={isEdit ? 'UPDATE SUPPORT TICKET' : 'NEW SUPPORT TICKET'}
             setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             isEdit={isEdit}

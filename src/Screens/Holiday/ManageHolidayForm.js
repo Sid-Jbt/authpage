@@ -17,9 +17,9 @@ const ManageHolidayForm = ({
   isDrawerOpen,
   handleDrawerClose,
   title,
+  isEdit,
   Loading,
   GetHolidayAddUpdate,
-  isEdit,
   selectedData
 }) => (
   <SideDrawer open={Boolean(isDrawerOpen)} onClose={handleDrawerClose} title={title}>
@@ -27,7 +27,7 @@ const ManageHolidayForm = ({
       enableReinitialize
       initialValues={selectedData || initialValues}
       onSubmit={(values, action) => {
-        const data = isEdit ? { values, selectedData } : { values };
+        const data = isEdit ? selectedData : { values };
         GetHolidayAddUpdate(data, (res) => {
           const { status } = res.data;
           if (status) {
