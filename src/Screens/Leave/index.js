@@ -34,6 +34,7 @@ const LeaveList = () => {
   const [allLeave, setAllLeave] = useState([]);
   const [leaveCount, setLeaveCount] = useState({});
   const [status, setStatus] = useState('');
+  const [approveRejectReason, setApproveRejectReason] = useState('');
 
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen || isViewLeaveDialogOpen) {
@@ -191,15 +192,16 @@ const LeaveList = () => {
                 if (res && res.data && res.data.data) {
                   const { data } = res.data;
                   const setViewData = {
+                    id: data.id,
                     leaveType: data.leaveType,
                     selectType: data.selectType,
                     fromDate: data.fromDate,
                     toDate: data.toDate,
                     noOfDays: data.noOfDays,
                     approvedBy: data.approvedBy,
-                    reason: data.reason.replace(/(<([^>]+)>)/gi, ''),
-                    id: data.id,
-                    ...(value === 'view' && { status: data.status })
+                    ...(value === 'view' && { status: data.status }),
+                    message: data.reason.replace(/(<([^>]+)>)/gi, ''),
+                    reason: data.comment
                   };
                   setSelectedData(setViewData);
                   if (value === 'edit') {
@@ -279,7 +281,15 @@ const LeaveList = () => {
           onClose={() => setIsViewLeaveDialogOpen(false)}
           dialogTitle={`Leave Details: ${selectedData.leaveType}`}
           dialogContent={
-            <DialogContent customContent={<ViewLeaveDetails data={selectedData} role={role} />} />
+            <DialogContent
+              customContent={
+                <ViewLeaveDetails
+                  data={selectedData}
+                  role={role}
+                  approveRejectReason={(value) => setApproveRejectReason(value)}
+                />
+              }
+            />
           }
           dialogAction={
             role === 'admin' &&
@@ -294,7 +304,7 @@ const LeaveList = () => {
                     {
                       data: {
                         status: 'approved',
-                        comment: ''
+                        comment: approveRejectReason
                       },
                       id: selectedData.id
                     },
@@ -306,7 +316,7 @@ const LeaveList = () => {
                     {
                       data: {
                         status: 'reject',
-                        comment: ''
+                        comment: approveRejectReason
                       },
                       id: selectedData.id
                     },
