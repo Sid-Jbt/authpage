@@ -20,9 +20,8 @@ import { getExpenseReasonWatcher } from './expense/expenseReason';
 import { getProfileSetupWatcher } from './profileSetup';
 import { getPayslipListWatcher } from './payslip/payslipList';
 import { getAttendanceListWatcher } from './attendance/attendanceList';
-import { getSupportAddWatcher } from './supportTicket/supportAdd';
+import { getSupportAddUpdateWatcher } from './supportTicket/supportAddUpdate';
 import { getSupportListWatcher } from './supportTicket/supportList';
-import { getSupportUpdateWatcher } from './supportTicket/supportUpdate';
 import { getSupportByIdWatcher } from './supportTicket/supportById';
 import { getSupportDeleteWatcher } from './supportTicket/supportDelete';
 import { getSupportReasonWatcher } from './supportTicket/supportReason';
@@ -54,9 +53,8 @@ export default function* rootSaga() {
     getExpenseReasonWatcher(),
     getPayslipListWatcher(),
     getAttendanceListWatcher(),
-    getSupportAddWatcher(),
+    getSupportAddUpdateWatcher(),
     getSupportListWatcher(),
-    getSupportUpdateWatcher(),
     getSupportByIdWatcher(),
     getSupportDeleteWatcher(),
     getSupportReasonWatcher(),

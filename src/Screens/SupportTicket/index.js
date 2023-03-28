@@ -26,9 +26,8 @@ const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
   const {
     role,
-    GetSupportAdd,
+    GetSupportAddUpdate,
     GetSupportList,
-    GetSupportUpdate,
     GetSupportById,
     GetSupportDelete,
     GetSupportReason,
@@ -244,9 +243,9 @@ const supportTicket = () => {
                     date: data.ticketDate,
                     department: data.department,
                     priority: data.priority,
-                    status: data.status,
                     message: data.message.replace(/(<([^>]+)>)/gi, ''),
-                    reason: data.reason
+                    reason: data.reason,
+                    ...(value === 'view' && { status: data.status })
                   };
                   setSelectedData(setViewData);
                   if (value === 'edit') {
@@ -277,13 +276,15 @@ const supportTicket = () => {
         {isDialogOpen && (
           <AddSupportTicketForm
             isDialogOpen={isDialogOpen}
-            handleDialog={handleDialog}
+            handleDialog={() => {
+              setIsDialogOpen(!isDialogOpen);
+              setIsEdit(false);
+              setSelectedData(null);
+            }}
             title={isEdit ? 'UPDATE SUPPORT TICKET' : 'NEW SUPPORT TICKET'}
-            setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
             isEdit={isEdit}
-            GetSupportAdd={GetSupportAdd}
-            GetSupportUpdate={GetSupportUpdate}
+            GetSupportAddUpdate={GetSupportAddUpdate}
             Loading={Loading}
           />
         )}
