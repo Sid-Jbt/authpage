@@ -56,8 +56,8 @@ const ViewLeaveDetails = ({ data, role, approveRejectReason }) => {
           {role === 'admin' ? (
             <FormField
               type="textarea"
-              placeholder="Enter the reason of approve or reject message"
-              label="Reason of approve or reject message"
+              placeholder="Reason"
+              label="Reason"
               defaultValue={data.reason}
               onChange={(event) => approveRejectReason(event.target.value)}
               multiline
