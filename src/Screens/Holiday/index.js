@@ -113,7 +113,8 @@ const Holiday = () => {
                   const { data } = res.data;
                   const setViewData = {
                     title: data.title,
-                    holidayDate: data.holidayDate
+                    holidayDate: data.holidayDate,
+                    id: data.id
                   };
                   setSelectedData(setViewData);
                   if (value === 'edit') {
@@ -167,11 +168,9 @@ const Holiday = () => {
           isDrawerOpen={Boolean(isDrawerOpen)}
           handleDrawerClose={() => handleDrawerClose()}
           title={isEdit ? 'UPDATE HOLIDAY' : 'ADD HOLIDAY'}
-          setIsEdit={(value) => setIsEdit(value)}
           selectedData={selectedData}
           isEdit={isEdit}
           GetHolidayAddUpdate={GetHolidayAddUpdate}
-          GetHolidayById={GetHolidayById}
         />
       </Card>
     </>

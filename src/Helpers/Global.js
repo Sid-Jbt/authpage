@@ -75,9 +75,9 @@ export const Priority = [
 ];
 
 export const Department = [
-  { value: 'HR', label: 'HR' },
+  { value: 'hr', label: 'HR' },
   { value: 'manager', label: 'Manager' },
-  { value: 'team leader', label: 'Team Leader' }
+  { value: 'teamLeader', label: 'Team Leader' }
 ];
 
 export const EventsType = [
@@ -138,7 +138,7 @@ export const buildFormData = (formData, data, parentKey) => {
   }
 };
 
-export const SupportTicketStatus = [
+export const actionStatus = [
   { value: 'approved', label: 'Approved' },
   { value: 'rejected', label: 'Rejected' },
   { value: 'pending', label: 'Pending' }
@@ -154,7 +154,7 @@ export const badgeStatusColor = {
   pending: 'warning',
   declined: 'error',
   approved: 'success',
-  rejected: 'error'
+  reject: 'error'
 };
 
 export const validationMessage = 'Required';
