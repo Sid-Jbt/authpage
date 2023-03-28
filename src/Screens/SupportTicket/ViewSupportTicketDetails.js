@@ -5,26 +5,33 @@ import { Grid } from '@mui/material';
 import FormField from 'Elements/FormField';
 
 const ViewSupportTicketDetails = ({ data, approveRejectReason }) => {
-  delete data.id;
   const labels = [];
   const values = [];
 
-  // Convert this form `objectKey` of the object key in to this `object key`
-  Object.keys(data).forEach((el) => {
-    if (el !== 'reason') {
-      if (el.match(/[A-Z\s]+/)) {
-        const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
-        const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
+  // Remove unwanted key-value pairs from object
+  const viewData = Object.keys(data)
+    .filter((key) => key !== 'subject' && key !== 'id')
+    .reduce((acc, key) => {
+      acc[key] = data[key];
+      return acc;
+    }, {});
 
-        labels.push(newElement);
-      } else {
-        labels.push(el);
-      }
+  // Convert this form `objectKey` of the object key in to this `object key`
+  Object.keys(viewData).forEach((el) => {
+    if (el.match(/[A-Z\s]+/)) {
+      const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
+      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
+
+      labels.push(newElement);
+    } else {
+      labels.push(el);
     }
   });
 
   // Push the object values into the values array
-  Object.values(data).forEach((el) => values.push(el));
+  Object.values(viewData).forEach((el) => {
+    values.push(el);
+  });
 
   // Render the card data items
   const renderItems = labels.map((label, key) => (
@@ -51,11 +58,12 @@ const ViewSupportTicketDetails = ({ data, approveRejectReason }) => {
             type="textarea"
             placeholder="Enter the reason of approve or reject message"
             label="Reason of approve or reject message"
-            defaultValue={data.reason}
+            defaultValue={viewData.reason}
             onChange={(event) => approveRejectReason(event.target.value)}
             multiline
             rows={5}
             errorFalse
+            disabled={data.status === 'reject' || data.status === 'approved'}
           />
         </Grid>
       </Grid>

@@ -77,26 +77,11 @@ const supportTicket = () => {
     return () => {};
   }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewSupportTicketDialogOpen]);
 
-  const handleDialog = () => {
-    setSelectedData(null);
-    setIsDialogOpen(!isDialogOpen);
-  };
-
-  const onDelete = () => {
-    GetSupportDelete(selectedData, () => setIsDeleteDialogOpen(false));
-  };
-
   const handleClear = () => {
     setStartDate('');
     setPriority('');
     setStatus('');
     setSearch('');
-  };
-
-  const handleSupportStatus = (reasonData) => {
-    GetSupportReason({ data: reasonData, id: selectedData.id }, () =>
-      setIsViewSupportTicketDialogOpen(false)
-    );
   };
 
   return (
@@ -147,7 +132,7 @@ const supportTicket = () => {
               })}
               variant="outlined"
               size="small"
-              onClick={handleDialog}
+              onClick={() => setIsDialogOpen(!isDialogOpen)}
             >
               <Icon sx={{ mr: 1 }}>
                 <Add />
@@ -244,8 +229,8 @@ const supportTicket = () => {
                     department: data.department,
                     priority: data.priority,
                     message: data.message.replace(/(<([^>]+)>)/gi, ''),
-                    reason: data.reason,
-                    ...(value === 'view' && { status: data.status })
+                    ...(value === 'view' && { status: data.status }),
+                    reason: data.reason
                   };
                   setSelectedData(setViewData);
                   if (value === 'edit') {
@@ -299,7 +284,12 @@ const supportTicket = () => {
                 rejectTitle="Cancel"
                 approveTitle="Delete"
                 handleReject={() => setIsDeleteDialogOpen(false)}
-                handleApprove={() => onDelete()}
+                handleApprove={() =>
+                  GetSupportDelete(selectedData, () => {
+                    setIsDeleteDialogOpen(false);
+                    setIsEdit(false);
+                  })
+                }
               />
             }
           />
@@ -322,23 +312,36 @@ const supportTicket = () => {
             />
           }
           dialogAction={
-            role === 'admin' && (
+            role === 'admin' &&
+            selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"
                 rejectColor="error"
                 approveTitle="Approve"
                 rejectTitle="Reject"
                 handleApprove={() =>
-                  handleSupportStatus({
-                    status: 'approved',
-                    reason: approveRejectReason
-                  })
+                  GetSupportReason(
+                    {
+                      data: {
+                        status: 'approved',
+                        comment: approveRejectReason
+                      },
+                      id: selectedData.id
+                    },
+                    () => setIsViewSupportTicketDialogOpen(false)
+                  )
                 }
                 handleReject={() =>
-                  handleSupportStatus({
-                    status: 'reject',
-                    reason: approveRejectReason
-                  })
+                  GetSupportReason(
+                    {
+                      data: {
+                        status: 'reject',
+                        comment: approveRejectReason
+                      },
+                      id: selectedData.id
+                    },
+                    () => setIsViewSupportTicketDialogOpen(false)
+                  )
                 }
               />
             )
