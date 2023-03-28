@@ -22,10 +22,12 @@ const PersonalDetails = ({ isEdit, role, props }) => {
       setGender(values.hasOwnProperty('gender') ? values.gender !== null && values.gender : 'male');
     }
   }, []);
+
   const onClickGender = (genderValue) => {
     setGender(genderValue);
     setFieldValue('gender', genderValue);
   };
+
   return (
     <Card>
       <Grid container spacing={1} p={2}>
@@ -79,7 +81,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                 fullWidth
                 id="fatherName"
                 name="fatherName"
-                label="Middle Name"
+                label="Father Name"
                 value={values.fatherName}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -211,7 +213,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   size="large"
                   fullWidth
                   id="dol"
-                  name="dol"
+                  name="dateOfLeave"
                   label="Date Of Leave"
                   disabled
                   value={
@@ -234,7 +236,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               label="Phone Number"
               minLength="9"
               maxLength="14"
-              value={values.phoneNumber}
+              value={values.phoneNumber === null ? '' : values.phoneNumber}
               onChange={handleChange}
               onBlur={handleBlur}
               errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}

@@ -12,6 +12,7 @@ import {
   CurrencyRupeeOutlined,
   PersonOutlined
 } from '@mui/icons-material';
+import moment from 'moment';
 import BankInfo from './components/BankInfo';
 import PersonalDetails from './components/PersonalDetails';
 import Header from './components/Header';
@@ -29,7 +30,10 @@ const profileInitialValues = {
   permanentAddress: '',
   presentAddress: '',
   alternatePhone: '',
-  phoneNumber: ''
+  phoneNumber: '',
+  dob: moment().format('YYYY-MM-DD'),
+  dateOfLeave: moment().format('YYYY-MM-DD'),
+  dateOfJoin: moment().format('YYYY-MM-DD')
 };
 
 const bankInitialValues = {
@@ -76,13 +80,27 @@ const TabsList = [
 ];
 
 const Profile = () => {
-  const { role, user } = useOutletContext();
+  const { role, user, GetProfileSetup } = useOutletContext();
   const [tabIndex, setTabIndex] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
 
+  useEffect(() => {
+    if (role !== 'admin') {
+      profileInitialValues.email = user.email;
+
+      Object.keys(profileInitialValues).map((key) => {
+        profileInitialValues[key] = user.profile[key];
+      });
+
+      Object.keys(bankInitialValues).map((key) => {
+        bankInitialValues[key] = user.bankInfo[key];
+      });
+    }
+  }, []);
+
   const handleSetTabIndex = (event, newValue) => setTabIndex(newValue);
 
-  const handleSetIsEdit = () => setIsEdit(!isEdit);
+  const handleSetIsEdit = () => setIsEdit(true);
 
   const validate = (values) => {
     const errors = {};
@@ -93,6 +111,12 @@ const Profile = () => {
   };
 
   useEffect(() => {}, [user]);
+
+  const onSubmit = (values, actions) => {
+    GetProfileSetup(values);
+    actions.setTouched({});
+    actions.setSubmitting(false);
+  };
 
   return (
     <Box>
@@ -115,7 +139,7 @@ const Profile = () => {
               ? bankInitialValues
               : bankInitialValues
           }
-          onSubmit={() => {}}
+          onSubmit={onSubmit}
           validationSchema={
             tabIndex === 0
               ? profileSchema
@@ -127,53 +151,70 @@ const Profile = () => {
           }
           validate={tabIndex === 0 && validate}
         >
-          {(props) => (
-            <form onSubmit={props.handleSubmit}>
-              <Grid
-                container
-                p={1.5}
-                pl={2}
-                pr={2}
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Grid item>
-                  <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
-                    {tabIndex === 0
-                      ? 'Basic Details'
-                      : role === 'admin' && tabIndex === 1
-                      ? 'Organisation Details'
-                      : role !== 'admin' && tabIndex === 1
-                      ? 'Bank Details'
-                      : 'Salary Details'}
-                  </Typography>
-                </Grid>
-                {tabIndex !== 2 && (
+          {(props) => {
+            const { isSubmitting, handleSubmit } = props;
+
+            return (
+              <form onSubmit={handleSubmit}>
+                <Grid
+                  container
+                  p={1.5}
+                  pl={2}
+                  pr={2}
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
                   <Grid item>
-                    <Button
-                      type="button"
-                      color="info"
-                      variant="contained"
-                      size="small"
-                      onClick={() => handleSetIsEdit()}
-                    >
-                      {!isEdit ? 'Edit' : 'Save'}
-                    </Button>
+                    <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
+                      {tabIndex === 0
+                        ? 'Basic Details'
+                        : role === 'admin' && tabIndex === 1
+                        ? 'Organisation Details'
+                        : role !== 'admin' && tabIndex === 1
+                        ? 'Bank Details'
+                        : 'Salary Details'}
+                    </Typography>
                   </Grid>
-                )}
-              </Grid>
-              <>
-                {tabIndex === 0 && <PersonalDetails isEdit={isEdit} role={role} props={props} />}
-                {role === 'admin' && tabIndex === 1 && (
-                  <OrganisationDetails isEdit={isEdit} role={role} props={props} />
-                )}
-                {role !== 'admin' && tabIndex === 1 && (
-                  <BankInfo isEdit={isEdit} role={role} props={props} />
-                )}
-                {tabIndex === 2 && <SalaryDetails role={role} props={props} />}
-              </>
-            </form>
-          )}
+                  {tabIndex !== 2 &&
+                    (isEdit ? (
+                      <Grid item>
+                        <Button
+                          type="submit"
+                          color="info"
+                          variant="contained"
+                          size="small"
+                          disabled={isSubmitting}
+                        >
+                          Save
+                        </Button>
+                      </Grid>
+                    ) : (
+                      <Grid item>
+                        <Button
+                          type="button"
+                          color="info"
+                          variant="contained"
+                          size="small"
+                          onClick={() => handleSetIsEdit()}
+                        >
+                          Edit
+                        </Button>
+                      </Grid>
+                    ))}
+                </Grid>
+                <>
+                  {tabIndex === 0 && <PersonalDetails isEdit={isEdit} role={role} props={props} />}
+                  {role === 'admin' && tabIndex === 1 && (
+                    <OrganisationDetails isEdit={isEdit} role={role} props={props} />
+                  )}
+                  {role !== 'admin' && tabIndex === 1 && (
+                    <BankInfo isEdit={isEdit} role={role} props={props} />
+                  )}
+                  {tabIndex === 2 && <SalaryDetails role={role} props={props} />}
+                </>
+              </form>
+            );
+          }}
         </Formik>
       </Card>
     </Box>
