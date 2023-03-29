@@ -1,4 +1,4 @@
-import { AppBar, Divider, Grid, Icon, IconButton, Menu, Toolbar, useTheme } from '@mui/material';
+import { AppBar, Divider, Grid, IconButton, Menu, Toolbar, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Box from 'Elements/Box';
 import {
@@ -23,7 +23,7 @@ import CircularProgressWithLabel from 'Elements/CircularProgressWithLabel';
 import { MINI_SIDENAV, LOGOUT } from 'APIs/constants';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
-const DashboardNavbar = ({ user, progress, isMini }) => {
+const DashboardNavbar = ({ user, progress, notification, isMini }) => {
   const customization = useSelector((state) => state.customization);
   const themes = useTheme();
   const dispatch = useDispatch();
@@ -62,29 +62,19 @@ const DashboardNavbar = ({ user, progress, isMini }) => {
         }
       })}
     >
-      <NotificationItem
-        image={<Person />}
-        title={['New message', 'from Laur']}
-        date="13 minutes ago"
-        onClick={handleMenuClose}
-      />
-      <NotificationItem
-        image={<Person />}
-        title={['New album', 'by Travis Scott']}
-        date="1 day"
-        onClick={handleMenuClose}
-      />
-      <NotificationItem
-        color="secondary"
-        image={
-          <Icon fontSize="small" sx={{ color: ({ palette: { white } }) => white.main }}>
-            payment
-          </Icon>
-        }
-        title={['', 'Payment successfully completed']}
-        date="2 days"
-        onClick={handleMenuClose}
-      />
+      {notification && notification.length > 0 ? (
+        notification.map((item, index) => (
+          <NotificationItem
+            key={index}
+            image={<Person />}
+            title={['New message', 'from Laur']}
+            date="13 minutes ago"
+            onClick={handleMenuClose}
+          />
+        ))
+      ) : (
+        <NotificationItem image={<Notifications />} title={['No new Notifications']} />
+      )}
     </Menu>
   );
 

@@ -3,31 +3,37 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import { Grid } from '@mui/material';
 import FormField from 'Elements/FormField';
-import { useSelector } from 'react-redux';
 
-const ViewSupportTicketDetails = ({ info }) => {
-  const { role } = useSelector((state) => state.route);
+const ViewSupportTicketDetails = ({ data, approveRejectReason }) => {
   const labels = [];
   const values = [];
 
-  // Convert this form `objectKey` of the object key in to this `object key`
-  Object.keys(info).forEach((el) => {
-    if (el !== 'message') {
-      if (el.match(/[A-Z\s]+/)) {
-        const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
-        const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
+  // Remove unwanted key-value pairs from object
+  const viewData = Object.keys(data)
+    .filter((key) => key !== 'subject' && key !== 'id')
+    .reduce((acc, key) => {
+      acc[key] = data[key];
+      return acc;
+    }, {});
 
-        labels.push(newElement);
-      } else {
-        labels.push(el);
-      }
+  // Convert this form `objectKey` of the object key in to this `object key`
+  Object.keys(viewData).forEach((el) => {
+    if (el.match(/[A-Z\s]+/)) {
+      const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
+      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
+
+      labels.push(newElement);
+    } else {
+      labels.push(el);
     }
   });
 
   // Push the object values into the values array
-  Object.values(info).forEach((el) => values.push(el));
+  Object.values(viewData).forEach((el) => {
+    values.push(el);
+  });
 
-  // Render the card info items
+  // Render the card data items
   const renderItems = labels.map((label, key) => (
     <Box key={label} display="flex" py={0.5} pr={2}>
       {label !== 'image' && (
@@ -50,13 +56,14 @@ const ViewSupportTicketDetails = ({ info }) => {
         <Grid item xs={12}>
           <FormField
             type="textarea"
-            placeholder="Please Enter the message of approve or reject"
-            label="Message"
-            value={info.message}
+            placeholder="Reason"
+            label="Reason"
+            defaultValue={viewData.reason}
+            onChange={(event) => approveRejectReason(event.target.value)}
             multiline
             rows={5}
             errorFalse
-            disabled={role !== 'admin'}
+            disabled={data.status === 'reject' || data.status === 'approved'}
           />
         </Grid>
       </Grid>
