@@ -10,6 +10,9 @@ import Icon from '@mui/material/Icon';
 import { Edit } from '@mui/icons-material';
 import Select from 'Elements/Select';
 import { WorkingHours } from 'Helpers/Global';
+import { DialogContent } from 'Components/Dialog';
+import CropperImage from 'Components/ImageCrop';
+import DialogMenu from 'Elements/Dialog';
 
 const Organisation = ({ isEdit, props }) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
@@ -18,18 +21,24 @@ const Organisation = ({ isEdit, props }) => {
   const [workingHours, setWorkingHours] = useState(WorkingHours[0]);
   const [smallLogo, setSmallLogo] = useState('');
   const [largeLogo, setLargeLogo] = useState('');
+  const [logoType, setLogoType] = useState('');
+  const [cropperImage, setCropperImage] = useState('');
+  const [cropClose, setCropClose] = useState(false);
 
-  const onClickLogoUpload = (e, logo) => {
-    const file = e.target.files[0];
-    if (logo === 'small') {
-      const url = URL.createObjectURL(file);
-      setSmallLogo(url);
-      setFieldValue('smallLogo', file);
-    } else {
-      const url = URL.createObjectURL(file);
-      setLargeLogo(url);
-      setFieldValue('largeLogo', file);
-    }
+  const onClickLogoUpload = (e, type) => {
+    e.preventDefault();
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCropClose(true);
+      if (type === 'small') {
+        setLogoType('small');
+        setCropperImage(reader.result);
+      } else {
+        setLogoType('large');
+        setCropperImage(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   return (
@@ -38,7 +47,7 @@ const Organisation = ({ isEdit, props }) => {
         <Grid container item xs={12} md="auto" spacing={2}>
           <Grid item xs={12} justifyContent="center">
             <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-              Large Logo
+              Logo (16x9)
             </Typography>
             <Box position="relative">
               <input
@@ -73,7 +82,7 @@ const Organisation = ({ isEdit, props }) => {
           </Grid>
           <Grid item xs={12} justifyContent="center">
             <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-              Small Logo
+              Logo (1x1)
             </Typography>
             <Box position="relative">
               <input
@@ -168,6 +177,39 @@ const Organisation = ({ isEdit, props }) => {
           </Grid>
         </Grid>
       </Grid>
+      <DialogMenu
+        isOpen={cropClose}
+        onClose={() => {
+          setCropClose(false);
+          if (logoType === 'large') {
+            setLargeLogo(largeLogo);
+            setFieldValue('largeLogo', largeLogo);
+          } else {
+            setSmallLogo(smallLogo);
+            setFieldValue('smallLogo', smallLogo);
+          }
+        }}
+        dialogContent={
+          <DialogContent
+            customContent={
+              <CropperImage
+                src={cropperImage}
+                imageType={logoType}
+                getCroppedFile={(file, image, type) => {
+                  if (type === 'large') {
+                    setLargeLogo(image);
+                    setFieldValue('largeLogo', file);
+                  } else {
+                    setSmallLogo(image);
+                    setFieldValue('smallLogo', file);
+                  }
+                  setCropClose(false);
+                }}
+              />
+            }
+          />
+        }
+      />
     </Card>
   );
 };
