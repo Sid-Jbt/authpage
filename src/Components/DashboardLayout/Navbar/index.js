@@ -218,7 +218,9 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
             ) : null}
             <Grid item>
               <Avatar
-                src={user.profilePic && user.profilePic !== null ? user.profilePic : UserPic}
+                src={
+                  user && user.profilePic && user.profilePic !== null ? user.profilePic : UserPic
+                }
                 alt={UserPic}
                 size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'md'}
                 variant="circle"
