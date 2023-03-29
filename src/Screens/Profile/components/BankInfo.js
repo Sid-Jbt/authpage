@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
+import { keyDownValidation } from 'Helpers/Global';
 
 const BankInfo = ({ isEdit, props }) => {
   const { values, touched, errors, handleChange, handleBlur } = props;
@@ -26,6 +27,7 @@ const BankInfo = ({ isEdit, props }) => {
               error={errors.bankName && touched.bankName}
               success={!errors.bankName && touched.bankName}
               disabled={!isEdit}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
         </Grid>
@@ -72,7 +74,7 @@ const BankInfo = ({ isEdit, props }) => {
         <Grid item xs={12} md={6} lg={4}>
           <Box>
             <Input
-              type="text"
+              type="number"
               placeholder="eg. 0123456789012345"
               size="large"
               fullWidth
@@ -86,6 +88,7 @@ const BankInfo = ({ isEdit, props }) => {
               error={errors.accountNumber && touched.accountNumber}
               success={!errors.accountNumber && touched.accountNumber}
               disabled={!isEdit}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
         </Grid>
@@ -106,6 +109,7 @@ const BankInfo = ({ isEdit, props }) => {
               error={errors.ifscCode && touched.ifscCode}
               success={!errors.ifscCode && touched.ifscCode}
               disabled={!isEdit}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
         </Grid>
@@ -126,6 +130,7 @@ const BankInfo = ({ isEdit, props }) => {
               error={errors.panNumber && touched.panNumber}
               success={!errors.panNumber && touched.panNumber}
               disabled={!isEdit}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
         </Grid>
