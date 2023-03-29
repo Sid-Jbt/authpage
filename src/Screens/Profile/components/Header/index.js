@@ -47,7 +47,13 @@ const Header = ({ tabIndex, handleSetTabIndex, TabsList, GetDashboard }) => {
       <Grid container spacing={3} alignItems="center">
         <Grid item>
           <Box position="relative" height="max-content" mx="auto">
-            <Avatar src={profilePicUrl} alt="profile picture" size="xl" variant="rounded" />
+            <Avatar
+              src={profilePicUrl}
+              alt="profile picture"
+              size="xl"
+              variant="rounded"
+              sx={{ borderStyle: 'groove' }}
+            />
             <input
               ref={inputFile}
               type="file"

@@ -18,7 +18,6 @@ const Organisation = ({ isEdit, props }) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const smallLogoInputFile = useRef(null);
   const largeLogoInputFile = useRef(null);
-  const [workingHours, setWorkingHours] = useState(WorkingHours[0]);
   const [smallLogo, setSmallLogo] = useState('');
   const [largeLogo, setLargeLogo] = useState('');
   const [logoType, setLogoType] = useState('');
@@ -132,11 +131,10 @@ const Organisation = ({ isEdit, props }) => {
               <FormLabel> Select Working Hours </FormLabel>
               <Select
                 name="workingHours"
-                value={workingHours}
+                value={values.workingHours}
                 options={WorkingHours}
-                onChange={(selectedHour) => {
-                  setWorkingHours(selectedHour);
-                  setFieldValue('workingHours', selectedHour.value);
+                onChange={(value) => {
+                  setFieldValue('workingHours', value);
                 }}
                 onBlur={handleBlur}
                 isDisabled={!isEdit}
