@@ -223,6 +223,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
                 size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'md'}
                 variant="circle"
                 onClick={handleProfileMenu}
+                sx={{ cursor: 'pointer' }}
               />
             </Grid>
           </Grid>
