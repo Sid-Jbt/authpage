@@ -78,7 +78,11 @@ const Header = ({ tabIndex, handleSetTabIndex, TabsList, GetDashboard }) => {
         </Grid>
         <Grid item>
           <Typography variant="h4" fontWeight="medium">
-            {`${user.profile.firstName} ${user.profile.lastName}`}
+            {`${
+              user && (user.profile.firstName !== null || user.profile.lastName !== null)
+                ? `${user.profile.firstName} ${user.profile.lastName}`
+                : user.email
+            }`}
           </Typography>
           <Typography variant="subtitle2" color="text" fontWeight="light">
             {user.profile.designation}

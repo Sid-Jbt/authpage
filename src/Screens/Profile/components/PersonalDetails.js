@@ -175,8 +175,8 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               name="dob"
               label="Date Of Birth"
               value={
-                values.dob === null
-                  ? moment().format('YYYY-MM-DD')
+                values.dob === undefined || values.dob === null
+                  ? ''
                   : moment(values.dob).format('YYYY-MM-DD')
               }
               onChange={handleChange}
@@ -197,8 +197,8 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                 label="Date Of Join"
                 disabled
                 value={
-                  values.dateOfJoin === null
-                    ? moment().format('DD/MM/YYYY')
+                  values.dateOfJoin === undefined || values.dateOfJoin === null
+                    ? ''
                     : moment(values.dateOfJoin).format('DD/MM/YYYY')
                 }
               />
@@ -217,7 +217,9 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   label="Date Of Leave"
                   disabled
                   value={
-                    values.dateOfLeave === '' ? '' : moment(values.dateOfLeave).format('DD/MM/YYYY')
+                    values.dateOfLeave === undefined || values.dateOfLeave === null
+                      ? ''
+                      : moment(values.dateOfLeave).format('DD/MM/YYYY')
                   }
                 />
               </Box>

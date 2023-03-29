@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid } from '@mui/material';
 import Input from 'Elements/Input';
 import Box from 'Elements/Box';
@@ -24,6 +24,16 @@ const Organisation = ({ isEdit, props }) => {
   const [logoType, setLogoType] = useState('');
   const [cropperImage, setCropperImage] = useState('');
   const [cropClose, setCropClose] = useState(false);
+
+  useEffect(() => {
+    if (values && values.smallLogo !== '' && values.largeLogo !== '') {
+      setSmallLogo(values.smallLogo);
+      setLargeLogo(values.largeLogo);
+    } else {
+      setSmallLogo(team2);
+      setLargeLogo(team2);
+    }
+  }, [smallLogo, largeLogo]);
 
   const onClickLogoUpload = (e, type) => {
     e.preventDefault();
@@ -58,11 +68,11 @@ const Organisation = ({ isEdit, props }) => {
                 onChange={(e) => onClickLogoUpload(e, 'large')}
               />
               <Avatar
-                src={largeLogo === '' ? team2 : largeLogo}
+                src={largeLogo}
                 alt="large picture"
                 size="xxl"
                 variant="rounded"
-                sx={{ m: 'auto' }}
+                sx={{ m: 'auto', borderStyle: 'groove' }}
               />
               {isEdit && (
                 <Button
@@ -93,11 +103,11 @@ const Organisation = ({ isEdit, props }) => {
                 onChange={(e) => onClickLogoUpload(e, 'small')}
               />
               <Avatar
-                src={smallLogo === '' ? team2 : smallLogo}
+                src={smallLogo}
                 alt="small picture"
                 size="xxl"
                 variant="rounded"
-                sx={{ m: 'auto' }}
+                sx={{ m: 'auto', borderStyle: 'groove' }}
               />
               {isEdit && (
                 <Button
