@@ -20,6 +20,7 @@ import Icon from '@mui/material/Icon';
 import { RemoveRedEye } from '@mui/icons-material';
 import Badge from 'Elements/Badge';
 import { badgePriorityColor, badgeStatusColor } from 'Helpers/Global';
+import { useOutletContext } from 'react-router';
 
 const Table = ({
   columns,
@@ -39,6 +40,7 @@ const Table = ({
   sortOrder = 'asc',
   handleRequestSort
 }) => {
+  const { role } = useOutletContext();
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
@@ -121,6 +123,11 @@ const Table = ({
     rows &&
     rows.length &&
     rows.map((row, key) => {
+      const isStatusPending =
+        role !== 'admin' && row.hasOwnProperty('status')
+          ? row.status === 'reject' || row.status === 'approved'
+          : false;
+
       const rowKey = `row-${key}`;
       const tableRow = columns.map(({ name, align }) => {
         const color =
@@ -208,7 +215,7 @@ const Table = ({
             </TableCell>
           )}
           {tableRow}
-          {isAction && (
+          {isAction && !isStatusPending && (
             <TableCell sx={{ textAlign: 'center' }}>
               <Action
                 id={row.id}

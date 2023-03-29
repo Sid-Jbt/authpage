@@ -37,9 +37,10 @@ const ExpenseList = () => {
   const [allExpense, setAllExpense] = useState([]);
   const [expenseCount, setExpenseCount] = useState({});
   const [status, setStatus] = useState('');
+  const [approveRejectReason, setApproveRejectReason] = useState('');
 
   useEffect(() => {
-    if (!isDialogOpen || !isDeleteDialogOpen) {
+    if (!isDialogOpen || !isDeleteDialogOpen || isViewExpenseDialogOpen) {
       GetExpenseList(
         {
           limit,
@@ -59,7 +60,7 @@ const ExpenseList = () => {
       );
     }
     return () => {};
-  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen]);
+  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewExpenseDialogOpen]);
 
   const handleClear = () => {
     setSearch('');
@@ -167,14 +168,14 @@ const ExpenseList = () => {
                 if (res && res.data && res.data.data) {
                   const { data } = res.data;
                   const setViewData = {
+                    id: data.id,
                     itemName: data.itemName,
                     purchaseFrom: data.purchaseFrom,
                     purchaseDate: data.purchaseDate,
                     amount: data.amount,
+                    ...(value === 'view' && { status: data.status }),
                     document: data.document,
-                    comment: data.comment,
-                    id: data.id,
-                    ...(value === 'view' && { status: data.status })
+                    comment: data.comment
                   };
                   setSelectedData(setViewData);
                   if (value === 'edit') {
@@ -255,10 +256,19 @@ const ExpenseList = () => {
           onClose={() => setIsViewExpenseDialogOpen(false)}
           dialogTitle={`Expense Details: ${selectedData.itemName}`}
           dialogContent={
-            <DialogContent customContent={<ViewExpenseDetails info={selectedData} role={role} />} />
+            <DialogContent
+              customContent={
+                <ViewExpenseDetails
+                  data={selectedData}
+                  role={role}
+                  approveRejectReason={(value) => setApproveRejectReason(value)}
+                />
+              }
+            />
           }
           dialogAction={
-            role === 'admin' && (
+            role === 'admin' &&
+            selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"
                 rejectColor="error"
@@ -269,9 +279,9 @@ const ExpenseList = () => {
                     {
                       data: {
                         status: 'approved',
-                        comment: ''
+                        comment: approveRejectReason
                       },
-                      id: selectedData
+                      id: selectedData.id
                     },
                     () => setIsViewExpenseDialogOpen(false)
                   )
@@ -281,9 +291,9 @@ const ExpenseList = () => {
                     {
                       data: {
                         status: 'reject',
-                        comment: ''
+                        comment: approveRejectReason
                       },
-                      id: selectedData
+                      id: selectedData.id
                     },
                     () => setIsViewExpenseDialogOpen(false)
                   )

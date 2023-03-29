@@ -81,7 +81,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                 fullWidth
                 id="fatherName"
                 name="fatherName"
-                label="Father Name"
+                label="Middle Name"
                 value={values.fatherName}
                 onChange={handleChange}
                 onBlur={handleBlur}

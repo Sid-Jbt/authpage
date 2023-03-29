@@ -6,11 +6,20 @@ import FormField from 'Elements/FormField';
 import { Link } from 'react-router-dom';
 import { getSupportTicketPattern } from '../../Routes/routeConfig';
 
-const ViewLeaveDetails = ({ data, role }) => {
-  let labels = [];
+const ViewLeaveDetails = ({ data, role, approveRejectReason }) => {
+  const labels = [];
   const values = [];
+
+  // Remove unwanted key-value pairs from object
+  const viewData = Object.keys(data)
+    .filter((key) => key !== 'leaveType' && key !== 'id' && key !== 'reason')
+    .reduce((acc, key) => {
+      acc[key] = data[key];
+      return acc;
+    }, {});
+
   // Convert this form `objectKey` of the object key in to this `object key`
-  Object.keys(data).forEach((el) => {
+  Object.keys(viewData).forEach((el) => {
     if (el.match(/[A-Z\s]+/)) {
       const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
       const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
@@ -18,15 +27,10 @@ const ViewLeaveDetails = ({ data, role }) => {
     } else {
       labels.push(el);
     }
-
-    labels = labels.filter((e) => e !== 'id');
-    if (role !== 'admin') {
-      labels = labels.filter((e) => e !== 'reason');
-    }
   });
 
   // Push the object values into the values array
-  Object.values(data).forEach((el) => values.push(el));
+  Object.values(viewData).forEach((el) => values.push(el));
 
   // Render the card data items
   const renderItems = labels.map((label, key) => (
@@ -52,8 +56,10 @@ const ViewLeaveDetails = ({ data, role }) => {
           {role === 'admin' ? (
             <FormField
               type="textarea"
-              placeholder="Reason approve or reject"
-              value=""
+              placeholder="Reason"
+              label="Reason"
+              defaultValue={data.reason}
+              onChange={(event) => approveRejectReason(event.target.value)}
               multiline
               rows={5}
               errorFalse

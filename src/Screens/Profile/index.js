@@ -96,11 +96,9 @@ const Profile = () => {
         bankInitialValues[key] = user.bankInfo[key];
       });
     }
-  }, []);
+  }, [user]);
 
   const handleSetTabIndex = (event, newValue) => setTabIndex(newValue);
-
-  const handleSetIsEdit = () => setIsEdit(true);
 
   const validate = (values) => {
     const errors = {};
@@ -110,10 +108,15 @@ const Profile = () => {
     return errors;
   };
 
-  useEffect(() => {}, [user]);
-
   const onSubmit = (values, actions) => {
-    GetProfileSetup(values);
+    GetProfileSetup(values, (res) => {
+      const { status } = res.data;
+      if (status) {
+        setIsEdit(false);
+      } else {
+        setIsEdit(true);
+      }
+    });
     actions.setTouched({});
     actions.setSubmitting(false);
   };
@@ -195,7 +198,7 @@ const Profile = () => {
                           color="info"
                           variant="contained"
                           size="small"
-                          onClick={() => handleSetIsEdit()}
+                          onClick={() => setIsEdit(true)}
                         >
                           Edit
                         </Button>

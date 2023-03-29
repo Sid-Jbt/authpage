@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Typography from 'Elements/Typography';
 import UserPic from 'Assets/Images/team-4-800x800.jpg';
 import { Card, Grid, Tab, Tabs, Icon } from '@mui/material';
@@ -6,15 +6,34 @@ import Avatar from 'Elements/Avatar';
 import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 import { Edit } from '@mui/icons-material';
+import { useOutletContext } from 'react-router';
+import { withStateDispatch } from 'Helpers/withStateDispatch';
 
-const Header = ({ tabIndex, handleSetTabIndex, TabsList, role }) => {
+const Header = ({ tabIndex, handleSetTabIndex, TabsList, GetDashboard }) => {
+  const { role, user, GetProfileSetup } = useOutletContext();
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const inputFile = useRef(null);
+
+  useEffect(() => {
+    if (user.profile.profilePic && user.profile.profilePic !== '') {
+      setProfilePicUrl(user.profile.profilePic);
+    } else {
+      setProfilePicUrl(UserPic);
+    }
+  }, [user, profilePicUrl]);
 
   const profilePicUpload = (e) => {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
-    setProfilePicUrl(url);
+    GetProfileSetup({ profilePic: file }, (res) => {
+      const { status } = res.data;
+      if (status) {
+        setProfilePicUrl(url);
+        GetDashboard();
+      } else {
+        setProfilePicUrl(UserPic);
+      }
+    });
   };
 
   return (
@@ -28,12 +47,7 @@ const Header = ({ tabIndex, handleSetTabIndex, TabsList, role }) => {
       <Grid container spacing={3} alignItems="center">
         <Grid item>
           <Box position="relative" height="max-content" mx="auto">
-            <Avatar
-              src={profilePicUrl === '' ? UserPic : profilePicUrl}
-              alt="profile picture"
-              size="xl"
-              variant="rounded"
-            />
+            <Avatar src={profilePicUrl} alt="profile picture" size="xl" variant="rounded" />
             <input
               ref={inputFile}
               type="file"
@@ -64,10 +78,10 @@ const Header = ({ tabIndex, handleSetTabIndex, TabsList, role }) => {
         </Grid>
         <Grid item>
           <Typography variant="h4" fontWeight="medium">
-            Full Name
+            {`${user.profile.firstName} ${user.profile.lastName}`}
           </Typography>
           <Typography variant="subtitle2" color="text" fontWeight="light">
-            Designation
+            {user.profile.designation}
           </Typography>
         </Grid>
         <Grid item xs={12} md={6} lg={5} sx={{ ml: 'auto' }}>
@@ -85,4 +99,4 @@ const Header = ({ tabIndex, handleSetTabIndex, TabsList, role }) => {
     </Card>
   );
 };
-export default Header;
+export default withStateDispatch(Header);
