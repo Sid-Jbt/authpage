@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import { Grid, Card } from '@mui/material';
-import { bankFormSchema, profileSchema, organisationProfileSchema } from 'Helpers/ValidationSchema';
+import { organisationProfileSchema, userProfileSchema } from 'Helpers/ValidationSchema';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import { useOutletContext } from 'react-router';
@@ -19,6 +19,7 @@ import Header from './components/Header';
 import SalaryDetails from './components/SalaryDetails';
 import OrganisationDetails from './components/OrganisationDetails';
 import { WorkingHours } from '../../Helpers/Global';
+import { withStateDispatch } from '../../Helpers/withStateDispatch';
 
 const profileInitialValues = {
   firstName: '',
@@ -26,6 +27,8 @@ const profileInitialValues = {
   fatherName: '',
   department: '',
   designation: '',
+  employeeCode: '',
+  email: '',
   gender: 'male',
   permanentAddress: '',
   presentAddress: '',
@@ -33,10 +36,7 @@ const profileInitialValues = {
   phoneNumber: '',
   dob: moment().format('YYYY-MM-DD'),
   dateOfLeave: moment().format('YYYY-MM-DD'),
-  dateOfJoin: moment().format('YYYY-MM-DD')
-};
-
-const bankInitialValues = {
+  dateOfJoin: moment().format('YYYY-MM-DD'),
   bankName: '',
   branchName: '',
   accountName: '',
@@ -45,9 +45,21 @@ const bankInitialValues = {
   panNumber: ''
 };
 
-const orgInitialValues = {
-  workingHours: WorkingHours[0].value,
+const adminInitialValues = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  dob: moment().format('YYYY-MM-DD'),
+  dateOfLeave: moment().format('YYYY-MM-DD'),
+  dateOfJoin: moment().format('YYYY-MM-DD'),
+  alternatePhone: '',
+  phoneNumber: '',
+  permanentAddress: '',
+  presentAddress: '',
+  gender: 'male',
+  workingHours: WorkingHours[0],
   organizationAddress: '',
+  organisationName: '',
   largeLogo: '',
   smallLogo: ''
 };
@@ -79,26 +91,25 @@ const TabsList = [
   }
 ];
 
-const Profile = () => {
+const Profile = ({ GetDashboard }) => {
   const { role, user, GetProfileSetup } = useOutletContext();
   const [tabIndex, setTabIndex] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
     if (role !== 'admin') {
-      profileInitialValues.email = user.email;
-
       Object.keys(profileInitialValues).map((key) => {
-        profileInitialValues[key] = user.profile[key];
+        profileInitialValues[key] = user.profile[key] || user.bankInfo[key];
+        profileInitialValues.email = user.email;
       });
-
-      Object.keys(bankInitialValues).map((key) => {
-        bankInitialValues[key] = user.bankInfo[key];
+    } else {
+      Object.keys(adminInitialValues).map((key) => {
+        adminInitialValues[key] = user.profile[key] || user.organisation[key];
+        adminInitialValues.email = user.email;
+        adminInitialValues.organizationAddress = user.organisation.location;
       });
     }
   }, [user]);
-
-  const handleSetTabIndex = (event, newValue) => setTabIndex(newValue);
 
   const validate = (values) => {
     const errors = {};
@@ -109,14 +120,19 @@ const Profile = () => {
   };
 
   const onSubmit = (values, actions) => {
-    GetProfileSetup(values, (res) => {
-      const { status } = res.data;
-      if (status) {
-        setIsEdit(false);
-      } else {
-        setIsEdit(true);
-      }
-    });
+    if (!isEdit) {
+      setIsEdit(true);
+    } else {
+      GetProfileSetup(values, (res) => {
+        const { status } = res.data;
+        if (status) {
+          setIsEdit(false);
+          GetDashboard();
+        } else {
+          setIsEdit(true);
+        }
+      });
+    }
     actions.setTouched({});
     actions.setSubmitting(false);
   };
@@ -128,35 +144,21 @@ const Profile = () => {
         role={role}
         tabIndex={tabIndex}
         TabsList={TabsList}
-        handleSetTabIndex={(event, value) => handleSetTabIndex(event, value)}
+        handleSetTabIndex={(event, value) => setTabIndex(value)}
       />
       <Card sx={{ marginTop: 2 }}>
         <Formik
           enableReinitialize
-          initialValues={
-            tabIndex === 0
-              ? profileInitialValues
-              : role === 'admin' && tabIndex === 1
-              ? orgInitialValues
-              : role !== 'admin' && tabIndex === 1
-              ? bankInitialValues
-              : bankInitialValues
-          }
+          initialValues={role === 'admin' ? adminInitialValues : profileInitialValues}
           onSubmit={onSubmit}
           validationSchema={
-            tabIndex === 0
-              ? profileSchema
-              : role === 'admin ' && tabIndex === 1
-              ? organisationProfileSchema
-              : role !== 'admin' && tabIndex === 1
-              ? bankFormSchema
-              : bankFormSchema
+            isEdit &&
+            (role === 'admin' ? organisationProfileSchema[tabIndex] : userProfileSchema[tabIndex])
           }
           validate={tabIndex === 0 && validate}
         >
           {(props) => {
             const { isSubmitting, handleSubmit } = props;
-
             return (
               <form onSubmit={handleSubmit}>
                 <Grid
@@ -178,32 +180,19 @@ const Profile = () => {
                         : 'Salary Details'}
                     </Typography>
                   </Grid>
-                  {tabIndex !== 2 &&
-                    (isEdit ? (
-                      <Grid item>
-                        <Button
-                          type="submit"
-                          color="info"
-                          variant="contained"
-                          size="small"
-                          disabled={isSubmitting}
-                        >
-                          Save
-                        </Button>
-                      </Grid>
-                    ) : (
-                      <Grid item>
-                        <Button
-                          type="button"
-                          color="info"
-                          variant="contained"
-                          size="small"
-                          onClick={() => setIsEdit(true)}
-                        >
-                          Edit
-                        </Button>
-                      </Grid>
-                    ))}
+                  {tabIndex !== 2 && (
+                    <Grid item>
+                      <Button
+                        type="submit"
+                        color="info"
+                        variant="contained"
+                        size="small"
+                        disabled={isSubmitting}
+                      >
+                        {!isEdit ? 'Edit' : 'Save'}
+                      </Button>
+                    </Grid>
+                  )}
                 </Grid>
                 <>
                   {tabIndex === 0 && <PersonalDetails isEdit={isEdit} role={role} props={props} />}
@@ -224,4 +213,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default withStateDispatch(Profile);
