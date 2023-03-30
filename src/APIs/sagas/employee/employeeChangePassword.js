@@ -14,7 +14,7 @@ async function getEmployeeChangePasswordApi(data) {
   return instance.request({
     method: 'put',
     url: `${BASE_URL + API_URL.EMPLOYEE_CHANGE_PASSWORD_URL}/${id}`,
-    data: rest
+    data: rest.values
   });
 }
 

@@ -76,7 +76,7 @@ const EmployeeDetails = () => {
               {/*   <SalaryInfo /> */}
               {/* </Grid> */}
               <Grid item xs={12}>
-                <ChangePassword />
+                <ChangePassword id={initialValues.id} />
               </Grid>
             </Grid>
           </Box>

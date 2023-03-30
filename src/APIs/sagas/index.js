@@ -11,6 +11,7 @@ import { getEmployeeListWatcher } from './employee/employeeList';
 import { getEmployeeBySlugWatcher } from './employee/employeeBySlug';
 import { getEmployeeUpdateWatcher } from './employee/employeeUpdate';
 import { getEmployeeDeleteWatcher } from './employee/employeeDelete';
+import { getEmployeeDisableWatcher } from './employee/employeeDisable';
 import { getEmployeeChangePasswordWatcher } from './employee/employeeChangePassword';
 import { getLeaveAddUpdateWatcher } from './leave/leaveAddUpdate';
 import { getLeaveListWatcher } from './leave/leaveList';
@@ -51,6 +52,7 @@ export default function* rootSaga() {
     getEmployeeBySlugWatcher(),
     getEmployeeUpdateWatcher(),
     getEmployeeDeleteWatcher(),
+    getEmployeeDisableWatcher(),
     getEmployeeChangePasswordWatcher(),
     getExpenseAddUpdateWatcher(),
     getExpenseListWatcher(),

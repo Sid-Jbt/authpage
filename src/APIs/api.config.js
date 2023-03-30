@@ -14,6 +14,7 @@ export const API_URL = {
   EMPLOYEE_BY_SLUG_URL: '/',
   EMPLOYEE_UPDATE_URL: '/admin/employee',
   EMPLOYEE_DELETE_URL: '/admin/delete',
+  EMPLOYEE_DISABLE_URL: '/admin/disable',
   EMPLOYEE_CHANGE_PASSWORD_URL: '/admin/change-password',
   SUPPORT_ADD_UPDATE_URL: '/user/support-ticket',
   SUPPORT_GET_URL: '/support-ticket/list',

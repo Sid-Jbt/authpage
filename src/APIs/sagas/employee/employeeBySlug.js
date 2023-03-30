@@ -12,7 +12,7 @@ import { instance } from '../../index';
 async function getEmployeeBySlugApi(params) {
   return instance.request({
     method: 'get',
-    url: `${BASE_URL + API_URL.EMPLOYEE_BY_SLUG_URL}/${params.slug}`
+    url: `${BASE_URL + API_URL.EMPLOYEE_BY_SLUG_URL}${params.slug}`
   });
 }
 function* getEmployeeBySlugAction(action) {

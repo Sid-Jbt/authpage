@@ -131,11 +131,8 @@ const Table = ({
       const rowKey = `row-${key}`;
       const tableRow = columns.map(({ name, align }) => {
         const color =
-          name === 'priority'
-            ? badgePriorityColor[row.priority]
-            : name === 'status'
-            ? badgeStatusColor[row.status]
-            : 'info';
+          (name === 'priority' && badgePriorityColor[row.priority]) ||
+          (name === 'status' && badgeStatusColor[row.status]);
         let template;
         if (Array.isArray(row[name])) {
           template = (
@@ -175,11 +172,11 @@ const Table = ({
                 verticalAlign: 'middle'
               })}
             >
-              {name === 'priority' || name === 'status' ? (
+              {name === 'priority' || name === 'status' || name === 'isActive' ? (
                 <Badge
                   variant="gradient"
-                  badgeContent={row[name]}
-                  color={color}
+                  badgeContent={row[name] || (row[name] === 0 ? 'Active' : 'Disabled')}
+                  color={color || (row[name] === 0 ? 'success' : 'error')}
                   size="xs"
                   container
                   customWidth={100}
