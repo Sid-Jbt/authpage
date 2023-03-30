@@ -34,7 +34,8 @@ import {
   getHolidayAddUpdate,
   getHolidayById,
   getHolidayDelete,
-  getChangePassword
+  getChangePassword,
+  getEmployeeDisable
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -51,6 +52,8 @@ const mapDispatchToProps = (dispatch) => ({
   GetEmployeeList: (data, resolve, reject) => dispatch(getEmployeeList(data, resolve, reject)),
   GetEmployeeBySlug: (data, resolve, reject) => dispatch(getEmployeeBySlug(data, resolve, reject)),
   GetEmployeeUpdate: (data, resolve, reject) => dispatch(getEmployeeUpdate(data, resolve, reject)),
+  GetEmployeeDisable: (data, resolve, reject) =>
+    dispatch(getEmployeeDisable(data, resolve, reject)),
   GetEmployeeDelete: (data, resolve, reject) => dispatch(getEmployeeDelete(data, resolve, reject)),
   GetEmployeeChangePassword: (data, resolve, reject) =>
     dispatch(getEmployeeChangePassword(data, resolve, reject)),

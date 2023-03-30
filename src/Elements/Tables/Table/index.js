@@ -175,7 +175,9 @@ const Table = ({
               {name === 'priority' || name === 'status' || name === 'isActive' ? (
                 <Badge
                   variant="gradient"
-                  badgeContent={row[name] || (row[name] === 0 ? 'Active' : 'Disabled')}
+                  badgeContent={
+                    (row[name] === 0 && 'Active') || (row[name] === 1 && 'Disabled') || row[name]
+                  }
                   color={color || (row[name] === 0 ? 'success' : 'error')}
                   size="xs"
                   container

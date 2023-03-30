@@ -11,6 +11,7 @@ export * from './employee/employeeList';
 export * from './employee/employeeAdd';
 export * from './employee/employeeBySlug';
 export * from './employee/employeeUpdate';
+export * from './employee/employeeDisable';
 export * from './employee/employeeChangePassword';
 export * from './employee/employeeDelete';
 export * from './expense/expenseAddUpdate';

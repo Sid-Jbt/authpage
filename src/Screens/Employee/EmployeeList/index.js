@@ -9,11 +9,13 @@ import Select from 'Elements/Select';
 import { Roles } from 'Helpers/Global';
 import { useNavigate, useOutletContext } from 'react-router';
 import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
+import DialogMenu from 'Elements/Dialog';
+import { DialogAction, DialogContent } from 'Components/Dialog';
 import AddEmployeeForm from './AddEmployeeForm';
 import employeeListData from './data/employeeListData';
 
 const EmployeeList = () => {
-  const { role, GetEmployeeAdd, GetEmployeeList, Loading } = useOutletContext();
+  const { role, GetEmployeeAdd, GetEmployeeList, GetEmployeeDisable, Loading } = useOutletContext();
   const { columns: prCols } = employeeListData;
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -27,9 +29,11 @@ const EmployeeList = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [filter, setFilter] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
+  const [isActiveDialogOpen, setIsActiveDialogOpen] = useState(false);
 
   useEffect(() => {
-    if (!isDialogOpen) {
+    if (!isDialogOpen || !isActiveDialogOpen) {
       GetEmployeeList(
         {
           limit,
@@ -50,9 +54,8 @@ const EmployeeList = () => {
       );
     }
     return () => {};
-  }, [isDialogOpen, filter, page, sort]);
+  }, [isDialogOpen, isActiveDialogOpen, filter, page, sort]);
 
-  // After clear need to call GetEmployeeList
   const handleClear = () => {
     setEndDate('');
     setStartDate('');
@@ -89,7 +92,7 @@ const EmployeeList = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={(e) => setSearch(e.target.value.trim())}
+          handleSearch={(e) => setSearch(e.target.value)}
           handleClear={handleClear}
           onClickSearch={() => {
             setFilter(!filter);
@@ -138,14 +141,22 @@ const EmployeeList = () => {
         <Table
           columns={prCols}
           rows={allEmployee}
-          onClickAction={(key, value) =>
-            key === 'edit' && navigate(getEmployeeDetailsPattern(value.id))
-          }
           rowsCount={employeeCount}
+          onClickAction={(key, value) => {
+            if (key === 'edit') {
+              navigate(getEmployeeDetailsPattern(value.slug), { state: { slug: value.slug } });
+            } else if (key === 'deactivate') {
+              setSelectedData({ action: 1, id: value.id });
+              setIsActiveDialogOpen(true);
+            } else if (key === 'activate') {
+              setSelectedData({ action: 0, id: value.id });
+              setIsActiveDialogOpen(true);
+            }
+          }}
           isAction
           options={[
             { title: 'Edit', value: 'edit' },
-            { title: 'Delete', value: 'delete' }
+            { title: 'Deactivate', value: 'deactivate' }
           ]}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
@@ -163,6 +174,35 @@ const EmployeeList = () => {
           handleDialog={() => setIsDialogOpen(false)}
           Loading={Loading}
         />
+
+        {isActiveDialogOpen && (
+          <DialogMenu
+            isOpen={isActiveDialogOpen}
+            onClose={() => setIsActiveDialogOpen(false)}
+            dialogTitle="Employee Account Action"
+            dialogContent={
+              <DialogContent
+                content={`Are you sure you want to ${
+                  selectedData.action === 0 ? 'activate' : 'deactivate'
+                } this?`}
+              />
+            }
+            dialogAction={
+              <DialogAction
+                approveTitle="Yes"
+                rejectTitle="No"
+                approveColor="error"
+                rejectColor="info"
+                handleReject={() => setIsActiveDialogOpen(false)}
+                handleApprove={() =>
+                  GetEmployeeDisable(selectedData, () => {
+                    setIsActiveDialogOpen(false);
+                  })
+                }
+              />
+            }
+          />
+        )}
       </Card>
     </>
   );
