@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid } from '@mui/material';
 import Input from 'Elements/Input';
 import Box from 'Elements/Box';
@@ -10,26 +10,44 @@ import Icon from '@mui/material/Icon';
 import { Edit } from '@mui/icons-material';
 import Select from 'Elements/Select';
 import { WorkingHours } from 'Helpers/Global';
+import { DialogContent } from 'Components/Dialog';
+import CropperImage from 'Components/ImageCrop';
+import DialogMenu from 'Elements/Dialog';
 
 const Organisation = ({ isEdit, props }) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const smallLogoInputFile = useRef(null);
   const largeLogoInputFile = useRef(null);
-  const [workingHours, setWorkingHours] = useState(WorkingHours[0]);
   const [smallLogo, setSmallLogo] = useState('');
   const [largeLogo, setLargeLogo] = useState('');
+  const [logoType, setLogoType] = useState('');
+  const [cropperImage, setCropperImage] = useState('');
+  const [cropClose, setCropClose] = useState(false);
 
-  const onClickLogoUpload = (e, logo) => {
-    const file = e.target.files[0];
-    if (logo === 'small') {
-      const url = URL.createObjectURL(file);
-      setSmallLogo(url);
-      setFieldValue('smallLogo', file);
+  useEffect(() => {
+    if (values && values.smallLogo !== '' && values.largeLogo !== '') {
+      setSmallLogo(values.smallLogo);
+      setLargeLogo(values.largeLogo);
     } else {
-      const url = URL.createObjectURL(file);
-      setLargeLogo(url);
-      setFieldValue('largeLogo', file);
+      setSmallLogo(team2);
+      setLargeLogo(team2);
     }
+  }, [smallLogo, largeLogo]);
+
+  const onClickLogoUpload = (e, type) => {
+    e.preventDefault();
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCropClose(true);
+      if (type === 'small') {
+        setLogoType('small');
+        setCropperImage(reader.result);
+      } else {
+        setLogoType('large');
+        setCropperImage(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   return (
@@ -38,7 +56,7 @@ const Organisation = ({ isEdit, props }) => {
         <Grid container item xs={12} md="auto" spacing={2}>
           <Grid item xs={12} justifyContent="center">
             <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-              Large Logo
+              Logo (16x9)
             </Typography>
             <Box position="relative">
               <input
@@ -49,11 +67,11 @@ const Organisation = ({ isEdit, props }) => {
                 onChange={(e) => onClickLogoUpload(e, 'large')}
               />
               <Avatar
-                src={largeLogo === '' ? team2 : largeLogo}
+                src={largeLogo}
                 alt="large picture"
                 size="xxl"
                 variant="rounded"
-                sx={{ m: 'auto' }}
+                sx={{ m: 'auto', borderStyle: 'groove' }}
               />
               {isEdit && (
                 <Button
@@ -73,7 +91,7 @@ const Organisation = ({ isEdit, props }) => {
           </Grid>
           <Grid item xs={12} justifyContent="center">
             <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-              Small Logo
+              Logo (1x1)
             </Typography>
             <Box position="relative">
               <input
@@ -84,11 +102,11 @@ const Organisation = ({ isEdit, props }) => {
                 onChange={(e) => onClickLogoUpload(e, 'small')}
               />
               <Avatar
-                src={smallLogo === '' ? team2 : smallLogo}
+                src={smallLogo}
                 alt="small picture"
                 size="xxl"
                 variant="rounded"
-                sx={{ m: 'auto' }}
+                sx={{ m: 'auto', borderStyle: 'groove' }}
               />
               {isEdit && (
                 <Button
@@ -113,11 +131,10 @@ const Organisation = ({ isEdit, props }) => {
               <FormLabel> Select Working Hours </FormLabel>
               <Select
                 name="workingHours"
-                value={workingHours}
+                value={values.workingHours}
                 options={WorkingHours}
-                onChange={(selectedHour) => {
-                  setWorkingHours(selectedHour);
-                  setFieldValue('workingHours', selectedHour.value);
+                onChange={(value) => {
+                  setFieldValue('workingHours', value);
                 }}
                 onBlur={handleBlur}
                 isDisabled={!isEdit}
@@ -168,6 +185,39 @@ const Organisation = ({ isEdit, props }) => {
           </Grid>
         </Grid>
       </Grid>
+      <DialogMenu
+        isOpen={cropClose}
+        onClose={() => {
+          setCropClose(false);
+          if (logoType === 'large') {
+            setLargeLogo(largeLogo);
+            setFieldValue('largeLogo', largeLogo);
+          } else {
+            setSmallLogo(smallLogo);
+            setFieldValue('smallLogo', smallLogo);
+          }
+        }}
+        dialogContent={
+          <DialogContent
+            customContent={
+              <CropperImage
+                src={cropperImage}
+                imageType={logoType}
+                getCroppedFile={(file, image, type) => {
+                  if (type === 'large') {
+                    setLargeLogo(image);
+                    setFieldValue('largeLogo', file);
+                  } else {
+                    setSmallLogo(image);
+                    setFieldValue('smallLogo', file);
+                  }
+                  setCropClose(false);
+                }}
+              />
+            }
+          />
+        }
+      />
     </Card>
   );
 };

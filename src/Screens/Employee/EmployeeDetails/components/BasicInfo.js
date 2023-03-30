@@ -7,7 +7,7 @@ import Button from 'Elements/Button';
 import { BasicInfoSchema } from 'Helpers/ValidationSchema';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
-import { Gender } from 'Helpers/Global';
+import { Gender, keyDownValidation } from 'Helpers/Global';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import { Check } from '@mui/icons-material';
 
@@ -139,12 +139,12 @@ const BasicInfo = () => {
                   <Box>
                     <Input
                       type="number"
-                      placeholder="+91 925 532 5324"
+                      placeholder="9255325324"
                       id="phoneNumber"
                       name="phoneNumber"
                       label="Phone Number"
-                      minLength="9"
-                      maxLength="14"
+                      minLength="10"
+                      maxLength="13"
                       value={values.phoneNumber}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -152,7 +152,7 @@ const BasicInfo = () => {
                       error={errors.phoneNumber && touched.phoneNumber}
                       success={!errors.phoneNumber && touched.phoneNumber}
                       onKeyDown={(evt) =>
-                        ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
+                        keyDownValidation.includes(evt.key) && evt.preventDefault()
                       }
                     />
                   </Box>

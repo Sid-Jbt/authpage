@@ -8,7 +8,7 @@ import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { getLoginPattern, loginPattern } from 'Routes/routeConfig';
 import { Formik } from 'formik';
 import { organisationSignupSchema } from 'Helpers/ValidationSchema';
-import { orgNameKeyPress } from '../../../Helpers/Global';
+import { keyDownValidation } from 'Helpers/Global';
 
 export const PROVIDER_DOMAIN = process.env.REACT_APP_PROVIDER_DOMAIN;
 
@@ -87,7 +87,7 @@ const OrganisationSignup = () => {
                   }
                   error={errors.organisationName && touched.organisationName}
                   success={!errors.organisationName && touched.organisationName}
-                  onKeyDown={(evt) => orgNameKeyPress.includes(evt.key) && evt.preventDefault()}
+                  onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                 />
               </Box>
               <Box mb={0.5}>
@@ -120,7 +120,7 @@ const OrganisationSignup = () => {
                   }
                   error={(errors.domain && touched.domain) || domain === 0}
                   success={domain === 1}
-                  onKeyDown={(evt) => orgNameKeyPress.includes(evt.key) && evt.preventDefault()}
+                  onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                 />
               </Box>
               <Box mb={0.5}>

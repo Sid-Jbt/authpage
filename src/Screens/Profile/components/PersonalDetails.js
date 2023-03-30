@@ -11,6 +11,7 @@ import {
 import moment from 'moment';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
+import { keyDownValidation } from '../../../Helpers/Global';
 
 const PersonalDetails = ({ isEdit, role, props }) => {
   const theme = useTheme();
@@ -22,10 +23,12 @@ const PersonalDetails = ({ isEdit, role, props }) => {
       setGender(values.hasOwnProperty('gender') ? values.gender !== null && values.gender : 'male');
     }
   }, []);
+
   const onClickGender = (genderValue) => {
     setGender(genderValue);
     setFieldValue('gender', genderValue);
   };
+
   return (
     <Card>
       <Grid container spacing={1} p={2}>
@@ -173,8 +176,8 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               name="dob"
               label="Date Of Birth"
               value={
-                values.dob === null
-                  ? moment().format('YYYY-MM-DD')
+                values.dob === undefined || values.dob === null
+                  ? ''
                   : moment(values.dob).format('YYYY-MM-DD')
               }
               onChange={handleChange}
@@ -195,8 +198,8 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                 label="Date Of Join"
                 disabled
                 value={
-                  values.dateOfJoin === null
-                    ? moment().format('DD/MM/YYYY')
+                  values.dateOfJoin === undefined || values.dateOfJoin === null
+                    ? ''
                     : moment(values.dateOfJoin).format('DD/MM/YYYY')
                 }
               />
@@ -211,11 +214,13 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   size="large"
                   fullWidth
                   id="dol"
-                  name="dol"
+                  name="dateOfLeave"
                   label="Date Of Leave"
                   disabled
                   value={
-                    values.dateOfLeave === '' ? '' : moment(values.dateOfLeave).format('DD/MM/YYYY')
+                    values.dateOfLeave === undefined || values.dateOfLeave === null
+                      ? ''
+                      : moment(values.dateOfLeave).format('DD/MM/YYYY')
                   }
                 />
               </Box>
@@ -234,15 +239,13 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               label="Phone Number"
               minLength="9"
               maxLength="14"
-              value={values.phoneNumber}
+              value={values.phoneNumber === null ? '' : values.phoneNumber}
               onChange={handleChange}
               onBlur={handleBlur}
               errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
               error={errors.phoneNumber && touched.phoneNumber}
               success={!errors.phoneNumber && touched.phoneNumber}
-              onKeyDown={(evt) =>
-                ['e', 'E', '-', '+', '.'].includes(evt.key) && evt.preventDefault()
-              }
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
             />
           </Box>
@@ -263,9 +266,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               errorText={errors.alternatePhone && touched.alternatePhone && errors.alternatePhone}
               error={errors.alternatePhone && touched.alternatePhone}
               success={!errors.alternatePhone && touched.alternatePhone}
-              onKeyDown={(evt) =>
-                ['e', 'E', '-', '+', '.'].includes(evt.key) && evt.preventDefault()
-              }
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
             />
           </Box>
