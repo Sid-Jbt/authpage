@@ -11,6 +11,7 @@ import {
 import moment from 'moment';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
+import { keyDownValidation } from '../../../Helpers/Global';
 
 const PersonalDetails = ({ isEdit, role, props }) => {
   const theme = useTheme();
@@ -244,9 +245,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
               error={errors.phoneNumber && touched.phoneNumber}
               success={!errors.phoneNumber && touched.phoneNumber}
-              onKeyDown={(evt) =>
-                ['e', 'E', '-', '+', '.'].includes(evt.key) && evt.preventDefault()
-              }
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
             />
           </Box>
@@ -267,9 +266,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               errorText={errors.alternatePhone && touched.alternatePhone && errors.alternatePhone}
               error={errors.alternatePhone && touched.alternatePhone}
               success={!errors.alternatePhone && touched.alternatePhone}
-              onKeyDown={(evt) =>
-                ['e', 'E', '-', '+', '.'].includes(evt.key) && evt.preventDefault()
-              }
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
             />
           </Box>

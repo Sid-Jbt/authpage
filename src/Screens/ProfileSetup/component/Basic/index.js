@@ -9,6 +9,7 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import team2 from 'Assets/Images/team-4-800x800.jpg';
 import { Edit } from '@mui/icons-material';
+import { keyDownValidation } from '../../../../Helpers/Global';
 
 const Basic = ({ role, props }) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
@@ -218,9 +219,7 @@ const Basic = ({ role, props }) => {
                     errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
                     error={errors.phoneNumber && touched.phoneNumber}
                     success={!errors.phoneNumber && touched.phoneNumber}
-                    onKeyDown={(evt) =>
-                      ['e', 'E', '-', '+', '.'].includes(evt.key) && evt.preventDefault()
-                    }
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
               </Grid>
@@ -244,9 +243,7 @@ const Basic = ({ role, props }) => {
                     }
                     error={errors.alternatePhone && touched.alternatePhone}
                     success={!errors.alternatePhone && touched.alternatePhone}
-                    onKeyDown={(evt) =>
-                      ['e', 'E', '-', '+', '.'].includes(evt.key) && evt.preventDefault()
-                    }
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
               </Grid>
