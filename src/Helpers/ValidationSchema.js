@@ -5,9 +5,10 @@ const passwordRegx = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 const numberRegx = /^((\+*)((0[ -]*)*|((91 )*))((\d{12})+|(\d{10})+))|\d{5}([- ]*)\d{6}/;
 const holderNameRegx = /^[a-zA-Z0-9\s]*$/g;
 const accNumberRegx = /^\d{9,18}$/;
-const ifscCodeRegx = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+const ifscCodeRegx = /^[A-Za-z]{4}0[A-Z0-9a-z]{6}$/;
 const organisationName = /^[a-zA-Z0-9\s]{1,80}$/;
 const domainRegx = /^[a-z]+$/;
+const bankName = /^[a-zA-Z][a-zA-Z ]+[a-zA-Z]+$/;
 
 export const loginSchema = yup.object().shape({
   email: yup.string().email('Enter a valid email').required(validationMessage),
@@ -78,7 +79,6 @@ export const profileSchema = yup.object().shape({
   fatherName: yup
     .string()
     .required(validationMessage)
-    .min(3, 'Too Short!')
     .max(50, 'Too Long!')
     .matches(/^[A-Za-z ]*$/, 'Please enter valid father name'),
   designation: yup
@@ -100,7 +100,7 @@ export const profileSchema = yup.object().shape({
 });
 
 export const bankAccountSchema = yup.object().shape({
-  bankName: yup.string().required(validationMessage),
+  bankName: yup.string().required(validationMessage).matches(bankName, 'Only alphabet allow'),
   branchName: yup.string().required(validationMessage),
   accountName: yup.string().matches(holderNameRegx, '').required(validationMessage),
   accountNumber: yup.string().matches(accNumberRegx, '').required(validationMessage),
@@ -184,7 +184,7 @@ export const expenseFormSchema = yup.object().shape({
 });
 
 export const bankFormSchema = yup.object().shape({
-  bankName: yup.string().required(validationMessage),
+  bankName: yup.string().required(validationMessage).matches(bankName, 'Only alphabet allow'),
   branchName: yup.string().required(validationMessage),
   accountName: yup.string().matches(holderNameRegx, '').required(validationMessage),
   accountNumber: yup.string().matches(accNumberRegx, '').required(validationMessage),
@@ -232,6 +232,84 @@ export const organisationSchema = [
   yup.object().shape({})
 ];
 
+export const userProfileSchema = [
+  yup.object().shape({
+    firstName: yup
+      .string()
+      .required(validationMessage)
+      .min(3, 'Too Short!')
+      .max(50, 'Too Long!')
+      .matches(/^[A-Za-z ]*$/, 'Please enter valid first name'),
+    lastName: yup
+      .string()
+      .required(validationMessage)
+      .min(3, 'Too Short!')
+      .max(50, 'Too Long!')
+      .matches(/^[A-Za-z ]*$/, 'Please enter valid last name'),
+    fatherName: yup
+      .string()
+      .required(validationMessage)
+      .max(50, 'Too Long!')
+      .matches(/^[A-Za-z ]*$/, 'Please enter valid father name'),
+    designation: yup
+      .string()
+      .required(validationMessage)
+      .min(3, 'Too Short!')
+      .max(50, 'Too Long!')
+      .matches(/^[A-Za-z ]*$/, 'Please enter valid designation'),
+    phoneNumber: yup
+      .string()
+      .matches(numberRegx, 'Phone number is not valid')
+      .required(validationMessage),
+    alternatePhone: yup
+      .string()
+      .matches(numberRegx, 'Alternative number is not valid')
+      .required(validationMessage),
+    permanentAddress: yup.string().required(validationMessage),
+    presentAddress: yup.string().required(validationMessage)
+  }),
+  yup.object().shape({
+    bankName: yup.string().required(validationMessage).matches(bankName, 'Only alphabet allow'),
+    branchName: yup.string().required(validationMessage),
+    accountName: yup.string().matches(holderNameRegx, '').required(validationMessage),
+    accountNumber: yup.string().matches(accNumberRegx, '').required(validationMessage),
+    ifscCode: yup.string().matches(ifscCodeRegx, '').required(validationMessage),
+    panNumber: yup.string().required(validationMessage)
+  }),
+  yup.object().shape({})
+];
+
+export const organisationProfileSchema = [
+  yup.object().shape({
+    firstName: yup
+      .string()
+      .required(validationMessage)
+      .min(3, 'Too Short!')
+      .max(50, 'Too Long!')
+      .matches(/^[A-Za-z ]*$/, 'Please enter valid first name'),
+    lastName: yup
+      .string()
+      .required(validationMessage)
+      .min(3, 'Too Short!')
+      .max(50, 'Too Long!')
+      .matches(/^[A-Za-z ]*$/, 'Please enter valid last name'),
+    phoneNumber: yup
+      .string()
+      .matches(numberRegx, 'Phone number is not valid')
+      .required(validationMessage),
+    alternatePhone: yup
+      .string()
+      .matches(numberRegx, 'Alternative number is not valid')
+      .required(validationMessage),
+    permanentAddress: yup.string().required(validationMessage),
+    presentAddress: yup.string().required(validationMessage)
+  }),
+  yup.object().shape({
+    organisationName: yup.string().required(validationMessage),
+    organizationAddress: yup.string().required(validationMessage)
+  })
+];
+
 export const organisationSignupSchema = yup.object().shape({
   organisationName: yup
     .string()
@@ -260,11 +338,6 @@ export const organisationSignupSchema = yup.object().shape({
     .min(8, 'Password should be of minimum 8 characters length')
     .max(50, 'Too Long!')
     .required(validationMessage)
-});
-
-export const organisationProfileSchema = yup.object().shape({
-  organisationName: yup.string().required(validationMessage),
-  organizationAddress: yup.string().required(validationMessage)
 });
 
 export const addEmployeeSchema = yup.object().shape({

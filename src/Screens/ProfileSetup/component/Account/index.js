@@ -3,6 +3,7 @@ import { Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
+import { keyDownValidation } from 'Helpers/Global';
 
 const Account = ({ props }) => {
   const { values, touched, errors, handleChange, handleBlur } = props;
@@ -39,6 +40,7 @@ const Account = ({ props }) => {
                     errorText={errors.bankName && touched.bankName && errors.bankName}
                     error={errors.bankName && touched.bankName}
                     success={errors.bankName && touched.bankName}
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
               </Grid>
@@ -98,9 +100,7 @@ const Account = ({ props }) => {
                     }
                     error={errors.accountNumber && touched.accountNumber}
                     success={errors.accountNumber && touched.accountNumber}
-                    onKeyDown={(evt) =>
-                      ['e', 'E', '-', '.'].includes(evt.key) && evt.preventDefault()
-                    }
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
               </Grid>
@@ -121,6 +121,7 @@ const Account = ({ props }) => {
                     errorText={errors.ifscCode && touched.ifscCode && errors.ifscCode}
                     error={errors.ifscCode && touched.ifscCode}
                     success={errors.ifscCode && touched.ifscCode}
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
               </Grid>
@@ -141,6 +142,7 @@ const Account = ({ props }) => {
                     errorText={errors.panNumber && touched.panNumber && errors.panNumber}
                     error={errors.panNumber && touched.panNumber}
                     success={errors.panNumber && touched.panNumber}
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
               </Grid>
