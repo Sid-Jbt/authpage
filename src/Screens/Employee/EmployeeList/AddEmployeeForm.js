@@ -31,7 +31,24 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
           return (
             <form onSubmit={handleSubmit}>
               <Grid container justifyContent="space-between" columnSpacing={2}>
-                <Grid item xs={12}>
+                <Grid item xs={12} md={6}>
+                  <Input
+                    type="text"
+                    placeholder="eg. JBT0001"
+                    size="large"
+                    fullWidth
+                    id="employeeCode"
+                    name="employeeCode"
+                    label="Employee Code"
+                    value={values.employeeCode}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.employeeCode && touched.employeeCode && errors.employeeCode}
+                    error={errors.employeeCode && touched.employeeCode}
+                    success={!errors.employeeCode && touched.employeeCode}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
                   <Input
                     type="date"
                     placeholder="Date Of Join"
