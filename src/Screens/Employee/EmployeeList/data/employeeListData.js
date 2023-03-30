@@ -30,8 +30,8 @@ const empListData = {
       mobileHeader: 'Dol'
     },
     {
-      id: 'status',
-      name: 'status',
+      id: 'isActive',
+      name: 'isActive',
       align: 'center',
       headerName: 'Status',
       mobileHeader: 'Status'

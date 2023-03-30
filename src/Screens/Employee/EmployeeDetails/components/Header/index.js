@@ -5,20 +5,19 @@ import Typography from 'Elements/Typography';
 
 const Header = () => {
   const sidenavItems = [
-    { icon: <InfoTwoTone />, label: 'basic info', href: 'basic-info' },
-    { icon: <AccountBox />, label: 'bank details', href: 'account-info' },
+    { icon: <InfoTwoTone />, label: 'basic info', ref: 'basic-info' },
+    { icon: <AccountBox />, label: 'bank details', ref: 'account-info' },
     // { icon: <CurrencyRupeeTwoTone />, label: 'salary details', href: 'salary-info' },
-    { icon: <PasswordTwoTone />, label: 'change password', href: 'change-password' }
+    { icon: <PasswordTwoTone />, label: 'change password', ref: 'change-password' }
   ];
 
-  const renderSidenavItems = sidenavItems.map(({ icon, label, href }, key) => {
+  const renderSidenavItems = sidenavItems.map(({ icon, label, ref }, key) => {
     const itemKey = `item-${key}`;
 
     return (
       <Box key={itemKey} component="li" pt={key === 0 ? 0 : 1}>
         <Typography
-          component="a"
-          href={`#${href}`}
+          id={ref}
           variant="button"
           fontWeight="regular"
           color="text"
