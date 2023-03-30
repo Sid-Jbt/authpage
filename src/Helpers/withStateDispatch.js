@@ -8,6 +8,9 @@ import {
   getEmployeeAdd,
   getEmployeeList,
   getEmployeeBySlug,
+  getEmployeeUpdate,
+  getEmployeeDelete,
+  getEmployeeChangePassword,
   getExpenseAddUpdate,
   getExpenseList,
   getExpenseDelete,
@@ -47,6 +50,10 @@ const mapDispatchToProps = (dispatch) => ({
   GetEmployeeAdd: (data, resolve, reject) => dispatch(getEmployeeAdd(data, resolve, reject)),
   GetEmployeeList: (data, resolve, reject) => dispatch(getEmployeeList(data, resolve, reject)),
   GetEmployeeBySlug: (data, resolve, reject) => dispatch(getEmployeeBySlug(data, resolve, reject)),
+  GetEmployeeUpdate: (data, resolve, reject) => dispatch(getEmployeeUpdate(data, resolve, reject)),
+  GetEmployeeDelete: (data, resolve, reject) => dispatch(getEmployeeDelete(data, resolve, reject)),
+  GetEmployeeChangePassword: (data, resolve, reject) =>
+    dispatch(getEmployeeChangePassword(data, resolve, reject)),
   GetExpenseAddUpdate: (data, resolve, reject) =>
     dispatch(getExpenseAddUpdate(data, resolve, reject)),
   GetExpenseList: (data, resolve, reject) => dispatch(getExpenseList(data, resolve, reject)),
