@@ -69,7 +69,6 @@ const supportTicket = () => {
             const { data } = res.data;
             setAllSpTicketList(data.rows);
             setSpTicketListCount(data.count);
-            setFilter(false);
           }
         }
       );
@@ -82,6 +81,7 @@ const supportTicket = () => {
     setPriority('');
     setStatus('');
     setSearch('');
+    setFilter(false);
   };
 
   return (

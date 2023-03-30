@@ -65,6 +65,7 @@ const LeaveList = () => {
     setEndDate('');
     setStartDate('');
     setStatus('');
+    setSearch('');
     setFilter(false);
   };
 

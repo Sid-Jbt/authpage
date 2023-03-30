@@ -37,7 +37,6 @@ const Payslip = () => {
         if (res && res.data && res.data.data) {
           setAllPayslipList(res.data.data.rows);
           setPayslipListCount(res.data.data.count);
-          setFilter(false);
         }
       }
     );
@@ -48,6 +47,7 @@ const Payslip = () => {
     setMonth('');
     setYear('');
     setSearch('');
+    setFilter(false);
   };
 
   return (
