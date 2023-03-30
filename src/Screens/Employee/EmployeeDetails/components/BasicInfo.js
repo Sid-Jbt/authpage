@@ -21,7 +21,7 @@ const BasicInfo = () => {
 
   return (
     <Card id="basic-info">
-      <Box p={3} pb={0}>
+      <Box p={2} pb={0}>
         <Typography variant="h5">Basic Info</Typography>
       </Box>
       <Formik

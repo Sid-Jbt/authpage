@@ -28,6 +28,13 @@ const empListData = {
       align: 'center',
       headerName: 'Date Of Leave',
       mobileHeader: 'Dol'
+    },
+    {
+      id: 'status',
+      name: 'status',
+      align: 'center',
+      headerName: 'Status',
+      mobileHeader: 'Status'
     }
   ]
 };

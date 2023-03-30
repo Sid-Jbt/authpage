@@ -1,10 +1,4 @@
-import {
-  AccountBox,
-  CurrencyRupeeTwoTone,
-  DeleteOutlineTwoTone,
-  InfoTwoTone,
-  PasswordTwoTone
-} from '@mui/icons-material';
+import { AccountBox, InfoTwoTone, PasswordTwoTone } from '@mui/icons-material';
 import Card from '@mui/material/Card';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -13,13 +7,8 @@ const Header = () => {
   const sidenavItems = [
     { icon: <InfoTwoTone />, label: 'basic info', href: 'basic-info' },
     { icon: <AccountBox />, label: 'bank details', href: 'account-info' },
-    { icon: <CurrencyRupeeTwoTone />, label: 'salary details', href: 'salary-info' },
-    { icon: <PasswordTwoTone />, label: 'change password', href: 'change-password' },
-    {
-      icon: <DeleteOutlineTwoTone />,
-      label: 'delete account',
-      href: 'delete-account'
-    }
+    // { icon: <CurrencyRupeeTwoTone />, label: 'salary details', href: 'salary-info' },
+    { icon: <PasswordTwoTone />, label: 'change password', href: 'change-password' }
   ];
 
   const renderSidenavItems = sidenavItems.map(({ icon, label, href }, key) => {
