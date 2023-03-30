@@ -92,7 +92,7 @@ const Holiday = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={(e) => setSearch(e.target.value.trim())}
+          handleSearch={(e) => setSearch(e.target.value)}
           handleClear={() => setSearch('')}
           onClickSearch={() => {
             setFilter(!filter);

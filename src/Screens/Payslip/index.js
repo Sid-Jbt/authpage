@@ -60,7 +60,7 @@ const Payslip = () => {
     >
       <FilterLayout
         search={search}
-        handleSearch={(e) => setSearch(e.target.value.trim())}
+        handleSearch={(e) => setSearch(e.target.value)}
         handleClear={handleClear}
         onClickSearch={() => {
           setFilter(!filter);

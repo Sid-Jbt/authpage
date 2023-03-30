@@ -64,6 +64,7 @@ const ExpenseList = () => {
 
   const handleClear = () => {
     setSearch('');
+    setStatus('');
     setFilter(false);
   };
 
@@ -138,7 +139,7 @@ const ExpenseList = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={(e) => setSearch(e.target.value.trim())}
+          handleSearch={(e) => setSearch(e.target.value)}
           handleClear={handleClear}
           onClickSearch={() => {
             setFilter(!filter);

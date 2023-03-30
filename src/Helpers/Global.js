@@ -140,7 +140,7 @@ export const buildFormData = (formData, data, parentKey) => {
 
 export const actionStatus = [
   { value: 'approved', label: 'Approved' },
-  { value: 'rejected', label: 'Rejected' },
+  { value: 'reject', label: 'Rejected' },
   { value: 'pending', label: 'Pending' }
 ];
 
