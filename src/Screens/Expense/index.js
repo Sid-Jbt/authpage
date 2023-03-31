@@ -204,7 +204,7 @@ const ExpenseList = () => {
           onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
           sortKey={sort.key}
           sortOrder={sort.order}
-          handleRequestSort={(event, orderName, orderKey) =>
+          handleRequestSort={(event, orderKey, orderName) =>
             setSort({ order: orderName, key: orderKey })
           }
         />
