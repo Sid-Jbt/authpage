@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import { Add, PendingTwoTone, SummarizeRounded, ThumbDown, ThumbUpAlt } from '@mui/icons-material';
+import {
+  Add,
+  PendingTwoTone,
+  RemoveRedEye,
+  SummarizeRounded,
+  ThumbDown,
+  ThumbUpAlt
+} from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import DialogMenu from 'Elements/Dialog';
@@ -160,6 +167,7 @@ const ExpenseList = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allExpense}
+          badge={['status']}
           onClickAction={(value, { id }) => {
             if (value === 'delete') {
               setSelectedData(id);
@@ -189,14 +197,22 @@ const ExpenseList = () => {
               });
             }
           }}
-          isAction
-          options={
-            role === 'admin'
-              ? [{ title: 'View', value: 'view' }]
-              : [
-                  { title: 'Edit', value: 'edit' },
-                  { title: 'Delete', value: 'delete' }
-                ]
+          isAction={role !== 'admin'}
+          options={[
+            { title: 'Edit', value: 'edit' },
+            { title: 'Delete', value: 'delete' },
+            { title: 'View', value: 'view' }
+          ]}
+          isView={
+            role === 'admin' && [
+              {
+                name: 2,
+                tooltip: 'Click to view',
+                color: 'info',
+                icon: <RemoveRedEye />,
+                value: 'view'
+              }
+            ]
           }
           rowsCount={expenseCount.total}
           initialPage={page}

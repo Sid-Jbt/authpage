@@ -163,6 +163,7 @@ const AttendanceList = () => {
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={attendanceList}
           rowsCount={attendanceListCount.total}
+          badge={['status']}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}

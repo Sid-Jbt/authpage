@@ -36,6 +36,7 @@ const Table = ({
   onRowsPerPageChange,
   sortKey = 'id',
   sortOrder = 'asc',
+  badge = false,
   handleRequestSort
 }) => {
   const { size, fontWeightBold } = typography;
@@ -165,7 +166,7 @@ const Table = ({
                 verticalAlign: 'middle'
               })}
             >
-              {name === 'priority' || name === 'status' ? (
+              {badge && badge.includes(name) ? (
                 <Badge
                   variant="gradient"
                   badgeContent={row[name]}
@@ -232,7 +233,7 @@ const Table = ({
                     sx={{ cursor: 'pointer', fontWeight: 'bold' }}
                     color={item.color}
                     fontSize="small"
-                    onClick={() => onClickAction(item, row)}
+                    onClick={() => onClickAction(item.value, row)}
                   >
                     {item.tooltip ? <Tooltip title={item.tooltip}>{item.icon}</Tooltip> : item.icon}
                   </Icon>
@@ -243,7 +244,7 @@ const Table = ({
                       key={index}
                       sx={{ cursor: 'pointer', fontWeight: 'bold' }}
                       fontSize="small"
-                      onClick={() => onClickAction(item, row)}
+                      onClick={() => onClickAction(item.value, row)}
                     >
                       {item.tooltip ? (
                         <Tooltip title={item.tooltip}>{item.icon}</Tooltip>

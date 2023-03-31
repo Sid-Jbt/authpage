@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import { Add, Pending, SummarizeRounded, ThumbDown, ThumbUp } from '@mui/icons-material';
+import {
+  Add,
+  Pending,
+  RemoveRedEye,
+  SummarizeRounded,
+  ThumbDown,
+  ThumbUp
+} from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
@@ -14,13 +21,6 @@ import { useOutletContext } from 'react-router';
 import supportTicketData from './data/SupportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
-
-const adminSupportOptions = [{ title: 'View', value: 'view' }];
-
-const empSupportOptions = [
-  { title: 'Edit', value: 'edit' },
-  { title: 'Delete', value: 'delete' }
-];
 
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
@@ -214,6 +214,7 @@ const supportTicket = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allSpTicketList}
+          badge={['status', 'priority']}
           onClickAction={(value, { id }) => {
             if (value === 'delete') {
               setSelectedData(id);
@@ -243,8 +244,23 @@ const supportTicket = () => {
               });
             }
           }}
-          isAction
-          options={role === 'admin' ? adminSupportOptions : empSupportOptions}
+          isAction={role !== 'admin'}
+          options={[
+            { title: 'Edit', value: 'edit' },
+            { title: 'Delete', value: 'delete' },
+            { title: 'View', value: 'view' }
+          ]}
+          isView={
+            role === 'admin' && [
+              {
+                name: 2,
+                tooltip: 'Click to view',
+                color: 'info',
+                icon: <RemoveRedEye />,
+                value: 'view'
+              }
+            ]
+          }
           rowsCount={spTicketListCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}

@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Card, Icon, Grid, FormControl, FormLabel } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
-import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
+import {
+  Add,
+  DirectionsRun,
+  Vaccines,
+  CalendarMonth,
+  Celebration,
+  RemoveRedEye
+} from '@mui/icons-material';
 import LeaveCard from 'Components/CardLayouts/StaticCard';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
@@ -184,6 +191,7 @@ const LeaveList = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allLeave}
+          badge={['status']}
           onClickAction={(value, { id }) => {
             if (value === 'delete') {
               setSelectedData(id);
@@ -215,14 +223,22 @@ const LeaveList = () => {
               });
             }
           }}
-          isAction
-          options={
-            role === 'admin'
-              ? [{ title: 'View', value: 'view' }]
-              : [
-                  { title: 'Edit', value: 'edit' },
-                  { title: 'Delete', value: 'delete' }
-                ]
+          isAction={role !== 'admin'}
+          options={[
+            { title: 'Edit', value: 'edit' },
+            { title: 'Delete', value: 'delete' },
+            { title: 'View', value: 'view' }
+          ]}
+          isView={
+            role === 'admin' && [
+              {
+                name: 2,
+                tooltip: 'Click to view',
+                color: 'info',
+                icon: <RemoveRedEye />,
+                value: 'view'
+              }
+            ]
           }
           rowsCount={leaveCount && leaveCount.total}
           initialPage={page}

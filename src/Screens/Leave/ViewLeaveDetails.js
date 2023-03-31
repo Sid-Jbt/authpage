@@ -65,7 +65,18 @@ const ViewLeaveDetails = ({ data, role, approveRejectReason }) => {
               errorFalse
               disabled={data.status === 'reject' || data.status === 'approved'}
             />
-          ) : null}
+          ) : (
+            <FormField
+              type="textarea"
+              placeholder="Reason"
+              label="Reason"
+              defaultValue={data.reason}
+              multiline
+              rows={5}
+              errorFalse
+              disabled
+            />
+          )}
         </Grid>
         {data.status === 'reject' && (
           <Grid item xs={12}>

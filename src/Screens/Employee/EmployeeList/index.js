@@ -143,9 +143,9 @@ const EmployeeList = () => {
           rows={allEmployee}
           rowsCount={employeeCount}
           onClickAction={(key, value) => {
-            setSelectedData({ action: key.value === 'deactivate' ? 1 : 0, id: value.id });
-            setIsActiveDialogOpen(!!(key.value === 'deactivate' || key.value === 'activate'));
-            if (key.value === 'edit') {
+            setSelectedData({ action: key === 'deactivate' ? 1 : 0, id: value.id });
+            setIsActiveDialogOpen(!!(key === 'deactivate' || key === 'activate'));
+            if (key === 'edit') {
               navigate(getEmployeeDetailsPattern(value.slug), { state: { slug: value.slug } });
             }
           }}
