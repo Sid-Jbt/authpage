@@ -10,9 +10,10 @@ import { API_URL, BASE_URL } from '../../api.config';
 import { instance } from '../../index';
 
 async function getEmployeeDisableApi(data) {
+  const { id, action } = data;
   return instance.request({
     method: 'put',
-    url: `${BASE_URL + API_URL.EMPLOYEE_DISABLE_URL}/${data.id}/${data.action}`
+    url: `${BASE_URL + API_URL.EMPLOYEE_DISABLE_URL}/${id}/${action}`
   });
 }
 

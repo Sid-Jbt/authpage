@@ -56,7 +56,7 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
                     fullWidth
                     id="dateOfJoin"
                     name="dateOfJoin"
-                    label="Date Of Join"
+                    label="Onboarding Date"
                     defaultValue={values.dateOfJoin}
                     onChange={handleChange}
                     onBlur={handleBlur}

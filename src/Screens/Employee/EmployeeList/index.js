@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Icon, Grid } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import { Add, EditOutlined, PersonOffRounded, PersonRounded } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
@@ -143,20 +143,34 @@ const EmployeeList = () => {
           rows={allEmployee}
           rowsCount={employeeCount}
           onClickAction={(key, value) => {
-            if (key === 'edit') {
+            setSelectedData({ action: key.value === 'deactivate' ? 1 : 0, id: value.id });
+            setIsActiveDialogOpen(!!(key.value === 'deactivate' || key.value === 'activate'));
+            if (key.value === 'edit') {
               navigate(getEmployeeDetailsPattern(value.slug), { state: { slug: value.slug } });
-            } else if (key === 'deactivate') {
-              setSelectedData({ action: 1, id: value.id });
-              setIsActiveDialogOpen(true);
-            } else if (key === 'activate') {
-              setSelectedData({ action: 0, id: value.id });
-              setIsActiveDialogOpen(true);
             }
           }}
-          isAction
-          options={[
-            { title: 'Edit', value: 'edit' },
-            { title: 'Deactivate', value: 'deactivate' }
+          isView={[
+            {
+              name: 2,
+              tooltip: 'Edit',
+              color: 'info',
+              icon: <EditOutlined />,
+              value: 'edit'
+            },
+            {
+              name: 1,
+              tooltip: 'Click to enable',
+              color: 'error',
+              icon: <PersonOffRounded />,
+              value: 'deactivate'
+            },
+            {
+              name: 0,
+              tooltip: 'Click to disable',
+              color: 'success',
+              icon: <PersonRounded />,
+              value: 'activate'
+            }
           ]}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
