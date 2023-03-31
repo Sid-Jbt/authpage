@@ -63,6 +63,7 @@ const ExpenseList = () => {
   }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewExpenseDialogOpen]);
 
   const handleClear = () => {
+    setStatus('');
     setSearch('');
     setFilter(false);
   };
