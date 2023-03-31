@@ -301,7 +301,7 @@ export const organisationProfileSchema = [
   }),
   yup.object().shape({
     organisationName: yup.string().required(validationMessage),
-    organizationAddress: yup.string().required(validationMessage)
+    location: yup.string().required(validationMessage)
   })
 ];
 
