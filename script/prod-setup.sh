@@ -13,7 +13,7 @@ then
   yarn format:fix
   yarn lint:fix
   echo "Done code format"
-  yarn build
+  yarn build:prod
   echo "Done generated prod build."
 else
    echo "Please provide branch name."
