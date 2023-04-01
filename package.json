@@ -40,7 +40,7 @@
     "serve:local": "cp .env.local .env && DISABLE_ESLINT_PLUGIN=true react-scripts start",
     "serve:stage": "cp .env.stage .env && DISABLE_ESLINT_PLUGIN=true react-scripts start",
     "serve:prod": "cp .env.prod .env && DISABLE_ESLINT_PLUGIN=true react-scripts start",
-    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build && cp .htaccess build/.htaccess",
+    "build": "env-cmd react-scripts build --dev=false && cp .htaccess build/.htaccess",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint:check": "eslint \"./src/**/*.{js,jsx}\"",
