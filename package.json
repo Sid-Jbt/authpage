@@ -36,11 +36,11 @@
     "yup": "0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "serve:local": "cp .env.local .env && react-scripts start",
-    "serve:stage": "cp .env.stage .env && react-scripts start",
-    "serve:prod": "cp .env.prod .env && react-scripts start",
-    "build": "react-scripts build --dev=false && cp .htaccess build/.htaccess",
+    "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
+    "serve:local": "cp .env.local .env && DISABLE_ESLINT_PLUGIN=true react-scripts start",
+    "serve:stage": "cp .env.stage .env && DISABLE_ESLINT_PLUGIN=true react-scripts start",
+    "serve:prod": "cp .env.prod .env && DISABLE_ESLINT_PLUGIN=true react-scripts start",
+    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build --dev=false && cp .htaccess build/.htaccess",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint:check": "eslint \"./src/**/*.{js,jsx}\"",
@@ -77,7 +77,9 @@
   "devDependencies": {
     "babel-eslint": "10.1.0",
     "eslint": "8.0.0",
+    "eslint-config-airbnb": "18.2.1",
     "eslint-config-prettier": "8.3.0",
+    "eslint-config-react-app": "6.0.0",
     "eslint-plugin-import": "2.25.3",
     "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-prettier": "3.4.0",
