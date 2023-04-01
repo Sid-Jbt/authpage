@@ -47,6 +47,7 @@
     "lint:fix": "eslint \"./src/**/*.{js,jsx}\" --fix",
     "format:check": "prettier --check './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "format:fix": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
+    "check-all": "concurrently \"yarn lint:check\" \"yarn format:check\"",
     "prepare": "husky install",
     "prod-setup": "bash script/prod-setup.sh",
     "stage-setup": "bash script/stage-setup.sh"
@@ -76,6 +77,7 @@
   },
   "devDependencies": {
     "babel-eslint": "10.1.0",
+    "concurrently": "6.1.0",
     "eslint": "8.0.0",
     "eslint-config-airbnb": "18.2.1",
     "eslint-config-prettier": "8.3.0",
