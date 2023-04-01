@@ -24,4 +24,4 @@ jobs:
       - name: Validate Code Style
         run: yarn check-all
       - name: Build
-        run: CI=false yarn build
+        run: CI=false yarn build:stage
