@@ -91,7 +91,7 @@ const Header = ({ tabIndex, handleSetTabIndex, TabsList, GetDashboard }) => {
             }`}
           </Typography>
           <Typography variant="subtitle2" color="text" fontWeight="light">
-            {user.profile.designation}
+            {role === 'admin' ? 'Admin' : user.profile.designation}
           </Typography>
         </Grid>
         <Grid item xs={12} md={6} lg={5} sx={{ ml: 'auto' }}>
