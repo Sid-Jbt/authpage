@@ -121,7 +121,7 @@ const Profile = ({ GetDashboard }) => {
         TabsList={TabsList}
         handleSetTabIndex={(event, value) => setTabIndex(value)}
       />
-      <Card sx={{ marginTop: 2 }}>
+      <Card sx={{ marginTop: 2, overflow: 'visible' }}>
         <Formik
           enableReinitialize
           initialValues={{ ...bankInfo, ...organisation, ...profile, email } || initialValues}

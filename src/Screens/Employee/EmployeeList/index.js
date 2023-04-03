@@ -143,7 +143,7 @@ const EmployeeList = () => {
           rows={allEmployee}
           rowsCount={employeeCount}
           onClickAction={(key, value) => {
-            setSelectedData({ action: key === 'deactivate' ? 1 : 0, id: value.id });
+            setSelectedData({ action: key === 'deactivate' ? 0 : 1, id: value.id });
             setIsActiveDialogOpen(!!(key === 'deactivate' || key === 'activate'));
             if (key === 'edit') {
               navigate(getEmployeeDetailsPattern(value.slug), { state: { slug: value.slug } });

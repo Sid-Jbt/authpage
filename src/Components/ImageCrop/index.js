@@ -56,7 +56,7 @@ const CropperImage = ({ src, getCroppedFile, imageType }) => {
       <Cropper
         src={src}
         style={{ height: 400, width: '100%' }}
-        initialAspectRatio={imageType === 'small' ? 1 : 16 / 9}
+        initialAspectRatio={imageType === 'small' ? 1 : 21 / 9}
         guides={false}
         ready={() => {
           setLoading(false);
