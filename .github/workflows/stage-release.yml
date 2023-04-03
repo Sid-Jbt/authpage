@@ -26,7 +26,7 @@ jobs:
       - name: Validate Code Style
         run: yarn check-all
       - name: Build
-        run: CI=false yarn build:stage
+        run: CI=false yarn build
       - name: Deploy Code
         uses: appleboy/ssh-action@master
         with:
