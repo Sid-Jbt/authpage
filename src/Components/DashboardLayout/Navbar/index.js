@@ -105,9 +105,13 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
         title={[
           'Hello,',
           `${
-            user && (user.firstName !== null || user.lastName !== null)
-              ? `${user.firstName} ${user.lastName}`
-              : 'Welcome'
+            user &&
+            (user.firstName === null ||
+              user.firstName === '' ||
+              user.lastName === null ||
+              user.lastName === '')
+              ? 'Welcome'
+              : `${user.firstName} ${user.lastName}`
           }`
         ]}
         disabled
@@ -218,9 +222,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
             ) : null}
             <Grid item>
               <Avatar
-                src={
-                  user && user.profilePic && user.profilePic !== null ? user.profilePic : UserPic
-                }
+                src={user && user.profilePic && user.profilePic !== '' ? user.profilePic : UserPic}
                 alt={UserPic}
                 size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'md'}
                 variant="circle"

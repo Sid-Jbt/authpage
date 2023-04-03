@@ -37,7 +37,6 @@ const Payslip = () => {
         if (res && res.data && res.data.data) {
           setAllPayslipList(res.data.data.rows);
           setPayslipListCount(res.data.data.count);
-          setFilter(false);
         }
       }
     );
@@ -48,6 +47,7 @@ const Payslip = () => {
     setMonth('');
     setYear('');
     setSearch('');
+    setFilter(false);
   };
 
   return (
@@ -60,7 +60,7 @@ const Payslip = () => {
     >
       <FilterLayout
         search={search}
-        handleSearch={(e) => setSearch(e.target.value.trim())}
+        handleSearch={(e) => setSearch(e.target.value)}
         handleClear={handleClear}
         onClickSearch={() => {
           setFilter(!filter);

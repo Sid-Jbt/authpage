@@ -115,7 +115,7 @@ const AttendanceList = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={(e) => setSearch(e.target.value.trim())}
+          handleSearch={(e) => setSearch(e.target.value)}
           handleClear={handleClear}
           onClickSearch={() => {
             setFilter(!filter);
@@ -163,6 +163,7 @@ const AttendanceList = () => {
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={attendanceList}
           rowsCount={attendanceListCount.total}
+          badge={['status']}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
