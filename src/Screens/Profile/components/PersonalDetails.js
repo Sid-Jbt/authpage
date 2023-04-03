@@ -320,7 +320,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
             sx={{ p: 2, pt: 0, pb: 0 }}
             aria-label="font-family"
             name="gender"
-            value={gender}
+            value={values.gender !== null ? values.gender : gender}
             onChange={(event) => onClickGender(event.target.value)}
           >
             <FormControlLabel

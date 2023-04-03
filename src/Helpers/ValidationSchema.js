@@ -238,7 +238,7 @@ export const userProfileSchema = [
     lastName: yup
       .string()
       .required(validationMessage)
-      .min(3, 'Too Short!')
+      .min(1, 'Too Short!')
       .max(50, 'Too Long!')
       .matches(/^[A-Za-z ]*$/, 'Please enter valid last name'),
     fatherName: yup
@@ -285,7 +285,7 @@ export const organisationProfileSchema = [
     lastName: yup
       .string()
       .required(validationMessage)
-      .min(3, 'Too Short!')
+      .min(1, 'Too Short!')
       .max(50, 'Too Long!')
       .matches(/^[A-Za-z ]*$/, 'Please enter valid last name'),
     phoneNumber: yup

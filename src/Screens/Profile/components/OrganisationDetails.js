@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid } from '@mui/material';
 import Input from 'Elements/Input';
 import Box from 'Elements/Box';
@@ -23,16 +23,6 @@ const Organisation = ({ isEdit, props }) => {
   const [logoType, setLogoType] = useState('');
   const [cropperImage, setCropperImage] = useState('');
   const [cropClose, setCropClose] = useState(false);
-
-  useEffect(() => {
-    if (values && values.smallLogo !== '' && values.largeLogo !== '') {
-      setSmallLogo(values.smallLogo);
-      setLargeLogo(values.largeLogo);
-    } else {
-      setSmallLogo(team2);
-      setLargeLogo(team2);
-    }
-  }, [smallLogo, largeLogo]);
 
   const onClickLogoUpload = (e, type) => {
     e.preventDefault();
@@ -67,7 +57,7 @@ const Organisation = ({ isEdit, props }) => {
                 onChange={(e) => onClickLogoUpload(e, 'large')}
               />
               <Avatar
-                src={largeLogo}
+                src={values.largeLogo === '' ? team2 : values.largeLogo}
                 alt="large picture"
                 size="xxl"
                 variant="rounded"
@@ -102,7 +92,7 @@ const Organisation = ({ isEdit, props }) => {
                 onChange={(e) => onClickLogoUpload(e, 'small')}
               />
               <Avatar
-                src={smallLogo}
+                src={values.smallLogo === '' ? team2 : values.smallLogo}
                 alt="small picture"
                 size="xxl"
                 variant="rounded"
@@ -131,7 +121,7 @@ const Organisation = ({ isEdit, props }) => {
               <FormLabel> Select Working Hours </FormLabel>
               <Select
                 name="workingHours"
-                value={values.workingHours}
+                value={values.workingHours !== null ? values.workingHours : WorkingHours[0].value}
                 options={WorkingHours}
                 onChange={(value) => {
                   setFieldValue('workingHours', value);
@@ -167,19 +157,15 @@ const Organisation = ({ isEdit, props }) => {
               placeholder="1303, Shivalik Shilp, Iskcon Cross Rd Ahmedabad"
               size="medium"
               fullWidth
-              id="organizationAddress"
-              name="organizationAddress"
+              id="location"
+              name="location"
               label="Organisation Address"
-              value={values.organizationAddress}
+              value={values.location}
               onChange={handleChange}
               onBlur={handleBlur}
-              errorText={
-                errors.organizationAddress &&
-                touched.organizationAddress &&
-                errors.organizationAddress
-              }
-              error={errors.organizationAddress && touched.organizationAddress}
-              success={!errors.organizationAddress && touched.organizationAddress}
+              errorText={errors.location && touched.location && errors.location}
+              error={errors.location && touched.location}
+              success={!errors.location && touched.location}
               disabled={!isEdit}
             />
           </Grid>
