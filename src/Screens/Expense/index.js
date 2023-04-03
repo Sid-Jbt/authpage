@@ -70,6 +70,7 @@ const ExpenseList = () => {
   }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewExpenseDialogOpen]);
 
   const handleClear = () => {
+    setStatus('');
     setSearch('');
     setStatus('');
     setFilter(false);
@@ -81,7 +82,7 @@ const ExpenseList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
             title="Total Expense"
-            count={expenseCount.totalExpense}
+            count={expenseCount && expenseCount.totalExpense}
             icon={{ color: 'success', component: <SummarizeRounded /> }}
             isPercentage={false}
           />
@@ -89,7 +90,7 @@ const ExpenseList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
             title="Approved"
-            count={expenseCount.approved}
+            count={expenseCount && expenseCount.approved}
             icon={{ color: 'success', component: <ThumbUpAlt /> }}
             isPercentage={false}
           />
@@ -97,7 +98,7 @@ const ExpenseList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
             title="Declined"
-            count={expenseCount.rejected}
+            count={expenseCount && expenseCount.rejected}
             icon={{ color: 'error', component: <ThumbDown /> }}
             isPercentage={false}
           />
@@ -105,7 +106,7 @@ const ExpenseList = () => {
         <Grid item xs={12} md={6} lg={3}>
           <ExpenseCard
             title="Pending"
-            count={expenseCount.pending}
+            count={expenseCount && expenseCount.pending}
             icon={{ color: 'info', component: <PendingTwoTone /> }}
             isPercentage={false}
           />
@@ -214,14 +215,14 @@ const ExpenseList = () => {
               }
             ]
           }
-          rowsCount={expenseCount.total}
+          rowsCount={expenseCount && expenseCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
           onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
           sortKey={sort.key}
           sortOrder={sort.order}
-          handleRequestSort={(event, orderName, orderKey) =>
+          handleRequestSort={(event, orderKey, orderName) =>
             setSort({ order: orderName, key: orderKey })
           }
         />
