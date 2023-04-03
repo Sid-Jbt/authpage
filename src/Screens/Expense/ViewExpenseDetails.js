@@ -10,7 +10,6 @@ const ViewExpenseDetails = ({ data, role, approveRejectReason }) => {
   let labels = [];
   const values = [];
 
-  // Remove unwanted key-value pairs from object
   const viewData = Object.keys(data)
     .filter((key) => key !== 'itemName' && key !== 'id' && key !== 'comment' && key !== 'document')
     .reduce((acc, key) => {
@@ -18,7 +17,6 @@ const ViewExpenseDetails = ({ data, role, approveRejectReason }) => {
       return acc;
     }, {});
 
-  // Convert this form `objectKey` of the object key in to this `object key`
   Object.keys(viewData).forEach((el) => {
     if (el.match(/[A-Z\s]+/)) {
       const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
@@ -27,13 +25,9 @@ const ViewExpenseDetails = ({ data, role, approveRejectReason }) => {
     } else {
       labels.push(el);
     }
-    labels = labels.filter(function (e) {
-      return e !== 'id';
-    });
+    labels = labels.filter((e) => e !== 'id');
     if (role !== 'admin') {
-      labels = labels.filter(function (e) {
-        return e !== 'comment';
-      });
+      labels = labels.filter((e) => e !== 'comment');
     }
   });
 
