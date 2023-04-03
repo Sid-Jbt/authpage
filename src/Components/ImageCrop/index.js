@@ -11,16 +11,27 @@ const CropperImage = ({ src, getCroppedFile, imageType }) => {
   const [scaleX, setScaleX] = useState(1);
   const [scaleY, setScaleY] = useState(1);
 
+  const dataURLtoFile = (dataurl, filename) => {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
+  };
   const handleClick = () => {
     const imageElement = cropperRef?.current;
     const cropper = imageElement?.cropper;
     const img = cropper.getCroppedCanvas().toDataURL();
+
     // convert to file
-    let mimeType = 'image/png';
-    if (img.toLowerCase() !== 'png') {
-      mimeType = 'image/jpeg';
-    }
-    const file = new File([img], 'File name', { type: mimeType });
+    const file = dataURLtoFile(img, 'name.jpeg');
+
     getCroppedFile(file, img, imageType);
   };
   const rotate = () => {

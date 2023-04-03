@@ -92,8 +92,11 @@ const Holiday = () => {
       >
         <FilterLayout
           search={search}
-          handleSearch={(e) => setSearch(e.target.value.trim())}
-          handleClear={() => setSearch('')}
+          handleSearch={(e) => setSearch(e.target.value)}
+          handleClear={() => {
+            setSearch('');
+            setFilter(false);
+          }}
           onClickSearch={() => {
             setFilter(!filter);
           }}

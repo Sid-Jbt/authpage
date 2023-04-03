@@ -1,16 +1,21 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import { Card, Grid } from '@mui/material';
 import { Formik } from 'formik';
-import { bankAccountSchema } from 'Helpers/ValidationSchema';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
-import { SnackbarContext } from 'Context/SnackbarProvider';
-import { Check } from '@mui/icons-material';
+import { useOutletContext } from 'react-router';
+import { keyDownValidation } from 'Helpers/Global';
 
-const BankDetails = () => {
-  const { setSnack } = useContext(SnackbarContext);
+const BankDetails = ({ data }) => {
+  const { GetEmployeeUpdate } = useOutletContext();
+
+  const onSubmit = (values, actions) => {
+    GetEmployeeUpdate(values, () => {});
+    actions.setTouched({});
+    actions.setSubmitting(false);
+  };
 
   return (
     <Card id="account-info">
@@ -18,26 +23,18 @@ const BankDetails = () => {
         <Typography variant="h5">Bank Details</Typography>
       </Box>
       <Formik
-        initialValues={{
-          bankName: '',
-          branchName: '',
-          accountName: '',
-          accountNumber: '',
-          ifscCode: '',
-          panNumber: ''
-        }}
-        onSubmit={(values, actions) => {
-          setSnack({
-            title: 'Success',
-            message: 'Bank details updated successfully',
-            time: false,
-            icon: <Check color="white" />,
-            color: 'success',
-            open: true
-          });
-          actions.setSubmitting(false);
-        }}
-        validationSchema={bankAccountSchema}
+        initialValues={
+          data || {
+            bankName: '',
+            branchName: '',
+            accountName: '',
+            accountNumber: '',
+            ifscCode: '',
+            panNumber: ''
+          }
+        }
+        onSubmit={onSubmit}
+        // validationSchema={bankAccountSchema}
       >
         {(props) => {
           const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =
@@ -56,9 +53,10 @@ const BankDetails = () => {
                       value={values.bankName}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      errorText={errors.bankName && touched.bankName && errors.bankName}
-                      error={errors.bankName && touched.bankName}
                       success={!errors.bankName && touched.bankName}
+                      onKeyDown={(evt) =>
+                        keyDownValidation.includes(evt.key) && evt.preventDefault()
+                      }
                     />
                   </Box>
                 </Grid>
@@ -73,8 +71,6 @@ const BankDetails = () => {
                       value={values.branchName}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      errorText={errors.branchName && touched.branchName && errors.branchName}
-                      error={errors.branchName && touched.branchName}
                       success={!errors.branchName && touched.branchName}
                     />
                   </Box>
@@ -86,12 +82,10 @@ const BankDetails = () => {
                       placeholder="eg. Alen Prior"
                       id="accountName"
                       name="accountName"
-                      label="Account Name"
+                      label="Account Holder Name"
                       value={values.accountName}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      errorText={errors.accountName && touched.accountName && errors.accountName}
-                      error={errors.accountName && touched.accountName}
                       success={!errors.accountName && touched.accountName}
                     />
                   </Box>
@@ -107,11 +101,10 @@ const BankDetails = () => {
                       value={values.accountNumber}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      errorText={
-                        errors.accountNumber && touched.accountNumber && errors.accountNumber
-                      }
-                      error={errors.accountNumber && touched.accountNumber}
                       success={!errors.accountNumber && touched.accountNumber}
+                      onKeyDown={(evt) =>
+                        keyDownValidation.includes(evt.key) && evt.preventDefault()
+                      }
                     />
                   </Box>
                 </Grid>
@@ -126,9 +119,10 @@ const BankDetails = () => {
                       value={values.ifscCode}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      errorText={errors.ifscCode && touched.ifscCode && errors.ifscCode}
-                      error={errors.ifscCode && touched.ifscCode}
                       success={!errors.ifscCode && touched.ifscCode}
+                      onKeyDown={(evt) =>
+                        keyDownValidation.includes(evt.key) && evt.preventDefault()
+                      }
                     />
                   </Box>
                 </Grid>
@@ -143,9 +137,10 @@ const BankDetails = () => {
                       value={values.panNumber}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      errorText={errors.panNumber && touched.panNumber && errors.panNumber}
-                      error={errors.panNumber && touched.panNumber}
                       success={!errors.panNumber && touched.panNumber}
+                      onKeyDown={(evt) =>
+                        keyDownValidation.includes(evt.key) && evt.preventDefault()
+                      }
                     />
                   </Box>
                 </Grid>

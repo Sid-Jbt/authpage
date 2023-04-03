@@ -7,11 +7,12 @@ import { changePasswordSchema } from 'Helpers/ValidationSchema';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
-import { useNavigate } from 'react-router';
+import { useNavigate, useOutletContext } from 'react-router';
 import { getDashboardPattern } from '../../../Routes/routeConfig';
 
-const ChangePasswordSetting = ({ GetChangePassword, Loading }) => {
+const ChangePasswordSetting = ({ Loading }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const { GetChangePassword } = useOutletContext();
   const navigate = useNavigate();
 
   return (

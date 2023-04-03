@@ -17,16 +17,16 @@ const empListData = {
     },
     {
       id: 'dateOfJoin',
-      name: 'dateOfJoin',
+      name: 'joining',
       align: 'center',
-      headerName: 'Date Of Join',
+      headerName: 'Onboarding',
       mobileHeader: 'Doj'
     },
     {
       id: 'dateOfLeave',
       name: 'dateOfLeave',
       align: 'center',
-      headerName: 'Date Of Leave',
+      headerName: 'Reliving',
       mobileHeader: 'Dol'
     }
   ]
