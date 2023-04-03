@@ -105,9 +105,13 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
         title={[
           'Hello,',
           `${
-            user && (user.firstName !== '' || user.lastName !== '')
-              ? `${user.firstName} ${user.lastName}`
-              : 'Welcome'
+            user &&
+            (user.firstName === null ||
+              user.firstName === '' ||
+              user.lastName === null ||
+              user.lastName === '')
+              ? 'Welcome'
+              : `${user.firstName} ${user.lastName}`
           }`
         ]}
         disabled
