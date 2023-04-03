@@ -1,81 +1,59 @@
-import { useContext } from 'react';
-import { Card, Grid } from '@mui/material';
+import { Card, CircularProgress, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import { Formik } from 'formik';
 import { changePasswordSchema } from 'Helpers/ValidationSchema';
-import { SnackbarContext } from 'Context/SnackbarProvider';
-import { Check } from '@mui/icons-material';
+import { useOutletContext } from 'react-router';
+import React from 'react';
+import { withStateDispatch } from 'Helpers/withStateDispatch';
 
-const ChangePassword = () => {
-  const { setSnack } = useContext(SnackbarContext);
-  const passwordRequirements = [
-    'One special characters',
-    'One upper character',
-    'Min 8 characters',
-    'One number',
-    'Change it often'
-  ];
-
-  const renderPasswordRequirements = passwordRequirements.map((item, key) => {
-    const itemKey = `element-${key}`;
-
-    return (
-      <Box key={itemKey} component="li" color="text" fontSize="1.25rem" lineHeight={1}>
-        <Typography variant="button" color="text" fontWeight="regular" verticalAlign="middle">
-          {item}
-        </Typography>
-      </Box>
-    );
-  });
+const ChangePassword = ({ id, Loading }) => {
+  const { GetEmployeeChangePassword } = useOutletContext();
+  const onSubmit = (values, actions) => {
+    const data = { values, id };
+    GetEmployeeChangePassword(data, () => {});
+    actions.setTouched({});
+    actions.setSubmitting(false);
+  };
 
   return (
-    <Card id="change-password">
-      <Box p={3}>
+    <Card id="change-pass">
+      <Box p={3} pb={0}>
         <Typography variant="h5">Change Password</Typography>
       </Box>
       <Formik
         enableReinitialize
-        initialValues={{ currentPassword: '', newPassword: '', confirmNewPassword: '' }}
-        onSubmit={(values, actions) => {
-          setSnack({
-            title: 'Success',
-            message: 'Password changed successfully',
-            time: false,
-            icon: <Check color="white" />,
-            color: 'success',
-            open: true
-          });
-          actions.setSubmitting(false);
-        }}
+        initialValues={{ oldPassword: '', newPassword: '', confirmNewPassword: '' }}
+        onSubmit={onSubmit}
         validationSchema={changePasswordSchema}
       >
         {(props) => {
-          const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } =
+          const { values, touched, errors, handleSubmit, handleChange, handleBlur, isSubmitting } =
             props;
           return (
             <form onSubmit={handleSubmit}>
-              <Box component="form" pb={3} px={3}>
-                <Grid container spacing={0}>
-                  <Grid item xs={12}>
+              <Grid container spacing={1} p={2} justifyContent="flex-end">
+                <Grid item xs={12} md={6} lg={4}>
+                  <Box>
                     <Input
-                      name="currentPassword"
+                      name="oldPassword"
                       placeholder="Current Password"
                       size="large"
                       label="Current Password"
-                      value={values.currentPassword}
+                      value={values.oldPassword}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      errorText={
-                        errors.currentPassword && touched.currentPassword && errors.currentPassword
-                      }
-                      error={errors.currentPassword && touched.currentPassword}
-                      success={!errors.currentPassword && touched.currentPassword}
+                      errorText={errors.oldPassword && touched.oldPassword && errors.oldPassword}
+                      error={errors.oldPassword && touched.oldPassword}
+                      success={!errors.oldPassword && touched.oldPassword}
+                      type="password"
                     />
-                  </Grid>
-                  <Grid item xs={12}>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  <Box>
                     <Input
                       name="newPassword"
                       placeholder="New Password"
@@ -87,9 +65,12 @@ const ChangePassword = () => {
                       errorText={errors.newPassword && touched.newPassword && errors.newPassword}
                       error={errors.newPassword && touched.newPassword}
                       success={!errors.newPassword && touched.newPassword}
+                      type="password"
                     />
-                  </Grid>
-                  <Grid item xs={12}>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  <Box>
                     <Input
                       name="confirmNewPassword"
                       placeholder="Confirm New Password"
@@ -105,39 +86,26 @@ const ChangePassword = () => {
                       }
                       error={errors.confirmNewPassword && touched.confirmNewPassword}
                       success={!errors.confirmNewPassword && touched.confirmNewPassword}
+                      type="password"
                     />
-                  </Grid>
+                  </Box>
                 </Grid>
-                <Box mt={2} mb={1}>
-                  <Typography variant="h5">Password requirements</Typography>
-                </Box>
-                <Box mb={1}>
-                  <Typography variant="body2" color="text">
-                    Please follow this guide for a strong password
-                  </Typography>
-                </Box>
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="flex-end"
-                  flexWrap="wrap"
-                >
-                  <Box component="ul" m={0} pl={3.25} mb={{ xs: 8, sm: 0 }}>
-                    {renderPasswordRequirements}
-                  </Box>
-                  <Box ml="auto">
-                    <Button
-                      variant="gradient"
-                      color="dark"
-                      size="small"
-                      type="submit"
-                      disabled={isSubmitting}
-                    >
-                      Update Password
-                    </Button>
-                  </Box>
-                </Box>
-              </Box>
+                <Grid item xs={12} md={6} lg={4} textAlign="end">
+                  <Button
+                    variant="gradient"
+                    color="dark"
+                    size="small"
+                    type="submit"
+                    disabled={Loading || isSubmitting}
+                  >
+                    {Loading ? (
+                      <CircularProgress disableShrink color="inherit" />
+                    ) : (
+                      'Update Password'
+                    )}
+                  </Button>
+                </Grid>
+              </Grid>
             </form>
           );
         }}
@@ -146,4 +114,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default withStateDispatch(ChangePassword);

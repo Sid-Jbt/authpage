@@ -74,14 +74,25 @@ const ViewExpenseDetails = ({ data, role, approveRejectReason }) => {
               type="textarea"
               placeholder="Reason"
               label="Reason"
-              defaultValue={data.reason}
+              defaultValue={data.comment}
               onChange={(event) => approveRejectReason(event.target.value)}
               multiline
               rows={5}
               errorFalse
               disabled={data.status === 'reject' || data.status === 'approved'}
             />
-          ) : null}
+          ) : (
+            <FormField
+              type="textarea"
+              placeholder="Reason"
+              label="Reason"
+              defaultValue={data.comment}
+              multiline
+              rows={5}
+              errorFalse
+              disabled
+            />
+          )}
         </Grid>
         {data.status === 'rejected' && (
           <Grid item xs={12}>

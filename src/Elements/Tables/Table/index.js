@@ -6,7 +6,8 @@ import {
   TableContainer,
   TableRow,
   TableSortLabel,
-  Checkbox
+  Checkbox,
+  Tooltip
 } from '@mui/material';
 import Avatar from 'Elements/Avatar';
 import Box from 'Elements/Box';
@@ -17,10 +18,8 @@ import Pagination from 'Elements/Pagination';
 import { Action } from 'Elements/Tables/Action';
 import breakpoints from 'Theme/base/breakpoints';
 import Icon from '@mui/material/Icon';
-import { RemoveRedEye } from '@mui/icons-material';
 import Badge from 'Elements/Badge';
 import { badgePriorityColor, badgeStatusColor } from 'Helpers/Global';
-import { useOutletContext } from 'react-router';
 
 const Table = ({
   columns,
@@ -29,8 +28,7 @@ const Table = ({
   isAction = false,
   options,
   onClickAction,
-  isView = false,
-  isDialogAction,
+  isView,
   rowsCount = 0,
   initialPage = 0,
   onChangePage,
@@ -38,9 +36,9 @@ const Table = ({
   onRowsPerPageChange,
   sortKey = 'id',
   sortOrder = 'asc',
+  badge = false,
   handleRequestSort
 }) => {
-  const { role } = useOutletContext();
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
@@ -123,19 +121,12 @@ const Table = ({
     rows &&
     rows.length &&
     rows.map((row, key) => {
-      const isStatusPending =
-        role !== 'admin' && row.hasOwnProperty('status')
-          ? row.status === 'reject' || row.status === 'approved'
-          : false;
-
+      const isStatusPending = row.status === 'reject' || row.status === 'approved';
       const rowKey = `row-${key}`;
       const tableRow = columns.map(({ name, align }) => {
         const color =
-          name === 'priority'
-            ? badgePriorityColor[row.priority]
-            : name === 'status'
-            ? badgeStatusColor[row.status]
-            : 'info';
+          (name === 'priority' && badgePriorityColor[row.priority]) ||
+          (name === 'status' && badgeStatusColor[row.status]);
         let template;
         if (Array.isArray(row[name])) {
           template = (
@@ -175,7 +166,7 @@ const Table = ({
                 verticalAlign: 'middle'
               })}
             >
-              {name === 'priority' || name === 'status' ? (
+              {badge && badge.includes(name) ? (
                 <Badge
                   variant="gradient"
                   badgeContent={row[name]}
@@ -226,15 +217,44 @@ const Table = ({
             </TableCell>
           )}
           {isView && (
-            <TableCell sx={{ textAlign: 'center' }}>
-              <Icon
-                id={row.id}
-                sx={{ cursor: 'pointer', fontWeight: 'bold' }}
-                fontSize="small"
-                onClick={() => isDialogAction(row)}
-              >
-                <RemoveRedEye />
-              </Icon>
+            <TableCell
+              sx={{
+                textAlign: 'center',
+                display: 'flex',
+                gap: '10px',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              {isView.map((item, index) =>
+                row.isActive === item.name ? (
+                  <Icon
+                    key={index}
+                    sx={{ cursor: 'pointer', fontWeight: 'bold' }}
+                    color={item.color}
+                    fontSize="small"
+                    onClick={() => onClickAction(item.value, row)}
+                  >
+                    {item.tooltip ? <Tooltip title={item.tooltip}>{item.icon}</Tooltip> : item.icon}
+                  </Icon>
+                ) : (
+                  item.name !== 0 &&
+                  item.name !== 1 && (
+                    <Icon
+                      key={index}
+                      sx={{ cursor: 'pointer', fontWeight: 'bold' }}
+                      fontSize="small"
+                      onClick={() => onClickAction(item.value, row)}
+                    >
+                      {item.tooltip ? (
+                        <Tooltip title={item.tooltip}>{item.icon}</Tooltip>
+                      ) : (
+                        item.icon
+                      )}
+                    </Icon>
+                  )
+                )
+              )}
             </TableCell>
           )}
         </TableRow>

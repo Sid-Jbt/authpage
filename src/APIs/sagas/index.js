@@ -5,13 +5,19 @@ import { getLoginWatcher } from './login';
 import { getOrganisationSignupWatcher } from './organisationSignup';
 import { getProfileUpdateWatcher } from './profileUpdate';
 import { getResetPasswordWatcher } from './resetPassword';
+import { getDomainWatcher } from './getDomain';
 import { getEmployeeAddWatcher } from './employee/employeeAdd';
 import { getEmployeeListWatcher } from './employee/employeeList';
 import { getEmployeeBySlugWatcher } from './employee/employeeBySlug';
+import { getEmployeeUpdateWatcher } from './employee/employeeUpdate';
+import { getEmployeeDeleteWatcher } from './employee/employeeDelete';
+import { getEmployeeDisableWatcher } from './employee/employeeDisable';
+import { getEmployeeChangePasswordWatcher } from './employee/employeeChangePassword';
 import { getLeaveAddUpdateWatcher } from './leave/leaveAddUpdate';
 import { getLeaveListWatcher } from './leave/leaveList';
 import { getLeaveDeleteWatcher } from './leave/leaveDelete';
-import { getDomainWatcher } from './getDomain';
+import { getLeaveReasonWatcher } from './leave/leaveReason';
+import { getLeaveByIdWatcher } from './leave/leaveById';
 import { getExpenseAddUpdateWatcher } from './expense/expenseAddUpdate';
 import { getExpenseListWatcher } from './expense/expenseList';
 import { getExpenseDeleteWatcher } from './expense/expenseDelete';
@@ -30,8 +36,6 @@ import { getHolidayAddUpdateWatcher } from './holiday/holidayAddUpdate';
 import { getHolidayByIdWatcher } from './holiday/holidayById';
 import { getHolidayDeleteWatcher } from './holiday/holidayDelete';
 import { getChangePasswordWatcher } from './settings/changePassword';
-import { getLeaveReasonWatcher } from './leave/leaveReason';
-import { getLeaveByIdWatcher } from './leave/leaveById';
 
 export default function* rootSaga() {
   yield all([
@@ -46,6 +50,10 @@ export default function* rootSaga() {
     getEmployeeAddWatcher(),
     getEmployeeListWatcher(),
     getEmployeeBySlugWatcher(),
+    getEmployeeUpdateWatcher(),
+    getEmployeeDeleteWatcher(),
+    getEmployeeDisableWatcher(),
+    getEmployeeChangePasswordWatcher(),
     getExpenseAddUpdateWatcher(),
     getExpenseListWatcher(),
     getExpenseDeleteWatcher(),

@@ -121,16 +121,11 @@ export const BasicInfoSchema = yup.object().shape({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .matches(/^[A-Za-z ]*$/, 'Please enter valid last name'),
-  email: yup.string().email('Must be a valid email address').required(validationMessage),
-  confirmationEmail: yup
-    .string()
-    .oneOf([yup.ref('email'), null], 'Email and Confirmation Email should be the same')
-    .required(validationMessage),
   phoneNumber: yup
     .string()
     .matches(numberRegx, 'Phone number is not valid')
     .required(validationMessage),
-  pAdd: yup.string().required(validationMessage)
+  permanentAddress: yup.string().required(validationMessage)
 });
 
 export const changePasswordSchema = yup.object().shape({
@@ -306,7 +301,7 @@ export const organisationProfileSchema = [
   }),
   yup.object().shape({
     organisationName: yup.string().required(validationMessage),
-    organizationAddress: yup.string().required(validationMessage)
+    location: yup.string().required(validationMessage)
   })
 ];
 

@@ -4,7 +4,7 @@ import Typography from 'Elements/Typography';
 import { Grid } from '@mui/material';
 import FormField from 'Elements/FormField';
 
-const ViewSupportTicketDetails = ({ data, approveRejectReason }) => {
+const ViewSupportTicketDetails = ({ data, role, approveRejectReason }) => {
   const labels = [];
   const values = [];
 
@@ -54,17 +54,30 @@ const ViewSupportTicketDetails = ({ data, approveRejectReason }) => {
       <Grid container spacing={2} alignItems="center" justifyContent="space-between">
         <Grid item>{renderItems}</Grid>
         <Grid item xs={12}>
-          <FormField
-            type="textarea"
-            placeholder="Reason"
-            label="Reason"
-            defaultValue={viewData.reason}
-            onChange={(event) => approveRejectReason(event.target.value)}
-            multiline
-            rows={5}
-            errorFalse
-            disabled={data.status === 'reject' || data.status === 'approved'}
-          />
+          {role === 'admin' ? (
+            <FormField
+              type="textarea"
+              placeholder="Reason"
+              label="Reason"
+              defaultValue={viewData.reason}
+              onChange={(event) => approveRejectReason(event.target.value)}
+              multiline
+              rows={5}
+              errorFalse
+              disabled={data.status === 'reject' || data.status === 'approved'}
+            />
+          ) : (
+            <FormField
+              type="textarea"
+              placeholder="Reason"
+              label="Reason"
+              defaultValue={viewData.reason}
+              multiline
+              rows={5}
+              errorFalse
+              disabled
+            />
+          )}
         </Grid>
       </Grid>
     </>
