@@ -20,6 +20,11 @@ import { getExpenseReasonWatcher } from './expense/expenseReason';
 import { getProfileSetupWatcher } from './profileSetup';
 import { getPayslipListWatcher } from './payslip/payslipList';
 import { getAttendanceListWatcher } from './attendance/attendanceList';
+import { getSupportAddUpdateWatcher } from './supportTicket/supportAddUpdate';
+import { getSupportListWatcher } from './supportTicket/supportList';
+import { getSupportByIdWatcher } from './supportTicket/supportById';
+import { getSupportDeleteWatcher } from './supportTicket/supportDelete';
+import { getSupportReasonWatcher } from './supportTicket/supportReason';
 import { getHolidayListWatcher } from './holiday/holidayList';
 import { getHolidayAddUpdateWatcher } from './holiday/holidayAddUpdate';
 import { getHolidayByIdWatcher } from './holiday/holidayById';
@@ -48,6 +53,11 @@ export default function* rootSaga() {
     getExpenseReasonWatcher(),
     getPayslipListWatcher(),
     getAttendanceListWatcher(),
+    getSupportAddUpdateWatcher(),
+    getSupportListWatcher(),
+    getSupportByIdWatcher(),
+    getSupportDeleteWatcher(),
+    getSupportReasonWatcher(),
     getHolidayListWatcher(),
     getHolidayAddUpdateWatcher(),
     getHolidayByIdWatcher(),

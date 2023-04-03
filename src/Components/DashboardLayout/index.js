@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router';
 import Logo from 'Assets/logo/jbt-logo.svg';
 import FullLogo from 'Assets/logo/jbt-full-logo.svg';
-import { getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
+import { getDashboardPattern, getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
 import Images from 'Assets/Images/team-4-800x800.jpg';
 import { withStateDispatch } from 'Helpers/withStateDispatch';
 import { useEffect } from 'react';
@@ -19,8 +19,10 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
   const bgImage = Images;
 
   useEffect(() => {
-    GetDashboard();
-  }, []);
+    if (pathname === getDashboardPattern()) {
+      GetDashboard();
+    }
+  }, [pathname]);
 
   useEffect(() => {
     if (DashboardData && DashboardData.isLoginFirstTime && DashboardData.isProfileSetup) {
@@ -50,7 +52,23 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
         }
       />
       {pathname !== getProfileSetupPattern() ? (
-        <Sidenav brandFullLogo={FullLogo} brandSmallLogo={Logo} brandName="Jarvis Bitz" />
+        <Sidenav
+          brandFullLogo={
+            DashboardData.user &&
+            DashboardData.user.organisation.largeLogo &&
+            DashboardData.user.organisation.largeLogo !== null
+              ? DashboardData.user.organisation.largeLogo
+              : FullLogo
+          }
+          brandSmallLogo={
+            DashboardData.user &&
+            DashboardData.user.organisation.smallLogo &&
+            DashboardData.user.organisation.smallLogo !== null
+              ? DashboardData.user.organisation.smallLogo
+              : Logo
+          }
+          brandName="Jarvis Bitz"
+        />
       ) : null}
       <Box
         sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
@@ -71,6 +89,7 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
         <DashboardNavbar
           progress={DashboardData && DashboardData.profileProgress}
           user={DashboardData && DashboardData.user.profile}
+          notification={DashboardData && DashboardData.notification}
         />
         <Box
           sx={({ breakpoints }) => ({

@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
 import { Add, Pending, SummarizeRounded, ThumbDown, ThumbUp } from '@mui/icons-material';
 import Button from 'Elements/Button';
@@ -8,142 +7,81 @@ import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Priority, actionStatus } from 'Helpers/Global';
-import { useSelector } from 'react-redux';
 import { DialogAction, DialogContent } from 'Components/Dialog';
+import DialogMenu from 'Elements/Dialog';
+import TicketCard from 'Components/CardLayouts/StaticCard';
+import { useOutletContext } from 'react-router';
 import supportTicketData from './data/SupportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
-import TicketCard from '../../Components/CardLayouts/StaticCard';
-import DialogMenu from '../../Elements/Dialog';
 import ViewSupportTicketDetails from './ViewSupportTicketDetails';
 
 const adminSupportOptions = [{ title: 'View', value: 'view' }];
 
 const empSupportOptions = [
   { title: 'Edit', value: 'edit' },
-  { title: 'View', value: 'view' }
+  { title: 'Delete', value: 'delete' }
 ];
 
 const supportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
-  const { role } = useSelector((state) => state.login);
+  const {
+    role,
+    GetSupportAddUpdate,
+    GetSupportList,
+    GetSupportById,
+    GetSupportDelete,
+    GetSupportReason,
+    Loading
+  } = useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const [selectDate, setSelectDate] = useState('');
   const [isEdit, setIsEdit] = useState(false);
-  const [priority, setPriority] = useState('');
-  const [isStatus, setIsStatus] = useState('');
-  const [search, setSearch] = useState('');
-  const [selectedId, setSelectedId] = useState('');
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isSupportTicketDialogOpen, setIsSupportTicketDialogOpen] = useState(false);
   const [isViewSupportTicketDialogOpen, setIsViewSupportTicketDialogOpen] = useState(false);
-  const [counts, setCounts] = useState(null);
-  const [loader, setLoader] = useState(false);
 
   const [allSpTicketList, setAllSpTicketList] = useState([]);
   const [spTicketListCount, setSpTicketListCount] = useState(0);
-  const [sortKey, setSortKey] = useState('subject');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState({ key: 'priority', order: 'asc' });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  // const [isExport, setIsExport] = useState(false);
-  const [isSearch, setIsSearch] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [filter, setFilter] = useState(false);
+  const [priority, setPriority] = useState('');
+  const [status, setStatus] = useState('');
+  const [approveRejectReason, setApproveRejectReason] = useState('');
 
-  const handleDialog = () => {
-    setSelectedData(null);
-    setIsDialogOpen(!isDialogOpen);
-  };
-
-  const handleOpenDialog = () => {
-    setIsSupportTicketDialogOpen(true);
-  };
-  const handleCloseDialog = () => {
-    setIsSupportTicketDialogOpen(false);
-  };
-
-  const handleCloseViewDialog = () => {
-    setIsViewSupportTicketDialogOpen(false);
-  };
-
-  const onClickView = (row) => {
-    setSelectedData(row);
-    handleOpenDialog();
-  };
-
-  const onClickAction = (key, data) => {
-    if (key === 'edit') {
-      setIsEdit(true);
-      setSelectedData(allSpTicketList.find((o) => o.id === data.id));
-      setIsDialogOpen(!isDialogOpen);
-    } else if (key === 'view') {
-      if (role === 'admin') {
-        onClickView(data);
-      } else {
-        const viewData = allSpTicketList.find((o) => o.id === data.id);
-        const setViewData = {
-          subject: viewData.subject,
-          date: viewData.ticketDate,
-          department: viewData.department,
-          priority: viewData.priority,
-          status: viewData.status,
-          message: viewData.message.replace(/(<([^>]+)>)/gi, '')
-        };
-        setSelectedData(setViewData);
-        setIsViewSupportTicketDialogOpen(true);
-      }
-    } else {
-      setSelectedId(data.id);
-      setIsDeleteDialogOpen(true);
+  useEffect(() => {
+    if (!isDialogOpen || !isDeleteDialogOpen || !isViewSupportTicketDialogOpen) {
+      GetSupportList(
+        {
+          limit,
+          search,
+          page,
+          sortKey: sort.key,
+          sortOrder: sort.order,
+          priority: priority.value,
+          status: status.value,
+          startDate
+        },
+        (res) => {
+          if (res && res.data && res.data.data) {
+            const { data } = res.data;
+            setAllSpTicketList(data.rows);
+            setSpTicketListCount(data.count);
+            setFilter(false);
+          }
+        }
+      );
     }
-  };
-
-  const handleDialogClose = () => {
-    setIsDeleteDialogOpen(false);
-  };
-
-  const onDelete = () => {
-    handleDialogClose();
-  };
-
-  const handleChangeStatus = (value) => {
-    setIsStatus(value);
-  };
-
-  const handleChangePriority = (value) => {
-    setPriority(value);
-  };
-
-  const handleChangeStartDate = (event) => {
-    setSelectDate(event.target.value);
-  };
-
-  const handleChangeSearch = (event) => {
-    setSearch(event.target.value.trim());
-  };
+    return () => {};
+  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewSupportTicketDialogOpen]);
 
   const handleClear = () => {
-    setSelectDate('');
+    setStartDate('');
     setPriority('');
-    setIsStatus('');
+    setStatus('');
     setSearch('');
-  };
-  const onClickSearch = () => {
-    setLoader(true);
-    setIsSearch(true);
-  };
-
-  const onPage = async (selectedPage) => {
-    setPage(selectedPage);
-  };
-
-  const onRowsPerPageChange = async (selectedLimit) => {
-    setLimit(selectedLimit);
-    setPage(0);
-  };
-
-  const onSort = async (e, selectedSortKey, selectedSortOrder) => {
-    setSortKey(selectedSortKey);
-    setSortOrder(selectedSortOrder);
   };
 
   return (
@@ -152,7 +90,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Total Tickets"
-            count={counts && counts.totalSupportTicket}
+            count={spTicketListCount && spTicketListCount.totalSupportTicket}
             icon={{ color: 'success', component: <SummarizeRounded /> }}
             isPercentage={false}
           />
@@ -160,7 +98,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Approved"
-            count={counts && counts.approved}
+            count={spTicketListCount && spTicketListCount.approved}
             icon={{ color: 'success', component: <ThumbUp /> }}
             isPercentage={false}
           />
@@ -168,7 +106,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Declined"
-            count={counts && counts.rejected}
+            count={spTicketListCount && spTicketListCount.rejected}
             icon={{ color: 'error', component: <ThumbDown /> }}
             isPercentage={false}
           />
@@ -176,7 +114,7 @@ const supportTicket = () => {
         <Grid item xs={12} md={6} lg={3}>
           <TicketCard
             title="Pending"
-            count={counts && counts.pending}
+            count={spTicketListCount && spTicketListCount.pending}
             icon={{ color: 'info', component: <Pending /> }}
             isPercentage={false}
           />
@@ -194,7 +132,7 @@ const supportTicket = () => {
               })}
               variant="outlined"
               size="small"
-              onClick={handleDialog}
+              onClick={() => setIsDialogOpen(!isDialogOpen)}
             >
               <Icon sx={{ mr: 1 }}>
                 <Add />
@@ -232,12 +170,11 @@ const supportTicket = () => {
         }}
       >
         <FilterLayout
-          search={search}
-          handleSearch={handleChangeSearch}
-          handleClear={() => handleClear()}
-          onClickSearch={() => onClickSearch()}
-          loader={loader}
-          isSearch={isSearch}
+          handleSearch={(e) => setSearch(e.target.value.trim())}
+          handleClear={handleClear}
+          onClickSearch={() => {
+            setFilter(!filter);
+          }}
         >
           <Grid item xs={12} md={4} lg={3}>
             <Input
@@ -246,9 +183,9 @@ const supportTicket = () => {
               size="small"
               fullWidth
               id="date"
-              name="Date"
-              value={selectDate !== '' ? selectDate : ''}
-              onChange={(value) => handleChangeStartDate(value)}
+              name="startDate"
+              value={startDate !== '' ? startDate : ''}
+              onChange={(event) => setStartDate(event.target.value)}
               errorFalse
             />
           </Grid>
@@ -258,7 +195,7 @@ const supportTicket = () => {
               <Select
                 value={priority}
                 options={Priority}
-                onChange={(value) => handleChangePriority(value)}
+                onChange={(value) => setPriority(value)}
               />
             </FormControl>
           </Grid>
@@ -266,9 +203,9 @@ const supportTicket = () => {
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Status</FormLabel>
               <Select
-                value={isStatus}
+                value={status}
                 options={actionStatus}
-                onChange={(value) => handleChangeStatus(value)}
+                onChange={(value) => setStatus(value)}
               />
             </FormControl>
           </Grid>
@@ -277,77 +214,136 @@ const supportTicket = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={allSpTicketList}
-          onClickAction={(value, row) => onClickAction(value, row)}
+          onClickAction={(value, { id }) => {
+            if (value === 'delete') {
+              setSelectedData(id);
+              setIsDeleteDialogOpen(true);
+            } else {
+              GetSupportById({ id }, (res) => {
+                if (res && res.data && res.data.data) {
+                  const { data } = res.data;
+                  const setViewData = {
+                    id: data.id,
+                    subject: data.subject,
+                    date: data.ticketDate,
+                    department: data.department,
+                    priority: data.priority,
+                    message: data.message.replace(/(<([^>]+)>)/gi, ''),
+                    ...(value === 'view' && { status: data.status }),
+                    reason: data.reason
+                  };
+                  setSelectedData(setViewData);
+                  if (value === 'edit') {
+                    setIsEdit(true);
+                    setIsDialogOpen(!isDialogOpen);
+                  } else if (value === 'view') {
+                    setIsViewSupportTicketDialogOpen(true);
+                  }
+                }
+              });
+            }
+          }}
           isAction
           options={role === 'admin' ? adminSupportOptions : empSupportOptions}
-          rowsCount={spTicketListCount}
+          rowsCount={spTicketListCount.total}
           initialPage={page}
-          onChangePage={(value) => onPage(value)}
+          onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => onRowsPerPageChange(rowsPerPage)}
-          sortKey={sortKey}
-          sortOrder={sortOrder}
-          handleRequestSort={(event, orderName, orderKey) => onSort(event, orderName, orderKey)}
+          onRowsPerPageChange={(rowsPerPage) => {
+            setLimit(rowsPerPage);
+          }}
+          sortKey={sort.key}
+          sortOrder={sort.order}
+          handleRequestSort={(event, orderKey, orderName) =>
+            setSort({ order: orderName, key: orderKey })
+          }
         />
         {isDialogOpen && (
           <AddSupportTicketForm
             isDialogOpen={isDialogOpen}
-            handleDialog={handleDialog}
+            handleDialog={() => {
+              setIsDialogOpen(!isDialogOpen);
+              setIsEdit(false);
+              setSelectedData(null);
+            }}
             title={isEdit ? 'UPDATE SUPPORT TICKET' : 'NEW SUPPORT TICKET'}
-            setIsEdit={(value) => setIsEdit(value)}
             selectedData={selectedData}
-            setSelectedData={(value) => setSelectedData(value)}
             isEdit={isEdit}
+            GetSupportAddUpdate={GetSupportAddUpdate}
+            Loading={Loading}
           />
         )}
         {isDeleteDialogOpen && (
           <DialogMenu
             isOpen={isDeleteDialogOpen}
-            onClose={handleDialogClose}
+            onClose={() => setIsDeleteDialogOpen(false)}
             dialogTitle="Delete"
             dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
               <DialogAction
                 rejectTitle="Cancel"
                 approveTitle="Delete"
-                handleReject={handleDialogClose}
-                handleApprove={() => onDelete(selectedId)}
+                handleReject={() => setIsDeleteDialogOpen(false)}
+                handleApprove={() =>
+                  GetSupportDelete(selectedData, () => {
+                    setIsDeleteDialogOpen(false);
+                    setIsEdit(false);
+                  })
+                }
               />
             }
           />
         )}
       </Card>
-      {(isSupportTicketDialogOpen || isViewSupportTicketDialogOpen) && selectedData && (
+      {isViewSupportTicketDialogOpen && selectedData && (
         <DialogMenu
-          isOpen={isSupportTicketDialogOpen || isViewSupportTicketDialogOpen}
-          onClose={isSupportTicketDialogOpen ? handleCloseDialog : handleCloseViewDialog}
+          isOpen={isViewSupportTicketDialogOpen}
+          onClose={() => setIsViewSupportTicketDialogOpen(false)}
           dialogTitle={`Ticket Details: ${selectedData.subject}`}
-          dialogContent={<ViewSupportTicketDetails info={selectedData} />}
+          dialogContent={
+            <DialogContent
+              customContent={
+                <ViewSupportTicketDetails
+                  data={selectedData}
+                  role={role}
+                  approveRejectReason={(value) => setApproveRejectReason(value)}
+                />
+              }
+            />
+          }
           dialogAction={
-            role === 'admin' && (
-              <Grid container spacing={2} alignItems="center" justifyContent="flex-end">
-                <Grid item>
-                  <Button
-                    type="submit"
-                    color="info"
-                    variant="contained"
-                    size="small"
-                    onClick={handleCloseDialog}
-                  >
-                    Approve
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    color="error"
-                    variant="contained"
-                    size="small"
-                    onClick={handleCloseDialog}
-                  >
-                    Reject
-                  </Button>
-                </Grid>
-              </Grid>
+            role === 'admin' &&
+            selectedData.status === 'pending' && (
+              <DialogAction
+                approveColor="success"
+                rejectColor="error"
+                approveTitle="Approve"
+                rejectTitle="Reject"
+                handleApprove={() =>
+                  GetSupportReason(
+                    {
+                      data: {
+                        status: 'approved',
+                        comment: approveRejectReason
+                      },
+                      id: selectedData.id
+                    },
+                    () => setIsViewSupportTicketDialogOpen(false)
+                  )
+                }
+                handleReject={() =>
+                  GetSupportReason(
+                    {
+                      data: {
+                        status: 'reject',
+                        comment: approveRejectReason
+                      },
+                      id: selectedData.id
+                    },
+                    () => setIsViewSupportTicketDialogOpen(false)
+                  )
+                }
+              />
             )
           }
         />
