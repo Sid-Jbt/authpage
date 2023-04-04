@@ -51,7 +51,7 @@ const Header = ({
         boxShadow: ({ boxShadows: { sm } }) => sm
       }}
     >
-      <Grid container spacing={3} alignItems="center">
+      <Grid container spacing={2} alignItems="center">
         <Grid item>
           <Box position="relative" height="max-content" mx="auto">
             <Avatar
@@ -99,7 +99,7 @@ const Header = ({
         <Grid item>
           <Typography variant="h4" fontWeight="medium">
             {`${
-              user && (user.profile.firstName !== null || user.profile.lastName !== null)
+              user && (user.profile.firstName !== '' || user.profile.lastName !== '')
                 ? `${user.profile.firstName} ${user.profile.lastName}`
                 : user.email
             }`}

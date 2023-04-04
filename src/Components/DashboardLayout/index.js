@@ -16,7 +16,12 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
   const { customization } = useSelector((state) => state);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const bgImage = DashboardData.user.profile.profilePic || Images;
+  const bgImage =
+    (DashboardData &&
+      DashboardData.user &&
+      DashboardData.profile &&
+      DashboardData.user.profile.profilePic) ||
+    Images;
 
   useEffect(() => {
     if (pathname === getDashboardPattern()) {
