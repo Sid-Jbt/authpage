@@ -3,6 +3,8 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import { Grid } from '@mui/material';
 import FormField from 'Elements/FormField';
+import { Link } from 'react-router-dom';
+import { getSupportTicketPattern } from '../../Routes/routeConfig';
 
 const ViewSupportTicketDetails = ({ data, role, approveRejectReason }) => {
   const labels = [];
@@ -10,7 +12,7 @@ const ViewSupportTicketDetails = ({ data, role, approveRejectReason }) => {
 
   // Remove unwanted key-value pairs from object
   const viewData = Object.keys(data)
-    .filter((key) => key !== 'subject' && key !== 'id')
+    .filter((key) => key !== 'subject' && key !== 'id' && key !== 'reason')
     .reduce((acc, key) => {
       acc[key] = data[key];
       return acc;
@@ -50,37 +52,64 @@ const ViewSupportTicketDetails = ({ data, role, approveRejectReason }) => {
   ));
 
   return (
-    <>
-      <Grid container spacing={2} alignItems="center" justifyContent="space-between">
-        <Grid item>{renderItems}</Grid>
-        <Grid item xs={12}>
-          {role === 'admin' ? (
-            <FormField
-              type="textarea"
-              placeholder="Reason"
-              label="Reason"
-              defaultValue={viewData.reason}
-              onChange={(event) => approveRejectReason(event.target.value)}
-              multiline
-              rows={5}
-              errorFalse
-              disabled={data.status === 'reject' || data.status === 'approved'}
-            />
-          ) : (
-            <FormField
-              type="textarea"
-              placeholder="Reason"
-              label="Reason"
-              defaultValue={viewData.reason}
-              multiline
-              rows={5}
-              errorFalse
-              disabled
-            />
-          )}
-        </Grid>
+    <Box sx={{ width: 400 }}>
+      {renderItems}
+      <Grid item xs={12}>
+        {role === 'admin' && (data.status === 'reject' || data.status === 'approved') ? (
+          <>
+            <Typography variant="button" fontWeight="bold" textTransform="capitalize">
+              Reason: &nbsp;
+            </Typography>
+            <Typography
+              variant="button"
+              fontWeight="regular"
+              color="text"
+              textTransform="capitalize"
+            >
+              {data.reason}
+            </Typography>
+          </>
+        ) : role === 'admin' ? (
+          <FormField
+            type="textarea"
+            placeholder="Reason"
+            label="Reason"
+            defaultValue={viewData.reason}
+            onChange={(event) => approveRejectReason(event.target.value)}
+            multiline
+            rows={5}
+            errorFalse
+            disabled={data.status === 'reject' || data.status === 'approved'}
+          />
+        ) : (
+          <>
+            <Typography variant="button" fontWeight="bold" textTransform="capitalize">
+              Reason: &nbsp;
+            </Typography>
+            <Typography
+              variant="button"
+              fontWeight="regular"
+              color="text"
+              textTransform="capitalize"
+            >
+              {viewData.reason}
+            </Typography>
+            {data.status === 'reject' && (
+              <Typography
+                component={Link}
+                to={getSupportTicketPattern()}
+                variant="button"
+                color="info"
+                fontWeight="medium"
+                underline="true"
+              >
+                &nbsp; Support Ticket
+              </Typography>
+            )}
+          </>
+        )}
       </Grid>
-    </>
+    </Box>
   );
 };
 

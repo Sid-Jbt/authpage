@@ -296,7 +296,7 @@ const LeaveList = () => {
         <DialogMenu
           isOpen={isViewLeaveDialogOpen}
           onClose={() => setIsViewLeaveDialogOpen(false)}
-          dialogTitle={`Leave Details: ${selectedData.leaveType}`}
+          dialogTitle={selectedData.leaveType}
           dialogContent={
             <DialogContent
               customContent={
@@ -316,6 +316,8 @@ const LeaveList = () => {
                 rejectColor="error"
                 approveTitle="Approve"
                 rejectTitle="Reject"
+                approveDisable={!approveRejectReason}
+                rejectDisable={!approveRejectReason}
                 handleApprove={() =>
                   GetLeaveReason(
                     {

@@ -20,6 +20,8 @@ export const DialogAction = ({
   handleApprove,
   approveTitle,
   rejectTitle,
+  approveDisable = false,
+  rejectDisable = false,
   approveColor = 'info',
   rejectColor = 'error'
 }) => (
@@ -41,6 +43,7 @@ export const DialogAction = ({
       variant="contained"
       size="small"
       onClick={handleReject}
+      disabled={rejectDisable}
     >
       {rejectTitle}
     </Button>
@@ -50,6 +53,7 @@ export const DialogAction = ({
       variant="contained"
       size="small"
       onClick={handleApprove}
+      disabled={approveDisable}
     >
       {approveTitle}
     </Button>

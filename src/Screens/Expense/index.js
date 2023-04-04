@@ -272,7 +272,7 @@ const ExpenseList = () => {
         <DialogMenu
           isOpen={isViewExpenseDialogOpen}
           onClose={() => setIsViewExpenseDialogOpen(false)}
-          dialogTitle={`Expense Details: ${selectedData.itemName}`}
+          dialogTitle={selectedData.itemName}
           dialogContent={
             <DialogContent
               customContent={
@@ -292,6 +292,8 @@ const ExpenseList = () => {
                 rejectColor="error"
                 approveTitle="Approve"
                 rejectTitle="Reject"
+                approveDisable={!approveRejectReason}
+                rejectDisable={!approveRejectReason}
                 handleApprove={() =>
                   GetExpenseReason(
                     {

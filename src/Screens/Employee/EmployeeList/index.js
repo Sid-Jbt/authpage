@@ -143,7 +143,7 @@ const EmployeeList = () => {
           rows={allEmployee}
           rowsCount={employeeCount}
           onClickAction={(key, value) => {
-            setSelectedData({ action: key === 'deactivate' ? 1 : 0, id: value.id });
+            setSelectedData({ action: key === 'deactivate' ? 0 : 1, id: value.id });
             setIsActiveDialogOpen(!!(key === 'deactivate' || key === 'activate'));
             if (key === 'edit') {
               navigate(getEmployeeDetailsPattern(value.slug), { state: { slug: value.slug } });
@@ -193,12 +193,11 @@ const EmployeeList = () => {
           <DialogMenu
             isOpen={isActiveDialogOpen}
             onClose={() => setIsActiveDialogOpen(false)}
-            dialogTitle="Employee Account Action"
             dialogContent={
               <DialogContent
                 content={`Are you sure you want to ${
-                  selectedData.action === 0 ? 'activate' : 'deactivate'
-                } this?`}
+                  selectedData.action === 0 ? 'enable' : 'disable'
+                } this account?`}
               />
             }
             dialogAction={
