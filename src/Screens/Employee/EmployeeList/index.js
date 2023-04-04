@@ -193,12 +193,11 @@ const EmployeeList = () => {
           <DialogMenu
             isOpen={isActiveDialogOpen}
             onClose={() => setIsActiveDialogOpen(false)}
-            dialogTitle="Employee Account Action"
             dialogContent={
               <DialogContent
                 content={`Are you sure you want to ${
-                  selectedData.action === 0 ? 'activate' : 'deactivate'
-                } this?`}
+                  selectedData.action === 0 ? 'enable' : 'disable'
+                } this account?`}
               />
             }
             dialogAction={

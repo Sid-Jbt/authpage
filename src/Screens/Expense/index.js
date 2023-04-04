@@ -292,6 +292,8 @@ const ExpenseList = () => {
                 rejectColor="error"
                 approveTitle="Approve"
                 rejectTitle="Reject"
+                approveDisable={!approveRejectReason}
+                rejectDisable={!approveRejectReason}
                 handleApprove={() =>
                   GetExpenseReason(
                     {

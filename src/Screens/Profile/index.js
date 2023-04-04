@@ -43,8 +43,8 @@ const TabsList = [
   } */
 ];
 
-const Profile = ({ GetDashboard }) => {
-  const { role, user, GetProfileSetup } = useOutletContext();
+const Profile = () => {
+  const { role, user, GetProfileSetup, GetDashboard, Loading } = useOutletContext();
   const [tabIndex, setTabIndex] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
   const { bankInfo, organisation, profile, email } = user;
@@ -117,6 +117,10 @@ const Profile = ({ GetDashboard }) => {
       <Box height="8rem" />
       <Header
         role={role}
+        user={user}
+        Loading={Loading}
+        GetProfileSetup={GetProfileSetup}
+        GetDashboard={GetDashboard}
         tabIndex={tabIndex}
         TabsList={TabsList}
         handleSetTabIndex={(event, value) => setTabIndex(value)}

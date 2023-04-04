@@ -1,16 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Typography from 'Elements/Typography';
 import UserPic from 'Assets/Images/team-4-800x800.jpg';
-import { Card, Grid, Tab, Tabs, Icon } from '@mui/material';
+import { Card, Grid, Tab, Tabs, Icon, CircularProgress } from '@mui/material';
 import Avatar from 'Elements/Avatar';
 import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 import { Edit } from '@mui/icons-material';
-import { useOutletContext } from 'react-router';
 import { withStateDispatch } from 'Helpers/withStateDispatch';
 
-const Header = ({ tabIndex, handleSetTabIndex, TabsList, GetDashboard }) => {
-  const { role, user, GetProfileSetup } = useOutletContext();
+const Header = ({
+  tabIndex,
+  handleSetTabIndex,
+  TabsList,
+  GetProfileSetup,
+  GetDashboard,
+  role,
+  user,
+  Loading
+}) => {
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const inputFile = useRef(null);
 
@@ -68,16 +75,23 @@ const Header = ({ tabIndex, handleSetTabIndex, TabsList, GetDashboard }) => {
                 component="label"
                 onClick={() => inputFile.current && inputFile.current.click()}
                 iconOnly
-                sx={{
-                  width: '2rem',
-                  minWidth: '2rem',
-                  height: '2rem',
-                  minHeight: '2rem'
-                }}
+                disabled={Loading}
+                sx={
+                  !Loading && {
+                    width: '2rem',
+                    minWidth: '2rem',
+                    height: '2rem',
+                    minHeight: '2rem'
+                  }
+                }
               >
-                <Icon>
-                  <Edit />
-                </Icon>
+                {Loading ? (
+                  <CircularProgress size={10} color="inherit" />
+                ) : (
+                  <Icon>
+                    <Edit />
+                  </Icon>
+                )}
               </Button>
             </Box>
           </Box>

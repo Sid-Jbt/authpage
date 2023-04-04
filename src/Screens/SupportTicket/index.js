@@ -335,6 +335,8 @@ const supportTicket = () => {
                 rejectColor="error"
                 approveTitle="Approve"
                 rejectTitle="Reject"
+                approveDisable={!approveRejectReason}
+                rejectDisable={!approveRejectReason}
                 handleApprove={() =>
                   GetSupportReason(
                     {

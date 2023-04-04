@@ -316,6 +316,8 @@ const LeaveList = () => {
                 rejectColor="error"
                 approveTitle="Approve"
                 rejectTitle="Reject"
+                approveDisable={!approveRejectReason}
+                rejectDisable={!approveRejectReason}
                 handleApprove={() =>
                   GetLeaveReason(
                     {
