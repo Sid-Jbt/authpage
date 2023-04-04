@@ -15,7 +15,7 @@ import CropperImage from 'Components/ImageCrop';
 import DialogMenu from 'Elements/Dialog';
 
 const Organisation = ({ isEdit, props }) => {
-  const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
+  const { values, handleChange, handleBlur, setFieldValue } = props;
   const smallLogoInputFile = useRef(null);
   const largeLogoInputFile = useRef(null);
   const [smallLogo, setSmallLogo] = useState('');
@@ -57,9 +57,7 @@ const Organisation = ({ isEdit, props }) => {
                 onChange={(e) => onClickLogoUpload(e, 'large')}
               />
               <Avatar
-                src={
-                  values.largeLogo === '' ? team2 : largeLogo === '' ? values.largeLogo : largeLogo
-                }
+                src={!values.largeLogo ? team2 : largeLogo === '' ? values.largeLogo : largeLogo}
                 alt="large picture"
                 size="xxl"
                 variant="rounded"
@@ -94,9 +92,7 @@ const Organisation = ({ isEdit, props }) => {
                 onChange={(e) => onClickLogoUpload(e, 'small')}
               />
               <Avatar
-                src={
-                  values.smallLogo === '' ? team2 : smallLogo === '' ? values.smallLogo : smallLogo
-                }
+                src={!values.smallLogo ? team2 : smallLogo === '' ? values.smallLogo : smallLogo}
                 alt="small picture"
                 size="xxl"
                 variant="rounded"
@@ -131,17 +127,12 @@ const Organisation = ({ isEdit, props }) => {
             value={values.location}
             onChange={handleChange}
             onBlur={handleBlur}
-            errorText={
-              errors.organisationName && touched.organisationName && errors.organisationName
-            }
-            error={errors.organisationName && touched.organisationName}
-            success={!errors.organisationName && touched.organisationName}
             disabled={!isEdit}
           />
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
           <FormControl sx={{ width: '100%' }}>
-            <FormLabel> Select Working Hours </FormLabel>
+            <FormLabel>Select Working Hours</FormLabel>
             <Select
               name="workingHours"
               value={values.workingHours !== null ? values.workingHours : WorkingHours[0].value}
@@ -166,11 +157,6 @@ const Organisation = ({ isEdit, props }) => {
             value={values.organisationName}
             onChange={handleChange}
             onBlur={handleBlur}
-            errorText={
-              errors.organisationName && touched.organisationName && errors.organisationName
-            }
-            error={errors.organisationName && touched.organisationName}
-            success={!errors.organisationName && touched.organisationName}
             disabled={!isEdit}
           />
         </Grid>
