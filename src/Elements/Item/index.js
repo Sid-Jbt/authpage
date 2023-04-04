@@ -55,7 +55,7 @@ export function menuImage(theme, ownerState) {
   };
 }
 
-const NotificationItem = forwardRef(({ color, image, title, date, width, ...rest }, ref) => (
+const NotificationItem = forwardRef(({ color, image, title, date, width = 200, ...rest }, ref) => (
   <MenuItem {...rest} ref={ref} sx={(theme) => menuItem(theme)}>
     {image && (
       <Box

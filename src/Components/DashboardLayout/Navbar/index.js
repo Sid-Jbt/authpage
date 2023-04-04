@@ -18,7 +18,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Breadcrumbs from 'Elements/Breadcrumbs';
 import Avatar from 'Elements/Avatar';
 import useWindowPosition from 'Hooks/useWindowPosition';
-import { getLoginPattern, getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
+import {
+  getLoginPattern,
+  getProfilePattern,
+  getProfileSetupPattern,
+  getSettingPattern
+} from 'Routes/routeConfig';
 import CircularProgressWithLabel from 'Elements/CircularProgressWithLabel';
 import { MINI_SIDENAV, LOGOUT } from 'APIs/constants';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
@@ -105,18 +110,13 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
         title={[
           'Hello,',
           `${
-            user &&
-            user.firstName !== null &&
-            user.firstName !== '' &&
-            user.lastName !== null &&
-            user.lastName !== ''
+            user && user.firstName && user.lastName
               ? `${user.firstName} ${user.lastName}`
               : 'Welcome'
           }`
         ]}
         disabled
         onClick={handleProfileMenuClose}
-        width={200}
       />
       <Divider />
       {pathname !== getProfileSetupPattern() ? (
@@ -126,8 +126,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
           title={['Manage Account']}
           onClick={handleProfileMenuClose}
           component={Link}
-          to="/profile"
-          width={200}
+          to={getProfilePattern()}
         />
       ) : null}
       {pathname !== getProfileSetupPattern() ? (
@@ -137,8 +136,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
           title={['Settings']}
           onClick={handleProfileMenuClose}
           component={Link}
-          to="/setting"
-          width={200}
+          to={getSettingPattern()}
         />
       ) : null}
       <NotificationItem
@@ -150,7 +148,6 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
           navigate(getLoginPattern());
           dispatch({ type: LOGOUT });
         }}
-        width={200}
       />
     </Menu>
   );
@@ -227,7 +224,9 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
                 size={window.innerWidth < themes.breakpoints.values.md ? 'sm' : 'md'}
                 variant="circle"
                 onClick={handleProfileMenu}
-                sx={{ cursor: 'pointer' }}
+                sx={{
+                  cursor: 'pointer'
+                }}
               />
             </Grid>
           </Grid>
