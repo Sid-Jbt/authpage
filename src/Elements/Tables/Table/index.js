@@ -121,7 +121,6 @@ const Table = ({
     rows &&
     rows.length &&
     rows.map((row, key) => {
-      const isStatusPending = row.status === 'reject' || row.status === 'approved';
       const rowKey = `row-${key}`;
       const tableRow = columns.map(({ name, align }) => {
         const color =
@@ -206,12 +205,21 @@ const Table = ({
             </TableCell>
           )}
           {tableRow}
-          {isAction && !isStatusPending && (
+          {isAction && (
             <TableCell sx={{ textAlign: 'center' }}>
               <Action
                 id={row.id}
                 isAction={isAction}
-                options={options}
+                options={
+                  options &&
+                  options.map((item) =>
+                    row.status === 'pending' && item.name !== 'view'
+                      ? item
+                      : row.status !== 'pending' && item.name === 'view'
+                      ? item
+                      : ''
+                  )
+                }
                 onClickAction={(value) => onClickAction(value, row)}
               />
             </TableCell>
