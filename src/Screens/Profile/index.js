@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import { Grid, Card } from '@mui/material';
@@ -6,12 +6,7 @@ import { organisationProfileSchema, userProfileSchema } from 'Helpers/Validation
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import { useOutletContext } from 'react-router';
-import {
-  AccountBalance,
-  BungalowRounded,
-  CurrencyRupeeOutlined,
-  PersonOutlined
-} from '@mui/icons-material';
+import { AccountBalance, BungalowRounded, PersonOutlined } from '@mui/icons-material';
 import moment from 'moment';
 import BankInfo from './components/BankInfo';
 import PersonalDetails from './components/PersonalDetails';
@@ -20,49 +15,6 @@ import SalaryDetails from './components/SalaryDetails';
 import OrganisationDetails from './components/OrganisationDetails';
 import { WorkingHours } from '../../Helpers/Global';
 import { withStateDispatch } from '../../Helpers/withStateDispatch';
-
-const profileInitialValues = {
-  firstName: '',
-  lastName: '',
-  fatherName: '',
-  department: '',
-  designation: '',
-  employeeCode: '',
-  email: '',
-  gender: 'male',
-  permanentAddress: '',
-  presentAddress: '',
-  alternatePhone: '',
-  phoneNumber: '',
-  dob: moment().format('YYYY-MM-DD'),
-  dateOfLeave: moment().format('YYYY-MM-DD'),
-  dateOfJoin: moment().format('YYYY-MM-DD'),
-  bankName: '',
-  branchName: '',
-  accountName: '',
-  accountNumber: '',
-  ifscCode: '',
-  panNumber: ''
-};
-
-const adminInitialValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  dob: moment().format('YYYY-MM-DD'),
-  dateOfLeave: moment().format('YYYY-MM-DD'),
-  dateOfJoin: moment().format('YYYY-MM-DD'),
-  alternatePhone: '',
-  phoneNumber: '',
-  permanentAddress: '',
-  presentAddress: '',
-  gender: 'male',
-  workingHours: WorkingHours[0],
-  organizationAddress: '',
-  organisationName: '',
-  largeLogo: '',
-  smallLogo: ''
-};
 
 const TabsList = [
   {
@@ -82,44 +34,59 @@ const TabsList = [
     title: 'Account',
     role: ['employee'],
     icon: <AccountBalance style={{ marginRight: '8px' }} />
-  },
-  {
+  }
+  /* {
     key: 'salary',
     title: 'Salary',
     role: ['employee'],
     icon: <CurrencyRupeeOutlined style={{ marginRight: '8px' }} />
-  }
+  } */
 ];
 
-const Profile = ({ GetDashboard }) => {
-  const { role, user, GetProfileSetup } = useOutletContext();
+const Profile = () => {
+  const { role, user, GetProfileSetup, GetDashboard, Loading } = useOutletContext();
   const [tabIndex, setTabIndex] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
+  const { bankInfo, organisation, profile, email } = user;
 
-  useEffect(() => {
-    if (role !== 'admin') {
-      Object.keys(profileInitialValues).map((key) => {
-        profileInitialValues[key] = user.profile[key] || user.bankInfo[key];
-        profileInitialValues.email = user.email;
-      });
-    } else {
-      Object.keys(adminInitialValues).map((key) => {
-        adminInitialValues[key] = user.profile[key] || user.organisation[key];
-        adminInitialValues.email = user.email;
-        adminInitialValues.organizationAddress = user.organisation.location;
-      });
-    }
-  }, [user]);
-
-  const validate = (values) => {
-    const errors = {};
-    if (values.phoneNumber === values.alternatePhone) {
-      errors.alternatePhone = 'Alternate number should not be same as phone number';
-    }
-    return errors;
+  const initialValues = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    dob: moment().format('YYYY-MM-DD'),
+    dateOfLeave: moment().format('YYYY-MM-DD'),
+    dateOfJoin: moment().format('YYYY-MM-DD'),
+    alternatePhone: '',
+    phoneNumber: '',
+    permanentAddress: '',
+    presentAddress: '',
+    gender: 'male',
+    ...(role === 'admin'
+      ? {
+          largeLogo: '',
+          smallLogo: '',
+          workingHours: WorkingHours[0].value,
+          organisationName: '',
+          location: ''
+        }
+      : {
+          fatherName: '',
+          employeeCode: '',
+          designation: '',
+          bankName: '',
+          branchName: '',
+          accountName: '',
+          accountNumber: '',
+          ifscCode: '',
+          panNumber: ''
+        })
   };
 
   const onSubmit = (values, actions) => {
+    if (values.hasOwnProperty('workingHours') && values.workingHours !== null) {
+      delete values.workingHours.label;
+      values.workingHours = values.workingHours.value;
+    }
     if (!isEdit) {
       setIsEdit(true);
     } else {
@@ -137,25 +104,37 @@ const Profile = ({ GetDashboard }) => {
     actions.setSubmitting(false);
   };
 
+  const validate = (values) => {
+    const errors = {};
+    if (values.phoneNumber === values.alternatePhone) {
+      errors.alternatePhone = 'Alternate number should not be same as phone number';
+    }
+    return errors;
+  };
+
   return (
     <Box>
       <Box height="8rem" />
       <Header
         role={role}
+        user={user}
+        Loading={Loading}
+        GetProfileSetup={GetProfileSetup}
+        GetDashboard={GetDashboard}
         tabIndex={tabIndex}
         TabsList={TabsList}
         handleSetTabIndex={(event, value) => setTabIndex(value)}
       />
-      <Card sx={{ marginTop: 2 }}>
+      <Card sx={{ marginTop: 2, overflow: 'visible' }}>
         <Formik
           enableReinitialize
-          initialValues={role === 'admin' ? adminInitialValues : profileInitialValues}
+          initialValues={{ ...bankInfo, ...organisation, ...profile, email } || initialValues}
           onSubmit={onSubmit}
           validationSchema={
             isEdit &&
             (role === 'admin' ? organisationProfileSchema[tabIndex] : userProfileSchema[tabIndex])
           }
-          validate={tabIndex === 0 && validate}
+          validate={isEdit === true && tabIndex === 0 && validate}
         >
           {(props) => {
             const { isSubmitting, handleSubmit } = props;
@@ -189,7 +168,7 @@ const Profile = ({ GetDashboard }) => {
                         size="small"
                         disabled={isSubmitting}
                       >
-                        {!isEdit ? 'Edit' : 'Save'}
+                        {!isEdit ? 'Edit' : 'Save  '}
                       </Button>
                     </Grid>
                   )}

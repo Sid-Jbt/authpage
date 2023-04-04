@@ -69,7 +69,21 @@ const ViewExpenseDetails = ({ data, role, approveRejectReason }) => {
           </Grid>
         )}
         <Grid item xs={12} pt={0}>
-          {role === 'admin' ? (
+          {role === 'admin' && (data.status === 'reject' || data.status === 'approved') ? (
+            <>
+              <Typography variant="button" fontWeight="bold" textTransform="capitalize">
+                Comment: &nbsp;
+              </Typography>
+              <Typography
+                variant="button"
+                fontWeight="regular"
+                color="text"
+                textTransform="capitalize"
+              >
+                {data.comment}
+              </Typography>
+            </>
+          ) : role === 'admin' ? (
             <FormField
               type="textarea"
               placeholder="Reason"
@@ -82,34 +96,33 @@ const ViewExpenseDetails = ({ data, role, approveRejectReason }) => {
               disabled={data.status === 'reject' || data.status === 'approved'}
             />
           ) : (
-            <FormField
-              type="textarea"
-              placeholder="Reason"
-              label="Reason"
-              defaultValue={data.comment}
-              multiline
-              rows={5}
-              errorFalse
-              disabled
-            />
+            <>
+              <Typography variant="button" fontWeight="bold" textTransform="capitalize">
+                Comment: &nbsp;
+              </Typography>
+              <Typography
+                variant="button"
+                fontWeight="regular"
+                color="text"
+                textTransform="capitalize"
+              >
+                {data.comment}
+              </Typography>
+              {data.status === 'reject' && (
+                <Typography
+                  component={Link}
+                  to={getSupportTicketPattern()}
+                  variant="button"
+                  color="info"
+                  fontWeight="medium"
+                  underline="true"
+                >
+                  &nbsp; Support Ticket
+                </Typography>
+              )}
+            </>
           )}
         </Grid>
-        {data.status === 'rejected' && (
-          <Grid item xs={12}>
-            <Box display="flex" py={0.5} pr={2}>
-              <Typography
-                component={Link}
-                to={getSupportTicketPattern()}
-                variant="button"
-                color="info"
-                fontWeight="medium"
-                underline="true"
-              >
-                &nbsp; Support Ticket
-              </Typography>
-            </Box>
-          </Grid>
-        )}
       </Grid>
     </>
   );

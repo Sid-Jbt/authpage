@@ -90,7 +90,7 @@ const DashboardDefault = () => {
         ticketCount: totalPendingSupportTicket
       }));
     }
-  }, []);
+  }, [DashboardData]);
 
   return (
     <Box mb={3}>

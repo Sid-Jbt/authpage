@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   FormControlLabel,
   Grid,
@@ -17,12 +17,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
   const theme = useTheme();
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const [gender, setGender] = useState('male');
-
-  useEffect(() => {
-    if (values !== null) {
-      setGender(values.hasOwnProperty('gender') ? values.gender !== null && values.gender : 'male');
-    }
-  }, []);
 
   const onClickGender = (genderValue) => {
     setGender(genderValue);
@@ -320,7 +314,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
             sx={{ p: 2, pt: 0, pb: 0 }}
             aria-label="font-family"
             name="gender"
-            value={gender}
+            value={values.gender !== null ? values.gender : gender}
             onChange={(event) => onClickGender(event.target.value)}
           >
             <FormControlLabel
