@@ -20,8 +20,8 @@ function navbar(theme, ownerState) {
 
       return color;
     },
-    top: 10,
-    minHeight: pxToRem(100),
+    top: 20,
+    minHeight: pxToRem(90),
     width: 'auto',
     display: 'grid',
     alignItems: 'center',
@@ -48,7 +48,6 @@ function navbar(theme, ownerState) {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-
       [breakpoints.up('sm')]: {
         minHeight: 'auto',
         padding: `${pxToRem(4)} ${pxToRem(16)}`
