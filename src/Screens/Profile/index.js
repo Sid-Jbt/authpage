@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
-import { Grid, Card } from '@mui/material';
+import { Grid, Card, CircularProgress } from '@mui/material';
 import { organisationProfileSchema, userProfileSchema } from 'Helpers/ValidationSchema';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
@@ -166,9 +166,15 @@ const Profile = () => {
                         color="info"
                         variant="contained"
                         size="small"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting && Loading}
                       >
-                        {!isEdit ? 'Edit' : 'Save  '}
+                        {Loading ? (
+                          <CircularProgress size={20} color="inherit" />
+                        ) : !isEdit ? (
+                          'Edit'
+                        ) : (
+                          'Save'
+                        )}
                       </Button>
                     </Grid>
                   )}
