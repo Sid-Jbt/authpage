@@ -315,7 +315,7 @@ const supportTicket = () => {
         <DialogMenu
           isOpen={isViewSupportTicketDialogOpen}
           onClose={() => setIsViewSupportTicketDialogOpen(false)}
-          dialogTitle={`Ticket Details: ${selectedData.subject}`}
+          dialogTitle={selectedData.subject}
           dialogContent={
             <DialogContent
               customContent={
@@ -340,7 +340,7 @@ const supportTicket = () => {
                     {
                       data: {
                         status: 'approved',
-                        comment: approveRejectReason
+                        reason: approveRejectReason
                       },
                       id: selectedData.id
                     },
@@ -352,7 +352,7 @@ const supportTicket = () => {
                     {
                       data: {
                         status: 'reject',
-                        comment: approveRejectReason
+                        reason: approveRejectReason
                       },
                       id: selectedData.id
                     },

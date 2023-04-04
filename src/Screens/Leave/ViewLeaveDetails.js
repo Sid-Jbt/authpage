@@ -1,6 +1,5 @@
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
-import { Grid } from '@mui/material';
 import React from 'react';
 import FormField from 'Elements/FormField';
 import { Link } from 'react-router-dom';
@@ -49,53 +48,51 @@ const ViewLeaveDetails = ({ data, role, approveRejectReason }) => {
   ));
 
   return (
-    <>
-      <Grid container spacing={2} alignItems="center" justifyContent="space-between">
-        <Grid item>{renderItems}</Grid>
-        <Grid item xs={12}>
-          {role === 'admin' ? (
-            <FormField
-              type="textarea"
-              placeholder="Reason"
-              label="Reason"
-              defaultValue={data.reason}
-              onChange={(event) => approveRejectReason(event.target.value)}
-              multiline
-              rows={5}
-              errorFalse
-              disabled={data.status === 'reject' || data.status === 'approved'}
-            />
-          ) : (
-            <FormField
-              type="textarea"
-              placeholder="Reason"
-              label="Reason"
-              defaultValue={data.reason}
-              multiline
-              rows={5}
-              errorFalse
-              disabled
-            />
+    <Box sx={{ width: 400 }}>
+      {renderItems}
+      {role === 'admin' && (data.status === 'reject' || data.status === 'approved') ? (
+        <>
+          <Typography variant="button" fontWeight="bold" textTransform="capitalize">
+            Reason: &nbsp;
+          </Typography>
+          <Typography variant="button" fontWeight="regular" color="text" textTransform="capitalize">
+            {data.reason}
+          </Typography>
+        </>
+      ) : role === 'admin' ? (
+        <FormField
+          type="textarea"
+          placeholder="Enter the reason"
+          defaultValue={data.reason}
+          onChange={(event) => approveRejectReason(event.target.value)}
+          multiline
+          rows={5}
+          errorFalse
+          disabled={data.status === 'reject' || data.status === 'approved'}
+        />
+      ) : (
+        <>
+          <Typography variant="button" fontWeight="bold" textTransform="capitalize">
+            Reason: &nbsp;
+          </Typography>
+          <Typography variant="button" fontWeight="regular" color="text" textTransform="capitalize">
+            {data.reason}
+          </Typography>
+          {data.status === 'reject' && (
+            <Typography
+              component={Link}
+              to={getSupportTicketPattern()}
+              variant="button"
+              color="info"
+              fontWeight="medium"
+              underline="true"
+            >
+              &nbsp; Support Ticket
+            </Typography>
           )}
-        </Grid>
-        {data.status === 'reject' && (
-          <Grid item xs={12}>
-            <Box display="flex" py={0.5} pr={2}>
-              <Typography
-                component={Link}
-                to={getSupportTicketPattern()}
-                variant="button"
-                color="info"
-                fontWeight="medium"
-                underline="true"
-              >
-                &nbsp; Support Ticket
-              </Typography>
-            </Box>
-          </Grid>
-        )}
-      </Grid>
-    </>
+        </>
+      )}
+    </Box>
   );
 };
 

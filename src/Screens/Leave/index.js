@@ -296,7 +296,7 @@ const LeaveList = () => {
         <DialogMenu
           isOpen={isViewLeaveDialogOpen}
           onClose={() => setIsViewLeaveDialogOpen(false)}
-          dialogTitle={`Leave Details: ${selectedData.leaveType}`}
+          dialogTitle={selectedData.leaveType}
           dialogContent={
             <DialogContent
               customContent={
