@@ -60,9 +60,13 @@ const AddLeaveForm = ({
                 <FormControl sx={{ width: '100%' }}>
                   <FormLabel>Select Leave</FormLabel>
                   <Select
-                    value={values.leaveType}
+                    value={
+                      selectedData === null
+                        ? values.leaveType
+                        : leave.find((o) => o.value === values.leaveType)
+                    }
                     options={leave}
-                    onChange={(value) => setFieldValue('leaveType', value)}
+                    onChange={(value) => setFieldValue('leaveType', value.value)}
                   />
                 </FormControl>
               </Grid>
