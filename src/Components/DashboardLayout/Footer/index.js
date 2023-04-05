@@ -74,7 +74,7 @@ const Footer = ({ company, links }) => {
 };
 
 Footer.defaultProps = {
-  company: { href: 'https://www.jarvisbitz.com/', name: 'Jarvis Bitz Tech' },
+  company: { href: 'https://www.jarvisbitz.com/', name: 'JarvisBitz Tech' },
   links: [
     { href: 'https://www.jarvisbitz.com/', name: 'Home' },
     { href: 'https://www.jarvisbitz.com/about', name: 'About Us' },

@@ -4,7 +4,8 @@ import Input from 'Elements/Input';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Avatar from 'Elements/Avatar';
-import team2 from 'Assets/Images/team-4-800x800.jpg';
+import largeFile from 'Assets/logo/jbt-full-logo.svg';
+import smallFile from 'Assets/logo/logo.jpeg';
 import Button from 'Elements/Button';
 import Icon from '@mui/material/Icon';
 import { Edit } from '@mui/icons-material';
@@ -57,7 +58,9 @@ const Organisation = ({ isEdit, props }) => {
                 onChange={(e) => onClickLogoUpload(e, 'large')}
               />
               <Avatar
-                src={!values.largeLogo ? team2 : largeLogo === '' ? values.largeLogo : largeLogo}
+                src={
+                  !values.largeLogo ? largeFile : largeLogo === '' ? values.largeLogo : largeLogo
+                }
                 alt="large picture"
                 size="xxl"
                 variant="rounded"
@@ -92,7 +95,9 @@ const Organisation = ({ isEdit, props }) => {
                 onChange={(e) => onClickLogoUpload(e, 'small')}
               />
               <Avatar
-                src={!values.smallLogo ? team2 : smallLogo === '' ? values.smallLogo : smallLogo}
+                src={
+                  !values.smallLogo ? smallFile : smallLogo === '' ? values.smallLogo : smallLogo
+                }
                 alt="small picture"
                 size="xxl"
                 variant="rounded"
