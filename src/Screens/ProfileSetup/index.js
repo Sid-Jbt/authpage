@@ -101,13 +101,13 @@ const ProfileSetup = () => {
     }
   }, [DashboardData]);
 
-  const validate = (values) => {
+  /* const validate = (values) => {
     const errors = {};
     if (values.phoneNumber === values.alternatePhone) {
       errors.alternatePhone = 'Alternate number should not be same as phone number';
     }
     return errors;
-  };
+  }; */
 
   return (
     <Box pt={3} pb={3} position="relative">
@@ -137,9 +137,9 @@ const ProfileSetup = () => {
                 validationSchema={
                   role === 'admin' ? organisationSchema[activeStep] : userSchema[activeStep]
                 }
-                validate={
+                /*  validate={
                   role === 'admin' ? activeStep === 1 && validate : activeStep === 0 && validate
-                }
+                } */
               >
                 {(props) => {
                   const { handleSubmit, isSubmitting } = props;

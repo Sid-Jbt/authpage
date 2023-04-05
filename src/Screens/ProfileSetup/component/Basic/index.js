@@ -210,9 +210,9 @@ const Basic = ({ role, props }) => {
                     value={values.phoneNumber}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
-                    error={errors.phoneNumber && touched.phoneNumber}
-                    success={!errors.phoneNumber && touched.phoneNumber}
+                    // errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
+                    // error={errors.phoneNumber && touched.phoneNumber}
+                    // success={!errors.phoneNumber && touched.phoneNumber}
                     onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
@@ -232,11 +232,11 @@ const Basic = ({ role, props }) => {
                     value={values.alternatePhone}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    errorText={
+                    /*  errorText={
                       errors.alternatePhone && touched.alternatePhone && errors.alternatePhone
                     }
                     error={errors.alternatePhone && touched.alternatePhone}
-                    success={!errors.alternatePhone && touched.alternatePhone}
+                    success={!errors.alternatePhone && touched.alternatePhone} */
                     onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
