@@ -191,7 +191,6 @@ const LeaveList = () => {
               name="fromDate"
               value={startDate !== '' ? startDate : ''}
               onChange={(e) => setStartDate(e.target.value)}
-              errorFalse
             />
           </Grid>
           <Grid item xs={6} md={4} lg={3}>
@@ -204,7 +203,6 @@ const LeaveList = () => {
               name="toDate"
               value={endDate !== '' ? endDate : ''}
               onChange={(e) => setEndDate(e.target.value)}
-              errorFalse
             />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>

@@ -212,7 +212,7 @@ const Table = ({
                 isAction={isAction}
                 options={
                   options &&
-                  options.map((item) =>
+                  options.filter((item) =>
                     row.status === 'pending' && item.name !== 'view'
                       ? item
                       : row.status !== 'pending' && item.name === 'view'

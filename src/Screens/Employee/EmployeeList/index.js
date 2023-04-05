@@ -108,7 +108,6 @@ const EmployeeList = () => {
               name="fromDate"
               value={startDate !== '' ? startDate : ''}
               onChange={(e) => setStartDate(e.target.value)}
-              errorFalse
             />
           </Grid>
           <Grid item xs={6} md={4} lg={3}>
@@ -124,7 +123,6 @@ const EmployeeList = () => {
               }}
               value={endDate !== '' ? endDate : ''}
               onChange={(e) => setEndDate(e.target.value)}
-              errorFalse
             />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>

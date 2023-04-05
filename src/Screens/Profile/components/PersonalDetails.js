@@ -17,7 +17,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
   const theme = useTheme();
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const [gender, setGender] = useState('male');
-
   const onClickGender = (genderValue) => {
     setGender(genderValue);
     setFieldValue('gender', genderValue);

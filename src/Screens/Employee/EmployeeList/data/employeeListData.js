@@ -17,7 +17,7 @@ const empListData = {
     },
     {
       id: 'dateOfJoin',
-      name: 'joining',
+      name: 'dateOfJoin',
       align: 'center',
       headerName: 'Onboarding',
       mobileHeader: 'Doj'

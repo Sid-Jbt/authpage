@@ -186,7 +186,6 @@ const supportTicket = () => {
               name="startDate"
               value={startDate !== '' ? startDate : ''}
               onChange={(event) => setStartDate(event.target.value)}
-              errorFalse
             />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>

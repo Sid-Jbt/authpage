@@ -15,7 +15,7 @@ import CropperImage from 'Components/ImageCrop';
 import DialogMenu from 'Elements/Dialog';
 
 const Organisation = ({ isEdit, props }) => {
-  const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
+  const { values, handleChange, handleBlur, setFieldValue } = props;
   const smallLogoInputFile = useRef(null);
   const largeLogoInputFile = useRef(null);
   const [smallLogo, setSmallLogo] = useState('');
@@ -43,79 +43,77 @@ const Organisation = ({ isEdit, props }) => {
   return (
     <Card sx={{ overflow: 'visible' }}>
       <Grid container spacing={2} p={2} alignItems="center" justifyContent="center">
-        <Grid item xs={12} md={2.5} justifyContent="center">
-          <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-            Logo (16x7)
-          </Typography>
-          <Box position="relative">
-            <input
-              ref={largeLogoInputFile}
-              type="file"
-              accept="image/*"
-              hidden
-              onChange={(e) => onClickLogoUpload(e, 'large')}
-            />
-            <Avatar
-              src={
-                values.largeLogo === '' ? team2 : largeLogo === '' ? values.largeLogo : largeLogo
-              }
-              alt="large picture"
-              size="xxl"
-              variant="rounded"
-              sx={{ m: 'auto' }}
-            />
-            {isEdit && (
-              <Button
-                sx={{ position: 'absolute', bottom: 0, right: 0, mr: 7, mb: -1 }}
-                variant="gradient"
-                color="light"
-                component="label"
-                onClick={() => largeLogoInputFile.current && largeLogoInputFile.current.click()}
-                iconOnly
-              >
-                <Icon>
-                  <Edit />
-                </Icon>
-              </Button>
-            )}
-          </Box>
-        </Grid>
-        <Grid item xs={12} md={2.5} justifyContent="center">
-          <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-            Logo (1x1)
-          </Typography>
-          <Box position="relative">
-            <input
-              ref={smallLogoInputFile}
-              type="file"
-              accept="image/*"
-              hidden
-              onChange={(e) => onClickLogoUpload(e, 'small')}
-            />
-            <Avatar
-              src={
-                values.smallLogo === '' ? team2 : smallLogo === '' ? values.smallLogo : smallLogo
-              }
-              alt="small picture"
-              size="xxl"
-              variant="rounded"
-              sx={{ m: 'auto' }}
-            />
-            {isEdit && (
-              <Button
-                sx={{ position: 'absolute', bottom: 0, right: 0, mr: 7, mb: -1 }}
-                variant="gradient"
-                color="light"
-                component="label"
-                onClick={() => smallLogoInputFile.current && smallLogoInputFile.current.click()}
-                iconOnly
-              >
-                <Icon>
-                  <Edit />
-                </Icon>
-              </Button>
-            )}
-          </Box>
+        <Grid container item xs={12} alignItems="center" justifyContent="center">
+          <Grid item xs={12} md={2.5}>
+            <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
+              Logo (16x7)
+            </Typography>
+            <Box position="relative">
+              <input
+                ref={largeLogoInputFile}
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(e) => onClickLogoUpload(e, 'large')}
+              />
+              <Avatar
+                src={!values.largeLogo ? team2 : largeLogo === '' ? values.largeLogo : largeLogo}
+                alt="large picture"
+                size="xxl"
+                variant="rounded"
+                sx={{ m: 'auto' }}
+              />
+              {isEdit && (
+                <Button
+                  sx={{ position: 'absolute', bottom: 0, right: 0, mr: 7, mb: -1 }}
+                  variant="gradient"
+                  color="light"
+                  component="label"
+                  onClick={() => largeLogoInputFile.current && largeLogoInputFile.current.click()}
+                  iconOnly
+                >
+                  <Icon>
+                    <Edit />
+                  </Icon>
+                </Button>
+              )}
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={2.5} justifyContent="center">
+            <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
+              Logo (1x1)
+            </Typography>
+            <Box position="relative">
+              <input
+                ref={smallLogoInputFile}
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(e) => onClickLogoUpload(e, 'small')}
+              />
+              <Avatar
+                src={!values.smallLogo ? team2 : smallLogo === '' ? values.smallLogo : smallLogo}
+                alt="small picture"
+                size="xxl"
+                variant="rounded"
+                sx={{ m: 'auto' }}
+              />
+              {isEdit && (
+                <Button
+                  sx={{ position: 'absolute', bottom: 0, right: 0, mr: 7, mb: -1 }}
+                  variant="gradient"
+                  color="light"
+                  component="label"
+                  onClick={() => smallLogoInputFile.current && smallLogoInputFile.current.click()}
+                  iconOnly
+                >
+                  <Icon>
+                    <Edit />
+                  </Icon>
+                </Button>
+              )}
+            </Box>
+          </Grid>
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
           <Input
@@ -129,18 +127,19 @@ const Organisation = ({ isEdit, props }) => {
             value={values.location}
             onChange={handleChange}
             onBlur={handleBlur}
-            errorText={errors.location && touched.location && errors.location}
-            error={errors.location && touched.location}
-            success={!errors.location && touched.location}
             disabled={!isEdit}
           />
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
           <FormControl sx={{ width: '100%' }}>
-            <FormLabel> Select Working Hours </FormLabel>
+            <FormLabel>Select Working Hours</FormLabel>
             <Select
               name="workingHours"
-              value={values.workingHours !== null ? values.workingHours : WorkingHours[0].value}
+              value={
+                values === null
+                  ? values.workingHours
+                  : WorkingHours.find((o) => o.value === values.workingHours)
+              }
               options={WorkingHours}
               onChange={(value) => {
                 setFieldValue('workingHours', value);
@@ -150,7 +149,7 @@ const Organisation = ({ isEdit, props }) => {
             />
           </FormControl>
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={8}>
           <Input
             type="text"
             placeholder="Organisation Name"
@@ -162,11 +161,6 @@ const Organisation = ({ isEdit, props }) => {
             value={values.organisationName}
             onChange={handleChange}
             onBlur={handleBlur}
-            errorText={
-              errors.organisationName && touched.organisationName && errors.organisationName
-            }
-            error={errors.organisationName && touched.organisationName}
-            success={!errors.organisationName && touched.organisationName}
             disabled={!isEdit}
           />
         </Grid>

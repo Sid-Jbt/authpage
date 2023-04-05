@@ -190,7 +190,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
                 icon={<Home />}
                 title={route[route.length - 1]}
                 route={route}
-                light={false}
+                light={position > 10}
               />
             </Box>
           </>

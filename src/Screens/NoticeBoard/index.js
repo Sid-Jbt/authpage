@@ -200,7 +200,6 @@ export const NoticeBoard = () => {
               name="fromDate"
               value={fromDate !== '' ? fromDate : ''}
               onChange={(value) => handleChangeStartDate(value, 'fromDate')}
-              errorFalse
             />
           </Grid>
           <Grid item xs={6} md={4} lg={3}>
@@ -213,7 +212,6 @@ export const NoticeBoard = () => {
               name="toDate"
               value={toDate !== '' ? toDate : ''}
               onChange={(value) => handleChangeStartDate(value, 'toDate')}
-              errorFalse
             />
           </Grid>
         </FilterLayout>
