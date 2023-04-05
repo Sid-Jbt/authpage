@@ -11,12 +11,13 @@ import {
 import moment from 'moment';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
-import { keyDownValidation } from '../../../Helpers/Global';
+import { keyDownValidation } from 'Helpers/Global';
 
 const PersonalDetails = ({ isEdit, role, props }) => {
   const theme = useTheme();
-  const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
+  const { values, handleChange, handleBlur, setFieldValue } = props;
   const [gender, setGender] = useState('male');
+
   const onClickGender = (genderValue) => {
     setGender(genderValue);
     setFieldValue('gender', genderValue);
@@ -38,7 +39,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.firstName}
               onChange={handleChange}
               onBlur={handleBlur}
-              success={!errors.firstName && touched.firstName}
               disabled={!isEdit}
             />
           </Box>
@@ -56,7 +56,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.lastName}
               onChange={handleChange}
               onBlur={handleBlur}
-              success={!errors.lastName && touched.lastName}
               disabled={!isEdit}
             />
           </Box>
@@ -75,7 +74,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                 value={values.fatherName}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                success={!errors.fatherName && touched.fatherName}
                 disabled={!isEdit}
               />
             </Box>
@@ -127,7 +125,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   value={values.designation}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  success={!errors.designation && touched.designation}
                   disabled={!isEdit}
                 />
               </Box>
@@ -183,9 +180,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                 label="Date Of Join"
                 disabled
                 value={
-                  values.dateOfJoin === undefined || values.dateOfJoin === null
-                    ? ''
-                    : moment(values.dateOfJoin).format('DD/MM/YYYY')
+                  values.dateOfJoin === '' ? '' : moment(values.dateOfJoin).format('DD/MM/YYYY')
                 }
               />
             </Box>
@@ -227,7 +222,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.phoneNumber === null ? '' : values.phoneNumber}
               onChange={handleChange}
               onBlur={handleBlur}
-              success={!errors.phoneNumber && touched.phoneNumber}
               onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
             />
@@ -246,7 +240,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.alternatePhone}
               onChange={handleChange}
               onBlur={handleBlur}
-              success={!errors.alternatePhone && touched.alternatePhone}
               onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
             />
@@ -265,7 +258,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.permanentAddress}
               onChange={handleChange}
               onBlur={handleBlur}
-              success={!errors.permanentAddress && touched.permanentAddress}
               disabled={!isEdit}
             />
           </Box>
@@ -283,7 +275,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.presentAddress}
               onChange={handleChange}
               onBlur={handleBlur}
-              success={!errors.presentAddress && touched.presentAddress}
               disabled={!isEdit}
             />
           </Box>
@@ -295,7 +286,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
             sx={{ p: 2, pt: 0, pb: 0 }}
             aria-label="font-family"
             name="gender"
-            value={values.gender !== null ? values.gender : gender}
+            value={values.gender !== '' ? values.gender : gender}
             onChange={(event) => onClickGender(event.target.value)}
           >
             <FormControlLabel
