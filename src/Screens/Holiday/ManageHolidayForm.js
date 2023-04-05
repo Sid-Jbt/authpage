@@ -17,7 +17,6 @@ const ManageHolidayForm = ({
   isDrawerOpen,
   handleDrawerClose,
   title,
-  isEdit,
   Loading,
   GetHolidayAddUpdate,
   selectedData
@@ -27,8 +26,7 @@ const ManageHolidayForm = ({
       enableReinitialize
       initialValues={selectedData || initialValues}
       onSubmit={(values, action) => {
-        const data = isEdit ? selectedData : { values };
-        GetHolidayAddUpdate(data, (res) => {
+        GetHolidayAddUpdate(values, (res) => {
           const { status } = res.data;
           if (status) {
             handleDrawerClose();
@@ -86,6 +84,7 @@ const ManageHolidayForm = ({
               sm={12}
               md={4}
               lg={6}
+              pt={2}
               sx={{
                 display: 'flex',
                 alignItems: 'center'

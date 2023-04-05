@@ -251,6 +251,7 @@ const Table = ({
                     <Icon
                       key={index}
                       sx={{ cursor: 'pointer', fontWeight: 'bold' }}
+                      color={item.color}
                       fontSize="small"
                       onClick={() => onClickAction(item.value, row)}
                     >
