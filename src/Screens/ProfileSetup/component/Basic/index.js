@@ -144,9 +144,6 @@ const Basic = ({ role, props }) => {
                         value={values.fatherName}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        errorText={errors.fatherName && touched.fatherName && errors.fatherName}
-                        error={errors.fatherName && touched.fatherName}
-                        success={!errors.fatherName && touched.fatherName}
                       />
                     </Box>
                   </Grid>
@@ -178,9 +175,6 @@ const Basic = ({ role, props }) => {
                         value={values.designation}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        errorText={errors.designation && touched.designation && errors.designation}
-                        error={errors.designation && touched.designation}
-                        success={!errors.designation && touched.designation}
                       />
                     </Box>
                   </Grid>
