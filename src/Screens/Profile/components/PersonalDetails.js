@@ -38,8 +38,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.firstName}
               onChange={handleChange}
               onBlur={handleBlur}
-              errorText={errors.firstName && touched.firstName && errors.firstName}
-              error={errors.firstName && touched.firstName}
               success={!errors.firstName && touched.firstName}
               disabled={!isEdit}
             />
@@ -58,8 +56,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.lastName}
               onChange={handleChange}
               onBlur={handleBlur}
-              errorText={errors.lastName && touched.lastName && errors.lastName}
-              error={errors.lastName && touched.lastName}
               success={!errors.lastName && touched.lastName}
               disabled={!isEdit}
             />
@@ -79,8 +75,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                 value={values.fatherName}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                errorText={errors.fatherName && touched.fatherName && errors.fatherName}
-                error={errors.fatherName && touched.fatherName}
                 success={!errors.fatherName && touched.fatherName}
                 disabled={!isEdit}
               />
@@ -133,8 +127,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   value={values.designation}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  errorText={errors.designation && touched.designation && errors.designation}
-                  error={errors.designation && touched.designation}
                   success={!errors.designation && touched.designation}
                   disabled={!isEdit}
                 />
@@ -235,8 +227,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.phoneNumber === null ? '' : values.phoneNumber}
               onChange={handleChange}
               onBlur={handleBlur}
-              errorText={errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
-              error={errors.phoneNumber && touched.phoneNumber}
               success={!errors.phoneNumber && touched.phoneNumber}
               onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
@@ -256,8 +246,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.alternatePhone}
               onChange={handleChange}
               onBlur={handleBlur}
-              errorText={errors.alternatePhone && touched.alternatePhone && errors.alternatePhone}
-              error={errors.alternatePhone && touched.alternatePhone}
               success={!errors.alternatePhone && touched.alternatePhone}
               onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
@@ -277,10 +265,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.permanentAddress}
               onChange={handleChange}
               onBlur={handleBlur}
-              errorText={
-                errors.permanentAddress && touched.permanentAddress && errors.permanentAddress
-              }
-              error={errors.permanentAddress && touched.permanentAddress}
               success={!errors.permanentAddress && touched.permanentAddress}
               disabled={!isEdit}
             />
@@ -299,8 +283,6 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.presentAddress}
               onChange={handleChange}
               onBlur={handleBlur}
-              errorText={errors.presentAddress && touched.presentAddress && errors.presentAddress}
-              error={errors.presentAddress && touched.presentAddress}
               success={!errors.presentAddress && touched.presentAddress}
               disabled={!isEdit}
             />
