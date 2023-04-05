@@ -170,6 +170,7 @@ const supportTicket = () => {
         }}
       >
         <FilterLayout
+          search={search}
           handleSearch={(e) => setSearch(e.target.value)}
           handleClear={handleClear}
           onClickSearch={() => {
