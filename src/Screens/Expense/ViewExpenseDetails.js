@@ -92,7 +92,6 @@ const ViewExpenseDetails = ({ data, role, approveRejectReason }) => {
               onChange={(event) => approveRejectReason(event.target.value)}
               multiline
               rows={5}
-              errorFalse
               disabled={data.status === 'reject' || data.status === 'approved'}
             />
           ) : (
