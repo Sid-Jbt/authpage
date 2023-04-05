@@ -41,6 +41,7 @@ const TabsList = [
     icon: <CurrencyRupeeOutlined style={{ marginRight: '8px' }} />
   } */
 ];
+let oldValues = {};
 
 const Profile = ({ GetDashboard }) => {
   const { role, user, GetProfileSetup, Loading } = useOutletContext();
@@ -93,7 +94,8 @@ const Profile = ({ GetDashboard }) => {
 
     if (!isEdit) {
       setIsEdit(true);
-    } else {
+      oldValues = values;
+    } else if (JSON.stringify(oldValues) !== JSON.stringify(values)) {
       GetProfileSetup(values, (res) => {
         const { status } = res.data;
         if (status) {
@@ -103,6 +105,8 @@ const Profile = ({ GetDashboard }) => {
           setIsEdit(true);
         }
       });
+    } else {
+      setIsEdit(false);
     }
     actions.setTouched({});
     actions.setSubmitting(false);
