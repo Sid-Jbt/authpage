@@ -136,7 +136,7 @@ const Organisation = ({ isEdit, props }) => {
             <Select
               name="workingHours"
               value={
-                values === null
+                !values
                   ? values.workingHours
                   : WorkingHours.find((o) => o.value === values.workingHours)
               }

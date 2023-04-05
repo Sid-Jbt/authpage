@@ -42,8 +42,8 @@ const TabsList = [
   } */
 ];
 
-const Profile = () => {
-  const { role, user, GetProfileSetup, GetDashboard, Loading } = useOutletContext();
+const Profile = ({ GetDashboard }) => {
+  const { role, user, GetProfileSetup, Loading } = useOutletContext();
   const [tabIndex, setTabIndex] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
   const { bankInfo, organisation, profile, ...rest } = user;
@@ -85,6 +85,10 @@ const Profile = () => {
     if (values.hasOwnProperty('workingHours') && values.workingHours !== null) {
       delete values.workingHours.label;
       values.workingHours = values.workingHours.value;
+    }
+
+    if (values.hasOwnProperty('gender') && values.gender === '') {
+      values.gender = 'male';
     }
 
     if (!isEdit) {
@@ -158,8 +162,6 @@ const Profile = () => {
                         {Loading ? (
                           <CircularProgress size={20} color="inherit" />
                         ) : !isEdit ? (
-                          'Edit'
-                        ) : isEdit && tabIndex ? (
                           'Edit'
                         ) : (
                           'Save'
