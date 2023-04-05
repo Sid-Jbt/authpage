@@ -46,7 +46,7 @@ const CustomDropzone = ({
   multiple = false,
   validator,
   error,
-  accept = { 'image/*': ['.png', '.gif', '.jpeg', '.jpg', '.pdf'] },
+  accept = { 'image/*': ['.png', '.gif', '.jpeg', '.jpg'] },
   title = "Drag 'n' drop some files here, or click to select files"
 }) => {
   const [files, setFiles] = useState([]);
