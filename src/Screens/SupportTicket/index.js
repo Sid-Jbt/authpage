@@ -170,6 +170,7 @@ const supportTicket = () => {
         }}
       >
         <FilterLayout
+          search={search}
           handleSearch={(e) => setSearch(e.target.value)}
           handleClear={handleClear}
           onClickSearch={() => {
@@ -245,9 +246,9 @@ const supportTicket = () => {
           }}
           isAction={role !== 'admin'}
           options={[
-            { title: 'Edit', value: 'edit' },
-            { title: 'Delete', value: 'delete' },
-            { title: 'View', value: 'view' }
+            { name: 'edit', title: 'Edit', value: 'edit' },
+            { name: 'delete', title: 'Delete', value: 'delete' },
+            { name: 'view', title: 'View', value: 'view' }
           ]}
           isView={
             role === 'admin' && [

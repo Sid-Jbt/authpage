@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
-import { Add, ImportExportRounded } from '@mui/icons-material';
+import { Add, DeleteForeverRounded, EditOutlined, ImportExportRounded } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import FilterLayout from 'Components/FilterLayout';
@@ -128,10 +128,21 @@ const Holiday = () => {
               });
             }
           }}
-          isAction={role === 'admin'}
-          options={[
-            { title: 'Edit', value: 'edit' },
-            { title: 'Delete', value: 'delete' }
+          isView={[
+            {
+              name: 2,
+              tooltip: 'Click to edit',
+              color: 'info',
+              icon: <EditOutlined />,
+              value: 'edit'
+            },
+            {
+              name: 3,
+              tooltip: 'Click to delete',
+              color: 'error',
+              icon: <DeleteForeverRounded />,
+              value: 'delete'
+            }
           ]}
           rowsCount={holidayListCount}
           initialPage={page}
@@ -150,7 +161,7 @@ const Holiday = () => {
           isOpen={isDialogOpen}
           onClose={() => setIsDialogOpen(false)}
           dialogTitle={isEdit ? 'Delete' : 'Import Files'}
-          dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
+          dialogContent={<DialogContent content="Are you sure you want to delete this?" />}
           dialogAction={
             isEdit && (
               <DialogAction
@@ -172,7 +183,6 @@ const Holiday = () => {
           handleDrawerClose={() => handleDrawerClose()}
           title={isEdit ? 'UPDATE HOLIDAY' : 'ADD HOLIDAY'}
           selectedData={selectedData}
-          isEdit={isEdit}
           GetHolidayAddUpdate={GetHolidayAddUpdate}
         />
       </Card>

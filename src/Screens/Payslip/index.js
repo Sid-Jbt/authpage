@@ -5,6 +5,7 @@ import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
 import { Months, Years } from 'Helpers/Global';
 import { useOutletContext } from 'react-router';
+import { FileDownloadRounded } from '@mui/icons-material';
 import payslipColumns from './data/payslipData';
 
 const Payslip = () => {
@@ -84,8 +85,15 @@ const Payslip = () => {
         rows={allPayslipList}
         rowsCount={payslipListCount}
         // onClickAction={(value, row) => onClickAction(value, row)}
-        isAction
-        // options={downloadOption}
+        isView={[
+          {
+            name: 4,
+            tooltip: 'Click to download',
+            color: 'info',
+            icon: <FileDownloadRounded />,
+            value: 'edit'
+          }
+        ]}
         initialPage={page}
         onChangePage={(value) => setPage(value)}
         rowsPerPage={limit}
