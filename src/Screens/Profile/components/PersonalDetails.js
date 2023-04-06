@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   FormControlLabel,
   Grid,
@@ -16,12 +16,6 @@ import { keyDownValidation } from 'Helpers/Global';
 const PersonalDetails = ({ isEdit, role, props }) => {
   const theme = useTheme();
   const { values, handleChange, handleBlur, setFieldValue } = props;
-  const [gender, setGender] = useState('male');
-
-  const onClickGender = (genderValue) => {
-    setGender(genderValue);
-    setFieldValue('gender', genderValue);
-  };
 
   return (
     <Card>
@@ -286,8 +280,8 @@ const PersonalDetails = ({ isEdit, role, props }) => {
             sx={{ p: 2, pt: 0, pb: 0 }}
             aria-label="font-family"
             name="gender"
-            value={values.gender !== '' ? values.gender : gender}
-            onChange={(event) => onClickGender(event.target.value)}
+            value={values.gender}
+            onChange={(event) => setFieldValue('gender', event.target.value)}
           >
             <FormControlLabel
               value="male"

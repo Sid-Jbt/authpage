@@ -83,13 +83,8 @@ const Profile = ({ GetDashboard }) => {
   };
 
   const onSubmit = (values, actions) => {
-    if (values.hasOwnProperty('workingHours') && values.workingHours !== null) {
-      delete values.workingHours.label;
+    if (values.workingHours) {
       values.workingHours = values.workingHours.value;
-    }
-
-    if (values.hasOwnProperty('gender') && values.gender === '') {
-      values.gender = 'male';
     }
 
     if (!isEdit) {
