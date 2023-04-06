@@ -3,14 +3,13 @@ import { Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import { useLocation } from 'react-router-dom';
 import { useOutletContext } from 'react-router';
-import moment from 'moment/moment';
 import { Gender } from 'Helpers/Global';
 import Header from './components/Header';
 import BasicInfo from './components/BasicInfo';
 import ChangePassword from './components/ChangePassword';
 import BankDetails from './components/BankDetails';
 
-const initialValues = {
+let initialValues = {
   firstName: '',
   lastName: '',
   designation: '',
@@ -19,9 +18,9 @@ const initialValues = {
   gender: Gender[0],
   permanentAddress: '',
   phoneNumber: '',
-  dob: moment().format('YYYY-MM-DD'),
-  dateOfLeave: moment().format('YYYY-MM-DD'),
-  dateOfJoin: moment().format('YYYY-MM-DD'),
+  dob: '',
+  dateOfLeave: '',
+  dateOfJoin: '',
   bankName: '',
   branchName: '',
   accountName: '',
@@ -44,13 +43,8 @@ const EmployeeDetails = () => {
       },
       (res) => {
         if (res && res.data && res.data.data) {
-          const { data } = res.data;
-          Object.keys(initialValues).map((key) => {
-            initialValues[key] = data.profile[key] || data.bankInfo[key];
-            initialValues.email = data.email;
-            initialValues.slug = data.slug;
-            initialValues.id = data.id;
-          });
+          const { bankInfo, profile, id, ...rest } = res.data.data;
+          initialValues = { ...bankInfo, ...profile, ...rest, id };
         }
       }
     );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import { Grid, Card, CircularProgress } from '@mui/material';
@@ -81,6 +81,10 @@ const Profile = ({ GetDashboard }) => {
           panNumber: ''
         })
   };
+
+  useEffect(() => {
+    GetDashboard();
+  }, []);
 
   const onSubmit = (values, actions) => {
     if (values.workingHours) {
