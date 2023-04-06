@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Grid } from '@mui/material';
-import Box from 'Elements/Box';
 import { useLocation } from 'react-router-dom';
 import { useOutletContext } from 'react-router';
 import { Gender } from 'Helpers/Global';
@@ -52,31 +51,29 @@ const EmployeeDetails = () => {
   }, []);
 
   return (
-    <Box mt={4}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} lg={3}>
-          <Header />
+    <Grid container spacing={3}>
+      <Grid
+        item
+        xs={12}
+        lg={3}
+        sx={({ breakpoints }) => ({
+          [breakpoints.down('lg')]: { display: 'none' }
+        })}
+      >
+        <Header />
+      </Grid>
+      <Grid container spacing={3} item xs={12} lg={9}>
+        <Grid item xs={12}>
+          <BasicInfo data={initialValues} />
         </Grid>
-        <Grid item xs={12} lg={9}>
-          <Box mb={3}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <BasicInfo data={initialValues} />
-              </Grid>
-              <Grid item xs={12}>
-                <BankDetails data={initialValues} />
-              </Grid>
-              {/* <Grid item xs={12}> */}
-              {/*   <SalaryInfo /> */}
-              {/* </Grid> */}
-              <Grid item xs={12}>
-                <ChangePassword id={initialValues.id} />
-              </Grid>
-            </Grid>
-          </Box>
+        <Grid item xs={12}>
+          <BankDetails data={initialValues} />
+        </Grid>
+        <Grid item xs={12}>
+          <ChangePassword id={initialValues.id} />
         </Grid>
       </Grid>
-    </Box>
+    </Grid>
   );
 };
 

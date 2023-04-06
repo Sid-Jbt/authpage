@@ -98,6 +98,7 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
         />
         <Box
           sx={({ breakpoints }) => ({
+            mt: 3,
             [breakpoints.down('md')]: { p: 1, pt: 0 },
             [breakpoints.up('md')]: { p: 3, pt: 0 }
           })}
