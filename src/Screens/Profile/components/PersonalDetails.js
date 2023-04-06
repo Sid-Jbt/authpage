@@ -1,11 +1,28 @@
-import React from 'react';
-import { FormControlLabel, Grid, RadioGroup, Radio, FormLabel, Card } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  FormControlLabel,
+  Grid,
+  RadioGroup,
+  Radio,
+  useTheme,
+  FormLabel,
+  Card
+} from '@mui/material';
 import moment from 'moment';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
+import { keyDownValidation } from 'Helpers/Global';
 
 const PersonalDetails = ({ isEdit, role, props }) => {
+  const theme = useTheme();
   const { values, handleChange, handleBlur, setFieldValue } = props;
+  const [gender, setGender] = useState('male');
+
+  const onClickGender = (genderValue) => {
+    setGender(genderValue);
+    setFieldValue('gender', genderValue);
+  };
+
   return (
     <Card>
       <Grid container spacing={1} p={2}>
@@ -162,7 +179,9 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                 name="dateOfJoin"
                 label="Date Of Join"
                 disabled
-                value={moment(values.dateOfJoin).format('DD/MM/YYYY')}
+                value={
+                  values.dateOfJoin === '' ? '' : moment(values.dateOfJoin).format('DD/MM/YYYY')
+                }
               />
             </Box>
           </Grid>
@@ -178,7 +197,11 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   name="dateOfLeave"
                   label="Date Of Leave"
                   disabled
-                  value={moment(values.dateOfLeave).format('DD/MM/YYYY')}
+                  value={
+                    values.dateOfLeave === undefined || values.dateOfLeave === null
+                      ? ''
+                      : moment(values.dateOfLeave).format('DD/MM/YYYY')
+                  }
                 />
               </Box>
             </Grid>
@@ -199,6 +222,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.phoneNumber === null ? '' : values.phoneNumber}
               onChange={handleChange}
               onBlur={handleBlur}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
             />
           </Box>
@@ -216,6 +240,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.alternatePhone}
               onChange={handleChange}
               onBlur={handleBlur}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
             />
           </Box>
@@ -261,14 +286,27 @@ const PersonalDetails = ({ isEdit, role, props }) => {
             sx={{ p: 2, pt: 0, pb: 0 }}
             aria-label="font-family"
             name="gender"
-            value={values.gender}
-            onChange={(event) => setFieldValue('gender', event.target.value)}
+            value={values.gender !== '' ? values.gender : gender}
+            onChange={(event) => onClickGender(event.target.value)}
           >
-            <FormControlLabel value="male" control={<Radio />} label="Male" disabled={!isEdit} />
+            <FormControlLabel
+              value="male"
+              control={<Radio />}
+              label="Male"
+              sx={{
+                '& .MuiSvgIcon-root': { fontSize: 28 },
+                '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
+              }}
+              disabled={!isEdit}
+            />
             <FormControlLabel
               value="female"
               control={<Radio />}
               label="Female"
+              sx={{
+                '& .MuiSvgIcon-root': { fontSize: 28 },
+                '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
+              }}
               disabled={!isEdit}
             />
           </RadioGroup>

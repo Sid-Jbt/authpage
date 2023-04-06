@@ -32,7 +32,7 @@ const AddExpenseForm = ({
       enableReinitialize
       initialValues={selectedData || initialValues}
       onSubmit={(values, action) => {
-        const data = isEdit ? selectedData : { values };
+        const data = isEdit ? selectedData : values;
         GetExpenseAddUpdate(data, (res) => {
           const { status } = res.data;
           if (status) {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
-import { Grid, Card } from '@mui/material';
+import { Grid, Card, CircularProgress } from '@mui/material';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import { useOutletContext } from 'react-router';
@@ -41,9 +41,10 @@ const TabsList = [
     icon: <CurrencyRupeeOutlined style={{ marginRight: '8px' }} />
   } */
 ];
+let oldValues = {};
 
-const Profile = () => {
-  const { role, user, GetProfileSetup, GetDashboard, Loading } = useOutletContext();
+const Profile = ({ GetDashboard }) => {
+  const { role, user, GetProfileSetup, Loading } = useOutletContext();
   const [tabIndex, setTabIndex] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
   const { bankInfo, organisation, profile, ...rest } = user;
@@ -86,9 +87,15 @@ const Profile = () => {
       delete values.workingHours.label;
       values.workingHours = values.workingHours.value;
     }
+
+    if (values.hasOwnProperty('gender') && values.gender === '') {
+      values.gender = 'male';
+    }
+
     if (!isEdit) {
       setIsEdit(true);
-    } else {
+      oldValues = values;
+    } else if (JSON.stringify(oldValues) !== JSON.stringify(values)) {
       GetProfileSetup(values, (res) => {
         const { status } = res.data;
         if (status) {
@@ -98,6 +105,8 @@ const Profile = () => {
           setIsEdit(true);
         }
       });
+    } else {
+      setIsEdit(false);
     }
     actions.setTouched({});
     actions.setSubmitting(false);
@@ -152,9 +161,15 @@ const Profile = () => {
                         color="info"
                         variant="contained"
                         size="small"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting && Loading}
                       >
-                        {!isEdit ? 'Edit' : 'Save  '}
+                        {Loading ? (
+                          <CircularProgress size={20} color="inherit" />
+                        ) : !isEdit ? (
+                          'Edit'
+                        ) : (
+                          'Save'
+                        )}
                       </Button>
                     </Grid>
                   )}

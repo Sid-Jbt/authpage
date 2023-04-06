@@ -79,38 +79,69 @@ const LeaveList = () => {
   return (
     <>
       <Grid container spacing={3} mb={3}>
-        <Grid item xs={12} md={6} lg={3}>
-          <LeaveCard
-            title="Total Leave"
-            count={leaveCount && leaveCount.totalLeave}
-            icon={{ color: 'info', component: <CalendarMonth /> }}
-            isPercentage={false}
-          />
-        </Grid>
-        <Grid item xs={12} md={6} lg={3}>
-          <LeaveCard
-            title="Medical Leave"
-            count={leaveCount && leaveCount.medicalLeave}
-            icon={{ color: 'warning', component: <Vaccines /> }}
-            isPercentage={false}
-          />
-        </Grid>
-        <Grid item xs={12} md={6} lg={3}>
-          <LeaveCard
-            title="Other Leave"
-            count={leaveCount && leaveCount.otherLeave}
-            icon={{ color: 'primary', component: <Celebration /> }}
-            isPercentage={false}
-          />
-        </Grid>
-        <Grid item xs={12} md={6} lg={3}>
-          <LeaveCard
-            title="Remaining Leave"
-            count={leaveCount && leaveCount.remainingLeave}
-            icon={{ color: 'success', component: <DirectionsRun /> }}
-            isPercentage={false}
-          />
-        </Grid>
+        {role === 'admin' ? (
+          <>
+            <Grid item xs={12} md={6} lg={3}>
+              <LeaveCard
+                title="Total Leave Request"
+                count={leaveCount && leaveCount.TotalLeaveRequest}
+                icon={{ color: 'info', component: <CalendarMonth /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <LeaveCard
+                title="Total Leave Approved"
+                count={leaveCount && leaveCount.TotalLeaveApproved}
+                icon={{ color: 'warning', component: <Vaccines /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <LeaveCard
+                title="Total Leave Declined"
+                count={leaveCount && leaveCount.TotalLeaveDeclined}
+                icon={{ color: 'primary', component: <Celebration /> }}
+                isPercentage={false}
+              />
+            </Grid>
+          </>
+        ) : (
+          <>
+            <Grid item xs={12} md={6} lg={3}>
+              <LeaveCard
+                title="Total Leave"
+                count={leaveCount && leaveCount.totalLeave}
+                icon={{ color: 'info', component: <CalendarMonth /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <LeaveCard
+                title="Medical Leave"
+                count={leaveCount && leaveCount.medicalLeave}
+                icon={{ color: 'warning', component: <Vaccines /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <LeaveCard
+                title="Other Leave"
+                count={leaveCount && leaveCount.otherLeave}
+                icon={{ color: 'primary', component: <Celebration /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <LeaveCard
+                title="Remaining Leave"
+                count={leaveCount && leaveCount.remainingLeave >= 0 ? 0 : leaveCount.remainingLeave}
+                icon={{ color: 'success', component: <DirectionsRun /> }}
+                isPercentage={false}
+              />
+            </Grid>
+          </>
+        )}
       </Grid>
       {role !== 'admin' && (
         <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
@@ -223,9 +254,9 @@ const LeaveList = () => {
           }}
           isAction={role !== 'admin'}
           options={[
-            { title: 'Edit', value: 'edit' },
-            { title: 'Delete', value: 'delete' },
-            { title: 'View', value: 'view' }
+            { name: 'edit', title: 'Edit', value: 'edit' },
+            { name: 'delete', title: 'Delete', value: 'delete' },
+            { name: 'view', title: 'View', value: 'view' }
           ]}
           isView={
             role === 'admin' && [
