@@ -44,7 +44,7 @@ const Table = ({
   const [selectedIds, setSelectedIds] = useState([]);
   const onSelectAll = (isCheckSelectAll) => {
     let selectedId = [];
-    if (isCheckSelectAll === false) {
+    if (rows && isCheckSelectAll === false) {
       rows.map(({ id }) => {
         selectedId.push(id);
       });
