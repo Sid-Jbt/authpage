@@ -35,7 +35,8 @@ const BasicInfo = ({ data }) => {
             dateOfJoin: '',
             phoneNumber: '',
             dateOfLeave: '',
-            gender: ''
+            gender: '',
+            dob: ''
           }
         }
         onSubmit={onSubmit}
@@ -85,12 +86,17 @@ const BasicInfo = ({ data }) => {
                 <Grid item xs={12} md={6} lg={4}>
                   <FormControl sx={{ width: '100%' }}>
                     <FormLabel>Gender</FormLabel>
+
                     <Select
-                      id="gender"
-                      name="gender"
+                      value={
+                        values.gender === ''
+                          ? Gender[0]
+                          : Gender.find((o) => o.value === values.gender)
+                      }
                       options={Gender}
-                      value={values.gender.value}
-                      onChange={(value) => setFieldValue('gender', value.value)}
+                      onChange={(value) => {
+                        setFieldValue('gender', value.value);
+                      }}
                     />
                   </FormControl>
                 </Grid>
@@ -98,14 +104,17 @@ const BasicInfo = ({ data }) => {
                   <Input
                     type="date"
                     placeholder="Date Of Birth"
-                    id="dateOfBirth"
-                    name="dateOfBirth"
+                    size="large"
+                    fullWidth
+                    id="dob"
+                    name="dob"
                     label="Date Of Birth"
                     value={
-                      values.dob === undefined || values.dateOfLeave === null
+                      values.dob === undefined || values.dob === null
                         ? ''
-                        : moment(values.dob).format('DD/MM/YYYY')
+                        : moment(values.dob).format('YYYY-MM-DD')
                     }
+                    onChange={handleChange}
                   />
                 </Grid>
 
@@ -129,8 +138,9 @@ const BasicInfo = ({ data }) => {
                     value={
                       values.dateOfLeave === undefined || values.dateOfLeave === null
                         ? ''
-                        : moment(values.dateOfLeave).format('DD/MM/YYYY')
+                        : moment(values.dateOfLeave).format('YYYY-MM-DD')
                     }
+                    onChange={handleChange}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
