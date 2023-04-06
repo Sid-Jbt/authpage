@@ -247,7 +247,7 @@ const ExpenseList = () => {
           <DialogMenu
             isOpen={isDeleteDialogOpen}
             onClose={() => setIsDeleteDialogOpen(false)}
-            dialogTitle="Delete"
+            dialogTitle="Delete Expense"
             dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
               <DialogAction

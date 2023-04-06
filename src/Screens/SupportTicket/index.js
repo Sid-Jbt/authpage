@@ -293,7 +293,7 @@ const supportTicket = () => {
           <DialogMenu
             isOpen={isDeleteDialogOpen}
             onClose={() => setIsDeleteDialogOpen(false)}
-            dialogTitle="Delete"
+            dialogTitle="Delete Support Ticket"
             dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
               <DialogAction
