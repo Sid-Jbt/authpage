@@ -47,7 +47,7 @@ const Holiday = () => {
       );
     }
     return () => {};
-  }, [isDialogOpen, isDrawerOpen, filter, page, sort]);
+  }, [isDialogOpen, isDrawerOpen, filter, page, sort, limit]);
 
   const handleDrawer = () => {
     setSelectedData(null);

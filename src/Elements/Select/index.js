@@ -3,14 +3,15 @@ import Select from 'react-select';
 import colors from 'Theme/base/colors';
 import styles from './styles';
 
-const CustomSelect = forwardRef(({ size, error, success, ...rest }, ref) => {
+const CustomSelect = forwardRef(({ size, error, success, isDisabled, ...rest }, ref) => {
   const { light } = colors;
 
   return (
     <Select
       {...rest}
       ref={ref}
-      styles={styles(size, error, success)}
+      isDisabled={isDisabled}
+      styles={styles(size, error, success, isDisabled)}
       theme={(theme) => ({
         ...theme,
         colors: {
