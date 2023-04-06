@@ -21,7 +21,7 @@ const attendanceData = {
   adminColumns: [
     // { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
     { name: 'attendanceDate', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
-    { name: 'userName', align: 'center', headerName: 'User name', mobileHeader: 'User' },
+    { name: 'firstName', align: 'center', headerName: 'User name', mobileHeader: 'User' },
     { name: 'punchIn', align: 'center', headerName: 'Punch In', mobileHeader: 'In' },
     { name: 'punchOut', align: 'center', headerName: 'Punch Out', mobileHeader: 'Out' },
     { name: 'late', align: 'center', headerName: 'Late', mobileHeader: 'Late' },
