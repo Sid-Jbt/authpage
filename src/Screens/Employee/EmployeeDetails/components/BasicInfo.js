@@ -12,6 +12,7 @@ import { useOutletContext } from 'react-router';
 
 const BasicInfo = ({ data }) => {
   const { GetEmployeeUpdate } = useOutletContext();
+
   const onSubmit = (values, actions) => {
     GetEmployeeUpdate(values, () => {});
     actions.setTouched({});
@@ -109,11 +110,7 @@ const BasicInfo = ({ data }) => {
                     id="dob"
                     name="dob"
                     label="Date Of Birth"
-                    value={
-                      values.dob === undefined || values.dob === null
-                        ? ''
-                        : moment(values.dob).format('YYYY-MM-DD')
-                    }
+                    value={values.dob === '' ? '' : moment(values.dob).format('YYYY-MM-DD')}
                     onChange={handleChange}
                   />
                 </Grid>
@@ -136,7 +133,7 @@ const BasicInfo = ({ data }) => {
                     name="dateOfLeave"
                     label="Date Of Leave"
                     value={
-                      values.dateOfLeave === undefined || values.dateOfLeave === null
+                      values.dateOfLeave === ''
                         ? ''
                         : moment(values.dateOfLeave).format('YYYY-MM-DD')
                     }
