@@ -57,14 +57,7 @@ const CustomDropzone = ({
 
   useEffect(() => {
     if (setExistingFile !== '') {
-      fetch(setExistingFile).then((response) => {
-        const data = response.blob();
-        const metadata = {
-          type: 'image/jpeg'
-        };
-        const file = new File([data], 'callback.jpg', metadata);
-        selectedFile(file);
-      });
+      selectedFile(setExistingFile);
     }
   }, []);
 
