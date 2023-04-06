@@ -24,7 +24,6 @@ const Organisation = ({ isEdit, props }) => {
   const [logoType, setLogoType] = useState('');
   const [cropperImage, setCropperImage] = useState('');
   const [cropClose, setCropClose] = useState(false);
-
   const onClickLogoUpload = (e, type) => {
     e.preventDefault();
     const reader = new FileReader();
@@ -49,7 +48,7 @@ const Organisation = ({ isEdit, props }) => {
             <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
               Logo (16x7)
             </Typography>
-            <Box position="relative">
+            <Box position="relative" size="large">
               <input
                 ref={largeLogoInputFile}
                 type="file"
@@ -62,9 +61,10 @@ const Organisation = ({ isEdit, props }) => {
                   !values.largeLogo ? largeFile : largeLogo === '' ? values.largeLogo : largeLogo
                 }
                 alt="large picture"
-                size="xxl"
                 variant="rounded"
+                size="xxl"
                 sx={{ m: 'auto' }}
+                // sx={{ height: 'auto', width: '100%', m: 'auto' }}
               />
               {isEdit && (
                 <Button
@@ -141,9 +141,7 @@ const Organisation = ({ isEdit, props }) => {
             <Select
               name="workingHours"
               value={
-                !values
-                  ? values.workingHours
-                  : WorkingHours.find((o) => o.value === values.workingHours)
+                WorkingHours.find((o) => o.value === values.workingHours) || values.workingHours
               }
               options={WorkingHours}
               onChange={(value) => {
