@@ -11,7 +11,7 @@ import {
 import moment from 'moment';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
-import { keyDownValidation } from 'Helpers/Global';
+import { keyDownTypeNumber } from 'Helpers/Global';
 
 const PersonalDetails = ({ isEdit, role, props }) => {
   const theme = useTheme();
@@ -216,7 +216,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.phoneNumber === null ? '' : values.phoneNumber}
               onChange={handleChange}
               onBlur={handleBlur}
-              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+              onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
             />
           </Box>
@@ -234,7 +234,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.alternatePhone}
               onChange={handleChange}
               onBlur={handleBlur}
-              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+              onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
             />
           </Box>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
+import { keyDownTypeNumber } from 'Helpers/Global';
 
 const BankInfo = ({ isEdit, props }) => {
   const { values, handleChange, handleBlur } = props;
@@ -74,6 +75,7 @@ const BankInfo = ({ isEdit, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
         </Grid>

@@ -6,7 +6,7 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
-import { Gender, keyDownValidation } from 'Helpers/Global';
+import { Gender, keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
 import moment from 'moment/moment';
 import { useOutletContext } from 'react-router';
 
@@ -153,7 +153,7 @@ const BasicInfo = ({ data }) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     success={!errors.phoneNumber && touched.phoneNumber}
-                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+                    onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>

@@ -6,8 +6,8 @@ import SideDrawer from 'Elements/SideDrawer';
 import { FormLabel, Grid, CircularProgress } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
-import Dropzone from '../../Elements/Dropzone';
-import { keyDownValidation } from '../../Helpers/Global';
+import Dropzone from 'Elements/Dropzone';
+import { keyDownTypeNumber } from 'Helpers/Global';
 
 const initialValues = {
   itemName: '',
@@ -122,7 +122,7 @@ const AddExpenseForm = ({
                   errorText={errors.amount && touched.amount && errors.amount}
                   error={errors.amount && touched.amount}
                   success={!errors.amount && touched.amount}
-                  onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+                  onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
                 />
               </Grid>
               <Grid item xs={12}>
