@@ -12,7 +12,7 @@ const supportTicketData = {
 
   adminColumns: [
     /*  { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' }, */
-    { name: 'email', align: 'center', headerName: 'Email', mobileHeader: 'Email' },
+    { name: 'firstName', align: 'center', headerName: 'User Name', mobileHeader: 'User' },
     { name: 'subject', align: 'center', headerName: 'Subject', mobileHeader: 'Subject' },
     { name: 'department', align: 'center', headerName: 'Department', mobileHeader: 'Department' },
     { name: 'ticketDate', align: 'center', headerName: 'Date', mobileHeader: 'Date' },
