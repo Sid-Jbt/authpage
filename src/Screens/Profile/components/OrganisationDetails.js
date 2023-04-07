@@ -46,7 +46,7 @@ const Organisation = ({ isEdit, props }) => {
         <Grid container item xs={12} alignItems="center" justifyContent="center">
           <Grid item xs={12} md={2.5}>
             <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-              Logo (16x7)
+              Logo (21x9)
             </Typography>
             <Box position="relative" size="large">
               <input
