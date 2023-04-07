@@ -61,7 +61,7 @@ const EmployeeList = () => {
     setStartDate('');
     setSelectedRole('');
     setSearch('');
-    setFilter(false);
+    setFilter(!filter);
   };
 
   return (

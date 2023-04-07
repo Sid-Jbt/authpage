@@ -48,7 +48,7 @@ const Payslip = () => {
     setMonth('');
     setYear('');
     setSearch('');
-    setFilter(false);
+    setFilter(!filter);
   };
 
   return (

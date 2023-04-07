@@ -73,7 +73,7 @@ const ExpenseList = () => {
     setStatus('');
     setSearch('');
     setStatus('');
-    setFilter(false);
+    setFilter(!filter);
   };
 
   return (

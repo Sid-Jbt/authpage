@@ -95,7 +95,7 @@ const Holiday = () => {
           handleSearch={(e) => setSearch(e.target.value)}
           handleClear={() => {
             setSearch('');
-            setFilter(false);
+            setFilter(!filter);
           }}
           onClickSearch={() => {
             setFilter(!filter);

@@ -83,7 +83,7 @@ const supportTicket = () => {
     setPriority('');
     setStatus('');
     setSearch('');
-    setFilter(false);
+    setFilter(!filter);
   };
 
   return (
