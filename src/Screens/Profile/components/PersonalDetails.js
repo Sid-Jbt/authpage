@@ -160,6 +160,10 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   ? ''
                   : moment(values.dob).format('YYYY-MM-DD')
               }
+              inputProps={{
+                min: moment().subtract(100, 'Y').format('YYYY-MM-DD'),
+                max: moment().format('YYYY-MM-DD')
+              }}
               onChange={handleChange}
               disabled={!isEdit}
             />

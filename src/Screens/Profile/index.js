@@ -42,6 +42,7 @@ const TabsList = [
   } */
 ];
 let oldValues = {};
+let newValues = {};
 
 const Profile = ({ GetDashboard }) => {
   const { role, user, GetProfileSetup, Loading } = useOutletContext();
@@ -93,7 +94,12 @@ const Profile = ({ GetDashboard }) => {
     if (!isEdit) {
       setIsEdit(true);
       oldValues = values;
-    } else if (JSON.stringify(oldValues) !== JSON.stringify(values)) {
+    } else {
+      Object.keys(oldValues).map((key) => {
+        if (values[key] !== oldValues[key]) {
+          newValues = { ...newValues, [key]: values[key] };
+        }
+      });
       GetProfileSetup(values, (res) => {
         const { status } = res.data;
         if (status) {
@@ -103,8 +109,6 @@ const Profile = ({ GetDashboard }) => {
           setIsEdit(true);
         }
       });
-    } else {
-      setIsEdit(false);
     }
     actions.setTouched({});
     actions.setSubmitting(false);
