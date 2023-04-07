@@ -79,6 +79,7 @@ const Account = ({ props }) => {
                     errorText={errors.accountName && touched.accountName && errors.accountName}
                     error={errors.accountName && touched.accountName}
                     success={errors.accountName && touched.accountName}
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
               </Grid>

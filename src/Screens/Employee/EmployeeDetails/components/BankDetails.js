@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { useOutletContext } from 'react-router';
-import { keyDownValidation } from 'Helpers/Global';
+import { keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
 
 const BankDetails = ({ data }) => {
   const { GetEmployeeUpdate } = useOutletContext();
@@ -88,13 +88,16 @@ const BankDetails = ({ data }) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       success={!errors.accountName && touched.accountName}
+                      onKeyDown={(evt) =>
+                        keyDownValidation.includes(evt.key) && evt.preventDefault()
+                      }
                     />
                   </Box>
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <Box>
                     <Input
-                      type="text"
+                      type="number"
                       placeholder="eg. 0123456789012345"
                       id="accountNumber"
                       name="accountNumber"
@@ -104,7 +107,7 @@ const BankDetails = ({ data }) => {
                       onBlur={handleBlur}
                       success={!errors.accountNumber && touched.accountNumber}
                       onKeyDown={(evt) =>
-                        keyDownValidation.includes(evt.key) && evt.preventDefault()
+                        keyDownTypeNumber.includes(evt.key) && evt.preventDefault()
                       }
                     />
                   </Box>

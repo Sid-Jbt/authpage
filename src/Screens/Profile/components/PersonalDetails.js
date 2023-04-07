@@ -11,7 +11,7 @@ import {
 import moment from 'moment';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
-import { keyDownTypeNumber } from 'Helpers/Global';
+import { keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
 
 const PersonalDetails = ({ isEdit, role, props }) => {
   const theme = useTheme();
@@ -34,6 +34,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
         </Grid>
@@ -51,6 +52,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
         </Grid>
@@ -69,6 +71,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 disabled={!isEdit}
+                onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               />
             </Box>
           </Grid>
@@ -120,6 +123,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   disabled={!isEdit}
+                  onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                 />
               </Box>
             </Grid>
@@ -172,7 +176,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   fullWidth
                   id="dateOfJoin"
                   name="dateOfJoin"
-                  label="Date Of Join"
+                  label="Joining"
                   disabled
                   value={
                     values.dateOfJoin === '' ? '' : moment(values.dateOfJoin).format('DD/MM/YYYY')

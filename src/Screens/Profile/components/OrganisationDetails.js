@@ -10,7 +10,7 @@ import Button from 'Elements/Button';
 import Icon from '@mui/material/Icon';
 import { Edit } from '@mui/icons-material';
 import Select from 'Elements/Select';
-import { WorkingHours } from 'Helpers/Global';
+import { keyDownValidation, WorkingHours } from 'Helpers/Global';
 import { DialogContent } from 'Components/Dialog';
 import CropperImage from 'Components/ImageCrop';
 import DialogMenu from 'Elements/Dialog';
@@ -165,6 +165,7 @@ const Organisation = ({ isEdit, props }) => {
             onChange={handleChange}
             onBlur={handleBlur}
             disabled={!isEdit}
+            onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
           />
         </Grid>
       </Grid>

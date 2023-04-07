@@ -7,7 +7,7 @@ import { FormLabel, Grid, CircularProgress } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import Dropzone from 'Elements/Dropzone';
-import { keyDownTypeNumber } from 'Helpers/Global';
+import { keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
 
 const initialValues = {
   itemName: '',
@@ -71,6 +71,7 @@ const AddExpenseForm = ({
                   errorText={errors.itemName && touched.itemName && errors.itemName}
                   error={errors.itemName && touched.itemName}
                   success={!errors.itemName && touched.itemName}
+                  onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -88,6 +89,7 @@ const AddExpenseForm = ({
                   errorText={errors.purchaseFrom && touched.purchaseFrom && errors.purchaseFrom}
                   error={errors.purchaseFrom && touched.purchaseFrom}
                   success={!errors.purchaseFrom && touched.purchaseFrom}
+                  onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                 />
               </Grid>
               <Grid item xs={12} lg={6}>

@@ -120,7 +120,7 @@ const BasicInfo = ({ data }) => {
                     type="text"
                     id="dateOfJoin"
                     name="dateOfJoin"
-                    label="Date Of Join"
+                    label="Joining"
                     value={values.dateOfJoin}
                     disabled
                   />

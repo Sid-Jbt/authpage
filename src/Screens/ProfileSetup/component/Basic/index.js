@@ -9,7 +9,7 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import team2 from 'Assets/Images/team-4-800x800.jpg';
 import { Edit } from '@mui/icons-material';
-import { keyDownTypeNumber } from 'Helpers/Global';
+import { keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
 
 const Basic = ({ role, props }) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
@@ -107,6 +107,7 @@ const Basic = ({ role, props }) => {
                     errorText={errors.firstName && touched.firstName && errors.firstName}
                     error={errors.firstName && touched.firstName}
                     success={!errors.firstName && touched.firstName}
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
               </Grid>
@@ -126,6 +127,7 @@ const Basic = ({ role, props }) => {
                     errorText={errors.lastName && touched.lastName && errors.lastName}
                     error={errors.lastName && touched.lastName}
                     success={!errors.lastName && touched.lastName}
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
               </Grid>
@@ -144,6 +146,9 @@ const Basic = ({ role, props }) => {
                         value={values.fatherName}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        onKeyDown={(evt) =>
+                          keyDownValidation.includes(evt.key) && evt.preventDefault()
+                        }
                       />
                     </Box>
                   </Grid>
@@ -175,6 +180,9 @@ const Basic = ({ role, props }) => {
                         value={values.designation}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        onKeyDown={(evt) =>
+                          keyDownValidation.includes(evt.key) && evt.preventDefault()
+                        }
                       />
                     </Box>
                   </Grid>
