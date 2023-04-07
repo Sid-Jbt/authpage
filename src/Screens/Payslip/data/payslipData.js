@@ -35,11 +35,11 @@ const empListData = {
   adminColumns: [
     // { id: 'sl', name: 'sl', align: 'center', headerName: 'Sl', mobileHeader: 'Sl' },
     {
-      id: 'email',
-      name: 'email',
+      id: 'firstName',
+      name: 'firstName',
       align: 'center',
-      headerName: 'Email',
-      mobileHeader: 'Email'
+      headerName: 'User Name',
+      mobileHeader: 'user'
     },
     {
       id: 'paymentMonth',

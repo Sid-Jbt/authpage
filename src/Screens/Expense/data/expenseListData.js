@@ -11,7 +11,7 @@ const expenseListData = {
   adminColumns: [
     /* { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' }, */
     { name: 'itemName', align: 'center', headerName: 'Item Name', mobileHeader: 'Item' },
-    { name: 'email', align: 'center', headerName: 'email', mobileHeader: 'Email' },
+    { name: 'firstName', align: 'center', headerName: 'User Name', mobileHeader: 'User' },
     { name: 'purchaseFrom', align: 'center', headerName: 'Purchase From', mobileHeader: 'From' },
     { name: 'purchaseDate', align: 'center', headerName: 'Purchase Date', mobileHeader: 'Date' },
     { name: 'amount', align: 'center', headerName: 'Amount', mobileHeader: 'Amount' },

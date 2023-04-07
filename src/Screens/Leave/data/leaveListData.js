@@ -15,6 +15,7 @@ const leaveListData = {
 
   adminColumns: [
     // { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
+    { name: 'firstName', align: 'center', headerName: 'User', mobileHeader: 'user' },
     { name: 'leaveType', align: 'center', headerName: 'Leave', mobileHeader: 'Leave' },
     { name: 'selectType', align: 'center', headerName: 'Leave Type', mobileHeader: 'Type' },
     { name: 'fromDate', align: 'center', headerName: 'From', mobileHeader: 'From' },
