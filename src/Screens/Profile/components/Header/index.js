@@ -99,7 +99,7 @@ const Header = ({
         <Grid item>
           <Typography variant="h4" fontWeight="medium">
             {`${
-              user && (user.profile.firstName !== '' || user.profile.lastName !== '')
+              user && (user.profile.firstName || user.profile.lastName)
                 ? `${user.profile.firstName} ${user.profile.lastName}`
                 : user.email
             }`}

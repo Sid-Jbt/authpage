@@ -23,6 +23,7 @@ const BankDetails = ({ data }) => {
         <Typography variant="h5">Bank Details</Typography>
       </Box>
       <Formik
+        enableReinitialize
         initialValues={
           data || {
             bankName: '',

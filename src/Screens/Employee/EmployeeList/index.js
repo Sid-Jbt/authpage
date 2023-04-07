@@ -54,7 +54,7 @@ const EmployeeList = () => {
       );
     }
     return () => {};
-  }, [isDialogOpen, isActiveDialogOpen, filter, page, sort]);
+  }, [isDialogOpen, isActiveDialogOpen, filter, page, sort, limit]);
 
   const handleClear = () => {
     setEndDate('');
@@ -173,9 +173,7 @@ const EmployeeList = () => {
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => {
-            setLimit(rowsPerPage);
-          }}
+          onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
           sortKey={sort.key}
           sortOrder={sort.order}
           handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}

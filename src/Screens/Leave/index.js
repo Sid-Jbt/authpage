@@ -238,8 +238,8 @@ const LeaveList = () => {
                     noOfDays: data.noOfDays,
                     approvedBy: data.approvedBy,
                     ...(value === 'view' && { status: data.status }),
-                    message: data.reason.replace(/(<([^>]+)>)/gi, ''),
-                    reason: data.comment
+                    reason: data.reason.replace(/(<([^>]+)>)/gi, ''),
+                    comment: data.comment
                   };
                   setSelectedData(setViewData);
                   if (value === 'edit') {

@@ -162,7 +162,7 @@ const AttendanceList = () => {
         <Table
           columns={role === 'admin' ? adminPrCol : prCols}
           rows={attendanceList}
-          rowsCount={attendanceListCount.total}
+          rowsCount={attendanceListCount && attendanceListCount.total}
           badge={['status']}
           initialPage={page}
           onChangePage={(value) => setPage(value)}

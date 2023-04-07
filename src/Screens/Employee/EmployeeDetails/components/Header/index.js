@@ -7,7 +7,6 @@ const Header = () => {
   const sidenavItems = [
     { icon: <InfoTwoTone />, label: 'basic info', ref: 'basic-info' },
     { icon: <AccountBox />, label: 'bank details', ref: 'account-info' },
-    // { icon: <CurrencyRupeeTwoTone />, label: 'salary details', href: 'salary-info' },
     { icon: <PasswordTwoTone />, label: 'change password', ref: 'change-password' }
   ];
 
@@ -15,7 +14,7 @@ const Header = () => {
     const itemKey = `item-${key}`;
 
     return (
-      <Box key={itemKey} component="li" pt={key === 0 ? 0 : 1}>
+      <Box key={itemKey} component="li">
         <Typography
           id={ref}
           variant="button"
@@ -28,6 +27,7 @@ const Header = () => {
             palette: { light },
             transitions
           }) => ({
+            cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             borderRadius: borderRadius.md,
@@ -37,7 +37,6 @@ const Header = () => {
               easing: transitions.easing.easeInOut,
               duration: transitions.duration.shorter
             }),
-
             '&:hover': {
               backgroundColor: rgba(light.main, 1)
             }
@@ -57,7 +56,7 @@ const Header = () => {
       sx={{
         borderRadius: ({ borders: { borderRadius } }) => borderRadius.lg,
         position: 'sticky',
-        top: '16%'
+        top: 110
       }}
     >
       <Box

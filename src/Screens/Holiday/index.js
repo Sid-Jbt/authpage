@@ -22,7 +22,7 @@ const Holiday = () => {
   const [search, setSearch] = useState('');
   const [allHolidayList, setAllHolidayList] = useState([]);
   const [holidayListCount, setHolidayListCount] = useState(0);
-  const [sort, setSort] = useState({ key: 'title', order: 'asc' });
+  const [sort, setSort] = useState({ key: 'holidayDate', order: 'asc' });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [filter, setFilter] = useState(false);
@@ -47,7 +47,7 @@ const Holiday = () => {
       );
     }
     return () => {};
-  }, [isDialogOpen, isDrawerOpen, filter, page, sort]);
+  }, [isDialogOpen, isDrawerOpen, filter, page, sort, limit]);
 
   const handleDrawer = () => {
     setSelectedData(null);

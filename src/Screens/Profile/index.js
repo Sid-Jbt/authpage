@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import Box from 'Elements/Box';
 import { Grid, Card, CircularProgress } from '@mui/material';
@@ -82,14 +82,13 @@ const Profile = ({ GetDashboard }) => {
         })
   };
 
-  const onSubmit = (values, actions) => {
-    if (values.hasOwnProperty('workingHours') && values.workingHours !== null) {
-      delete values.workingHours.label;
-      values.workingHours = values.workingHours.value;
-    }
+  useEffect(() => {
+    GetDashboard();
+  }, []);
 
-    if (values.hasOwnProperty('gender') && values.gender === '') {
-      values.gender = 'male';
+  const onSubmit = (values, actions) => {
+    if (values.workingHours) {
+      values.workingHours = values.workingHours.value;
     }
 
     if (!isEdit) {

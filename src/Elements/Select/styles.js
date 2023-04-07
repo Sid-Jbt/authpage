@@ -7,8 +7,9 @@ import boxShadow from 'Theme/functions/boxShadow';
 import rgba from 'Theme/functions/rgba';
 import { keyframes } from '@emotion/react';
 
-export default (selectSize, selectError, selectSuccess, darkMode) => {
-  const { dark, white, text, light, inputColors, gradients, transparent, background } = colors;
+export default (selectSize, selectError, selectSuccess, disabled, darkMode) => {
+  const { dark, white, text, light, inputColors, gradients, transparent, background, grey } =
+    colors;
   const { size, fontWeightRegular } = typography;
   const { borderWidth, borderRadius } = borders;
   const { inputBoxShadow, lg } = boxShadows;
@@ -76,7 +77,7 @@ export default (selectSize, selectError, selectSuccess, darkMode) => {
       padding: 0,
       fontSize: selectSize === 'small' ? size.xs : size.sm,
       fontWeight: fontWeightRegular,
-      backgroundColor: darkMode ? darkMode.main : white.main,
+      backgroundColor: darkMode ? darkMode.main : disabled ? `${grey[200]} !important` : white.main,
       backgroundClip: 'padding-box',
       border: `${borderWidth[1]} solid`,
       appearance: 'none',
