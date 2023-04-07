@@ -53,7 +53,7 @@ const LeaveList = () => {
           status: status.value,
           search,
           page,
-          sortKey: sort.key,
+          sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
           sortOrder: sort.order
         },
         (res) => {

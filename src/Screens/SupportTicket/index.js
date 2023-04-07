@@ -60,7 +60,7 @@ const supportTicket = () => {
           limit,
           search,
           page,
-          sortKey: sort.key,
+          sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
           sortOrder: sort.order,
           priority: priority.value,
           status: status.value,
