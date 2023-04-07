@@ -162,23 +162,25 @@ const PersonalDetails = ({ isEdit, role, props }) => {
           </Box>
         </Grid>
         <>
-          <Grid item xs={12} md={6} lg={4}>
-            <Box>
-              <Input
-                type="text"
-                placeholder="Date Of Join"
-                size="large"
-                fullWidth
-                id="dateOfJoin"
-                name="dateOfJoin"
-                label="Date Of Join"
-                disabled
-                value={
-                  values.dateOfJoin === '' ? '' : moment(values.dateOfJoin).format('DD/MM/YYYY')
-                }
-              />
-            </Box>
-          </Grid>
+          {role !== 'admin' && (
+            <Grid item xs={12} md={6} lg={4}>
+              <Box>
+                <Input
+                  type="text"
+                  placeholder="Date Of Join"
+                  size="large"
+                  fullWidth
+                  id="dateOfJoin"
+                  name="dateOfJoin"
+                  label="Date Of Join"
+                  disabled
+                  value={
+                    values.dateOfJoin === '' ? '' : moment(values.dateOfJoin).format('DD/MM/YYYY')
+                  }
+                />
+              </Box>
+            </Grid>
+          )}
           {values.dateOfLeave !== '' && (
             <Grid item xs={12} md={6} lg={4}>
               <Box>
