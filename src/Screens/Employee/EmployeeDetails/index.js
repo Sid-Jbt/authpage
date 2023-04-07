@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Grid } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { useOutletContext } from 'react-router';
@@ -50,6 +50,12 @@ const EmployeeDetails = () => {
     return () => {};
   }, []);
 
+  const sidenav = [
+    { component: <BasicInfo data={initialValues} />, ref: useRef(), key: 'basic-info' },
+    { component: <BankDetails />, ref: useRef(), key: 'account-info' },
+    { component: <ChangePassword />, ref: useRef(), key: 'change-password' }
+  ];
+
   return (
     <Grid container spacing={3}>
       <Grid
@@ -60,18 +66,15 @@ const EmployeeDetails = () => {
           [breakpoints.down('lg')]: { display: 'none' }
         })}
       >
-        <Header />
+        <Header sidenav={sidenav} />
       </Grid>
       <Grid container spacing={3} item xs={12} lg={9}>
-        <Grid item xs={12}>
-          <BasicInfo data={initialValues} />
-        </Grid>
-        <Grid item xs={12}>
-          <BankDetails data={initialValues} />
-        </Grid>
-        <Grid item xs={12}>
-          <ChangePassword id={initialValues.id} />
-        </Grid>
+        {sidenav &&
+          sidenav.map((value, key) => (
+            <Grid item xs={12} ref={value.ref} key={key}>
+              {value.component}
+            </Grid>
+          ))}
       </Grid>
     </Grid>
   );

@@ -9,11 +9,11 @@ import { useOutletContext } from 'react-router';
 import React from 'react';
 import { withStateDispatch } from 'Helpers/withStateDispatch';
 
-const ChangePassword = ({ id, Loading }) => {
+const ChangePassword = ({ data, Loading }) => {
   const { GetEmployeeChangePassword } = useOutletContext();
   const onSubmit = (values, actions) => {
-    const data = { values, id };
-    GetEmployeeChangePassword(data, () => {});
+    const newData = { values, id: data.id };
+    GetEmployeeChangePassword(newData, () => {});
     actions.setTouched({});
     actions.setSubmitting(false);
   };

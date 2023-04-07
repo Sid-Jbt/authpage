@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 
-const Header = () => {
+const Header = ({ sidenav }) => {
   const sidenavItems = [
     { icon: <InfoTwoTone />, label: 'basic info', ref: 'basic-info' },
     { icon: <AccountBox />, label: 'bank details', ref: 'account-info' },
@@ -11,12 +11,14 @@ const Header = () => {
   ];
 
   const renderSidenavItems = sidenavItems.map(({ icon, label, ref }, key) => {
+    const active = ref === sidenav[key].key;
     const itemKey = `item-${key}`;
 
     return (
       <Box key={itemKey} component="li">
         <Typography
           id={ref}
+          onClick={() => active && sidenav[key].ref.current.scrollIntoView()}
           variant="button"
           fontWeight="regular"
           color="text"
@@ -41,6 +43,7 @@ const Header = () => {
               backgroundColor: rgba(light.main, 1)
             }
           })}
+          active={active}
         >
           <Box fontSize="16px" color="secondary" mr={1.5} lineHeight={0}>
             {icon}

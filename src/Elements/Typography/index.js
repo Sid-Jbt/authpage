@@ -3,10 +3,18 @@ import { forwardRef } from 'react';
 
 const TypographyRoot = styled(Typography)(({ theme, ownerState }) => {
   const { palette, typography, functions } = theme;
-  const { color, textTransform, verticalAlign, fontWeight, opacity, textGradient, darkMode } =
-    ownerState;
+  const {
+    color,
+    textTransform,
+    verticalAlign,
+    fontWeight,
+    opacity,
+    textGradient,
+    darkMode,
+    active
+  } = ownerState;
 
-  const { gradients, transparent, white } = palette;
+  const { gradients, transparent, white, light } = palette;
   const { fontWeightLight, fontWeightRegular, fontWeightMedium, fontWeightBold } = typography;
   const { linearGradient } = functions;
 
@@ -41,6 +49,7 @@ const TypographyRoot = styled(Typography)(({ theme, ownerState }) => {
     verticalAlign,
     textDecoration: 'none',
     color: colorValue,
+    backgroundColor: active ? light.main : 'transparent',
     fontWeight: fontWeights[fontWeight] && fontWeights[fontWeight],
     ...(textGradient && gradientStyles())
   };
@@ -48,7 +57,17 @@ const TypographyRoot = styled(Typography)(({ theme, ownerState }) => {
 
 const CustomTypography = forwardRef(
   (
-    { color, fontWeight, textTransform, verticalAlign, textGradient, opacity, children, ...rest },
+    {
+      color,
+      fontWeight,
+      textTransform,
+      verticalAlign,
+      textGradient,
+      opacity,
+      children,
+      active,
+      ...rest
+    },
     ref
   ) => (
     <TypographyRoot
@@ -60,7 +79,8 @@ const CustomTypography = forwardRef(
         verticalAlign,
         fontWeight,
         opacity,
-        textGradient
+        textGradient,
+        active
       }}
     >
       {children}
