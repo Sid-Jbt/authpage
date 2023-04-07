@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
 import {
   Add,
+  DeleteForeverRounded,
+  EditOutlined,
   Pending,
   RemoveRedEye,
   SummarizeRounded,
@@ -121,26 +123,24 @@ const supportTicket = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        {role !== 'admin' && (
-          <Grid item xs="auto">
-            <Button
-              sx={({ breakpoints, palette: { dark } }) => ({
-                [breakpoints.down('xl' && 'lg')]: {
-                  color: dark.main,
-                  borderColor: dark.main
-                }
-              })}
-              variant="outlined"
-              size="small"
-              onClick={() => setIsDialogOpen(!isDialogOpen)}
-            >
-              <Icon sx={{ mr: 1 }}>
-                <Add />
-              </Icon>
-              Add
-            </Button>
-          </Grid>
-        )}
+        <Grid item xs="auto">
+          <Button
+            sx={({ breakpoints, palette: { dark } }) => ({
+              [breakpoints.down('xl' && 'lg')]: {
+                color: dark.main,
+                borderColor: dark.main
+              }
+            })}
+            variant="outlined"
+            size="small"
+            onClick={() => setIsDialogOpen(!isDialogOpen)}
+          >
+            <Icon sx={{ mr: 1 }}>
+              <Add />
+            </Icon>
+            Add
+          </Button>
+        </Grid>
         {/* <Grid item xs="auto">
           <Button
             sx={({ breakpoints, palette: { dark } }) => ({
@@ -253,11 +253,25 @@ const supportTicket = () => {
           isView={
             role === 'admin' && [
               {
-                name: 2,
+                name: 3,
                 tooltip: 'Click to view',
                 color: 'info',
                 icon: <RemoveRedEye />,
                 value: 'view'
+              },
+              {
+                name: 2,
+                tooltip: 'Edit',
+                color: 'info',
+                icon: <EditOutlined />,
+                value: 'edit'
+              },
+              {
+                name: 4,
+                tooltip: 'delete',
+                color: 'error',
+                icon: <DeleteForeverRounded />,
+                value: 'delete'
               }
             ]
           }
