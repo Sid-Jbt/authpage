@@ -10,8 +10,8 @@ const expenseListData = {
 
   adminColumns: [
     /* { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' }, */
+    { name: 'employee', align: 'center', headerName: 'Employee', mobileHeader: 'Employee' },
     { name: 'itemName', align: 'center', headerName: 'Item Name', mobileHeader: 'Item' },
-    { name: 'email', align: 'center', headerName: 'email', mobileHeader: 'Email' },
     { name: 'purchaseFrom', align: 'center', headerName: 'Purchase From', mobileHeader: 'From' },
     { name: 'purchaseDate', align: 'center', headerName: 'Purchase Date', mobileHeader: 'Date' },
     { name: 'amount', align: 'center', headerName: 'Amount', mobileHeader: 'Amount' },

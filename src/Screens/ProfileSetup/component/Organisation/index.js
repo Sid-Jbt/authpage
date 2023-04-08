@@ -103,7 +103,7 @@ const Organisation = (props) => {
           <Grid item xs={6} sm={3} lg={4} container>
             <Box position="relative" height="max-content" mx="auto">
               <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-                Logo (16x9)
+                Logo (21x9)
               </Typography>
               <Box>
                 <input

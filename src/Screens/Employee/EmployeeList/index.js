@@ -42,7 +42,7 @@ const EmployeeList = () => {
           role: selectedRole.value,
           search,
           page,
-          sortKey: sort.key,
+          sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
           sortOrder: sort.order
         },
         (res) => {
@@ -61,7 +61,7 @@ const EmployeeList = () => {
     setStartDate('');
     setSelectedRole('');
     setSearch('');
-    setFilter(false);
+    setFilter(!filter);
   };
 
   return (
@@ -189,6 +189,7 @@ const EmployeeList = () => {
           <DialogMenu
             isOpen={isActiveDialogOpen}
             onClose={() => setIsActiveDialogOpen(false)}
+            dialogTitle={`${selectedData.action === 0 ? 'Enable' : 'Disable'}`}
             dialogContent={
               <DialogContent
                 content={`Are you sure you want to ${

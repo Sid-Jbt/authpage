@@ -95,7 +95,7 @@ const Holiday = () => {
           handleSearch={(e) => setSearch(e.target.value)}
           handleClear={() => {
             setSearch('');
-            setFilter(false);
+            setFilter(!filter);
           }}
           onClickSearch={() => {
             setFilter(!filter);
@@ -160,7 +160,7 @@ const Holiday = () => {
         <DialogMenu
           isOpen={isDialogOpen}
           onClose={() => setIsDialogOpen(false)}
-          dialogTitle={isEdit ? 'Delete' : 'Import Files'}
+          dialogTitle={isEdit ? 'Delete Holiday' : 'Import Files'}
           dialogContent={<DialogContent content="Are you sure you want to delete this?" />}
           dialogAction={
             isEdit && (

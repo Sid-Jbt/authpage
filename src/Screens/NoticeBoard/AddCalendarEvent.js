@@ -8,7 +8,7 @@ import Box from 'Elements/Box';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import Select from 'Elements/Select';
-import { EventsType } from 'Helpers/Global';
+import { EventsType, keyDownValidation } from 'Helpers/Global';
 import Badge from 'Elements/Badge';
 
 const initialValues = {
@@ -134,6 +134,9 @@ const AddCalendarEventDialog = ({
                         errorText={errors.title && touched.title && errors.title}
                         error={errors.title && touched.title}
                         success={!errors.title && touched.title}
+                        onKeyDown={(evt) =>
+                          keyDownValidation.includes(evt.key) && evt.preventDefault()
+                        }
                       />
                     </Box>
                   </Grid>

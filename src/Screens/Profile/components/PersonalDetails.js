@@ -11,7 +11,7 @@ import {
 import moment from 'moment';
 import Box from 'Elements/Box';
 import Input from 'Elements/Input';
-import { keyDownValidation } from 'Helpers/Global';
+import { keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
 
 const PersonalDetails = ({ isEdit, role, props }) => {
   const theme = useTheme();
@@ -34,6 +34,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
         </Grid>
@@ -51,6 +52,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
         </Grid>
@@ -69,6 +71,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 disabled={!isEdit}
+                onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               />
             </Box>
           </Grid>
@@ -120,6 +123,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   disabled={!isEdit}
+                  onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                 />
               </Box>
             </Grid>
@@ -156,29 +160,35 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   ? ''
                   : moment(values.dob).format('YYYY-MM-DD')
               }
+              inputProps={{
+                min: moment().subtract(100, 'Y').format('YYYY-MM-DD'),
+                max: moment().format('YYYY-MM-DD')
+              }}
               onChange={handleChange}
               disabled={!isEdit}
             />
           </Box>
         </Grid>
         <>
-          <Grid item xs={12} md={6} lg={4}>
-            <Box>
-              <Input
-                type="text"
-                placeholder="Date Of Join"
-                size="large"
-                fullWidth
-                id="dateOfJoin"
-                name="dateOfJoin"
-                label="Date Of Join"
-                disabled
-                value={
-                  values.dateOfJoin === '' ? '' : moment(values.dateOfJoin).format('DD/MM/YYYY')
-                }
-              />
-            </Box>
-          </Grid>
+          {role !== 'admin' && (
+            <Grid item xs={12} md={6} lg={4}>
+              <Box>
+                <Input
+                  type="text"
+                  placeholder="Date Of Join"
+                  size="large"
+                  fullWidth
+                  id="dateOfJoin"
+                  name="dateOfJoin"
+                  label="Joining"
+                  disabled
+                  value={
+                    values.dateOfJoin === '' ? '' : moment(values.dateOfJoin).format('DD/MM/YYYY')
+                  }
+                />
+              </Box>
+            </Grid>
+          )}
           {values.dateOfLeave !== '' && (
             <Grid item xs={12} md={6} lg={4}>
               <Box>
@@ -216,7 +226,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.phoneNumber === null ? '' : values.phoneNumber}
               onChange={handleChange}
               onBlur={handleBlur}
-              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+              onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
             />
           </Box>
@@ -234,7 +244,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               value={values.alternatePhone}
               onChange={handleChange}
               onBlur={handleBlur}
-              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+              onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
             />
           </Box>

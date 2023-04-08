@@ -6,7 +6,6 @@ import Button from 'Elements/Button';
 import { Card, CircularProgress, Grid, Step, StepLabel, Stepper } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { WorkingHours } from 'Helpers/Global';
-import { organisationSchema, userSchema } from 'Helpers/ValidationSchema';
 import { useNavigate, useOutletContext } from 'react-router';
 import { getDashboardPattern } from 'Routes/routeConfig';
 import Basic from './component/Basic';
@@ -126,9 +125,9 @@ const ProfileSetup = () => {
               <Formik
                 initialValues={role === 'admin' ? adminInitialValues : userInitialValues}
                 onSubmit={handleNext}
-                validationSchema={
+                /* validationSchema={
                   role === 'admin' ? organisationSchema[activeStep] : userSchema[activeStep]
-                }
+                } */
               >
                 {(props) => {
                   const { handleSubmit, isSubmitting } = props;

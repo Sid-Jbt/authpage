@@ -10,7 +10,7 @@ const Pagination = ({ rows, initialPage, onChangePage, rowsPerPage, onRowsPerPag
     rowsPerPage={rowsPerPage}
     showFirstButton
     showLastButton
-    rowsPerPageOptions={[10, 20, 30, { label: 'All', value: 1 }]}
+    rowsPerPageOptions={[10, 20, 30, { label: 'All', value: 'all' }]}
     onRowsPerPageChange={(event) => onRowsPerPageChange(parseInt(event.target.value, 10))}
   />
 );
