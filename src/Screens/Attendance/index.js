@@ -27,7 +27,7 @@ const AttendanceList = () => {
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    GetEmployeeList({ limit: 'all' }, (res) => {
+    GetEmployeeList({ limit: 0 }, (res) => {
       if (res && res.data && res.data.data) {
         setUserList(userArray(res.data.data.rows));
       }
