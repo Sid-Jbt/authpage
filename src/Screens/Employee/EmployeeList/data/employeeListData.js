@@ -19,7 +19,7 @@ const empListData = {
       id: 'dateOfJoin',
       name: 'dateOfJoin',
       align: 'center',
-      headerName: 'Onboarding',
+      headerName: 'Joining',
       mobileHeader: 'Doj'
     },
     {
