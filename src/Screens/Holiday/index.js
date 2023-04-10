@@ -153,9 +153,7 @@ const Holiday = () => {
           }}
           sortKey={sort.key}
           sortOrder={sort.order}
-          handleRequestSort={(event, orderKey, orderName) =>
-            setSort({ order: orderName, key: orderKey })
-          }
+          handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}
         />
         <DialogMenu
           isOpen={isDialogOpen}
