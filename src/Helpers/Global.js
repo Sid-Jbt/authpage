@@ -205,3 +205,15 @@ export const keyDownTypeNumber = [
   'e',
   'E'
 ];
+
+export const userArray = (data) => {
+  const list = [];
+  data.map((item) => {
+    if (item.employee !== '') {
+      list.push({ value: item.employee, label: item.employee });
+    } else {
+      list.push({ value: item.email, label: item.email });
+    }
+  });
+  return list;
+};
