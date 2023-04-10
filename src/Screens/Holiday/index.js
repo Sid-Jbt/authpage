@@ -31,7 +31,7 @@ const Holiday = () => {
     if (!isDialogOpen || !isDrawerOpen) {
       GetHolidayList(
         {
-          limit,
+          limit: isNaN(limit) ? 0 : limit,
           search,
           page,
           sortKey: sort.key,

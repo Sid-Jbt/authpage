@@ -47,7 +47,7 @@ const LeaveList = () => {
     if (!isDialogOpen || !isDeleteDialogOpen || isViewLeaveDialogOpen) {
       GetLeaveList(
         {
-          limit,
+          limit: isNaN(limit) ? 0 : limit,
           startDate,
           endDate,
           status: status.value,
@@ -66,7 +66,7 @@ const LeaveList = () => {
       );
     }
     return () => {};
-  }, [isDialogOpen, page, sort, filter, isDeleteDialogOpen, isViewLeaveDialogOpen]);
+  }, [isDialogOpen, page, sort, filter, isDeleteDialogOpen, isViewLeaveDialogOpen, limit]);
 
   const handleClear = () => {
     setEndDate('');
@@ -272,7 +272,7 @@ const LeaveList = () => {
           rowsCount={leaveCount && leaveCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
-          rowsPerPage={limit}
+          rowsPerPage={isNaN(limit) ? leaveCount.total : limit}
           onRowsPerPageChange={(rowsPerPage) => {
             setLimit(rowsPerPage);
           }}

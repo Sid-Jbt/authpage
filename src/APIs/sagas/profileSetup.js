@@ -12,7 +12,7 @@ import { instance } from '../index';
 async function getProfileSetupApi(data) {
   return instance.request({
     method: 'put',
-    url: BASE_URL + API_URL.PROFIlE_SETUP_URL,
+    url: BASE_URL + API_URL.PROFIlE_URL,
     data
   });
 }

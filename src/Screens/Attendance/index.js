@@ -27,17 +27,19 @@ const AttendanceList = () => {
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    GetEmployeeList({ limit: 0 }, (res) => {
-      if (res && res.data && res.data.data) {
-        setUserList(userArray(res.data.data.rows));
-      }
-    });
+    if (role === 'admin') {
+      GetEmployeeList({ limit: 0 }, (res) => {
+        if (res && res.data && res.data.data) {
+          setUserList(userArray(res.data.data.rows));
+        }
+      });
+    }
   }, []);
 
   useEffect(() => {
     GetAttendanceList(
       {
-        limit,
+        limit: isNaN(limit) ? 0 : limit,
         user: user.value,
         month: month.value,
         year: year.value,
@@ -55,7 +57,7 @@ const AttendanceList = () => {
       }
     );
     return () => {};
-  }, [filter, page, sort]);
+  }, [filter, page, sort, limit]);
 
   const handleClear = () => {
     setMonth('');
@@ -176,7 +178,7 @@ const AttendanceList = () => {
           badge={['status']}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
-          rowsPerPage={limit}
+          rowsPerPage={isNaN(limit) ? attendanceListCount.total : limit}
           onRowsPerPageChange={(rowsPerPage) => {
             setLimit(rowsPerPage);
           }}
