@@ -6,8 +6,8 @@ import SideDrawer from 'Elements/SideDrawer';
 import { FormLabel, Grid, CircularProgress } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
-import Dropzone from '../../Elements/Dropzone';
-import { keyDownValidation } from '../../Helpers/Global';
+import Dropzone from 'Elements/Dropzone';
+import { keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
 
 const initialValues = {
   itemName: '',
@@ -32,6 +32,11 @@ const AddExpenseForm = ({
       enableReinitialize
       initialValues={selectedData || initialValues}
       onSubmit={(values, action) => {
+        if (selectedData !== null) {
+          if (values.document === selectedData.document) {
+            delete values.document;
+          }
+        }
         GetExpenseAddUpdate(values, (res) => {
           const { status } = res.data;
           if (status) {
@@ -71,6 +76,7 @@ const AddExpenseForm = ({
                   errorText={errors.itemName && touched.itemName && errors.itemName}
                   error={errors.itemName && touched.itemName}
                   success={!errors.itemName && touched.itemName}
+                  onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -88,6 +94,7 @@ const AddExpenseForm = ({
                   errorText={errors.purchaseFrom && touched.purchaseFrom && errors.purchaseFrom}
                   error={errors.purchaseFrom && touched.purchaseFrom}
                   success={!errors.purchaseFrom && touched.purchaseFrom}
+                  onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                 />
               </Grid>
               <Grid item xs={12} lg={6}>
@@ -122,7 +129,7 @@ const AddExpenseForm = ({
                   errorText={errors.amount && touched.amount && errors.amount}
                   error={errors.amount && touched.amount}
                   success={!errors.amount && touched.amount}
-                  onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+                  onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
                 />
               </Grid>
               <Grid item xs={12}>

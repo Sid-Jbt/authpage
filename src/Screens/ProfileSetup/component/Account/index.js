@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Input from 'Elements/Input';
-import { keyDownValidation } from 'Helpers/Global';
+import { keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
 
 const Account = ({ props }) => {
   const { values, touched, errors, handleChange, handleBlur } = props;
@@ -79,6 +79,7 @@ const Account = ({ props }) => {
                     errorText={errors.accountName && touched.accountName && errors.accountName}
                     error={errors.accountName && touched.accountName}
                     success={errors.accountName && touched.accountName}
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
               </Grid>
@@ -100,7 +101,7 @@ const Account = ({ props }) => {
                     }
                     error={errors.accountNumber && touched.accountNumber}
                     success={errors.accountNumber && touched.accountNumber}
-                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+                    onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
               </Grid>

@@ -1,11 +1,11 @@
 const empListData = {
   columns: [
     {
-      id: 'firstName',
-      name: 'firstName',
+      id: 'employee',
+      name: 'employee',
       align: 'center',
-      headerName: 'Name',
-      mobileHeader: 'Name'
+      headerName: 'Employee',
+      mobileHeader: 'Employee'
     },
     { id: 'role', name: 'role', align: 'center', headerName: 'Role', mobileHeader: 'Role' },
     {

@@ -53,7 +53,7 @@ const LeaveList = () => {
           status: status.value,
           search,
           page,
-          sortKey: sort.key,
+          sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
           sortOrder: sort.order
         },
         (res) => {
@@ -73,7 +73,7 @@ const LeaveList = () => {
     setStartDate('');
     setStatus('');
     setSearch('');
-    setFilter(false);
+    setFilter(!filter);
   };
 
   return (
@@ -300,7 +300,7 @@ const LeaveList = () => {
           <DialogMenu
             isOpen={isDeleteDialogOpen}
             onClose={() => setIsDeleteDialogOpen(false)}
-            dialogTitle="Delete"
+            dialogTitle="Delete Leave"
             dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
               <DialogAction

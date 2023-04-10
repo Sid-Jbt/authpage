@@ -54,7 +54,7 @@ const ExpenseList = () => {
           status: status.value,
           search,
           page,
-          sortKey: sort.key,
+          sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
           sortOrder: sort.order
         },
         (res) => {
@@ -73,7 +73,7 @@ const ExpenseList = () => {
     setStatus('');
     setSearch('');
     setStatus('');
-    setFilter(false);
+    setFilter(!filter);
   };
 
   return (
@@ -247,7 +247,7 @@ const ExpenseList = () => {
           <DialogMenu
             isOpen={isDeleteDialogOpen}
             onClose={() => setIsDeleteDialogOpen(false)}
-            dialogTitle="Delete"
+            dialogTitle="Delete Expense"
             dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
               <DialogAction
