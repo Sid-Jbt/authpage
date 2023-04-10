@@ -26,7 +26,7 @@ const Payslip = () => {
   useEffect(() => {
     GetPayslipList(
       {
-        limit,
+        limit: isNaN(limit) ? 0 : limit,
         month: month.value,
         year: year.value,
         search,
@@ -42,7 +42,7 @@ const Payslip = () => {
       }
     );
     return () => {};
-  }, [filter, page, sort]);
+  }, [filter, page, sort, limit]);
 
   const handleClear = () => {
     setMonth('');
@@ -96,7 +96,7 @@ const Payslip = () => {
         ]}
         initialPage={page}
         onChangePage={(value) => setPage(value)}
-        rowsPerPage={limit}
+        rowsPerPage={isNaN(limit) ? payslipListCount : limit}
         onRowsPerPageChange={(rowsPerPage) => {
           setLimit(rowsPerPage);
         }}

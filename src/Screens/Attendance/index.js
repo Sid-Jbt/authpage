@@ -37,7 +37,7 @@ const AttendanceList = () => {
   useEffect(() => {
     GetAttendanceList(
       {
-        limit,
+        limit: isNaN(limit) ? 0 : limit,
         user: user.value,
         month: month.value,
         year: year.value,
@@ -55,7 +55,7 @@ const AttendanceList = () => {
       }
     );
     return () => {};
-  }, [filter, page, sort]);
+  }, [filter, page, sort, limit]);
 
   const handleClear = () => {
     setMonth('');
@@ -176,7 +176,7 @@ const AttendanceList = () => {
           badge={['status']}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
-          rowsPerPage={limit}
+          rowsPerPage={isNaN(limit) ? attendanceListCount.total : limit}
           onRowsPerPageChange={(rowsPerPage) => {
             setLimit(rowsPerPage);
           }}
