@@ -27,11 +27,13 @@ const AttendanceList = () => {
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    GetEmployeeList({ limit: 0 }, (res) => {
-      if (res && res.data && res.data.data) {
-        setUserList(userArray(res.data.data.rows));
-      }
-    });
+    if (role === 'admin') {
+      GetEmployeeList({ limit: 0 }, (res) => {
+        if (res && res.data && res.data.data) {
+          setUserList(userArray(res.data.data.rows));
+        }
+      });
+    }
   }, []);
 
   useEffect(() => {
