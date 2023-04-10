@@ -57,13 +57,12 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
       open={Boolean(openMenu)}
       onClose={handleMenuClose}
       sx={({ breakpoints }) => ({
+        top: 50,
         [breakpoints.down('sm')]: {
-          top: 40,
-          left: -90
+          left: 0
         },
         [breakpoints.up('md')]: {
-          top: 55,
-          left: -140
+          left: progress === 100 ? -100 : -155
         }
       })}
     >
@@ -78,7 +77,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
           />
         ))
       ) : (
-        <NotificationItem image={<Notifications />} title={['No new Notifications']} />
+        <NotificationItem title={['No new Notifications']} />
       )}
     </Menu>
   );
@@ -94,7 +93,6 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
       open={Boolean(openProfileMenu)}
       onClose={handleProfileMenuClose}
       sx={({ breakpoints }) => ({
-        mt: 2,
         [breakpoints.down('sm')]: {
           top: 40,
           left: 0
@@ -212,9 +210,11 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
                     <Notifications />
                   </IconButton>
                 </Grid>
-                <Grid item component={Link} to={getProfilePattern()}>
-                  <CircularProgressWithLabel value={progress || 0} />
-                </Grid>
+                {progress !== 100 && (
+                  <Grid item component={Link} to={getProfilePattern()}>
+                    <CircularProgressWithLabel value={progress || 0} />
+                  </Grid>
+                )}
               </>
             ) : null}
             <Grid item>

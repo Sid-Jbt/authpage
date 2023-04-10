@@ -94,7 +94,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
         </Grid>
         {role !== 'admin' && (
           <>
-            <Grid item xs={12} md={6} lg={4}>
+            {/* <Grid item xs={12} md={6} lg={4}>
               <Box>
                 <Input
                   type="text"
@@ -108,7 +108,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   disabled
                 />
               </Box>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} md={6} lg={4}>
               <Box>
                 <Input

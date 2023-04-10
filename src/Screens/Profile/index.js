@@ -100,7 +100,7 @@ const Profile = ({ GetDashboard }) => {
           newValues = { ...newValues, [key]: values[key] };
         }
       });
-      GetProfileSetup(values, (res) => {
+      GetProfileSetup(newValues, (res) => {
         const { status } = res.data;
         if (status) {
           setIsEdit(false);
