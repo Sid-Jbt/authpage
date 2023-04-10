@@ -43,11 +43,13 @@ const Organisation = ({ isEdit, props }) => {
   return (
     <Card sx={{ overflow: 'visible' }}>
       <Grid container spacing={2} p={2} alignItems="center" justifyContent="center">
-        <Grid container item xs={12} alignItems="center" justifyContent="center">
-          <Grid item xs={12} md={2.5}>
-            <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-              Logo (21x9)
+        <Grid container item spacing={2} xs={12} alignItems="center" justifyContent="center">
+          <Grid item xs={12}>
+            <Typography variant="h6" fontWeight="medium" textAlign="center">
+              Organistation Logo
             </Typography>
+          </Grid>
+          <Grid item xs={12} md={2}>
             <Box position="relative" size="large">
               <input
                 ref={largeLogoInputFile}
@@ -64,7 +66,6 @@ const Organisation = ({ isEdit, props }) => {
                 variant="rounded"
                 size="xxl"
                 sx={{ m: 'auto' }}
-                // sx={{ height: 'auto', width: '100%', m: 'auto' }}
               />
               {isEdit && (
                 <Button
@@ -82,10 +83,7 @@ const Organisation = ({ isEdit, props }) => {
               )}
             </Box>
           </Grid>
-          <Grid item xs={12} md={2.5} justifyContent="center">
-            <Typography variant="h6" fontWeight="small" color="label" textAlign="center">
-              Logo (1x1)
-            </Typography>
+          <Grid item xs={12} md={2} justifyContent="center">
             <Box position="relative">
               <input
                 ref={smallLogoInputFile}
@@ -123,21 +121,22 @@ const Organisation = ({ isEdit, props }) => {
         <Grid item xs={12} md={6} lg={4}>
           <Input
             type="text"
-            placeholder="1303, Shivalik Shilp, Iskcon Cross Rd Ahmedabad"
+            placeholder="Organisation Name"
             size="medium"
             fullWidth
-            id="location"
-            name="location"
-            label="Organisation Address"
-            value={values.location}
+            id="organisationName"
+            name="organisationName"
+            label="Name"
+            value={values.organisationName}
             onChange={handleChange}
             onBlur={handleBlur}
             disabled={!isEdit}
+            onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
           />
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
           <FormControl sx={{ width: '100%' }}>
-            <FormLabel>Select Working Hours</FormLabel>
+            <FormLabel>Working Hours</FormLabel>
             <Select
               name="workingHours"
               value={
@@ -155,17 +154,16 @@ const Organisation = ({ isEdit, props }) => {
         <Grid item xs={12} md={8}>
           <Input
             type="text"
-            placeholder="Organisation Name"
+            placeholder="1303, Shivalik Shilp, Iskcon Cross Rd Ahmedabad"
             size="medium"
             fullWidth
-            id="organisationName"
-            name="organisationName"
-            label="Organisation Name"
-            value={values.organisationName}
+            id="location"
+            name="location"
+            label="Current Address"
+            value={values.location}
             onChange={handleChange}
             onBlur={handleBlur}
             disabled={!isEdit}
-            onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
           />
         </Grid>
       </Grid>

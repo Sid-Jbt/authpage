@@ -53,7 +53,7 @@ export default (selectSize, selectError, selectSuccess, disabled, darkMode) => {
   } else if (selectSize === 'large') {
     selectSizeValue = pxToRem(48);
   } else {
-    selectSizeValue = pxToRem(40);
+    selectSizeValue = pxToRem(44);
   }
 
   // animations

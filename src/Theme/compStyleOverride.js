@@ -133,7 +133,8 @@ export default function componentStyleOverrides(theme) {
           borderRadius: borderRadius.lg
         },
         img: {
-          height: '100%'
+          height: '100%',
+          objectFit: 'contain'
         }
       }
     },

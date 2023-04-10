@@ -47,9 +47,9 @@ const AvatarRoot = styled(Avatar)(({ theme, ownerState }) => {
       break;
     case 'xxl':
       sizeValue = {
-        width: pxToRem(110),
-        height: pxToRem(110),
-        fontSize: fontSize.md
+        width: pxToRem(120),
+        height: pxToRem(120),
+        fontSize: fontSize.lg
       };
       break;
     default: {
@@ -76,7 +76,7 @@ const CustomAvatar = forwardRef(({ bgColor, size, shadow, ...rest }, ref) => (
 CustomAvatar.defaultProps = {
   bgColor: 'transparent',
   size: 'md',
-  shadow: 'none'
+  shadow: 'md'
 };
 
 export default CustomAvatar;

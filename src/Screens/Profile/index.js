@@ -146,7 +146,7 @@ const Profile = ({ GetDashboard }) => {
                   justifyContent="space-between"
                 >
                   <Grid item>
-                    <Typography variant="h6" fontWeight="medium" textTransform="capitalize">
+                    <Typography variant="h6" fontWeight="bold" textTransform="capitalize">
                       {tabIndex === 0
                         ? 'Basic Details'
                         : role === 'admin' && tabIndex === 1
