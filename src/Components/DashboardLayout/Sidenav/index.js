@@ -11,30 +11,34 @@ import SidenavItem from './SidenavItem';
 import SidenavRoot from './SidenavRoot';
 import SidenavList from './SidenavList';
 import SidenavCollapse from './SidenavCollapse';
+import { getDashboardPattern } from '../../../Routes/routeConfig';
 
 const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) => {
   const customization = useSelector((state) => state.customization);
   const miniSidenav = customization.miniSidenav;
   const dispatch = useDispatch();
-  const location = useLocation();
-  const { pathname } = location;
+  const { pathname, ...re } = useLocation();
   const [openCollapse, setOpenCollapse] = useState(false);
   const [openNestedCollapse, setOpenNestedCollapse] = useState(false);
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const collapseName = pathname.split('/').slice(1)[0];
   const itemName = pathname.split('/').slice(1)[1];
 
-  const handleMiniSidenav = () => {
-    if (window.innerWidth < breakpoints.values.xl) {
-      dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
+  const handleMiniSidenav = (value) => {
+    if (window.innerWidth < breakpoints.values.lg) {
+      dispatch({ type: MINI_SIDENAV, value });
     }
   };
 
   useEffect(() => {
     window.addEventListener('resize', handleMiniSidenav);
-    handleMiniSidenav();
+    if (re.key) {
+      handleMiniSidenav(true);
+    } else {
+      handleMiniSidenav(false);
+    }
     return () => window.removeEventListener('resize', handleMiniSidenav);
-  }, [dispatch, location]);
+  }, [dispatch, re.key]);
 
   const handleOnMouseEnter = () => {
     if (miniSidenav && !onMouseEnter) {
@@ -182,7 +186,7 @@ const Sidenav = ({ color, brandFullLogo, brandSmallLogo, brandName, ...rest }) =
       <Box pb={2} pt={2} textAlign="center">
         <Box
           component={NavLink}
-          to="/dashboard"
+          to={getDashboardPattern()}
           display="flex"
           alignItems="center"
           justifyContent="center"
