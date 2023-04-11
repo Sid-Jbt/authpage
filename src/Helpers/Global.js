@@ -209,7 +209,7 @@ export const keyDownTypeNumber = [
 export const userArray = (data) => {
   const list = [];
   data.map((item) => {
-    if (item.employee !== '') {
+    if (item.employee !== '' && item.employee !== null) {
       list.push({ value: item.employee, label: item.employee });
     } else {
       list.push({ value: item.email, label: item.email });
