@@ -215,5 +215,5 @@ export const userArray = (data) => {
       list.push({ value: item.email, label: item.email });
     }
   });
-  return list;
+  return list.sort((a, b) => (a.value.toLowerCase() > b.value.toLowerCase() ? 1 : -1));
 };

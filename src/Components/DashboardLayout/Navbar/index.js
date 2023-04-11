@@ -225,7 +225,10 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
                 variant="circle"
                 onClick={handleProfileMenu}
                 sx={{
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  img: {
+                    objectFit: 'cover'
+                  }
                 }}
               />
             </Grid>

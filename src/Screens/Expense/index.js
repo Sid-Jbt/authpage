@@ -50,7 +50,7 @@ const ExpenseList = () => {
     if (!isDialogOpen || !isDeleteDialogOpen || isViewExpenseDialogOpen) {
       GetExpenseList(
         {
-          limit,
+          limit: isNaN(limit) ? 0 : limit,
           status: status.value,
           search,
           page,
@@ -67,7 +67,7 @@ const ExpenseList = () => {
       );
     }
     return () => {};
-  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewExpenseDialogOpen]);
+  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewExpenseDialogOpen, limit]);
 
   const handleClear = () => {
     setStatus('');
@@ -218,7 +218,7 @@ const ExpenseList = () => {
           rowsCount={expenseCount && expenseCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
-          rowsPerPage={limit}
+          rowsPerPage={isNaN(limit) ? expenseCount.total : limit}
           onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
           sortKey={sort.key}
           sortOrder={sort.order}

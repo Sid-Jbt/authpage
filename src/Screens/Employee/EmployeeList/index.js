@@ -36,7 +36,7 @@ const EmployeeList = () => {
     if (!isDialogOpen || !isActiveDialogOpen) {
       GetEmployeeList(
         {
-          limit,
+          limit: isNaN(limit) ? 0 : limit,
           startDate,
           endDate,
           role: selectedRole.value,
@@ -176,7 +176,7 @@ const EmployeeList = () => {
           ]}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
-          rowsPerPage={limit}
+          rowsPerPage={isNaN(limit) ? employeeCount : limit}
           onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
           sortKey={sort.key}
           sortOrder={sort.order}

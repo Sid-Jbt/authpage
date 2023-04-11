@@ -12,7 +12,8 @@ import {
   ViewArrayOutlined,
   SupportAgent,
   AnnouncementRounded,
-  VerifiedUserOutlined
+  VerifiedUserOutlined,
+  ListAltTwoTone
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
@@ -33,7 +34,8 @@ import {
   holidayPattern,
   rolePattern,
   supportTicketPattern,
-  noticePattern
+  noticePattern,
+  allReportPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -52,6 +54,8 @@ const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
 const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket/index')));
 const Role = Loadable(lazy(() => import('../Screens/Role')));
 const NoticeBoard = Loadable(lazy(() => import('../Screens/NoticeBoard')));
+const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
+const TimeActivity = Loadable(lazy(() => import('../Screens/Reports/TimeActivity')));
 
 const MainRoutes = [
   {
@@ -180,35 +184,35 @@ const MainRoutes = [
     key: 'supportTicket',
     element: <SupportTicket />
   },
-  // {
-  //   type: 'collapse',
-  //   name: 'Reports',
-  //   key: 'report',
-  //   icon: <ListAltTwoTone sx={{ color: '#DAA520' }} />,
-  //   children: [
-  //     {
-  //       name: 'All Reports',
-  //       key: 'allreport',
-  //       path: allReportPattern,
-  //       route: allReportPattern,
-  //       element: <AllReport />
-  //     },
-  //     {
-  //       name: 'Time & Activity',
-  //       key: 'timeactivity',
-  //       path: '/report/timeactivity',
-  //       route: '/report/timeactivity',
-  //       element: <TimeActivity />
-  //     },
-  //     {
-  //       name: 'Weekly Limit',
-  //       key: 'weeklylimit',
-  //       path: '/report/weeklylimit',
-  //       route: '/report/weeklylimit',
-  //       element: <TimeActivity />
-  //     }
-  //   ]
-  // },
+  {
+    type: 'collapse',
+    name: 'Reports',
+    key: 'report',
+    icon: <ListAltTwoTone sx={{ color: '#DAA520' }} />,
+    children: [
+      {
+        name: 'All Reports',
+        key: 'allreport',
+        path: allReportPattern,
+        route: allReportPattern,
+        element: <AllReport />
+      },
+      {
+        name: 'Time & Activity',
+        key: 'timeactivity',
+        path: '/report/timeactivity',
+        route: '/report/timeactivity',
+        element: <TimeActivity />
+      },
+      {
+        name: 'Weekly Limit',
+        key: 'weeklylimit',
+        path: '/report/weeklylimit',
+        route: '/report/weeklylimit',
+        element: <TimeActivity />
+      }
+    ]
+  },
   {
     type: 'collapse',
     noCollapse: true,

@@ -57,7 +57,7 @@ const supportTicket = () => {
     if (!isDialogOpen || !isDeleteDialogOpen || !isViewSupportTicketDialogOpen) {
       GetSupportList(
         {
-          limit,
+          limit: isNaN(limit) ? 0 : limit,
           search,
           page,
           sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
@@ -76,7 +76,7 @@ const supportTicket = () => {
       );
     }
     return () => {};
-  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewSupportTicketDialogOpen]);
+  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewSupportTicketDialogOpen, limit]);
 
   const handleClear = () => {
     setStartDate('');
@@ -278,7 +278,7 @@ const supportTicket = () => {
           rowsCount={spTicketListCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
-          rowsPerPage={limit}
+          rowsPerPage={isNaN(limit) ? spTicketListCount : limit}
           onRowsPerPageChange={(rowsPerPage) => {
             setLimit(rowsPerPage);
           }}

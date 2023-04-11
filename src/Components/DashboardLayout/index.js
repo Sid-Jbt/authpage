@@ -19,7 +19,7 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
   const bgImage =
     (DashboardData &&
       DashboardData.user &&
-      DashboardData.profile &&
+      DashboardData.user.profile &&
       DashboardData.user.profile.profilePic) ||
     Images;
 

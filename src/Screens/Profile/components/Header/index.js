@@ -1,12 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import Typography from 'Elements/Typography';
 import UserPic from 'Assets/Images/team-4-800x800.jpg';
 import { Card, Grid, Tab, Tabs, Icon, CircularProgress } from '@mui/material';
 import Avatar from 'Elements/Avatar';
 import Box from 'Elements/Box';
 import Button from 'Elements/Button';
-import { Edit } from '@mui/icons-material';
+import { CloseSharp, Edit } from '@mui/icons-material';
 import { withStateDispatch } from 'Helpers/withStateDispatch';
+import { SnackbarContext } from '../../../../Context/SnackbarProvider';
 
 const Header = ({
   tabIndex,
@@ -18,6 +19,7 @@ const Header = ({
   user,
   Loading
 }) => {
+  const { setSnack } = useContext(SnackbarContext);
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const inputFile = useRef(null);
 
@@ -31,6 +33,16 @@ const Header = ({
 
   const profilePicUpload = (e) => {
     const file = e.target.files[0];
+    if (file.size >= 4012368) {
+      return setSnack({
+        title: 'Size Error',
+        message: 'Size should be less then 4mb',
+        time: false,
+        icon: <CloseSharp color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
     const url = URL.createObjectURL(file);
     GetProfileSetup({ profilePic: file }, (res) => {
       const { status } = res.data;
@@ -59,7 +71,12 @@ const Header = ({
               alt="profile picture"
               size="xl"
               variant="rounded"
-              sx={{ borderStyle: 'groove' }}
+              sx={{
+                borderStyle: 'groove',
+                img: {
+                  objectFit: 'cover'
+                }
+              }}
             />
             <input
               ref={inputFile}

@@ -1,4 +1,4 @@
-import { Check } from '@mui/icons-material';
+import { Check, CloseSharp } from '@mui/icons-material';
 import axios from 'axios';
 import { SnackbarContext } from 'Context/SnackbarProvider';
 import { useContext, useMemo } from 'react';
@@ -57,7 +57,7 @@ const Interceptor = ({ children }) => {
                 title: 'Error',
                 message: response.data.message,
                 time: false,
-                icon: <Check color="white" />,
+                icon: <CloseSharp color="white" />,
                 color: 'error',
                 open: true
               });
