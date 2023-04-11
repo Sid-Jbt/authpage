@@ -129,6 +129,7 @@ const EmployeeList = () => {
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Role</FormLabel>
               <Select
+                size="small"
                 value={selectedRole}
                 options={Roles}
                 onChange={(value) => setSelectedRole(value)}
