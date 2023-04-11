@@ -3,7 +3,7 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import { Link } from 'react-router-dom';
 
-const LeaveCard = ({
+const StaticCard = ({
   bgColor,
   title,
   count,
@@ -88,7 +88,7 @@ const LeaveCard = ({
   </Card>
 );
 
-LeaveCard.defaultProps = {
+StaticCard.defaultProps = {
   bgColor: 'white',
   percentage: {
     color: 'success',
@@ -97,4 +97,4 @@ LeaveCard.defaultProps = {
   },
   direction: 'right'
 };
-export default LeaveCard;
+export default StaticCard;

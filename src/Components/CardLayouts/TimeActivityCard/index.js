@@ -3,7 +3,7 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import { Link } from 'react-router-dom';
 
-const LeaveCard = ({ bgColor, title, icon, direction, link, description }) => (
+const TicketCard = ({ bgColor, title, icon, direction, link, description }) => (
   <Card component={link && Link} to={link}>
     <Box bgColor={bgColor} variant="gradient">
       <Box p={2}>
@@ -69,7 +69,7 @@ const LeaveCard = ({ bgColor, title, icon, direction, link, description }) => (
   </Card>
 );
 
-LeaveCard.defaultProps = {
+TicketCard.defaultProps = {
   bgColor: 'white',
   percentage: {
     color: 'success',
@@ -78,4 +78,4 @@ LeaveCard.defaultProps = {
   },
   direction: 'right'
 };
-export default LeaveCard;
+export default TicketCard;
