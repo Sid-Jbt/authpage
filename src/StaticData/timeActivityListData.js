@@ -1,4 +1,4 @@
-const empListData = {
+export const timeActivityListData = {
   columns: [
     {
       id: 'employee',
@@ -31,5 +31,3 @@ const empListData = {
     }
   ]
 };
-
-export default empListData;

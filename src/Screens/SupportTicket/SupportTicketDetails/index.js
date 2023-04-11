@@ -4,38 +4,12 @@ import Typography from 'Elements/Typography';
 import { Grid } from '@mui/material';
 import FormField from 'Elements/FormField';
 import { Link } from 'react-router-dom';
-import { getSupportTicketPattern } from '../../Routes/routeConfig';
+import { CreateViewData } from 'Helpers/Global';
+import { getSupportTicketPattern } from '../../../Routes/routeConfig';
 
-const ViewSupportTicketDetails = ({ data, role, approveRejectReason }) => {
-  const labels = [];
-  const values = [];
+const SupportTicketDetails = ({ data, role, approveRejectReason }) => {
+  const { viewData, labels, values } = CreateViewData(data, ['subject', 'id', 'reason']);
 
-  // Remove unwanted key-value pairs from object
-  const viewData = Object.keys(data)
-    .filter((key) => key !== 'subject' && key !== 'id' && key !== 'reason')
-    .reduce((acc, key) => {
-      acc[key] = data[key];
-      return acc;
-    }, {});
-
-  // Convert this form `objectKey` of the object key in to this `object key`
-  Object.keys(viewData).forEach((el) => {
-    if (el.match(/[A-Z\s]+/)) {
-      const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
-      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
-
-      labels.push(newElement);
-    } else {
-      labels.push(el);
-    }
-  });
-
-  // Push the object values into the values array
-  Object.values(viewData).forEach((el) => {
-    values.push(el);
-  });
-
-  // Render the card data items
   const renderItems = labels.map((label, key) => (
     <Box key={label} display="flex" py={0.5} pr={2}>
       {label !== 'image' && (
@@ -112,4 +86,4 @@ const ViewSupportTicketDetails = ({ data, role, approveRejectReason }) => {
   );
 };
 
-export default ViewSupportTicketDetails;
+export default SupportTicketDetails;

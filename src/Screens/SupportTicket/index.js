@@ -20,11 +20,11 @@ import { DialogAction, DialogContent } from 'Components/Dialog';
 import DialogMenu from 'Elements/Dialog';
 import TicketCard from 'Components/CardLayouts/StaticCard';
 import { useOutletContext } from 'react-router';
-import supportTicketData from './data/SupportTicketData';
+import { supportTicketData } from 'StaticData/supportTicketData';
 import AddSupportTicketForm from './AddSupportTicketForm';
-import ViewSupportTicketDetails from './ViewSupportTicketDetails';
+import SupportTicketDetails from './SupportTicketDetails';
 
-const supportTicket = () => {
+const SupportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
   const {
     role,
@@ -331,7 +331,7 @@ const supportTicket = () => {
           dialogContent={
             <DialogContent
               customContent={
-                <ViewSupportTicketDetails
+                <SupportTicketDetails
                   data={selectedData}
                   role={role}
                   approveRejectReason={(value) => setApproveRejectReason(value)}
@@ -381,4 +381,4 @@ const supportTicket = () => {
     </>
   );
 };
-export default supportTicket;
+export default SupportTicket;

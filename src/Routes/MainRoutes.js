@@ -45,7 +45,7 @@ const DashboardDefault = Loadable(lazy(() => import('../Screens/DashboardDefault
 const Profile = Loadable(lazy(() => import('../Screens/Profile')));
 const ProfileSetup = Loadable(lazy(() => import('../Screens/ProfileSetup')));
 const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
-const EmployeeList = Loadable(lazy(() => import('../Screens/Employee/EmployeeList')));
+const EmployeeList = Loadable(lazy(() => import('../Screens/Employee')));
 const EmployeeDetails = Loadable(lazy(() => import('../Screens/Employee/EmployeeDetails')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
 const LeaveList = Loadable(lazy(() => import('../Screens/Leave')));

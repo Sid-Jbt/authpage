@@ -1,4 +1,4 @@
-const leaveListData = {
+export const leaveListData = {
   columns: [
     // { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' },
     { name: 'leaveType', align: 'center', headerName: 'Leave', mobileHeader: 'Leave' },
@@ -24,5 +24,3 @@ const leaveListData = {
     { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
   ]
 };
-
-export default leaveListData;

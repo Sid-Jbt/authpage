@@ -1,4 +1,4 @@
-const holidayListData = {
+export const holidayListData = {
   columns: [
     /* { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' }, */
     { name: 'title', align: 'center', headerName: 'Title', mobileHeader: 'Title' },
@@ -11,5 +11,3 @@ const holidayListData = {
     { name: 'days', align: 'center', headerName: 'Day', mobileHeader: 'Day' }
   ]
 };
-
-export default holidayListData;
