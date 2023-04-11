@@ -63,7 +63,7 @@ const ViewLeaveDetails = ({ data, role, approveRejectReason }) => {
         <FormField
           type="textarea"
           placeholder="Enter the reason"
-          defaultValue={data.reason}
+          defaultValue={data.comment}
           onChange={(event) => approveRejectReason(event.target.value)}
           multiline
           rows={5}

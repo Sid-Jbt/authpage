@@ -232,13 +232,13 @@ const LeaveList = () => {
                   const setViewData = {
                     id: data.id,
                     leaveType: data.leaveType,
-                    selectType: data.selectType,
+                    type: data.selectType,
                     fromDate: data.fromDate,
                     toDate: data.toDate,
                     noOfDays: data.noOfDays,
                     approvedBy: data.approvedBy,
+                    meassage: data.reason.replace(/(<([^>]+)>)/gi, ''),
                     ...(value === 'view' && { status: data.status }),
-                    reason: data.reason.replace(/(<([^>]+)>)/gi, ''),
                     comment: data.comment
                   };
                   setSelectedData(setViewData);
