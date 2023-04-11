@@ -35,7 +35,9 @@ import {
   rolePattern,
   supportTicketPattern,
   noticePattern,
-  allReportPattern
+  allReportPattern,
+  reportTimeActivityPattern,
+  reportWeeklyLimitPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -43,7 +45,7 @@ const DashboardDefault = Loadable(lazy(() => import('../Screens/DashboardDefault
 const Profile = Loadable(lazy(() => import('../Screens/Profile')));
 const ProfileSetup = Loadable(lazy(() => import('../Screens/ProfileSetup')));
 const PrivacyPolicy = Loadable(lazy(() => import('../Screens/PrivacyPolicy')));
-const EmployeeList = Loadable(lazy(() => import('../Screens/Employee/EmployeeList')));
+const EmployeeList = Loadable(lazy(() => import('../Screens/Employee')));
 const EmployeeDetails = Loadable(lazy(() => import('../Screens/Employee/EmployeeDetails')));
 const Expense = Loadable(lazy(() => import('../Screens/Expense')));
 const LeaveList = Loadable(lazy(() => import('../Screens/Leave')));
@@ -56,6 +58,7 @@ const Role = Loadable(lazy(() => import('../Screens/Role')));
 const NoticeBoard = Loadable(lazy(() => import('../Screens/NoticeBoard')));
 const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
 const TimeActivity = Loadable(lazy(() => import('../Screens/Reports/TimeActivity')));
+const WeeklyLimit = Loadable(lazy(() => import('../Screens/Reports/WeeklyLimit')));
 
 const MainRoutes = [
   {
@@ -200,16 +203,16 @@ const MainRoutes = [
       {
         name: 'Time & Activity',
         key: 'timeactivity',
-        path: '/report/timeactivity',
-        route: '/report/timeactivity',
+        path: reportTimeActivityPattern,
+        route: reportTimeActivityPattern,
         element: <TimeActivity />
       },
       {
         name: 'Weekly Limit',
         key: 'weeklylimit',
-        path: '/report/weeklylimit',
-        route: '/report/weeklylimit',
-        element: <TimeActivity />
+        path: reportWeeklyLimitPattern,
+        route: reportWeeklyLimitPattern,
+        element: <WeeklyLimit />
       }
     ]
   },

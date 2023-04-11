@@ -15,10 +15,10 @@ import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
 import { actionStatus } from 'Helpers/Global';
 import Select from 'Elements/Select';
-import expenseListData from './data/expenseListData';
+import { expenseListData } from 'StaticData/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
 import ExpenseCard from '../../Components/CardLayouts/StaticCard';
-import ViewExpenseDetails from './ViewExpenseDetails';
+import ExpenseDetails from './ExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
 
 const ExpenseList = () => {
@@ -274,7 +274,7 @@ const ExpenseList = () => {
           dialogContent={
             <DialogContent
               customContent={
-                <ViewExpenseDetails
+                <ExpenseDetails
                   data={selectedData}
                   role={role}
                   approveRejectReason={(value) => setApproveRejectReason(value)}

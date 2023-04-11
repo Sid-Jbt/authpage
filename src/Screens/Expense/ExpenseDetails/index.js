@@ -4,9 +4,9 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import FormField from 'Elements/FormField';
 import { Link } from 'react-router-dom';
-import { getSupportTicketPattern } from '../../Routes/routeConfig';
+import { getSupportTicketPattern } from '../../../Routes/routeConfig';
 
-const ViewExpenseDetails = ({ data, role, approveRejectReason }) => {
+const ExpenseDetails = ({ data, role, approveRejectReason }) => {
   let labels = [];
   const values = [];
 
@@ -127,4 +127,4 @@ const ViewExpenseDetails = ({ data, role, approveRejectReason }) => {
   );
 };
 
-export default ViewExpenseDetails;
+export default ExpenseDetails;

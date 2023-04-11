@@ -1,4 +1,4 @@
-const expenseListData = {
+export const expenseListData = {
   columns: [
     /* { name: 'id', align: 'center', headerName: 'Id', mobileHeader: 'Id' }, */
     { name: 'itemName', align: 'center', headerName: 'Item Name', mobileHeader: 'Item' },
@@ -18,5 +18,3 @@ const expenseListData = {
     { name: 'status', align: 'center', headerName: 'Status', mobileHeader: 'Status' }
   ]
 };
-
-export default expenseListData;
