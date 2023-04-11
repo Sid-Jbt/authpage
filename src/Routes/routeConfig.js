@@ -53,6 +53,12 @@ export const getReportPattern = generatePath(reportPattern);
 export const allReportPattern = `${reportPattern}/allreport`;
 export const getAllReportPattern = generatePath(allReportPattern);
 
+export const reportTimeActivityPattern = `${reportPattern}/timeactivity`;
+export const getReportTimeActivityPattern = () => generatePath(reportTimeActivityPattern);
+
+export const reportWeeklyLimitPattern = `${reportPattern}/weeklylimit`;
+export const getReportWeeklyLimitPattern = () => generatePath(reportWeeklyLimitPattern);
+
 export const holidayPattern = '/holiday';
 export const getHolidayPattern = () => generatePath(holidayPattern);
 
