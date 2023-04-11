@@ -144,7 +144,7 @@ const EmployeeList = () => {
             setSelectedData({
               action: key === 'deactivate' ? 0 : 1,
               id: value.id,
-              diaLogTitle: value.employee !== '' ? value.employee : value.email
+              diaLogTitle: value.employee !== ' ' ? value.employee : value.email
             });
             setIsActiveDialogOpen(!!(key === 'deactivate' || key === 'activate'));
             if (key === 'edit') {
