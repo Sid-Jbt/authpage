@@ -64,8 +64,13 @@ const AuthLayout = ({ ...rest }) => {
         <Grid item xs={12}>
           <Card sx={{ background: 'transparent', boxShadow: 'none', p: 1 }}>
             <Typography textAlign="center" fontSize="medium">
-              Powered By{' '}
-              <Link href="www.jarvisbitz.com" target="_blank" color="info" underline="hover">
+              Powered By@
+              <Link
+                href="https://www.jarvisbitz.com"
+                target="_blank"
+                color="info"
+                underline="hover"
+              >
                 JarvisBitz Tech
               </Link>
             </Typography>
