@@ -63,7 +63,7 @@ const CustomSnackbar = ({
   return (
     <Snackbar
       TransitionComponent={Slide}
-      autoHideDuration={autoHide || 10000}
+      autoHideDuration={autoHide || 6000}
       anchorOrigin={{
         vertical: 'bottom',
         horizontal: 'right'
