@@ -1,6 +1,29 @@
 export const timeActivityListData = {
   columns: [
     {
+      id: 'date',
+      name: 'date',
+      align: 'center',
+      headerName: 'Date',
+      mobileHeader: 'Date'
+    },
+    {
+      id: 'time',
+      name: 'time',
+      align: 'center',
+      headerName: 'Time',
+      mobileHeader: 'Time'
+    },
+    {
+      id: 'avgActivity',
+      name: 'avgActivity',
+      align: 'center',
+      headerName: 'Avg. Activity',
+      mobileHeader: 'Avg. Activity'
+    }
+  ],
+  adminColumns: [
+    {
       id: 'employee',
       name: 'employee',
       align: 'center',
@@ -9,25 +32,18 @@ export const timeActivityListData = {
     },
     { id: 'role', name: 'role', align: 'center', headerName: 'Role', mobileHeader: 'Role' },
     {
-      id: 'email',
-      name: 'email',
+      id: 'time',
+      name: 'time',
       align: 'center',
-      headerName: 'Email',
-      mobileHeader: 'Email'
+      headerName: 'Time',
+      mobileHeader: 'Time'
     },
     {
-      id: 'dateOfJoin',
-      name: 'dateOfJoin',
+      id: 'avgActivity',
+      name: 'avgActivity',
       align: 'center',
-      headerName: 'Joining',
-      mobileHeader: 'Doj'
-    },
-    {
-      id: 'dateOfLeave',
-      name: 'dateOfLeave',
-      align: 'center',
-      headerName: 'Reliving',
-      mobileHeader: 'Dol'
+      headerName: 'Avg. Activity',
+      mobileHeader: 'Avg. Activity'
     }
   ]
 };

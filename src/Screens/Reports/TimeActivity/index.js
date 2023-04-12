@@ -1,16 +1,33 @@
-import React from 'react';
-import { Card, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Card, FormControl, FormLabel, Grid } from '@mui/material';
 import StaticCard from 'Components/CardLayouts/StaticCard';
 import DefaultLineChart from 'Elements/Charts/LineCharts/DefaultLineChart';
 import FilterLayout from 'Components/FilterLayout';
 import Input from 'Elements/Input';
 import Table from 'Elements/Tables/Table';
-import { GraphicEqOutlined } from '@mui/icons-material';
+import { GraphicEqOutlined, RemoveRedEye } from '@mui/icons-material';
 import { timeActivityListData } from 'StaticData/timeActivityListData';
 import { defaultLineChartData } from 'StaticData/defaultLineChartData';
+import { useOutletContext } from 'react-router';
+import { Roles, userArray } from '../../../Helpers/Global';
+import Select from '../../../Elements/Select';
 
 const TimeActivity = () => {
-  const { columns: prCols } = timeActivityListData;
+  const { columns: prCols, adminColumns: adminPrCol } = timeActivityListData;
+  const { role, GetEmployeeList } = useOutletContext();
+  const [userList, setUserList] = useState([]);
+  const [user, setUser] = useState('');
+  const [selectedRole, setSelectedRole] = useState('');
+
+  useEffect(() => {
+    if (role === 'admin') {
+      GetEmployeeList({ limit: 0 }, (res) => {
+        if (res && res.data && res.data.data) {
+          setUserList(userArray(res.data.data.rows));
+        }
+      });
+    }
+  }, []);
 
   return (
     <Grid container spacing={2}>
@@ -48,8 +65,54 @@ const TimeActivity = () => {
             <Grid item xs={6} md={4} lg={3}>
               <Input type="date" label="To Date" size="small" fullWidth id="toDate" name="toDate" />
             </Grid>
+            {role === 'admin' && (
+              <>
+                <Grid item sm={12} md={4} lg={3}>
+                  <FormControl sx={{ width: '100%' }}>
+                    <FormLabel>Select User</FormLabel>
+                    <Select
+                      size="small"
+                      value={user}
+                      options={userList}
+                      onChange={(value) => setUser(value)}
+                      renderValue={user !== '' ? undefined : () => 'Select...'}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={4} lg={3}>
+                  <FormControl sx={{ width: '100%' }}>
+                    <FormLabel>Select Role</FormLabel>
+                    <Select
+                      size="small"
+                      value={selectedRole}
+                      options={Roles}
+                      onChange={(value) => setSelectedRole(value)}
+                    />
+                  </FormControl>
+                </Grid>
+              </>
+            )}
           </FilterLayout>
-          <Table columns={prCols} rows={[]} rowsCount={0} initialPage={0} rowsPerPage={10} />
+          <Table
+            columns={role === 'admin' ? adminPrCol : prCols}
+            rows={[]}
+            rowsCount={0}
+            initialPage={0}
+            rowsPerPage={10}
+            isAction={role !== 'admin'}
+            options={[{ name: 'view', title: 'View', value: 'view' }]}
+            isView={
+              role === 'admin' && [
+                {
+                  name: 3,
+                  tooltip: 'Click to view',
+                  color: 'info',
+                  icon: <RemoveRedEye />,
+                  value: 'view'
+                }
+              ]
+            }
+          />
         </Card>
       </Grid>
     </Grid>
