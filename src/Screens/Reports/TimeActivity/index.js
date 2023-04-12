@@ -15,10 +15,10 @@ const TimeActivity = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={4}>
-        <StaticCard title="Time" count={100} icon={false} isPercentage={false} />
+        <StaticCard title="Time" count="01:00:00" icon={false} isPercentage={false} />
       </Grid>
       <Grid item xs={12} md={4}>
-        <StaticCard title="Avg. Activity" count={100} icon={false} isPercentage={false} />
+        <StaticCard title="Avg. Activity" count="41%" icon={false} isPercentage={false} />
       </Grid>
       <Grid item xs={12} md={4}>
         <StaticCard title="Graph" count={false} icon={<GraphicEqOutlined />} isPercentage={false} />
