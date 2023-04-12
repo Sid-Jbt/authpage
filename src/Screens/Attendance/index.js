@@ -4,7 +4,7 @@ import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, MoreTime, WatchOff } from '@mui/icons-material';
 import Select from 'Elements/Select';
-import { Months, Years, attendanceStatus, userArray } from 'Helpers/Global';
+import { Months, Years, userArray } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import AttendanceCard from 'Components/CardLayouts/StaticCard';
 import { useOutletContext } from 'react-router';
@@ -15,7 +15,6 @@ const AttendanceList = () => {
   const { role, GetAttendanceList, GetEmployeeList } = useOutletContext();
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
-  const [status, setStatus] = useState('');
   const [user, setUser] = useState('');
   const [search, setSearch] = useState('');
   const [attendanceList, setAttendanceList] = useState([]);
@@ -43,7 +42,6 @@ const AttendanceList = () => {
         user: user.value,
         month: month.value,
         year: year.value,
-        status: status.value,
         search,
         page,
         sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
@@ -167,17 +165,6 @@ const AttendanceList = () => {
                 value={year}
                 options={Years}
                 onChange={(value) => setYear(value)}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Status</FormLabel>
-              <Select
-                size="small"
-                value={status}
-                options={attendanceStatus}
-                onChange={(value) => setStatus(value)}
               />
             </FormControl>
           </Grid>
