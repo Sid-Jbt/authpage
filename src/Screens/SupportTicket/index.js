@@ -141,26 +141,6 @@ const SupportTicket = () => {
             Add
           </Button>
         </Grid>
-        {/* <Grid item xs="auto">
-          <Button
-            sx={({ breakpoints, palette: { dark } }) => ({
-              [breakpoints.down('xl' && 'lg')]: {
-                color: dark.main,
-                borderColor: dark.main
-              } &&
-                loader &&
-                isExport && { height: '40px !important' }
-            })}
-            variant="outlined"
-            size="small"
-            onClick={onClickExport}
-          >
-            <Icon sx={{ mr: 1 }}>
-              <ImportExportRounded />
-            </Icon>
-            {loader && isExport ? <CircularProgress color="inherit" /> : 'Export'}
-          </Button>
-        </Grid> */}
       </Grid>
       <Card
         sx={{
@@ -270,7 +250,7 @@ const SupportTicket = () => {
               },
               {
                 name: 4,
-                tooltip: 'delete',
+                tooltip: 'Delete',
                 color: 'error',
                 icon: <DeleteForeverRounded />,
                 value: 'delete'
