@@ -3,9 +3,9 @@ import Typography from 'Elements/Typography';
 import React from 'react';
 import FormField from 'Elements/FormField';
 import { Link } from 'react-router-dom';
-import { getSupportTicketPattern } from '../../Routes/routeConfig';
+import { getSupportTicketPattern } from '../../../Routes/routeConfig';
 
-const ViewLeaveDetails = ({ data, role, approveRejectReason }) => {
+const LeaveDetails = ({ data, role, approveRejectReason }) => {
   const labels = [];
   const values = [];
 
@@ -63,7 +63,7 @@ const ViewLeaveDetails = ({ data, role, approveRejectReason }) => {
         <FormField
           type="textarea"
           placeholder="Enter the reason"
-          defaultValue={data.reason}
+          defaultValue={data.comment}
           onChange={(event) => approveRejectReason(event.target.value)}
           multiline
           rows={5}
@@ -95,4 +95,4 @@ const ViewLeaveDetails = ({ data, role, approveRejectReason }) => {
   );
 };
 
-export default ViewLeaveDetails;
+export default LeaveDetails;

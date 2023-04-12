@@ -49,9 +49,9 @@ export default (selectSize, selectError, selectSuccess, disabled, darkMode) => {
   }
 
   if (selectSize === 'small') {
-    selectSizeValue = pxToRem(32);
+    selectSizeValue = pxToRem(36);
   } else if (selectSize === 'large') {
-    selectSizeValue = pxToRem(48);
+    selectSizeValue = pxToRem(52);
   } else {
     selectSizeValue = pxToRem(44);
   }
@@ -99,7 +99,7 @@ export default (selectSize, selectError, selectSuccess, disabled, darkMode) => {
 
     placeholder: () => ({
       position: 'absolute',
-      top: selectSize === 'small' ? '52%' : '51%',
+      top: '50%',
       transform: 'translateY(-50%)',
       marginLeft: 0,
       marginRight: 0,
@@ -109,7 +109,7 @@ export default (selectSize, selectError, selectSuccess, disabled, darkMode) => {
 
     singleValue: () => ({
       position: 'absolute',
-      top: selectSize === 'small' ? '52%' : '51%',
+      top: '50%',
       transform: 'translateY(-50%)',
       color: text.main
     }),
@@ -179,7 +179,7 @@ export default (selectSize, selectError, selectSuccess, disabled, darkMode) => {
         fontSize: size.xs,
         position: 'absolute',
         right: pxToRem(10),
-        top: '52%',
+        top: '50%',
         color: text.main,
         opacity: 0,
         transform: 'translateY(-50%)',

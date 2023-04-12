@@ -8,7 +8,7 @@ import { Months, Years, attendanceStatus, userArray } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import AttendanceCard from 'Components/CardLayouts/StaticCard';
 import { useOutletContext } from 'react-router';
-import attendanceColumn from './data/attendanceData';
+import { attendanceColumn } from 'StaticData/attendanceData';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;

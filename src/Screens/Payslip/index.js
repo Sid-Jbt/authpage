@@ -6,7 +6,7 @@ import FilterLayout from 'Components/FilterLayout';
 import { Months, Years } from 'Helpers/Global';
 import { useOutletContext } from 'react-router';
 import { FileDownloadRounded } from '@mui/icons-material';
-import payslipColumns from './data/payslipData';
+import { payslipColumns } from 'StaticData/payslipData';
 
 const Payslip = () => {
   const { columns: prCols, adminColumns: adminPrCol } = payslipColumns;

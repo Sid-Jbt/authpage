@@ -1,6 +1,6 @@
 import { Edit } from '@mui/icons-material';
 
-const roleData = {
+export const roleData = {
   columns: [
     { Header: 'role', id: 'role', accessor: 'role', align: 'center' },
     {
@@ -29,5 +29,3 @@ const roleData = {
     }
   ]
 };
-
-export default roleData;

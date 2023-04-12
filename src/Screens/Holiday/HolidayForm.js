@@ -13,7 +13,7 @@ const initialValues = {
   holidayDate: moment().format('DD/MM/YYYY')
 };
 
-const ManageHolidayForm = ({
+const HolidayForm = ({
   isDrawerOpen,
   handleDrawerClose,
   title,
@@ -107,4 +107,4 @@ const ManageHolidayForm = ({
   </SideDrawer>
 );
 
-export default ManageHolidayForm;
+export default HolidayForm;

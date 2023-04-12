@@ -209,11 +209,40 @@ export const keyDownTypeNumber = [
 export const userArray = (data) => {
   const list = [];
   data.map((item) => {
-    if (item.employee !== '') {
+    if (item.employee !== '' && item.employee !== null) {
       list.push({ value: item.employee, label: item.employee });
     } else {
       list.push({ value: item.email, label: item.email });
     }
   });
   return list.sort((a, b) => (a.value.toLowerCase() > b.value.toLowerCase() ? 1 : -1));
+};
+
+export const CreateViewData = (data, excludeKey) => {
+  const labels = [];
+  const values = [];
+
+  const viewData = Object.keys(data)
+    .filter((key) => !key.includes(excludeKey))
+    .reduce((acc, key) => {
+      acc[key] = data[key];
+      return acc;
+    }, {});
+
+  Object.keys(viewData).forEach((el) => {
+    if (el.match(/[A-Z\s]+/)) {
+      const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
+      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
+
+      labels.push(newElement);
+    } else {
+      labels.push(el);
+    }
+  });
+
+  Object.values(viewData).forEach((el) => {
+    values.push(el);
+  });
+
+  return { viewData, labels, values };
 };

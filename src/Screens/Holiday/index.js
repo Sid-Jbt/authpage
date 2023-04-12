@@ -7,8 +7,8 @@ import FilterLayout from 'Components/FilterLayout';
 import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
-import holidayListData from './data/holidayListData';
-import ManageHolidayForm from './ManageHolidayForm';
+import { holidayListData } from 'StaticData/holidayListData';
+import HolidayForm from './HolidayForm';
 
 const Holiday = () => {
   const { columns: prCols } = holidayListData;
@@ -176,7 +176,7 @@ const Holiday = () => {
             )
           }
         />
-        <ManageHolidayForm
+        <HolidayForm
           isDrawerOpen={Boolean(isDrawerOpen)}
           handleDrawerClose={() => handleDrawerClose()}
           title={isEdit ? 'UPDATE HOLIDAY' : 'ADD HOLIDAY'}

@@ -16,9 +16,9 @@ import FilterLayout from 'Components/FilterLayout';
 import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
-import leaveListData from './data/leaveListData';
+import { leaveListData } from 'StaticData/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
-import ViewLeaveDetails from './ViewLeaveDetails';
+import LeaveDetails from './LeaveDetails';
 import Select from '../../Elements/Select';
 import { actionStatus } from '../../Helpers/Global';
 
@@ -232,13 +232,13 @@ const LeaveList = () => {
                   const setViewData = {
                     id: data.id,
                     leaveType: data.leaveType,
-                    selectType: data.selectType,
+                    type: data.selectType,
                     fromDate: data.fromDate,
                     toDate: data.toDate,
                     noOfDays: data.noOfDays,
                     approvedBy: data.approvedBy,
+                    meassage: data.reason.replace(/(<([^>]+)>)/gi, ''),
                     ...(value === 'view' && { status: data.status }),
-                    reason: data.reason.replace(/(<([^>]+)>)/gi, ''),
                     comment: data.comment
                   };
                   setSelectedData(setViewData);
@@ -327,7 +327,7 @@ const LeaveList = () => {
           dialogContent={
             <DialogContent
               customContent={
-                <ViewLeaveDetails
+                <LeaveDetails
                   data={selectedData}
                   role={role}
                   approveRejectReason={(value) => setApproveRejectReason(value)}
