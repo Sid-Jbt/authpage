@@ -56,17 +56,22 @@ const SupportTicketDetails = ({ data, role, approveRejectReason }) => {
           />
         ) : (
           <>
-            <Typography variant="button" fontWeight="bold" textTransform="capitalize">
-              Reason: &nbsp;
-            </Typography>
-            <Typography
-              variant="button"
-              fontWeight="regular"
-              color="text"
-              textTransform="capitalize"
-            >
-              {viewData.reason}
-            </Typography>
+            {role !== 'admin' && data.comment !== null && (
+              <>
+                <Typography variant="button" fontWeight="bold" textTransform="capitalize">
+                  Reason: &nbsp;
+                </Typography>
+                <Typography
+                  variant="button"
+                  fontWeight="regular"
+                  color="text"
+                  textTransform="capitalize"
+                >
+                  {data.reason}
+                </Typography>
+              </>
+            )}
+
             {data.status === 'reject' && (
               <Typography
                 component={Link}
