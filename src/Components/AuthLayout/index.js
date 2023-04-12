@@ -64,7 +64,7 @@ const AuthLayout = ({ ...rest }) => {
         <Grid item xs={12}>
           <Card sx={{ background: 'transparent', boxShadow: 'none', p: 1 }}>
             <Typography textAlign="center" fontSize="medium">
-              Powered By@
+              copyright@
               <Link
                 href="https://www.jarvisbitz.com"
                 target="_blank"
