@@ -71,19 +71,20 @@ const SupportTicketDetails = ({ data, role, approveRejectReason }) => {
                 </Typography>
               </>
             )}
-
-            {data.status === 'reject' && (
-              <Typography
-                component={Link}
-                to={getSupportTicketPattern()}
-                variant="button"
-                color="info"
-                fontWeight="medium"
-                underline="true"
-              >
-                &nbsp; Support Ticket
-              </Typography>
-            )}
+            <Box sx={{ alignItems: 'flex-end', justifyContent: 'flex-end', display: 'flex' }}>
+              {data.status === 'reject' && (
+                <Typography
+                  component={Link}
+                  to={getSupportTicketPattern()}
+                  variant="button"
+                  color="warning"
+                  fontWeight="bold"
+                  underline="true"
+                >
+                  &nbsp; Support Ticket
+                </Typography>
+              )}
+            </Box>
           </>
         )}
       </Grid>

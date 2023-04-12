@@ -66,19 +66,20 @@ const LeaveDetails = ({ data, role, approveRejectReason }) => {
               </Typography>
             </>
           )}
-
-          {viewData.status === 'reject' && (
-            <Typography
-              component={Link}
-              to={getSupportTicketPattern()}
-              variant="button"
-              color="info"
-              fontWeight="medium"
-              underline="true"
-            >
-              &nbsp; Support Ticket
-            </Typography>
-          )}
+          <Box sx={{ alignItems: 'flex-end', justifyContent: 'flex-end', display: 'flex' }}>
+            {viewData.status === 'reject' && (
+              <Typography
+                component={Link}
+                to={getSupportTicketPattern()}
+                variant="button"
+                color="warning"
+                fontWeight="bold"
+                underline="true"
+              >
+                &nbsp; Support Ticket
+              </Typography>
+            )}
+          </Box>
         </>
       )}
     </Box>
