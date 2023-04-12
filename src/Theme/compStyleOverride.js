@@ -751,11 +751,9 @@ export default function componentStyleOverrides(theme) {
         fontSizeInherit: {
           fontSize: 'inherit !important'
         },
-
         fontSizeSmall: {
           fontSize: `${pxToRem(20)} !important`
         },
-
         fontSizeLarge: {
           fontSize: `${pxToRem(36)} !important`
         }

@@ -193,6 +193,7 @@ const SupportTicket = () => {
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Priority</FormLabel>
               <Select
+                size="small"
                 value={priority}
                 options={Priority}
                 onChange={(value) => setPriority(value)}
@@ -203,6 +204,7 @@ const SupportTicket = () => {
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Status</FormLabel>
               <Select
+                size="small"
                 value={status}
                 options={actionStatus}
                 onChange={(value) => setStatus(value)}
