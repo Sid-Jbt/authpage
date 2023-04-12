@@ -174,7 +174,7 @@ const DashboardDefault = () => {
               <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Today Present"
-                  count={count && count.presentCount}
+                  count={0}
                   icon={{ color: 'success', component: <PeopleRounded /> }}
                   isPercentage={false}
                   link={getAttendancePattern()}
@@ -183,7 +183,7 @@ const DashboardDefault = () => {
               <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Today Absent"
-                  count={count && count.absentCount}
+                  count={0}
                   icon={{ color: 'error', component: <PeopleRounded /> }}
                   isPercentage={false}
                   link={getAttendancePattern()}

@@ -1,4 +1,4 @@
-import { AppBar, Divider, Grid, IconButton, Menu, Toolbar, useTheme } from '@mui/material';
+import { AppBar, Divider, Grid, IconButton, Icon, Menu, Toolbar, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Box from 'Elements/Box';
 import {
@@ -8,11 +8,12 @@ import {
   MenuTwoTone,
   Notifications,
   Person,
-  Settings
+  Settings,
+  TimerSharp
 } from '@mui/icons-material';
 import { useState } from 'react';
 import NotificationItem from 'Elements/Item';
-
+import Typography from 'Elements/Typography';
 import UserPic from 'Assets/Images/team-4-800x800.jpg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Breadcrumbs from 'Elements/Breadcrumbs';
@@ -38,6 +39,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
+  const [openTimer, setOpenTimer] = useState(false);
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
 
@@ -45,6 +47,39 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
   const handleMenuClose = () => setOpenMenu(false);
   const handleProfileMenu = (event) => setOpenProfileMenu(event.currentTarget);
   const handleProfileMenuClose = () => setOpenProfileMenu(false);
+
+  const handleTimer = (event) => setOpenTimer(event.currentTarget);
+  const handleTimerClose = () => setOpenTimer(false);
+
+  const renderTimer = () => (
+    <Menu
+      anchorEl={openTimer}
+      anchorReference={null}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right'
+      }}
+      open={Boolean(openTimer)}
+      onClose={handleTimerClose}
+      sx={({ breakpoints }) => ({
+        top: 50,
+        [breakpoints.down('sm')]: {
+          left: 0
+        },
+        [breakpoints.up('md')]: {
+          left: progress === 100 ? -100 : -155
+        }
+      })}
+    >
+      <NotificationItem
+        color="secondary"
+        width
+        variant="h6"
+        title={['To record screenshot, please download and use the desktop app']}
+        onClick={handleTimerClose}
+      />
+    </Menu>
+  );
 
   const renderMenu = () => (
     <Menu
@@ -200,6 +235,37 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
             {pathname !== getProfileSetupPattern() ? (
               <>
                 <Grid item>
+                  <Box
+                    variant="contained"
+                    display="flex"
+                    p={0.5}
+                    pr={1}
+                    pl={1}
+                    opacity={1}
+                    borderRadius={50}
+                    onClick={handleTimer}
+                    sx={{
+                      cursor: 'pointer',
+                      alignItems: 'center',
+                      border: `1px solid ${position > 10 ? 'dark' : 'white'}`,
+                      color: `${position > 10 ? 'dark !important' : 'white !important'}`,
+                      fontSize: '14px'
+                    }}
+                  >
+                    <Icon
+                      variant="contained"
+                      color="inherit"
+                      fontSize="inherit"
+                      sx={{ width: '1.2rem', height: '1.2rem' }}
+                    >
+                      <TimerSharp />
+                    </Icon>
+                    <Typography color="inherit" variant="caption">
+                      01:00:05
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item>
                   <IconButton
                     size="large"
                     color={position > 10 ? 'dark' : 'white'}
@@ -233,6 +299,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
               />
             </Grid>
           </Grid>
+          {renderTimer()}
           {renderMenu()}
           {renderProfileMenu()}
         </Box>
