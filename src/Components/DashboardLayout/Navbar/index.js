@@ -29,7 +29,7 @@ import CircularProgressWithLabel from 'Elements/CircularProgressWithLabel';
 import { MINI_SIDENAV, LOGOUT } from 'APIs/constants';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
-const DashboardNavbar = ({ user, progress, notification, isMini }) => {
+const DashboardNavbar = ({ user, progress, notification, isMini, role }) => {
   const customization = useSelector((state) => state.customization);
   const themes = useTheme();
   const dispatch = useDispatch();
@@ -234,37 +234,39 @@ const DashboardNavbar = ({ user, progress, notification, isMini }) => {
           <Grid container columnGap={2} alignItems="center">
             {pathname !== getProfileSetupPattern() ? (
               <>
-                <Grid item>
-                  <Box
-                    variant="contained"
-                    display="flex"
-                    p={0.5}
-                    pr={1}
-                    pl={1}
-                    opacity={1}
-                    borderRadius={50}
-                    onClick={handleTimer}
-                    sx={{
-                      cursor: 'pointer',
-                      alignItems: 'center',
-                      border: `1px solid ${position > 10 ? 'dark' : 'white'}`,
-                      color: `${position > 10 ? 'dark !important' : 'white !important'}`,
-                      fontSize: '14px'
-                    }}
-                  >
-                    <Icon
+                {role !== 'admin' && (
+                  <Grid item>
+                    <Box
                       variant="contained"
-                      color="inherit"
-                      fontSize="inherit"
-                      sx={{ width: '1.2rem', height: '1.2rem' }}
+                      display="flex"
+                      p={0.5}
+                      pr={1}
+                      pl={1}
+                      opacity={1}
+                      borderRadius={50}
+                      onClick={handleTimer}
+                      sx={{
+                        cursor: 'pointer',
+                        alignItems: 'center',
+                        border: `1px solid ${position > 10 ? '#344767' : 'white'}`,
+                        color: `${position > 10 ? 'dark !important' : 'white !important'}`,
+                        fontSize: '14px'
+                      }}
                     >
-                      <TimerSharp />
-                    </Icon>
-                    <Typography color="inherit" variant="caption">
-                      01:00:05
-                    </Typography>
-                  </Box>
-                </Grid>
+                      <Icon
+                        variant="contained"
+                        color="inherit"
+                        fontSize="inherit"
+                        sx={{ width: '1.2rem', height: '1.2rem' }}
+                      >
+                        <TimerSharp />
+                      </Icon>
+                      <Typography color="inherit" variant="caption">
+                        01:00:05
+                      </Typography>
+                    </Box>
+                  </Grid>
+                )}
                 <Grid item>
                   <IconButton
                     size="large"

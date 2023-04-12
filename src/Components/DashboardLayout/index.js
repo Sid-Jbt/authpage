@@ -95,6 +95,7 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
           progress={DashboardData && DashboardData.profileProgress}
           user={DashboardData && DashboardData.user.profile}
           notification={DashboardData && DashboardData.notification}
+          role={DashboardData && DashboardData.user.role}
         />
         <Box
           sx={({ breakpoints }) => ({
