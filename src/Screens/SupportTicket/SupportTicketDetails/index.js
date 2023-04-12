@@ -5,7 +5,7 @@ import { Grid } from '@mui/material';
 import FormField from 'Elements/FormField';
 import { Link } from 'react-router-dom';
 import { CreateViewData } from 'Helpers/Global';
-import { getSupportTicketPattern } from '../../../Routes/routeConfig';
+import { getSupportTicketPattern } from 'Routes/routeConfig';
 
 const SupportTicketDetails = ({ data, role, approveRejectReason }) => {
   const { viewData, labels, values } = CreateViewData(data, ['subject', 'id', 'reason']);

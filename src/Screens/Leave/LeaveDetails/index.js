@@ -4,33 +4,10 @@ import React from 'react';
 import FormField from 'Elements/FormField';
 import { Link } from 'react-router-dom';
 import { getSupportTicketPattern } from '../../../Routes/routeConfig';
+import { CreateViewData } from '../../../Helpers/Global';
 
 const LeaveDetails = ({ data, role, approveRejectReason }) => {
-  const labels = [];
-  const values = [];
-
-  // Remove unwanted key-value pairs from object
-  const viewData = Object.keys(data)
-    .filter((key) => key !== 'leaveType' && key !== 'id' && key !== 'reason')
-    .reduce((acc, key) => {
-      acc[key] = data[key];
-      return acc;
-    }, {});
-
-  // Convert this form `objectKey` of the object key in to this `object key`
-  Object.keys(viewData).forEach((el) => {
-    if (el.match(/[A-Z\s]+/)) {
-      const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
-      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
-      labels.push(newElement);
-    } else {
-      labels.push(el);
-    }
-  });
-
-  // Push the object values into the values array
-  Object.values(viewData).forEach((el) => values.push(el));
-
+  const { viewData, labels, values } = CreateViewData(data, ['leaveType', 'id', 'reason']);
   // Render the card data items
   const renderItems = labels.map((label, key) => (
     <Box key={label} display="flex" py={0.5} pr={2}>
@@ -46,38 +23,51 @@ const LeaveDetails = ({ data, role, approveRejectReason }) => {
       )}
     </Box>
   ));
-
   return (
     <Box sx={{ width: 400 }}>
       {renderItems}
-      {role === 'admin' && (data.status === 'reject' || data.status === 'approved') ? (
+
+      {role === 'admin' &&
+      viewData.status !== 'pending' &&
+      viewData.status === 'reject' &&
+      viewData.status === 'approved' ? (
         <>
           <Typography variant="button" fontWeight="bold" textTransform="capitalize">
             Reason: &nbsp;
           </Typography>
           <Typography variant="button" fontWeight="regular" color="text" textTransform="capitalize">
-            {data.reason}
+            {viewData.reason}
           </Typography>
         </>
-      ) : role === 'admin' ? (
+      ) : role === 'admin' && viewData.status === 'pending' ? (
         <FormField
           type="textarea"
           placeholder="Enter the reason"
-          defaultValue={data.comment}
+          defaultValue={viewData.comment}
           onChange={(event) => approveRejectReason(event.target.value)}
           multiline
           rows={5}
-          disabled={data.status === 'reject' || data.status === 'approved'}
+          disabled={viewData.status === 'reject' || viewData.status === 'approved'}
         />
       ) : (
         <>
-          <Typography variant="button" fontWeight="bold" textTransform="capitalize">
-            Reason: &nbsp;
-          </Typography>
-          <Typography variant="button" fontWeight="regular" color="text" textTransform="capitalize">
-            {data.reason}
-          </Typography>
-          {data.status === 'reject' && (
+          {viewData && viewData.reason && (
+            <>
+              <Typography variant="button" fontWeight="bold" textTransform="capitalize">
+                Reason: &nbsp;
+              </Typography>
+              <Typography
+                variant="button"
+                fontWeight="regular"
+                color="text"
+                textTransform="capitalize"
+              >
+                {viewData.reason}
+              </Typography>
+            </>
+          )}
+
+          {viewData.status === 'reject' && (
             <Typography
               component={Link}
               to={getSupportTicketPattern()}

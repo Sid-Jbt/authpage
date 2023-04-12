@@ -223,7 +223,7 @@ export const CreateViewData = (data, excludeKey) => {
   const values = [];
 
   const viewData = Object.keys(data)
-    .filter((key) => !key.includes(excludeKey))
+    .filter((key) => !excludeKey.includes(key))
     .reduce((acc, key) => {
       acc[key] = data[key];
       return acc;
