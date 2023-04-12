@@ -5,7 +5,7 @@ import { Grid } from '@mui/material';
 import FormField from 'Elements/FormField';
 import { Link } from 'react-router-dom';
 import { CreateViewData } from 'Helpers/Global';
-import { getSupportTicketPattern } from '../../../Routes/routeConfig';
+import { getSupportTicketPattern } from 'Routes/routeConfig';
 
 const SupportTicketDetails = ({ data, role, approveRejectReason }) => {
   const { viewData, labels, values } = CreateViewData(data, ['subject', 'id', 'reason']);
@@ -56,29 +56,35 @@ const SupportTicketDetails = ({ data, role, approveRejectReason }) => {
           />
         ) : (
           <>
-            <Typography variant="button" fontWeight="bold" textTransform="capitalize">
-              Reason: &nbsp;
-            </Typography>
-            <Typography
-              variant="button"
-              fontWeight="regular"
-              color="text"
-              textTransform="capitalize"
-            >
-              {viewData.reason}
-            </Typography>
-            {data.status === 'reject' && (
-              <Typography
-                component={Link}
-                to={getSupportTicketPattern()}
-                variant="button"
-                color="info"
-                fontWeight="medium"
-                underline="true"
-              >
-                &nbsp; Support Ticket
-              </Typography>
+            {role !== 'admin' && data.comment !== null && (
+              <>
+                <Typography variant="button" fontWeight="bold" textTransform="capitalize">
+                  Reason: &nbsp;
+                </Typography>
+                <Typography
+                  variant="button"
+                  fontWeight="regular"
+                  color="text"
+                  textTransform="capitalize"
+                >
+                  {data.reason}
+                </Typography>
+              </>
             )}
+            <Box sx={{ alignItems: 'flex-end', justifyContent: 'flex-end', display: 'flex' }}>
+              {data.status === 'reject' && (
+                <Typography
+                  component={Link}
+                  to={getSupportTicketPattern()}
+                  variant="button"
+                  color="warning"
+                  fontWeight="bold"
+                  underline="true"
+                >
+                  &nbsp; Support Ticket
+                </Typography>
+              )}
+            </Box>
           </>
         )}
       </Grid>

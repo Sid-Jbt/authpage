@@ -5,35 +5,15 @@ import React from 'react';
 import FormField from 'Elements/FormField';
 import { Link } from 'react-router-dom';
 import { getSupportTicketPattern } from '../../../Routes/routeConfig';
+import { CreateViewData } from '../../../Helpers/Global';
 
 const ExpenseDetails = ({ data, role, approveRejectReason }) => {
-  let labels = [];
-  const values = [];
-
-  const viewData = Object.keys(data)
-    .filter((key) => key !== 'itemName' && key !== 'id' && key !== 'comment' && key !== 'document')
-    .reduce((acc, key) => {
-      acc[key] = data[key];
-      return acc;
-    }, {});
-
-  Object.keys(viewData).forEach((el) => {
-    if (el.match(/[A-Z\s]+/)) {
-      const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
-      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
-      labels.push(newElement);
-    } else {
-      labels.push(el);
-    }
-    labels = labels.filter((e) => e !== 'id');
-    if (role !== 'admin') {
-      labels = labels.filter((e) => e !== 'comment');
-    }
-  });
-
-  // Push the object values into the values array
-  Object.values(viewData).forEach((el) => values.push(el));
-
+  const { viewData, labels, values } = CreateViewData(data, [
+    'comment',
+    'itemName',
+    'id',
+    'document'
+  ]);
   // Render the card info items
   const renderItems = labels.map((label, key) => (
     <Box key={label} display="flex" py={0.5} pr={2}>
@@ -53,11 +33,11 @@ const ExpenseDetails = ({ data, role, approveRejectReason }) => {
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="space-between">
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={7}>
           {renderItems}
         </Grid>
         {data && data.document !== '' && (
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={5}>
             <Box
               component="img"
               src={data.document}
@@ -69,7 +49,9 @@ const ExpenseDetails = ({ data, role, approveRejectReason }) => {
           </Grid>
         )}
         <Grid item xs={12} pt={0}>
-          {role === 'admin' && (data.status === 'reject' || data.status === 'approved') ? (
+          {role === 'admin' &&
+          viewData.hasOwnProperty('comment') &&
+          (viewData.status === 'reject' || viewData.status === 'approved') ? (
             <>
               <Typography variant="button" fontWeight="bold" textTransform="capitalize">
                 Comment: &nbsp;
@@ -80,46 +62,54 @@ const ExpenseDetails = ({ data, role, approveRejectReason }) => {
                 color="text"
                 textTransform="capitalize"
               >
-                {data.comment}
+                {viewData.comment}
               </Typography>
             </>
-          ) : role === 'admin' ? (
+          ) : role === 'admin' && viewData.status === 'pending' ? (
             <FormField
               type="textarea"
               placeholder="Reason"
               label="Reason"
-              defaultValue={data.comment}
+              defaultValue={viewData.comment}
               onChange={(event) => approveRejectReason(event.target.value)}
               multiline
               rows={5}
-              disabled={data.status === 'reject' || data.status === 'approved'}
+              disabled={viewData.status === 'reject' || viewData.status === 'approved'}
             />
           ) : (
-            <>
-              <Typography variant="button" fontWeight="bold" textTransform="capitalize">
-                Comment: &nbsp;
-              </Typography>
-              <Typography
-                variant="button"
-                fontWeight="regular"
-                color="text"
-                textTransform="capitalize"
-              >
-                {data.comment}
-              </Typography>
-              {data.status === 'reject' && (
-                <Typography
-                  component={Link}
-                  to={getSupportTicketPattern()}
-                  variant="button"
-                  color="info"
-                  fontWeight="medium"
-                  underline="true"
-                >
-                  &nbsp; Support Ticket
-                </Typography>
-              )}
-            </>
+            role !== 'admin' && (
+              <>
+                {data.comment !== null && (
+                  <>
+                    <Typography variant="button" fontWeight="bold" textTransform="capitalize">
+                      Comment: &nbsp;
+                    </Typography>
+                    <Typography
+                      variant="button"
+                      fontWeight="regular"
+                      color="text"
+                      textTransform="capitalize"
+                    >
+                      {data.comment}
+                    </Typography>
+                  </>
+                )}
+                <Box sx={{ alignItems: 'flex-end', justifyContent: 'flex-end', display: 'flex' }}>
+                  {viewData.status === 'reject' && (
+                    <Typography
+                      component={Link}
+                      to={getSupportTicketPattern()}
+                      variant="button"
+                      color="warning"
+                      fontWeight="bold"
+                      underline="true"
+                    >
+                      &nbsp; Support Ticket
+                    </Typography>
+                  )}
+                </Box>
+              </>
+            )
           )}
         </Grid>
       </Grid>
