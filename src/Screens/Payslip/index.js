@@ -70,13 +70,23 @@ const Payslip = () => {
         <Grid item xs={12} md={4} lg={3}>
           <FormControl sx={{ width: '100%' }}>
             <FormLabel>Select Month</FormLabel>
-            <Select value={month} options={Months} onChange={(value) => setMonth(value)} />
+            <Select
+              size="small"
+              value={month}
+              options={Months}
+              onChange={(value) => setMonth(value)}
+            />
           </FormControl>
         </Grid>
         <Grid item xs={12} md={4} lg={3}>
           <FormControl sx={{ width: '100%' }}>
             <FormLabel>Select Year</FormLabel>
-            <Select value={year} options={Years} onChange={(value) => setYear(value)} />
+            <Select
+              size="small"
+              value={year}
+              options={Years}
+              onChange={(value) => setYear(value)}
+            />
           </FormControl>
         </Grid>
       </FilterLayout>

@@ -87,7 +87,6 @@ const BasicInfo = ({ data }) => {
                 <Grid item xs={12} md={6} lg={4}>
                   <FormControl sx={{ width: '100%' }}>
                     <FormLabel>Gender</FormLabel>
-
                     <Select
                       value={
                         values.gender === ''
