@@ -25,8 +25,6 @@ jobs:
         run: yarn check-all
       - name: Build
         run: CI=false yarn build
-      - name: LIST
-        run: ls -l
       - name: Deploy Code
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -35,7 +33,7 @@ jobs:
           password: ${{ secrets.SERVER_PASS }}
           port: ${{ secrets.SERVER_PORT }}
           source: ./build/*
-          target: ~/jbt-timer-web/build/
+          target: ~/jbt-timer-web/
   
       #- name: Deploy Code
       #  uses: appleboy/ssh-action@master
