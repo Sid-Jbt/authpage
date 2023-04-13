@@ -73,7 +73,7 @@ const OrganisationSignup = () => {
             <form onSubmit={handleSubmit}>
               <Box mb={0.5}>
                 <Input
-                  type="name"
+                  type="text"
                   placeholder="Name"
                   size="large"
                   fullWidth
