@@ -25,6 +25,8 @@ jobs:
         run: yarn check-all
       - name: Build
         run: CI=false yarn build
+      - name: LIST
+        run: ls -l
       - name: Deploy Code
         uses: appleboy/scp-action@v0.1.4
         with:
