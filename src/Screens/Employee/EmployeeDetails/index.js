@@ -52,8 +52,8 @@ const EmployeeDetails = () => {
 
   const sidenav = [
     { component: <BasicInfo data={initialValues} />, ref: useRef(), key: 'basic-info' },
-    { component: <BankDetails />, ref: useRef(), key: 'account-info' },
-    { component: <ChangePassword />, ref: useRef(), key: 'change-password' }
+    { component: <BankDetails data={initialValues} />, ref: useRef(), key: 'account-info' },
+    { component: <ChangePassword data={initialValues} />, ref: useRef(), key: 'change-password' }
   ];
 
   return (
