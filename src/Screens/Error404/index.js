@@ -5,9 +5,9 @@ import Button from 'Elements/Button';
 import { Card, Grid } from '@mui/material';
 import { getDashboardPattern, getLoginPattern } from 'Routes/routeConfig';
 import typography from 'Theme/base/typography';
-import bgImage from 'Assets/Illustrations/404.svg';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import bgImage from '../../Assets/Images/404.svg';
 
 const Error404 = () => {
   const { d1, d3, d4, d5 } = typography;

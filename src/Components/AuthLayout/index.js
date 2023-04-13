@@ -3,11 +3,11 @@ import Box from 'Elements/Box';
 import { Navigate, Outlet } from 'react-router';
 import { Card, Grid, Link, Typography, useTheme } from '@mui/material';
 import linearGradient from 'Theme/functions/linearGradient';
-import LogoWithName from 'Assets/logo/jbt-full-logo.svg';
-import bgImage from 'Assets/Illustrations/404.svg';
 import { withStateDispatchAuth } from 'Helpers/withStateDispatch';
 import { getDashboardPattern } from 'Routes/routeConfig';
 import { store } from 'APIs/store';
+import bgImage from '../../Assets/Images/404.svg';
+import LogoWithName from '../../Assets/Images/jbt-full-logo.svg';
 
 const AuthLayout = ({ ...rest }) => {
   const theme = useTheme();

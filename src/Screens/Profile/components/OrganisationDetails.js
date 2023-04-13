@@ -4,8 +4,6 @@ import Input from 'Elements/Input';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import Avatar from 'Elements/Avatar';
-import largeFile from 'Assets/logo/jbt-full-logo.svg';
-import smallFile from 'Assets/logo/logo.jpeg';
 import Button from 'Elements/Button';
 import Icon from '@mui/material/Icon';
 import { Edit } from '@mui/icons-material';
@@ -14,6 +12,8 @@ import { keyDownValidation, WorkingHours } from 'Helpers/Global';
 import { DialogContent } from 'Components/Dialog';
 import CropperImage from 'Components/ImageCrop';
 import DialogMenu from 'Elements/Dialog';
+import smallFile from '../../../Assets/Images/logo.jpeg';
+import largeFile from '../../../Assets/Images/jbt-full-logo.svg';
 
 const Organisation = ({ isEdit, props }) => {
   const { values, handleChange, handleBlur, setFieldValue } = props;
