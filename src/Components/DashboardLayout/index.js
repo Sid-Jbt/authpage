@@ -59,16 +59,12 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
       {pathname !== getProfileSetupPattern() ? (
         <Sidenav
           brandFullLogo={
-            DashboardData.user &&
-            DashboardData.user.organisation.largeLogo &&
-            DashboardData.user.organisation.largeLogo !== null
+            DashboardData.user && DashboardData.user.organisation.largeLogo
               ? DashboardData.user.organisation.largeLogo
               : FullLogo
           }
           brandSmallLogo={
-            DashboardData.user &&
-            DashboardData.user.organisation.smallLogo &&
-            DashboardData.user.organisation.smallLogo !== null
+            DashboardData.user && DashboardData.user.organisation.smallLogo
               ? DashboardData.user.organisation.smallLogo
               : Logo
           }
