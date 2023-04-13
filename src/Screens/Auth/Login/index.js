@@ -51,40 +51,36 @@ const Login = () => {
           } = props;
           return (
             <form onSubmit={handleSubmit}>
-              <Box mb={0.5}>
-                <Input
-                  autoComplete="username"
-                  type="email"
-                  placeholder="Email"
-                  size="large"
-                  fullWidth
-                  id="email"
-                  name="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errorText={errors.email && touched.email && errors.email}
-                  error={errors.email && touched.email}
-                  success={!errors.email && touched.email}
-                />
-              </Box>
-              <Box mb={0.5}>
-                <Input
-                  autoComplete="current-password"
-                  placeholder="Password"
-                  size="large"
-                  fullWidth
-                  id="password"
-                  name="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errorText={errors.password && touched.password && errors.password}
-                  error={errors.password && touched.password}
-                  success={!errors.password && touched.password}
-                  type="password"
-                />
-              </Box>
+              <Input
+                autoComplete="username"
+                type="email"
+                placeholder="Email"
+                size="large"
+                fullWidth
+                id="email"
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorText={errors.email && touched.email && errors.email}
+                error={errors.email && touched.email}
+                success={!errors.email && touched.email}
+              />
+              <Input
+                autoComplete="current-password"
+                placeholder="Password"
+                size="large"
+                fullWidth
+                id="password"
+                name="password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorText={errors.password && touched.password && errors.password}
+                error={errors.password && touched.password}
+                success={!errors.password && touched.password}
+                type="password"
+              />
               <Box
                 sx={{
                   display: 'flex',
