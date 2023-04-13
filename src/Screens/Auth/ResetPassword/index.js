@@ -38,48 +38,44 @@ const ResetPassword = () => {
             props;
           return (
             <form onSubmit={handleSubmit}>
-              <Box mt={2}>
-                <Input
-                  name="password"
-                  placeholder="New Password"
-                  size="large"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errorText={errors.password && touched.password && errors.password}
-                  error={errors.password && touched.password}
-                  success={!errors.password && touched.password}
-                  type="password"
-                />
-              </Box>
-              <Box mt={0.5}>
-                <Input
-                  name="resetPassword"
-                  placeholder="Confirm Password"
-                  size="large"
-                  value={values.resetPassword}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errorText={
-                    errors.confirmPassword && touched.confirmPassword && errors.confirmPassword
-                  }
-                  error={errors.confirmPassword && touched.confirmPassword}
-                  success={!errors.confirmPassword && touched.confirmPassword}
-                  type="password"
-                />
-              </Box>
-              <Box mt={1}>
-                <Button
-                  variant="contained"
-                  color="info"
-                  size="large"
-                  fullWidth
-                  type="submit"
-                  disabled={isSubmitting}
-                >
-                  Reset Password
-                </Button>
-              </Box>
+              <Input
+                name="password"
+                placeholder="New Password"
+                size="large"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorText={errors.password && touched.password && errors.password}
+                error={errors.password && touched.password}
+                success={!errors.password && touched.password}
+                type="password"
+              />
+              <Input
+                name="resetPassword"
+                placeholder="Confirm Password"
+                size="large"
+                value={values.resetPassword}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorText={
+                  errors.confirmPassword && touched.confirmPassword && errors.confirmPassword
+                }
+                error={errors.confirmPassword && touched.confirmPassword}
+                success={!errors.confirmPassword && touched.confirmPassword}
+                type="password"
+              />
+
+              <Button
+                variant="contained"
+                color="info"
+                size="large"
+                fullWidth
+                type="submit"
+                disabled={isSubmitting}
+                sx={{ mt: 1 }}
+              >
+                Reset Password
+              </Button>
             </form>
           );
         }}
