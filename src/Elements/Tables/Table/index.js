@@ -98,15 +98,23 @@ const Table = ({
         <TableSortLabel
           active={
             window.innerWidth < breakpoints.values.xl
-              ? mobileHeader.toUpperCase() !== 'ACTION' && mobileHeader.toUpperCase() !== 'ID'
-              : headerName.toUpperCase() !== 'ACTION' && headerName.toUpperCase() !== 'ID'
+              ? mobileHeader.toUpperCase() !== 'ACTION' &&
+                mobileHeader.toUpperCase() !== 'ID' &&
+                mobileHeader.toUpperCase() !== 'IMAGE'
+              : headerName.toUpperCase() !== 'ACTION' &&
+                headerName.toUpperCase() !== 'ID' &&
+                headerName.toUpperCase() !== 'IMAGE'
           }
           direction={sortKey.toLowerCase() === name.toLowerCase() ? sortOrder : 'asc'}
           onClick={(e) => handleRequestSort(e, name, sortOrder === 'asc' ? 'desc' : 'asc')}
           hideSortIcon={
             window.innerWidth < breakpoints.values.xl
-              ? mobileHeader.toUpperCase() === 'ACTION' && mobileHeader.toUpperCase() === 'ID'
-              : headerName.toUpperCase() === 'ACTION' && headerName.toUpperCase() === 'ID'
+              ? mobileHeader.toUpperCase() === 'ACTION' &&
+                mobileHeader.toUpperCase() === 'ID' &&
+                mobileHeader.toUpperCase() !== 'IMAGE'
+              : headerName.toUpperCase() === 'ACTION' &&
+                headerName.toUpperCase() === 'ID' &&
+                headerName.toUpperCase() !== 'IMAGE'
           }
         >
           {window.innerWidth < breakpoints.values.xl

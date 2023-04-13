@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
-import { Add, DirectionsRun, MoreTime, WatchOff } from '@mui/icons-material';
+import { Add, DirectionsRun, MoreTime, RemoveRedEye, WatchOff } from '@mui/icons-material';
 import Select from 'Elements/Select';
 import { Months, Years, userArray } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import AttendanceCard from 'Components/CardLayouts/StaticCard';
 import { useOutletContext } from 'react-router';
 import { attendanceColumn } from 'StaticData/attendanceData';
+import Input from '../../Elements/Input';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
@@ -24,6 +25,8 @@ const AttendanceList = () => {
   const [sort, setSort] = useState({ key: 'attendanceDate', order: 'asc' });
   const [filter, setFilter] = useState(false);
   const [userList, setUserList] = useState([]);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
     if (role === 'admin') {
@@ -131,6 +134,33 @@ const AttendanceList = () => {
             setFilter(!filter);
           }}
         >
+          <Grid item xs={6} md={4} lg={3}>
+            <Input
+              type="date"
+              label="From Date"
+              size="small"
+              fullWidth
+              id="fromDate"
+              name="fromDate"
+              value={startDate !== '' ? startDate : ''}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={6} md={4} lg={3}>
+            <Input
+              type="date"
+              label="To Date"
+              size="small"
+              fullWidth
+              id="toDate"
+              name="toDate"
+              inputProps={{
+                min: startDate
+              }}
+              value={endDate !== '' ? endDate : ''}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </Grid>
           {role === 'admin' && (
             <Grid item sm={12} md={4} lg={3}>
               <FormControl sx={{ width: '100%' }}>
@@ -181,6 +211,16 @@ const AttendanceList = () => {
           onRowsPerPageChange={(rowsPerPage) => {
             setLimit(rowsPerPage);
           }}
+          // onClickAction={(value, { id }) => {}}
+          isView={[
+            {
+              name: 3,
+              tooltip: 'Click to view',
+              color: 'info',
+              icon: <RemoveRedEye />,
+              value: 'view'
+            }
+          ]}
           sortKey={sort.key}
           sortOrder={sort.order}
           handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}
