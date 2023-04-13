@@ -43,7 +43,7 @@
     "serve:local": "env-cmd -f .env.local react-scripts start",
     "serve:stage": "env-cmd -f .env.stage react-scripts start",
     "serve:prod": "env-cmd -f .env.prod react-scripts start",
-    "build": "react-scripts --max_old_space_size=4096 build --dev=false && cp .htaccess build/.htaccess",
+    "build": "react-scripts build --dev=false && cp .htaccess build/.htaccess",
     "build:stage": "env-cmd -f .env.stage yarn build",
     "build:prod": "env-cmd -f .env.prod yarn build",
     "test": "react-scripts test",
