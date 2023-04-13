@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Card, FormControl, FormLabel, Grid } from '@mui/material';
+import {
+  Card,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  useTheme
+} from '@mui/material';
 import StaticCard from 'Components/CardLayouts/StaticCard';
 import DefaultLineChart from 'Elements/Charts/LineCharts/DefaultLineChart';
 import FilterLayout from 'Components/FilterLayout';
@@ -14,10 +23,16 @@ import Select from '../../../Elements/Select';
 
 const TimeActivity = () => {
   const { columns: prCols, adminColumns: adminPrCol } = timeActivityListData;
+  const theme = useTheme();
   const { role, GetEmployeeList } = useOutletContext();
   const [userList, setUserList] = useState([]);
   const [user, setUser] = useState('');
   const [selectedRole, setSelectedRole] = useState('');
+  const [search, setSearch] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [radioDate, setRadioDate] = useState('customDate');
+  const [filter, setFilter] = useState(false);
 
   useEffect(() => {
     if (role === 'admin') {
@@ -28,6 +43,16 @@ const TimeActivity = () => {
       });
     }
   }, []);
+
+  const handleClear = () => {
+    setStartDate('');
+    setEndDate('');
+    setUser('');
+    setSelectedRole('');
+    setRadioDate('customDate');
+    setSearch('');
+    setFilter(!filter);
+  };
 
   return (
     <Grid container spacing={2}>
@@ -51,7 +76,14 @@ const TimeActivity = () => {
             boxShadow: ({ boxShadows: { md } }) => md
           }}
         >
-          <FilterLayout>
+          <FilterLayout
+            search={search}
+            handleSearch={(e) => setSearch(e.target.value)}
+            handleClear={handleClear}
+            onClickSearch={() => {
+              setFilter(!filter);
+            }}
+          >
             <Grid item xs={6} md={4} lg={3}>
               <Input
                 type="date"
@@ -60,10 +92,62 @@ const TimeActivity = () => {
                 fullWidth
                 id="fromDate"
                 name="fromDate"
+                value={startDate !== '' ? startDate : ''}
+                onChange={(e) => setStartDate(e.target.value)}
               />
             </Grid>
             <Grid item xs={6} md={4} lg={3}>
-              <Input type="date" label="To Date" size="small" fullWidth id="toDate" name="toDate" />
+              <Input
+                type="date"
+                label="To Date"
+                size="small"
+                fullWidth
+                id="toDate"
+                name="toDate"
+                inputProps={{
+                  min: startDate
+                }}
+                value={endDate !== '' ? endDate : ''}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3} display="contents">
+              <RadioGroup
+                row
+                sx={{ p: 2, pt: 0, pb: 0, columnGap: 2 }}
+                aria-label="font-family"
+                name="radioDate"
+                value={radioDate}
+                onChange={(e) => setRadioDate(e.target.value)}
+              >
+                <FormControlLabel
+                  value="customDate"
+                  control={<Radio />}
+                  label="Custome Date"
+                  sx={{
+                    '& .MuiSvgIcon-root': { fontSize: 28 },
+                    '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
+                  }}
+                />
+                <FormControlLabel
+                  value="previousMonth"
+                  control={<Radio />}
+                  label="Previous Month"
+                  sx={{
+                    '& .MuiSvgIcon-root': { fontSize: 28 },
+                    '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
+                  }}
+                />
+                <FormControlLabel
+                  value="nextMonth"
+                  control={<Radio />}
+                  label="Next Month"
+                  sx={{
+                    '& .MuiSvgIcon-root': { fontSize: 28 },
+                    '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
+                  }}
+                />
+              </RadioGroup>
             </Grid>
             {role === 'admin' && (
               <>
