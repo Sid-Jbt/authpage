@@ -92,6 +92,7 @@ const TimeActivity = () => {
                 fullWidth
                 id="fromDate"
                 name="fromDate"
+                errorFalse
                 value={startDate !== '' ? startDate : ''}
                 onChange={(e) => setStartDate(e.target.value)}
               />
@@ -104,6 +105,7 @@ const TimeActivity = () => {
                 fullWidth
                 id="toDate"
                 name="toDate"
+                errorFalse
                 inputProps={{
                   min: startDate
                 }}

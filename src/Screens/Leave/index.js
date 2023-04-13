@@ -189,6 +189,7 @@ const LeaveList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
+              errorFalse
               value={startDate !== '' ? startDate : ''}
               onChange={(e) => setStartDate(e.target.value)}
             />
@@ -201,6 +202,7 @@ const LeaveList = () => {
               fullWidth
               id="toDate"
               name="toDate"
+              errorFalse
               value={endDate !== '' ? endDate : ''}
               onChange={(e) => setEndDate(e.target.value)}
             />

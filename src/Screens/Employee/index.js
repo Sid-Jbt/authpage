@@ -106,6 +106,7 @@ const EmployeeList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
+              errorFalse
               value={startDate !== '' ? startDate : ''}
               onChange={(e) => setStartDate(e.target.value)}
             />
@@ -118,6 +119,7 @@ const EmployeeList = () => {
               fullWidth
               id="toDate"
               name="toDate"
+              errorFalse
               inputProps={{
                 min: startDate
               }}

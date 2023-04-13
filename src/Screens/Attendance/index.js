@@ -69,55 +69,59 @@ const AttendanceList = () => {
 
   return (
     <>
-      <Grid container spacing={3} mb={3}>
-        <Grid item xs={12} md={6} lg={4}>
-          <AttendanceCard
-            title="Total Late Coming"
-            count={attendanceListCount && attendanceListCount.lateComingRes}
-            icon={{ color: 'error', component: <WatchOff /> }}
-            isPercentage={false}
-          />
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <AttendanceCard
-            title="Total Early Leaving"
-            count={attendanceListCount && attendanceListCount.earlyLeavingRes}
-            icon={{ color: 'info', component: <DirectionsRun /> }}
-            isPercentage={false}
-          />
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <AttendanceCard
-            title="Total Overtime"
-            count={attendanceListCount && attendanceListCount.overTimeRes}
-            icon={{ color: 'warning', component: <MoreTime /> }}
-            isPercentage={false}
-          />
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        {role === 'admin' && (
-          <Grid item xs="auto">
-            <Button
-              color="white"
-              variant="outlined"
-              size="small"
-              sx={({ breakpoints, palette: { dark } }) => ({
-                [breakpoints.down('xl' && 'lg')]: {
-                  color: dark.main,
-                  borderColor: dark.main
-                }
-              })}
-            >
-              <Icon sx={{ mr: 1 }}>
-                <Add />
-              </Icon>
-              Add
-            </Button>
+      {role !== 'admin' && (
+        <>
+          <Grid container spacing={3} mb={3}>
+            <Grid item xs={12} md={6} lg={4}>
+              <AttendanceCard
+                title="Total Late Coming"
+                count={attendanceListCount && attendanceListCount.lateComingRes}
+                icon={{ color: 'error', component: <WatchOff /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <AttendanceCard
+                title="Total Early Leaving"
+                count={attendanceListCount && attendanceListCount.earlyLeavingRes}
+                icon={{ color: 'info', component: <DirectionsRun /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <AttendanceCard
+                title="Total Overtime"
+                count={attendanceListCount && attendanceListCount.overTimeRes}
+                icon={{ color: 'warning', component: <MoreTime /> }}
+                isPercentage={false}
+              />
+            </Grid>
           </Grid>
-        )}
-      </Grid>
+          <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
+            {role === 'admin' && (
+              <Grid item xs="auto">
+                <Button
+                  color="white"
+                  variant="outlined"
+                  size="small"
+                  sx={({ breakpoints, palette: { dark } }) => ({
+                    [breakpoints.down('xl' && 'lg')]: {
+                      color: dark.main,
+                      borderColor: dark.main
+                    }
+                  })}
+                >
+                  <Icon sx={{ mr: 1 }}>
+                    <Add />
+                  </Icon>
+                  Add
+                </Button>
+              </Grid>
+            )}
+          </Grid>
+        </>
+      )}
+
       <Card
         mb={3}
         sx={{
@@ -142,6 +146,7 @@ const AttendanceList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
+              errorFalse
               value={startDate !== '' ? startDate : ''}
               onChange={(e) => setStartDate(e.target.value)}
             />
@@ -154,6 +159,7 @@ const AttendanceList = () => {
               fullWidth
               id="toDate"
               name="toDate"
+              errorFalse
               inputProps={{
                 min: startDate
               }}
