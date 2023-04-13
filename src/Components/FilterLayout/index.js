@@ -50,6 +50,7 @@ const FilterLayout = ({ children, handleClear, search, handleSearch, onClickSear
                 name="search"
                 value={search}
                 onChange={handleSearch}
+                errorFalse
               />
             </Grid>
             <Grid

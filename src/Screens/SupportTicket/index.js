@@ -165,6 +165,7 @@ const SupportTicket = () => {
               fullWidth
               id="date"
               name="startDate"
+              errorFalse
               value={startDate !== '' ? startDate : ''}
               onChange={(event) => setStartDate(event.target.value)}
             />
