@@ -7,7 +7,8 @@ import {
   TableRow,
   TableSortLabel,
   Checkbox,
-  Tooltip
+  Tooltip,
+  IconButton
 } from '@mui/material';
 import Avatar from 'Elements/Avatar';
 import Box from 'Elements/Box';
@@ -17,7 +18,6 @@ import borders from 'Theme/base/borders';
 import Pagination from 'Elements/Pagination';
 import { Action } from 'Elements/Tables/Action';
 import breakpoints from 'Theme/base/breakpoints';
-import Icon from '@mui/material/Icon';
 import Badge from 'Elements/Badge';
 import { badgePriorityColor, badgeStatusColor } from 'Helpers/Global';
 
@@ -238,21 +238,27 @@ const Table = ({
             >
               {isView.map((item, index) =>
                 row.isActive === item.name ? (
-                  <Icon
+                  <IconButton
                     key={index}
-                    sx={{ cursor: 'pointer', fontWeight: 'bold' }}
+                    disabled={
+                      (row.status === 'approved' || row.status === 'reject') && item.name !== 3
+                    }
+                    sx={{ cursor: 'pointer' }}
                     color={item.color}
                     fontSize="small"
                     onClick={() => onClickAction(item.value, row)}
                   >
                     {item.tooltip ? <Tooltip title={item.tooltip}>{item.icon}</Tooltip> : item.icon}
-                  </Icon>
+                  </IconButton>
                 ) : (
                   item.name !== 0 &&
                   item.name !== 1 && (
-                    <Icon
+                    <IconButton
                       key={index}
-                      sx={{ cursor: 'pointer', fontWeight: 'bold' }}
+                      disabled={
+                        (row.status === 'approved' || row.status === 'reject') && item.name !== 3
+                      }
+                      sx={{ cursor: 'pointer' }}
                       color={item.color}
                       fontSize="small"
                       onClick={() => onClickAction(item.value, row)}
@@ -262,7 +268,7 @@ const Table = ({
                       ) : (
                         item.icon
                       )}
-                    </Icon>
+                    </IconButton>
                   )
                 )
               )}

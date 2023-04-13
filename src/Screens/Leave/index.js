@@ -209,6 +209,7 @@ const LeaveList = () => {
             <FormControl sx={{ width: '100%' }}>
               <FormLabel>Select Status</FormLabel>
               <Select
+                size="small"
                 value={status}
                 options={actionStatus}
                 onChange={(value) => setStatus(value)}

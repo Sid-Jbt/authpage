@@ -55,49 +55,51 @@ export function menuImage(theme, ownerState) {
   };
 }
 
-const NotificationItem = forwardRef(({ color, image, title, date, width = 200, ...rest }, ref) => (
-  <MenuItem {...rest} ref={ref} sx={(theme) => menuItem(theme)}>
-    {image && (
-      <Box
-        width="2.25rem"
-        height="2.25rem"
-        mt={0.25}
-        mr={2}
-        mb={0.25}
-        borderRadius="lg"
-        sx={(theme) => menuImage(theme, { color })}
-      >
-        {image}
-      </Box>
-    )}
-    <Box sx={{ width }}>
-      <Typography variant="button" textTransform="capitalize" fontWeight="regular">
-        <strong>{title[0]}</strong> {title[1]}
-      </Typography>
-      {date && (
-        <Typography
-          variant="caption"
-          color="secondary"
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            mt: 0.5
-          }}
+const NotificationItem = forwardRef(
+  ({ color, image, title, date, width = 200, variant = 'button', ...rest }, ref) => (
+    <MenuItem {...rest} ref={ref} sx={(theme) => menuItem(theme)}>
+      {image && (
+        <Box
+          width="2.25rem"
+          height="2.25rem"
+          mt={0.25}
+          mr={2}
+          mb={0.25}
+          borderRadius="lg"
+          sx={(theme) => menuImage(theme, { color })}
         >
-          <Typography variant="button" color="secondary">
-            <WatchLater
-              sx={{
-                lineHeight: 1.2,
-                mr: 0.5
-              }}
-            />
-          </Typography>
-          {date}
-        </Typography>
+          {image}
+        </Box>
       )}
-    </Box>
-  </MenuItem>
-));
+      <Box sx={{ width }}>
+        <Typography variant={variant} textTransform="capitalize" fontWeight="regular">
+          <strong>{title[0]}</strong> {title[1]}
+        </Typography>
+        {date && (
+          <Typography
+            variant="caption"
+            color="secondary"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              mt: 0.5
+            }}
+          >
+            <Typography variant="button" color="secondary">
+              <WatchLater
+                sx={{
+                  lineHeight: 1.2,
+                  mr: 0.5
+                }}
+              />
+            </Typography>
+            {date}
+          </Typography>
+        )}
+      </Box>
+    </MenuItem>
+  )
+);
 
 NotificationItem.defaultProps = {
   color: 'dark'
