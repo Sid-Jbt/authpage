@@ -181,7 +181,7 @@ const LeaveList = () => {
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={handleClear}
-          isDisable={allLeave.length <= 0}
+          isDisable={!Object.values(filterData).some((x) => x !== '') && allLeave.length <= 0}
           onClickSearch={() => {
             const isValues = !Object.values(filterData).some((x) => x !== '');
             if (!isValues) {
