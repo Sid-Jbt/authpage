@@ -14,10 +14,7 @@ import Input from '../../Elements/Input';
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
   const { role, GetAttendanceList, GetEmployeeList } = useOutletContext();
-  // const [month, setMonth] = useState('');
-  // const [year, setYear] = useState('');
   const [user, setUser] = useState('');
-  // const [search, setSearch] = useState('');
   const [attendanceList, setAttendanceList] = useState([]);
   const [attendanceListCount, setAttendanceListCount] = useState(0);
   const [page, setPage] = useState(0);
@@ -25,8 +22,6 @@ const AttendanceList = () => {
   const [sort, setSort] = useState({ key: 'attendanceDate', order: 'asc' });
   const [filter, setFilter] = useState(false);
   const [userList, setUserList] = useState([]);
-  // const [startDate, setStartDate] = useState('');
-  // const [endDate, setEndDate] = useState('');
 
   const [filterData, setFilterData] = useState({
     search: '',
