@@ -179,7 +179,18 @@ const LeaveList = () => {
           handleSearch={(e) => setSearch(e.target.value)}
           handleClear={handleClear}
           onClickSearch={() => {
-            setFilter(!filter);
+            if (allLeave.length > 0) {
+              const allFilterValues = {
+                startDate,
+                endDate,
+                status,
+                search
+              };
+              const isValues = !Object.values(allFilterValues).some((x) => x !== '');
+              if (!isValues) {
+                setFilter(!filter);
+              }
+            }
           }}
         >
           <Grid item xs={6} md={4} lg={3}>
@@ -300,7 +311,7 @@ const LeaveList = () => {
               setIsEdit(false);
               setSelectedData(null);
             }}
-            title={isEdit ? 'UPDATE LEAVE' : 'ADD LEAVE'}
+            title={isEdit ? 'UPDATE LEAVE' : 'NEW LEAVE'}
             selectedData={selectedData}
             isEdit={isEdit}
             GetLeaveAddUpdate={GetLeaveAddUpdate}

@@ -154,7 +154,7 @@ const AddExpenseForm = ({
                   ) : isEdit ? (
                     'Update Expense'
                   ) : (
-                    'Add Expense'
+                    'New Expense'
                   )}
                 </Button>
               </Grid>
