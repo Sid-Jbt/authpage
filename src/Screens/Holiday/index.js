@@ -18,21 +18,22 @@ const Holiday = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-
-  const [search, setSearch] = useState('');
   const [allHolidayList, setAllHolidayList] = useState([]);
   const [holidayListCount, setHolidayListCount] = useState(0);
   const [sort, setSort] = useState({ key: 'holidayDate', order: 'asc' });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [filter, setFilter] = useState(false);
+  const [filterData, setFilterData] = useState({
+    search: ''
+  });
 
   useEffect(() => {
     if (!isDialogOpen || !isDrawerOpen) {
       GetHolidayList(
         {
           limit: isNaN(limit) ? 0 : limit,
-          search,
+          search: filterData.search,
           page,
           sortKey: sort.key,
           sortOrder: sort.order
@@ -57,6 +58,13 @@ const Holiday = () => {
   const handleDrawerClose = () => {
     setIsDrawerOpen(false);
     setIsEdit(false);
+  };
+
+  const handleClear = () => {
+    setFilterData({
+      search: ''
+    });
+    setFilter(!filter);
   };
 
   return (
@@ -91,14 +99,15 @@ const Holiday = () => {
         }}
       >
         <FilterLayout
-          search={search}
-          handleSearch={(e) => setSearch(e.target.value)}
-          handleClear={() => {
-            setSearch('');
-            setFilter(!filter);
-          }}
+          search={filterData.search}
+          handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
+          handleClear={handleClear}
+          isDisable={!Object.values(filterData).some((x) => x !== '') && allHolidayList.length <= 0}
           onClickSearch={() => {
-            setFilter(!filter);
+            const isValues = !Object.values(filterData).some((x) => x !== '');
+            if (!isValues) {
+              setFilter(!filter);
+            }
           }}
         />
 
