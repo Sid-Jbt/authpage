@@ -17,11 +17,10 @@ import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
 import { leaveListData } from 'StaticData/leaveListData';
-import moment from 'moment';
 import AddLeaveForm from './AddLeaveForm';
 import LeaveDetails from './LeaveDetails';
 import Select from '../../Elements/Select';
-import { actionStatus } from '../../Helpers/Global';
+import { actionStatus, dateInputProps } from '../../Helpers/Global';
 
 const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
@@ -29,19 +28,21 @@ const LeaveList = () => {
     useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const [search, setSearch] = useState('');
   const [isViewLeaveDialogOpen, setIsViewLeaveDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [filterData, setFilterData] = useState({
+    startDate: '',
+    endDate: '',
+    search: '',
+    status: ''
+  });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
   const [sort, setSort] = useState({ key: 'fromDate', order: 'asc' });
   const [filter, setFilter] = useState(false);
   const [allLeave, setAllLeave] = useState([]);
   const [leaveCount, setLeaveCount] = useState({});
-  const [status, setStatus] = useState('');
   const [approveRejectReason, setApproveRejectReason] = useState('');
 
   useEffect(() => {
@@ -49,10 +50,10 @@ const LeaveList = () => {
       GetLeaveList(
         {
           limit: isNaN(limit) ? 0 : limit,
-          startDate,
-          endDate,
-          status: status.value,
-          search,
+          startDate: filterData.startDate,
+          endDate: filterData.endDate,
+          status: filterData.status.value,
+          search: filterData.search,
           page,
           sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
           sortOrder: sort.order
@@ -70,10 +71,12 @@ const LeaveList = () => {
   }, [isDialogOpen, page, sort, filter, isDeleteDialogOpen, isViewLeaveDialogOpen, limit]);
 
   const handleClear = () => {
-    setEndDate('');
-    setStartDate('');
-    setStatus('');
-    setSearch('');
+    setFilterData({
+      startDate: '',
+      endDate: '',
+      search: '',
+      status: ''
+    });
     setFilter(!filter);
   };
 
@@ -175,21 +178,14 @@ const LeaveList = () => {
         }}
       >
         <FilterLayout
-          search={search}
-          handleSearch={(e) => setSearch(e.target.value)}
+          search={filterData.search}
+          handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={handleClear}
+          isDisable={allLeave.length <= 0}
           onClickSearch={() => {
-            if (allLeave.length > 0) {
-              const allFilterValues = {
-                startDate,
-                endDate,
-                status,
-                search
-              };
-              const isValues = !Object.values(allFilterValues).some((x) => x !== '');
-              if (!isValues) {
-                setFilter(!filter);
-              }
+            const isValues = !Object.values(filterData).some((x) => x !== '');
+            if (!isValues) {
+              setFilter(!filter);
             }
           }}
         >
@@ -201,13 +197,10 @@ const LeaveList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
-              inputProps={{
-                min: moment().subtract(50, 'Y').format('YYYY-MM-DD'),
-                max: moment().add(50, 'Y').format('YYYY-MM-DD')
-              }}
+              inputProps={dateInputProps()}
               errorFalse
-              value={startDate !== '' ? startDate : ''}
-              onChange={(e) => setStartDate(e.target.value)}
+              value={filterData.startDate}
+              onChange={(e) => setFilterData({ ...filterData, startDate: e.target.value })}
             />
           </Grid>
           <Grid item xs={6} md={4} lg={3}>
@@ -219,12 +212,9 @@ const LeaveList = () => {
               id="toDate"
               name="toDate"
               errorFalse
-              value={endDate !== '' ? endDate : ''}
-              onChange={(e) => setEndDate(e.target.value)}
-              inputProps={{
-                min: moment().subtract(50, 'Y').format('YYYY-MM-DD'),
-                max: moment().add(50, 'Y').format('YYYY-MM-DD')
-              }}
+              value={filterData.endDate}
+              onChange={(e) => setFilterData({ ...filterData, endDate: e.target.value })}
+              inputProps={dateInputProps()}
             />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
@@ -232,9 +222,9 @@ const LeaveList = () => {
               <FormLabel>Select Status</FormLabel>
               <Select
                 size="small"
-                value={status}
+                value={filterData.status}
                 options={actionStatus}
-                onChange={(value) => setStatus(value)}
+                onChange={(value) => setFilterData({ ...filterData, status: value })}
               />
             </FormControl>
           </Grid>

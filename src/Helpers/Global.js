@@ -1,4 +1,6 @@
 // Get array of months
+import moment from 'moment';
+
 export const Months = [
   { value: 1, label: 'January' },
   { value: 2, label: 'February' },
@@ -246,3 +248,8 @@ export const CreateViewData = (data, excludeKey) => {
 
   return { viewData, labels, values };
 };
+
+export const dateInputProps = (minLimit = 50, maxLimit = 50) => ({
+  min: moment().subtract(minLimit, 'Y').format('YYYY-MM-DD'),
+  max: moment().add(maxLimit, 'Y').format('YYYY-MM-DD')
+});
