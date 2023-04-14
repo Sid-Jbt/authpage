@@ -14,6 +14,7 @@ import Address from './component/Address';
 import Account from './component/Account';
 import Organisation from './component/Organisation';
 
+let newValues = {};
 function getSteps(role) {
   return role === 'admin' ? ['Organisation', 'Basic', 'Address'] : ['Basic', 'Address', 'Account'];
 }
@@ -82,18 +83,36 @@ const ProfileSetup = () => {
   };
 
   const handleNext = (values, actions) => {
-    GetProfileSetup(values, (res) => {
-      const data = res.data;
-      if (data.status) {
-        if (activeStep === 2) {
-          dispatch({ type: 'LOGIN_COMPLETED' });
-          navigate(getDashboardPattern());
+    if (
+      JSON.stringify({ ...bankInfo, ...organisation, ...profile, ...rest }) !==
+      JSON.stringify(values)
+    ) {
+      Object.keys({ ...bankInfo, ...organisation, ...profile, ...rest }).map((key) => {
+        if (values[key] !== { ...bankInfo, ...organisation, ...profile, ...rest }[key]) {
+          newValues = { ...newValues, [key]: values[key] };
         }
+      });
+      GetProfileSetup(values, (res) => {
+        const data = res.data;
+        if (data.status) {
+          if (activeStep === 2) {
+            dispatch({ type: 'LOGIN_COMPLETED' });
+            navigate(getDashboardPattern());
+          }
+        }
+      });
+      setActiveStep(activeStep + 1);
+      actions.setTouched({});
+      actions.setSubmitting(false);
+    } else {
+      setActiveStep(activeStep + 1);
+      actions.setTouched({});
+      actions.setSubmitting(false);
+      if (activeStep === 2) {
+        dispatch({ type: 'LOGIN_COMPLETED' });
+        navigate(getDashboardPattern());
       }
-    });
-    setActiveStep(activeStep + 1);
-    actions.setTouched({});
-    actions.setSubmitting(false);
+    }
   };
 
   useEffect(() => {
@@ -101,6 +120,14 @@ const ProfileSetup = () => {
       navigate(getDashboardPattern());
     }
   }, [DashboardData]);
+
+  const onClickSkip = () => {
+    setActiveStep(activeStep + 1);
+    if (activeStep === 2) {
+      dispatch({ type: 'LOGIN_COMPLETED' });
+      navigate(getDashboardPattern());
+    }
+  };
 
   return (
     <Box pt={3} pb={3} position="relative">
@@ -142,7 +169,12 @@ const ProfileSetup = () => {
                         {activeStep === 0 ? (
                           <Box />
                         ) : (
-                          <Button type="submit" variant="gradient" color="light">
+                          <Button
+                            type="button"
+                            variant="gradient"
+                            color="light"
+                            onClick={onClickSkip}
+                          >
                             Skip
                           </Button>
                         )}
