@@ -17,6 +17,7 @@ import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
 import { leaveListData } from 'StaticData/leaveListData';
+import moment from 'moment';
 import AddLeaveForm from './AddLeaveForm';
 import LeaveDetails from './LeaveDetails';
 import Select from '../../Elements/Select';
@@ -189,6 +190,10 @@ const LeaveList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
+              inputProps={{
+                min: moment().subtract(50, 'Y').format('YYYY-MM-DD'),
+                max: moment().add(50, 'Y').format('YYYY-MM-DD')
+              }}
               errorFalse
               value={startDate !== '' ? startDate : ''}
               onChange={(e) => setStartDate(e.target.value)}
@@ -205,6 +210,10 @@ const LeaveList = () => {
               errorFalse
               value={endDate !== '' ? endDate : ''}
               onChange={(e) => setEndDate(e.target.value)}
+              inputProps={{
+                min: moment().subtract(50, 'Y').format('YYYY-MM-DD'),
+                max: moment().add(50, 'Y').format('YYYY-MM-DD')
+              }}
             />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
