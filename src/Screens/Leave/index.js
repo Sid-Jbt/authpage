@@ -81,7 +81,7 @@ const LeaveList = () => {
       <Grid container spacing={3} mb={3}>
         {role === 'admin' ? (
           <>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} md={6} lg={4}>
               <LeaveCard
                 title="Total Leave Request"
                 count={leaveCount && leaveCount.TotalLeaveRequest}
@@ -89,7 +89,7 @@ const LeaveList = () => {
                 isPercentage={false}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} md={6} lg={4}>
               <LeaveCard
                 title="Total Leave Approved"
                 count={leaveCount && leaveCount.TotalLeaveApproved}
@@ -97,7 +97,7 @@ const LeaveList = () => {
                 isPercentage={false}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} md={6} lg={4}>
               <LeaveCard
                 title="Total Leave Declined"
                 count={leaveCount && leaveCount.TotalLeaveDeclined}
