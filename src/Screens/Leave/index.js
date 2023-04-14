@@ -135,7 +135,7 @@ const LeaveList = () => {
             <Grid item xs={12} md={6} lg={3}>
               <LeaveCard
                 title="Remaining Leave"
-                count={leaveCount && leaveCount.remainingLeave >= 0 ? 0 : leaveCount.remainingLeave}
+                count={leaveCount && leaveCount.remainingLeave <= 0 ? 0 : leaveCount.remainingLeave}
                 icon={{ color: 'success', component: <DirectionsRun /> }}
                 isPercentage={false}
               />
