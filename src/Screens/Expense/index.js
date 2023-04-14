@@ -166,8 +166,8 @@ const ExpenseList = () => {
               <FormLabel>Select Status</FormLabel>
               <Select
                 size="small"
-                value={filterData.status}
                 options={actionStatus}
+                value={filterData.status}
                 onChange={(value) => setFilterData({ ...filterData, status: value })}
               />
             </FormControl>

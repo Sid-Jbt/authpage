@@ -11,10 +11,6 @@ import { payslipColumns } from 'StaticData/payslipData';
 const Payslip = () => {
   const { columns: prCols, adminColumns: adminPrCol } = payslipColumns;
   const { role, GetPayslipList } = useOutletContext();
-  const [month, setMonth] = useState('');
-  const [year, setYear] = useState('');
-  const [search, setSearch] = useState('');
-
   const [allPayslipList, setAllPayslipList] = useState([]);
   const [payslipListCount, setPayslipListCount] = useState(0);
   const [page, setPage] = useState(0);
@@ -22,14 +18,19 @@ const Payslip = () => {
   // const [isExport, setIsExport] = useState(false);
   const [sort, setSort] = useState({ key: 'id', order: 'asc' });
   const [filter, setFilter] = useState(false);
+  const [filterData, setFilterData] = useState({
+    search: '',
+    month: '',
+    year: ''
+  });
 
   useEffect(() => {
     GetPayslipList(
       {
         limit: isNaN(limit) ? 0 : limit,
-        month: month.value,
-        year: year.value,
-        search,
+        month: filterData.month.value,
+        year: filterData.year.value,
+        search: filterData.search,
         page,
         sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
         sortOrder: sort.order
@@ -45,9 +46,11 @@ const Payslip = () => {
   }, [filter, page, sort, limit]);
 
   const handleClear = () => {
-    setMonth('');
-    setYear('');
-    setSearch('');
+    setFilterData({
+      search: '',
+      month: '',
+      year: ''
+    });
     setFilter(!filter);
   };
 
@@ -60,11 +63,15 @@ const Payslip = () => {
       }}
     >
       <FilterLayout
-        search={search}
-        handleSearch={(e) => setSearch(e.target.value)}
+        search={filterData.search}
+        handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
         handleClear={handleClear}
+        isDisable={!Object.values(filterData).some((x) => x !== '') && allPayslipList.length <= 0}
         onClickSearch={() => {
-          setFilter(!filter);
+          const isValues = !Object.values(filterData).some((x) => x !== '');
+          if (!isValues) {
+            setFilter(!filter);
+          }
         }}
       >
         <Grid item xs={12} md={4} lg={3}>
@@ -72,9 +79,9 @@ const Payslip = () => {
             <FormLabel>Select Month</FormLabel>
             <Select
               size="small"
-              value={month}
               options={Months}
-              onChange={(value) => setMonth(value)}
+              value={filterData.month}
+              onChange={(value) => setFilterData({ ...filterData, month: value })}
             />
           </FormControl>
         </Grid>
@@ -83,9 +90,9 @@ const Payslip = () => {
             <FormLabel>Select Year</FormLabel>
             <Select
               size="small"
-              value={year}
               options={Years}
-              onChange={(value) => setYear(value)}
+              value={filterData.year}
+              onChange={(value) => setFilterData({ ...filterData, year: value })}
             />
           </FormControl>
         </Grid>
