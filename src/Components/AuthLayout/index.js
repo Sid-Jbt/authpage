@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import Box from 'Elements/Box';
-import { Outlet } from 'react-router';
+import { Navigate, Outlet } from 'react-router';
 import { Card, Grid, Link, Typography, useTheme } from '@mui/material';
 import linearGradient from 'Theme/functions/linearGradient';
-import LogoWithName from 'Assets/logo/jbt-full-logo.svg';
-import bgImage from 'Assets/Illustrations/404.svg';
 import { withStateDispatchAuth } from 'Helpers/withStateDispatch';
+import { getDashboardPattern } from 'Routes/routeConfig';
+import { store } from 'APIs/store';
+import bgImage from '../../Assets/Images/404.svg';
+import LogoWithName from '../../Assets/Images/jbt-full-logo.svg';
 
 const AuthLayout = ({ ...rest }) => {
   const theme = useTheme();
+  const token = store.getState().login.token;
+  const [navigate, setNavigate] = useState(false);
 
-  return (
+  useLayoutEffect(() => {
+    if (token) {
+      setNavigate(true);
+    }
+    setNavigate(false);
+  }, [token]);
+
+  return navigate ? (
+    <Navigate to={getDashboardPattern()} />
+  ) : (
     <Box width="100vw" height="100%" minHeight="100vh" bgColor="white" sx={{ overflowX: 'hidden' }}>
       <Box
         component="img"

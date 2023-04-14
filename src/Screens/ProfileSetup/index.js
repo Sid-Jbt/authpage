@@ -8,40 +8,11 @@ import { useDispatch } from 'react-redux';
 import { WorkingHours } from 'Helpers/Global';
 import { useNavigate, useOutletContext } from 'react-router';
 import { getDashboardPattern } from 'Routes/routeConfig';
+import moment from 'moment/moment';
 import Basic from './component/Basic';
 import Address from './component/Address';
 import Account from './component/Account';
 import Organisation from './component/Organisation';
-
-const adminInitialValues = {
-  workingHours: WorkingHours[0].value,
-  location: '',
-  firstName: '',
-  lastName: '',
-  permanentAddress: '',
-  presentAddress: '',
-  gender: 'male',
-  largeLogo: '',
-  smallLogo: ''
-};
-
-const userInitialValues = {
-  firstName: '',
-  lastName: '',
-  fatherName: '',
-  designation: '',
-  phoneNumber: '',
-  alternatePhone: '',
-  permanentAddress: '',
-  presentAddress: '',
-  gender: 'male',
-  bankName: '',
-  branchName: '',
-  accountName: '',
-  accountNumber: '',
-  ifscCode: '',
-  panNumber: ''
-};
 
 function getSteps(role) {
   return role === 'admin' ? ['Organisation', 'Basic', 'Address'] : ['Basic', 'Address', 'Account'];
@@ -78,6 +49,37 @@ const ProfileSetup = () => {
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps(role);
+  const { bankInfo, organisation, profile, ...rest } = DashboardData.user;
+
+  const initialValues = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    dob: moment().format('YYYY-MM-DD'),
+    alternatePhone: '',
+    phoneNumber: '',
+    permanentAddress: '',
+    presentAddress: '',
+    gender: 'male',
+    ...(role === 'admin'
+      ? {
+          largeLogo: '',
+          smallLogo: '',
+          workingHours: WorkingHours[0].value,
+          location: ''
+        }
+      : {
+          fatherName: '',
+          employeeCode: '',
+          designation: '',
+          bankName: '',
+          branchName: '',
+          accountName: '',
+          accountNumber: '',
+          ifscCode: '',
+          panNumber: ''
+        })
+  };
 
   const handleNext = (values, actions) => {
     GetProfileSetup(values, (res) => {
@@ -123,7 +125,9 @@ const ProfileSetup = () => {
           <Card sx={{ overflow: 'visible' }}>
             <Box p={2}>
               <Formik
-                initialValues={role === 'admin' ? adminInitialValues : userInitialValues}
+                initialValues={
+                  { ...bankInfo, ...organisation, ...profile, ...rest } || initialValues
+                }
                 onSubmit={handleNext}
                 /* validationSchema={
                   role === 'admin' ? organisationSchema[activeStep] : userSchema[activeStep]

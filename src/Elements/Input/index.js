@@ -129,6 +129,7 @@ const TextField = forwardRef(
       success,
       disabled,
       errorText,
+      errorFalse = false,
       label = '',
       type,
       inputProps,
@@ -173,7 +174,7 @@ const TextField = forwardRef(
           ref={ref}
           ownerState={{ size, error, success, disabled, type, name: rest.name }}
         />
-        {errorText && <MyFormHelperText errorText={errorText} />}
+        {!errorFalse && <MyFormHelperText errorText={errorText} />}
       </FormControl>
     );
   }

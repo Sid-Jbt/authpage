@@ -54,23 +54,17 @@ const ForgotPassword = () => {
                 error={errors.email && touched.email}
                 success={!errors.email && touched.email}
               />
-
-              <Box mt={2} mb={1}>
-                <Button
-                  variant="contained"
-                  color="info"
-                  size="large"
-                  fullWidth
-                  type="submit"
-                  disabled={isSubmitting || Loading}
-                >
-                  {Loading ? (
-                    <CircularProgress size={20} color="inherit" />
-                  ) : (
-                    'Forgot Password Link'
-                  )}
-                </Button>
-              </Box>
+              <Button
+                variant="contained"
+                color="info"
+                size="large"
+                fullWidth
+                type="submit"
+                disabled={isSubmitting || Loading}
+                sx={{ mt: 1 }}
+              >
+                {Loading ? <CircularProgress size={20} color="inherit" /> : 'Forgot Password Link'}
+              </Button>
             </form>
           );
         }}

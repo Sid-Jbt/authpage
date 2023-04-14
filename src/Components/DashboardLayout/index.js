@@ -1,13 +1,13 @@
 import Box from 'Elements/Box';
 import { useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router';
-import Logo from 'Assets/logo/jbt-logo.svg';
-import FullLogo from 'Assets/logo/jbt-full-logo.svg';
 import { getDashboardPattern, getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
 import Images from 'Assets/Images/team-4-800x800.jpg';
 import { withStateDispatch } from 'Helpers/withStateDispatch';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import FullLogo from '../../Assets/Images/jbt-full-logo.svg';
+import Logo from '../../Assets/Images/jbt-logo.svg';
 import DashboardNavbar from './Navbar';
 import Sidenav from './Sidenav';
 import Footer from './Footer';
@@ -59,16 +59,12 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
       {pathname !== getProfileSetupPattern() ? (
         <Sidenav
           brandFullLogo={
-            DashboardData.user &&
-            DashboardData.user.organisation.largeLogo &&
-            DashboardData.user.organisation.largeLogo !== null
+            DashboardData.user && DashboardData.user.organisation.largeLogo
               ? DashboardData.user.organisation.largeLogo
               : FullLogo
           }
           brandSmallLogo={
-            DashboardData.user &&
-            DashboardData.user.organisation.smallLogo &&
-            DashboardData.user.organisation.smallLogo !== null
+            DashboardData.user && DashboardData.user.organisation.smallLogo
               ? DashboardData.user.organisation.smallLogo
               : Logo
           }

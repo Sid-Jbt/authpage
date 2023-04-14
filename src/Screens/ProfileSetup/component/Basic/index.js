@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import moment from 'moment';
 import { FormControlLabel, Grid, RadioGroup, Radio, useTheme, FormLabel } from '@mui/material';
 import Icon from '@mui/material/Icon';
@@ -15,30 +15,13 @@ const Basic = ({ role, props }) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const theme = useTheme();
   const [profilePicUrl, setProfilePicUrl] = useState('');
-  const [gender, setGender] = useState('male');
   const inputFile = useRef(null);
-
-  useEffect(() => {
-    if (values !== null) {
-      setGender(values.hasOwnProperty('gender') ? values.gender !== null && values.gender : 'male');
-      setProfilePicUrl(
-        values.hasOwnProperty('profilePic')
-          ? values.profilePic !== null && URL.createObjectURL(values.profilePic)
-          : ''
-      );
-    }
-  }, []);
 
   const profilePicUpload = (e) => {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
     setFieldValue('profilePic', e.target.files[0]);
     setProfilePicUrl(url);
-  };
-
-  const onClickGender = (genderValue) => {
-    setGender(genderValue);
-    setFieldValue('gender', genderValue);
   };
 
   return (
@@ -72,6 +55,12 @@ const Basic = ({ role, props }) => {
                   alt="profile picture"
                   size="xxl"
                   variant="rounded"
+                  sx={{
+                    borderStyle: 'groove',
+                    img: {
+                      objectFit: 'cover'
+                    }
+                  }}
                 />
                 <Box alt="spotify logo" position="absolute" right={0} bottom={0} mr={-1} mb={-1}>
                   <Button
@@ -257,8 +246,8 @@ const Basic = ({ role, props }) => {
                     sx={{ p: 2, pt: 0, pb: 0 }}
                     aria-label="font-family"
                     name="gender"
-                    value={gender}
-                    onChange={(event) => onClickGender(event.target.value)}
+                    value={values.gender}
+                    onChange={(event) => setFieldValue('gender', event.target.value)}
                   >
                     <FormControlLabel
                       value="male"

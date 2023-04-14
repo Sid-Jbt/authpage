@@ -71,92 +71,84 @@ const OrganisationSignup = () => {
           } = props;
           return (
             <form onSubmit={handleSubmit}>
-              <Box mb={0.5}>
-                <Input
-                  type="name"
-                  placeholder="Name"
-                  size="large"
-                  fullWidth
-                  id="organisationName"
-                  name="organisationName"
-                  value={values.organisationName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errorText={
-                    errors.organisationName && touched.organisationName && errors.organisationName
+              <Input
+                type="text"
+                placeholder="Name"
+                size="large"
+                fullWidth
+                id="organisationName"
+                name="organisationName"
+                value={values.organisationName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorText={
+                  errors.organisationName && touched.organisationName && errors.organisationName
+                }
+                error={errors.organisationName && touched.organisationName}
+                success={!errors.organisationName && touched.organisationName}
+                onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+              />
+              <Input
+                placeholder="White Label Domain"
+                type="text"
+                size="large"
+                fullWidth
+                id="domain"
+                name="domain"
+                value={values.domain.toLowerCase()}
+                onChange={handleChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <Typography variant="caption" fontWeight="regular">
+                      {PROVIDER_DOMAIN}
+                    </Typography>
+                  </InputAdornment>
+                }
+                onBlur={(e) => {
+                  if (e.target.value) {
+                    getDomain(e.target.value);
+                  } else {
+                    setFieldError('domain', 'Required');
                   }
-                  error={errors.organisationName && touched.organisationName}
-                  success={!errors.organisationName && touched.organisationName}
-                  onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
-                />
-              </Box>
-              <Box mb={0.5}>
-                <Input
-                  placeholder="White Label Domain"
-                  type="text"
-                  size="large"
-                  fullWidth
-                  id="domain"
-                  name="domain"
-                  value={values.domain.toLowerCase()}
-                  onChange={handleChange}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <Typography variant="caption" fontWeight="regular">
-                        {PROVIDER_DOMAIN}
-                      </Typography>
-                    </InputAdornment>
-                  }
-                  onBlur={(e) => {
-                    if (e.target.value) {
-                      getDomain(e.target.value);
-                    } else {
-                      setFieldError('domain', 'Required');
-                    }
-                  }}
-                  errorText={
-                    (errors.domain && touched.domain && errors.domain) ||
-                    (domain === 0 && 'Domain already used')
-                  }
-                  error={(errors.domain && touched.domain) || domain === 0}
-                  success={domain === 1}
-                  onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
-                />
-              </Box>
-              <Box mb={0.5}>
-                <Input
-                  autoComplete="username"
-                  type="email"
-                  placeholder="Email"
-                  size="large"
-                  fullWidth
-                  id="email"
-                  name="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errorText={errors.email && touched.email && errors.email}
-                  error={errors.email && touched.email}
-                  success={!errors.email && touched.email}
-                />
-              </Box>
-              <Box mb={0.5}>
-                <Input
-                  autoComplete="current-password"
-                  placeholder="Password"
-                  size="large"
-                  fullWidth
-                  id="password"
-                  name="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errorText={errors.password && touched.password && errors.password}
-                  error={errors.password && touched.password}
-                  success={!errors.password && touched.password}
-                  type="password"
-                />
-              </Box>
+                }}
+                errorText={
+                  (errors.domain && touched.domain && errors.domain) ||
+                  (domain === 0 && 'Domain already used')
+                }
+                error={(errors.domain && touched.domain) || domain === 0}
+                success={domain === 1}
+                onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+              />
+              <Input
+                autoComplete="username"
+                type="email"
+                placeholder="Email"
+                size="large"
+                fullWidth
+                id="email"
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorText={errors.email && touched.email && errors.email}
+                error={errors.email && touched.email}
+                success={!errors.email && touched.email}
+              />
+              <Input
+                autoComplete="current-password"
+                placeholder="Password"
+                size="large"
+                fullWidth
+                id="password"
+                name="password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorText={errors.password && touched.password && errors.password}
+                error={errors.password && touched.password}
+                success={!errors.password && touched.password}
+                type="password"
+              />
               <Box display="flex" alignItems="center">
                 <Checkbox checked={agreement} onChange={() => setAgreement(!agreement)} />
                 <Typography
@@ -171,18 +163,17 @@ const OrganisationSignup = () => {
                   Terms and Conditions
                 </Typography>
               </Box>
-              <Box mt={1}>
-                <Button
-                  variant="gradient"
-                  color="dark"
-                  size="large"
-                  fullWidth
-                  type="submit"
-                  disabled={isSubmitting || !agreement}
-                >
-                  Sign up
-                </Button>
-              </Box>
+              <Button
+                variant="gradient"
+                color="dark"
+                size="large"
+                fullWidth
+                type="submit"
+                disabled={isSubmitting || !agreement}
+                sx={{ mt: 1 }}
+              >
+                Sign up
+              </Button>
               <Box mt={0.5}>
                 <Typography variant="button" color="text" fontWeight="regular">
                   Already have an account?&nbsp;
