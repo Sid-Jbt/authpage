@@ -137,9 +137,9 @@ const AddSupportTicketDialog = ({
                     {Loading ? (
                       <CircularProgress size={20} color="inherit" />
                     ) : isEdit ? (
-                      'Update Ticket'
+                      'Update Support Ticket'
                     ) : (
-                      'Add Ticket'
+                      'New Support Ticket'
                     )}
                   </Button>
                 </Grid>

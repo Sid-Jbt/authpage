@@ -17,6 +17,7 @@ import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
 import { leaveListData } from 'StaticData/leaveListData';
+import moment from 'moment';
 import AddLeaveForm from './AddLeaveForm';
 import LeaveDetails from './LeaveDetails';
 import Select from '../../Elements/Select';
@@ -135,7 +136,7 @@ const LeaveList = () => {
             <Grid item xs={12} md={6} lg={3}>
               <LeaveCard
                 title="Remaining Leave"
-                count={leaveCount && leaveCount.remainingLeave >= 0 ? 0 : leaveCount.remainingLeave}
+                count={leaveCount && leaveCount.remainingLeave <= 0 ? 0 : leaveCount.remainingLeave}
                 icon={{ color: 'success', component: <DirectionsRun /> }}
                 isPercentage={false}
               />
@@ -178,7 +179,18 @@ const LeaveList = () => {
           handleSearch={(e) => setSearch(e.target.value)}
           handleClear={handleClear}
           onClickSearch={() => {
-            setFilter(!filter);
+            if (allLeave.length > 0) {
+              const allFilterValues = {
+                startDate,
+                endDate,
+                status,
+                search
+              };
+              const isValues = !Object.values(allFilterValues).some((x) => x !== '');
+              if (!isValues) {
+                setFilter(!filter);
+              }
+            }
           }}
         >
           <Grid item xs={6} md={4} lg={3}>
@@ -189,6 +201,10 @@ const LeaveList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
+              inputProps={{
+                min: moment().subtract(50, 'Y').format('YYYY-MM-DD'),
+                max: moment().add(50, 'Y').format('YYYY-MM-DD')
+              }}
               errorFalse
               value={startDate !== '' ? startDate : ''}
               onChange={(e) => setStartDate(e.target.value)}
@@ -205,6 +221,10 @@ const LeaveList = () => {
               errorFalse
               value={endDate !== '' ? endDate : ''}
               onChange={(e) => setEndDate(e.target.value)}
+              inputProps={{
+                min: moment().subtract(50, 'Y').format('YYYY-MM-DD'),
+                max: moment().add(50, 'Y').format('YYYY-MM-DD')
+              }}
             />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
@@ -235,12 +255,12 @@ const LeaveList = () => {
                   const setViewData = {
                     id: data.id,
                     leaveType: data.leaveType,
-                    type: data.selectType,
+                    selectType: data.selectType,
                     fromDate: data.fromDate,
                     toDate: data.toDate,
                     noOfDays: data.noOfDays,
                     approvedBy: data.approvedBy,
-                    meassage: data.reason.replace(/(<([^>]+)>)/gi, ''),
+                    reason: data.reason.replace(/(<([^>]+)>)/gi, ''),
                     ...(value === 'view' && { status: data.status }),
                     comment: data.comment
                   };
@@ -291,7 +311,7 @@ const LeaveList = () => {
               setIsEdit(false);
               setSelectedData(null);
             }}
-            title={isEdit ? 'UPDATE LEAVE' : 'ADD LEAVE'}
+            title={isEdit ? 'UPDATE LEAVE' : 'NEW LEAVE'}
             selectedData={selectedData}
             isEdit={isEdit}
             GetLeaveAddUpdate={GetLeaveAddUpdate}

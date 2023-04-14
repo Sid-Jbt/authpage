@@ -179,7 +179,7 @@ const AddLeaveForm = ({
                     ) : isEdit ? (
                       'Update Leave'
                     ) : (
-                      'Add Leave'
+                      'New Leave'
                     )}
                   </Button>
                 </Grid>
