@@ -261,7 +261,7 @@ const SupportTicket = () => {
           rowsCount={spTicketListCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
-          rowsPerPage={isNaN(limit) ? spTicketListCount : limit}
+          rowsPerPage={isNaN(limit) ? spTicketListCount.total : limit}
           onRowsPerPageChange={(rowsPerPage) => {
             setLimit(rowsPerPage);
           }}
