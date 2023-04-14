@@ -21,7 +21,12 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
           dateOfJoin: moment().format('YYYY-MM-DD')
         }}
         onSubmit={(values, action) => {
-          GetEmployeeAdd(values, () => handleDialog());
+          GetEmployeeAdd(values, (res) => {
+            const { status } = res.data;
+            if (status) {
+              handleDialog();
+            }
+          });
           action.setSubmitting(false);
         }}
         validationSchema={addEmployeeSchema}
