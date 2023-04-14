@@ -94,7 +94,7 @@ const Profile = ({ GetDashboard }) => {
     if (!isEdit) {
       setIsEdit(true);
       oldValues = values;
-    } else {
+    } else if (JSON.stringify(oldValues) !== JSON.stringify(values)) {
       Object.keys(oldValues).map((key) => {
         if (values[key] !== oldValues[key]) {
           newValues = { ...newValues, [key]: values[key] };
@@ -109,6 +109,8 @@ const Profile = ({ GetDashboard }) => {
           setIsEdit(true);
         }
       });
+    } else {
+      setIsEdit(false);
     }
     actions.setTouched({});
     actions.setSubmitting(false);

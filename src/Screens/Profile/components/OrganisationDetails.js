@@ -69,7 +69,7 @@ const Organisation = ({ isEdit, props }) => {
               />
               {isEdit && (
                 <Button
-                  sx={{ position: 'absolute', bottom: 0, right: 0, mr: 7, mb: -1 }}
+                  sx={{ position: 'absolute', bottom: 0, right: 0, mr: 2, mb: -1 }}
                   variant="gradient"
                   color="light"
                   component="label"
@@ -103,7 +103,7 @@ const Organisation = ({ isEdit, props }) => {
               />
               {isEdit && (
                 <Button
-                  sx={{ position: 'absolute', bottom: 0, right: 0, mr: 7, mb: -1 }}
+                  sx={{ position: 'absolute', bottom: 0, right: 0, mr: 2, mb: -1 }}
                   variant="gradient"
                   color="light"
                   component="label"
@@ -134,7 +134,7 @@ const Organisation = ({ isEdit, props }) => {
             onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={6} lg={4} pt={0}>
           <FormControl sx={{ width: '100%' }}>
             <FormLabel>Working Hours</FormLabel>
             <Select
