@@ -19,7 +19,8 @@ const HolidayForm = ({
   title,
   Loading,
   GetHolidayAddUpdate,
-  selectedData
+  selectedData,
+  isEdit
 }) => (
   <SideDrawer open={Boolean(isDrawerOpen)} onClose={handleDrawerClose} title={title}>
     <Formik
@@ -97,7 +98,13 @@ const HolidayForm = ({
                 size="small"
                 disabled={isSubmitting || Loading}
               >
-                {Loading ? <CircularProgress size={20} color="inherit" /> : title}
+                {Loading ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : isEdit ? (
+                  'Update Holiday'
+                ) : (
+                  'New Holiday'
+                )}
               </Button>
             </Grid>
           </form>

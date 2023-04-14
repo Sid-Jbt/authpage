@@ -188,9 +188,10 @@ const Holiday = () => {
         <HolidayForm
           isDrawerOpen={Boolean(isDrawerOpen)}
           handleDrawerClose={() => handleDrawerClose()}
-          title={isEdit ? 'UPDATE HOLIDAY' : 'ADD HOLIDAY'}
+          title={isEdit ? 'UPDATE HOLIDAY' : 'NEW HOLIDAY'}
           selectedData={selectedData}
           GetHolidayAddUpdate={GetHolidayAddUpdate}
+          isEdit={isEdit}
         />
       </Card>
     </>
