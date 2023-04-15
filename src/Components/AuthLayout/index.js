@@ -17,6 +17,7 @@ const AuthLayout = ({ ...rest }) => {
   useLayoutEffect(() => {
     if (token) {
       setNavigate(true);
+      return;
     }
     setNavigate(false);
   }, [token]);
