@@ -125,7 +125,7 @@ const Organisation = ({ isEdit, props }) => {
             fullWidth
             id="organisationName"
             name="organisationName"
-            label="Name"
+            label="Company Title"
             value={values.organisationName}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -142,9 +142,9 @@ const Organisation = ({ isEdit, props }) => {
               size="medium"
               fullWidth
               errorFalse
-              id="loginTime"
-              name="loginTime"
-              label="Login Time"
+              id="punchIn"
+              name="punchIn"
+              label="Punch In"
               value={values.loginTime}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -159,9 +159,9 @@ const Organisation = ({ isEdit, props }) => {
               size="medium"
               fullWidth
               errorFalse
-              id="logoutTime"
-              name="logoutTime"
-              label="Logout Time"
+              id="punchOut"
+              name="punchOut"
+              label="Punch Out"
               value={values.logoutTime}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -178,7 +178,7 @@ const Organisation = ({ isEdit, props }) => {
             fullWidth
             id="location"
             name="location"
-            label="Current Address"
+            label="Actual Address"
             value={values.location}
             onChange={handleChange}
             onBlur={handleBlur}
