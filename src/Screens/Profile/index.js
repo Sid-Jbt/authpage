@@ -12,7 +12,7 @@ import PersonalDetails from './components/PersonalDetails';
 import Header from './components/Header';
 import SalaryDetails from './components/SalaryDetails';
 import OrganisationDetails from './components/OrganisationDetails';
-import { WorkingHours } from '../../Helpers/Global';
+// import { WorkingHours } from '../../Helpers/Global';
 import { withStateDispatch } from '../../Helpers/withStateDispatch';
 
 const TabsList = [
@@ -66,7 +66,9 @@ const Profile = ({ GetDashboard }) => {
       ? {
           largeLogo: '',
           smallLogo: '',
-          workingHours: WorkingHours[0].value,
+          // workingHours: WorkingHours[0].value,
+          punchIn: '',
+          punchOut: '',
           organisationName: '',
           location: ''
         }
