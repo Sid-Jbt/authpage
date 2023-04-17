@@ -27,7 +27,7 @@ const TimeActivity = () => {
   const { role, GetEmployeeList } = useOutletContext();
   const [userList, setUserList] = useState([]);
   const [user, setUser] = useState('');
-  const [selectedRole, setSelectedRole] = useState('');
+  const [selectedRole, setSelectedRole] = useState({ value: '', label: 'All' });
   const [search, setSearch] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
