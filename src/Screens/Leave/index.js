@@ -45,6 +45,8 @@ const LeaveList = () => {
   const [leaveCount, setLeaveCount] = useState({});
   const [approveRejectReason, setApproveRejectReason] = useState('');
 
+  const isValues = !Object.values(filterData).some((x) => x !== '');
+
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen || isViewLeaveDialogOpen) {
       GetLeaveList(
@@ -180,14 +182,9 @@ const LeaveList = () => {
         <FilterLayout
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
-          handleClear={handleClear}
-          isDisable={!Object.values(filterData).some((x) => x !== '') && allLeave.length <= 0}
-          onClickSearch={() => {
-            const isValues = !Object.values(filterData).some((x) => x !== '');
-            if (!isValues) {
-              setFilter(!filter);
-            }
-          }}
+          handleClear={() => !isValues && handleClear()}
+          isDisable={leaveCount && leaveCount.totalLeave <= 0}
+          onClickSearch={() => !isValues && setFilter(!filter)}
         >
           <Grid item xs={6} md={4} lg={3}>
             <Input

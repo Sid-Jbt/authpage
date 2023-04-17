@@ -48,6 +48,7 @@ const ExpenseList = () => {
     search: '',
     status: ''
   });
+  const isValues = !Object.values(filterData).some((x) => x !== '');
 
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen || isViewExpenseDialogOpen) {
@@ -152,14 +153,9 @@ const ExpenseList = () => {
         <FilterLayout
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
-          handleClear={handleClear}
-          isDisable={!Object.values(filterData).some((x) => x !== '') && allExpense.length <= 0}
-          onClickSearch={() => {
-            const isValues = !Object.values(filterData).some((x) => x !== '');
-            if (!isValues) {
-              setFilter(!filter);
-            }
-          }}
+          handleClear={() => !isValues && handleClear()}
+          isDisable={expenseCount && expenseCount.totalExpense <= 0}
+          onClickSearch={() => !isValues && setFilter(!filter)}
         >
           <Grid item xs={12} md={4} lg={3}>
             <FormControl sx={{ width: '100%' }}>
