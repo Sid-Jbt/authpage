@@ -30,6 +30,7 @@ const AttendanceList = () => {
     month: '',
     year: ''
   });
+  const isValues = !Object.values(filterData).some((x) => x !== '');
 
   useEffect(() => {
     if (role === 'admin') {
@@ -142,14 +143,9 @@ const AttendanceList = () => {
         <FilterLayout
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
-          handleClear={handleClear}
-          isDisable={!Object.values(filterData).some((x) => x !== '') && attendanceList.length <= 0}
-          onClickSearch={() => {
-            const isValues = !Object.values(filterData).some((x) => x !== '');
-            if (!isValues) {
-              setFilter(!filter);
-            }
-          }}
+          handleClear={() => !isValues && handleClear()}
+          isDisable={attendanceListCount && attendanceListCount.TotalAttendance <= 0}
+          onClickSearch={() => !isValues && setFilter(!filter)}
         >
           <Grid item xs={6} md={4} lg={3}>
             <Input
