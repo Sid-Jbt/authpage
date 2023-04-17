@@ -18,8 +18,9 @@ import { GraphicEqOutlined, RemoveRedEye } from '@mui/icons-material';
 import { timeActivityListData } from 'StaticData/timeActivityListData';
 import { defaultLineChartData } from 'StaticData/defaultLineChartData';
 import { useOutletContext } from 'react-router';
-import { Roles, userArray } from '../../../Helpers/Global';
-import Select from '../../../Elements/Select';
+import { Roles, userArray } from 'Helpers/Global';
+import Select from 'Elements/Select';
+import moment from 'moment';
 
 const TimeActivity = () => {
   const { columns: prCols, adminColumns: adminPrCol } = timeActivityListData;
@@ -33,6 +34,26 @@ const TimeActivity = () => {
   const [endDate, setEndDate] = useState('');
   const [radioDate, setRadioDate] = useState('customDate');
   const [filter, setFilter] = useState(false);
+
+  const setDateOnRadioPress = (value) => {
+    const date = new Date();
+    if (value === 'previousMonth') {
+      const firstDay = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+      const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
+      setStartDate(moment(firstDay).format('YYYY-MM-DD'));
+      setEndDate(moment(lastDay).format('YYYY-MM-DD'));
+    } else if (value === 'nextMonth') {
+      const nextDate = new Date();
+      nextDate.setMonth(nextDate.getMonth() + 1);
+      const firstDay = new Date(nextDate.getFullYear(), nextDate.getMonth() - 1, 1);
+      const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
+      setStartDate(moment(firstDay).format('YYYY-MM-DD'));
+      setEndDate(moment(lastDay).format('YYYY-MM-DD'));
+    } else {
+      setStartDate('');
+      setEndDate('');
+    }
+  };
 
   useEffect(() => {
     if (role === 'admin') {
@@ -120,12 +141,15 @@ const TimeActivity = () => {
                 aria-label="font-family"
                 name="radioDate"
                 value={radioDate}
-                onChange={(e) => setRadioDate(e.target.value)}
+                onChange={(e) => {
+                  setDateOnRadioPress(e.target.value);
+                  setRadioDate(e.target.value);
+                }}
               >
                 <FormControlLabel
                   value="customDate"
                   control={<Radio />}
-                  label="Custome Date"
+                  label="Custom Date"
                   sx={{
                     '& .MuiSvgIcon-root': { fontSize: 28 },
                     '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
