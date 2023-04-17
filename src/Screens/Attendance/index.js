@@ -14,7 +14,6 @@ import Input from 'Elements/Input';
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
   const { role, GetAttendanceList, GetEmployeeList } = useOutletContext();
-  // const [user, setUser] = useState('');
   const [attendanceList, setAttendanceList] = useState([]);
   const [attendanceListCount, setAttendanceListCount] = useState(0);
   const [page, setPage] = useState(0);
