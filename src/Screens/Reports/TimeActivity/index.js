@@ -43,9 +43,8 @@ const TimeActivity = () => {
       setStartDate(moment(firstDay).format('YYYY-MM-DD'));
       setEndDate(moment(lastDay).format('YYYY-MM-DD'));
     } else if (value === 'nextMonth') {
-      const nextDate = new Date();
-      nextDate.setMonth(nextDate.getMonth() + 1);
-      const firstDay = new Date(nextDate.getFullYear(), nextDate.getMonth() - 1, 1);
+      date.setMonth(date.getMonth() + 1);
+      const firstDay = new Date(date.getFullYear(), date.getMonth() - 1, 1);
       const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
       setStartDate(moment(firstDay).format('YYYY-MM-DD'));
       setEndDate(moment(lastDay).format('YYYY-MM-DD'));
