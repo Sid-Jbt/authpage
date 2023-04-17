@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react';
 import Box from 'Elements/Box';
-import { Navigate, Outlet } from 'react-router';
+import { Navigate, Outlet, useLocation } from 'react-router';
 import { Card, Grid, Link, Typography, useTheme } from '@mui/material';
 import linearGradient from 'Theme/functions/linearGradient';
 import { withStateDispatchAuth } from 'Helpers/withStateDispatch';
@@ -13,9 +13,13 @@ const AuthLayout = ({ ...rest }) => {
   const theme = useTheme();
   const token = store.getState().login.token;
   const [navigate, setNavigate] = useState(false);
+  const { search } = useLocation();
 
   useLayoutEffect(() => {
     if (token) {
+      if (search.split('=')[1] === 'desktop') {
+        window.open(`${process.env.REACT_APP_DEEPLINK_PROTOCOL}://token=${token}`);
+      }
       setNavigate(true);
     }
     setNavigate(false);
