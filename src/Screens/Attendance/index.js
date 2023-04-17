@@ -9,11 +9,11 @@ import FilterLayout from 'Components/FilterLayout';
 import AttendanceCard from 'Components/CardLayouts/StaticCard';
 import { useOutletContext } from 'react-router';
 import { attendanceColumn } from 'StaticData/attendanceData';
+import Input from 'Elements/Input';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
   const { role, GetAttendanceList, GetEmployeeList } = useOutletContext();
-  const [user, setUser] = useState('');
   const [attendanceList, setAttendanceList] = useState([]);
   const [attendanceListCount, setAttendanceListCount] = useState(0);
   const [page, setPage] = useState(0);
@@ -24,10 +24,11 @@ const AttendanceList = () => {
 
   const [filterData, setFilterData] = useState({
     search: '',
-    // startDate: '',
-    // endDate: '',
+    startDate: '',
+    endDate: '',
     month: '',
-    year: ''
+    year: '',
+    user: ''
   });
   const isValues = !Object.values(filterData).some((x) => x !== '');
 
@@ -45,12 +46,12 @@ const AttendanceList = () => {
     GetAttendanceList(
       {
         limit: isNaN(limit) ? 0 : limit,
-        user: user.value,
+        user: filterData.user.value,
         month: filterData.month.value,
         year: filterData.year.value,
         search: filterData.search,
-        // startDate: filterData.startDate,
-        // endDate: filterData.endDate,
+        startDate: filterData.startDate,
+        endDate: filterData.endDate,
         page,
         sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
         sortOrder: sort.order
@@ -68,8 +69,8 @@ const AttendanceList = () => {
   const handleClear = () => {
     setFilterData({
       search: '',
-      // startDate: '',
-      // endDate: '',
+      startDate: '',
+      endDate: '',
       month: '',
       year: '',
       user: ''
@@ -147,7 +148,7 @@ const AttendanceList = () => {
           isDisable={attendanceListCount && attendanceListCount.TotalAttendance <= 0}
           onClickSearch={() => !isValues && setFilter(!filter)}
         >
-          {/* <Grid item xs={6} md={4} lg={3}>
+          <Grid item xs={6} md={4} lg={3}>
             <Input
               type="date"
               label="From Date"
@@ -175,17 +176,17 @@ const AttendanceList = () => {
               value={filterData.endDate}
               onChange={(e) => setFilterData({ ...filterData, endDate: e.target.value })}
             />
-          </Grid> */}
+          </Grid>
           {role === 'admin' && (
             <Grid item sm={12} md={4} lg={3}>
               <FormControl sx={{ width: '100%' }}>
                 <FormLabel>Select User</FormLabel>
                 <Select
                   size="small"
-                  value={user}
+                  value={filterData.user}
                   options={userList}
-                  onChange={(value) => setUser(value)}
-                  renderValue={user !== '' ? undefined : () => 'Select...'}
+                  onChange={(e) => setFilterData({ ...filterData, user: e.target.value })}
+                  renderValue={filterData.user !== '' ? undefined : () => 'Select...'}
                 />
               </FormControl>
             </Grid>
