@@ -34,6 +34,19 @@ const TimeActivity = () => {
   const [endDate, setEndDate] = useState('');
   const [radioDate, setRadioDate] = useState('customDate');
   const [filter, setFilter] = useState(false);
+  const [sort, setSort] = useState({ key: 'email', order: 'asc' });
+  const [page, setPage] = useState(0);
+  // const [limit, setLimit] = useState(10);
+
+  useEffect(() => {
+    if (role === 'admin') {
+      GetEmployeeList({ limit: 0 }, (res) => {
+        if (res && res.data && res.data.data) {
+          setUserList(userArray(res.data.data.rows));
+        }
+      });
+    }
+  }, []);
 
   const setDateOnRadioPress = (value) => {
     const date = new Date();
@@ -53,16 +66,6 @@ const TimeActivity = () => {
       setEndDate('');
     }
   };
-
-  useEffect(() => {
-    if (role === 'admin') {
-      GetEmployeeList({ limit: 0 }, (res) => {
-        if (res && res.data && res.data.data) {
-          setUserList(userArray(res.data.data.rows));
-        }
-      });
-    }
-  }, []);
 
   const handleClear = () => {
     setStartDate('');
@@ -206,7 +209,6 @@ const TimeActivity = () => {
             columns={role === 'admin' ? adminPrCol : prCols}
             rows={[]}
             rowsCount={0}
-            initialPage={0}
             rowsPerPage={10}
             isAction={role !== 'admin'}
             options={[{ name: 'view', title: 'View', value: 'view' }]}
@@ -221,6 +223,14 @@ const TimeActivity = () => {
                 }
               ]
             }
+            initialPage={page}
+            onChangePage={(value) => setPage(value)}
+            // rowsPerPage={isNaN(limit) ? employeeCount : limit}
+            // onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
+            onRowsPerPageChange={10}
+            sortKey={sort.key}
+            sortOrder={sort.order}
+            handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}
           />
         </Card>
       </Grid>
