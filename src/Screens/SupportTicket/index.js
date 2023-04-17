@@ -21,6 +21,7 @@ import DialogMenu from 'Elements/Dialog';
 import TicketCard from 'Components/CardLayouts/StaticCard';
 import { useOutletContext } from 'react-router';
 import { supportTicketData } from 'StaticData/supportTicketData';
+import moment from 'moment';
 import AddSupportTicketForm from './AddSupportTicketForm';
 import SupportTicketDetails from './SupportTicketDetails';
 
@@ -172,6 +173,9 @@ const SupportTicket = () => {
               id="date"
               name="startDate"
               errorFalse
+              inputProps={{
+                min: moment().subtract(50, 'Y').format('YYYY-MM-DD')
+              }}
               value={filterData.startDate}
               onChange={(e) => setFilterData({ ...filterData, startDate: e.target.value })}
             />

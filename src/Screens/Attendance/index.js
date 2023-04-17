@@ -14,7 +14,7 @@ import Input from '../../Elements/Input';
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
   const { role, GetAttendanceList, GetEmployeeList } = useOutletContext();
-  const [user, setUser] = useState('');
+  // const [user, setUser] = useState('');
   const [attendanceList, setAttendanceList] = useState([]);
   const [attendanceListCount, setAttendanceListCount] = useState(0);
   const [page, setPage] = useState(0);
@@ -28,7 +28,8 @@ const AttendanceList = () => {
     startDate: '',
     endDate: '',
     month: '',
-    year: ''
+    year: '',
+    user: ''
   });
   const isValues = !Object.values(filterData).some((x) => x !== '');
 
@@ -46,7 +47,7 @@ const AttendanceList = () => {
     GetAttendanceList(
       {
         limit: isNaN(limit) ? 0 : limit,
-        user: user.value,
+        user: filterData.user.value,
         month: filterData.month.value,
         year: filterData.year.value,
         search: filterData.search,
@@ -72,7 +73,8 @@ const AttendanceList = () => {
       startDate: '',
       endDate: '',
       month: '',
-      year: ''
+      year: '',
+      user: ''
     });
     setFilter(!filter);
   };
@@ -182,10 +184,10 @@ const AttendanceList = () => {
                 <FormLabel>Select User</FormLabel>
                 <Select
                   size="small"
-                  value={user}
                   options={userList}
-                  onChange={(value) => setUser(value)}
-                  renderValue={user !== '' ? undefined : () => 'Select...'}
+                  value={filterData.user}
+                  onChange={(value) => setFilterData({ ...filterData, user: value })}
+                  renderValue={filterData.user !== '' ? undefined : () => 'Select...'}
                 />
               </FormControl>
             </Grid>
