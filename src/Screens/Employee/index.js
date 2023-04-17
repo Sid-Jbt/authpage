@@ -19,10 +19,6 @@ const EmployeeList = () => {
   const { columns: prCols } = empListData;
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedRole, setSelectedRole] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [search, setSearch] = useState('');
   const [allEmployee, setAllEmployee] = useState([]);
   const [employeeCount, setEmployeeCount] = useState(0);
   const [sort, setSort] = useState({ key: 'email', order: 'asc' });
@@ -32,15 +28,22 @@ const EmployeeList = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [isActiveDialogOpen, setIsActiveDialogOpen] = useState(false);
 
+  const [filterData, setFilterData] = useState({
+    startDate: '',
+    endDate: '',
+    search: '',
+    selectedRole: Roles[0]
+  });
+
   useEffect(() => {
     if (!isDialogOpen || !isActiveDialogOpen) {
       GetEmployeeList(
         {
           limit: isNaN(limit) ? 0 : limit,
-          startDate,
-          endDate,
-          role: selectedRole.value,
-          search,
+          startDate: filterData.startDate,
+          endDate: filterData.endDate,
+          search: filterData.search,
+          role: filterData.selectedRole.value,
           page,
           sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
           sortOrder: sort.order
@@ -57,10 +60,12 @@ const EmployeeList = () => {
   }, [isDialogOpen, isActiveDialogOpen, filter, page, sort, limit]);
 
   const handleClear = () => {
-    setEndDate('');
-    setStartDate('');
-    setSelectedRole('');
-    setSearch('');
+    setFilterData({
+      startDate: '',
+      endDate: '',
+      search: '',
+      selectedRole: Roles[0]
+    });
     setFilter(!filter);
   };
 
@@ -91,11 +96,15 @@ const EmployeeList = () => {
         }}
       >
         <FilterLayout
-          search={search}
-          handleSearch={(e) => setSearch(e.target.value)}
+          search={filterData.search}
+          handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={handleClear}
+          isDisable={!Object.values(filterData).some((x) => x !== '') && allEmployee.length <= 0}
           onClickSearch={() => {
-            setFilter(!filter);
+            const isValues = !Object.values(filterData).some((x) => x !== '');
+            if (!isValues) {
+              setFilter(!filter);
+            }
           }}
         >
           <Grid item xs={6} md={4} lg={3}>
@@ -107,8 +116,8 @@ const EmployeeList = () => {
               id="fromDate"
               name="fromDate"
               errorFalse
-              value={startDate !== '' ? startDate : ''}
-              onChange={(e) => setStartDate(e.target.value)}
+              value={filterData.startDate}
+              onChange={(e) => setFilterData({ ...filterData, startDate: e.target.value })}
             />
           </Grid>
           <Grid item xs={6} md={4} lg={3}>
@@ -121,10 +130,10 @@ const EmployeeList = () => {
               name="toDate"
               errorFalse
               inputProps={{
-                min: startDate
+                min: filterData.startDate
               }}
-              value={endDate !== '' ? endDate : ''}
-              onChange={(e) => setEndDate(e.target.value)}
+              value={filterData.endDate}
+              onChange={(e) => setFilterData({ ...filterData, endDate: e.target.value })}
             />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
@@ -132,9 +141,9 @@ const EmployeeList = () => {
               <FormLabel>Select Role</FormLabel>
               <Select
                 size="small"
-                value={selectedRole}
+                value={filterData.selectedRole}
                 options={Roles}
-                onChange={(value) => setSelectedRole(value)}
+                onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
               />
             </FormControl>
           </Grid>
