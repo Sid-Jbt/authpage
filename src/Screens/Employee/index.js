@@ -6,7 +6,7 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import Select from 'Elements/Select';
-import { Roles, userArray } from 'Helpers/Global';
+import { Roles } from 'Helpers/Global';
 import { useNavigate, useOutletContext } from 'react-router';
 import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
 import DialogMenu from 'Elements/Dialog';
@@ -27,22 +27,19 @@ const EmployeeList = () => {
   const [filter, setFilter] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [isActiveDialogOpen, setIsActiveDialogOpen] = useState(false);
-  const [userList, setUserList] = useState([]);
 
   const [filterData, setFilterData] = useState({
     startDate: '',
     endDate: '',
     search: '',
-    selectedRole: Roles[0],
-    user: ''
+    selectedRole: Roles[0]
   });
 
   const isValues = !(
     filterData.selectedRole.value === '' &&
     filterData.search === '' &&
     filterData.startDate === '' &&
-    filterData.endDate === '' &&
-    filterData.user === ''
+    filterData.endDate === ''
   );
 
   useEffect(() => {
@@ -50,7 +47,6 @@ const EmployeeList = () => {
       GetEmployeeList(
         {
           limit: isNaN(limit) ? 0 : limit,
-          user: filterData.user.value,
           startDate: filterData.startDate,
           endDate: filterData.endDate,
           search: filterData.search,
@@ -63,7 +59,6 @@ const EmployeeList = () => {
           if (res && res.data && res.data.data) {
             setAllEmployee(res.data.data.rows);
             setEmployeeCount(res.data.data.count);
-            setUserList(userArray(res.data.data.rows));
           }
         }
       );
@@ -76,8 +71,7 @@ const EmployeeList = () => {
       startDate: '',
       endDate: '',
       search: '',
-      selectedRole: Roles[0],
-      user: ''
+      selectedRole: Roles[0]
     });
     setFilter(!filter);
   };
@@ -152,18 +146,6 @@ const EmployeeList = () => {
                 value={filterData.selectedRole}
                 options={Roles}
                 onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item sm={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select User</FormLabel>
-              <Select
-                size="small"
-                value={filterData.user}
-                options={userList}
-                onChange={(value) => setFilterData({ ...filterData, user: value })}
-                renderValue={filterData.user !== '' ? undefined : () => 'Select...'}
               />
             </FormControl>
           </Grid>
