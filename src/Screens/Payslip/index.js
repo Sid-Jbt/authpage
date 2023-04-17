@@ -23,6 +23,7 @@ const Payslip = () => {
     month: '',
     year: ''
   });
+  const isValues = !Object.values(filterData).some((x) => x !== '');
 
   useEffect(() => {
     GetPayslipList(
@@ -65,14 +66,9 @@ const Payslip = () => {
       <FilterLayout
         search={filterData.search}
         handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
-        handleClear={handleClear}
+        handleClear={() => !isValues && handleClear()}
         isDisable={!Object.values(filterData).some((x) => x !== '') && allPayslipList.length <= 0}
-        onClickSearch={() => {
-          const isValues = !Object.values(filterData).some((x) => x !== '');
-          if (!isValues) {
-            setFilter(!filter);
-          }
-        }}
+        onClickSearch={() => !isValues && setFilter(!filter)}
       >
         <Grid item xs={12} md={4} lg={3}>
           <FormControl sx={{ width: '100%' }}>
