@@ -35,6 +35,13 @@ const EmployeeList = () => {
     selectedRole: Roles[0]
   });
 
+  const isValues = !(
+    filterData.selectedRole.value === '' &&
+    filterData.search === '' &&
+    filterData.startDate === '' &&
+    filterData.endDate === ''
+  );
+
   useEffect(() => {
     if (!isDialogOpen || !isActiveDialogOpen) {
       GetEmployeeList(
@@ -98,14 +105,9 @@ const EmployeeList = () => {
         <FilterLayout
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
-          handleClear={handleClear}
-          isDisable={!Object.values(filterData).some((x) => x !== '') && allEmployee.length <= 0}
-          onClickSearch={() => {
-            const isValues = !Object.values(filterData).some((x) => x !== '');
-            if (!isValues) {
-              setFilter(!filter);
-            }
-          }}
+          handleClear={() => isValues && handleClear()}
+          isDisable={!isValues && allEmployee.length <= 0}
+          onClickSearch={() => isValues && setFilter(!filter)}
         >
           <Grid item xs={6} md={4} lg={3}>
             <Input

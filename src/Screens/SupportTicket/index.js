@@ -56,6 +56,8 @@ const SupportTicket = () => {
     status: ''
   });
 
+  const isValues = !Object.values(filterData).some((x) => x !== '');
+
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen || !isViewSupportTicketDialogOpen) {
       GetSupportList(
@@ -157,16 +159,9 @@ const SupportTicket = () => {
         <FilterLayout
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
-          handleClear={handleClear}
-          isDisable={
-            !Object.values(filterData).some((x) => x !== '') && allSpTicketList.length <= 0
-          }
-          onClickSearch={() => {
-            const isValues = !Object.values(filterData).some((x) => x !== '');
-            if (!isValues) {
-              setFilter(!filter);
-            }
-          }}
+          handleClear={() => !isValues && handleClear()}
+          isDisable={spTicketListCount && spTicketListCount.totalSupportTicket <= 0}
+          onClickSearch={() => !isValues && setFilter(!filter)}
         >
           <Grid item xs={12} md={4} lg={3}>
             <Input
