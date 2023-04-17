@@ -14,6 +14,7 @@ import Input from 'Elements/Input';
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
   const { role, GetAttendanceList, GetEmployeeList } = useOutletContext();
+  // const [user, setUser] = useState('');
   const [attendanceList, setAttendanceList] = useState([]);
   const [attendanceListCount, setAttendanceListCount] = useState(0);
   const [page, setPage] = useState(0);
@@ -185,7 +186,7 @@ const AttendanceList = () => {
                   size="small"
                   value={filterData.user}
                   options={userList}
-                  onChange={(e) => setFilterData({ ...filterData, user: e.target.value })}
+                  onChange={(value) => setFilterData({ ...filterData, user: value })}
                   renderValue={filterData.user !== '' ? undefined : () => 'Select...'}
                 />
               </FormControl>
