@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Card, FormControl, FormLabel, Grid } from '@mui/material';
+import { Card, Grid } from '@mui/material';
 import Input from 'Elements/Input';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -7,13 +7,12 @@ import Avatar from 'Elements/Avatar';
 import Button from 'Elements/Button';
 import Icon from '@mui/material/Icon';
 import { Edit } from '@mui/icons-material';
-import Select from 'Elements/Select';
-import { keyDownValidation, WorkingHours } from 'Helpers/Global';
+import { keyDownValidation } from 'Helpers/Global';
 import { DialogContent } from 'Components/Dialog';
 import CropperImage from 'Components/ImageCrop';
 import DialogMenu from 'Elements/Dialog';
-import smallFile from '../../../Assets/Images/logo.jpeg';
-import largeFile from '../../../Assets/Images/jbt-full-logo.svg';
+import smallFile from 'Assets/Images/logo.jpeg';
+import largeFile from 'Assets/Images/jbt-full-logo.svg';
 
 const Organisation = ({ isEdit, props }) => {
   const { values, handleChange, handleBlur, setFieldValue } = props;
@@ -42,8 +41,8 @@ const Organisation = ({ isEdit, props }) => {
 
   return (
     <Card sx={{ overflow: 'visible' }}>
-      <Grid container spacing={2} p={2} alignItems="center" justifyContent="center">
-        <Grid container item spacing={2} xs={12} alignItems="center" justifyContent="center">
+      <Grid container spacing={1} p={2} alignItems="center" justifyContent="center">
+        <Grid container item xs={12} alignItems="center" justifyContent="center">
           <Grid item xs={12}>
             <Typography variant="h6" fontWeight="medium" textAlign="center">
               Organistation Logo
@@ -118,7 +117,7 @@ const Organisation = ({ isEdit, props }) => {
             </Box>
           </Grid>
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={8}>
           <Input
             type="text"
             placeholder="Organisation Name"
@@ -131,25 +130,45 @@ const Organisation = ({ isEdit, props }) => {
             onChange={handleChange}
             onBlur={handleBlur}
             disabled={!isEdit}
+            errorFalse
             onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={4} pt={0}>
-          <FormControl sx={{ width: '100%', marginBottom: '20px !important' }}>
-            <FormLabel>Working Hours</FormLabel>
-            <Select
-              name="workingHours"
-              value={
-                WorkingHours.find((o) => o.value === values.workingHours) || values.workingHours
-              }
-              options={WorkingHours}
-              onChange={(value) => {
-                setFieldValue('workingHours', value);
-              }}
+        <Grid item container spacing={2} xs={12} md={8}>
+          <Grid item xs={12} md={6}>
+            <Input
+              type="time"
+              placeholder="Login Time"
+              size="medium"
+              fullWidth
+              errorFalse
+              id="loginTime"
+              name="loginTime"
+              label="Login Time"
+              value={values.loginTime}
+              onChange={handleChange}
               onBlur={handleBlur}
-              isDisabled={!isEdit}
+              disabled={!isEdit}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
-          </FormControl>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Input
+              type="time"
+              placeholder="Logout Time"
+              size="medium"
+              fullWidth
+              errorFalse
+              id="logoutTime"
+              name="logoutTime"
+              label="Logout Time"
+              value={values.logoutTime}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              disabled={!isEdit}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+            />
+          </Grid>
         </Grid>
         <Grid item xs={12} md={8}>
           <Input
