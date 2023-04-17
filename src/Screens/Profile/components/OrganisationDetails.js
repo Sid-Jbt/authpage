@@ -145,7 +145,7 @@ const Organisation = ({ isEdit, props }) => {
               id="punchIn"
               name="punchIn"
               label="Punch In"
-              value={values.loginTime}
+              value={values.punchIn}
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
@@ -162,7 +162,7 @@ const Organisation = ({ isEdit, props }) => {
               id="punchOut"
               name="punchOut"
               label="Punch Out"
-              value={values.logoutTime}
+              value={values.punchOut}
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
