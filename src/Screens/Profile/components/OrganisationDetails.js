@@ -49,7 +49,7 @@ const Organisation = ({ isEdit, props }) => {
               Organistation Logo
             </Typography>
           </Grid>
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} md={3}>
             <Box position="relative" size="large">
               <input
                 ref={largeLogoInputFile}
@@ -69,7 +69,7 @@ const Organisation = ({ isEdit, props }) => {
               />
               {isEdit && (
                 <Button
-                  sx={{ position: 'absolute', bottom: 0, right: 0, mr: 7, mb: -1 }}
+                  sx={{ position: 'absolute', bottom: 0, right: 0, mr: 7.5, mb: -1 }}
                   variant="gradient"
                   color="light"
                   component="label"
@@ -83,7 +83,7 @@ const Organisation = ({ isEdit, props }) => {
               )}
             </Box>
           </Grid>
-          <Grid item xs={12} md={2} justifyContent="center">
+          <Grid item xs={12} md={3} justifyContent="center">
             <Box position="relative">
               <input
                 ref={smallLogoInputFile}
@@ -103,7 +103,7 @@ const Organisation = ({ isEdit, props }) => {
               />
               {isEdit && (
                 <Button
-                  sx={{ position: 'absolute', bottom: 0, right: 0, mr: 7, mb: -1 }}
+                  sx={{ position: 'absolute', bottom: 0, right: 0, mr: 7.5, mb: -1 }}
                   variant="gradient"
                   color="light"
                   component="label"
@@ -134,8 +134,8 @@ const Organisation = ({ isEdit, props }) => {
             onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <FormControl sx={{ width: '100%' }}>
+        <Grid item xs={12} md={6} lg={4} pt={0}>
+          <FormControl sx={{ width: '100%', marginBottom: '20px !important' }}>
             <FormLabel>Working Hours</FormLabel>
             <Select
               name="workingHours"

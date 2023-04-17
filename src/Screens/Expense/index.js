@@ -36,23 +36,26 @@ const ExpenseList = () => {
   const [isViewExpenseDialogOpen, setIsViewExpenseDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [sort, setSort] = useState({ key: 'createdAt', order: 'asc' });
   const [filter, setFilter] = useState(false);
   const [allExpense, setAllExpense] = useState([]);
   const [expenseCount, setExpenseCount] = useState({});
-  const [status, setStatus] = useState('');
   const [approveRejectReason, setApproveRejectReason] = useState('');
+
+  const [filterData, setFilterData] = useState({
+    search: '',
+    status: ''
+  });
 
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen || isViewExpenseDialogOpen) {
       GetExpenseList(
         {
           limit: isNaN(limit) ? 0 : limit,
-          status: status.value,
-          search,
+          status: filterData.status.value,
+          search: filterData.search,
           page,
           sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
           sortOrder: sort.order
@@ -70,9 +73,10 @@ const ExpenseList = () => {
   }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewExpenseDialogOpen, limit]);
 
   const handleClear = () => {
-    setStatus('');
-    setSearch('');
-    setStatus('');
+    setFilterData({
+      search: '',
+      status: ''
+    });
     setFilter(!filter);
   };
 
@@ -146,11 +150,15 @@ const ExpenseList = () => {
         }}
       >
         <FilterLayout
-          search={search}
-          handleSearch={(e) => setSearch(e.target.value)}
+          search={filterData.search}
+          handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={handleClear}
+          isDisable={!Object.values(filterData).some((x) => x !== '') && allExpense.length <= 0}
           onClickSearch={() => {
-            setFilter(!filter);
+            const isValues = !Object.values(filterData).some((x) => x !== '');
+            if (!isValues) {
+              setFilter(!filter);
+            }
           }}
         >
           <Grid item xs={12} md={4} lg={3}>
@@ -158,9 +166,9 @@ const ExpenseList = () => {
               <FormLabel>Select Status</FormLabel>
               <Select
                 size="small"
-                value={status}
                 options={actionStatus}
-                onChange={(value) => setStatus(value)}
+                value={filterData.status}
+                onChange={(value) => setFilterData({ ...filterData, status: value })}
               />
             </FormControl>
           </Grid>

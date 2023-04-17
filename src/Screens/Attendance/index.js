@@ -14,10 +14,7 @@ import Input from '../../Elements/Input';
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
   const { role, GetAttendanceList, GetEmployeeList } = useOutletContext();
-  const [month, setMonth] = useState('');
-  const [year, setYear] = useState('');
   const [user, setUser] = useState('');
-  const [search, setSearch] = useState('');
   const [attendanceList, setAttendanceList] = useState([]);
   const [attendanceListCount, setAttendanceListCount] = useState(0);
   const [page, setPage] = useState(0);
@@ -25,8 +22,14 @@ const AttendanceList = () => {
   const [sort, setSort] = useState({ key: 'attendanceDate', order: 'asc' });
   const [filter, setFilter] = useState(false);
   const [userList, setUserList] = useState([]);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+
+  const [filterData, setFilterData] = useState({
+    search: '',
+    startDate: '',
+    endDate: '',
+    month: '',
+    year: ''
+  });
 
   useEffect(() => {
     if (role === 'admin') {
@@ -43,9 +46,11 @@ const AttendanceList = () => {
       {
         limit: isNaN(limit) ? 0 : limit,
         user: user.value,
-        month: month.value,
-        year: year.value,
-        search,
+        month: filterData.month.value,
+        year: filterData.year.value,
+        search: filterData.search,
+        startDate: filterData.startDate,
+        endDate: filterData.endDate,
         page,
         sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
         sortOrder: sort.order
@@ -61,9 +66,13 @@ const AttendanceList = () => {
   }, [filter, page, sort, limit]);
 
   const handleClear = () => {
-    setMonth('');
-    setYear('');
-    setSearch('');
+    setFilterData({
+      search: '',
+      startDate: '',
+      endDate: '',
+      month: '',
+      year: ''
+    });
     setFilter(!filter);
   };
 
@@ -131,11 +140,15 @@ const AttendanceList = () => {
         }}
       >
         <FilterLayout
-          search={search}
-          handleSearch={(e) => setSearch(e.target.value)}
+          search={filterData.search}
+          handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={handleClear}
+          isDisable={!Object.values(filterData).some((x) => x !== '') && attendanceList.length <= 0}
           onClickSearch={() => {
-            setFilter(!filter);
+            const isValues = !Object.values(filterData).some((x) => x !== '');
+            if (!isValues) {
+              setFilter(!filter);
+            }
           }}
         >
           <Grid item xs={6} md={4} lg={3}>
@@ -147,8 +160,8 @@ const AttendanceList = () => {
               id="fromDate"
               name="fromDate"
               errorFalse
-              value={startDate !== '' ? startDate : ''}
-              onChange={(e) => setStartDate(e.target.value)}
+              value={filterData.startDate}
+              onChange={(e) => setFilterData({ ...filterData, startDate: e.target.value })}
             />
           </Grid>
           <Grid item xs={6} md={4} lg={3}>
@@ -161,10 +174,10 @@ const AttendanceList = () => {
               name="toDate"
               errorFalse
               inputProps={{
-                min: startDate
+                min: filterData.startDate
               }}
-              value={endDate !== '' ? endDate : ''}
-              onChange={(e) => setEndDate(e.target.value)}
+              value={filterData.endDate}
+              onChange={(e) => setFilterData({ ...filterData, endDate: e.target.value })}
             />
           </Grid>
           {role === 'admin' && (
@@ -187,9 +200,9 @@ const AttendanceList = () => {
               <FormLabel>Select Month</FormLabel>
               <Select
                 size="small"
-                value={month}
                 options={Months}
-                onChange={(value) => setMonth(value)}
+                value={filterData.month}
+                onChange={(value) => setFilterData({ ...filterData, month: value })}
               />
             </FormControl>
           </Grid>
@@ -198,9 +211,9 @@ const AttendanceList = () => {
               <FormLabel>Select Year</FormLabel>
               <Select
                 size="small"
-                value={year}
                 options={Years}
-                onChange={(value) => setYear(value)}
+                value={filterData.year}
+                onChange={(value) => setFilterData({ ...filterData, year: value })}
               />
             </FormControl>
           </Grid>

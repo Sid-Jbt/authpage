@@ -20,7 +20,7 @@ import { leaveListData } from 'StaticData/leaveListData';
 import AddLeaveForm from './AddLeaveForm';
 import LeaveDetails from './LeaveDetails';
 import Select from '../../Elements/Select';
-import { actionStatus } from '../../Helpers/Global';
+import { actionStatus, dateInputProps } from '../../Helpers/Global';
 
 const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
@@ -28,19 +28,21 @@ const LeaveList = () => {
     useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const [search, setSearch] = useState('');
   const [isViewLeaveDialogOpen, setIsViewLeaveDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [filterData, setFilterData] = useState({
+    startDate: '',
+    endDate: '',
+    search: '',
+    status: ''
+  });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
   const [sort, setSort] = useState({ key: 'fromDate', order: 'asc' });
   const [filter, setFilter] = useState(false);
   const [allLeave, setAllLeave] = useState([]);
   const [leaveCount, setLeaveCount] = useState({});
-  const [status, setStatus] = useState('');
   const [approveRejectReason, setApproveRejectReason] = useState('');
 
   useEffect(() => {
@@ -48,10 +50,10 @@ const LeaveList = () => {
       GetLeaveList(
         {
           limit: isNaN(limit) ? 0 : limit,
-          startDate,
-          endDate,
-          status: status.value,
-          search,
+          startDate: filterData.startDate,
+          endDate: filterData.endDate,
+          status: filterData.status.value,
+          search: filterData.search,
           page,
           sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
           sortOrder: sort.order
@@ -69,10 +71,12 @@ const LeaveList = () => {
   }, [isDialogOpen, page, sort, filter, isDeleteDialogOpen, isViewLeaveDialogOpen, limit]);
 
   const handleClear = () => {
-    setEndDate('');
-    setStartDate('');
-    setStatus('');
-    setSearch('');
+    setFilterData({
+      startDate: '',
+      endDate: '',
+      search: '',
+      status: ''
+    });
     setFilter(!filter);
   };
 
@@ -81,7 +85,7 @@ const LeaveList = () => {
       <Grid container spacing={3} mb={3}>
         {role === 'admin' ? (
           <>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} md={6} lg={4}>
               <LeaveCard
                 title="Total Leave Request"
                 count={leaveCount && leaveCount.TotalLeaveRequest}
@@ -89,7 +93,7 @@ const LeaveList = () => {
                 isPercentage={false}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} md={6} lg={4}>
               <LeaveCard
                 title="Total Leave Approved"
                 count={leaveCount && leaveCount.TotalLeaveApproved}
@@ -97,7 +101,7 @@ const LeaveList = () => {
                 isPercentage={false}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} md={6} lg={4}>
               <LeaveCard
                 title="Total Leave Declined"
                 count={leaveCount && leaveCount.TotalLeaveDeclined}
@@ -135,7 +139,7 @@ const LeaveList = () => {
             <Grid item xs={12} md={6} lg={3}>
               <LeaveCard
                 title="Remaining Leave"
-                count={leaveCount && leaveCount.remainingLeave >= 0 ? 0 : leaveCount.remainingLeave}
+                count={leaveCount && leaveCount.remainingLeave <= 0 ? 0 : leaveCount.remainingLeave}
                 icon={{ color: 'success', component: <DirectionsRun /> }}
                 isPercentage={false}
               />
@@ -174,11 +178,15 @@ const LeaveList = () => {
         }}
       >
         <FilterLayout
-          search={search}
-          handleSearch={(e) => setSearch(e.target.value)}
+          search={filterData.search}
+          handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={handleClear}
+          isDisable={!Object.values(filterData).some((x) => x !== '') && allLeave.length <= 0}
           onClickSearch={() => {
-            setFilter(!filter);
+            const isValues = !Object.values(filterData).some((x) => x !== '');
+            if (!isValues) {
+              setFilter(!filter);
+            }
           }}
         >
           <Grid item xs={6} md={4} lg={3}>
@@ -189,9 +197,10 @@ const LeaveList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
+              inputProps={dateInputProps()}
               errorFalse
-              value={startDate !== '' ? startDate : ''}
-              onChange={(e) => setStartDate(e.target.value)}
+              value={filterData.startDate}
+              onChange={(e) => setFilterData({ ...filterData, startDate: e.target.value })}
             />
           </Grid>
           <Grid item xs={6} md={4} lg={3}>
@@ -203,8 +212,9 @@ const LeaveList = () => {
               id="toDate"
               name="toDate"
               errorFalse
-              value={endDate !== '' ? endDate : ''}
-              onChange={(e) => setEndDate(e.target.value)}
+              value={filterData.endDate}
+              onChange={(e) => setFilterData({ ...filterData, endDate: e.target.value })}
+              inputProps={dateInputProps()}
             />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
@@ -212,9 +222,9 @@ const LeaveList = () => {
               <FormLabel>Select Status</FormLabel>
               <Select
                 size="small"
-                value={status}
+                value={filterData.status}
                 options={actionStatus}
-                onChange={(value) => setStatus(value)}
+                onChange={(value) => setFilterData({ ...filterData, status: value })}
               />
             </FormControl>
           </Grid>
@@ -235,12 +245,12 @@ const LeaveList = () => {
                   const setViewData = {
                     id: data.id,
                     leaveType: data.leaveType,
-                    type: data.selectType,
+                    selectType: data.selectType,
                     fromDate: data.fromDate,
                     toDate: data.toDate,
                     noOfDays: data.noOfDays,
                     approvedBy: data.approvedBy,
-                    meassage: data.reason.replace(/(<([^>]+)>)/gi, ''),
+                    reason: data.reason.replace(/(<([^>]+)>)/gi, ''),
                     ...(value === 'view' && { status: data.status }),
                     comment: data.comment
                   };
@@ -291,7 +301,7 @@ const LeaveList = () => {
               setIsEdit(false);
               setSelectedData(null);
             }}
-            title={isEdit ? 'UPDATE LEAVE' : 'ADD LEAVE'}
+            title={isEdit ? 'UPDATE LEAVE' : 'NEW LEAVE'}
             selectedData={selectedData}
             isEdit={isEdit}
             GetLeaveAddUpdate={GetLeaveAddUpdate}

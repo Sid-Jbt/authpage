@@ -193,7 +193,10 @@ const Table = ({
                     textTransform: name !== 'email' && 'capitalize'
                   }}
                 >
-                  {row[name] === undefined || row[name] === null || row[name] === ''
+                  {row[name] === undefined ||
+                  row[name] === null ||
+                  row[name] === '' ||
+                  row[name] === ' '
                     ? '-'
                     : row[name]}
                 </Typography>

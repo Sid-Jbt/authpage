@@ -43,28 +43,31 @@ const SupportTicket = () => {
 
   const [allSpTicketList, setAllSpTicketList] = useState([]);
   const [spTicketListCount, setSpTicketListCount] = useState(0);
-  const [search, setSearch] = useState('');
   const [sort, setSort] = useState({ key: 'priority', order: 'asc' });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [startDate, setStartDate] = useState('');
   const [filter, setFilter] = useState(false);
-  const [priority, setPriority] = useState('');
-  const [status, setStatus] = useState('');
   const [approveRejectReason, setApproveRejectReason] = useState('');
+
+  const [filterData, setFilterData] = useState({
+    startDate: '',
+    priority: '',
+    search: '',
+    status: ''
+  });
 
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen || !isViewSupportTicketDialogOpen) {
       GetSupportList(
         {
           limit: isNaN(limit) ? 0 : limit,
-          search,
           page,
           sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
           sortOrder: sort.order,
-          priority: priority.value,
-          status: status.value,
-          startDate
+          startDate: filterData.startDate,
+          status: filterData.status.value,
+          priority: filterData.priority.value,
+          search: filterData.search
         },
         (res) => {
           if (res && res.data && res.data.data) {
@@ -79,10 +82,12 @@ const SupportTicket = () => {
   }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewSupportTicketDialogOpen, limit]);
 
   const handleClear = () => {
-    setStartDate('');
-    setPriority('');
-    setStatus('');
-    setSearch('');
+    setFilterData({
+      startDate: '',
+      priority: '',
+      search: '',
+      status: ''
+    });
     setFilter(!filter);
   };
 
@@ -150,11 +155,17 @@ const SupportTicket = () => {
         }}
       >
         <FilterLayout
-          search={search}
-          handleSearch={(e) => setSearch(e.target.value)}
+          search={filterData.search}
+          handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={handleClear}
+          isDisable={
+            !Object.values(filterData).some((x) => x !== '') && allSpTicketList.length <= 0
+          }
           onClickSearch={() => {
-            setFilter(!filter);
+            const isValues = !Object.values(filterData).some((x) => x !== '');
+            if (!isValues) {
+              setFilter(!filter);
+            }
           }}
         >
           <Grid item xs={12} md={4} lg={3}>
@@ -166,8 +177,8 @@ const SupportTicket = () => {
               id="date"
               name="startDate"
               errorFalse
-              value={startDate !== '' ? startDate : ''}
-              onChange={(event) => setStartDate(event.target.value)}
+              value={filterData.startDate}
+              onChange={(e) => setFilterData({ ...filterData, startDate: e.target.value })}
             />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
@@ -175,9 +186,9 @@ const SupportTicket = () => {
               <FormLabel>Select Priority</FormLabel>
               <Select
                 size="small"
-                value={priority}
+                value={filterData.priority}
                 options={Priority}
-                onChange={(value) => setPriority(value)}
+                onChange={(value) => setFilterData({ ...filterData, priority: value })}
               />
             </FormControl>
           </Grid>
@@ -186,9 +197,9 @@ const SupportTicket = () => {
               <FormLabel>Select Status</FormLabel>
               <Select
                 size="small"
-                value={status}
+                value={filterData.status}
                 options={actionStatus}
-                onChange={(value) => setStatus(value)}
+                onChange={(value) => setFilterData({ ...filterData, status: value })}
               />
             </FormControl>
           </Grid>
@@ -261,7 +272,7 @@ const SupportTicket = () => {
           rowsCount={spTicketListCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
-          rowsPerPage={isNaN(limit) ? spTicketListCount : limit}
+          rowsPerPage={isNaN(limit) ? spTicketListCount.total : limit}
           onRowsPerPageChange={(rowsPerPage) => {
             setLimit(rowsPerPage);
           }}
