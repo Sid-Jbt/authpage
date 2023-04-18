@@ -9,12 +9,11 @@ import FilterLayout from 'Components/FilterLayout';
 import AttendanceCard from 'Components/CardLayouts/StaticCard';
 import { useOutletContext } from 'react-router';
 import { attendanceColumn } from 'StaticData/attendanceData';
-import Input from '../../Elements/Input';
+import Input from 'Elements/Input';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
   const { role, GetAttendanceList, GetEmployeeList } = useOutletContext();
-  // const [user, setUser] = useState('');
   const [attendanceList, setAttendanceList] = useState([]);
   const [attendanceListCount, setAttendanceListCount] = useState(0);
   const [page, setPage] = useState(0);
@@ -184,8 +183,8 @@ const AttendanceList = () => {
                 <FormLabel>Select User</FormLabel>
                 <Select
                   size="small"
-                  options={userList}
                   value={filterData.user}
+                  options={userList}
                   onChange={(value) => setFilterData({ ...filterData, user: value })}
                   renderValue={filterData.user !== '' ? undefined : () => 'Select...'}
                 />
