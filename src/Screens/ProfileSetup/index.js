@@ -99,11 +99,11 @@ const ProfileSetup = () => {
             dispatch({ type: 'LOGIN_COMPLETED' });
             navigate(getDashboardPattern());
           }
+          setActiveStep(activeStep + 1);
+          actions.setTouched({});
+          actions.setSubmitting(false);
         }
       });
-      setActiveStep(activeStep + 1);
-      actions.setTouched({});
-      actions.setSubmitting(false);
     } else {
       setActiveStep(activeStep + 1);
       actions.setTouched({});
