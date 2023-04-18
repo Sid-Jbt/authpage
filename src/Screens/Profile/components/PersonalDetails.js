@@ -34,6 +34,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              errorFalse
               onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
@@ -52,6 +53,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              errorFalse
               onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
@@ -71,6 +73,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 disabled={!isEdit}
+                errorFalse
                 onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
               />
             </Box>
@@ -89,6 +92,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               label="Email"
               value={values.email}
               disabled
+              errorFalse
             />
           </Box>
         </Grid>
@@ -123,6 +127,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   disabled={!isEdit}
+                  errorFalse
                   onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                 />
               </Box>
@@ -166,6 +171,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               }}
               onChange={handleChange}
               disabled={!isEdit}
+              errorFalse
             />
           </Box>
         </Grid>
@@ -185,6 +191,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                   value={
                     values.dateOfJoin === '' ? '' : moment(values.dateOfJoin).format('DD/MM/YYYY')
                   }
+                  errorFalse
                 />
               </Box>
             </Grid>
@@ -206,6 +213,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
                       ? ''
                       : moment(values.dateOfLeave).format('DD/MM/YYYY')
                   }
+                  errorFalse
                 />
               </Box>
             </Grid>
@@ -228,6 +236,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               onBlur={handleBlur}
               onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
+              errorFalse
             />
           </Box>
         </Grid>
@@ -246,6 +255,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               onBlur={handleBlur}
               onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
               disabled={!isEdit}
+              errorFalse
             />
           </Box>
         </Grid>
@@ -263,6 +273,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              errorFalse
             />
           </Box>
         </Grid>
@@ -280,6 +291,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              errorFalse
             />
           </Box>
         </Grid>

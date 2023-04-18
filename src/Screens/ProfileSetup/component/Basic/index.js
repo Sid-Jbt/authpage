@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import moment from 'moment';
 import { FormControlLabel, Grid, RadioGroup, Radio, useTheme, FormLabel } from '@mui/material';
 import Icon from '@mui/material/Icon';
@@ -8,17 +8,29 @@ import Avatar from 'Elements/Avatar';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import team2 from 'Assets/Images/team-4-800x800.jpg';
-import { Edit } from '@mui/icons-material';
+import { CloseSharp, Edit } from '@mui/icons-material';
 import { keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
+import { SnackbarContext } from '../../../../Context/SnackbarProvider';
 
 const Basic = ({ role, props }) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
   const theme = useTheme();
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const inputFile = useRef(null);
+  const { setSnack } = useContext(SnackbarContext);
 
   const profilePicUpload = (e) => {
     const file = e.target.files[0];
+    if (file.size >= 4012368) {
+      return setSnack({
+        title: 'Size Error',
+        message: 'Size should be less then 4mb',
+        time: false,
+        icon: <CloseSharp color="white" />,
+        color: 'error',
+        open: true
+      });
+    }
     const url = URL.createObjectURL(file);
     setFieldValue('profilePic', e.target.files[0]);
     setProfilePicUrl(url);

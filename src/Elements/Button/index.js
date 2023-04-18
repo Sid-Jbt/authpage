@@ -52,7 +52,7 @@ const ButtonRoot = styled(Button)(({ theme, ownerState }) => {
     };
   };
 
-  const outliedStyles = () => {
+  const outlinedStyles = () => {
     const backgroundValue = color === 'white' ? rgba(white.main, 0.1) : transparent.main;
     const colorValue = palette[color] ? palette[color].main : white.main;
     const boxShadowValue = palette[color]
@@ -180,7 +180,7 @@ const ButtonRoot = styled(Button)(({ theme, ownerState }) => {
 
   return {
     ...(variant === 'contained' && containedStyles()),
-    ...(variant === 'outlined' && outliedStyles()),
+    ...(variant === 'outlined' && outlinedStyles()),
     ...(variant === 'gradient' && gradientStyles()),
     ...(variant === 'text' && textStyles()),
     ...(circular && circularStyles()),
@@ -189,13 +189,14 @@ const ButtonRoot = styled(Button)(({ theme, ownerState }) => {
 });
 
 const CustomButton = forwardRef(
-  ({ color, variant, size, circular, iconOnly, children, ...rest }, ref) => (
+  ({ color, variant, size, circular, iconOnly, children, disabled = false, ...rest }, ref) => (
     <ButtonRoot
       {...rest}
       ref={ref}
       color="primary"
       variant={variant === 'gradient' ? 'contained' : variant}
       size={size}
+      disabled={Boolean(disabled)}
       ownerState={{ color, variant, size, circular, iconOnly }}
     >
       {children}

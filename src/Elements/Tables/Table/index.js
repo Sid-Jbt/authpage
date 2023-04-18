@@ -251,9 +251,6 @@ const Table = ({
                 row.isActive === item.name ? (
                   <IconButton
                     key={index}
-                    disabled={
-                      (row.status === 'approved' || row.status === 'reject') && item.name !== 3
-                    }
                     sx={{ cursor: 'pointer' }}
                     color={item.color}
                     fontSize="small"
@@ -267,7 +264,10 @@ const Table = ({
                     <IconButton
                       key={index}
                       disabled={
-                        (row.status === 'approved' || row.status === 'reject') && item.name !== 3
+                        (row.isActive === 1 ||
+                          row.status === 'approved' ||
+                          row.status === 'reject') &&
+                        item.name !== 2
                       }
                       sx={{ cursor: 'pointer' }}
                       color={item.color}

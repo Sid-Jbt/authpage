@@ -18,8 +18,9 @@ import { GraphicEqOutlined, RemoveRedEye } from '@mui/icons-material';
 import { timeActivityListData } from 'StaticData/timeActivityListData';
 import { defaultLineChartData } from 'StaticData/defaultLineChartData';
 import { useOutletContext } from 'react-router';
-import { Roles, userArray } from '../../../Helpers/Global';
-import Select from '../../../Elements/Select';
+import { Roles, userArray } from 'Helpers/Global';
+import Select from 'Elements/Select';
+import moment from 'moment';
 
 const TimeActivity = () => {
   const { columns: prCols, adminColumns: adminPrCol } = timeActivityListData;
@@ -27,12 +28,15 @@ const TimeActivity = () => {
   const { role, GetEmployeeList } = useOutletContext();
   const [userList, setUserList] = useState([]);
   const [user, setUser] = useState('');
-  const [selectedRole, setSelectedRole] = useState('');
+  const [selectedRole, setSelectedRole] = useState({ value: '', label: 'All' });
   const [search, setSearch] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [radioDate, setRadioDate] = useState('customDate');
   const [filter, setFilter] = useState(false);
+  const [sort, setSort] = useState({ key: 'email', order: 'asc' });
+  const [page, setPage] = useState(0);
+  // const [limit, setLimit] = useState(10);
 
   useEffect(() => {
     if (role === 'admin') {
@@ -43,6 +47,25 @@ const TimeActivity = () => {
       });
     }
   }, []);
+
+  const setDateOnRadioPress = (value) => {
+    const date = new Date();
+    if (value === 'previousMonth') {
+      const firstDay = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+      const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
+      setStartDate(moment(firstDay).format('YYYY-MM-DD'));
+      setEndDate(moment(lastDay).format('YYYY-MM-DD'));
+    } else if (value === 'nextMonth') {
+      date.setMonth(date.getMonth() + 1);
+      const firstDay = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+      const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
+      setStartDate(moment(firstDay).format('YYYY-MM-DD'));
+      setEndDate(moment(lastDay).format('YYYY-MM-DD'));
+    } else {
+      setStartDate('');
+      setEndDate('');
+    }
+  };
 
   const handleClear = () => {
     setStartDate('');
@@ -120,12 +143,15 @@ const TimeActivity = () => {
                 aria-label="font-family"
                 name="radioDate"
                 value={radioDate}
-                onChange={(e) => setRadioDate(e.target.value)}
+                onChange={(e) => {
+                  setDateOnRadioPress(e.target.value);
+                  setRadioDate(e.target.value);
+                }}
               >
                 <FormControlLabel
                   value="customDate"
                   control={<Radio />}
-                  label="Custome Date"
+                  label="Custom Date"
                   sx={{
                     '& .MuiSvgIcon-root': { fontSize: 28 },
                     '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
@@ -183,7 +209,6 @@ const TimeActivity = () => {
             columns={role === 'admin' ? adminPrCol : prCols}
             rows={[]}
             rowsCount={0}
-            initialPage={0}
             rowsPerPage={10}
             isAction={role !== 'admin'}
             options={[{ name: 'view', title: 'View', value: 'view' }]}
@@ -198,6 +223,14 @@ const TimeActivity = () => {
                 }
               ]
             }
+            initialPage={page}
+            onChangePage={(value) => setPage(value)}
+            // rowsPerPage={isNaN(limit) ? employeeCount : limit}
+            // onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
+            onRowsPerPageChange={10}
+            sortKey={sort.key}
+            sortOrder={sort.order}
+            handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}
           />
         </Card>
       </Grid>
