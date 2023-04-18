@@ -189,13 +189,14 @@ const ButtonRoot = styled(Button)(({ theme, ownerState }) => {
 });
 
 const CustomButton = forwardRef(
-  ({ color, variant, size, circular, iconOnly, children, disabled, ...rest }, ref) => (
+  ({ color, variant, size, circular, iconOnly, children, disabled = false, ...rest }, ref) => (
     <ButtonRoot
       {...rest}
       ref={ref}
       color="primary"
       variant={variant === 'gradient' ? 'contained' : variant}
       size={size}
+      disabled={Boolean(disabled)}
       ownerState={{ color, variant, size, circular, iconOnly }}
     >
       {children}
