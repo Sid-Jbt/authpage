@@ -315,6 +315,21 @@ const PersonalDetails = ({ isEdit, role, props }) => {
             />
           </RadioGroup>
         </Grid>
+        <Grid item xs={12} md={6} lg={4}>
+          <Box>
+            <Input
+              type="text"
+              placeholder="Role"
+              size="large"
+              fullWidth
+              id="role"
+              name="role"
+              label="Role"
+              value={role}
+              disabled
+            />
+          </Box>
+        </Grid>
       </Grid>
     </Card>
   );

@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
-import { CircularProgress, Grid, IconButton, InputAdornment } from '@mui/material';
+import {
+  CircularProgress,
+  FormControl,
+  FormLabel,
+  Grid,
+  IconButton,
+  InputAdornment
+} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import SideDrawer from 'Elements/SideDrawer';
 import { addEmployeeSchema } from 'Helpers/ValidationSchema';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import moment from 'moment';
+import Select from 'Elements/Select';
+import { Roles } from 'Helpers/Global';
 
 const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -69,6 +78,17 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
                     error={errors.dateOfJoin && touched.dateOfJoin}
                     success={!errors.dateOfJoin && touched.dateOfJoin}
                   />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl sx={{ width: '100%' }}>
+                    <FormLabel>Select Role</FormLabel>
+                    <Select
+                      size="medium"
+                      value={Roles[0].value}
+                      options={Roles}
+                      // onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
+                    />
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12}>
                   <Input

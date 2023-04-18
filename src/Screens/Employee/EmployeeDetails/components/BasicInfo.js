@@ -6,7 +6,7 @@ import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
-import { Gender, keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
+import { Gender, keyDownTypeNumber, keyDownValidation, Roles } from 'Helpers/Global';
 import moment from 'moment/moment';
 import { useOutletContext } from 'react-router';
 
@@ -177,7 +177,7 @@ const BasicInfo = ({ data }) => {
                     disabled
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={12}>
+                <Grid item xs={12} md={6} lg={6}>
                   <Box>
                     <Input
                       type="text"
@@ -191,6 +191,17 @@ const BasicInfo = ({ data }) => {
                       success={!errors.permanentAddress && touched.permanentAddress}
                     />
                   </Box>
+                </Grid>
+                <Grid item xs={12} md={6} lg={6}>
+                  <FormControl sx={{ width: '100%' }}>
+                    <FormLabel>Select Role</FormLabel>
+                    <Select
+                      size="medium"
+                      value={Roles[0].value}
+                      options={Roles}
+                      // onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
+                    />
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12} md={6} lg={4} textAlign="end">
                   <Button

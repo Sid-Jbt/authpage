@@ -71,7 +71,8 @@ const AddRole = () => {
                     variant="subtitle2"
                     color="text"
                     fontWeight="bold"
-                    sx={{ paddingRight: 2, textTransform: 'capitalize' }}
+                    textTransform="capitalize"
+                    sx={{ paddingRight: 2 }}
                   >
                     {key}
                   </Typography>
