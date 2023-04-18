@@ -196,7 +196,6 @@ const CustomButton = forwardRef(
       color="primary"
       variant={variant === 'gradient' ? 'contained' : variant}
       size={size}
-      disabled
       ownerState={{ color, variant, size, circular, iconOnly }}
     >
       {children}
