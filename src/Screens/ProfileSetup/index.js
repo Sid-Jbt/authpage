@@ -87,16 +87,14 @@ const ProfileSetup = () => {
       delete values.punchIn;
       delete values.punchOut;
     }
-    if (
-      JSON.stringify({ ...bankInfo, ...organisation, ...profile, ...rest }) !==
-      JSON.stringify(values)
-    ) {
-      Object.keys({ ...bankInfo, ...organisation, ...profile, ...rest }).map((key) => {
-        if (values[key] !== { ...bankInfo, ...organisation, ...profile, ...rest }[key]) {
+
+    if (JSON.stringify({ ...bankInfo, ...organisation, ...profile }) !== JSON.stringify(values)) {
+      Object.keys({ ...bankInfo, ...organisation, ...profile }).map((key) => {
+        if (values[key] !== { ...bankInfo, ...organisation, ...profile }[key]) {
           newValues = { ...newValues, [key]: values[key] };
         }
       });
-      GetProfileSetup(values, (res) => {
+      GetProfileSetup(newValues, (res) => {
         const data = res.data;
         if (data.status) {
           if (activeStep === 2) {
@@ -160,9 +158,6 @@ const ProfileSetup = () => {
                   { ...bankInfo, ...organisation, ...profile, ...rest } || initialValues
                 }
                 onSubmit={handleNext}
-                /* validationSchema={
-                  role === 'admin' ? organisationSchema[activeStep] : userSchema[activeStep]
-                } */
               >
                 {(props) => {
                   const { handleSubmit, isSubmitting } = props;
