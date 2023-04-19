@@ -83,6 +83,10 @@ const ProfileSetup = () => {
   };
 
   const handleNext = (values, actions) => {
+    if (values.hasOwnProperty('punchIn') && values.hasOwnProperty('punchOut')) {
+      delete values.punchIn;
+      delete values.punchOut;
+    }
     if (
       JSON.stringify({ ...bankInfo, ...organisation, ...profile, ...rest }) !==
       JSON.stringify(values)
