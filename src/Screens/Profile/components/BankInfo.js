@@ -24,6 +24,7 @@ const BankInfo = ({ isEdit, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              errorFalse
               onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
@@ -42,6 +43,7 @@ const BankInfo = ({ isEdit, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              errorFalse
             />
           </Box>
         </Grid>
@@ -59,6 +61,7 @@ const BankInfo = ({ isEdit, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              errorFalse
               onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
@@ -77,6 +80,7 @@ const BankInfo = ({ isEdit, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              errorFalse
               onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
@@ -95,6 +99,7 @@ const BankInfo = ({ isEdit, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              errorFalse
               onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>
@@ -113,6 +118,7 @@ const BankInfo = ({ isEdit, props }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={!isEdit}
+              errorFalse
               onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Box>

@@ -246,14 +246,14 @@ const SupportTicket = () => {
           isView={
             role === 'admin' && [
               {
-                name: 3,
+                name: 2,
                 tooltip: 'Click to view',
                 color: 'info',
                 icon: <RemoveRedEye />,
                 value: 'view'
               },
               {
-                name: 2,
+                name: 3,
                 tooltip: 'Edit',
                 color: 'info',
                 icon: <EditOutlined />,
