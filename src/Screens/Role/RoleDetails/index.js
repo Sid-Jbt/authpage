@@ -22,6 +22,8 @@ const module = {
 
 const AddRole = () => {
   const [modules, setModules] = useState(module);
+  /* const { pathname } = useLocation();
+  const collapseName = pathname.split('/').slice(1)[1]; */
 
   const onChangePermission = (moduleName, permissionKey) => {
     const data = { ...modules };

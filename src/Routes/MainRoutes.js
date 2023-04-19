@@ -38,7 +38,7 @@ import {
   allReportPattern,
   reportTimeActivityPattern,
   reportWeeklyLimitPattern,
-  addRolePattern
+  roleDetailsPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -60,7 +60,7 @@ const NoticeBoard = Loadable(lazy(() => import('../Screens/NoticeBoard')));
 const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
 const TimeActivity = Loadable(lazy(() => import('../Screens/Reports/TimeActivity')));
 const WeeklyLimit = Loadable(lazy(() => import('../Screens/Reports/WeeklyLimit')));
-const AddRole = Loadable(lazy(() => import('../Screens/Role/AddRole/index')));
+const RoleDetails = Loadable(lazy(() => import('../Screens/Role/RoleDetails')));
 
 const MainRoutes = [
   {
@@ -259,12 +259,12 @@ const MainRoutes = [
   {
     type: 'unroute',
     noCollapse: true,
-    route: addRolePattern,
-    name: 'Add Role',
+    route: roleDetailsPattern,
+    name: 'Role',
     icon: <PeopleRounded sx={{ color: colors.primary.main }} />,
-    path: addRolePattern,
-    key: 'addRole',
-    element: <AddRole />
+    path: roleDetailsPattern,
+    key: 'roleDetails',
+    element: <RoleDetails />
   }
 ];
 

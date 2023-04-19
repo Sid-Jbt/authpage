@@ -23,7 +23,8 @@ const DataTable = ({
   table,
   pagination,
   isSorted,
-  noEndBorder
+  noEndBorder,
+  onClickAction
 }) => {
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 10;
   const entries = entriesPerPage.entries ? entriesPerPage.entries : [5, 10, 15, 20, 25];
@@ -167,6 +168,7 @@ const DataTable = ({
               <TableRow key={key} {...row.getRowProps()}>
                 {row.cells.map((cell, index) => (
                   <DataTableBodyCell
+                    onClickAction={() => onClickAction(row.values.role)}
                     key={index}
                     noBorder={noEndBorder && rows.length - 1 === key}
                     align={cell.column.align ? cell.column.align : 'left'}

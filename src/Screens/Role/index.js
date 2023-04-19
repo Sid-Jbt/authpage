@@ -4,7 +4,7 @@ import { roleData } from 'StaticData/roleData';
 import { Grid, Icon } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { useNavigate, useOutletContext } from 'react-router';
-import { getAddRolePattern } from 'Routes/routeConfig';
+import { getRoleDetailsPattern } from 'Routes/routeConfig';
 import Button from 'Elements/Button';
 
 const Role = () => {
@@ -21,7 +21,7 @@ const Role = () => {
               color="white"
               variant="outlined"
               size="small"
-              onClick={() => navigate(getAddRolePattern())}
+              onClick={() => navigate(getRoleDetailsPattern('addRole'))}
             >
               <Icon sx={{ mr: 1 }}>
                 <Add />
@@ -37,6 +37,7 @@ const Role = () => {
         entriesPerPage
         showTotalEntries
         noEndBorder
+        onClickAction={(value) => navigate(getRoleDetailsPattern(value))}
       />
     </>
   );

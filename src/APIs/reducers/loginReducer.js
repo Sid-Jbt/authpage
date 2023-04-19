@@ -26,7 +26,7 @@ const AdminRole = [
   'timeactivity',
   'weeklylimit',
   'holiday',
-  'addRole'
+  'roleDetails'
   // 'notice'
 ];
 

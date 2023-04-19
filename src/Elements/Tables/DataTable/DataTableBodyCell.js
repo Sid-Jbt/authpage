@@ -1,6 +1,6 @@
 import Box from 'Elements/Box';
 
-const DataTableBodyCell = ({ noBorder, align, children }) => (
+const DataTableBodyCell = ({ noBorder, align, children, onClickAction }) => (
   <Box
     component="td"
     textAlign={align}
@@ -11,7 +11,13 @@ const DataTableBodyCell = ({ noBorder, align, children }) => (
       borderBottom: noBorder ? 0 : `${borderWidth[1]} solid ${borderColor}`
     })}
   >
-    <Box display="inline-block" width="max-content" color="text" sx={{ verticalAlign: 'middle' }}>
+    <Box
+      display="inline-block"
+      width="max-content"
+      color="text"
+      sx={{ verticalAlign: 'middle' }}
+      onClick={() => onClickAction()}
+    >
       {children}
     </Box>
   </Box>
