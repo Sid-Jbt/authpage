@@ -83,6 +83,10 @@ const ProfileSetup = () => {
   };
 
   const handleNext = (values, actions) => {
+    if (values.hasOwnProperty('punchIn') && values.hasOwnProperty('punchOut')) {
+      delete values.punchIn;
+      delete values.punchOut;
+    }
     if (
       JSON.stringify({ ...bankInfo, ...organisation, ...profile, ...rest }) !==
       JSON.stringify(values)
@@ -99,11 +103,11 @@ const ProfileSetup = () => {
             dispatch({ type: 'LOGIN_COMPLETED' });
             navigate(getDashboardPattern());
           }
+          setActiveStep(activeStep + 1);
+          actions.setTouched({});
+          actions.setSubmitting(false);
         }
       });
-      setActiveStep(activeStep + 1);
-      actions.setTouched({});
-      actions.setSubmitting(false);
     } else {
       setActiveStep(activeStep + 1);
       actions.setTouched({});
