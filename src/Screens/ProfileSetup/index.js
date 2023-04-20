@@ -94,7 +94,7 @@ const ProfileSetup = () => {
           newValues = { ...newValues, [key]: values[key] };
         }
       });
-      GetProfileSetup(newValues, (res) => {
+      GetProfileSetup(values, (res) => {
         const data = res.data;
         if (data.status) {
           if (activeStep === 2) {
