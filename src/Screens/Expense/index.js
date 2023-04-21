@@ -276,7 +276,10 @@ const ExpenseList = () => {
       {isViewExpenseDialogOpen && selectedData && (
         <DialogMenu
           isOpen={isViewExpenseDialogOpen}
-          onClose={() => setIsViewExpenseDialogOpen(false)}
+          onClose={() => {
+            setIsViewExpenseDialogOpen(false);
+            setSelectedData(null);
+          }}
           dialogTitle={selectedData.itemName}
           dialogContent={
             <DialogContent

@@ -8,13 +8,21 @@ import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import { Gender, keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
 import moment from 'moment/moment';
-import { useOutletContext } from 'react-router';
+import { useNavigate, useOutletContext } from 'react-router';
+import { getEmployeeListPattern } from 'Routes/routeConfig';
 
 const BasicInfo = ({ data }) => {
-  const { GetEmployeeUpdate } = useOutletContext();
+  const { GetEmployeeUpdate, GetEmployeeDisable } = useOutletContext();
+  const navigate = useNavigate();
 
   const onSubmit = (values, actions) => {
-    GetEmployeeUpdate(values, () => {});
+    GetEmployeeUpdate(values, () => {
+      if (values.dateOfLeave !== '') {
+        const deactivateData = { action: 1, id: values.id };
+        GetEmployeeDisable(deactivateData, () => {});
+        navigate(getEmployeeListPattern());
+      }
+    });
     actions.setTouched({});
     actions.setSubmitting(false);
   };
@@ -133,7 +141,7 @@ const BasicInfo = ({ data }) => {
                     placeholder="10/10/2021"
                     id="dateOfLeave"
                     name="dateOfLeave"
-                    label="Date Of Leave"
+                    label="Reliving"
                     value={
                       values.dateOfLeave === ''
                         ? ''
