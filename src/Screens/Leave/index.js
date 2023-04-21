@@ -212,7 +212,7 @@ const LeaveList = () => {
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={() => isValues && handleClear()}
-          isDisable={leaveCount && leaveCount.totalLeave <= 0}
+          isDisable={leaveCount && leaveCount.total <= 0}
           onClickSearch={() => isValues && setFilter(!filter)}
         >
           {/* <Grid item xs={6} md={4} lg={3}>
