@@ -54,6 +54,7 @@ const BankDetails = ({ data }) => {
                       value={values.bankName}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      errorFalse
                       success={!errors.bankName && touched.bankName}
                       onKeyDown={(evt) =>
                         keyDownValidation.includes(evt.key) && evt.preventDefault()
@@ -72,6 +73,7 @@ const BankDetails = ({ data }) => {
                       value={values.branchName}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      errorFalse
                       success={!errors.branchName && touched.branchName}
                     />
                   </Box>
@@ -87,6 +89,7 @@ const BankDetails = ({ data }) => {
                       value={values.accountName}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      errorFalse
                       success={!errors.accountName && touched.accountName}
                       onKeyDown={(evt) =>
                         keyDownValidation.includes(evt.key) && evt.preventDefault()
@@ -105,6 +108,7 @@ const BankDetails = ({ data }) => {
                       value={values.accountNumber}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      errorFalse
                       success={!errors.accountNumber && touched.accountNumber}
                       onKeyDown={(evt) =>
                         keyDownTypeNumber.includes(evt.key) && evt.preventDefault()
@@ -123,6 +127,7 @@ const BankDetails = ({ data }) => {
                       value={values.ifscCode}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      errorFalse
                       success={!errors.ifscCode && touched.ifscCode}
                       onKeyDown={(evt) =>
                         keyDownValidation.includes(evt.key) && evt.preventDefault()
@@ -141,6 +146,7 @@ const BankDetails = ({ data }) => {
                       value={values.panNumber}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      errorFalse
                       success={!errors.panNumber && touched.panNumber}
                       onKeyDown={(evt) =>
                         keyDownValidation.includes(evt.key) && evt.preventDefault()
