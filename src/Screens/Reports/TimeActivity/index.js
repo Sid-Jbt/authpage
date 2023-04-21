@@ -45,6 +45,7 @@ const TimeActivity = () => {
       GetEmployeeList({ limit: 0 }, (res) => {
         if (res && res.data && res.data.data) {
           setUserList(userArray(res.data.data.rows));
+          setFilterData({ ...filterData, user: userArray(res.data.data.rows)[0] });
         }
       });
     }
