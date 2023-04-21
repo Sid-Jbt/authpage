@@ -16,10 +16,10 @@ import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
 import { leaveListData } from 'StaticData/leaveListData';
+import Select from 'Elements/Select';
+import { actionStatus, Months, userArray, Years } from 'Helpers/Global';
 import AddLeaveForm from './AddLeaveForm';
 import LeaveDetails from './LeaveDetails';
-import Select from '../../Elements/Select';
-import { actionStatus, Months, userArray, Years } from '../../Helpers/Global';
 
 const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
@@ -53,8 +53,6 @@ const LeaveList = () => {
     year: '',
     user: ''
   });
-
-  // const isValues = !Object.values(filterData).some((x) => x !== '');
 
   const isValues = !(
     filterData.search === '' &&
@@ -212,9 +210,9 @@ const LeaveList = () => {
         <FilterLayout
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
-          handleClear={() => !isValues && handleClear()}
+          handleClear={() => isValues && handleClear()}
           isDisable={leaveCount && leaveCount.totalLeave <= 0}
-          onClickSearch={() => !isValues && setFilter(!filter)}
+          onClickSearch={() => isValues && setFilter(!filter)}
         >
           {/* <Grid item xs={6} md={4} lg={3}>
             <Input

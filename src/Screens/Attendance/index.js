@@ -153,9 +153,9 @@ const AttendanceList = () => {
         <FilterLayout
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
-          handleClear={() => !isValues && handleClear()}
+          handleClear={() => isValues && handleClear()}
           isDisable={attendanceListCount && attendanceListCount.TotalAttendance <= 0}
-          onClickSearch={() => !isValues && setFilter(!filter)}
+          onClickSearch={() => isValues && setFilter(!filter)}
         >
           <Grid item xs={6} md={4} lg={3}>
             <Input
