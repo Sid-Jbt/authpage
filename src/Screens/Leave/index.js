@@ -37,13 +37,6 @@ const LeaveList = () => {
   const [isViewLeaveDialogOpen, setIsViewLeaveDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [filterData, setFilterData] = useState({
-    search: '',
-    status: '',
-    month: '',
-    year: '',
-    user: ''
-  });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [sort, setSort] = useState({ key: 'fromDate', order: 'asc' });
@@ -53,13 +46,30 @@ const LeaveList = () => {
   const [approveRejectReason, setApproveRejectReason] = useState('');
   const [userList, setUserList] = useState([]);
 
-  const isValues = !Object.values(filterData).some((x) => x !== '');
+  const [filterData, setFilterData] = useState({
+    search: '',
+    status: '',
+    month: '',
+    year: '',
+    user: ''
+  });
+
+  // const isValues = !Object.values(filterData).some((x) => x !== '');
+
+  const isValues = !(
+    filterData.search === '' &&
+    filterData.status === '' &&
+    filterData.month === '' &&
+    filterData.year === '' &&
+    filterData.user.value === ''
+  );
 
   useEffect(() => {
     if (role === 'admin') {
       GetEmployeeList({ limit: 0 }, (res) => {
         if (res && res.data && res.data.data) {
           setUserList(userArray(res.data.data.rows));
+          setFilterData({ ...filterData, user: userArray(res.data.data.rows)[0] });
         }
       });
     }
@@ -93,11 +103,11 @@ const LeaveList = () => {
 
   const handleClear = () => {
     setFilterData({
+      search: '',
+      status: '',
       month: '',
       year: '',
-      user: '',
-      search: '',
-      status: ''
+      user: userList ? userList[0] : ''
     });
     setFilter(!filter);
   };
