@@ -399,7 +399,10 @@ const LeaveList = () => {
       {isViewLeaveDialogOpen && selectedData && (
         <DialogMenu
           isOpen={isViewLeaveDialogOpen}
-          onClose={() => setIsViewLeaveDialogOpen(false)}
+          onClose={() => {
+            setIsViewLeaveDialogOpen(false);
+            setSelectedData(null);
+          }}
           dialogTitle={selectedData.leaveType}
           dialogContent={
             <DialogContent
