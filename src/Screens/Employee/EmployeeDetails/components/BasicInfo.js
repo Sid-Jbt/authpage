@@ -104,8 +104,6 @@ const BasicInfo = ({ data }) => {
                   <Input
                     type="date"
                     placeholder="Date Of Birth"
-                    size="large"
-                    fullWidth
                     id="dob"
                     name="dob"
                     label="Date Of Birth"
