@@ -25,6 +25,7 @@ const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
   const {
     role,
+    Loading,
     GetLeaveAddUpdate,
     GetLeaveList,
     GetLeaveDelete,
@@ -367,6 +368,7 @@ const LeaveList = () => {
             selectedData={selectedData}
             isEdit={isEdit}
             GetLeaveAddUpdate={GetLeaveAddUpdate}
+            Loading={Loading}
           />
         )}
         {isDeleteDialogOpen && (

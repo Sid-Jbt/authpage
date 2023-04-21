@@ -66,6 +66,7 @@ const BasicInfo = ({ data }) => {
                     value={values.firstName}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    errorFalse
                     success={!errors.firstName && touched.firstName}
                     onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
@@ -80,6 +81,7 @@ const BasicInfo = ({ data }) => {
                     value={values.lastName}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    errorFalse
                     success={!errors.lastName && touched.lastName}
                     onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
@@ -94,6 +96,7 @@ const BasicInfo = ({ data }) => {
                           : Gender.find((o) => o.value === values.gender)
                       }
                       options={Gender}
+                      errorFalse
                       onChange={(value) => {
                         setFieldValue('gender', value.value);
                       }}
@@ -104,11 +107,10 @@ const BasicInfo = ({ data }) => {
                   <Input
                     type="date"
                     placeholder="Date Of Birth"
-                    size="large"
-                    fullWidth
                     id="dob"
                     name="dob"
                     label="Date Of Birth"
+                    errorFalse
                     value={values.dob === '' ? '' : moment(values.dob).format('YYYY-MM-DD')}
                     onChange={handleChange}
                   />
@@ -122,6 +124,7 @@ const BasicInfo = ({ data }) => {
                     label="Joining"
                     value={values.dateOfJoin}
                     disabled
+                    errorFalse
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
@@ -137,6 +140,7 @@ const BasicInfo = ({ data }) => {
                         : moment(values.dateOfLeave).format('YYYY-MM-DD')
                     }
                     onChange={handleChange}
+                    errorFalse
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
@@ -151,6 +155,7 @@ const BasicInfo = ({ data }) => {
                     value={values.phoneNumber}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    errorFalse
                     success={!errors.phoneNumber && touched.phoneNumber}
                     onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
                   />
@@ -164,6 +169,7 @@ const BasicInfo = ({ data }) => {
                     label="Email"
                     value={values.email}
                     disabled
+                    errorFalse
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
@@ -175,6 +181,7 @@ const BasicInfo = ({ data }) => {
                     label="Employee Code"
                     value={values.employeeCode}
                     disabled
+                    errorFalse
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={12}>
@@ -188,6 +195,7 @@ const BasicInfo = ({ data }) => {
                       value={values.permanentAddress}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      errorFalse
                       success={!errors.permanentAddress && touched.permanentAddress}
                     />
                   </Box>
