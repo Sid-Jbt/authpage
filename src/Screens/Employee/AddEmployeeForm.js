@@ -16,6 +16,7 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
       <Formik
         enableReinitialize
         initialValues={{
+          employeeCode: '',
           email: '',
           password: '',
           dateOfJoin: moment().format('YYYY-MM-DD')

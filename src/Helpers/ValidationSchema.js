@@ -341,6 +341,6 @@ export const addEmployeeSchema = yup.object().shape({
     .string()
     .min(8, 'Password should be of minimum 8 characters length')
     .required(validationMessage),
-  // employeeCode: yup.string().required('Employee code is required'),
+  employeeCode: yup.string().required(validationMessage),
   dateOfJoin: yup.string().required(validationMessage)
 });

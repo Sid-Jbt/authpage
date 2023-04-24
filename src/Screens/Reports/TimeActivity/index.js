@@ -37,7 +37,7 @@ const TimeActivity = () => {
     endDate: '',
     user: '',
     selectedRole: Roles[0],
-    radioDate: 'customDate'
+    radioDate: 'custom'
   });
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const TimeActivity = () => {
 
   const setDateOnRadioPress = () => {
     const date = new Date();
-    if (filterData.radioDate === 'previousMonth') {
+    if (filterData.radioDate === 'previous') {
       const firstDay = new Date(date.getFullYear(), date.getMonth() - 1, 1);
       const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
       setFilterData({
@@ -61,7 +61,7 @@ const TimeActivity = () => {
         startDate: moment(firstDay).format('YYYY-MM-DD'),
         endDate: moment(lastDay).format('YYYY-MM-DD')
       });
-    } else if (filterData.radioDate === 'nextMonth') {
+    } else if (filterData.radioDate === 'current') {
       date.setMonth(date.getMonth() + 1);
       const firstDay = new Date(date.getFullYear(), date.getMonth() - 1, 1);
       const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
@@ -84,9 +84,9 @@ const TimeActivity = () => {
       search: '',
       startDate: '',
       endDate: '',
-      user: userList ? userList[0] : '',
+      user: userList.length > 0 ? userList[0] : '',
       selectedRole: Roles[0],
-      radioDate: 'customDate'
+      radioDate: 'custom'
     });
     setFilter(!filter);
   };
@@ -133,6 +133,9 @@ const TimeActivity = () => {
                 fullWidth
                 id="fromDate"
                 name="fromDate"
+                inputProps={{
+                  min: moment().subtract(50, 'Y').format('YYYY-MM-DD')
+                }}
                 errorFalse
                 value={filterData.startDate}
                 onChange={(e) => setFilterData({ ...filterData, startDate: e.target.value })}
@@ -164,7 +167,7 @@ const TimeActivity = () => {
                 onChange={(e) => setFilterData({ ...filterData, radioDate: e.target.value })}
               >
                 <FormControlLabel
-                  value="customDate"
+                  value="custom"
                   control={<Radio />}
                   label="Custom Date"
                   sx={{
@@ -173,7 +176,7 @@ const TimeActivity = () => {
                   }}
                 />
                 <FormControlLabel
-                  value="previousMonth"
+                  value="previous"
                   control={<Radio />}
                   label="Previous Month"
                   sx={{
@@ -182,9 +185,9 @@ const TimeActivity = () => {
                   }}
                 />
                 <FormControlLabel
-                  value="nextMonth"
+                  value="current"
                   control={<Radio />}
-                  label="Next Month"
+                  label="Current Month"
                   sx={{
                     '& .MuiSvgIcon-root': { fontSize: 28 },
                     '& .MuiFormControlLabel-label': { color: theme.palette.grey[900] }
