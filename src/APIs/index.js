@@ -61,7 +61,7 @@ const Interceptor = ({ children, onTokenExpire }) => {
                 color: 'error',
                 open: true
               });
-              if (response.data.message.includes('Unauthorized')) {
+              if (response.data.unauthorized) {
                 onTokenExpire();
               }
             }
