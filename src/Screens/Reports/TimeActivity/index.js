@@ -27,55 +27,73 @@ const TimeActivity = () => {
   const theme = useTheme();
   const { role, GetEmployeeList } = useOutletContext();
   const [userList, setUserList] = useState([]);
-  const [user, setUser] = useState('');
-  const [selectedRole, setSelectedRole] = useState({ value: '', label: 'All' });
-  const [search, setSearch] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [radioDate, setRadioDate] = useState('customDate');
   const [filter, setFilter] = useState(false);
   const [sort, setSort] = useState({ key: 'email', order: 'asc' });
   const [page, setPage] = useState(0);
-  // const [limit, setLimit] = useState(10);
+
+  const [filterData, setFilterData] = useState({
+    search: '',
+    startDate: '',
+    endDate: '',
+    user: '',
+    selectedRole: Roles[0],
+    radioDate: 'customDate'
+  });
 
   useEffect(() => {
     if (role === 'admin') {
       GetEmployeeList({ limit: 0 }, (res) => {
         if (res && res.data && res.data.data) {
           setUserList(userArray(res.data.data.rows));
+          setFilterData({ ...filterData, user: userArray(res.data.data.rows)[0] });
         }
       });
     }
   }, []);
 
-  const setDateOnRadioPress = (value) => {
+  const setDateOnRadioPress = () => {
     const date = new Date();
-    if (value === 'previousMonth') {
+    if (filterData.radioDate === 'previousMonth') {
       const firstDay = new Date(date.getFullYear(), date.getMonth() - 1, 1);
       const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
-      setStartDate(moment(firstDay).format('YYYY-MM-DD'));
-      setEndDate(moment(lastDay).format('YYYY-MM-DD'));
-    } else if (value === 'nextMonth') {
+      setFilterData({
+        ...filterData,
+        startDate: moment(firstDay).format('YYYY-MM-DD'),
+        endDate: moment(lastDay).format('YYYY-MM-DD')
+      });
+    } else if (filterData.radioDate === 'nextMonth') {
       date.setMonth(date.getMonth() + 1);
       const firstDay = new Date(date.getFullYear(), date.getMonth() - 1, 1);
       const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
-      setStartDate(moment(firstDay).format('YYYY-MM-DD'));
-      setEndDate(moment(lastDay).format('YYYY-MM-DD'));
+      setFilterData({
+        ...filterData,
+        startDate: moment(firstDay).format('YYYY-MM-DD'),
+        endDate: moment(lastDay).format('YYYY-MM-DD')
+      });
     } else {
-      setStartDate('');
-      setEndDate('');
+      setFilterData({
+        ...filterData,
+        startDate: '',
+        endDate: ''
+      });
     }
   };
 
   const handleClear = () => {
-    setStartDate('');
-    setEndDate('');
-    setUser('');
-    setSelectedRole('');
-    setRadioDate('customDate');
-    setSearch('');
+    setFilterData({
+      search: '',
+      startDate: '',
+      endDate: '',
+      user: userList ? userList[0] : '',
+      selectedRole: Roles[0],
+      radioDate: 'customDate'
+    });
     setFilter(!filter);
   };
+
+  useEffect(() => {
+    setDateOnRadioPress();
+  }, [filterData.radioDate]);
 
   return (
     <Grid container spacing={2}>
@@ -100,12 +118,12 @@ const TimeActivity = () => {
           }}
         >
           <FilterLayout
-            search={search}
-            handleSearch={(e) => setSearch(e.target.value)}
-            handleClear={handleClear}
-            onClickSearch={() => {
-              setFilter(!filter);
-            }}
+            search={filterData.search}
+            handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
+            handleClear={() => handleClear()}
+            isDisable
+            // TODO: Once data fetch in state after that disable is dynamic
+            onClickSearch={() => setFilter(!filter)}
           >
             <Grid item xs={6} md={4} lg={3}>
               <Input
@@ -116,8 +134,8 @@ const TimeActivity = () => {
                 id="fromDate"
                 name="fromDate"
                 errorFalse
-                value={startDate !== '' ? startDate : ''}
-                onChange={(e) => setStartDate(e.target.value)}
+                value={filterData.startDate}
+                onChange={(e) => setFilterData({ ...filterData, startDate: e.target.value })}
               />
             </Grid>
             <Grid item xs={6} md={4} lg={3}>
@@ -130,10 +148,10 @@ const TimeActivity = () => {
                 name="toDate"
                 errorFalse
                 inputProps={{
-                  min: startDate
+                  min: filterData.startDate
                 }}
-                value={endDate !== '' ? endDate : ''}
-                onChange={(e) => setEndDate(e.target.value)}
+                value={filterData.endDate}
+                onChange={(e) => setFilterData({ ...filterData, endDate: e.target.value })}
               />
             </Grid>
             <Grid item xs={12} md={6} lg={3} display="contents">
@@ -142,11 +160,8 @@ const TimeActivity = () => {
                 sx={{ p: 2, pt: 0, pb: 0, columnGap: 2 }}
                 aria-label="font-family"
                 name="radioDate"
-                value={radioDate}
-                onChange={(e) => {
-                  setDateOnRadioPress(e.target.value);
-                  setRadioDate(e.target.value);
-                }}
+                value={filterData.radioDate}
+                onChange={(e) => setFilterData({ ...filterData, radioDate: e.target.value })}
               >
                 <FormControlLabel
                   value="customDate"
@@ -184,10 +199,10 @@ const TimeActivity = () => {
                     <FormLabel>Select User</FormLabel>
                     <Select
                       size="small"
-                      value={user}
+                      renderValue={filterData.user !== '' ? undefined : () => 'Select...'}
+                      value={filterData.user}
                       options={userList}
-                      onChange={(value) => setUser(value)}
-                      renderValue={user !== '' ? undefined : () => 'Select...'}
+                      onChange={(value) => setFilterData({ ...filterData, user: value })}
                     />
                   </FormControl>
                 </Grid>
@@ -196,9 +211,9 @@ const TimeActivity = () => {
                     <FormLabel>Select Role</FormLabel>
                     <Select
                       size="small"
-                      value={selectedRole}
+                      value={filterData.selectedRole}
                       options={Roles}
-                      onChange={(value) => setSelectedRole(value)}
+                      onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
                     />
                   </FormControl>
                 </Grid>

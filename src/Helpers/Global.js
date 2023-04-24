@@ -208,7 +208,7 @@ export const keyDownTypeNumber = [
   'E'
 ];
 
-export const userArray = (data) => {
+/* export const userArray = (data) => {
   const list = [];
   data.map((item) => {
     if (item.employee !== '' && item.employee !== null) {
@@ -218,6 +218,25 @@ export const userArray = (data) => {
     }
   });
   return list.sort((a, b) => (a.value.toLowerCase() > b.value.toLowerCase() ? 1 : -1));
+}; */
+
+export const userArray = (data) => {
+  const list = [];
+  data.map(({ employee, email }) => {
+    if (employee !== '' && employee !== ' ') {
+      list.push({ value: employee, label: employee });
+    } else {
+      list.push({ value: email, label: email });
+    }
+  });
+  list.push({ value: '', label: 'All' });
+  list.sort((a, b) => a.value.localeCompare(b.value));
+  const index = list.findIndex((obj) => obj.value === '' && obj.label === 'All');
+  if (index !== -1) {
+    const obj = list.splice(index, 1)[0];
+    list.unshift(obj);
+  }
+  return list;
 };
 
 export const CreateViewData = (data, excludeKey) => {

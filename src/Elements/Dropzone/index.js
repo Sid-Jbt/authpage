@@ -82,8 +82,9 @@ const CustomDropzone = ({
           <div>
             <input {...getInputProps()} />
             {files.length ? (
-              files.map((file) => (
+              files.map((file, key) => (
                 <CustomBox
+                  key={key}
                   component="img"
                   src={file.preview}
                   onLoad={() => {

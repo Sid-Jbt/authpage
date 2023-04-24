@@ -319,7 +319,10 @@ const SupportTicket = () => {
       {isViewSupportTicketDialogOpen && selectedData && (
         <DialogMenu
           isOpen={isViewSupportTicketDialogOpen}
-          onClose={() => setIsViewSupportTicketDialogOpen(false)}
+          onClose={() => {
+            setIsViewSupportTicketDialogOpen(false);
+            setSelectedData(null);
+          }}
           dialogTitle={selectedData.subject}
           dialogContent={
             <DialogContent
