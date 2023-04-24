@@ -36,59 +36,53 @@ const ChangePassword = ({ data, Loading }) => {
             <form onSubmit={handleSubmit}>
               <Grid container spacing={1} p={2} justifyContent="flex-end">
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box>
-                    <Input
-                      name="oldPassword"
-                      placeholder="Current Password"
-                      size="large"
-                      label="Current Password"
-                      value={values.oldPassword}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      errorText={errors.oldPassword && touched.oldPassword && errors.oldPassword}
-                      error={errors.oldPassword && touched.oldPassword}
-                      success={!errors.oldPassword && touched.oldPassword}
-                      type="password"
-                    />
-                  </Box>
+                  <Input
+                    name="oldPassword"
+                    placeholder="Current Password"
+                    size="large"
+                    label="Current Password"
+                    value={values.oldPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.oldPassword && touched.oldPassword && errors.oldPassword}
+                    error={errors.oldPassword && touched.oldPassword}
+                    success={!errors.oldPassword && touched.oldPassword}
+                    type="password"
+                  />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box>
-                    <Input
-                      name="newPassword"
-                      placeholder="New Password"
-                      size="large"
-                      label="New Password"
-                      value={values.newPassword}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      errorText={errors.newPassword && touched.newPassword && errors.newPassword}
-                      error={errors.newPassword && touched.newPassword}
-                      success={!errors.newPassword && touched.newPassword}
-                      type="password"
-                    />
-                  </Box>
+                  <Input
+                    name="newPassword"
+                    placeholder="New Password"
+                    size="large"
+                    label="New Password"
+                    value={values.newPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={errors.newPassword && touched.newPassword && errors.newPassword}
+                    error={errors.newPassword && touched.newPassword}
+                    success={!errors.newPassword && touched.newPassword}
+                    type="password"
+                  />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box>
-                    <Input
-                      name="confirmNewPassword"
-                      placeholder="Confirm New Password"
-                      size="large"
-                      label="Confirm New Password"
-                      value={values.confirmNewPassword}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      errorText={
-                        errors.confirmNewPassword &&
-                        touched.confirmNewPassword &&
-                        errors.confirmNewPassword
-                      }
-                      error={errors.confirmNewPassword && touched.confirmNewPassword}
-                      success={!errors.confirmNewPassword && touched.confirmNewPassword}
-                      type="password"
-                    />
-                  </Box>
+                  <Input
+                    name="confirmNewPassword"
+                    placeholder="Confirm New Password"
+                    size="large"
+                    label="Confirm New Password"
+                    value={values.confirmNewPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorText={
+                      errors.confirmNewPassword &&
+                      touched.confirmNewPassword &&
+                      errors.confirmNewPassword
+                    }
+                    error={errors.confirmNewPassword && touched.confirmNewPassword}
+                    success={!errors.confirmNewPassword && touched.confirmNewPassword}
+                    type="password"
+                  />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4} textAlign="end">
                   <Button
