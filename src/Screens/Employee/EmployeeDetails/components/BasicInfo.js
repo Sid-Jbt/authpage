@@ -142,6 +142,10 @@ const BasicInfo = ({ data }) => {
                     id="dateOfLeave"
                     name="dateOfLeave"
                     label="Reliving"
+                    inputProps={{
+                      min: moment(values.dateOfJoin).format('YYYY-MM-DD'),
+                      max: moment().add(50, 'Y').format('YYYY-MM-DD')
+                    }}
                     value={
                       values.dateOfLeave === ''
                         ? ''
