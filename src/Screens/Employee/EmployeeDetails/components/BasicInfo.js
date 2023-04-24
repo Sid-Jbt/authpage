@@ -14,15 +14,24 @@ import { getEmployeeListPattern } from 'Routes/routeConfig';
 const BasicInfo = ({ data }) => {
   const { GetEmployeeUpdate, GetEmployeeDisable } = useOutletContext();
   const navigate = useNavigate();
+  const oldData = data;
+  let newData = {};
 
   const onSubmit = (values, actions) => {
-    GetEmployeeUpdate(values, () => {
-      if (values.dateOfLeave !== '') {
-        const deactivateData = { action: 1, id: values.id };
-        GetEmployeeDisable(deactivateData, () => {});
-        navigate(getEmployeeListPattern());
-      }
-    });
+    if (JSON.stringify(oldData) !== JSON.stringify(values)) {
+      Object.keys(oldData).map((key) => {
+        if (values[key] !== oldData[key]) {
+          newData = { ...newData, [key]: values[key], id: data.id };
+        }
+      });
+      GetEmployeeUpdate(newData, () => {
+        if (values.dateOfLeave !== '') {
+          const deactivateData = { action: 1, id: values.id };
+          GetEmployeeDisable(deactivateData, () => {});
+          navigate(getEmployeeListPattern());
+        }
+      });
+    }
     actions.setTouched({});
     actions.setSubmitting(false);
   };
@@ -144,7 +153,7 @@ const BasicInfo = ({ data }) => {
                     label="Reliving"
                     inputProps={{
                       min: moment(values.dateOfJoin).format('YYYY-MM-DD'),
-                      max: moment().add(50, 'Y').format('YYYY-MM-DD')
+                      max: moment().format('YYYY-MM-DD')
                     }}
                     value={
                       values.dateOfLeave === ''
