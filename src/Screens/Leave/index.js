@@ -106,7 +106,7 @@ const LeaveList = () => {
       status: '',
       month: '',
       year: '',
-      user: userList ? userList[0] : ''
+      user: userList.length > 0 ? userList[0] : ''
     });
     setFilter(!filter);
   };
@@ -212,7 +212,7 @@ const LeaveList = () => {
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={() => isValues && handleClear()}
-          isDisable={leaveCount && leaveCount.total <= 0}
+          isDisable={leaveCount && leaveCount.TotalLeaveRequest <= 0}
           onClickSearch={() => isValues && setFilter(!filter)}
         >
           {/* <Grid item xs={6} md={4} lg={3}>

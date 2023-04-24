@@ -82,7 +82,7 @@ const AttendanceList = () => {
       endDate: '',
       month: '',
       year: '',
-      user: userList ? userList[0] : ''
+      user: userList.length > 0 ? userList[0] : ''
     });
     setFilter(!filter);
   };

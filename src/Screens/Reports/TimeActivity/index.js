@@ -84,7 +84,7 @@ const TimeActivity = () => {
       search: '',
       startDate: '',
       endDate: '',
-      user: userList ? userList[0] : '',
+      user: userList.length > 0 ? userList[0] : '',
       selectedRole: Roles[0],
       radioDate: 'customDate'
     });
