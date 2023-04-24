@@ -32,7 +32,7 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-const Interceptor = ({ children }) => {
+const Interceptor = ({ children, onTokenExpire }) => {
   const { setSnack } = useContext(SnackbarContext);
   useMemo(() => {
     instance.interceptors.response.use(
@@ -61,6 +61,9 @@ const Interceptor = ({ children }) => {
                 color: 'error',
                 open: true
               });
+              if (response.data.unauthorized) {
+                onTokenExpire();
+              }
             }
           }
         }

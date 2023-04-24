@@ -6,7 +6,7 @@ import Input from 'Elements/Input';
 import { keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
 
 const Account = ({ props }) => {
-  const { values, touched, errors, handleChange, handleBlur } = props;
+  const { values, handleChange, handleBlur } = props;
 
   return (
     <Box>
@@ -37,9 +37,7 @@ const Account = ({ props }) => {
                     value={values.bankName}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    errorText={errors.bankName && touched.bankName && errors.bankName}
-                    error={errors.bankName && touched.bankName}
-                    success={errors.bankName && touched.bankName}
+                    errorFalse
                     onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
@@ -57,9 +55,7 @@ const Account = ({ props }) => {
                     value={values.branchName}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    errorText={errors.branchName && touched.branchName && errors.branchName}
-                    error={errors.branchName && touched.branchName}
-                    success={errors.branchName && touched.branchName}
+                    errorFalse
                   />
                 </Box>
               </Grid>
@@ -76,9 +72,7 @@ const Account = ({ props }) => {
                     value={values.accountName}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    errorText={errors.accountName && touched.accountName && errors.accountName}
-                    error={errors.accountName && touched.accountName}
-                    success={errors.accountName && touched.accountName}
+                    errorFalse
                     onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
@@ -96,11 +90,7 @@ const Account = ({ props }) => {
                     value={values.accountNumber}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    errorText={
-                      errors.accountNumber && touched.accountNumber && errors.accountNumber
-                    }
-                    error={errors.accountNumber && touched.accountNumber}
-                    success={errors.accountNumber && touched.accountNumber}
+                    errorFalse
                     onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
@@ -119,9 +109,7 @@ const Account = ({ props }) => {
                     value={values.ifscCode}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    errorText={errors.ifscCode && touched.ifscCode && errors.ifscCode}
-                    error={errors.ifscCode && touched.ifscCode}
-                    success={errors.ifscCode && touched.ifscCode}
+                    errorFalse
                     onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>
@@ -140,9 +128,7 @@ const Account = ({ props }) => {
                     value={values.panNumber}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    errorText={errors.panNumber && touched.panNumber && errors.panNumber}
-                    error={errors.panNumber && touched.panNumber}
-                    success={errors.panNumber && touched.panNumber}
+                    errorFalse
                     onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
                 </Box>

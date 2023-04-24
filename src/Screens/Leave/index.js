@@ -16,15 +16,16 @@ import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
 import { leaveListData } from 'StaticData/leaveListData';
+import Select from 'Elements/Select';
+import { actionStatus, Months, userArray, Years } from 'Helpers/Global';
 import AddLeaveForm from './AddLeaveForm';
 import LeaveDetails from './LeaveDetails';
-import Select from '../../Elements/Select';
-import { actionStatus, Months, userArray, Years } from '../../Helpers/Global';
 
 const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
   const {
     role,
+    Loading,
     GetLeaveAddUpdate,
     GetLeaveList,
     GetLeaveDelete,
@@ -37,13 +38,6 @@ const LeaveList = () => {
   const [isViewLeaveDialogOpen, setIsViewLeaveDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [filterData, setFilterData] = useState({
-    search: '',
-    status: '',
-    month: '',
-    year: '',
-    user: ''
-  });
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [sort, setSort] = useState({ key: 'fromDate', order: 'asc' });
@@ -53,13 +47,28 @@ const LeaveList = () => {
   const [approveRejectReason, setApproveRejectReason] = useState('');
   const [userList, setUserList] = useState([]);
 
-  const isValues = !Object.values(filterData).some((x) => x !== '');
+  const [filterData, setFilterData] = useState({
+    search: '',
+    status: '',
+    month: '',
+    year: '',
+    user: ''
+  });
+
+  const isValues = !(
+    filterData.search === '' &&
+    filterData.status === '' &&
+    filterData.month === '' &&
+    filterData.year === '' &&
+    filterData.user.value === ''
+  );
 
   useEffect(() => {
     if (role === 'admin') {
       GetEmployeeList({ limit: 0 }, (res) => {
         if (res && res.data && res.data.data) {
           setUserList(userArray(res.data.data.rows));
+          setFilterData({ ...filterData, user: userArray(res.data.data.rows)[0] });
         }
       });
     }
@@ -93,11 +102,11 @@ const LeaveList = () => {
 
   const handleClear = () => {
     setFilterData({
+      search: '',
+      status: '',
       month: '',
       year: '',
-      user: '',
-      search: '',
-      status: ''
+      user: userList.length > 0 ? userList[0] : ''
     });
     setFilter(!filter);
   };
@@ -202,9 +211,9 @@ const LeaveList = () => {
         <FilterLayout
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
-          handleClear={() => !isValues && handleClear()}
-          isDisable={leaveCount && leaveCount.totalLeave <= 0}
-          onClickSearch={() => !isValues && setFilter(!filter)}
+          handleClear={() => isValues && handleClear()}
+          isDisable={leaveCount && leaveCount.TotalLeaveRequest <= 0}
+          onClickSearch={() => isValues && setFilter(!filter)}
         >
           {/* <Grid item xs={6} md={4} lg={3}>
             <Input
@@ -359,6 +368,7 @@ const LeaveList = () => {
             selectedData={selectedData}
             isEdit={isEdit}
             GetLeaveAddUpdate={GetLeaveAddUpdate}
+            Loading={Loading}
           />
         )}
         {isDeleteDialogOpen && (
@@ -389,7 +399,10 @@ const LeaveList = () => {
       {isViewLeaveDialogOpen && selectedData && (
         <DialogMenu
           isOpen={isViewLeaveDialogOpen}
-          onClose={() => setIsViewLeaveDialogOpen(false)}
+          onClose={() => {
+            setIsViewLeaveDialogOpen(false);
+            setSelectedData(null);
+          }}
           dialogTitle={selectedData.leaveType}
           dialogContent={
             <DialogContent

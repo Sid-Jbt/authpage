@@ -44,109 +44,93 @@ const BankDetails = ({ data }) => {
             <form onSubmit={handleSubmit}>
               <Grid container spacing={1} p={2} pt={0} justifyContent="flex-end">
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box>
-                    <Input
-                      type="text"
-                      placeholder="eg. State Bank Of India"
-                      id="bankName"
-                      name="bankName"
-                      label="Bank Name"
-                      value={values.bankName}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      success={!errors.bankName && touched.bankName}
-                      onKeyDown={(evt) =>
-                        keyDownValidation.includes(evt.key) && evt.preventDefault()
-                      }
-                    />
-                  </Box>
+                  <Input
+                    type="text"
+                    placeholder="eg. State Bank Of India"
+                    id="bankName"
+                    name="bankName"
+                    label="Bank Name"
+                    value={values.bankName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorFalse
+                    success={!errors.bankName && touched.bankName}
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+                  />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box>
-                    <Input
-                      type="text"
-                      placeholder="eg. Iscon Cross"
-                      id="branchName"
-                      name="branchName"
-                      label="Branch Name"
-                      value={values.branchName}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      success={!errors.branchName && touched.branchName}
-                    />
-                  </Box>
+                  <Input
+                    type="text"
+                    placeholder="eg. Iscon Cross"
+                    id="branchName"
+                    name="branchName"
+                    label="Branch Name"
+                    value={values.branchName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorFalse
+                    success={!errors.branchName && touched.branchName}
+                  />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box>
-                    <Input
-                      type="text"
-                      placeholder="eg. Alen Prior"
-                      id="accountName"
-                      name="accountName"
-                      label="Account Holder Name"
-                      value={values.accountName}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      success={!errors.accountName && touched.accountName}
-                      onKeyDown={(evt) =>
-                        keyDownValidation.includes(evt.key) && evt.preventDefault()
-                      }
-                    />
-                  </Box>
+                  <Input
+                    type="text"
+                    placeholder="eg. Alen Prior"
+                    id="accountName"
+                    name="accountName"
+                    label="Account Holder Name"
+                    value={values.accountName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorFalse
+                    success={!errors.accountName && touched.accountName}
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+                  />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box>
-                    <Input
-                      type="number"
-                      placeholder="eg. 0123456789012345"
-                      id="accountNumber"
-                      name="accountNumber"
-                      label="Account Number"
-                      value={values.accountNumber}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      success={!errors.accountNumber && touched.accountNumber}
-                      onKeyDown={(evt) =>
-                        keyDownTypeNumber.includes(evt.key) && evt.preventDefault()
-                      }
-                    />
-                  </Box>
+                  <Input
+                    type="number"
+                    placeholder="eg. 0123456789012345"
+                    id="accountNumber"
+                    name="accountNumber"
+                    label="Account Number"
+                    value={values.accountNumber}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorFalse
+                    success={!errors.accountNumber && touched.accountNumber}
+                    onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
+                  />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box>
-                    <Input
-                      type="text"
-                      placeholder="eg. SBIN0005943"
-                      id="ifscCode"
-                      name="ifscCode"
-                      label="IFSC Code"
-                      value={values.ifscCode}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      success={!errors.ifscCode && touched.ifscCode}
-                      onKeyDown={(evt) =>
-                        keyDownValidation.includes(evt.key) && evt.preventDefault()
-                      }
-                    />
-                  </Box>
+                  <Input
+                    type="text"
+                    placeholder="eg. SBIN0005943"
+                    id="ifscCode"
+                    name="ifscCode"
+                    label="IFSC Code"
+                    value={values.ifscCode}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorFalse
+                    success={!errors.ifscCode && touched.ifscCode}
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+                  />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
-                  <Box>
-                    <Input
-                      type="text"
-                      placeholder="eg. ABCTY1234D"
-                      id="panNumber"
-                      name="panNumber"
-                      label="PAN Number"
-                      value={values.panNumber}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      success={!errors.panNumber && touched.panNumber}
-                      onKeyDown={(evt) =>
-                        keyDownValidation.includes(evt.key) && evt.preventDefault()
-                      }
-                    />
-                  </Box>
+                  <Input
+                    type="text"
+                    placeholder="eg. ABCTY1234D"
+                    id="panNumber"
+                    name="panNumber"
+                    label="PAN Number"
+                    value={values.panNumber}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    errorFalse
+                    success={!errors.panNumber && touched.panNumber}
+                    onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+                  />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4} textAlign="end">
                   <Button

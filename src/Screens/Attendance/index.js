@@ -30,13 +30,22 @@ const AttendanceList = () => {
     year: '',
     user: ''
   });
-  const isValues = !Object.values(filterData).some((x) => x !== '');
+
+  const isValues = !(
+    filterData.search === '' &&
+    filterData.startDate === '' &&
+    filterData.endDate === '' &&
+    filterData.month === '' &&
+    filterData.year === '' &&
+    filterData.user.value === ''
+  );
 
   useEffect(() => {
     if (role === 'admin') {
       GetEmployeeList({ limit: 0 }, (res) => {
         if (res && res.data && res.data.data) {
           setUserList(userArray(res.data.data.rows));
+          setFilterData({ ...filterData, user: userArray(res.data.data.rows)[0] });
         }
       });
     }
@@ -73,7 +82,7 @@ const AttendanceList = () => {
       endDate: '',
       month: '',
       year: '',
-      user: ''
+      user: userList.length > 0 ? userList[0] : ''
     });
     setFilter(!filter);
   };
@@ -144,9 +153,9 @@ const AttendanceList = () => {
         <FilterLayout
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
-          handleClear={() => !isValues && handleClear()}
+          handleClear={() => isValues && handleClear()}
           isDisable={attendanceListCount && attendanceListCount.TotalAttendance <= 0}
-          onClickSearch={() => !isValues && setFilter(!filter)}
+          onClickSearch={() => isValues && setFilter(!filter)}
         >
           <Grid item xs={6} md={4} lg={3}>
             <Input

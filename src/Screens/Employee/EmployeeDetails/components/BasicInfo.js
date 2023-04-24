@@ -8,13 +8,30 @@ import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import { Gender, keyDownTypeNumber, keyDownValidation, Roles } from 'Helpers/Global';
 import moment from 'moment/moment';
-import { useOutletContext } from 'react-router';
+import { useNavigate, useOutletContext } from 'react-router';
+import { getEmployeeListPattern } from 'Routes/routeConfig';
 
 const BasicInfo = ({ data }) => {
-  const { GetEmployeeUpdate } = useOutletContext();
+  const { GetEmployeeUpdate, GetEmployeeDisable } = useOutletContext();
+  const navigate = useNavigate();
+  const oldData = data;
+  let newData = {};
 
   const onSubmit = (values, actions) => {
-    GetEmployeeUpdate(values, () => {});
+    if (JSON.stringify(oldData) !== JSON.stringify(values)) {
+      Object.keys(oldData).map((key) => {
+        if (values[key] !== oldData[key]) {
+          newData = { ...newData, [key]: values[key], id: data.id };
+        }
+      });
+      GetEmployeeUpdate(newData, () => {
+        if (values.dateOfLeave !== '') {
+          const deactivateData = { action: 1, id: values.id };
+          GetEmployeeDisable(deactivateData, () => {});
+          navigate(getEmployeeListPattern());
+        }
+      });
+    }
     actions.setTouched({});
     actions.setSubmitting(false);
   };
@@ -66,6 +83,7 @@ const BasicInfo = ({ data }) => {
                     value={values.firstName}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    errorFalse
                     success={!errors.firstName && touched.firstName}
                     onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
@@ -80,6 +98,7 @@ const BasicInfo = ({ data }) => {
                     value={values.lastName}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    errorFalse
                     success={!errors.lastName && touched.lastName}
                     onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
                   />
@@ -94,6 +113,7 @@ const BasicInfo = ({ data }) => {
                           : Gender.find((o) => o.value === values.gender)
                       }
                       options={Gender}
+                      errorFalse
                       onChange={(value) => {
                         setFieldValue('gender', value.value);
                       }}
@@ -104,11 +124,10 @@ const BasicInfo = ({ data }) => {
                   <Input
                     type="date"
                     placeholder="Date Of Birth"
-                    size="large"
-                    fullWidth
                     id="dob"
                     name="dob"
                     label="Date Of Birth"
+                    errorFalse
                     value={values.dob === '' ? '' : moment(values.dob).format('YYYY-MM-DD')}
                     onChange={handleChange}
                   />
@@ -122,6 +141,7 @@ const BasicInfo = ({ data }) => {
                     label="Joining"
                     value={values.dateOfJoin}
                     disabled
+                    errorFalse
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
@@ -130,13 +150,18 @@ const BasicInfo = ({ data }) => {
                     placeholder="10/10/2021"
                     id="dateOfLeave"
                     name="dateOfLeave"
-                    label="Date Of Leave"
+                    label="Reliving"
+                    inputProps={{
+                      min: moment(values.dateOfJoin).format('YYYY-MM-DD'),
+                      max: moment().format('YYYY-MM-DD')
+                    }}
                     value={
                       values.dateOfLeave === ''
                         ? ''
                         : moment(values.dateOfLeave).format('YYYY-MM-DD')
                     }
                     onChange={handleChange}
+                    errorFalse
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
@@ -151,6 +176,7 @@ const BasicInfo = ({ data }) => {
                     value={values.phoneNumber}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    errorFalse
                     success={!errors.phoneNumber && touched.phoneNumber}
                     onKeyDown={(evt) => keyDownTypeNumber.includes(evt.key) && evt.preventDefault()}
                   />
@@ -164,6 +190,7 @@ const BasicInfo = ({ data }) => {
                     label="Email"
                     value={values.email}
                     disabled
+                    errorFalse
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
@@ -175,6 +202,7 @@ const BasicInfo = ({ data }) => {
                     label="Employee Code"
                     value={values.employeeCode}
                     disabled
+                    errorFalse
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={6}>
@@ -188,6 +216,7 @@ const BasicInfo = ({ data }) => {
                       value={values.permanentAddress}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      errorFalse
                       success={!errors.permanentAddress && touched.permanentAddress}
                     />
                   </Box>
