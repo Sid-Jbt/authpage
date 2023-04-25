@@ -195,21 +195,21 @@ const MainRoutes = [
     children: [
       {
         name: 'All Reports',
-        key: 'allreport',
+        key: 'allReport',
         path: allReportPattern,
         route: allReportPattern,
         element: <AllReport />
       },
       {
         name: 'Time & Activity',
-        key: 'timeactivity',
+        key: 'timeActivity',
         path: reportTimeActivityPattern,
         route: reportTimeActivityPattern,
         element: <TimeActivity />
       },
       {
         name: 'Weekly Limit',
-        key: 'weeklylimit',
+        key: 'weeklyLimit',
         path: reportWeeklyLimitPattern,
         route: reportWeeklyLimitPattern,
         element: <WeeklyLimit />
