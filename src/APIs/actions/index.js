@@ -35,3 +35,8 @@ export * from './leave/leaveList';
 export * from './leave/leaveDelete';
 export * from './leave/leaveReason';
 export * from './leave/leaveById';
+export * from './uac/roleList';
+export * from './uac/roles';
+export * from './uac/roleAdd';
+export * from './uac/roleUpdate';
+export * from './uac/roleById';
