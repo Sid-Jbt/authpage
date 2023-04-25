@@ -9,15 +9,13 @@ import Button from 'Elements/Button';
 
 const Role = () => {
   const { columns: prCols } = roleData;
-  const { permission } = useOutletContext();
+  const { permission, GetRoleList } = useOutletContext();
   /* const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [sort, setSort] = useState({ key: 'name', order: 'asc' }); */
   const [allRole, setAllRole] = useState([]);
   // const [roleCount, setRoleCount] = useState({});
   const navigate = useNavigate();
-
-  const { GetRoleList } = useOutletContext();
 
   useEffect(() => {
     GetRoleList(
