@@ -25,6 +25,7 @@ const ExpenseList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
   const {
     role,
+    Loading,
     GetExpenseAddUpdate,
     GetExpenseList,
     GetExpenseDelete,
@@ -243,6 +244,7 @@ const ExpenseList = () => {
             selectedData={selectedData}
             isEdit={isEdit}
             GetExpenseAddUpdate={GetExpenseAddUpdate}
+            Loading={Loading}
           />
         )}
 
@@ -274,7 +276,10 @@ const ExpenseList = () => {
       {isViewExpenseDialogOpen && selectedData && (
         <DialogMenu
           isOpen={isViewExpenseDialogOpen}
-          onClose={() => setIsViewExpenseDialogOpen(false)}
+          onClose={() => {
+            setIsViewExpenseDialogOpen(false);
+            setSelectedData(null);
+          }}
           dialogTitle={selectedData.itemName}
           dialogContent={
             <DialogContent

@@ -1,0 +1,3 @@
+export const GET_ROLE_ADD = 'GET_ROLE_ADD';
+export const GET_ROLE_ADD_SUCCESS = 'GET_ROLE_ADD_SUCCESS';
+export const GET_ROLE_ADD_ERROR = 'GET_ROLE_ADD_ERROR';

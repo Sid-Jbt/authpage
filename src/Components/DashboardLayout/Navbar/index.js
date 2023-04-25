@@ -257,7 +257,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini, role }) => {
                         variant="contained"
                         color="inherit"
                         fontSize="inherit"
-                        sx={{ width: '1.2rem', height: '1.2rem' }}
+                        sx={{ width: '1.2rem', height: '1.2rem', paddingTop: '1px' }}
                       >
                         <TimerSharp />
                       </Icon>

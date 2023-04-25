@@ -10,7 +10,7 @@ import Button from 'Elements/Button';
 
 const initialValues = {
   title: '',
-  holidayDate: moment().format('DD/MM/YYYY')
+  holidayDate: moment().format('YYYY/MM/DD')
 };
 
 const HolidayForm = ({

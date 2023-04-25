@@ -36,6 +36,11 @@ import { getHolidayAddUpdateWatcher } from './holiday/holidayAddUpdate';
 import { getHolidayByIdWatcher } from './holiday/holidayById';
 import { getHolidayDeleteWatcher } from './holiday/holidayDelete';
 import { getChangePasswordWatcher } from './settings/changePassword';
+import { getRoleListWatcher } from './uac/roleList';
+import { getRolesWatcher } from './uac/roles';
+import { getRoleAddWatcher } from './uac/roleAdd';
+import { getRoleUpdateWatcher } from './uac/roleUpdate';
+import { getRoleByIdWatcher } from './uac/roleById';
 
 export default function* rootSaga() {
   yield all([
@@ -75,6 +80,11 @@ export default function* rootSaga() {
     getLeaveListWatcher(),
     getLeaveDeleteWatcher(),
     getLeaveReasonWatcher(),
-    getLeaveByIdWatcher()
+    getLeaveByIdWatcher(),
+    getRoleListWatcher(),
+    getRolesWatcher(),
+    getRoleAddWatcher(),
+    getRoleUpdateWatcher(),
+    getRoleByIdWatcher()
   ]);
 }

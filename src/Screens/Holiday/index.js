@@ -12,7 +12,7 @@ import HolidayForm from './HolidayForm';
 
 const Holiday = () => {
   const { columns: prCols } = holidayListData;
-  const { role, GetHolidayList, GetHolidayAddUpdate, GetHolidayById, GetHolidayDelete } =
+  const { role, GetHolidayList, GetHolidayAddUpdate, GetHolidayById, GetHolidayDelete, Loading } =
     useOutletContext();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -192,6 +192,7 @@ const Holiday = () => {
           selectedData={selectedData}
           GetHolidayAddUpdate={GetHolidayAddUpdate}
           isEdit={isEdit}
+          Loading={Loading}
         />
       </Card>
     </>
