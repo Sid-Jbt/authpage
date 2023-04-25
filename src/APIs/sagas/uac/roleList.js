@@ -12,7 +12,7 @@ import { instance } from '../../index';
 async function getRoleListApi(params) {
   return instance.request({
     method: 'get',
-    url: BASE_URL + API_URL.LEAVE_LIST_URL,
+    url: BASE_URL + API_URL.ROLE_LIST_URL,
     params
   });
 }
