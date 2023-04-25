@@ -18,7 +18,7 @@ export const getResetPasswordPattern = () => generatePath(resetPasswordPattern);
 export const profilePattern = '/profile';
 export const getProfilePattern = () => generatePath(profilePattern);
 
-export const profileSetupPattern = '/profilesetup';
+export const profileSetupPattern = '/profileSetup';
 export const getProfileSetupPattern = () => generatePath(profileSetupPattern);
 
 export const privacyPolicyPattern = '/privacy';
@@ -50,13 +50,13 @@ export const getAttendancePattern = () => generatePath(attendancePattern);
 export const reportPattern = '/report';
 export const getReportPattern = generatePath(reportPattern);
 
-export const allReportPattern = `${reportPattern}/allreport`;
+export const allReportPattern = `${reportPattern}/allReport`;
 export const getAllReportPattern = generatePath(allReportPattern);
 
-export const reportTimeActivityPattern = `${reportPattern}/timeactivity`;
+export const reportTimeActivityPattern = `${reportPattern}/timeActivity`;
 export const getReportTimeActivityPattern = () => generatePath(reportTimeActivityPattern);
 
-export const reportWeeklyLimitPattern = `${reportPattern}/weeklylimit`;
+export const reportWeeklyLimitPattern = `${reportPattern}/weeklyLimit`;
 export const getReportWeeklyLimitPattern = () => generatePath(reportWeeklyLimitPattern);
 
 export const holidayPattern = '/holiday';

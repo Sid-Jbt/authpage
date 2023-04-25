@@ -1,44 +1,42 @@
 import {
-  PolicyRounded,
-  Person,
-  TvRounded,
-  PeopleRounded,
   CurrencyRupee,
-  DirectionsRun,
-  PaymentRounded,
-  SettingsRounded,
   DateRangeTwoTone,
+  DirectionsRun,
   HolidayVillage,
-  ViewArrayOutlined,
+  ListAltTwoTone,
+  PaymentRounded,
+  PeopleRounded,
+  Person,
+  PolicyRounded,
+  SettingsRounded,
   SupportAgent,
-  AnnouncementRounded,
+  TvRounded,
   VerifiedUserOutlined,
-  ListAltTwoTone
+  ViewArrayOutlined
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  profilePattern,
-  privacyPolicyPattern,
+  allReportPattern,
+  attendancePattern,
   dashboardPattern,
+  employeeDetailsPattern,
   employeeListPattern,
   expensePattern,
+  holidayPattern,
   leavePattern,
   payslipPattern,
-  settingPattern,
-  attendancePattern,
+  privacyPolicyPattern,
+  profilePattern,
   profileSetupPattern,
-  employeeDetailsPattern,
-  holidayPattern,
-  rolePattern,
-  supportTicketPattern,
-  noticePattern,
-  allReportPattern,
   reportTimeActivityPattern,
   reportWeeklyLimitPattern,
-  roleDetailsPattern
+  roleDetailsPattern,
+  rolePattern,
+  settingPattern,
+  supportTicketPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -56,7 +54,7 @@ const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
 const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
 const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket/index')));
 const Role = Loadable(lazy(() => import('../Screens/Role')));
-const NoticeBoard = Loadable(lazy(() => import('../Screens/NoticeBoard')));
+// const NoticeBoard = Loadable(lazy(() => import('../Screens/NoticeBoard')));
 const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
 const TimeActivity = Loadable(lazy(() => import('../Screens/Reports/TimeActivity')));
 const WeeklyLimit = Loadable(lazy(() => import('../Screens/Reports/WeeklyLimit')));
@@ -192,26 +190,26 @@ const MainRoutes = [
   {
     type: 'collapse',
     name: 'Reports',
-    key: 'report',
+    key: 'reports',
     icon: <ListAltTwoTone sx={{ color: '#DAA520' }} />,
     children: [
       {
         name: 'All Reports',
-        key: 'allreport',
+        key: 'allReports',
         path: allReportPattern,
         route: allReportPattern,
         element: <AllReport />
       },
       {
         name: 'Time & Activity',
-        key: 'timeactivity',
+        key: 'timeActivity',
         path: reportTimeActivityPattern,
         route: reportTimeActivityPattern,
         element: <TimeActivity />
       },
       {
         name: 'Weekly Limit',
-        key: 'weeklylimit',
+        key: 'weeklyLimit',
         path: reportWeeklyLimitPattern,
         route: reportWeeklyLimitPattern,
         element: <WeeklyLimit />
@@ -228,14 +226,6 @@ const MainRoutes = [
     key: 'holiday',
     element: <Holiday />
   },
-  /* {
-    type: 'unroute',
-    name: 'Reports',
-    icon: <ReportOutlined sx={{ color: colors.error.main }} />,
-    path: reportPattern,
-    key: 'report',
-    element: <Navigate to={allReportPattern} />
-  }, */
   {
     type: 'unroute',
     noCollapse: true,
@@ -243,19 +233,19 @@ const MainRoutes = [
     icon: <VerifiedUserOutlined sx={{ color: colors.error.main }} />,
     path: profileSetupPattern,
     route: profileSetupPattern,
-    key: 'profilesetup',
+    key: 'profileSetup',
     element: <ProfileSetup />
   },
-  {
-    type: 'collapse',
-    noCollapse: true,
-    route: noticePattern,
-    name: 'Notice & Event',
-    icon: <AnnouncementRounded sx={{ color: colors.error.main }} />,
-    path: noticePattern,
-    key: 'notice',
-    element: <NoticeBoard />
-  },
+  // {
+  //   type: 'collapse',
+  //   noCollapse: true,
+  //   route: noticePattern,
+  //   name: 'Notice & Event',
+  //   icon: <AnnouncementRounded sx={{ color: colors.error.main }} />,
+  //   path: noticePattern,
+  //   key: 'notice',
+  //   element: <NoticeBoard />
+  // },
   {
     type: 'unroute',
     noCollapse: true,
@@ -270,15 +260,18 @@ const MainRoutes = [
 
 const Route = () => {
   const { roleList } = useSelector((state) => state.login);
-  const childrenList = MainRoutes.filter((item) => roleList && roleList.includes(item.key));
+  const childrenList = MainRoutes.filter(
+    (item) =>
+      roleList &&
+      (roleList[item.key].r || roleList[item.key].w || roleList[item.key].d) &&
+      roleList.hasOwnProperty(item.key)
+  );
 
-  const DashboardRoutes = {
+  return {
     path: '/',
     element: <DashboardLayout />,
     children: childrenList
   };
-
-  return DashboardRoutes;
 };
 
 export default Route;
