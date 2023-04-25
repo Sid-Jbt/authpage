@@ -1,26 +1,27 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Box from 'Elements/Box';
 import { Navigate, Outlet } from 'react-router';
 import { Card, Grid, Link, Typography, useTheme } from '@mui/material';
 import linearGradient from 'Theme/functions/linearGradient';
 import { withStateDispatchAuth } from 'Helpers/withStateDispatch';
 import { getDashboardPattern } from 'Routes/routeConfig';
-import { store } from 'APIs/store';
+// import { store } from 'APIs/store';
 import bgImage from '../../Assets/Images/404.svg';
 import LogoWithName from '../../Assets/Images/jbt-full-logo.svg';
 
 const AuthLayout = ({ ...rest }) => {
   const theme = useTheme();
-  const token = store.getState().login.token;
-  const [navigate, setNavigate] = useState(false);
+  // const token = store.getState().login.token;
+  // const [navigate, setNavigate] = useState(false);
+  const [navigate] = useState(false);
 
-  useLayoutEffect(() => {
-    if (token) {
-      setNavigate(true);
-      return;
-    }
-    setNavigate(false);
-  }, [token]);
+  // useLayoutEffect(() => {
+  //   if (token) {
+  //     setNavigate(true);
+  //     return;
+  //   }
+  //   setNavigate(false);
+  // }, [token]);
 
   return navigate ? (
     <Navigate to={getDashboardPattern()} />
