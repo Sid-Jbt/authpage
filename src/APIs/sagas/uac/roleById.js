@@ -9,10 +9,10 @@ import {
 import { API_URL, BASE_URL } from '../../api.config';
 import { instance } from '../../index';
 
-async function getRoleByIdApi(id) {
+async function getRoleByIdApi(params) {
   return instance.request({
     method: 'get',
-    url: `${BASE_URL + API_URL.LEAVE_BY_ID_URL}/${id}`
+    url: `${BASE_URL + API_URL.ROLE_BY_SLUG_URL}${params.slug}`
   });
 }
 

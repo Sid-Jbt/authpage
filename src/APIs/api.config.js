@@ -39,5 +39,6 @@ export const API_URL = {
   LEAVE_REASON_URL: '/admin/leave/status',
   LEAVE_BY_ID_URL: '/leave',
   ROLE_LIST_URL: '/admin/uac/all',
-  ROLE_ADD_URL: '/admin/uac/create'
+  ROLE_ADD_URL: '/admin/uac/create',
+  ROLE_BY_SLUG_URL: '/admin/uac/role/'
 };

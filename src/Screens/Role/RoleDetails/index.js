@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Typography from 'Elements/Typography';
 import { Card, FormControlLabel, Grid, Switch } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { Formik } from 'formik';
-import { useNavigate, useOutletContext } from 'react-router';
+import { useNavigate, useOutletContext, useLocation } from 'react-router';
 import { roleFormSchema } from '../../../Helpers/ValidationSchema';
 import { getRolePattern } from '../../../Routes/routeConfig';
 
@@ -13,32 +13,54 @@ const initialValues = {
 };
 
 const module = {
-  dashboard: { r: '0', w: '0', d: '0' },
-  employee: { r: '0', w: '0', d: '0' },
-  expense: { r: '0', w: '0', d: '0' },
-  leave: { r: '0', w: '0', d: '0' },
-  payslip: { r: '0', w: '0', d: '0' },
-  attendance: { r: '0', w: '0', d: '0' },
-  role: { r: '0', w: '0', d: '0' },
-  supportTicket: { r: '0', w: '0', d: '0' },
-  reports: { r: '0', w: '0', d: '0' },
-  allReports: { r: '0', w: '0', d: '0' },
-  timeActivity: { r: '0', w: '0', d: '0' },
-  weeklyLimit: { r: '0', w: '0', d: '0' },
-  holiday: { r: '0', w: '0', d: '0' }
+  dashboard: { r: 1, w: 1, d: 1 },
+  employee: { r: 1, w: 1, d: 1 },
+  expense: { r: 1, w: 1, d: 1 },
+  leave: { r: 1, w: 1, d: 1 },
+  payslip: { r: 1, w: 1, d: 1 },
+  attendance: { r: 1, w: 1, d: 1 },
+  role: { r: 1, w: 1, d: 1 },
+  supportTicket: { r: 1, w: 1, d: 1 },
+  reports: { r: 1, w: 1, d: 1 },
+  allReports: { r: 1, w: 1, d: 1 },
+  timeActivity: { r: 1, w: 1, d: 1 },
+  weeklyLimit: { r: 1, w: 1, d: 1 },
+  holiday: { r: 1, w: 1, d: 1 },
+  profile: { r: 1, w: 1, d: 1 },
+  profileSetup: { r: 1, w: 1, d: 1 },
+  privacy: { r: 1, w: 1, d: 1 },
+  employeeDetails: { r: 1, w: 1, d: 1 },
+  settings: { r: 1, w: 1, d: 1 },
+  roleDetails: { r: 1, w: 1, d: 1 }
 };
 const AddRole = () => {
   const [modules, setModules] = useState(module);
-  const { GetRoleAdd } = useOutletContext();
+  const { GetRoleAdd, GetRoleById } = useOutletContext();
   const navigate = useNavigate();
-  /* const { pathname } = useLocation();
-  const collapseName = pathname.split('/').slice(1)[1]; */
+  const { pathname } = useLocation();
+  const collapseName = pathname.split('/').slice(1)[1];
 
   const onChangePermission = (moduleName, permissionKey) => {
     const data = { ...modules };
-    data[moduleName][permissionKey] = modules[moduleName][permissionKey] === '0' ? '1' : '0';
+    data[moduleName][permissionKey] = modules[moduleName][permissionKey] === 0 ? 1 : 0;
     setModules(data);
   };
+
+  useEffect(() => {
+    if (collapseName !== 'addRole') {
+      GetRoleById(
+        {
+          slug: collapseName
+        },
+        (res) => {
+          if (res && res.data && res.data.data) {
+            const { permission } = res.data.data;
+            setModules(permission);
+          }
+        }
+      );
+    }
+  }, []);
 
   return (
     <Card
@@ -133,10 +155,10 @@ const AddRole = () => {
               >
                 <FormControlLabel
                   sx={{ m: 0, fontSize: '14px' }}
-                  value={modules[key].r === '1'}
+                  value={modules[key].r === 1}
                   control={
                     <Switch
-                      checked={modules[key].r === '1'}
+                      checked={modules[key].r === 1}
                       color="primary"
                       name="r"
                       onChange={() => onChangePermission(key, 'r')}
@@ -155,10 +177,10 @@ const AddRole = () => {
                 />
                 <FormControlLabel
                   sx={{ m: 0, fontSize: '14px' }}
-                  value={modules[key].w === '1'}
+                  value={modules[key].w === 1}
                   control={
                     <Switch
-                      checked={modules[key].w === '1'}
+                      checked={modules[key].w === 1}
                       color="primary"
                       name="w"
                       onChange={() => onChangePermission(key, 'w')}
@@ -177,10 +199,10 @@ const AddRole = () => {
                 />
                 <FormControlLabel
                   sx={{ m: 0, fontSize: '14px' }}
-                  value={modules[key].d === '1'}
+                  value={modules[key].d === 1}
                   control={
                     <Switch
-                      checked={modules[key].d === '1'}
+                      checked={modules[key].d === 1}
                       color="primary"
                       name="d"
                       onChange={() => onChangePermission(key, 'd')}
