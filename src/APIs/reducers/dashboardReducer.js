@@ -16,7 +16,8 @@ const initialState = {
   totalAbsent: 0,
   totalPendingExpense: 0,
   totalPendingLeave: 0,
-  totalPendingSupportTicket: 0
+  totalPendingSupportTicket: 0,
+  permission: null
 };
 
 export default function dashboardReducer(state = initialState, action) {
@@ -38,7 +39,8 @@ export default function dashboardReducer(state = initialState, action) {
         totalPendingLeave: action.payload.data.totalPendingLeave,
         totalPendingSupportTicket: action.payload.data.totalPendingSupportTicket,
         currentWeekHours: action.payload.data.currentWeekHours,
-        currentMonthHours: action.payload.data.currentMonthHours
+        currentMonthHours: action.payload.data.currentMonthHours,
+        permission: action.payload.data.permission
       };
     case 'LOGIN_COMPLETED': {
       return {
