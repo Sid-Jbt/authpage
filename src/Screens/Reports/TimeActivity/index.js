@@ -25,11 +25,18 @@ import moment from 'moment';
 const TimeActivity = () => {
   const { columns: prCols, adminColumns: adminPrCol } = timeActivityListData;
   const theme = useTheme();
-  const { role, GetEmployeeList } = useOutletContext();
+  const { GetEmployeeList, permission } = useOutletContext();
   const [userList, setUserList] = useState([]);
   const [filter, setFilter] = useState(false);
   const [sort, setSort] = useState({ key: 'email', order: 'asc' });
   const [page, setPage] = useState(0);
+  const reportPermissionStatus =
+    permission &&
+    permission.reports &&
+    permission.reports.r &&
+    permission.reports.w &&
+    permission.reports.u &&
+    permission.reports.d;
 
   const [filterData, setFilterData] = useState({
     search: '',
@@ -41,7 +48,7 @@ const TimeActivity = () => {
   });
 
   useEffect(() => {
-    if (role === 'admin') {
+    if (reportPermissionStatus) {
       GetEmployeeList({ limit: 0 }, (res) => {
         if (res && res.data && res.data.data) {
           setUserList(userArray(res.data.data.rows));
@@ -195,7 +202,7 @@ const TimeActivity = () => {
                 />
               </RadioGroup>
             </Grid>
-            {role === 'admin' && (
+            {reportPermissionStatus && (
               <>
                 <Grid item sm={12} md={4} lg={3}>
                   <FormControl sx={{ width: '100%' }}>
@@ -224,14 +231,14 @@ const TimeActivity = () => {
             )}
           </FilterLayout>
           <Table
-            columns={role === 'admin' ? adminPrCol : prCols}
+            columns={reportPermissionStatus ? adminPrCol : prCols}
             rows={[]}
             rowsCount={0}
             rowsPerPage={10}
-            isAction={role !== 'admin'}
+            isAction={!reportPermissionStatus}
             options={[{ name: 'view', title: 'View', value: 'view' }]}
             isView={
-              role === 'admin' && [
+              reportPermissionStatus && [
                 {
                   name: 3,
                   tooltip: 'Click to view',
