@@ -7,7 +7,8 @@ import Box from 'Elements/Box';
 import Button from 'Elements/Button';
 import { CloseSharp, Edit } from '@mui/icons-material';
 import { withStateDispatch } from 'Helpers/withStateDispatch';
-import { SnackbarContext } from '../../../../Context/SnackbarProvider';
+import { useNavigate } from 'react-router-dom';
+import { SnackbarContext } from 'Context/SnackbarProvider';
 
 const Header = ({
   tabIndex,
@@ -15,13 +16,14 @@ const Header = ({
   TabsList,
   GetProfileSetup,
   GetDashboard,
-  role,
   user,
-  Loading
+  Loading,
+  role
 }) => {
   const { setSnack } = useContext(SnackbarContext);
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const inputFile = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user.profile.profilePic && user.profile.profilePic !== '') {
@@ -128,10 +130,17 @@ const Header = ({
         <Grid item xs={12} md={6} lg={5} sx={{ ml: 'auto' }}>
           <Tabs value={tabIndex} onChange={(event, value) => handleSetTabIndex(event, value)}>
             {TabsList &&
-              TabsList.map((item, index) => (
-                // TODO: Need to work on permission for the profile tabs page
-                <Tab key={index} label={item.title} icon={item.icon} />
-              ))}
+              TabsList.map(
+                (item, index) =>
+                  item.permissionStatus && (
+                    <Tab
+                      key={index}
+                      label={item.title}
+                      icon={item.icon}
+                      onClick={() => navigate(item.link)}
+                    />
+                  )
+              )}
           </Tabs>
         </Grid>
       </Grid>

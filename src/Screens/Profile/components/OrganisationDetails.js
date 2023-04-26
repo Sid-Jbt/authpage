@@ -23,6 +23,7 @@ const Organisation = ({ isEdit, props }) => {
   const [logoType, setLogoType] = useState('');
   const [cropperImage, setCropperImage] = useState('');
   const [cropClose, setCropClose] = useState(false);
+
   const onClickLogoUpload = (e, type) => {
     e.preventDefault();
     const reader = new FileReader();
@@ -45,7 +46,7 @@ const Organisation = ({ isEdit, props }) => {
         <Grid container item xs={12} alignItems="center" justifyContent="center">
           <Grid item xs={12}>
             <Typography variant="h6" fontWeight="medium" textAlign="center">
-              Organistation Logo
+              Organisation Logo
             </Typography>
           </Grid>
           <Grid item xs={12} md={3}>

@@ -7,31 +7,18 @@ import Button from 'Elements/Button';
 import { useOutletContext } from 'react-router';
 import { AccountBalance, BungalowRounded, PersonOutlined } from '@mui/icons-material';
 import moment from 'moment';
+import { withStateDispatch } from 'Helpers/withStateDispatch';
+import {
+  getAccountsProfilePattern,
+  getOrganisationProfilePattern,
+  getPersonalProfilePattern
+} from 'Routes/routeConfig';
 import BankInfo from './components/BankInfo';
 import PersonalDetails from './components/PersonalDetails';
 import Header from './components/Header';
-import SalaryDetails from './components/SalaryDetails';
+// import SalaryDetails from './components/SalaryDetails';
 import OrganisationDetails from './components/OrganisationDetails';
-// import { WorkingHours } from '../../Helpers/Global';
-import { withStateDispatch } from '../../Helpers/withStateDispatch';
 
-const TabsList = [
-  {
-    key: 'personal',
-    title: 'Personal',
-    icon: <PersonOutlined style={{ marginRight: '8px' }} />
-  },
-  {
-    key: 'organisation',
-    title: 'Organisation',
-    icon: <BungalowRounded style={{ marginRight: '8px' }} />
-  },
-  {
-    key: 'account',
-    title: 'Account',
-    icon: <AccountBalance style={{ marginRight: '8px' }} />
-  }
-];
 let oldValues = {};
 let newValues = {};
 
@@ -41,8 +28,45 @@ const Profile = ({ GetDashboard }) => {
   const [isEdit, setIsEdit] = useState(false);
   const { bankInfo, organisation, profile, ...rest } = user;
 
-  // TODO: Need to work on permission for the profile page
-  const permissionStatus = permission.profile.r && permission.profile.w && permission.profile.d;
+  const organisationPermission =
+    permission &&
+    permission.organisation &&
+    permission.organisation.r &&
+    permission.organisation.w &&
+    permission.organisation.u &&
+    permission.organisation.d;
+
+  const accountsPermission =
+    permission &&
+    permission.accounts &&
+    permission.accounts.r &&
+    permission.accounts.w &&
+    permission.accounts.u &&
+    permission.accounts.d;
+
+  const TabsList = [
+    {
+      key: 'personal',
+      title: 'Personal',
+      link: getPersonalProfilePattern(),
+      permissionStatus: true,
+      icon: <PersonOutlined style={{ marginRight: '8px' }} />
+    },
+    {
+      key: 'organisation',
+      title: 'Organisation',
+      link: getOrganisationProfilePattern(),
+      permissionStatus: organisationPermission,
+      icon: <BungalowRounded style={{ marginRight: '8px' }} />
+    },
+    {
+      key: 'account',
+      title: 'Account',
+      link: getAccountsProfilePattern(),
+      permissionStatus: accountsPermission,
+      icon: <AccountBalance style={{ marginRight: '8px' }} />
+    }
+  ];
 
   const initialValues = {
     firstName: '',
@@ -56,11 +80,10 @@ const Profile = ({ GetDashboard }) => {
     permanentAddress: '',
     presentAddress: '',
     gender: 'male',
-    ...(permissionStatus
+    ...(organisationPermission
       ? {
           largeLogo: '',
           smallLogo: '',
-          // workingHours: WorkingHours[0].value,
           punchIn: '',
           punchOut: '',
           organisationName: '',
@@ -116,7 +139,7 @@ const Profile = ({ GetDashboard }) => {
     <Box>
       <Box height="8rem" />
       <Header
-        role={permissionStatus}
+        role={organisationPermission}
         user={user}
         Loading={Loading}
         GetProfileSetup={GetProfileSetup}
@@ -147,9 +170,9 @@ const Profile = ({ GetDashboard }) => {
                     <Typography variant="h6" fontWeight="bold" textTransform="capitalize">
                       {tabIndex === 0
                         ? 'Basic Details'
-                        : permissionStatus && tabIndex === 1
+                        : organisationPermission && tabIndex === 1
                         ? 'Organisation Details'
-                        : !permissionStatus && tabIndex === 1
+                        : accountsPermission && tabIndex === 1
                         ? 'Bank Details'
                         : 'Salary Details'}
                     </Typography>
@@ -176,15 +199,19 @@ const Profile = ({ GetDashboard }) => {
                 </Grid>
                 <>
                   {tabIndex === 0 && (
-                    <PersonalDetails isEdit={isEdit} role={permissionStatus} props={props} />
+                    <PersonalDetails isEdit={isEdit} role={organisationPermission} props={props} />
                   )}
-                  {permissionStatus && tabIndex === 1 && (
-                    <OrganisationDetails isEdit={isEdit} role={permissionStatus} props={props} />
+                  {organisationPermission && tabIndex === 1 && (
+                    <OrganisationDetails
+                      isEdit={isEdit}
+                      role={organisationPermission}
+                      props={props}
+                    />
                   )}
-                  {!permissionStatus && tabIndex === 1 && (
+                  {accountsPermission && tabIndex === 1 && (
                     <BankInfo isEdit={isEdit} props={props} />
                   )}
-                  {tabIndex === 2 && <SalaryDetails props={props} />}
+                  {/* {!permissionStatus && tabIndex === 2 && <SalaryDetails props={props} />} */}
                 </>
               </form>
             );
