@@ -22,6 +22,7 @@ import useWindowPosition from 'Hooks/useWindowPosition';
 import {
   getLoginPattern,
   getPersonalProfilePattern,
+  getProfilePattern,
   getProfileSetupPattern,
   getSettingPattern
 } from 'Routes/routeConfig';
@@ -29,7 +30,7 @@ import CircularProgressWithLabel from 'Elements/CircularProgressWithLabel';
 import { MINI_SIDENAV, LOGOUT } from 'APIs/constants';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
-const DashboardNavbar = ({ user, progress, notification, isMini, role }) => {
+const DashboardNavbar = ({ user, progress, notification, isMini, permission }) => {
   const customization = useSelector((state) => state.customization);
   const themes = useTheme();
   const dispatch = useDispatch();
@@ -40,6 +41,13 @@ const DashboardNavbar = ({ user, progress, notification, isMini, role }) => {
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
   const [openTimer, setOpenTimer] = useState(false);
+  const permissionStatus =
+    permission &&
+    permission.dashboard &&
+    permission.dashboard.r &&
+    permission.dashboard.w &&
+    permission.dashboard.u &&
+    permission.dashboard.d;
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
 
@@ -159,7 +167,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini, role }) => {
           title={['Manage Account']}
           onClick={handleProfileMenuClose}
           component={Link}
-          to={getPersonalProfilePattern()}
+          to={getProfilePattern()}
         />
       ) : null}
       {pathname !== getProfileSetupPattern() ? (
@@ -234,7 +242,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini, role }) => {
           <Grid container columnGap={2} alignItems="center">
             {pathname !== getProfileSetupPattern() ? (
               <>
-                {role !== 'admin' && (
+                {!permissionStatus && (
                   <Grid item>
                     <Box
                       variant="contained"

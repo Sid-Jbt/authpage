@@ -28,12 +28,12 @@ export default function RootRoutes() {
       element: <Navigate to={defaultPattern} />
     },
     {
-      path: profilePattern,
-      element: <Navigate to={personalProfilePattern} />
-    },
-    {
       path: reportPattern,
       element: <Navigate to={allReportPattern} />
+    },
+    {
+      path: profilePattern,
+      element: <Navigate to={personalProfilePattern} />
     }
   ]);
 }

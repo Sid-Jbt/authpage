@@ -288,7 +288,11 @@ const Route = () => {
   const childrenList = MainRoutes.filter(
     (item) =>
       roleList &&
-      (roleList[item.key].r || roleList[item.key].w || roleList[item.key].d) &&
+      roleList[item.key] &&
+      (roleList[item.key].r ||
+        roleList[item.key].w ||
+        roleList[item.key].u ||
+        roleList[item.key].d) &&
       roleList.hasOwnProperty(item.key)
   );
 
