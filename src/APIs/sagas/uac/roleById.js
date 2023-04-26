@@ -12,7 +12,7 @@ import { instance } from '../../index';
 async function getRoleByIdApi(params) {
   return instance.request({
     method: 'get',
-    url: `${BASE_URL + API_URL.ROLE_BY_SLUG_URL}${params.slug}`
+    url: `${BASE_URL + API_URL.ROLE_BY_SLUG_URL}/${params.slug}`
   });
 }
 

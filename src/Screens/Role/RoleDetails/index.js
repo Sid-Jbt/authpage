@@ -1,41 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import Typography from 'Elements/Typography';
 import { Card, FormControlLabel, Grid, Switch } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import { Formik } from 'formik';
 import { useNavigate, useOutletContext, useLocation } from 'react-router';
-import { roleFormSchema } from '../../../Helpers/ValidationSchema';
-import { getRolePattern } from '../../../Routes/routeConfig';
+import { roleFormSchema } from 'Helpers/ValidationSchema';
+import { getRolePattern } from 'Routes/routeConfig';
 
 const initialValues = {
   roleName: ''
 };
 
 const module = {
-  dashboard: { r: 1, w: 1, d: 1 },
-  employee: { r: 1, w: 1, d: 1 },
-  expense: { r: 1, w: 1, d: 1 },
-  leave: { r: 1, w: 1, d: 1 },
-  payslip: { r: 1, w: 1, d: 1 },
-  attendance: { r: 1, w: 1, d: 1 },
-  role: { r: 1, w: 1, d: 1 },
-  supportTicket: { r: 1, w: 1, d: 1 },
-  reports: { r: 1, w: 1, d: 1 },
-  allReports: { r: 1, w: 1, d: 1 },
-  timeActivity: { r: 1, w: 1, d: 1 },
-  weeklyLimit: { r: 1, w: 1, d: 1 },
-  holiday: { r: 1, w: 1, d: 1 },
-  profile: { r: 1, w: 1, d: 1 },
-  profileSetup: { r: 1, w: 1, d: 1 },
-  privacy: { r: 1, w: 1, d: 1 },
-  employeeDetails: { r: 1, w: 1, d: 1 },
-  settings: { r: 1, w: 1, d: 1 },
-  roleDetails: { r: 1, w: 1, d: 1 }
+  dashboard: { r: 0, w: 0, d: 0 },
+  employee: { r: 0, w: 0, d: 0 },
+  expense: { r: 0, w: 0, d: 0 },
+  leave: { r: 0, w: 0, d: 0 },
+  payslip: { r: 0, w: 0, d: 0 },
+  attendance: { r: 0, w: 0, d: 0 },
+  role: { r: 0, w: 0, d: 0 },
+  supportTicket: { r: 0, w: 0, d: 0 },
+  reports: { r: 0, w: 0, d: 0 },
+  allReports: { r: 0, w: 0, d: 0 },
+  timeActivity: { r: 0, w: 0, d: 0 },
+  weeklyLimit: { r: 0, w: 0, d: 0 },
+  holiday: { r: 0, w: 0, d: 0 },
+  profile: { r: 0, w: 0, d: 0 },
+  profileSetup: { r: 0, w: 0, d: 0 },
+  privacy: { r: 0, w: 0, d: 0 },
+  employeeDetails: { r: 0, w: 0, d: 0 },
+  settings: { r: 0, w: 0, d: 0 },
+  roleDetails: { r: 0, w: 0, d: 0 }
 };
 const AddRole = () => {
   const [modules, setModules] = useState(module);
-  const { GetRoleAdd, GetRoleById } = useOutletContext();
+  const { GetRoleAdd, GetRoleById, GetRoleUpdate } = useOutletContext();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const collapseName = pathname.split('/').slice(1)[1];
@@ -46,7 +46,7 @@ const AddRole = () => {
     setModules(data);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (collapseName !== 'addRole') {
       GetRoleById(
         {
@@ -63,6 +63,28 @@ const AddRole = () => {
     }
   }, []);
 
+  const onSubmit = (values, action) => {
+    const formData = {
+      roleName: values.roleName,
+      permission: JSON.stringify(module)
+    };
+    if (collapseName === 'addRole') {
+      GetRoleAdd(formData, (res) => {
+        const { status } = res.data;
+        if (status) {
+          navigate(getRolePattern());
+        }
+      });
+      action.setSubmitting(false);
+    } else {
+      GetRoleUpdate(formData, (res) => {
+        const { status } = res.data;
+        if (status) {
+          navigate(getRolePattern());
+        }
+      });
+    }
+  };
   return (
     <Card
       sx={{
@@ -84,23 +106,12 @@ const AddRole = () => {
             enableReinitialize
             initialValues={initialValues}
             onSubmit={(values, action) => {
-              const formData = {
-                roleName: values.roleName,
-                permission: JSON.stringify(module)
-              };
-              GetRoleAdd(formData, (res) => {
-                const { status } = res.data;
-                if (status) {
-                  navigate(getRolePattern());
-                }
-              });
-              action.setSubmitting(false);
+              onSubmit(values, action);
             }}
             validationSchema={roleFormSchema}
           >
             {(props) => {
               const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
-              // console.log('values', values);
               return (
                 <form onSubmit={handleSubmit}>
                   <Grid item xs={12} md={12} lg={12}>
