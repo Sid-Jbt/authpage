@@ -291,8 +291,8 @@ const Route = () => {
       roleList[item.key] &&
       (roleList[item.key].r ||
         roleList[item.key].w ||
-        roleList[item.key].u ||
-        roleList[item.key].d) &&
+        roleList[item.key].d ||
+        roleList[item.key].u) &&
       roleList.hasOwnProperty(item.key)
   );
 

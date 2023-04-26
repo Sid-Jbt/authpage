@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Grid } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { useOutletContext } from 'react-router';
-import { Gender } from 'Helpers/Global';
+import { Gender, rolesArray } from 'Helpers/Global';
 import Header from './components/Header';
 import BasicInfo from './components/BasicInfo';
 import ChangePassword from './components/ChangePassword';
@@ -27,13 +27,15 @@ let initialValues = {
   ifscCode: '',
   panNumber: '',
   slug: '',
-  id: ''
+  id: '',
+  roleId: ''
 };
 
 const EmployeeDetails = () => {
   const location = useLocation();
-  const { GetEmployeeBySlug } = useOutletContext();
+  const { GetEmployeeBySlug, GetRoleList } = useOutletContext();
   const setSlug = location.state.slug && location.state.slug;
+  const [allRoles, setAllRoles] = useState([]);
 
   useEffect(() => {
     GetEmployeeBySlug(
@@ -47,11 +49,25 @@ const EmployeeDetails = () => {
         }
       }
     );
+    GetRoleList(
+      {
+        limit: 0
+      },
+      (res) => {
+        if (res && res.data && res.data.data) {
+          setAllRoles(rolesArray(res.data.data.rows));
+        }
+      }
+    );
     return () => {};
   }, []);
 
   const sidenav = [
-    { component: <BasicInfo data={initialValues} />, ref: useRef(), key: 'basic-info' },
+    {
+      component: allRoles.length > 0 && <BasicInfo data={initialValues} allRoles={allRoles} />,
+      ref: useRef(),
+      key: 'basic-info'
+    },
     { component: <BankDetails data={initialValues} />, ref: useRef(), key: 'account-info' },
     { component: <ChangePassword data={initialValues} />, ref: useRef(), key: 'change-password' }
   ];
