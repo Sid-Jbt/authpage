@@ -1,29 +1,44 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import Typography from 'Elements/Typography';
 import { Card, FormControlLabel, Grid, Switch } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
+import { Formik } from 'formik';
+import { useNavigate, useOutletContext, useLocation } from 'react-router';
+import { roleFormSchema } from 'Helpers/ValidationSchema';
+import { getRolePattern } from 'Routes/routeConfig';
 
-const module = {
-  dashboard: { read: 1, write: 0, view: 0, delete: 0 },
-  employee: { read: 0, write: 1, view: 1, delete: 0 },
-  expense: { read: 0, write: 1, view: 0, delete: 0 },
-  leave: { read: 0, write: 1, view: 0, delete: 0 },
-  paySlip: { read: 0, write: 1, view: 0, delete: 0 },
-  attendance: { read: 0, write: 1, view: 0, delete: 0 },
-  role: { read: 0, write: 1, view: 0, delete: 0 },
-  supportTicket: { read: 0, write: 1, view: 0, delete: 0 },
-  reports: { read: 0, write: 1, view: 0, delete: 1 },
-  allReports: { read: 0, write: 1, view: 0, delete: 0 },
-  timeActivity: { read: 0, write: 1, view: 1, delete: 0 },
-  weeklyLimit: { read: 0, write: 1, view: 0, delete: 0 },
-  holiday: { read: 0, write: 1, view: 0, delete: 0 }
+const initialValues = {
+  roleName: ''
 };
 
+const module = {
+  dashboard: { r: 0, w: 0, d: 0 },
+  employee: { r: 0, w: 0, d: 0 },
+  expense: { r: 0, w: 0, d: 0 },
+  leave: { r: 0, w: 0, d: 0 },
+  payslip: { r: 0, w: 0, d: 0 },
+  attendance: { r: 0, w: 0, d: 0 },
+  role: { r: 0, w: 0, d: 0 },
+  supportTicket: { r: 0, w: 0, d: 0 },
+  reports: { r: 0, w: 0, d: 0 },
+  allReports: { r: 0, w: 0, d: 0 },
+  timeActivity: { r: 0, w: 0, d: 0 },
+  weeklyLimit: { r: 0, w: 0, d: 0 },
+  holiday: { r: 0, w: 0, d: 0 },
+  profile: { r: 0, w: 0, d: 0 },
+  profileSetup: { r: 0, w: 0, d: 0 },
+  privacy: { r: 0, w: 0, d: 0 },
+  employeeDetails: { r: 0, w: 0, d: 0 },
+  settings: { r: 0, w: 0, d: 0 },
+  roleDetails: { r: 0, w: 0, d: 0 }
+};
 const AddRole = () => {
   const [modules, setModules] = useState(module);
-  /* const { pathname } = useLocation();
-  const collapseName = pathname.split('/').slice(1)[1]; */
+  const { GetRoleAdd, GetRoleById, GetRoleUpdate } = useOutletContext();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const collapseName = pathname.split('/').slice(1)[1];
 
   const onChangePermission = (moduleName, permissionKey) => {
     const data = { ...modules };
@@ -31,6 +46,45 @@ const AddRole = () => {
     setModules(data);
   };
 
+  useLayoutEffect(() => {
+    if (collapseName !== 'addRole') {
+      GetRoleById(
+        {
+          slug: collapseName
+        },
+        (res) => {
+          if (res && res.data && res.data.data) {
+            const { permission, name } = res.data.data;
+            initialValues.roleName = name;
+            setModules(permission);
+          }
+        }
+      );
+    }
+  }, []);
+
+  const onSubmit = (values, action) => {
+    const formData = {
+      roleName: values.roleName,
+      permission: JSON.stringify(module)
+    };
+    if (collapseName === 'addRole') {
+      GetRoleAdd(formData, (res) => {
+        const { status } = res.data;
+        if (status) {
+          navigate(getRolePattern());
+        }
+      });
+      action.setSubmitting(false);
+    } else {
+      GetRoleUpdate(formData, (res) => {
+        const { status } = res.data;
+        if (status) {
+          navigate(getRolePattern());
+        }
+      });
+    }
+  };
   return (
     <Card
       sx={{
@@ -47,21 +101,47 @@ const AddRole = () => {
           flexDirection: 'column'
         }}
       >
-        <Grid item sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button type="submit" color="info" variant="contained" size="small">
-            Save
-          </Button>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <Input
-            type="text"
-            placeholder="Role Name"
-            size="large"
-            fullWidth
-            id="roleName"
-            name="roleName"
-            label="Role Name"
-          />
+        <Grid item xs={12} md={12} lg={12}>
+          <Formik
+            enableReinitialize
+            initialValues={initialValues}
+            onSubmit={(values, action) => {
+              onSubmit(values, action);
+            }}
+            validationSchema={roleFormSchema}
+          >
+            {(props) => {
+              const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+              return (
+                <form onSubmit={handleSubmit}>
+                  <Grid item xs={12} md={12} lg={12}>
+                    <Grid item sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Button type="submit" color="info" variant="contained" size="medium">
+                        Save
+                      </Button>
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={4}>
+                      <Input
+                        type="text"
+                        placeholder="Write role here..."
+                        size="medium"
+                        id="roleName"
+                        name="roleName"
+                        label="Role Name"
+                        fullWidth
+                        value={values.roleName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errorText={errors.roleName && touched.roleName && errors.roleName}
+                        error={errors.roleName && touched.roleName}
+                        success={!errors.roleName && touched.roleName}
+                      />
+                    </Grid>
+                  </Grid>
+                </form>
+              );
+            }}
+          </Formik>
         </Grid>
         <Grid item xs={12}>
           {Object.keys(modules).map((key) => (
@@ -88,13 +168,13 @@ const AddRole = () => {
               >
                 <FormControlLabel
                   sx={{ m: 0, fontSize: '14px' }}
-                  value={modules[key].read === 1}
+                  value={modules[key].r === 1}
                   control={
                     <Switch
-                      checked={modules[key].read === 1}
+                      checked={modules[key].r === 1}
                       color="primary"
-                      name="read"
-                      onChange={() => onChangePermission(key, 'read')}
+                      name="r"
+                      onChange={() => onChangePermission(key, 'r')}
                     />
                   }
                   label={
@@ -110,13 +190,13 @@ const AddRole = () => {
                 />
                 <FormControlLabel
                   sx={{ m: 0, fontSize: '14px' }}
-                  value={modules[key].write === 1}
+                  value={modules[key].w === 1}
                   control={
                     <Switch
-                      checked={modules[key].write === 1}
+                      checked={modules[key].w === 1}
                       color="primary"
-                      name="write"
-                      onChange={() => onChangePermission(key, 'write')}
+                      name="w"
+                      onChange={() => onChangePermission(key, 'w')}
                     />
                   }
                   label={
@@ -132,35 +212,13 @@ const AddRole = () => {
                 />
                 <FormControlLabel
                   sx={{ m: 0, fontSize: '14px' }}
-                  value={modules[key].view === 1}
+                  value={modules[key].d === 1}
                   control={
                     <Switch
-                      checked={modules[key].view === 1}
+                      checked={modules[key].d === 1}
                       color="primary"
-                      name="view"
-                      onChange={() => onChangePermission(key, 'view')}
-                    />
-                  }
-                  label={
-                    <Typography
-                      variant="button"
-                      fontWeight="regular"
-                      sx={{ cursor: 'pointer', userSelect: 'none', paddingRight: 2 }}
-                    >
-                      View
-                    </Typography>
-                  }
-                  labelPlacement="end"
-                />
-                <FormControlLabel
-                  sx={{ m: 0, fontSize: '14px' }}
-                  value={modules[key].delete === 1}
-                  control={
-                    <Switch
-                      checked={modules[key].delete === 1}
-                      color="primary"
-                      name="delete"
-                      onChange={() => onChangePermission(key, 'delete')}
+                      name="d"
+                      onChange={() => onChangePermission(key, 'd')}
                     />
                   }
                   label={

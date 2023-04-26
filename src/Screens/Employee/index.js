@@ -6,7 +6,7 @@ import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import Select from 'Elements/Select';
-import { Roles } from 'Helpers/Global';
+import { rolesArray } from 'Helpers/Global';
 import { useNavigate, useOutletContext } from 'react-router';
 import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
 import DialogMenu from 'Elements/Dialog';
@@ -15,11 +15,13 @@ import { empListData } from 'StaticData/employeeListData';
 import AddEmployeeForm from './AddEmployeeForm';
 
 const EmployeeList = () => {
-  const { role, GetEmployeeAdd, GetEmployeeList, GetEmployeeDisable, Loading } = useOutletContext();
+  const { GetEmployeeAdd, GetEmployeeList, GetEmployeeDisable, Loading, permission, GetRoleList } =
+    useOutletContext();
   const { columns: prCols } = empListData;
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [allEmployee, setAllEmployee] = useState([]);
+  const [allRoles, setAllRoles] = useState([]);
   const [employeeCount, setEmployeeCount] = useState(0);
   const [sort, setSort] = useState({ key: 'email', order: 'asc' });
   const [page, setPage] = useState(0);
@@ -32,7 +34,7 @@ const EmployeeList = () => {
     startDate: '',
     endDate: '',
     search: '',
-    selectedRole: Roles[0]
+    selectedRole: ''
   });
 
   const isValues = !(
@@ -50,7 +52,7 @@ const EmployeeList = () => {
           startDate: filterData.startDate,
           endDate: filterData.endDate,
           search: filterData.search,
-          role: filterData.selectedRole.value,
+          role: filterData.selectedRole.id,
           page,
           sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
           sortOrder: sort.order
@@ -66,12 +68,26 @@ const EmployeeList = () => {
     return () => {};
   }, [isDialogOpen, isActiveDialogOpen, filter, page, sort, limit]);
 
+  useEffect(() => {
+    GetRoleList(
+      {
+        limit: 0
+      },
+      (res) => {
+        if (res && res.data && res.data.data) {
+          setAllRoles(rolesArray(res.data.data.rows));
+        }
+      }
+    );
+    return () => {};
+  }, []);
+
   const handleClear = () => {
     setFilterData({
       startDate: '',
       endDate: '',
       search: '',
-      selectedRole: Roles[0]
+      selectedRole: ''
     });
     setFilter(!filter);
   };
@@ -79,7 +95,7 @@ const EmployeeList = () => {
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        {role === 'admin' ? (
+        {permission.employee.w === 1 ? (
           <Grid item xs="auto">
             <Button
               color="white"
@@ -138,17 +154,19 @@ const EmployeeList = () => {
               onChange={(e) => setFilterData({ ...filterData, endDate: e.target.value })}
             />
           </Grid>
-          <Grid item xs={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Role</FormLabel>
-              <Select
-                size="small"
-                value={filterData.selectedRole}
-                options={Roles}
-                onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
-              />
-            </FormControl>
-          </Grid>
+          {allRoles.length > 0 && (
+            <Grid item xs={12} md={4} lg={3}>
+              <FormControl sx={{ width: '100%' }}>
+                <FormLabel>Select Role</FormLabel>
+                <Select
+                  size="small"
+                  value={filterData.selectedRole}
+                  options={allRoles}
+                  onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
+                />
+              </FormControl>
+            </Grid>
+          )}
         </FilterLayout>
         <Table
           columns={prCols}
@@ -197,12 +215,15 @@ const EmployeeList = () => {
           sortOrder={sort.order}
           handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}
         />
-        <AddEmployeeForm
-          GetEmployeeAdd={GetEmployeeAdd}
-          isDialogOpen={isDialogOpen}
-          handleDialog={() => setIsDialogOpen(false)}
-          Loading={Loading}
-        />
+        {allRoles && isDialogOpen && (
+          <AddEmployeeForm
+            GetEmployeeAdd={GetEmployeeAdd}
+            isDialogOpen={isDialogOpen}
+            handleDialog={() => setIsDialogOpen(false)}
+            Loading={Loading}
+            allRoles={allRoles && allRoles}
+          />
+        )}
 
         {isActiveDialogOpen && (
           <DialogMenu

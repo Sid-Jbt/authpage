@@ -134,7 +134,6 @@ const TextField = forwardRef(
       type,
       inputProps,
       endAdornment,
-      value,
       ...rest
     },
     ref

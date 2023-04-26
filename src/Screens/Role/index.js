@@ -1,21 +1,54 @@
 import DataTable from 'Elements/Tables/DataTable';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { roleData } from 'StaticData/roleData';
 import { Grid, Icon } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import { Add, Edit } from '@mui/icons-material';
 import { useNavigate, useOutletContext } from 'react-router';
 import { getRoleDetailsPattern } from 'Routes/routeConfig';
 import Button from 'Elements/Button';
 
 const Role = () => {
-  const { columns: prCols, rows: prRows } = roleData;
-  const { role } = useOutletContext();
+  const { columns: prCols } = roleData;
+  const { permission, GetRoleList } = useOutletContext();
+  /* const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [sort, setSort] = useState({ key: 'name', order: 'asc' }); */
+  const [allRole, setAllRole] = useState([]);
+  // const [roleCount, setRoleCount] = useState({});
   const navigate = useNavigate();
+
+  useEffect(() => {
+    GetRoleList(
+      {
+        page: 0,
+        sortKey: 'name',
+        sortOrder: 'asc',
+        limit: 10,
+        search: ''
+      },
+      (res) => {
+        if (res && res.data && res.data.data) {
+          let { rows } = res.data.data;
+          // const { count } = res.data.data;
+          rows = rows.map(({ id, name, modules, ...rest }) => ({
+            id,
+            name,
+            modules,
+            action: <Edit />,
+            ...rest
+          }));
+          setAllRole(rows);
+          // setRoleCount(count);
+        }
+      }
+    );
+    return () => {};
+  }, []);
 
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        {role === 'admin' ? (
+        {permission.role.w === 1 ? (
           <Grid item xs="auto">
             <Button
               color="white"
@@ -31,14 +64,16 @@ const Role = () => {
           </Grid>
         ) : null}
       </Grid>
-      <DataTable
-        table={{ columns: prCols, rows: prRows }}
-        canSearch
-        entriesPerPage
-        showTotalEntries
-        noEndBorder
-        onClickAction={(value) => navigate(getRoleDetailsPattern(value))}
-      />
+      {allRole.length > 0 && (
+        <DataTable
+          table={{ columns: prCols, rows: allRole }}
+          canSearch
+          entriesPerPage
+          showTotalEntries
+          noEndBorder
+          onClickAction={(value) => navigate(getRoleDetailsPattern(value))}
+        />
+      )}
     </>
   );
 };

@@ -2,13 +2,13 @@ import { Edit } from '@mui/icons-material';
 
 export const roleData = {
   columns: [
-    { Header: 'role', id: 'role', accessor: 'role', align: 'center' },
+    { Header: 'name', id: 'name', accessor: 'name', align: 'center' },
     {
-      Header: 'permission',
-      id: 'permission',
+      Header: 'module',
+      id: 'module',
       accessor: (data) => {
         const output = [];
-        data.permission.map((item) => output.push(item.toUpperCase()));
+        data.modules.map((item) => output.push(item.toUpperCase()));
         return output.join(', ');
       },
       align: 'center'
@@ -18,13 +18,13 @@ export const roleData = {
 
   rows: [
     {
-      role: 'Admin',
-      permission: ['dashboard', 'employee'],
+      name: 'Admin',
+      modules: ['dashboard', 'employee'],
       action: <Edit />
     },
     {
-      role: 'User',
-      permission: ['dashboard', 'leave'],
+      name: 'User',
+      modules: ['dashboard', 'leave'],
       action: <Edit />
     }
   ]
