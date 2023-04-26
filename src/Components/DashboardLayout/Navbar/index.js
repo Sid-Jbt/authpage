@@ -21,7 +21,7 @@ import Avatar from 'Elements/Avatar';
 import useWindowPosition from 'Hooks/useWindowPosition';
 import {
   getLoginPattern,
-  getProfilePattern,
+  getPersonalProfilePattern,
   getProfileSetupPattern,
   getSettingPattern
 } from 'Routes/routeConfig';
@@ -159,7 +159,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini, role }) => {
           title={['Manage Account']}
           onClick={handleProfileMenuClose}
           component={Link}
-          to={getProfilePattern()}
+          to={getPersonalProfilePattern()}
         />
       ) : null}
       {pathname !== getProfileSetupPattern() ? (
@@ -279,7 +279,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini, role }) => {
                   </IconButton>
                 </Grid>
                 {progress !== 100 && (
-                  <Grid item component={Link} to={getProfilePattern()}>
+                  <Grid item component={Link} to={getPersonalProfilePattern()}>
                     <CircularProgressWithLabel value={progress || 0} />
                   </Grid>
                 )}
