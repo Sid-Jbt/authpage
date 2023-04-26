@@ -122,18 +122,16 @@ const Header = ({
             }`}
           </Typography>
           <Typography variant="subtitle2" color="text" fontWeight="light">
-            {role === 'admin' ? 'Admin' : user.profile.designation}
+            {role ? 'Admin' : user.profile.designation}
           </Typography>
         </Grid>
         <Grid item xs={12} md={6} lg={5} sx={{ ml: 'auto' }}>
           <Tabs value={tabIndex} onChange={(event, value) => handleSetTabIndex(event, value)}>
             {TabsList &&
-              TabsList.map(
-                (item, index) =>
-                  item.role.includes(role) && (
-                    <Tab key={index} label={item.title} icon={item.icon} />
-                  )
-              )}
+              TabsList.map((item, index) => (
+                // TODO: Need to work on permission for the profile tabs page
+                <Tab key={index} label={item.title} icon={item.icon} />
+              ))}
           </Tabs>
         </Grid>
       </Grid>

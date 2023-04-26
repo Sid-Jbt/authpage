@@ -19,36 +19,30 @@ const TabsList = [
   {
     key: 'personal',
     title: 'Personal',
-    role: ['admin', 'employee'],
     icon: <PersonOutlined style={{ marginRight: '8px' }} />
   },
   {
     key: 'organisation',
     title: 'Organisation',
-    role: ['admin'],
     icon: <BungalowRounded style={{ marginRight: '8px' }} />
   },
   {
     key: 'account',
     title: 'Account',
-    role: ['employee'],
     icon: <AccountBalance style={{ marginRight: '8px' }} />
   }
-  /* {
-    key: 'salary',
-    title: 'Salary',
-    role: ['employee'],
-    icon: <CurrencyRupeeOutlined style={{ marginRight: '8px' }} />
-  } */
 ];
 let oldValues = {};
 let newValues = {};
 
 const Profile = ({ GetDashboard }) => {
-  const { role, user, GetProfileSetup, Loading } = useOutletContext();
+  const { permission, user, GetProfileSetup, Loading } = useOutletContext();
   const [tabIndex, setTabIndex] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
   const { bankInfo, organisation, profile, ...rest } = user;
+
+  // TODO: Need to work on permission for the profile page
+  const permissionStatus = permission.profile.r && permission.profile.w && permission.profile.d;
 
   const initialValues = {
     firstName: '',
@@ -62,7 +56,7 @@ const Profile = ({ GetDashboard }) => {
     permanentAddress: '',
     presentAddress: '',
     gender: 'male',
-    ...(role === 'admin'
+    ...(permissionStatus
       ? {
           largeLogo: '',
           smallLogo: '',
@@ -122,7 +116,7 @@ const Profile = ({ GetDashboard }) => {
     <Box>
       <Box height="8rem" />
       <Header
-        role={role}
+        role={permissionStatus}
         user={user}
         Loading={Loading}
         GetProfileSetup={GetProfileSetup}
@@ -153,9 +147,9 @@ const Profile = ({ GetDashboard }) => {
                     <Typography variant="h6" fontWeight="bold" textTransform="capitalize">
                       {tabIndex === 0
                         ? 'Basic Details'
-                        : role === 'admin' && tabIndex === 1
+                        : permissionStatus && tabIndex === 1
                         ? 'Organisation Details'
-                        : role !== 'admin' && tabIndex === 1
+                        : !permissionStatus && tabIndex === 1
                         ? 'Bank Details'
                         : 'Salary Details'}
                     </Typography>
@@ -181,14 +175,16 @@ const Profile = ({ GetDashboard }) => {
                   )}
                 </Grid>
                 <>
-                  {tabIndex === 0 && <PersonalDetails isEdit={isEdit} role={role} props={props} />}
-                  {role === 'admin' && tabIndex === 1 && (
-                    <OrganisationDetails isEdit={isEdit} role={role} props={props} />
+                  {tabIndex === 0 && (
+                    <PersonalDetails isEdit={isEdit} role={permissionStatus} props={props} />
                   )}
-                  {role !== 'admin' && tabIndex === 1 && (
-                    <BankInfo isEdit={isEdit} role={role} props={props} />
+                  {permissionStatus && tabIndex === 1 && (
+                    <OrganisationDetails isEdit={isEdit} role={permissionStatus} props={props} />
                   )}
-                  {tabIndex === 2 && <SalaryDetails role={role} props={props} />}
+                  {!permissionStatus && tabIndex === 1 && (
+                    <BankInfo isEdit={isEdit} props={props} />
+                  )}
+                  {tabIndex === 2 && <SalaryDetails props={props} />}
                 </>
               </form>
             );
