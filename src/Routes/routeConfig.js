@@ -18,6 +18,15 @@ export const getResetPasswordPattern = () => generatePath(resetPasswordPattern);
 export const profilePattern = '/profile';
 export const getProfilePattern = () => generatePath(profilePattern);
 
+export const personalProfilePattern = `${profilePattern}/personal`;
+export const getPersonalProfilePattern = () => generatePath(personalProfilePattern);
+
+export const organisationProfilePattern = `${profilePattern}/organisation`;
+export const getOrganisationProfilePattern = () => generatePath(organisationProfilePattern);
+
+export const accountsProfilePattern = `${profilePattern}/accounts`;
+export const getAccountsProfilePattern = () => generatePath(accountsProfilePattern);
+
 export const profileSetupPattern = '/profileSetup';
 export const getProfileSetupPattern = () => generatePath(profileSetupPattern);
 
@@ -51,7 +60,7 @@ export const reportPattern = '/report';
 export const getReportPattern = generatePath(reportPattern);
 
 export const allReportPattern = `${reportPattern}/allReport`;
-export const getAllReportPattern = generatePath(allReportPattern);
+export const getAllReportPattern = () => generatePath(allReportPattern);
 
 export const reportTimeActivityPattern = `${reportPattern}/timeActivity`;
 export const getReportTimeActivityPattern = () => generatePath(reportTimeActivityPattern);

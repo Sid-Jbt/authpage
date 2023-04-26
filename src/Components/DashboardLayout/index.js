@@ -30,7 +30,12 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
   }, [pathname]);
 
   useEffect(() => {
-    if (DashboardData && DashboardData.isLoginFirstTime && DashboardData.isProfileSetup) {
+    if (
+      DashboardData &&
+      DashboardData.isLoginFirstTime &&
+      DashboardData.isProfileSetup &&
+      DashboardData.permission.hasOwnProperty('profileSetup')
+    ) {
       navigate(getProfileSetupPattern());
     }
   }, [DashboardData]);
@@ -91,7 +96,7 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
           progress={DashboardData && DashboardData.profileProgress}
           user={DashboardData && DashboardData.user.profile}
           notification={DashboardData && DashboardData.notification}
-          role={DashboardData && DashboardData.user.role}
+          permission={DashboardData && DashboardData.permission}
         />
         <Box
           sx={({ breakpoints }) => ({
@@ -102,7 +107,6 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
         >
           <Outlet
             context={{
-              role: DashboardData.user.role,
               user: DashboardData.user,
               permission: DashboardData.permission,
               DashboardData,

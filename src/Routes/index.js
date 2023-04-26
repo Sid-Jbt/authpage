@@ -8,6 +8,8 @@ import {
   defaultPattern,
   errorPattern,
   loginPattern,
+  personalProfilePattern,
+  profilePattern,
   reportPattern
 } from './routeConfig';
 
@@ -28,6 +30,10 @@ export default function RootRoutes() {
     {
       path: reportPattern,
       element: <Navigate to={allReportPattern} />
+    },
+    {
+      path: profilePattern,
+      element: <Navigate to={personalProfilePattern} />
     }
   ]);
 }
