@@ -17,16 +17,11 @@ const Error404 = Loadable(lazy(() => import('../Screens/Error404')));
 
 export default function RootRoutes() {
   return useRoutes([
-    AuthRoutes,
-    DashboardRoutes(),
-    {
-      path: errorPattern,
-      element: <Error404 />
-    },
     {
       path: loginPattern,
       element: <Navigate to={defaultPattern} />
     },
+    AuthRoutes,
     {
       path: reportPattern,
       element: <Navigate to={allReportPattern} />
@@ -34,6 +29,11 @@ export default function RootRoutes() {
     {
       path: profilePattern,
       element: <Navigate to={personalProfilePattern} />
+    },
+    DashboardRoutes(),
+    {
+      path: errorPattern,
+      element: <Error404 />
     }
   ]);
 }
