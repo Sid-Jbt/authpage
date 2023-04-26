@@ -104,6 +104,7 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
             context={{
               role: DashboardData.user.role,
               user: DashboardData.user,
+              permission: DashboardData.permission,
               DashboardData,
               ...rest
             }}

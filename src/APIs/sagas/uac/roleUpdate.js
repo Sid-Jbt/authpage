@@ -10,10 +10,10 @@ import { API_URL, BASE_URL } from '../../api.config';
 import { instance } from '../../index';
 
 async function getRoleUpdateApi(data) {
-  const { id, ...rest } = data;
+  const { roleName, ...rest } = data;
   return instance.request({
     method: 'put',
-    url: `${BASE_URL + API_URL.EMPLOYEE_UPDATE_URL}/${id}`,
+    url: `${BASE_URL + API_URL.ROLE_UPDATE_URL}/${data.roleName}`,
     data: rest
   });
 }
