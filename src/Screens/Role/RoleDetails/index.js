@@ -54,7 +54,8 @@ const AddRole = () => {
         },
         (res) => {
           if (res && res.data && res.data.data) {
-            const { permission } = res.data.data;
+            const { permission, name } = res.data.data;
+            initialValues.roleName = name;
             setModules(permission);
           }
         }
@@ -99,6 +100,7 @@ const AddRole = () => {
           >
             {(props) => {
               const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+              // console.log('values', values);
               return (
                 <form onSubmit={handleSubmit}>
                   <Grid item xs={12} md={12} lg={12}>
