@@ -21,6 +21,7 @@ import Avatar from 'Elements/Avatar';
 import useWindowPosition from 'Hooks/useWindowPosition';
 import {
   getLoginPattern,
+  getPersonalProfilePattern,
   getProfilePattern,
   getProfileSetupPattern,
   getSettingPattern
@@ -29,7 +30,7 @@ import CircularProgressWithLabel from 'Elements/CircularProgressWithLabel';
 import { MINI_SIDENAV, LOGOUT } from 'APIs/constants';
 import { navbar, navbarContainer, navbarIconButton, navbarRow } from './styles';
 
-const DashboardNavbar = ({ user, progress, notification, isMini, role }) => {
+const DashboardNavbar = ({ user, progress, notification, isMini, permission }) => {
   const customization = useSelector((state) => state.customization);
   const themes = useTheme();
   const dispatch = useDispatch();
@@ -40,6 +41,13 @@ const DashboardNavbar = ({ user, progress, notification, isMini, role }) => {
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
   const [openTimer, setOpenTimer] = useState(false);
+  const permissionStatus =
+    permission &&
+    permission.dashboard &&
+    permission.dashboard.r &&
+    permission.dashboard.w &&
+    permission.dashboard.u &&
+    permission.dashboard.d;
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
 
@@ -234,7 +242,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini, role }) => {
           <Grid container columnGap={2} alignItems="center">
             {pathname !== getProfileSetupPattern() ? (
               <>
-                {role !== 'admin' && (
+                {!permissionStatus && (
                   <Grid item>
                     <Box
                       variant="contained"
@@ -279,7 +287,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini, role }) => {
                   </IconButton>
                 </Grid>
                 {progress !== 100 && (
-                  <Grid item component={Link} to={getProfilePattern()}>
+                  <Grid item component={Link} to={getPersonalProfilePattern()}>
                     <CircularProgressWithLabel value={progress || 0} />
                   </Grid>
                 )}

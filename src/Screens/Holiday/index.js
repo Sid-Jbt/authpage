@@ -12,8 +12,14 @@ import HolidayForm from './HolidayForm';
 
 const Holiday = () => {
   const { columns: prCols } = holidayListData;
-  const { role, GetHolidayList, GetHolidayAddUpdate, GetHolidayById, GetHolidayDelete, Loading } =
-    useOutletContext();
+  const {
+    GetHolidayList,
+    GetHolidayAddUpdate,
+    GetHolidayById,
+    GetHolidayDelete,
+    Loading,
+    permission
+  } = useOutletContext();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -27,6 +33,13 @@ const Holiday = () => {
   const [filterData, setFilterData] = useState({
     search: ''
   });
+  const holidayPermissionSatutus =
+    permission &&
+    permission.holiday &&
+    permission.holiday.r &&
+    permission.holiday.w &&
+    permission.holiday.u &&
+    permission.holiday.d;
 
   useEffect(() => {
     if (!isDialogOpen || !isDrawerOpen) {
@@ -69,7 +82,7 @@ const Holiday = () => {
 
   return (
     <>
-      {role === 'admin' && (
+      {holidayPermissionSatutus && (
         <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
           <Grid item xs={12} md="auto">
             <Button color="white" variant="outlined" size="small" onClick={handleDrawer}>

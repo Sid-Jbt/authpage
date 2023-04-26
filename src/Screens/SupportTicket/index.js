@@ -28,13 +28,13 @@ import SupportTicketDetails from './SupportTicketDetails';
 const SupportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
   const {
-    role,
     GetSupportAddUpdate,
     GetSupportList,
     GetSupportById,
     GetSupportDelete,
     GetSupportReason,
-    Loading
+    Loading,
+    permission
   } = useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -49,6 +49,13 @@ const SupportTicket = () => {
   const [limit, setLimit] = useState(10);
   const [filter, setFilter] = useState(false);
   const [approveRejectReason, setApproveRejectReason] = useState('');
+  const organisationPermission =
+    permission &&
+    permission.organisation &&
+    permission.organisation.r &&
+    permission.organisation.w &&
+    permission.organisation.u &&
+    permission.organisation.d;
 
   const [filterData, setFilterData] = useState({
     startDate: '',
@@ -205,7 +212,7 @@ const SupportTicket = () => {
         </FilterLayout>
 
         <Table
-          columns={role === 'admin' ? adminPrCol : prCols}
+          columns={organisationPermission ? adminPrCol : prCols}
           rows={allSpTicketList}
           badge={['status', 'priority']}
           onClickAction={(value, { id }) => {
@@ -237,14 +244,14 @@ const SupportTicket = () => {
               });
             }
           }}
-          isAction={role !== 'admin'}
+          isAction={!organisationPermission}
           options={[
             { name: 'edit', title: 'Edit', value: 'edit' },
             { name: 'delete', title: 'Delete', value: 'delete' },
             { name: 'view', title: 'View', value: 'view' }
           ]}
           isView={
-            role === 'admin' && [
+            organisationPermission && [
               {
                 name: 2,
                 tooltip: 'Click to view',
@@ -329,14 +336,14 @@ const SupportTicket = () => {
               customContent={
                 <SupportTicketDetails
                   data={selectedData}
-                  role={role}
+                  role={organisationPermission}
                   approveRejectReason={(value) => setApproveRejectReason(value)}
                 />
               }
             />
           }
           dialogAction={
-            role === 'admin' &&
+            organisationPermission &&
             selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"

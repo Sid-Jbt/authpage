@@ -19,6 +19,7 @@ import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
 import { useSelector } from 'react-redux';
 import {
+  accountsProfilePattern,
   allReportPattern,
   attendancePattern,
   dashboardPattern,
@@ -27,7 +28,9 @@ import {
   expensePattern,
   holidayPattern,
   leavePattern,
+  organisationProfilePattern,
   payslipPattern,
+  personalProfilePattern,
   privacyPolicyPattern,
   profilePattern,
   profileSetupPattern,
@@ -82,7 +85,29 @@ const MainRoutes = [
     icon: <Person />,
     path: profilePattern,
     key: 'profile',
-    element: <Profile />
+    children: [
+      {
+        name: 'Personal',
+        key: 'personal',
+        path: personalProfilePattern,
+        route: personalProfilePattern,
+        element: <Profile />
+      },
+      {
+        name: 'Organisation',
+        key: 'organisation',
+        path: organisationProfilePattern,
+        route: organisationProfilePattern,
+        element: <Profile />
+      },
+      {
+        name: 'Accounts',
+        key: 'accounts',
+        path: accountsProfilePattern,
+        route: accountsProfilePattern,
+        element: <Profile />
+      }
+    ]
   },
   {
     name: 'Privacy Policy',
