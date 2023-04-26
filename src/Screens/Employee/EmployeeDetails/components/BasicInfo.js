@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from 'Elements/Box';
 import { Card, FormControl, FormLabel, Grid } from '@mui/material';
 import { Formik } from 'formik';
@@ -17,6 +17,10 @@ const BasicInfo = ({ data, allRoles }) => {
   const navigate = useNavigate();
   const oldData = data;
   let newData = {};
+
+  useEffect(() => {
+    setSelectedRole(allRoles.find((roleId) => data.roleId === roleId.id));
+  }, []);
 
   const onSubmit = (values, actions) => {
     if (JSON.stringify(oldData) !== JSON.stringify(values)) {
