@@ -239,6 +239,15 @@ export const userArray = (data) => {
   return list;
 };
 
+export const rolesArray = (data) => {
+  const list = [];
+  data.map(({ name, id }) => {
+    list.push({ value: name, label: name, id });
+  });
+  list.sort((a, b) => a.value.localeCompare(b.value));
+  return list;
+};
+
 export const CreateViewData = (data, excludeKey) => {
   const labels = [];
   const values = [];
