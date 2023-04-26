@@ -31,7 +31,8 @@ const LeaveList = () => {
     GetLeaveDelete,
     GetLeaveReason,
     GetLeaveById,
-    GetEmployeeList
+    GetEmployeeList,
+    permission
   } = useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -46,6 +47,7 @@ const LeaveList = () => {
   const [leaveCount, setLeaveCount] = useState({});
   const [approveRejectReason, setApproveRejectReason] = useState('');
   const [userList, setUserList] = useState([]);
+  const leavePermissionStatus = permission && permission.leave && permission.leave.w === 1;
 
   const [filterData, setFilterData] = useState({
     search: '',
@@ -114,7 +116,7 @@ const LeaveList = () => {
   return (
     <>
       <Grid container spacing={3} mb={3}>
-        {role === 'admin' ? (
+        {!leavePermissionStatus ? (
           <>
             <Grid item xs={12} md={6} lg={4}>
               <LeaveCard
@@ -178,7 +180,7 @@ const LeaveList = () => {
           </>
         )}
       </Grid>
-      {role !== 'admin' && (
+      {leavePermissionStatus && (
         <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
           <Grid item xs="auto">
             <Button
@@ -243,7 +245,7 @@ const LeaveList = () => {
               inputProps={dateInputProps()}
             />
           </Grid> */}
-          {role === 'admin' && (
+          {!leavePermissionStatus && (
             <Grid item sm={12} md={4} lg={3}>
               <FormControl sx={{ width: '100%' }}>
                 <FormLabel>Select User</FormLabel>
@@ -328,14 +330,14 @@ const LeaveList = () => {
               });
             }
           }}
-          isAction={role !== 'admin'}
+          isAction={leavePermissionStatus}
           options={[
             { name: 'edit', title: 'Edit', value: 'edit' },
             { name: 'delete', title: 'Delete', value: 'delete' },
             { name: 'view', title: 'View', value: 'view' }
           ]}
           isView={
-            role === 'admin' && [
+            !leavePermissionStatus && [
               {
                 name: 2,
                 tooltip: 'Click to view',

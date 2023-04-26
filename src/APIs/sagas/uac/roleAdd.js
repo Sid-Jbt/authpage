@@ -12,7 +12,7 @@ import { instance } from '../../index';
 async function getRoleAddApi(data) {
   return instance.request({
     method: 'post',
-    url: BASE_URL + API_URL.EMPLOYEE_ADD_URL,
+    url: BASE_URL + API_URL.ROLE_ADD_URL,
     data
   });
 }

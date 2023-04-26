@@ -30,7 +30,8 @@ const ExpenseList = () => {
     GetExpenseList,
     GetExpenseDelete,
     GetExpenseById,
-    GetExpenseReason
+    GetExpenseReason,
+    permission
   } = useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -44,6 +45,7 @@ const ExpenseList = () => {
   const [allExpense, setAllExpense] = useState([]);
   const [expenseCount, setExpenseCount] = useState({});
   const [approveRejectReason, setApproveRejectReason] = useState('');
+  const expensePermissionStatus = permission && permission.expense && permission.expense.w === 1;
 
   const [filterData, setFilterData] = useState({
     search: '',
@@ -119,7 +121,7 @@ const ExpenseList = () => {
         </Grid>
       </Grid>
 
-      {role !== 'admin' && (
+      {expensePermissionStatus && (
         <>
           <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
             <Grid item xs="auto">
@@ -172,7 +174,7 @@ const ExpenseList = () => {
         </FilterLayout>
 
         <Table
-          columns={role === 'admin' ? adminPrCol : prCols}
+          columns={!expensePermissionStatus ? adminPrCol : prCols}
           rows={allExpense}
           badge={['status']}
           onClickAction={(value, { id }) => {
@@ -204,14 +206,14 @@ const ExpenseList = () => {
               });
             }
           }}
-          isAction={role !== 'admin'}
+          isAction={expensePermissionStatus}
           options={[
             { name: 'edit', title: 'Edit', value: 'edit' },
             { name: 'delete', title: 'Delete', value: 'delete' },
             { name: 'view', title: 'View', value: 'view' }
           ]}
           isView={
-            role === 'admin' && [
+            !expensePermissionStatus && [
               {
                 name: 2,
                 tooltip: 'Click to view',

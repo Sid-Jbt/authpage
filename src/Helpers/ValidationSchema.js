@@ -344,3 +344,7 @@ export const addEmployeeSchema = yup.object().shape({
   employeeCode: yup.string().required(validationMessage),
   dateOfJoin: yup.string().required(validationMessage)
 });
+
+export const roleFormSchema = yup.object().shape({
+  roleName: yup.string().required('Role Name is required')
+});
