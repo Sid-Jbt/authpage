@@ -13,25 +13,25 @@ const initialValues = {
 };
 
 const module = {
-  dashboard: { r: 0, w: 0, d: 0 },
-  employee: { r: 0, w: 0, d: 0 },
-  expense: { r: 0, w: 0, d: 0 },
-  leave: { r: 0, w: 0, d: 0 },
-  payslip: { r: 0, w: 0, d: 0 },
-  attendance: { r: 0, w: 0, d: 0 },
-  role: { r: 0, w: 0, d: 0 },
-  supportTicket: { r: 0, w: 0, d: 0 },
-  reports: { r: 0, w: 0, d: 0 },
-  allReports: { r: 0, w: 0, d: 0 },
-  timeActivity: { r: 0, w: 0, d: 0 },
-  weeklyLimit: { r: 0, w: 0, d: 0 },
-  holiday: { r: 0, w: 0, d: 0 },
-  profile: { r: 0, w: 0, d: 0 },
-  profileSetup: { r: 0, w: 0, d: 0 },
-  privacy: { r: 0, w: 0, d: 0 },
-  employeeDetails: { r: 0, w: 0, d: 0 },
-  settings: { r: 0, w: 0, d: 0 },
-  roleDetails: { r: 0, w: 0, d: 0 }
+  dashboard: { r: 0, w: 0, d: 0, u: 0 },
+  employee: { r: 0, w: 0, d: 0, u: 0 },
+  expense: { r: 0, w: 0, d: 0, u: 0 },
+  leave: { r: 0, w: 0, d: 0, u: 0 },
+  payslip: { r: 0, w: 0, d: 0, u: 0 },
+  attendance: { r: 0, w: 0, d: 0, u: 0 },
+  role: { r: 0, w: 0, d: 0, u: 0 },
+  supportTicket: { r: 0, w: 0, d: 0, u: 0 },
+  reports: { r: 0, w: 0, d: 0, u: 0 },
+  allReports: { r: 0, w: 0, d: 0, u: 0 },
+  timeActivity: { r: 0, w: 0, d: 0, u: 0 },
+  weeklyLimit: { r: 0, w: 0, d: 0, u: 0 },
+  holiday: { r: 0, w: 0, d: 0, u: 0 },
+  profile: { r: 0, w: 0, d: 0, u: 0 },
+  profileSetup: { r: 0, w: 0, d: 0, u: 0 },
+  privacy: { r: 0, w: 0, d: 0, u: 0 },
+  employeeDetails: { r: 0, w: 0, d: 0, u: 0 },
+  settings: { r: 0, w: 0, d: 0, u: 0 },
+  roleDetails: { r: 0, w: 0, d: 0, u: 0 }
 };
 const AddRole = () => {
   const [modules, setModules] = useState(module);
@@ -228,6 +228,28 @@ const AddRole = () => {
                       sx={{ cursor: 'pointer', userSelect: 'none', paddingRight: 2 }}
                     >
                       Delete
+                    </Typography>
+                  }
+                  labelPlacement="end"
+                />
+                <FormControlLabel
+                  sx={{ m: 0, fontSize: '14px' }}
+                  value={modules[key].u === 1}
+                  control={
+                    <Switch
+                      checked={modules[key].u === 1}
+                      color="primary"
+                      name="u"
+                      onChange={() => onChangePermission(key, 'u')}
+                    />
+                  }
+                  label={
+                    <Typography
+                      variant="button"
+                      fontWeight="regular"
+                      sx={{ cursor: 'pointer', userSelect: 'none', paddingRight: 2 }}
+                    >
+                      Update
                     </Typography>
                   }
                   labelPlacement="end"

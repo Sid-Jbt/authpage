@@ -17,14 +17,13 @@ import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
 import { leaveListData } from 'StaticData/leaveListData';
 import Select from 'Elements/Select';
-import { actionStatus, Months, userArray, Years } from 'Helpers/Global';
+import { actionStatus, Months, userArray, Years, userPermission } from 'Helpers/Global';
 import AddLeaveForm from './AddLeaveForm';
 import LeaveDetails from './LeaveDetails';
 
 const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
   const {
-    role,
     Loading,
     GetLeaveAddUpdate,
     GetLeaveList,
@@ -47,7 +46,12 @@ const LeaveList = () => {
   const [leaveCount, setLeaveCount] = useState({});
   const [approveRejectReason, setApproveRejectReason] = useState('');
   const [userList, setUserList] = useState([]);
-  const leavePermissionStatus = permission && permission.leave && permission.leave.w === 1;
+  const isAdmin =
+    permission &&
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    permission.leave &&
+    permission.leave.w === 0;
 
   const [filterData, setFilterData] = useState({
     search: '',
@@ -56,6 +60,8 @@ const LeaveList = () => {
     year: '',
     user: ''
   });
+
+  const userPermissions = userPermission(permission && permission.leave);
 
   const isValues = !(
     filterData.search === '' &&
@@ -66,7 +72,7 @@ const LeaveList = () => {
   );
 
   useEffect(() => {
-    if (role === 'admin') {
+    if (isAdmin) {
       GetEmployeeList({ limit: 0 }, (res) => {
         if (res && res.data && res.data.data) {
           setUserList(userArray(res.data.data.rows));
@@ -116,7 +122,7 @@ const LeaveList = () => {
   return (
     <>
       <Grid container spacing={3} mb={3}>
-        {!leavePermissionStatus ? (
+        {isAdmin ? (
           <>
             <Grid item xs={12} md={6} lg={4}>
               <LeaveCard
@@ -180,7 +186,7 @@ const LeaveList = () => {
           </>
         )}
       </Grid>
-      {leavePermissionStatus && (
+      {!isAdmin && (
         <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
           <Grid item xs="auto">
             <Button
@@ -245,7 +251,7 @@ const LeaveList = () => {
               inputProps={dateInputProps()}
             />
           </Grid> */}
-          {!leavePermissionStatus && (
+          {isAdmin && (
             <Grid item sm={12} md={4} lg={3}>
               <FormControl sx={{ width: '100%' }}>
                 <FormLabel>Select User</FormLabel>
@@ -296,7 +302,7 @@ const LeaveList = () => {
         </FilterLayout>
 
         <Table
-          columns={role === 'admin' ? adminPrCol : prCols}
+          columns={isAdmin ? adminPrCol : prCols}
           rows={allLeave}
           badge={['status']}
           onClickAction={(value, { id }) => {
@@ -330,14 +336,10 @@ const LeaveList = () => {
               });
             }
           }}
-          isAction={leavePermissionStatus}
-          options={[
-            { name: 'edit', title: 'Edit', value: 'edit' },
-            { name: 'delete', title: 'Delete', value: 'delete' },
-            { name: 'view', title: 'View', value: 'view' }
-          ]}
+          isAction={!isAdmin}
+          options={userPermissions}
           isView={
-            !leavePermissionStatus && [
+            isAdmin && [
               {
                 name: 2,
                 tooltip: 'Click to view',
@@ -411,14 +413,14 @@ const LeaveList = () => {
               customContent={
                 <LeaveDetails
                   data={selectedData}
-                  role={role}
+                  isAdmin={isAdmin}
                   approveRejectReason={(value) => setApproveRejectReason(value)}
                 />
               }
             />
           }
           dialogAction={
-            role === 'admin' &&
+            isAdmin &&
             selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"

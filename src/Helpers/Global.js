@@ -248,6 +248,20 @@ export const rolesArray = (data) => {
   return list;
 };
 
+export const userPermission = (data) => {
+  const list = [];
+  Object.keys(data).map((key) => {
+    if (key === 'r' && data[key]) {
+      list.push({ name: 'view', title: 'View', value: 'view' });
+    } else if (key === 'd' && data[key]) {
+      list.push({ name: 'delete', title: 'Delete', value: 'delete' });
+    } else if (key === 'u' && data[key]) {
+      list.push({ name: 'edit', title: 'Edit', value: 'edit' });
+    }
+  });
+  return list;
+};
+
 export const CreateViewData = (data, excludeKey) => {
   const labels = [];
   const values = [];
