@@ -52,14 +52,6 @@ export const leave = [
   { value: 'earnedLeave', label: 'Earned Leave' }
 ];
 
-export const attendanceStatus = [
-  { value: 'all', label: 'All' },
-  { value: 'present', label: 'Present' },
-  { value: 'absent', label: 'Absent' },
-  { value: 'late', label: 'Late' },
-  { value: 'overtime', label: 'Overtime' }
-];
-
 export const Gender = [
   { value: 'male', label: 'Male' },
   { value: 'female', label: 'Female' }
@@ -85,48 +77,6 @@ export const Department = [
 export const EventsType = [
   { value: 'notice', label: 'Notice' },
   { value: 'event', label: 'Event' }
-];
-
-export const EmployeeRoleList = [
-  'dashboard',
-  'profilesetup',
-  'profile',
-  'privacy',
-  'expense',
-  'leave',
-  'settings',
-  'payslip',
-  'attendance',
-  'profile',
-  'supportTicket',
-  'holiday',
-  'report',
-  'allreport',
-  'timeactivity',
-  'weeklylimit'
-];
-
-export const AdminRoleList = [
-  'dashboard',
-  'profilesetup',
-  'employee',
-  'profile',
-  'privacy',
-  'employeeDetails',
-  'expense',
-  'leave',
-  'settings',
-  'payslip',
-  'attendance',
-  'profile',
-  'role',
-  'supportTicket',
-  'report',
-  'allreport',
-  'timeactivity',
-  'weeklylimit',
-  'holiday',
-  'notice'
 ];
 
 export const buildFormData = (formData, data, parentKey) => {
@@ -207,18 +157,6 @@ export const keyDownTypeNumber = [
   'e',
   'E'
 ];
-
-/* export const userArray = (data) => {
-  const list = [];
-  data.map((item) => {
-    if (item.employee !== '' && item.employee !== null) {
-      list.push({ value: item.employee, label: item.employee });
-    } else {
-      list.push({ value: item.email, label: item.email });
-    }
-  });
-  return list.sort((a, b) => (a.value.toLowerCase() > b.value.toLowerCase() ? 1 : -1));
-}; */
 
 export const userArray = (data) => {
   const list = [];
