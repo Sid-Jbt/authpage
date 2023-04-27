@@ -13,7 +13,7 @@ import Input from 'Elements/Input';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
-  const { role, GetAttendanceList, GetEmployeeList } = useOutletContext();
+  const { GetAttendanceList, GetEmployeeList, permission } = useOutletContext();
   const [attendanceList, setAttendanceList] = useState([]);
   const [attendanceListCount, setAttendanceListCount] = useState(0);
   const [page, setPage] = useState(0);
@@ -21,6 +21,12 @@ const AttendanceList = () => {
   const [sort, setSort] = useState({ key: 'attendanceDate', order: 'asc' });
   const [filter, setFilter] = useState(false);
   const [userList, setUserList] = useState([]);
+  const isAdmin =
+    permission &&
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    permission.attendance &&
+    Object.values(permission.attendance).some((x) => x === 1);
 
   const [filterData, setFilterData] = useState({
     search: '',
@@ -41,7 +47,7 @@ const AttendanceList = () => {
   );
 
   useEffect(() => {
-    if (role === 'admin') {
+    if (isAdmin) {
       GetEmployeeList({ limit: 0 }, (res) => {
         if (res && res.data && res.data.data) {
           setUserList(userArray(res.data.data.rows));
@@ -89,7 +95,7 @@ const AttendanceList = () => {
 
   return (
     <>
-      {role !== 'admin' && (
+      {!isAdmin && (
         <>
           <Grid container spacing={3} mb={3}>
             <Grid item xs={12} md={6} lg={4}>
@@ -118,7 +124,7 @@ const AttendanceList = () => {
             </Grid>
           </Grid>
           <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-            {role === 'admin' && (
+            {isAdmin && (
               <Grid item xs="auto">
                 <Button
                   color="white"
@@ -186,7 +192,7 @@ const AttendanceList = () => {
               onChange={(e) => setFilterData({ ...filterData, endDate: e.target.value })}
             />
           </Grid>
-          {role === 'admin' && (
+          {isAdmin && (
             <Grid item sm={12} md={4} lg={3}>
               <FormControl sx={{ width: '100%' }}>
                 <FormLabel>Select User</FormLabel>
@@ -226,7 +232,7 @@ const AttendanceList = () => {
         </FilterLayout>
 
         <Table
-          columns={role === 'admin' ? adminPrCol : prCols}
+          columns={isAdmin ? adminPrCol : prCols}
           rows={attendanceList}
           rowsCount={attendanceListCount && attendanceListCount.total}
           badge={['status']}
