@@ -30,13 +30,12 @@ const TimeActivity = () => {
   const [filter, setFilter] = useState(false);
   const [sort, setSort] = useState({ key: 'email', order: 'asc' });
   const [page, setPage] = useState(0);
-  const reportPermissionStatus =
+
+  const isAdmin =
     permission &&
-    permission.reports &&
-    permission.reports.r &&
-    permission.reports.w &&
-    permission.reports.u &&
-    permission.reports.d;
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.reports).some((x) => x === 1);
 
   const [filterData, setFilterData] = useState({
     search: '',
@@ -48,7 +47,7 @@ const TimeActivity = () => {
   });
 
   useEffect(() => {
-    if (reportPermissionStatus) {
+    if (isAdmin) {
       GetEmployeeList({ limit: 0 }, (res) => {
         if (res && res.data && res.data.data) {
           setUserList(userArray(res.data.data.rows));
@@ -202,7 +201,7 @@ const TimeActivity = () => {
                 />
               </RadioGroup>
             </Grid>
-            {reportPermissionStatus && (
+            {isAdmin && (
               <>
                 <Grid item sm={12} md={4} lg={3}>
                   <FormControl sx={{ width: '100%' }}>
@@ -231,14 +230,14 @@ const TimeActivity = () => {
             )}
           </FilterLayout>
           <Table
-            columns={reportPermissionStatus ? adminPrCol : prCols}
+            columns={isAdmin ? adminPrCol : prCols}
             rows={[]}
             rowsCount={0}
             rowsPerPage={10}
-            isAction={!reportPermissionStatus}
+            isAction={!isAdmin}
             options={[{ name: 'view', title: 'View', value: 'view' }]}
             isView={
-              reportPermissionStatus && [
+              isAdmin && [
                 {
                   name: 3,
                   tooltip: 'Click to view',
