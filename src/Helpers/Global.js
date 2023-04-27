@@ -242,6 +242,7 @@ export const userArray = (data) => {
 export const rolesArray = (data) => {
   const list = [];
   data.map(({ name, id }) => {
+    name = name.charAt(0).toUpperCase() + name.slice(1);
     list.push({ value: name, label: name, id });
   });
   list.sort((a, b) => a.value.localeCompare(b.value));
