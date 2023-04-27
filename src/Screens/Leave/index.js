@@ -61,7 +61,9 @@ const LeaveList = () => {
     user: ''
   });
 
-  const userPermissions = userPermission(permission && permission.leave);
+  const userPermissions = userPermission(
+    permission !== null && permission.hasOwnProperty('leave') && permission.leave
+  );
 
   const isValues = !(
     filterData.search === '' &&

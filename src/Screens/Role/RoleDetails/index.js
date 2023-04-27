@@ -13,7 +13,7 @@ const initialValues = {
 };
 
 const module = {
-  dashboard: { r: 0, w: 0, u: 0, d: 0 },
+  dashboard: { r: 1, w: 0, u: 0, d: 0 },
   employee: { r: 0, w: 0, u: 0, d: 0 },
   employeeDetails: { r: 0, w: 0, u: 0, d: 0 },
   expense: { r: 0, w: 0, u: 0, d: 0 },
@@ -42,7 +42,16 @@ const AddRole = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const collapseName = pathname.split('/').slice(1)[1];
-  const excludePermission = ['organisation', 'role', 'roleDetails'];
+  const excludePermission = [
+    'organisation',
+    'role',
+    'roleDetails',
+    'dashboard',
+    'profileSetup',
+    'profile',
+    'personal',
+    'accounts'
+  ];
 
   const onChangePermission = (moduleName, permissionKey) => {
     const data = { ...modules };

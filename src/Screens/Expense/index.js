@@ -13,7 +13,7 @@ import Table from 'Elements/Tables/Table';
 import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
-import { actionStatus } from 'Helpers/Global';
+import { actionStatus, userPermission } from 'Helpers/Global';
 import Select from 'Elements/Select';
 import { expenseListData } from 'StaticData/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
@@ -56,6 +56,10 @@ const ExpenseList = () => {
     status: ''
   });
   const isValues = !Object.values(filterData).some((x) => x !== '');
+
+  const userPermissions = userPermission(
+    permission !== null && permission.hasOwnProperty('expense') && permission.expense
+  );
 
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen || isViewExpenseDialogOpen) {
@@ -211,11 +215,7 @@ const ExpenseList = () => {
             }
           }}
           isAction={!isAdmin}
-          options={[
-            { name: 'edit', title: 'Edit', value: 'edit' },
-            { name: 'delete', title: 'Delete', value: 'delete' },
-            { name: 'view', title: 'View', value: 'view' }
-          ]}
+          options={userPermissions}
           isView={
             isAdmin && [
               {

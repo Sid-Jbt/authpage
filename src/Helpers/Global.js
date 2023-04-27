@@ -249,17 +249,20 @@ export const rolesArray = (data) => {
   return list;
 };
 
+const permissions = {
+  r: { name: 'view', title: 'View', value: 'view' },
+  d: { name: 'delete', title: 'Delete', value: 'delete' },
+  u: { name: 'edit', title: 'Edit', value: 'edit' }
+};
+
 export const userPermission = (data) => {
   const list = [];
-  Object.keys(data).map((key) => {
-    if (key === 'r' && data[key]) {
-      list.push({ name: 'view', title: 'View', value: 'view' });
-    } else if (key === 'd' && data[key]) {
-      list.push({ name: 'delete', title: 'Delete', value: 'delete' });
-    } else if (key === 'u' && data[key]) {
-      list.push({ name: 'edit', title: 'Edit', value: 'edit' });
+  for (const [key, value] of Object.entries(data)) {
+    const permission = permissions[key];
+    if (permission && value) {
+      list.push({ ...permission });
     }
-  });
+  }
   return list;
 };
 
