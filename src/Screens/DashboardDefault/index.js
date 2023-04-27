@@ -13,7 +13,6 @@ import {
 } from '@mui/icons-material';
 import { useOutletContext } from 'react-router';
 import {
-  getAttendancePattern,
   getEmployeeListPattern,
   getExpensePattern,
   getLeavePattern,
@@ -176,7 +175,7 @@ const DashboardDefault = () => {
                   link={getEmployeeListPattern()}
                 />
               </Grid>
-              <Grid item xs={12} lg={6}>
+              {/* <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Today Present"
                   count={0}
@@ -193,7 +192,7 @@ const DashboardDefault = () => {
                   isPercentage={false}
                   link={getAttendancePattern()}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Pending Expense"
