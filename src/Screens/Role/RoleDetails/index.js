@@ -114,7 +114,7 @@ const AddRole = () => {
           flexDirection: 'column'
         }}
       >
-        <Grid item xs={12} md={12} lg={12}>
+        <Grid item xs={12}>
           <Formik
             enableReinitialize
             initialValues={initialValues}
@@ -127,7 +127,7 @@ const AddRole = () => {
               const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
               return (
                 <form onSubmit={handleSubmit}>
-                  <Grid item xs={12} md={12} lg={12}>
+                  <Grid item xs={12}>
                     <Grid item sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                       <Button type="submit" color="info" variant="contained" size="medium">
                         Save
@@ -160,7 +160,7 @@ const AddRole = () => {
           {Object.keys(modules).map(
             (key) =>
               excludePermission.indexOf(key) < 0 && (
-                <Grid container sx={{ padding: 1 }}>
+                <Grid container sx={{ padding: 1 }} key={key}>
                   <Grid item xs={12} md={2}>
                     <Typography
                       variant="subtitle2"
