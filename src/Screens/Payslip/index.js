@@ -24,13 +24,11 @@ const Payslip = () => {
     year: ''
   });
   const isValues = !Object.values(filterData).some((x) => x !== '');
-  const payslipPermissionStatus =
+  const isAdmin =
     permission &&
-    permission.payslip &&
-    permission.payslip.r &&
-    permission.payslip.w &&
-    permission.payslip.u &&
-    permission.payslip.d;
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.payslip).some((x) => x === 1);
 
   useEffect(() => {
     GetPayslipList(
@@ -101,7 +99,7 @@ const Payslip = () => {
         </Grid>
       </FilterLayout>
       <Table
-        columns={payslipPermissionStatus ? adminPrCol : prCols}
+        columns={isAdmin ? adminPrCol : prCols}
         rows={allPayslipList}
         rowsCount={payslipListCount}
         // onClickAction={(value, row) => onClickAction(value, row)}
