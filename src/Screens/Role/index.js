@@ -34,7 +34,7 @@ const Role = () => {
             id,
             name,
             modules,
-            action: <Edit />,
+            action: name === 'admin' || name === 'employee' ? null : <Edit />,
             ...rest
           }));
           setAllRole(rows);
