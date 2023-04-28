@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { CircularProgress, FormControl, FormLabel, Grid } from '@mui/material';
 import SideDrawer from 'Elements/SideDrawer';
@@ -7,9 +7,33 @@ import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import moment from 'moment';
 import Select from 'Elements/Select';
+import { rolesArray } from '../../Helpers/Global';
 
-const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading, allRoles }) => {
-  const [selectedRole, setSelectedRole] = useState(allRoles[1]);
+const AddEmployeeDialog = ({
+  GetEmployeeAdd,
+  isDialogOpen,
+  handleDialog,
+  Loading,
+  GetRoleList
+}) => {
+  const [allRoles, setAllRoles] = useState([]);
+  const [selectedRole, setSelectedRole] = useState(null);
+
+  useEffect(() => {
+    GetRoleList(
+      {
+        limit: 0
+      },
+      (res) => {
+        if (res && res.data && res.data.data) {
+          const roles = rolesArray(res.data.data.rows);
+          setAllRoles(rolesArray(res.data.data.rows));
+          setSelectedRole(roles[roles.findIndex((x) => x.value.toLowerCase() === 'employee')]);
+        }
+      }
+    );
+  }, []);
+
   return (
     <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title="ADD NEW EMPLOYEE">
       <Formik
