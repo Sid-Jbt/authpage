@@ -55,7 +55,7 @@ const EmployeeDetails = () => {
       },
       (res) => {
         if (res && res.data && res.data.data) {
-          setAllRoles(rolesArray(res.data.data.rows));
+          setAllRoles(rolesArray(res.data.data.rows, false));
         }
       }
     );

@@ -17,7 +17,14 @@ import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
 import { leaveListData } from 'StaticData/leaveListData';
 import Select from 'Elements/Select';
-import { actionStatus, Months, userArray, Years, userPermission } from 'Helpers/Global';
+import {
+  actionStatus,
+  Months,
+  userArray,
+  Years,
+  userPermission,
+  CheckPermission
+} from 'Helpers/Global';
 import AddLeaveForm from './AddLeaveForm';
 import LeaveDetails from './LeaveDetails';
 
@@ -46,12 +53,12 @@ const LeaveList = () => {
   const [leaveCount, setLeaveCount] = useState({});
   const [approveRejectReason, setApproveRejectReason] = useState('');
   const [userList, setUserList] = useState([]);
-  const isAdmin =
-    permission &&
-    permission.organisation &&
-    Object.values(permission.organisation).some((x) => x === 1) &&
-    permission.leave &&
-    permission.leave.w === 0;
+
+  const isAdmin = CheckPermission(
+    permission && permission.organisation,
+    '&&',
+    permission.leave && permission.leave.w === 0
+  );
 
   const [filterData, setFilterData] = useState({
     search: '',
@@ -225,34 +232,6 @@ const LeaveList = () => {
           isDisable={leaveCount && leaveCount.TotalLeaveRequest <= 0}
           onClickSearch={() => isValues && setFilter(!filter)}
         >
-          {/* <Grid item xs={6} md={4} lg={3}>
-            <Input
-              type="date"
-              label="From Date"
-              size="small"
-              fullWidth
-              id="fromDate"
-              name="fromDate"
-              inputProps={dateInputProps()}
-              errorFalse
-              value={filterData.startDate}
-              onChange={(e) => setFilterData({ ...filterData, startDate: e.target.value })}
-            />
-          </Grid>
-          <Grid item xs={6} md={4} lg={3}>
-            <Input
-              type="date"
-              label="To Date"
-              size="small"
-              fullWidth
-              id="toDate"
-              name="toDate"
-              errorFalse
-              value={filterData.endDate}
-              onChange={(e) => setFilterData({ ...filterData, endDate: e.target.value })}
-              inputProps={dateInputProps()}
-            />
-          </Grid> */}
           {isAdmin && (
             <Grid item sm={12} md={4} lg={3}>
               <FormControl sx={{ width: '100%' }}>

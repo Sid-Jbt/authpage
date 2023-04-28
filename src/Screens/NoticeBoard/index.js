@@ -222,6 +222,7 @@ export const NoticeBoard = () => {
           rows={rows}
           onClickAction={(value, id) => onClickAction(value, id)}
           isAction
+          // TODO need to update userPermission once notice module working.
           options={[
             { title: 'Edit', value: 'edit' },
             { title: 'Delete', value: 'delete' }

@@ -115,7 +115,7 @@ const AddLeaveForm = ({
                     label="From Date"
                     value={values.fromDate}
                     inputProps={{
-                      min: moment().format('YYYY-MM-DD'),
+                      min: moment().subtract(7, 'd').format('YYYY-MM-DD'),
                       max: moment().add(1, 'Y').format('YYYY-MM-DD')
                     }}
                     onChange={handleChange}
