@@ -180,9 +180,27 @@ export const userArray = (data) => {
 export const rolesArray = (data) => {
   const list = [];
   data.map(({ name, id }) => {
+    name = name.charAt(0).toUpperCase() + name.slice(1);
     list.push({ value: name, label: name, id });
   });
   list.sort((a, b) => a.value.localeCompare(b.value));
+  return list;
+};
+
+const permissions = {
+  r: { name: 'view', title: 'View', value: 'view' },
+  d: { name: 'delete', title: 'Delete', value: 'delete' },
+  u: { name: 'edit', title: 'Edit', value: 'edit' }
+};
+
+export const userPermission = (data) => {
+  const list = [];
+  for (const [key, value] of Object.entries(data)) {
+    const permission = permissions[key];
+    if (permission && value) {
+      list.push({ ...permission });
+    }
+  }
   return list;
 };
 
