@@ -19,6 +19,7 @@ import {
   getSupportTicketPattern
 } from 'Routes/routeConfig';
 import DashboardCard from 'Components/CardLayouts/StaticCard';
+import { CheckPermission } from '../../Helpers/Global';
 
 const DashboardDefault = () => {
   const { DashboardData, permission } = useOutletContext();
@@ -36,11 +37,8 @@ const DashboardDefault = () => {
     leaveCount: 0,
     ticketCount: 0
   });
-  const isAdmin =
-    permission &&
-    permission.organisation &&
-    Object.values(permission.organisation).some((x) => x === 1) &&
-    Object.values(permission.dashboard).some((x) => x === 1);
+
+  const isAdmin = CheckPermission(permission && permission.organisation);
 
   useEffect(() => {
     if (DashboardData) {

@@ -237,3 +237,10 @@ export const dateInputProps = (minLimit = 50, maxLimit = 50) => ({
   min: moment().subtract(minLimit, 'Y').format('YYYY-MM-DD'),
   max: moment().add(maxLimit, 'Y').format('YYYY-MM-DD')
 });
+
+export const CheckPermission = (permission, condition = false, extra = false) =>
+  condition === '&&'
+    ? permission && Object.values(permission).some((x) => x === 1) && extra
+    : condition === '||'
+    ? (permission && Object.values(permission).some((x) => x === 1)) || extra
+    : permission && Object.values(permission).some((x) => x === 1);
