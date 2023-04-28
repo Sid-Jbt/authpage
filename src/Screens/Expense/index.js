@@ -13,7 +13,7 @@ import Table from 'Elements/Tables/Table';
 import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
-import { actionStatus } from 'Helpers/Global';
+import { actionStatus, userPermission } from 'Helpers/Global';
 import Select from 'Elements/Select';
 import { expenseListData } from 'StaticData/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
@@ -24,7 +24,6 @@ import AddExpenseForm from './AddExpenseForm';
 const ExpenseList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
   const {
-    role,
     Loading,
     GetExpenseAddUpdate,
     GetExpenseList,
@@ -45,13 +44,22 @@ const ExpenseList = () => {
   const [allExpense, setAllExpense] = useState([]);
   const [expenseCount, setExpenseCount] = useState({});
   const [approveRejectReason, setApproveRejectReason] = useState('');
-  const expensePermissionStatus = permission && permission.expense && permission.expense.w === 1;
+  const isAdmin =
+    permission &&
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    permission.expense &&
+    permission.expense.w === 0;
 
   const [filterData, setFilterData] = useState({
     search: '',
     status: ''
   });
   const isValues = !Object.values(filterData).some((x) => x !== '');
+
+  const userPermissions = userPermission(
+    permission !== null && permission.hasOwnProperty('expense') && permission.expense
+  );
 
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen || isViewExpenseDialogOpen) {
@@ -121,7 +129,7 @@ const ExpenseList = () => {
         </Grid>
       </Grid>
 
-      {expensePermissionStatus && (
+      {!isAdmin && (
         <>
           <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
             <Grid item xs="auto">
@@ -174,7 +182,7 @@ const ExpenseList = () => {
         </FilterLayout>
 
         <Table
-          columns={!expensePermissionStatus ? adminPrCol : prCols}
+          columns={isAdmin ? adminPrCol : prCols}
           rows={allExpense}
           badge={['status']}
           onClickAction={(value, { id }) => {
@@ -206,14 +214,10 @@ const ExpenseList = () => {
               });
             }
           }}
-          isAction={expensePermissionStatus}
-          options={[
-            { name: 'edit', title: 'Edit', value: 'edit' },
-            { name: 'delete', title: 'Delete', value: 'delete' },
-            { name: 'view', title: 'View', value: 'view' }
-          ]}
+          isAction={!isAdmin}
+          options={userPermissions}
           isView={
-            !expensePermissionStatus && [
+            isAdmin && [
               {
                 name: 2,
                 tooltip: 'Click to view',
@@ -288,14 +292,14 @@ const ExpenseList = () => {
               customContent={
                 <ExpenseDetails
                   data={selectedData}
-                  role={role}
+                  isAdmin={isAdmin}
                   approveRejectReason={(value) => setApproveRejectReason(value)}
                 />
               }
             />
           }
           dialogAction={
-            role === 'admin' &&
+            isAdmin &&
             selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"

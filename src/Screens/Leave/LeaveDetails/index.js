@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { getSupportTicketPattern } from '../../../Routes/routeConfig';
 import { CreateViewData } from '../../../Helpers/Global';
 
-const LeaveDetails = ({ data, role, approveRejectReason }) => {
+const LeaveDetails = ({ data, isAdmin, approveRejectReason }) => {
   const { viewData, labels, values } = CreateViewData(data, ['leaveType', 'id', 'reason']);
   // Render the card data items
   const renderItems = labels.map((label, key) => (
@@ -27,7 +27,7 @@ const LeaveDetails = ({ data, role, approveRejectReason }) => {
     <Box sx={{ width: 400 }}>
       {renderItems}
 
-      {role === 'admin' &&
+      {isAdmin &&
       viewData.status !== 'pending' &&
       viewData.status === 'reject' &&
       viewData.status === 'approved' ? (
@@ -39,7 +39,7 @@ const LeaveDetails = ({ data, role, approveRejectReason }) => {
             {viewData.reason}
           </Typography>
         </>
-      ) : role === 'admin' && viewData.status === 'pending' ? (
+      ) : isAdmin && viewData.status === 'pending' ? (
         <FormField
           type="textarea"
           placeholder="Enter the reason"

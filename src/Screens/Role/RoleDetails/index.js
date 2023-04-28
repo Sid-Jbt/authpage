@@ -13,25 +13,28 @@ const initialValues = {
 };
 
 const module = {
-  dashboard: { r: 0, w: 0, d: 0 },
-  employee: { r: 0, w: 0, d: 0 },
-  expense: { r: 0, w: 0, d: 0 },
-  leave: { r: 0, w: 0, d: 0 },
-  payslip: { r: 0, w: 0, d: 0 },
-  attendance: { r: 0, w: 0, d: 0 },
-  role: { r: 0, w: 0, d: 0 },
-  supportTicket: { r: 0, w: 0, d: 0 },
-  reports: { r: 0, w: 0, d: 0 },
-  allReports: { r: 0, w: 0, d: 0 },
-  timeActivity: { r: 0, w: 0, d: 0 },
-  weeklyLimit: { r: 0, w: 0, d: 0 },
-  holiday: { r: 0, w: 0, d: 0 },
-  profile: { r: 0, w: 0, d: 0 },
-  profileSetup: { r: 0, w: 0, d: 0 },
-  privacy: { r: 0, w: 0, d: 0 },
-  employeeDetails: { r: 0, w: 0, d: 0 },
-  settings: { r: 0, w: 0, d: 0 },
-  roleDetails: { r: 0, w: 0, d: 0 }
+  dashboard: { r: 1, w: 0, u: 0, d: 0 },
+  employee: { r: 0, w: 0, u: 0, d: 0 },
+  employeeDetails: { r: 0, w: 0, u: 0, d: 0 },
+  expense: { r: 0, w: 0, u: 0, d: 0 },
+  leave: { r: 0, w: 0, u: 0, d: 0 },
+  payslip: { r: 0, w: 0, u: 0, d: 0 },
+  attendance: { r: 0, w: 0, u: 0, d: 0 },
+  role: { r: 0, w: 0, u: 0, d: 0 },
+  roleDetails: { r: 0, w: 0, u: 0, d: 0 },
+  supportTicket: { r: 0, w: 0, u: 0, d: 0 },
+  reports: { r: 0, w: 0, u: 0, d: 0 },
+  allReports: { r: 0, w: 0, u: 0, d: 0 },
+  timeActivity: { r: 0, w: 0, u: 0, d: 0 },
+  weeklyLimit: { r: 0, w: 0, u: 0, d: 0 },
+  holiday: { r: 0, w: 0, u: 0, d: 0 },
+  profile: { r: 0, w: 0, u: 0, d: 0 },
+  personal: { r: 0, w: 0, u: 0, d: 0 },
+  organisation: { r: 0, w: 0, u: 0, d: 0 },
+  accounts: { r: 0, w: 0, u: 0, d: 0 },
+  profileSetup: { r: 0, w: 0, u: 0, d: 0 },
+  privacy: { r: 0, w: 0, u: 0, d: 0 },
+  settings: { r: 0, w: 0, u: 0, d: 0 }
 };
 const AddRole = () => {
   const [modules, setModules] = useState(module);
@@ -39,6 +42,16 @@ const AddRole = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const collapseName = pathname.split('/').slice(1)[1];
+  const excludePermission = [
+    'organisation',
+    'role',
+    'roleDetails',
+    'dashboard',
+    'profileSetup',
+    'profile',
+    'personal',
+    'accounts'
+  ];
 
   const onChangePermission = (moduleName, permissionKey) => {
     const data = { ...modules };
@@ -66,7 +79,7 @@ const AddRole = () => {
   const onSubmit = (values, action) => {
     const formData = {
       roleName: values.roleName,
-      permission: JSON.stringify(module)
+      permission: JSON.stringify(modules)
     };
     if (collapseName === 'addRole') {
       GetRoleAdd(formData, (res) => {
@@ -101,7 +114,7 @@ const AddRole = () => {
           flexDirection: 'column'
         }}
       >
-        <Grid item xs={12} md={12} lg={12}>
+        <Grid item xs={12}>
           <Formik
             enableReinitialize
             initialValues={initialValues}
@@ -114,7 +127,7 @@ const AddRole = () => {
               const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
               return (
                 <form onSubmit={handleSubmit}>
-                  <Grid item xs={12} md={12} lg={12}>
+                  <Grid item xs={12}>
                     <Grid item sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                       <Button type="submit" color="info" variant="contained" size="medium">
                         Save
@@ -144,97 +157,122 @@ const AddRole = () => {
           </Formik>
         </Grid>
         <Grid item xs={12}>
-          {Object.keys(modules).map((key) => (
-            <Grid container sx={{ padding: 1 }}>
-              <Grid item xs={12} md={2}>
-                <Typography
-                  variant="subtitle2"
-                  color="text"
-                  fontWeight="bold"
-                  textTransform="capitalize"
-                  sx={{ paddingRight: 2 }}
-                >
-                  {key}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={10}
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row'
-                }}
-              >
-                <FormControlLabel
-                  sx={{ m: 0, fontSize: '14px' }}
-                  value={modules[key].r === 1}
-                  control={
-                    <Switch
-                      checked={modules[key].r === 1}
-                      color="primary"
-                      name="r"
-                      onChange={() => onChangePermission(key, 'r')}
-                    />
-                  }
-                  label={
+          {Object.keys(modules).map(
+            (key) =>
+              excludePermission.indexOf(key) < 0 && (
+                <Grid container sx={{ padding: 1 }} key={key}>
+                  <Grid item xs={12} md={2}>
                     <Typography
-                      variant="button"
-                      fontWeight="regular"
-                      sx={{ cursor: 'pointer', userSelect: 'none', paddingRight: 2 }}
+                      variant="subtitle2"
+                      color="text"
+                      fontWeight="bold"
+                      textTransform="capitalize"
+                      sx={{ paddingRight: 2 }}
                     >
-                      Read
+                      {key}
                     </Typography>
-                  }
-                  labelPlacement="end"
-                />
-                <FormControlLabel
-                  sx={{ m: 0, fontSize: '14px' }}
-                  value={modules[key].w === 1}
-                  control={
-                    <Switch
-                      checked={modules[key].w === 1}
-                      color="primary"
-                      name="w"
-                      onChange={() => onChangePermission(key, 'w')}
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    md={10}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row'
+                    }}
+                  >
+                    <FormControlLabel
+                      sx={{ m: 0, fontSize: '14px' }}
+                      value={modules[key].r === 1}
+                      control={
+                        <Switch
+                          checked={modules[key].r === 1}
+                          color="primary"
+                          name="r"
+                          onChange={() => onChangePermission(key, 'r')}
+                        />
+                      }
+                      label={
+                        <Typography
+                          variant="button"
+                          fontWeight="regular"
+                          sx={{ cursor: 'pointer', userSelect: 'none', paddingRight: 2 }}
+                        >
+                          Read
+                        </Typography>
+                      }
+                      labelPlacement="end"
                     />
-                  }
-                  label={
-                    <Typography
-                      variant="button"
-                      fontWeight="regular"
-                      sx={{ cursor: 'pointer', userSelect: 'none', paddingRight: 2 }}
-                    >
-                      Write
-                    </Typography>
-                  }
-                  labelPlacement="end"
-                />
-                <FormControlLabel
-                  sx={{ m: 0, fontSize: '14px' }}
-                  value={modules[key].d === 1}
-                  control={
-                    <Switch
-                      checked={modules[key].d === 1}
-                      color="primary"
-                      name="d"
-                      onChange={() => onChangePermission(key, 'd')}
+                    <FormControlLabel
+                      sx={{ m: 0, fontSize: '14px' }}
+                      value={modules[key].w === 1}
+                      control={
+                        <Switch
+                          checked={modules[key].w === 1}
+                          color="primary"
+                          name="w"
+                          onChange={() => onChangePermission(key, 'w')}
+                        />
+                      }
+                      label={
+                        <Typography
+                          variant="button"
+                          fontWeight="regular"
+                          sx={{ cursor: 'pointer', userSelect: 'none', paddingRight: 2 }}
+                        >
+                          Write
+                        </Typography>
+                      }
+                      labelPlacement="end"
                     />
-                  }
-                  label={
-                    <Typography
-                      variant="button"
-                      fontWeight="regular"
-                      sx={{ cursor: 'pointer', userSelect: 'none', paddingRight: 2 }}
-                    >
-                      Delete
-                    </Typography>
-                  }
-                  labelPlacement="end"
-                />
-              </Grid>
-            </Grid>
-          ))}
+                    <FormControlLabel
+                      sx={{ m: 0, fontSize: '14px' }}
+                      value={modules[key].d === 1}
+                      control={
+                        <Switch
+                          checked={modules[key].d === 1}
+                          color="primary"
+                          name="d"
+                          onChange={() => onChangePermission(key, 'd')}
+                        />
+                      }
+                      label={
+                        <Typography
+                          variant="button"
+                          fontWeight="regular"
+                          sx={{ cursor: 'pointer', userSelect: 'none', paddingRight: 2 }}
+                        >
+                          Delete
+                        </Typography>
+                      }
+                      labelPlacement="end"
+                    />
+                    <FormControlLabel
+                      sx={{ m: 0, fontSize: '14px' }}
+                      value={modules[key].u === 1}
+                      control={
+                        <Switch
+                          checked={modules[key].u === 1}
+                          color="primary"
+                          name="u"
+                          onChange={() => onChangePermission(key, 'u')}
+                        />
+                      }
+                      label={
+                        <Typography
+                          variant="button"
+                          fontWeight="regular"
+                          sx={{ cursor: 'pointer', userSelect: 'none', paddingRight: 2 }}
+                        >
+                          Update
+                        </Typography>
+                      }
+                      labelPlacement="end"
+                    />
+                  </Grid>
+                </Grid>
+              )
+          )}
         </Grid>
       </Grid>
     </Card>
