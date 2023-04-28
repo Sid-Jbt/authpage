@@ -75,19 +75,17 @@ const EmployeeList = () => {
   }, [isDialogOpen, isActiveDialogOpen, filter, page, sort, limit]);
 
   useEffect(() => {
-    if (isAdmin) {
-      GetRoleList(
-        {
-          limit: 0
-        },
-        (res) => {
-          if (res && res.data && res.data.data) {
-            setAllRoles(rolesArray(res.data.data.rows, true));
-            setFilterData({ ...filterData, selectedRole: rolesArray(res.data.data.rows, true)[0] });
-          }
+    GetRoleList(
+      {
+        limit: 0
+      },
+      (res) => {
+        if (res && res.data && res.data.data) {
+          setAllRoles(rolesArray(res.data.data.rows, true));
+          setFilterData({ ...filterData, selectedRole: rolesArray(res.data.data.rows, true)[0] });
         }
-      );
-    }
+      }
+    );
 
     return () => {};
   }, []);
