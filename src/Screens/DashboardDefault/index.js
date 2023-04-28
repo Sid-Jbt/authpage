@@ -13,7 +13,6 @@ import {
 } from '@mui/icons-material';
 import { useOutletContext } from 'react-router';
 import {
-  getAttendancePattern,
   getEmployeeListPattern,
   getExpensePattern,
   getLeavePattern,
@@ -37,13 +36,11 @@ const DashboardDefault = () => {
     leaveCount: 0,
     ticketCount: 0
   });
-  const permissionStatus =
+  const isAdmin =
     permission &&
-    permission.dashboard &&
-    permission.dashboard.r &&
-    permission.dashboard.w &&
-    permission.dashboard.u &&
-    permission.dashboard.d;
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.dashboard).some((x) => x === 1);
 
   useEffect(() => {
     if (DashboardData) {
@@ -112,7 +109,7 @@ const DashboardDefault = () => {
           lg={12}
           xl={12}
         >
-          {permissionStatus ? null : (
+          {isAdmin ? null : (
             <>
               <Grid item xs={12} md={6} lg={3}>
                 <DashboardCard
@@ -149,7 +146,7 @@ const DashboardDefault = () => {
             </>
           )}
 
-          <Grid item xs={12} lg={permissionStatus ? 8 : 12}>
+          <Grid item xs={12} lg={isAdmin ? 8 : 12}>
             {useMemo(
               () => (
                 <Calendar
@@ -167,7 +164,7 @@ const DashboardDefault = () => {
               [calendarEventsData]
             )}
           </Grid>
-          {permissionStatus ? (
+          {isAdmin ? (
             <Grid container item spacing={3} xs={12} lg={4}>
               <Grid item xs={12} lg={6}>
                 <DashboardCard
@@ -178,7 +175,7 @@ const DashboardDefault = () => {
                   link={getEmployeeListPattern()}
                 />
               </Grid>
-              <Grid item xs={12} lg={6}>
+              {/* <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Today Present"
                   count={0}
@@ -195,7 +192,7 @@ const DashboardDefault = () => {
                   isPercentage={false}
                   link={getAttendancePattern()}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Pending Expense"

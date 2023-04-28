@@ -28,21 +28,10 @@ const Profile = ({ GetDashboard }) => {
   const [isEdit, setIsEdit] = useState(false);
   const { bankInfo, organisation, profile, ...rest } = user;
 
-  const organisationPermission =
+  const isAdmin =
     permission &&
     permission.organisation &&
-    permission.organisation.r &&
-    permission.organisation.w &&
-    permission.organisation.u &&
-    permission.organisation.d;
-
-  const accountsPermission =
-    permission &&
-    permission.accounts &&
-    permission.accounts.r &&
-    permission.accounts.w &&
-    permission.accounts.u &&
-    permission.accounts.d;
+    Object.values(permission.organisation).some((x) => x === 1);
 
   const TabsList = [
     {
@@ -56,14 +45,14 @@ const Profile = ({ GetDashboard }) => {
       key: 'organisation',
       title: 'Organisation',
       link: getOrganisationProfilePattern(),
-      permissionStatus: organisationPermission,
+      permissionStatus: isAdmin,
       icon: <BungalowRounded style={{ marginRight: '8px' }} />
     },
     {
       key: 'account',
       title: 'Account',
       link: getAccountsProfilePattern(),
-      permissionStatus: accountsPermission,
+      permissionStatus: !isAdmin,
       icon: <AccountBalance style={{ marginRight: '8px' }} />
     }
   ];
@@ -80,7 +69,7 @@ const Profile = ({ GetDashboard }) => {
     permanentAddress: '',
     presentAddress: '',
     gender: 'male',
-    ...(organisationPermission
+    ...(isAdmin
       ? {
           largeLogo: '',
           smallLogo: '',
@@ -139,7 +128,7 @@ const Profile = ({ GetDashboard }) => {
     <Box>
       <Box height="8rem" />
       <Header
-        role={organisationPermission}
+        role={isAdmin}
         user={user}
         Loading={Loading}
         GetProfileSetup={GetProfileSetup}
@@ -170,9 +159,9 @@ const Profile = ({ GetDashboard }) => {
                     <Typography variant="h6" fontWeight="bold" textTransform="capitalize">
                       {tabIndex === 0
                         ? 'Basic Details'
-                        : organisationPermission && tabIndex === 1
+                        : isAdmin && tabIndex === 1
                         ? 'Organisation Details'
-                        : accountsPermission && tabIndex === 1
+                        : !isAdmin && tabIndex === 1
                         ? 'Bank Details'
                         : 'Salary Details'}
                     </Typography>
@@ -199,19 +188,13 @@ const Profile = ({ GetDashboard }) => {
                 </Grid>
                 <>
                   {tabIndex === 0 && (
-                    <PersonalDetails isEdit={isEdit} role={organisationPermission} props={props} />
+                    <PersonalDetails isEdit={isEdit} role={isAdmin} props={props} />
                   )}
-                  {organisationPermission && tabIndex === 1 && (
-                    <OrganisationDetails
-                      isEdit={isEdit}
-                      role={organisationPermission}
-                      props={props}
-                    />
+                  {isAdmin && tabIndex === 1 && (
+                    <OrganisationDetails isEdit={isEdit} role={isAdmin} props={props} />
                   )}
-                  {accountsPermission && tabIndex === 1 && (
-                    <BankInfo isEdit={isEdit} props={props} />
-                  )}
-                  {/* {!permissionStatus && tabIndex === 2 && <SalaryDetails props={props} />} */}
+                  {!isAdmin && tabIndex === 1 && <BankInfo isEdit={isEdit} props={props} />}
+                  {/* {!isAdmin && tabIndex === 2 && <SalaryDetails props={props} />} */}
                 </>
               </form>
             );
