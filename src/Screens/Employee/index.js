@@ -75,16 +75,20 @@ const EmployeeList = () => {
   }, [isDialogOpen, isActiveDialogOpen, filter, page, sort, limit]);
 
   useEffect(() => {
-    GetRoleList(
-      {
-        limit: 0
-      },
-      (res) => {
-        if (res && res.data && res.data.data) {
-          setAllRoles(rolesArray(res.data.data.rows));
+    if (isAdmin) {
+      GetRoleList(
+        {
+          limit: 0
+        },
+        (res) => {
+          if (res && res.data && res.data.data) {
+            setAllRoles(rolesArray(res.data.data.rows, true));
+            setFilterData({ ...filterData, selectedRole: rolesArray(res.data.data.rows, true)[0] });
+          }
         }
-      }
-    );
+      );
+    }
+
     return () => {};
   }, []);
 
@@ -93,7 +97,7 @@ const EmployeeList = () => {
       startDate: '',
       endDate: '',
       search: '',
-      selectedRole: ''
+      selectedRole: allRoles.length > 0 ? allRoles[0] : ''
     });
     setFilter(!filter);
   };
@@ -128,7 +132,7 @@ const EmployeeList = () => {
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={() => isValues && handleClear()}
-          isDisable={!isValues && allEmployee.length <= 0}
+          isDisable={!isValues && employeeCount.length <= 0}
           onClickSearch={() => isValues && setFilter(!filter)}
         >
           <Grid item xs={6} md={4} lg={3}>
@@ -227,7 +231,7 @@ const EmployeeList = () => {
             isDialogOpen={isDialogOpen}
             handleDialog={() => setIsDialogOpen(false)}
             Loading={Loading}
-            allRoles={allRoles && allRoles}
+            GetRoleList={GetRoleList}
           />
         )}
 

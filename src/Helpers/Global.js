@@ -177,13 +177,22 @@ export const userArray = (data) => {
   return list;
 };
 
-export const rolesArray = (data) => {
+export const rolesArray = (data, isAll = false) => {
   const list = [];
   data.map(({ name, id }) => {
     name = name.charAt(0).toUpperCase() + name.slice(1);
     list.push({ value: name, label: name, id });
   });
   list.sort((a, b) => a.value.localeCompare(b.value));
+  if (isAll) {
+    list.push({ value: '', label: 'All' });
+    list.sort((a, b) => a.value.localeCompare(b.value));
+    const index = list.findIndex((obj) => obj.value === '' && obj.label === 'All');
+    if (index !== -1) {
+      const obj = list.splice(index, 1)[0];
+      list.unshift(obj);
+    }
+  }
   return list;
 };
 
