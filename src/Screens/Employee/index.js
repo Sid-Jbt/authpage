@@ -29,6 +29,12 @@ const EmployeeList = () => {
   const [filter, setFilter] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [isActiveDialogOpen, setIsActiveDialogOpen] = useState(false);
+  const isAdmin =
+    permission &&
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    permission.employee &&
+    Object.values(permission.employee).some((x) => x === 1);
 
   const [filterData, setFilterData] = useState({
     startDate: '',
@@ -95,7 +101,7 @@ const EmployeeList = () => {
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        {permission.employee.w === 1 ? (
+        {isAdmin && (
           <Grid item xs="auto">
             <Button
               color="white"
@@ -109,7 +115,7 @@ const EmployeeList = () => {
               Add
             </Button>
           </Grid>
-        ) : null}
+        )}
       </Grid>
       <Card
         sx={{
