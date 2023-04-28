@@ -10,7 +10,7 @@ import { payslipColumns } from 'StaticData/payslipData';
 
 const Payslip = () => {
   const { columns: prCols, adminColumns: adminPrCol } = payslipColumns;
-  const { role, GetPayslipList } = useOutletContext();
+  const { GetPayslipList, permission } = useOutletContext();
   const [allPayslipList, setAllPayslipList] = useState([]);
   const [payslipListCount, setPayslipListCount] = useState(0);
   const [page, setPage] = useState(0);
@@ -24,6 +24,11 @@ const Payslip = () => {
     year: ''
   });
   const isValues = !Object.values(filterData).some((x) => x !== '');
+  const isAdmin =
+    permission &&
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.payslip).some((x) => x === 1);
 
   useEffect(() => {
     GetPayslipList(
@@ -94,7 +99,7 @@ const Payslip = () => {
         </Grid>
       </FilterLayout>
       <Table
-        columns={role === 'admin' ? adminPrCol : prCols}
+        columns={isAdmin ? adminPrCol : prCols}
         rows={allPayslipList}
         rowsCount={payslipListCount}
         // onClickAction={(value, row) => onClickAction(value, row)}

@@ -49,13 +49,12 @@ const SupportTicket = () => {
   const [limit, setLimit] = useState(10);
   const [filter, setFilter] = useState(false);
   const [approveRejectReason, setApproveRejectReason] = useState('');
-  const organisationPermission =
+
+  const isAdmin =
     permission &&
     permission.organisation &&
-    permission.organisation.r &&
-    permission.organisation.w &&
-    permission.organisation.u &&
-    permission.organisation.d;
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.supportTicket).some((x) => x === 1);
 
   const [filterData, setFilterData] = useState({
     startDate: '',
@@ -212,7 +211,7 @@ const SupportTicket = () => {
         </FilterLayout>
 
         <Table
-          columns={organisationPermission ? adminPrCol : prCols}
+          columns={isAdmin ? adminPrCol : prCols}
           rows={allSpTicketList}
           badge={['status', 'priority']}
           onClickAction={(value, { id }) => {
@@ -244,14 +243,14 @@ const SupportTicket = () => {
               });
             }
           }}
-          isAction={!organisationPermission}
+          isAction={!isAdmin}
           options={[
             { name: 'edit', title: 'Edit', value: 'edit' },
             { name: 'delete', title: 'Delete', value: 'delete' },
             { name: 'view', title: 'View', value: 'view' }
           ]}
           isView={
-            organisationPermission && [
+            isAdmin && [
               {
                 name: 2,
                 tooltip: 'Click to view',
@@ -336,14 +335,14 @@ const SupportTicket = () => {
               customContent={
                 <SupportTicketDetails
                   data={selectedData}
-                  role={organisationPermission}
+                  isAdmin={isAdmin}
                   approveRejectReason={(value) => setApproveRejectReason(value)}
                 />
               }
             />
           }
           dialogAction={
-            organisationPermission &&
+            isAdmin &&
             selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"

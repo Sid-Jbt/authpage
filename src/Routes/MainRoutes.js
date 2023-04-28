@@ -285,16 +285,21 @@ const MainRoutes = [
 
 const Route = () => {
   const { roleList } = useSelector((state) => state.login);
-  const childrenList = MainRoutes.filter(
-    (item) =>
+  const childrenList = MainRoutes.filter((item) => {
+    const check =
       roleList &&
       roleList[item.key] &&
       (roleList[item.key].r ||
         roleList[item.key].w ||
-        roleList[item.key].d ||
-        roleList[item.key].u) &&
-      roleList.hasOwnProperty(item.key)
-  );
+        roleList[item.key].u ||
+        roleList[item.key].d);
+    if (check) {
+      if (item.children) {
+        return item.children.filter((child) => roleList.hasOwnProperty(child.key));
+      }
+      return roleList.hasOwnProperty(item.key);
+    }
+  });
 
   return {
     path: '/',

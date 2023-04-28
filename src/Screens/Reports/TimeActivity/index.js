@@ -18,41 +18,46 @@ import { GraphicEqOutlined, RemoveRedEye } from '@mui/icons-material';
 import { timeActivityListData } from 'StaticData/timeActivityListData';
 import { defaultLineChartData } from 'StaticData/defaultLineChartData';
 import { useOutletContext } from 'react-router';
-import { Roles, userArray } from 'Helpers/Global';
+import { rolesArray, userArray } from 'Helpers/Global';
 import Select from 'Elements/Select';
 import moment from 'moment';
 
 const TimeActivity = () => {
   const { columns: prCols, adminColumns: adminPrCol } = timeActivityListData;
   const theme = useTheme();
-  const { GetEmployeeList, permission } = useOutletContext();
+  const { GetEmployeeList, GetRoleList, permission } = useOutletContext();
   const [userList, setUserList] = useState([]);
   const [filter, setFilter] = useState(false);
   const [sort, setSort] = useState({ key: 'email', order: 'asc' });
   const [page, setPage] = useState(0);
-  const reportPermissionStatus =
+  const [allRoles, setAllRoles] = useState([]);
+
+  const isAdmin =
     permission &&
-    permission.reports &&
-    permission.reports.r &&
-    permission.reports.w &&
-    permission.reports.u &&
-    permission.reports.d;
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.reports).some((x) => x === 1);
 
   const [filterData, setFilterData] = useState({
     search: '',
     startDate: '',
     endDate: '',
     user: '',
-    selectedRole: Roles[0],
+    selectedRole: '',
     radioDate: 'custom'
   });
 
   useEffect(() => {
-    if (reportPermissionStatus) {
+    if (isAdmin) {
       GetEmployeeList({ limit: 0 }, (res) => {
         if (res && res.data && res.data.data) {
           setUserList(userArray(res.data.data.rows));
           setFilterData({ ...filterData, user: userArray(res.data.data.rows)[0] });
+        }
+      });
+      GetRoleList({ limit: 0 }, (res) => {
+        if (res && res.data && res.data.data) {
+          setAllRoles(rolesArray(res.data.data.rows));
         }
       });
     }
@@ -92,7 +97,7 @@ const TimeActivity = () => {
       startDate: '',
       endDate: '',
       user: userList.length > 0 ? userList[0] : '',
-      selectedRole: Roles[0],
+      selectedRole: '',
       radioDate: 'custom'
     });
     setFilter(!filter);
@@ -202,7 +207,7 @@ const TimeActivity = () => {
                 />
               </RadioGroup>
             </Grid>
-            {reportPermissionStatus && (
+            {isAdmin && (
               <>
                 <Grid item sm={12} md={4} lg={3}>
                   <FormControl sx={{ width: '100%' }}>
@@ -216,29 +221,31 @@ const TimeActivity = () => {
                     />
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} md={4} lg={3}>
-                  <FormControl sx={{ width: '100%' }}>
-                    <FormLabel>Select Role</FormLabel>
-                    <Select
-                      size="small"
-                      value={filterData.selectedRole}
-                      options={Roles}
-                      onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
-                    />
-                  </FormControl>
-                </Grid>
+                {allRoles.length > 0 && (
+                  <Grid item xs={12} md={4} lg={3}>
+                    <FormControl sx={{ width: '100%' }}>
+                      <FormLabel>Select Role</FormLabel>
+                      <Select
+                        size="small"
+                        value={filterData.selectedRole}
+                        options={allRoles}
+                        onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
+                      />
+                    </FormControl>
+                  </Grid>
+                )}
               </>
             )}
           </FilterLayout>
           <Table
-            columns={reportPermissionStatus ? adminPrCol : prCols}
+            columns={isAdmin ? adminPrCol : prCols}
             rows={[]}
             rowsCount={0}
             rowsPerPage={10}
-            isAction={!reportPermissionStatus}
+            isAction={!isAdmin}
             options={[{ name: 'view', title: 'View', value: 'view' }]}
             isView={
-              reportPermissionStatus && [
+              isAdmin && [
                 {
                   name: 3,
                   tooltip: 'Click to view',
