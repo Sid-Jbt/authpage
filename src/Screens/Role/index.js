@@ -20,11 +20,7 @@ const Role = () => {
   useEffect(() => {
     GetRoleList(
       {
-        page: 0,
-        sortKey: 'name',
-        sortOrder: 'asc',
-        limit: 10,
-        search: ''
+        limit: 0
       },
       (res) => {
         if (res && res.data && res.data.data) {
