@@ -15,7 +15,7 @@ import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
-import { Priority, actionStatus } from 'Helpers/Global';
+import { Priority, actionStatus, userPermission } from 'Helpers/Global';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import DialogMenu from 'Elements/Dialog';
 import TicketCard from 'Components/CardLayouts/StaticCard';
@@ -55,6 +55,10 @@ const SupportTicket = () => {
     permission.organisation &&
     Object.values(permission.organisation).some((x) => x === 1) &&
     Object.values(permission.supportTicket).some((x) => x === 1);
+
+  const userPermissions = userPermission(
+    permission !== null && permission.hasOwnProperty('supportTicket') && permission.supportTicket
+  );
 
   const [filterData, setFilterData] = useState({
     startDate: '',
@@ -244,11 +248,7 @@ const SupportTicket = () => {
             }
           }}
           isAction={!isAdmin}
-          options={[
-            { name: 'edit', title: 'Edit', value: 'edit' },
-            { name: 'delete', title: 'Delete', value: 'delete' },
-            { name: 'view', title: 'View', value: 'view' }
-          ]}
+          options={userPermissions}
           isView={
             isAdmin && [
               {
