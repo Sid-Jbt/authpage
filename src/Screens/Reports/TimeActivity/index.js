@@ -57,7 +57,8 @@ const TimeActivity = () => {
       });
       GetRoleList({ limit: 0 }, (res) => {
         if (res && res.data && res.data.data) {
-          setAllRoles(rolesArray(res.data.data.rows));
+          setAllRoles(rolesArray(res.data.data.rows, true));
+          setFilterData({ ...filterData, selectedRole: rolesArray(res.data.data.rows, true)[0] });
         }
       });
     }
@@ -97,7 +98,7 @@ const TimeActivity = () => {
       startDate: '',
       endDate: '',
       user: userList.length > 0 ? userList[0] : '',
-      selectedRole: '',
+      selectedRole: allRoles.length > 0 ? allRoles[0] : '',
       radioDate: 'custom'
     });
     setFilter(!filter);
