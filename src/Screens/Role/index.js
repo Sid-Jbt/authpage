@@ -32,9 +32,9 @@ const Role = () => {
           // const { count } = res.data.data;
           rows = rows.map(({ id, name, modules, ...rest }) => ({
             id,
-            name,
+            name: name.charAt(0).toUpperCase() + name.slice(1),
             modules,
-            action: <Edit />,
+            action: name === 'admin' || name === 'employee' ? null : <Edit />,
             ...rest
           }));
           setAllRole(rows);
