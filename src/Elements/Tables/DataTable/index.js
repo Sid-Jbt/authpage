@@ -169,8 +169,8 @@ const DataTable = ({
                 {row.cells.map((cell, index) => (
                   <DataTableBodyCell
                     onClickAction={() =>
-                      row.values.name !== 'admin' &&
-                      row.values.name !== 'employee' &&
+                      row.values.name.toLowerCase() !== 'admin' &&
+                      row.values.name.toLowerCase() !== 'employee' &&
                       onClickAction(row.values.name)
                     }
                     key={index}
