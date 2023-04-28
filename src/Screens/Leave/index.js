@@ -60,6 +60,8 @@ const LeaveList = () => {
     permission.leave && permission.leave.w === 0
   );
 
+  const uiPermission = permission && permission.leave;
+
   const [filterData, setFilterData] = useState({
     search: '',
     status: '',
@@ -195,7 +197,7 @@ const LeaveList = () => {
           </>
         )}
       </Grid>
-      {!isAdmin && (
+      {uiPermission.w && (
         <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
           <Grid item xs="auto">
             <Button
