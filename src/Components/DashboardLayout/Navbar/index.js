@@ -41,13 +41,13 @@ const DashboardNavbar = ({ user, progress, notification, isMini, permission }) =
   const route = pathname.split('/').slice(1);
   const position = useWindowPosition();
   const [openTimer, setOpenTimer] = useState(false);
-  const permissionStatus =
+
+  const isAdmin =
     permission &&
-    permission.dashboard &&
-    permission.dashboard.r &&
-    permission.dashboard.w &&
-    permission.dashboard.u &&
-    permission.dashboard.d;
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.dashboard).some((x) => x === 1);
+
   const handleMiniSidenav = () =>
     dispatch({ type: MINI_SIDENAV, value: !customization.miniSidenav });
 
@@ -242,7 +242,7 @@ const DashboardNavbar = ({ user, progress, notification, isMini, permission }) =
           <Grid container columnGap={2} alignItems="center">
             {pathname !== getProfileSetupPattern() ? (
               <>
-                {!permissionStatus && (
+                {!isAdmin && (
                   <Grid item>
                     <Box
                       variant="contained"

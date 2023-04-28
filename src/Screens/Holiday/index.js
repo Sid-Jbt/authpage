@@ -33,13 +33,12 @@ const Holiday = () => {
   const [filterData, setFilterData] = useState({
     search: ''
   });
-  const holidayPermissionSatutus =
+
+  const isAdmin =
     permission &&
-    permission.holiday &&
-    permission.holiday.r &&
-    permission.holiday.w &&
-    permission.holiday.u &&
-    permission.holiday.d;
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.holiday).some((x) => x === 1);
 
   useEffect(() => {
     if (!isDialogOpen || !isDrawerOpen) {
@@ -82,7 +81,7 @@ const Holiday = () => {
 
   return (
     <>
-      {holidayPermissionSatutus && (
+      {isAdmin && (
         <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
           <Grid item xs={12} md="auto">
             <Button color="white" variant="outlined" size="small" onClick={handleDrawer}>

@@ -15,31 +15,24 @@ import Account from './component/Account';
 import Organisation from './component/Organisation';
 
 let newValues = {};
-function getSteps(permission) {
-  return permission.r && permission.w && permission.d
-    ? ['Organisation', 'Basic', 'Address']
-    : ['Basic', 'Address', 'Account'];
+function getSteps(isAdmin) {
+  return isAdmin ? ['Organisation', 'Basic', 'Address'] : ['Basic', 'Address', 'Account'];
 }
-// TODO: Need to work on permission for the profileSetup page
 
 function getStepContent(permission, stepIndex, props) {
-  const permissionStatus = permission.r && permission.w && permission.d;
+  const isAdmin =
+    permission &&
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.profileSetup).some((x) => x === 1);
 
   switch (stepIndex) {
     case 0:
-      return permissionStatus ? (
-        <Organisation props={props} />
-      ) : (
-        <Basic role={permissionStatus} props={props} />
-      );
+      return isAdmin ? <Organisation props={props} /> : <Basic role={isAdmin} props={props} />;
     case 1:
-      return permissionStatus ? (
-        <Basic role={permissionStatus} props={props} />
-      ) : (
-        <Address props={props} />
-      );
+      return isAdmin ? <Basic role={isAdmin} props={props} /> : <Address props={props} />;
     case 2:
-      return permissionStatus ? <Address props={props} /> : <Account props={props} />;
+      return isAdmin ? <Address props={props} /> : <Account props={props} />;
     default:
       return null;
   }
@@ -50,7 +43,12 @@ const ProfileSetup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
-  const steps = getSteps(permission.profileSetup);
+  const isAdmin =
+    permission &&
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.profileSetup).some((x) => x === 1);
+  const steps = getSteps(isAdmin);
   const { bankInfo, organisation, profile, ...rest } = DashboardData.user;
 
   const initialValues = {
@@ -63,7 +61,7 @@ const ProfileSetup = () => {
     permanentAddress: '',
     presentAddress: '',
     gender: 'male',
-    ...(permission === 'admin'
+    ...(isAdmin
       ? {
           largeLogo: '',
           smallLogo: '',
@@ -164,7 +162,7 @@ const ProfileSetup = () => {
                   const { handleSubmit, isSubmitting } = props;
                   return (
                     <form onSubmit={handleSubmit}>
-                      {permission && getStepContent(permission.profileSetup, activeStep, props)}
+                      {permission && getStepContent(permission, activeStep, props)}
                       <Box mt={3} width="100%" display="flex" justifyContent="space-between">
                         {activeStep === 0 ? (
                           <Box />
