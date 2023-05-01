@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import {
-  Add,
-  PendingTwoTone,
-  RemoveRedEye,
-  SummarizeRounded,
-  ThumbDown,
-  ThumbUpAlt
-} from '@mui/icons-material';
+import { Add, PendingTwoTone, SummarizeRounded, ThumbDown, ThumbUpAlt } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
-import { actionStatus, userPermission } from 'Helpers/Global';
+import { actionStatus, userIsViewIconPermissions, userPermission } from 'Helpers/Global';
 import Select from 'Elements/Select';
 import { expenseListData } from 'StaticData/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
@@ -59,6 +52,11 @@ const ExpenseList = () => {
 
   const userPermissions = userPermission(
     permission !== null && permission.hasOwnProperty('expense') && permission.expense
+  );
+
+  const isViewIconPermissions = userIsViewIconPermissions(
+    permission !== null && permission.hasOwnProperty('expense') && permission.expense,
+    [3]
   );
 
   useEffect(() => {
@@ -216,17 +214,7 @@ const ExpenseList = () => {
           }}
           isAction={!isAdmin}
           options={userPermissions}
-          isView={
-            isAdmin && [
-              {
-                name: 2,
-                tooltip: 'Click to view',
-                color: 'info',
-                icon: <RemoveRedEye />,
-                value: 'view'
-              }
-            ]
-          }
+          isView={isAdmin && isViewIconPermissions}
           rowsCount={expenseCount && expenseCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
