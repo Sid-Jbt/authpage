@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Card, Icon, Grid, FormLabel, FormControl } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
-import { Add, DirectionsRun, MoreTime, RemoveRedEye, WatchOff } from '@mui/icons-material';
+import { Add, DirectionsRun, MoreTime, WatchOff } from '@mui/icons-material';
 import Select from 'Elements/Select';
-import { Months, Years, userArray } from 'Helpers/Global';
+import { Months, Years, userArray, userIsViewIconPermissions } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import AttendanceCard from 'Components/CardLayouts/StaticCard';
 import { useOutletContext } from 'react-router';
@@ -36,6 +36,11 @@ const AttendanceList = () => {
     year: '',
     user: ''
   });
+
+  const isViewIconPermissions = userIsViewIconPermissions(
+    permission !== null && permission.hasOwnProperty('attendance') && permission.attendance,
+    [3]
+  );
 
   const isValues = !(
     filterData.search === '' &&
@@ -243,15 +248,7 @@ const AttendanceList = () => {
             setLimit(rowsPerPage);
           }}
           // onClickAction={(value, { id }) => {}}
-          isView={[
-            {
-              name: 3,
-              tooltip: 'Click to view',
-              color: 'info',
-              icon: <RemoveRedEye />,
-              value: 'view'
-            }
-          ]}
+          isView={isViewIconPermissions}
           sortKey={sort.key}
           sortOrder={sort.order}
           handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}
