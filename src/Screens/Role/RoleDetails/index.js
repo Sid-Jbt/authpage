@@ -41,8 +41,8 @@ const module = {
 const AddRole = () => {
   const { GetRoleAdd, GetRoleById, GetRoleUpdate } = useOutletContext();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const collapseName = pathname.split('/').slice(1)[1];
+  const location = useLocation();
+  const setSlug = location.state.slug && location.state.slug;
   const excludePermission = [
     'organisation',
     'role',
@@ -55,10 +55,10 @@ const AddRole = () => {
   ];
 
   useEffect(() => {
-    if (collapseName !== 'addRole') {
+    if (setSlug !== 'addRole') {
       GetRoleById(
         {
-          slug: collapseName
+          slug: setSlug
         },
         (res) => {
           if (res && res.data && res.data.data) {
@@ -90,7 +90,7 @@ const AddRole = () => {
         permission: JSON.stringify(values.modules)
       };
     }
-    if (collapseName === 'addRole') {
+    if (setSlug === 'addRole') {
       GetRoleAdd(formData, (res) => {
         const { status } = res.data;
         if (status) {
@@ -166,13 +166,13 @@ const AddRole = () => {
                         name="roleName"
                         label="Role Name"
                         fullWidth
-                        value={roleName.toUpperCase()}
+                        value={roleName}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         errorText={errors.roleName && touched.roleName && errors.roleName}
                         error={errors.roleName && touched.roleName}
                         success={!errors.roleName && touched.roleName}
-                        disabled={collapseName !== 'addRole'}
+                        disabled={setSlug !== 'addRole'}
                       />
                     </Grid>
                     <Grid item xs={12}>

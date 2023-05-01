@@ -28,7 +28,10 @@ const Role = () => {
           // const { count } = res.data.data;
           rows = rows.map(({ id, name, modules, ...rest }) => ({
             id,
-            name: name.charAt(0).toUpperCase() + name.slice(1),
+            name: name.replace(/(^|_)(\w)/g, function ($0, $1, $2) {
+              return ($1 && ' ') + $2.toUpperCase();
+            }),
+            // name: name.charAt(0).toUpperCase() + name.slice(1),
             modules,
             action: name === 'admin' || name === 'employee' ? null : <Edit />,
             ...rest
@@ -67,7 +70,11 @@ const Role = () => {
           entriesPerPage
           showTotalEntries
           noEndBorder
-          onClickAction={(value) => navigate(getRoleDetailsPattern(value))}
+          onClickAction={(value) =>
+            navigate(getRoleDetailsPattern(value.replace(' ', '_').toLowerCase()), {
+              state: { slug: value.replace(' ', '_').toLowerCase() }
+            })
+          }
         />
       )}
     </>
