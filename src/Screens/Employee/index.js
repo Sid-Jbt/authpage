@@ -50,6 +50,13 @@ const EmployeeList = () => {
     filterData.endDate === ''
   );
 
+  /* const isViewIconPermissions = userIsViewIconPermissions(
+    permission !== null && permission.hasOwnProperty('employee') && permission.employee,
+    [2, 3, 4]
+  );
+*/
+  // For NameArray 2 = edit , 3 = view , 4 = delete
+
   useEffect(() => {
     if (!isDialogOpen || !isActiveDialogOpen) {
       GetEmployeeList(
