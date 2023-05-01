@@ -36,6 +36,8 @@ const EmployeeList = () => {
     permission.employee &&
     Object.values(permission.employee).some((x) => x === 1);
 
+  const isAddEmp = permission && permission.employee && permission.employee.w === 1;
+
   const [filterData, setFilterData] = useState({
     startDate: '',
     endDate: '',
@@ -103,21 +105,22 @@ const EmployeeList = () => {
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        {isAdmin && (
-          <Grid item xs="auto">
-            <Button
-              color="white"
-              variant="outlined"
-              size="small"
-              onClick={() => setIsDialogOpen(true)}
-            >
-              <Icon sx={{ mr: 1 }}>
-                <Add />
-              </Icon>
-              Add
-            </Button>
-          </Grid>
-        )}
+        {isAdmin ||
+          (isAddEmp && (
+            <Grid item xs="auto">
+              <Button
+                color="white"
+                variant="outlined"
+                size="small"
+                onClick={() => setIsDialogOpen(true)}
+              >
+                <Icon sx={{ mr: 1 }}>
+                  <Add />
+                </Icon>
+                Add
+              </Button>
+            </Grid>
+          ))}
       </Grid>
       <Card
         sx={{
