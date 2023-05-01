@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import {
-  Add,
-  DeleteForeverRounded,
-  EditOutlined,
-  Pending,
-  RemoveRedEye,
-  SummarizeRounded,
-  ThumbDown,
-  ThumbUp
-} from '@mui/icons-material';
+import { Add, Pending, SummarizeRounded, ThumbDown, ThumbUp } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
-import { Priority, actionStatus, userPermission } from 'Helpers/Global';
+import { Priority, actionStatus, userPermission, userIsViewIconPermissions } from 'Helpers/Global';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import DialogMenu from 'Elements/Dialog';
 import TicketCard from 'Components/CardLayouts/StaticCard';
@@ -60,10 +51,14 @@ const SupportTicket = () => {
     permission !== null && permission.hasOwnProperty('supportTicket') && permission.supportTicket
   );
 
+  const isViewIconPermissions = userIsViewIconPermissions(
+    permission !== null && permission.hasOwnProperty('supportTicket') && permission.supportTicket,
+    [2, 3, 4]
+  );
+
   const uiPermission = permission && permission.supportTicket;
 
   const [filterData, setFilterData] = useState({
-    startDate: '',
     priority: '',
     search: '',
     status: ''
@@ -254,31 +249,7 @@ const SupportTicket = () => {
           }}
           isAction={!isAdmin}
           options={userPermissions}
-          isView={
-            isAdmin && [
-              {
-                name: 2,
-                tooltip: 'Click to view',
-                color: 'info',
-                icon: <RemoveRedEye />,
-                value: 'view'
-              },
-              {
-                name: 3,
-                tooltip: 'Edit',
-                color: 'info',
-                icon: <EditOutlined />,
-                value: 'edit'
-              },
-              {
-                name: 4,
-                tooltip: 'Delete',
-                color: 'error',
-                icon: <DeleteForeverRounded />,
-                value: 'delete'
-              }
-            ]
-          }
+          isView={isAdmin && isViewIconPermissions}
           rowsCount={spTicketListCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
