@@ -1,6 +1,6 @@
 // Get array of months
 import moment from 'moment';
-import { DeleteForeverRounded, EditOutlined, RemoveRedEye } from '@mui/icons-material';
+import { DeleteForeverRounded, EditOutlined } from '@mui/icons-material';
 
 export const Months = [
   { value: 1, label: 'January' },
@@ -215,13 +215,7 @@ export const userPermission = (data) => {
 };
 
 const isViewIconPermissions = {
-  r: {
-    name: 3,
-    tooltip: 'Click to view',
-    color: 'info',
-    icon: <RemoveRedEye />,
-    value: 'view'
-  },
+  r: { name: 'view', title: 'View', value: 'view' },
   d: {
     name: 4,
     tooltip: 'Click to delete',
