@@ -38,7 +38,7 @@ const Holiday = () => {
   const writePermission = permission && permission.holiday.w === 1 ? 1 : 0;
 
   const isViewIconPermissions = userIsViewIconPermissions(
-    permission !== null && permission.hasOwnProperty('holiday') && permission.supportTicket,
+    permission !== null && permission.hasOwnProperty('holiday') && permission.holiday,
     [2, 4]
   );
 
