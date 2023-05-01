@@ -180,8 +180,10 @@ export const userArray = (data) => {
 export const rolesArray = (data, isAll = false) => {
   const list = [];
   data.map(({ name, id }) => {
-    name = name.charAt(0).toUpperCase() + name.slice(1);
-    list.push({ value: name, label: name, id });
+    if (name !== 'admin') {
+      name = name.charAt(0).toUpperCase() + name.slice(1);
+      list.push({ value: name, label: name, id });
+    }
   });
   list.sort((a, b) => a.value.localeCompare(b.value));
   if (isAll) {
