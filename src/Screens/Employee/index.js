@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Icon, Grid } from '@mui/material';
-import { Add, EditOutlined, PersonOffRounded, PersonRounded } from '@mui/icons-material';
+import { Add, PersonOffRounded, PersonRounded } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import Select from 'Elements/Select';
-import { rolesArray } from 'Helpers/Global';
+import { rolesArray, userIsViewIconPermissions } from 'Helpers/Global';
 import { useNavigate, useOutletContext } from 'react-router';
 import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
 import DialogMenu from 'Elements/Dialog';
@@ -49,6 +49,31 @@ const EmployeeList = () => {
     filterData.startDate === '' &&
     filterData.endDate === ''
   );
+
+  const isViewIconPermissions = userIsViewIconPermissions(
+    permission !== null && permission.hasOwnProperty('employee') && permission.employee,
+    [2]
+  );
+
+  const permissionsEmployee = [
+    ...isViewIconPermissions,
+    {
+      name: 1,
+      tooltip: 'Click to enable',
+      color: 'error',
+      icon: <PersonOffRounded />,
+      value: 'deactivate'
+    },
+    {
+      name: 0,
+      tooltip: 'Click to disable',
+      color: 'success',
+      icon: <PersonRounded />,
+      value: 'activate'
+    }
+  ];
+
+  // For NameArray 2 = edit , 3 = view , 4 = delete
 
   useEffect(() => {
     if (!isDialogOpen || !isActiveDialogOpen) {
@@ -192,29 +217,7 @@ const EmployeeList = () => {
               navigate(getEmployeeDetailsPattern(value.slug), { state: { slug: value.slug } });
             }
           }}
-          isView={[
-            {
-              name: 3,
-              tooltip: 'Edit',
-              color: 'info',
-              icon: <EditOutlined />,
-              value: 'edit'
-            },
-            {
-              name: 1,
-              tooltip: 'Click to enable',
-              color: 'error',
-              icon: <PersonOffRounded />,
-              value: 'deactivate'
-            },
-            {
-              name: 0,
-              tooltip: 'Click to disable',
-              color: 'success',
-              icon: <PersonRounded />,
-              value: 'activate'
-            }
-          ]}
+          isView={permissionsEmployee}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={isNaN(limit) ? employeeCount : limit}
