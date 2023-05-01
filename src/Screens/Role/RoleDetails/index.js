@@ -78,10 +78,18 @@ const AddRole = () => {
   }, []);
 
   const onSubmit = (values, actions) => {
-    const formData = {
-      roleName: values.roleName,
-      permission: JSON.stringify(values.modules)
-    };
+    let formData;
+    if (values.modules.employee.r === 1) {
+      formData = {
+        roleName: values.roleName,
+        permission: JSON.stringify({ ...values.modules, role: { r: 1, w: 0, u: 0, d: 0 } })
+      };
+    } else {
+      formData = {
+        roleName: values.roleName,
+        permission: JSON.stringify(values.modules)
+      };
+    }
     if (collapseName === 'addRole') {
       GetRoleAdd(formData, (res) => {
         const { status } = res.data;
@@ -158,7 +166,7 @@ const AddRole = () => {
                         name="roleName"
                         label="Role Name"
                         fullWidth
-                        value={roleName}
+                        value={roleName.toUpperCase()}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         errorText={errors.roleName && touched.roleName && errors.roleName}
