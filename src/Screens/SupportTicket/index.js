@@ -60,6 +60,8 @@ const SupportTicket = () => {
     permission !== null && permission.hasOwnProperty('supportTicket') && permission.supportTicket
   );
 
+  const uiPermission = permission && permission.supportTicket;
+
   const [filterData, setFilterData] = useState({
     startDate: '',
     priority: '',
@@ -140,26 +142,29 @@ const SupportTicket = () => {
           />
         </Grid>
       </Grid>
-      <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs="auto">
-          <Button
-            sx={({ breakpoints, palette: { dark } }) => ({
-              [breakpoints.down('xl' && 'lg')]: {
-                color: dark.main,
-                borderColor: dark.main
-              }
-            })}
-            variant="outlined"
-            size="small"
-            onClick={() => setIsDialogOpen(!isDialogOpen)}
-          >
-            <Icon sx={{ mr: 1 }}>
-              <Add />
-            </Icon>
-            Add
-          </Button>
+      {uiPermission.w && (
+        <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
+          <Grid item xs="auto">
+            <Button
+              sx={({ breakpoints, palette: { dark } }) => ({
+                [breakpoints.down('xl' && 'lg')]: {
+                  color: dark.main,
+                  borderColor: dark.main
+                }
+              })}
+              variant="outlined"
+              size="small"
+              onClick={() => setIsDialogOpen(!isDialogOpen)}
+            >
+              <Icon sx={{ mr: 1 }}>
+                <Add />
+              </Icon>
+              Add
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
+
       <Card
         sx={{
           background: ({ palette: { grey } }) => grey[100],

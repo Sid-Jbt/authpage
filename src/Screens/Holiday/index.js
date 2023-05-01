@@ -34,11 +34,7 @@ const Holiday = () => {
     search: ''
   });
 
-  const isAdmin =
-    permission &&
-    permission.organisation &&
-    Object.values(permission.organisation).some((x) => x === 1) &&
-    Object.values(permission.holiday).some((x) => x === 1);
+  const writePermission = permission && permission.holiday.w === 1 ? 1 : 0;
 
   useEffect(() => {
     if (!isDialogOpen || !isDrawerOpen) {
@@ -81,7 +77,7 @@ const Holiday = () => {
 
   return (
     <>
-      {isAdmin && (
+      {writePermission && (
         <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
           <Grid item xs={12} md="auto">
             <Button color="white" variant="outlined" size="small" onClick={handleDrawer}>
