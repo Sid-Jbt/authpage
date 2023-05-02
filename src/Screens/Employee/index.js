@@ -30,13 +30,10 @@ const EmployeeList = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [isActiveDialogOpen, setIsActiveDialogOpen] = useState(false);
   const isAdmin =
-    permission &&
-    permission.organisation &&
-    Object.values(permission.organisation).some((x) => x === 1) &&
-    permission.employee &&
-    Object.values(permission.employee).some((x) => x === 1);
-
-  const isAddEmp = permission && permission.employee && permission.employee.w === 1;
+    (permission &&
+      permission.organisation &&
+      Object.values(permission.organisation).some((x) => x === 1)) ||
+    (permission.employee && permission.employee.w === 1);
 
   const [filterData, setFilterData] = useState({
     startDate: '',
@@ -74,8 +71,6 @@ const EmployeeList = () => {
       value: 'activate'
     }
   ];
-
-  // For NameArray 2 = edit , 3 = view , 4 = delete
 
   useEffect(() => {
     if (!isDialogOpen || !isActiveDialogOpen) {
@@ -130,22 +125,21 @@ const EmployeeList = () => {
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        {isAdmin ||
-          (isAddEmp && (
-            <Grid item xs="auto">
-              <Button
-                color="white"
-                variant="outlined"
-                size="small"
-                onClick={() => setIsDialogOpen(true)}
-              >
-                <Icon sx={{ mr: 1 }}>
-                  <Add />
-                </Icon>
-                Add
-              </Button>
-            </Grid>
-          ))}
+        {isAdmin && (
+          <Grid item xs="auto">
+            <Button
+              color="white"
+              variant="outlined"
+              size="small"
+              onClick={() => setIsDialogOpen(true)}
+            >
+              <Icon sx={{ mr: 1 }}>
+                <Add />
+              </Icon>
+              Add
+            </Button>
+          </Grid>
+        )}
       </Grid>
       <Card
         sx={{
@@ -158,7 +152,7 @@ const EmployeeList = () => {
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={() => isValues && handleClear()}
-          isDisable={!isValues && employeeCount.length <= 0}
+          isDisable={!isValues && employeeCount && employeeCount.length <= 0}
           onClickSearch={() => isValues && setFilter(!filter)}
         >
           <Grid item xs={6} md={4} lg={3}>

@@ -1,7 +1,8 @@
 import Box from 'Elements/Box';
 
-const DataTableBodyCell = ({ noBorder, align, children, onClickAction }) => (
+const DataTableBodyCell = ({ noBorder, align, children, ...rest }) => (
   <Box
+    {...rest}
     component="td"
     textAlign={align}
     py={1.5}
@@ -11,13 +12,7 @@ const DataTableBodyCell = ({ noBorder, align, children, onClickAction }) => (
       borderBottom: noBorder ? 0 : `${borderWidth[1]} solid ${borderColor}`
     })}
   >
-    <Box
-      display="inline-block"
-      width="max-content"
-      color="text"
-      sx={{ verticalAlign: 'middle' }}
-      onClick={() => onClickAction()}
-    >
+    <Box display="inline-block" width="max-content" color="text" sx={{ verticalAlign: 'middle' }}>
       {children}
     </Box>
   </Box>

@@ -291,3 +291,14 @@ export const CheckPermission = (permission, condition = false, extra = false) =>
     : condition === '||'
     ? (permission && Object.values(permission).some((x) => x === 1)) || extra
     : permission && Object.values(permission).some((x) => x === 1);
+
+export const defaultModulePermissions = {
+  dashboard: { r: 1, w: 0, u: 0, d: 0 },
+  role: { r: 0, w: 0, u: 0, d: 0 },
+  roleDetails: { r: 0, w: 0, u: 0, d: 0 },
+  profile: { r: 1, w: 1, u: 1, d: 1 },
+  personal: { r: 1, w: 1, u: 1, d: 1 },
+  organisation: { r: 0, w: 0, u: 0, d: 0 },
+  accounts: { r: 1, w: 1, u: 1, d: 1 },
+  profileSetup: { r: 1, w: 1, u: 1, d: 1 }
+};
