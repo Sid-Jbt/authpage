@@ -181,8 +181,10 @@ export const userArray = (data) => {
 export const rolesArray = (data, isAll = false) => {
   const list = [];
   data.map(({ name, id }) => {
-    name = name.charAt(0).toUpperCase() + name.slice(1);
-    list.push({ value: name, label: name, id });
+    if (name !== 'admin') {
+      name = name.charAt(0).toUpperCase() + name.slice(1);
+      list.push({ value: name, label: name, id });
+    }
   });
   list.sort((a, b) => a.value.localeCompare(b.value));
   if (isAll) {
@@ -289,3 +291,14 @@ export const CheckPermission = (permission, condition = false, extra = false) =>
     : condition === '||'
     ? (permission && Object.values(permission).some((x) => x === 1)) || extra
     : permission && Object.values(permission).some((x) => x === 1);
+
+export const defaultModulePermissions = {
+  dashboard: { r: 1, w: 0, u: 0, d: 0 },
+  role: { r: 0, w: 0, u: 0, d: 0 },
+  roleDetails: { r: 0, w: 0, u: 0, d: 0 },
+  profile: { r: 1, w: 1, u: 1, d: 1 },
+  personal: { r: 1, w: 1, u: 1, d: 1 },
+  organisation: { r: 0, w: 0, u: 0, d: 0 },
+  accounts: { r: 1, w: 1, u: 1, d: 1 },
+  profileSetup: { r: 1, w: 1, u: 1, d: 1 }
+};

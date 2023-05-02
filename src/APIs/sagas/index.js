@@ -41,6 +41,7 @@ import { getRolesWatcher } from './uac/roles';
 import { getRoleAddWatcher } from './uac/roleAdd';
 import { getRoleUpdateWatcher } from './uac/roleUpdate';
 import { getRoleByIdWatcher } from './uac/roleById';
+import { getModuleListWatcher } from './uac/moduleList';
 
 export default function* rootSaga() {
   yield all([
@@ -85,6 +86,7 @@ export default function* rootSaga() {
     getRolesWatcher(),
     getRoleAddWatcher(),
     getRoleUpdateWatcher(),
-    getRoleByIdWatcher()
+    getRoleByIdWatcher(),
+    getModuleListWatcher()
   ]);
 }

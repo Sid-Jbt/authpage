@@ -2,7 +2,7 @@ import DataTable from 'Elements/Tables/DataTable';
 import React, { useEffect, useState } from 'react';
 import { roleData } from 'StaticData/roleData';
 import { Grid, Icon } from '@mui/material';
-import { Add, Edit } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import { useNavigate, useOutletContext } from 'react-router';
 import { getRoleDetailsPattern } from 'Routes/routeConfig';
 import Button from 'Elements/Button';
@@ -25,13 +25,10 @@ const Role = () => {
       (res) => {
         if (res && res.data && res.data.data) {
           let { rows } = res.data.data;
-          // const { count } = res.data.data;
-          rows = rows.map(({ id, name, modules, ...rest }) => ({
+          rows = rows.map(({ id, name, modules }) => ({
             id,
             name: name.charAt(0).toUpperCase() + name.slice(1),
-            modules,
-            action: name === 'admin' || name === 'employee' ? null : <Edit />,
-            ...rest
+            modules
           }));
           setAllRole(rows);
           // setRoleCount(count);

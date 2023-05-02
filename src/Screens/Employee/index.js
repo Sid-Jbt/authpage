@@ -30,11 +30,10 @@ const EmployeeList = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [isActiveDialogOpen, setIsActiveDialogOpen] = useState(false);
   const isAdmin =
-    permission &&
-    permission.organisation &&
-    Object.values(permission.organisation).some((x) => x === 1) &&
-    permission.employee &&
-    Object.values(permission.employee).some((x) => x === 1);
+    (permission &&
+      permission.organisation &&
+      Object.values(permission.organisation).some((x) => x === 1)) ||
+    (permission.employee && permission.employee.w === 1);
 
   const [filterData, setFilterData] = useState({
     startDate: '',
@@ -72,8 +71,6 @@ const EmployeeList = () => {
       value: 'activate'
     }
   ];
-
-  // For NameArray 2 = edit , 3 = view , 4 = delete
 
   useEffect(() => {
     if (!isDialogOpen || !isActiveDialogOpen) {
@@ -155,7 +152,7 @@ const EmployeeList = () => {
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={() => isValues && handleClear()}
-          isDisable={!isValues && employeeCount.length <= 0}
+          isDisable={!isValues && employeeCount && employeeCount.length <= 0}
           onClickSearch={() => isValues && setFilter(!filter)}
         >
           <Grid item xs={6} md={4} lg={3}>
