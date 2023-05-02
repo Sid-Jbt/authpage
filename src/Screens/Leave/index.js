@@ -2,14 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Icon, Grid, FormControl, FormLabel } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
-import {
-  Add,
-  DirectionsRun,
-  Vaccines,
-  CalendarMonth,
-  Celebration,
-  RemoveRedEye
-} from '@mui/icons-material';
+import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
 import LeaveCard from 'Components/CardLayouts/StaticCard';
 import FilterLayout from 'Components/FilterLayout';
 import DialogMenu from 'Elements/Dialog';
@@ -23,7 +16,8 @@ import {
   userArray,
   Years,
   userPermission,
-  CheckPermission
+  CheckPermission,
+  userIsViewIconPermissions
 } from 'Helpers/Global';
 import AddLeaveForm from './AddLeaveForm';
 import LeaveDetails from './LeaveDetails';
@@ -70,8 +64,11 @@ const LeaveList = () => {
     user: ''
   });
 
-  const userPermissions = userPermission(
-    permission !== null && permission.hasOwnProperty('leave') && permission.leave
+  const userPermissions = userPermission(permission.hasOwnProperty('leave') && permission.leave);
+
+  const isViewIconPermissions = userIsViewIconPermissions(
+    permission.hasOwnProperty('leave') && permission.leave,
+    [3]
   );
 
   const isValues = !(
@@ -321,17 +318,7 @@ const LeaveList = () => {
           }}
           isAction={!isAdmin}
           options={userPermissions}
-          isView={
-            isAdmin && [
-              {
-                name: 2,
-                tooltip: 'Click to view',
-                color: 'info',
-                icon: <RemoveRedEye />,
-                value: 'view'
-              }
-            ]
-          }
+          isView={isAdmin && isViewIconPermissions}
           rowsCount={leaveCount && leaveCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
