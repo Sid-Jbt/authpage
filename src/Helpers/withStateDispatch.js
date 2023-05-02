@@ -40,7 +40,8 @@ import {
   getRoles,
   getRoleAdd,
   getRoleUpdate,
-  getRoleById
+  getRoleById,
+  getModuleList
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -91,7 +92,8 @@ const mapDispatchToProps = (dispatch) => ({
   GetRoles: (data, resolve, reject) => dispatch(getRoles(data, resolve, reject)),
   GetRoleAdd: (data, resolve, reject) => dispatch(getRoleAdd(data, resolve, reject)),
   GetRoleUpdate: (data, resolve, reject) => dispatch(getRoleUpdate(data, resolve, reject)),
-  GetRoleById: (data, resolve, reject) => dispatch(getRoleById(data, resolve, reject))
+  GetRoleById: (data, resolve, reject) => dispatch(getRoleById(data, resolve, reject)),
+  GetModuleList: (data, resolve, reject) => dispatch(getModuleList(data, resolve, reject))
 });
 
 const mapDispatchToPropsAuth = (dispatch) => ({

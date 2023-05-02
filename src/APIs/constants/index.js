@@ -41,3 +41,4 @@ export * from './uac/roles';
 export * from './uac/roleAdd';
 export * from './uac/roleUpdate';
 export * from './uac/roleById';
+export * from './uac/moduleList';
