@@ -166,7 +166,7 @@ const AddRole = () => {
                         name="roleName"
                         label="Role Name"
                         fullWidth
-                        value={roleName.toUpperCase()}
+                        value={roleName}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         errorText={errors.roleName && touched.roleName && errors.roleName}
