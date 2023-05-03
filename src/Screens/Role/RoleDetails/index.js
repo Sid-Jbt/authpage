@@ -228,7 +228,7 @@ const AddRole = () => {
                                             paddingRight: 2
                                           }}
                                         >
-                                          Read
+                                          View
                                         </Typography>
                                       }
                                       labelPlacement="end"
@@ -261,7 +261,7 @@ const AddRole = () => {
                                             paddingRight: 2
                                           }}
                                         >
-                                          Write
+                                          Add
                                         </Typography>
                                       }
                                       labelPlacement="end"
@@ -328,6 +328,39 @@ const AddRole = () => {
                                           }}
                                         >
                                           Delete
+                                        </Typography>
+                                      }
+                                      labelPlacement="end"
+                                    />
+                                    <FormControlLabel
+                                      sx={{ m: 0, fontSize: '14px' }}
+                                      control={
+                                        <Switch
+                                          checked={modules[key].a === 1}
+                                          color="primary"
+                                          name="a"
+                                          onChange={() => {
+                                            setFieldValue('modules', {
+                                              ...modules,
+                                              [key]: {
+                                                ...modules[key],
+                                                a: modules[key].a === 1 ? 0 : 1
+                                              }
+                                            });
+                                          }}
+                                        />
+                                      }
+                                      label={
+                                        <Typography
+                                          variant="button"
+                                          fontWeight="regular"
+                                          sx={{
+                                            cursor: 'pointer',
+                                            userSelect: 'none',
+                                            paddingRight: 2
+                                          }}
+                                        >
+                                          Admin
                                         </Typography>
                                       }
                                       labelPlacement="end"
