@@ -168,11 +168,7 @@ const DataTable = ({
               <TableRow key={key} {...row.getRowProps()}>
                 {row.cells.map((cell, index) => (
                   <DataTableBodyCell
-                    onClickAction={() =>
-                      row.values.name.toLowerCase() !== 'admin' &&
-                      row.values.name.toLowerCase() !== 'employee' &&
-                      onClickAction(row.values.name)
-                    }
+                    onClick={() => onClickAction(row.values.name.toLowerCase())}
                     key={index}
                     noBorder={noEndBorder && rows.length - 1 === key}
                     align={cell.column.align ? cell.column.align : 'left'}
