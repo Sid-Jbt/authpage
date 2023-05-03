@@ -20,6 +20,7 @@ import { Action } from 'Elements/Tables/Action';
 import breakpoints from 'Theme/base/breakpoints';
 import Badge from 'Elements/Badge';
 import { badgePriorityColor, badgeStatusColor } from 'Helpers/Global';
+import { useOutletContext } from 'react-router';
 
 const Table = ({
   columns,
@@ -42,6 +43,7 @@ const Table = ({
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
+  const { DashboardData } = useOutletContext();
   const onSelectAll = (isCheckSelectAll) => {
     let selectedId = [];
     if (rows && isCheckSelectAll === false) {
@@ -247,8 +249,10 @@ const Table = ({
                 justifyContent: 'center'
               }}
             >
-              {isView.map((item, index) =>
-                row.isActive === item.name ? (
+              {isView.map((item, index) => {
+                const isCurrentUser =
+                  (item.name === 2 || item.name === 4) && DashboardData.user.id === row.authID;
+                return row.isActive === item.name ? (
                   <IconButton
                     key={index}
                     sx={{ cursor: 'pointer' }}
@@ -259,8 +263,7 @@ const Table = ({
                     {item.tooltip ? <Tooltip title={item.tooltip}>{item.icon}</Tooltip> : item.icon}
                   </IconButton>
                 ) : (
-                  item.name !== 0 &&
-                  item.name !== 1 && (
+                  item.name !== 0 && item.name !== 1 && !isCurrentUser && (
                     <IconButton
                       key={index}
                       disabled={
@@ -281,8 +284,8 @@ const Table = ({
                       )}
                     </IconButton>
                   )
-                )
-              )}
+                );
+              })}
             </TableCell>
           )}
         </TableRow>
