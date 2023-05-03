@@ -79,7 +79,7 @@ const AddRole = () => {
         roleName: values.roleName,
         permission: JSON.stringify({
           ...values.modules,
-          role: { r: 1, w: 0, u: 0, d: 0 },
+          role: { r: 1, w: 0, u: 0, d: 0, a: 0 },
           dashboard: defaultModulePermissions.dashboard,
           organisation: defaultModulePermissions.organisation,
           roleDetails: defaultModulePermissions.roleDetails,
@@ -300,7 +300,7 @@ const AddRole = () => {
                                       labelPlacement="end"
                                     />
                                     <FormControlLabel
-                                      sx={{ m: 0, fontSize: '14px' }}
+                                      sx={{ m: 0, fontSize: '12px' }}
                                       control={
                                         <Switch
                                           checked={modules[key].d === 1}
@@ -333,7 +333,7 @@ const AddRole = () => {
                                       labelPlacement="end"
                                     />
                                     <FormControlLabel
-                                      sx={{ m: 0, fontSize: '14px' }}
+                                      sx={{ m: 0, fontSize: '12px' }}
                                       control={
                                         <Switch
                                           checked={modules[key].a === 1}
