@@ -161,7 +161,7 @@ const DataTable = ({
             </TableRow>
           ))}
         </Box>
-        <TableBody {...getTableBodyProps()}>
+        <TableBody {...getTableBodyProps()} sx={{ cursor: 'pointer' }}>
           {page.map((row, key) => {
             prepareRow(row);
             return (
