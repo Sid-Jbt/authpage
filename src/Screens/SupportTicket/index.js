@@ -58,6 +58,12 @@ const SupportTicket = () => {
 
   const uiPermission = permission && permission.supportTicket;
 
+  const isAuthorised = !!(
+    permission &&
+    permission.supportTicket &&
+    permission.supportTicket.a === 1
+  );
+
   const [filterData, setFilterData] = useState({
     priority: '',
     search: '',
@@ -215,7 +221,7 @@ const SupportTicket = () => {
         </FilterLayout>
 
         <Table
-          columns={isAdmin ? adminPrCol : prCols}
+          columns={isAdmin || isAuthorised ? adminPrCol : prCols}
           rows={allSpTicketList}
           badge={['status', 'priority']}
           onClickAction={(value, { id }) => {
@@ -312,13 +318,14 @@ const SupportTicket = () => {
                 <SupportTicketDetails
                   data={selectedData}
                   isAdmin={isAdmin}
+                  isAuthorised={isAuthorised}
                   approveRejectReason={(value) => setApproveRejectReason(value)}
                 />
               }
             />
           }
           dialogAction={
-            isAdmin &&
+            (isAdmin || isAuthorised) &&
             selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"

@@ -44,6 +44,8 @@ const ExpenseList = () => {
     permission.expense &&
     permission.expense.w === 0;
 
+  const isAuthorised = !!(permission && permission.expense && permission.expense.a === 1);
+
   const [filterData, setFilterData] = useState({
     search: '',
     status: ''
@@ -281,13 +283,14 @@ const ExpenseList = () => {
                 <ExpenseDetails
                   data={selectedData}
                   isAdmin={isAdmin}
+                  isAuthorised={isAuthorised}
                   approveRejectReason={(value) => setApproveRejectReason(value)}
                 />
               }
             />
           }
           dialogAction={
-            isAdmin &&
+            (isAdmin || isAuthorised) &&
             selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"

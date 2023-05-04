@@ -20,6 +20,7 @@ import { Action } from 'Elements/Tables/Action';
 import breakpoints from 'Theme/base/breakpoints';
 import Badge from 'Elements/Badge';
 import { badgePriorityColor, badgeStatusColor } from 'Helpers/Global';
+import { useOutletContext } from 'react-router';
 // import { useOutletContext } from 'react-router';
 
 const Table = ({
@@ -43,7 +44,7 @@ const Table = ({
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
-  // const { DashboardData } = useOutletContext();
+  const { DashboardData } = useOutletContext();
   const onSelectAll = (isCheckSelectAll) => {
     let selectedId = [];
     if (rows && isCheckSelectAll === false) {
@@ -228,9 +229,15 @@ const Table = ({
                 options={
                   options &&
                   options.filter((item) =>
-                    row.status === 'pending' && item.name !== 'view'
+                    (row.status === 'pending' && item.name !== 'view') ||
+                    (row.status === 'pending' &&
+                      item.name !== 'view' &&
+                      row.authID === DashboardData.user.id)
                       ? item
-                      : row.status !== 'pending' && item.name === 'view'
+                      : (row.status !== 'pending' && item.name === 'view') ||
+                        (row.status === 'pending' &&
+                          row.authID !== DashboardData.user.id &&
+                          item.name === 'view')
                       ? item
                       : ''
                   )
