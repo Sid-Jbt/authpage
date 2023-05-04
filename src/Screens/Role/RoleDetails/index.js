@@ -79,7 +79,7 @@ const AddRole = () => {
         roleName: values.roleName,
         permission: JSON.stringify({
           ...values.modules,
-          role: { r: 1, w: 0, u: 0, d: 0 },
+          role: { r: 1, w: 0, u: 0, d: 0, a: 0 },
           dashboard: defaultModulePermissions.dashboard,
           organisation: defaultModulePermissions.organisation,
           roleDetails: defaultModulePermissions.roleDetails,
@@ -161,7 +161,7 @@ const AddRole = () => {
               } = props;
               return (
                 <form onSubmit={handleSubmit}>
-                  <Grid container>
+                  <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <Input
                         type="text"
@@ -185,161 +185,189 @@ const AddRole = () => {
                       Object.keys(modules).map(
                         (key) =>
                           excludePermission.indexOf(key) < 0 && (
-                            <Grid
-                              container
-                              item
-                              xs={12}
-                              md={6}
-                              lg={4}
-                              component={Card}
-                              p={2}
-                              key={key}
-                            >
-                              <Grid item xs={12}>
-                                <Typography
-                                  variant="subtitle2"
-                                  color="text"
-                                  fontWeight="bold"
-                                  textTransform="capitalize"
-                                  sx={{ paddingRight: 2 }}
-                                >
-                                  {key}
-                                </Typography>
-                              </Grid>
-                              <Grid container item xs={12}>
-                                <FormControlLabel
-                                  sx={{ m: 0, fontSize: '12px' }}
-                                  control={
-                                    <Switch
-                                      checked={modules[key].r === 1}
-                                      color="primary"
-                                      name="r"
-                                      onChange={() => {
-                                        setFieldValue('modules', {
-                                          ...modules,
-                                          [key]: {
-                                            ...modules[key],
-                                            r: modules[key].r === 1 ? 0 : 1
-                                          }
-                                        });
-                                      }}
-                                    />
-                                  }
-                                  label={
+                            <Grid item sx={12} md={6} lg={4} xl={3}>
+                              <Card>
+                                <Grid container key={key} p={2}>
+                                  <Grid item xs={12}>
                                     <Typography
-                                      variant="button"
-                                      fontWeight="regular"
-                                      sx={{
-                                        cursor: 'pointer',
-                                        userSelect: 'none',
-                                        paddingRight: 2
-                                      }}
+                                      variant="subtitle2"
+                                      color="text"
+                                      fontWeight="bold"
+                                      textTransform="capitalize"
+                                      sx={{ paddingRight: 2 }}
                                     >
-                                      Read
+                                      {key}
                                     </Typography>
-                                  }
-                                  labelPlacement="end"
-                                />
-                                <FormControlLabel
-                                  sx={{ m: 0, fontSize: '12px' }}
-                                  control={
-                                    <Switch
-                                      checked={modules[key].w === 1}
-                                      color="primary"
-                                      name="w"
-                                      onChange={() => {
-                                        setFieldValue('modules', {
-                                          ...modules,
-                                          [key]: {
-                                            ...modules[key],
-                                            w: modules[key].w === 1 ? 0 : 1
-                                          }
-                                        });
-                                      }}
+                                  </Grid>
+                                  <Grid container item xs={12}>
+                                    <FormControlLabel
+                                      sx={{ m: 0, fontSize: '12px' }}
+                                      control={
+                                        <Switch
+                                          checked={modules[key].r === 1}
+                                          color="primary"
+                                          name="r"
+                                          onChange={() => {
+                                            setFieldValue('modules', {
+                                              ...modules,
+                                              [key]: {
+                                                ...modules[key],
+                                                r: modules[key].r === 1 ? 0 : 1
+                                              }
+                                            });
+                                          }}
+                                        />
+                                      }
+                                      label={
+                                        <Typography
+                                          variant="button"
+                                          fontWeight="regular"
+                                          sx={{
+                                            cursor: 'pointer',
+                                            userSelect: 'none',
+                                            paddingRight: 2
+                                          }}
+                                        >
+                                          View
+                                        </Typography>
+                                      }
+                                      labelPlacement="end"
                                     />
-                                  }
-                                  label={
-                                    <Typography
-                                      variant="button"
-                                      fontWeight="regular"
-                                      sx={{
-                                        cursor: 'pointer',
-                                        userSelect: 'none',
-                                        paddingRight: 2
-                                      }}
-                                    >
-                                      Write
-                                    </Typography>
-                                  }
-                                  labelPlacement="end"
-                                />
-                                <FormControlLabel
-                                  sx={{ m: 0, fontSize: '12px' }}
-                                  control={
-                                    <Switch
-                                      checked={modules[key].u === 1}
-                                      color="primary"
-                                      name="u"
-                                      onChange={() => {
-                                        setFieldValue('modules', {
-                                          ...modules,
-                                          [key]: {
-                                            ...modules[key],
-                                            u: modules[key].u === 1 ? 0 : 1
-                                          }
-                                        });
-                                      }}
+                                    <FormControlLabel
+                                      sx={{ m: 0, fontSize: '12px' }}
+                                      control={
+                                        <Switch
+                                          checked={modules[key].w === 1}
+                                          color="primary"
+                                          name="w"
+                                          onChange={() => {
+                                            setFieldValue('modules', {
+                                              ...modules,
+                                              [key]: {
+                                                ...modules[key],
+                                                w: modules[key].w === 1 ? 0 : 1
+                                              }
+                                            });
+                                          }}
+                                        />
+                                      }
+                                      label={
+                                        <Typography
+                                          variant="button"
+                                          fontWeight="regular"
+                                          sx={{
+                                            cursor: 'pointer',
+                                            userSelect: 'none',
+                                            paddingRight: 2
+                                          }}
+                                        >
+                                          Add
+                                        </Typography>
+                                      }
+                                      labelPlacement="end"
                                     />
-                                  }
-                                  label={
-                                    <Typography
-                                      variant="button"
-                                      fontWeight="regular"
-                                      sx={{
-                                        cursor: 'pointer',
-                                        userSelect: 'none',
-                                        paddingRight: 2
-                                      }}
-                                    >
-                                      Update
-                                    </Typography>
-                                  }
-                                  labelPlacement="end"
-                                />
-                                <FormControlLabel
-                                  sx={{ m: 0, fontSize: '14px' }}
-                                  control={
-                                    <Switch
-                                      checked={modules[key].d === 1}
-                                      color="primary"
-                                      name="d"
-                                      onChange={() => {
-                                        setFieldValue('modules', {
-                                          ...modules,
-                                          [key]: {
-                                            ...modules[key],
-                                            d: modules[key].d === 1 ? 0 : 1
-                                          }
-                                        });
-                                      }}
+                                    <FormControlLabel
+                                      sx={{ m: 0, fontSize: '12px' }}
+                                      control={
+                                        <Switch
+                                          checked={modules[key].u === 1}
+                                          color="primary"
+                                          name="u"
+                                          onChange={() => {
+                                            setFieldValue('modules', {
+                                              ...modules,
+                                              [key]: {
+                                                ...modules[key],
+                                                u: modules[key].u === 1 ? 0 : 1
+                                              }
+                                            });
+                                          }}
+                                        />
+                                      }
+                                      label={
+                                        <Typography
+                                          variant="button"
+                                          fontWeight="regular"
+                                          sx={{
+                                            cursor: 'pointer',
+                                            userSelect: 'none',
+                                            paddingRight: 2
+                                          }}
+                                        >
+                                          Update
+                                        </Typography>
+                                      }
+                                      labelPlacement="end"
                                     />
-                                  }
-                                  label={
-                                    <Typography
-                                      variant="button"
-                                      fontWeight="regular"
-                                      sx={{
-                                        cursor: 'pointer',
-                                        userSelect: 'none',
-                                        paddingRight: 2
-                                      }}
-                                    >
-                                      Delete
-                                    </Typography>
-                                  }
-                                  labelPlacement="end"
-                                />
-                              </Grid>
+                                    <FormControlLabel
+                                      sx={{ m: 0, fontSize: '12px' }}
+                                      control={
+                                        <Switch
+                                          checked={modules[key].d === 1}
+                                          color="primary"
+                                          name="d"
+                                          onChange={() => {
+                                            setFieldValue('modules', {
+                                              ...modules,
+                                              [key]: {
+                                                ...modules[key],
+                                                d: modules[key].d === 1 ? 0 : 1
+                                              }
+                                            });
+                                          }}
+                                        />
+                                      }
+                                      label={
+                                        <Typography
+                                          variant="button"
+                                          fontWeight="regular"
+                                          sx={{
+                                            cursor: 'pointer',
+                                            userSelect: 'none',
+                                            paddingRight: 2
+                                          }}
+                                        >
+                                          Delete
+                                        </Typography>
+                                      }
+                                      labelPlacement="end"
+                                    />
+                                    <FormControlLabel
+                                      sx={{ m: 0, fontSize: '12px' }}
+                                      control={
+                                        <Switch
+                                          checked={modules[key].a === 1}
+                                          color="primary"
+                                          name="a"
+                                          onChange={() => {
+                                            setFieldValue('modules', {
+                                              ...modules,
+                                              [key]: {
+                                                ...modules[key],
+                                                a: modules[key].a === 1 ? 0 : 1
+                                              }
+                                            });
+                                          }}
+                                        />
+                                      }
+                                      label={
+                                        <Typography
+                                          variant="button"
+                                          fontWeight="regular"
+                                          sx={{
+                                            cursor: 'pointer',
+                                            userSelect: 'none',
+                                            paddingRight: 2
+                                          }}
+                                        >
+                                          Admin
+                                        </Typography>
+                                      }
+                                      labelPlacement="end"
+                                    />
+                                  </Grid>
+                                </Grid>
+                              </Card>
                             </Grid>
                           )
                       )}

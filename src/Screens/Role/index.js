@@ -6,6 +6,7 @@ import { Add } from '@mui/icons-material';
 import { useNavigate, useOutletContext } from 'react-router';
 import { getRoleDetailsPattern } from 'Routes/routeConfig';
 import Button from 'Elements/Button';
+import { CheckPermission } from '../../Helpers/Global';
 
 const Role = () => {
   const { columns: prCols } = roleData;
@@ -16,6 +17,7 @@ const Role = () => {
   const [allRole, setAllRole] = useState([]);
   // const [roleCount, setRoleCount] = useState({});
   const navigate = useNavigate();
+  const isRoleDetailsPermission = CheckPermission(permission && permission.roleDetails);
 
   useEffect(() => {
     GetRoleList(
@@ -64,7 +66,12 @@ const Role = () => {
           entriesPerPage
           showTotalEntries
           noEndBorder
-          onClickAction={(value) => navigate(getRoleDetailsPattern(value))}
+          onClickAction={(value) =>
+            value !== 'admin' &&
+            value !== 'employee' &&
+            isRoleDetailsPermission &&
+            navigate(getRoleDetailsPattern(value))
+          }
         />
       )}
     </>

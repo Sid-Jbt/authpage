@@ -7,7 +7,7 @@ export const empListData = {
       headerName: 'Employee',
       mobileHeader: 'Employee'
     },
-    { id: 'role', name: 'role', align: 'center', headerName: 'Role', mobileHeader: 'Role' },
+    { id: 'role', name: 'roleName', align: 'center', headerName: 'Role', mobileHeader: 'Role' },
     {
       id: 'email',
       name: 'email',
