@@ -21,7 +21,6 @@ import breakpoints from 'Theme/base/breakpoints';
 import Badge from 'Elements/Badge';
 import { badgePriorityColor, badgeStatusColor } from 'Helpers/Global';
 import { useOutletContext } from 'react-router';
-// import { useOutletContext } from 'react-router';
 
 const Table = ({
   columns,
@@ -257,8 +256,6 @@ const Table = ({
               }}
             >
               {isView.map((item, index) =>
-                // const isCurrentUser =
-                // (item.name === 2 || item.name === 4) && DashboardData.user.id === row.authID;
                 row.isActive === item.name ? (
                   <IconButton
                     key={index}
@@ -272,7 +269,6 @@ const Table = ({
                 ) : (
                   item.name !== 0 &&
                   item.name !== 1 && (
-                    // !isCurrentUser && (
                     <IconButton
                       key={index}
                       disabled={
