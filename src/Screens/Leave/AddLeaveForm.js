@@ -8,7 +8,7 @@ import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import Select from 'Elements/Select';
 import Editor from 'Elements/Editor';
-import { leave, leaveDayType } from 'Helpers/Global';
+import { leave, leaveDayType, notAuthorised } from 'Helpers/Global';
 
 const initialValues = {
   leaveType: leave[0],
@@ -55,8 +55,11 @@ const AddLeaveForm = ({
             ...(isEdit && { id: selectedData.id })
           };
           GetLeaveAddUpdate(formData, (res) => {
-            const { status } = res.data;
+            const { status, message } = res.data;
             if (status) {
+              handleDialog();
+            }
+            if (message === notAuthorised) {
               handleDialog();
             }
           });
