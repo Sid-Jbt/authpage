@@ -279,7 +279,7 @@ const Table = ({
                         (row.isActive === 1 ||
                           row.status === 'approved' ||
                           row.status === 'reject') &&
-                        item.name !== 2
+                        item.name !== 3
                       }
                       sx={{ cursor: 'pointer' }}
                       color={item.color}
