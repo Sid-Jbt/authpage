@@ -7,7 +7,7 @@ import Select from 'Elements/Select';
 import Input from 'Elements/Input';
 import Editor from 'Elements/Editor';
 import Button from 'Elements/Button';
-import { Department, Priority } from 'Helpers/Global';
+import { Department, notAuthorised, Priority } from 'Helpers/Global';
 
 const initialValues = {
   subject: '',
@@ -51,8 +51,11 @@ const AddSupportTicketDialog = ({
             ...(isEdit && { id: selectedData.id })
           };
           GetSupportAddUpdate(formData, (res) => {
-            const { status } = res.data;
+            const { status, message } = res.data;
             if (status) {
+              handleDialog();
+            }
+            if (message === notAuthorised) {
               handleDialog();
             }
           });

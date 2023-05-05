@@ -20,7 +20,7 @@ import { Action } from 'Elements/Tables/Action';
 import breakpoints from 'Theme/base/breakpoints';
 import Badge from 'Elements/Badge';
 import { badgePriorityColor, badgeStatusColor } from 'Helpers/Global';
-// import { useOutletContext } from 'react-router';
+import { useOutletContext } from 'react-router';
 
 const Table = ({
   columns,
@@ -43,7 +43,7 @@ const Table = ({
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
   const [selectedIds, setSelectedIds] = useState([]);
-  // const { DashboardData } = useOutletContext();
+  const { DashboardData } = useOutletContext();
   const onSelectAll = (isCheckSelectAll) => {
     let selectedId = [];
     if (rows && isCheckSelectAll === false) {
@@ -228,9 +228,15 @@ const Table = ({
                 options={
                   options &&
                   options.filter((item) =>
-                    row.status === 'pending' && item.name !== 'view'
+                    (row.status === 'pending' && item.name !== 'view') ||
+                    (row.status === 'pending' &&
+                      item.name !== 'view' &&
+                      row.authID === DashboardData.user.id)
                       ? item
-                      : row.status !== 'pending' && item.name === 'view'
+                      : (row.status !== 'pending' && item.name === 'view') ||
+                        (row.status === 'pending' &&
+                          row.authID !== DashboardData.user.id &&
+                          item.name === 'view')
                       ? item
                       : ''
                   )
@@ -250,8 +256,6 @@ const Table = ({
               }}
             >
               {isView.map((item, index) =>
-                // const isCurrentUser =
-                // (item.name === 2 || item.name === 4) && DashboardData.user.id === row.authID;
                 row.isActive === item.name ? (
                   <IconButton
                     key={index}
@@ -265,14 +269,13 @@ const Table = ({
                 ) : (
                   item.name !== 0 &&
                   item.name !== 1 && (
-                    // !isCurrentUser && (
                     <IconButton
                       key={index}
                       disabled={
                         (row.isActive === 1 ||
                           row.status === 'approved' ||
                           row.status === 'reject') &&
-                        item.name !== 2
+                        item.name !== 3
                       }
                       sx={{ cursor: 'pointer' }}
                       color={item.color}
