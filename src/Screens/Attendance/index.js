@@ -4,7 +4,7 @@ import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, MoreTime, WatchOff } from '@mui/icons-material';
 import Select from 'Elements/Select';
-import { Months, Years, userArray, userIsViewIconPermissions } from 'Helpers/Global';
+import { Months, Years, userArray } from 'Helpers/Global';
 import FilterLayout from 'Components/FilterLayout';
 import AttendanceCard from 'Components/CardLayouts/StaticCard';
 import { useOutletContext } from 'react-router';
@@ -36,11 +36,6 @@ const AttendanceList = () => {
     year: '',
     user: ''
   });
-
-  const isViewIconPermissions = userIsViewIconPermissions(
-    permission !== null && permission.hasOwnProperty('attendance') && permission.attendance,
-    [3]
-  );
 
   const isValues = !(
     filterData.search === '' &&
@@ -247,8 +242,6 @@ const AttendanceList = () => {
           onRowsPerPageChange={(rowsPerPage) => {
             setLimit(rowsPerPage);
           }}
-          // onClickAction={(value, { id }) => {}}
-          isView={isViewIconPermissions}
           sortKey={sort.key}
           sortOrder={sort.order}
           handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}
