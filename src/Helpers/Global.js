@@ -302,3 +302,5 @@ export const defaultModulePermissions = {
   accounts: { r: 1, w: 1, u: 1, d: 1, a: 0 },
   profileSetup: { r: 1, w: 1, u: 1, d: 1, a: 0 }
 };
+
+export const notAuthorised = 'Not authorized to update operation!';

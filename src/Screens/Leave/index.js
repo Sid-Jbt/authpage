@@ -54,6 +54,8 @@ const LeaveList = () => {
     permission.leave && permission.leave.w === 0
   );
 
+  const isAuthorised = !!(permission && permission.leave && permission.leave.a === 1);
+
   const uiPermission = permission && permission.leave;
 
   const [filterData, setFilterData] = useState({
@@ -384,13 +386,14 @@ const LeaveList = () => {
                 <LeaveDetails
                   data={selectedData}
                   isAdmin={isAdmin}
+                  isAuthorised={isAuthorised}
                   approveRejectReason={(value) => setApproveRejectReason(value)}
                 />
               }
             />
           }
           dialogAction={
-            isAdmin &&
+            (isAdmin || isAuthorised) &&
             selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"

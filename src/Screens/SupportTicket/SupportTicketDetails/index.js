@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { CreateViewData } from 'Helpers/Global';
 import { getSupportTicketPattern } from 'Routes/routeConfig';
 
-const SupportTicketDetails = ({ data, isAdmin, approveRejectReason }) => {
+const SupportTicketDetails = ({ data, isAdmin, approveRejectReason, isAuthorised }) => {
   const { viewData, labels, values } = CreateViewData(data, ['subject', 'id', 'reason']);
 
   const renderItems = labels.map((label, key) => (
@@ -29,7 +29,7 @@ const SupportTicketDetails = ({ data, isAdmin, approveRejectReason }) => {
     <Box sx={{ width: 400 }}>
       {renderItems}
       <Grid item xs={12}>
-        {isAdmin && (data.status === 'reject' || data.status === 'approved') ? (
+        {(isAdmin || isAuthorised) && (data.status === 'reject' || data.status === 'approved') ? (
           <>
             <Typography variant="button" fontWeight="bold" textTransform="capitalize">
               Reason: &nbsp;
@@ -43,7 +43,7 @@ const SupportTicketDetails = ({ data, isAdmin, approveRejectReason }) => {
               {data.reason}
             </Typography>
           </>
-        ) : isAdmin ? (
+        ) : isAdmin || isAuthorised ? (
           <FormField
             type="textarea"
             placeholder="Reason"
@@ -56,7 +56,7 @@ const SupportTicketDetails = ({ data, isAdmin, approveRejectReason }) => {
           />
         ) : (
           <>
-            {!isAdmin && data.comment !== null && (
+            {(!isAdmin || !isAuthorised) && data.comment !== null && (
               <>
                 <Typography variant="button" fontWeight="bold" textTransform="capitalize">
                   Reason: &nbsp;
