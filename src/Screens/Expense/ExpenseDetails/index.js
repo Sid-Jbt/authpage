@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { getSupportTicketPattern } from '../../../Routes/routeConfig';
 import { CreateViewData } from '../../../Helpers/Global';
 
-const ExpenseDetails = ({ data, role, approveRejectReason }) => {
+const ExpenseDetails = ({ data, isAdmin, approveRejectReason, isAuthorised }) => {
   const { viewData, labels, values } = CreateViewData(data, [
     'comment',
     'itemName',
@@ -49,7 +49,7 @@ const ExpenseDetails = ({ data, role, approveRejectReason }) => {
           </Grid>
         )}
         <Grid item xs={12} pt={0}>
-          {role === 'admin' &&
+          {(isAdmin || isAuthorised) &&
           viewData.hasOwnProperty('comment') &&
           (viewData.status === 'reject' || viewData.status === 'approved') ? (
             <>
@@ -65,7 +65,7 @@ const ExpenseDetails = ({ data, role, approveRejectReason }) => {
                 {viewData.comment}
               </Typography>
             </>
-          ) : role === 'admin' && viewData.status === 'pending' ? (
+          ) : (isAdmin || isAuthorised) && viewData.status === 'pending' ? (
             <FormField
               type="textarea"
               placeholder="Reason"
@@ -77,7 +77,7 @@ const ExpenseDetails = ({ data, role, approveRejectReason }) => {
               disabled={viewData.status === 'reject' || viewData.status === 'approved'}
             />
           ) : (
-            role !== 'admin' && (
+            (!isAdmin || !isAuthorised) && (
               <>
                 {data.comment !== null && (
                   <>

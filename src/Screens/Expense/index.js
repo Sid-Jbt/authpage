@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import {
-  Add,
-  PendingTwoTone,
-  RemoveRedEye,
-  SummarizeRounded,
-  ThumbDown,
-  ThumbUpAlt
-} from '@mui/icons-material';
+import { Add, PendingTwoTone, SummarizeRounded, ThumbDown, ThumbUpAlt } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import DialogMenu from 'Elements/Dialog';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
-import { actionStatus } from 'Helpers/Global';
+import { actionStatus, userIsViewIconPermissions, userPermission } from 'Helpers/Global';
 import Select from 'Elements/Select';
 import { expenseListData } from 'StaticData/expenseListData';
 import FilterLayout from '../../Components/FilterLayout';
@@ -24,13 +17,13 @@ import AddExpenseForm from './AddExpenseForm';
 const ExpenseList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = expenseListData;
   const {
-    role,
     Loading,
     GetExpenseAddUpdate,
     GetExpenseList,
     GetExpenseDelete,
     GetExpenseById,
-    GetExpenseReason
+    GetExpenseReason,
+    permission
   } = useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -44,12 +37,29 @@ const ExpenseList = () => {
   const [allExpense, setAllExpense] = useState([]);
   const [expenseCount, setExpenseCount] = useState({});
   const [approveRejectReason, setApproveRejectReason] = useState('');
+  const isAdmin =
+    permission &&
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    permission.expense &&
+    permission.expense.w === 0;
+
+  const isAuthorised = !!(permission && permission.expense && permission.expense.a === 1);
 
   const [filterData, setFilterData] = useState({
     search: '',
     status: ''
   });
   const isValues = !Object.values(filterData).some((x) => x !== '');
+
+  const userPermissions = userPermission(
+    permission !== null && permission.hasOwnProperty('expense') && permission.expense
+  );
+
+  const isViewIconPermissions = userIsViewIconPermissions(
+    permission !== null && permission.hasOwnProperty('expense') && permission.expense,
+    [3]
+  );
 
   useEffect(() => {
     if (!isDialogOpen || !isDeleteDialogOpen || isViewExpenseDialogOpen) {
@@ -119,7 +129,7 @@ const ExpenseList = () => {
         </Grid>
       </Grid>
 
-      {role !== 'admin' && (
+      {!isAdmin && (
         <>
           <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
             <Grid item xs="auto">
@@ -172,7 +182,7 @@ const ExpenseList = () => {
         </FilterLayout>
 
         <Table
-          columns={role === 'admin' ? adminPrCol : prCols}
+          columns={isAdmin ? adminPrCol : prCols}
           rows={allExpense}
           badge={['status']}
           onClickAction={(value, { id }) => {
@@ -204,23 +214,9 @@ const ExpenseList = () => {
               });
             }
           }}
-          isAction={role !== 'admin'}
-          options={[
-            { name: 'edit', title: 'Edit', value: 'edit' },
-            { name: 'delete', title: 'Delete', value: 'delete' },
-            { name: 'view', title: 'View', value: 'view' }
-          ]}
-          isView={
-            role === 'admin' && [
-              {
-                name: 2,
-                tooltip: 'Click to view',
-                color: 'info',
-                icon: <RemoveRedEye />,
-                value: 'view'
-              }
-            ]
-          }
+          isAction={!isAdmin}
+          options={userPermissions}
+          isView={isAdmin && isViewIconPermissions}
           rowsCount={expenseCount && expenseCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
@@ -286,14 +282,15 @@ const ExpenseList = () => {
               customContent={
                 <ExpenseDetails
                   data={selectedData}
-                  role={role}
+                  isAdmin={isAdmin}
+                  isAuthorised={isAuthorised}
                   approveRejectReason={(value) => setApproveRejectReason(value)}
                 />
               }
             />
           }
           dialogAction={
-            role === 'admin' &&
+            (isAdmin || isAuthorised) &&
             selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"

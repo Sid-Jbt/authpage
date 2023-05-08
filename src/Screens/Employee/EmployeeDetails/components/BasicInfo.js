@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from 'Elements/Box';
 import { Card, FormControl, FormLabel, Grid } from '@mui/material';
 import { Formik } from 'formik';
@@ -11,11 +11,16 @@ import moment from 'moment/moment';
 import { useNavigate, useOutletContext } from 'react-router';
 import { getEmployeeListPattern } from 'Routes/routeConfig';
 
-const BasicInfo = ({ data }) => {
+const BasicInfo = ({ data, allRoles }) => {
   const { GetEmployeeUpdate, GetEmployeeDisable } = useOutletContext();
+  const [selectedRole, setSelectedRole] = useState(allRoles[1]);
   const navigate = useNavigate();
   const oldData = data;
   let newData = {};
+
+  useEffect(() => {
+    setSelectedRole(allRoles.find((roleId) => data.roleId === roleId.id));
+  }, []);
 
   const onSubmit = (values, actions) => {
     if (JSON.stringify(oldData) !== JSON.stringify(values)) {
@@ -205,7 +210,7 @@ const BasicInfo = ({ data }) => {
                     errorFalse
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={12}>
+                <Grid item xs={12} md={6} lg={6}>
                   <Box>
                     <Input
                       type="text"
@@ -221,6 +226,21 @@ const BasicInfo = ({ data }) => {
                     />
                   </Box>
                 </Grid>
+                {allRoles.length > 0 && (
+                  <Grid item xs={12} md={6} lg={6}>
+                    <FormControl sx={{ width: '100%' }}>
+                      <FormLabel>Select Role</FormLabel>
+                      <Select
+                        value={selectedRole}
+                        options={allRoles}
+                        onChange={(value) => {
+                          setSelectedRole(value);
+                          setFieldValue('roleId', value);
+                        }}
+                      />
+                    </FormControl>
+                  </Grid>
+                )}
                 <Grid item xs={12} md={6} lg={4} textAlign="end">
                   <Button
                     variant="gradient"

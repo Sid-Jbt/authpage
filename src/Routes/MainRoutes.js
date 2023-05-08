@@ -1,43 +1,45 @@
 import {
-  PolicyRounded,
-  Person,
-  TvRounded,
-  PeopleRounded,
   CurrencyRupee,
-  DirectionsRun,
-  PaymentRounded,
-  SettingsRounded,
   DateRangeTwoTone,
+  DirectionsRun,
   HolidayVillage,
-  ViewArrayOutlined,
+  ListAltTwoTone,
+  PaymentRounded,
+  PeopleRounded,
+  Person,
+  PolicyRounded,
+  SettingsRounded,
   SupportAgent,
-  AnnouncementRounded,
+  TvRounded,
   VerifiedUserOutlined,
-  ListAltTwoTone
+  ViewArrayOutlined
 } from '@mui/icons-material';
 import DashboardLayout from 'Components/DashboardLayout';
 import Loadable from 'Elements/Loadable';
 import { lazy } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  profilePattern,
-  privacyPolicyPattern,
+  accountsProfilePattern,
+  allReportPattern,
+  attendancePattern,
   dashboardPattern,
+  employeeDetailsPattern,
   employeeListPattern,
   expensePattern,
-  leavePattern,
-  payslipPattern,
-  settingPattern,
-  attendancePattern,
-  profileSetupPattern,
-  employeeDetailsPattern,
   holidayPattern,
-  rolePattern,
-  supportTicketPattern,
-  noticePattern,
-  allReportPattern,
+  leavePattern,
+  organisationProfilePattern,
+  payslipPattern,
+  personalProfilePattern,
+  privacyPolicyPattern,
+  profilePattern,
+  profileSetupPattern,
   reportTimeActivityPattern,
-  reportWeeklyLimitPattern
+  reportWeeklyLimitPattern,
+  roleDetailsPattern,
+  rolePattern,
+  settingPattern,
+  supportTicketPattern
 } from './routeConfig';
 import colors from '../Theme/base/colors';
 
@@ -55,10 +57,11 @@ const Attendance = Loadable(lazy(() => import('../Screens/Attendance')));
 const Holiday = Loadable(lazy(() => import('../Screens/Holiday')));
 const SupportTicket = Loadable(lazy(() => import('../Screens/SupportTicket/index')));
 const Role = Loadable(lazy(() => import('../Screens/Role')));
-const NoticeBoard = Loadable(lazy(() => import('../Screens/NoticeBoard')));
+// const NoticeBoard = Loadable(lazy(() => import('../Screens/NoticeBoard')));
 const AllReport = Loadable(lazy(() => import('../Screens/Reports/AllReports')));
 const TimeActivity = Loadable(lazy(() => import('../Screens/Reports/TimeActivity')));
 const WeeklyLimit = Loadable(lazy(() => import('../Screens/Reports/WeeklyLimit')));
+const RoleDetails = Loadable(lazy(() => import('../Screens/Role/RoleDetails')));
 
 const MainRoutes = [
   {
@@ -82,7 +85,29 @@ const MainRoutes = [
     icon: <Person />,
     path: profilePattern,
     key: 'profile',
-    element: <Profile />
+    children: [
+      {
+        name: 'Personal',
+        key: 'personal',
+        path: personalProfilePattern,
+        route: personalProfilePattern,
+        element: <Profile />
+      },
+      {
+        name: 'Organisation',
+        key: 'organisation',
+        path: organisationProfilePattern,
+        route: organisationProfilePattern,
+        element: <Profile />
+      },
+      {
+        name: 'Accounts',
+        key: 'accounts',
+        path: accountsProfilePattern,
+        route: accountsProfilePattern,
+        element: <Profile />
+      }
+    ]
   },
   {
     name: 'Privacy Policy',
@@ -190,12 +215,12 @@ const MainRoutes = [
   {
     type: 'collapse',
     name: 'Reports',
-    key: 'report',
+    key: 'reports',
     icon: <ListAltTwoTone sx={{ color: '#DAA520' }} />,
     children: [
       {
         name: 'All Reports',
-        key: 'allReport',
+        key: 'allReports',
         path: allReportPattern,
         route: allReportPattern,
         element: <AllReport />
@@ -226,14 +251,6 @@ const MainRoutes = [
     key: 'holiday',
     element: <Holiday />
   },
-  /* {
-    type: 'unroute',
-    name: 'Reports',
-    icon: <ReportOutlined sx={{ color: colors.error.main }} />,
-    path: reportPattern,
-    key: 'report',
-    element: <Navigate to={allReportPattern} />
-  }, */
   {
     type: 'unroute',
     noCollapse: true,
@@ -241,32 +258,54 @@ const MainRoutes = [
     icon: <VerifiedUserOutlined sx={{ color: colors.error.main }} />,
     path: profileSetupPattern,
     route: profileSetupPattern,
-    key: 'profilesetup',
+    key: 'profileSetup',
     element: <ProfileSetup />
   },
+  // {
+  //   type: 'collapse',
+  //   noCollapse: true,
+  //   route: noticePattern,
+  //   name: 'Notice & Event',
+  //   icon: <AnnouncementRounded sx={{ color: colors.error.main }} />,
+  //   path: noticePattern,
+  //   key: 'notice',
+  //   element: <NoticeBoard />
+  // },
   {
-    type: 'collapse',
+    type: 'unroute',
     noCollapse: true,
-    route: noticePattern,
-    name: 'Notice & Event',
-    icon: <AnnouncementRounded sx={{ color: colors.error.main }} />,
-    path: noticePattern,
-    key: 'notice',
-    element: <NoticeBoard />
+    route: roleDetailsPattern,
+    name: 'Role',
+    icon: <PeopleRounded sx={{ color: colors.primary.main }} />,
+    path: roleDetailsPattern,
+    key: 'roleDetails',
+    element: <RoleDetails />
   }
 ];
 
 const Route = () => {
   const { roleList } = useSelector((state) => state.login);
-  const childrenList = MainRoutes.filter((item) => roleList && roleList.includes(item.key));
+  const childrenList = MainRoutes.filter((item) => {
+    const check =
+      roleList &&
+      roleList[item.key] &&
+      (roleList[item.key].r ||
+        roleList[item.key].w ||
+        roleList[item.key].u ||
+        roleList[item.key].d);
+    if (check) {
+      if (item.children) {
+        return item.children.filter((child) => roleList.hasOwnProperty(child.key));
+      }
+      return roleList.hasOwnProperty(item.key);
+    }
+  });
 
-  const DashboardRoutes = {
+  return {
     path: '/',
     element: <DashboardLayout />,
     children: childrenList
   };
-
-  return DashboardRoutes;
 };
 
 export default Route;

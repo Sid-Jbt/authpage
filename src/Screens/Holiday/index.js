@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
-import { Add, DeleteForeverRounded, EditOutlined } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import FilterLayout from 'Components/FilterLayout';
@@ -9,11 +9,18 @@ import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
 import { holidayListData } from 'StaticData/holidayListData';
 import HolidayForm from './HolidayForm';
+import { userIsViewIconPermissions } from '../../Helpers/Global';
 
 const Holiday = () => {
   const { columns: prCols } = holidayListData;
-  const { role, GetHolidayList, GetHolidayAddUpdate, GetHolidayById, GetHolidayDelete, Loading } =
-    useOutletContext();
+  const {
+    GetHolidayList,
+    GetHolidayAddUpdate,
+    GetHolidayById,
+    GetHolidayDelete,
+    Loading,
+    permission
+  } = useOutletContext();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -27,6 +34,13 @@ const Holiday = () => {
   const [filterData, setFilterData] = useState({
     search: ''
   });
+
+  const writePermission = permission && permission.holiday.w === 1 ? 1 : 0;
+
+  const isViewIconPermissions = userIsViewIconPermissions(
+    permission !== null && permission.hasOwnProperty('holiday') && permission.holiday,
+    [2, 4]
+  );
 
   useEffect(() => {
     if (!isDialogOpen || !isDrawerOpen) {
@@ -69,7 +83,7 @@ const Holiday = () => {
 
   return (
     <>
-      {role === 'admin' && (
+      {writePermission && (
         <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
           <Grid item xs={12} md="auto">
             <Button color="white" variant="outlined" size="small" onClick={handleDrawer}>
@@ -137,22 +151,7 @@ const Holiday = () => {
               });
             }
           }}
-          isView={[
-            {
-              name: 2,
-              tooltip: 'Click to edit',
-              color: 'info',
-              icon: <EditOutlined />,
-              value: 'edit'
-            },
-            {
-              name: 3,
-              tooltip: 'Click to delete',
-              color: 'error',
-              icon: <DeleteForeverRounded />,
-              value: 'delete'
-            }
-          ]}
+          isView={isViewIconPermissions.length > 0 && isViewIconPermissions}
           rowsCount={holidayListCount}
           initialPage={page}
           onChangePage={(value) => setPage(value)}

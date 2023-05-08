@@ -35,7 +35,13 @@ import {
   getHolidayById,
   getHolidayDelete,
   getChangePassword,
-  getEmployeeDisable
+  getEmployeeDisable,
+  getRoleList,
+  getRoles,
+  getRoleAdd,
+  getRoleUpdate,
+  getRoleById,
+  getModuleList
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -81,7 +87,13 @@ const mapDispatchToProps = (dispatch) => ({
   GetLeaveList: (data, resolve, reject) => dispatch(getLeaveList(data, resolve, reject)),
   GetLeaveDelete: (data, resolve, reject) => dispatch(getLeaveDelete(data, resolve, reject)),
   GetLeaveReason: (data, resolve, reject) => dispatch(getLeaveReason(data, resolve, reject)),
-  GetLeaveById: (data, resolve, reject) => dispatch(getLeaveById(data, resolve, reject))
+  GetLeaveById: (data, resolve, reject) => dispatch(getLeaveById(data, resolve, reject)),
+  GetRoleList: (data, resolve, reject) => dispatch(getRoleList(data, resolve, reject)),
+  GetRoles: (data, resolve, reject) => dispatch(getRoles(data, resolve, reject)),
+  GetRoleAdd: (data, resolve, reject) => dispatch(getRoleAdd(data, resolve, reject)),
+  GetRoleUpdate: (data, resolve, reject) => dispatch(getRoleUpdate(data, resolve, reject)),
+  GetRoleById: (data, resolve, reject) => dispatch(getRoleById(data, resolve, reject)),
+  GetModuleList: (data, resolve, reject) => dispatch(getModuleList(data, resolve, reject))
 });
 
 const mapDispatchToPropsAuth = (dispatch) => ({

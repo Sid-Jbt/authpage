@@ -18,7 +18,16 @@ export const getResetPasswordPattern = () => generatePath(resetPasswordPattern);
 export const profilePattern = '/profile';
 export const getProfilePattern = () => generatePath(profilePattern);
 
-export const profileSetupPattern = '/profilesetup';
+export const personalProfilePattern = `${profilePattern}/personal`;
+export const getPersonalProfilePattern = () => generatePath(personalProfilePattern);
+
+export const organisationProfilePattern = `${profilePattern}/organisation`;
+export const getOrganisationProfilePattern = () => generatePath(organisationProfilePattern);
+
+export const accountsProfilePattern = `${profilePattern}/accounts`;
+export const getAccountsProfilePattern = () => generatePath(accountsProfilePattern);
+
+export const profileSetupPattern = '/profileSetup';
 export const getProfileSetupPattern = () => generatePath(profileSetupPattern);
 
 export const privacyPolicyPattern = '/privacy';
@@ -50,13 +59,13 @@ export const getAttendancePattern = () => generatePath(attendancePattern);
 export const reportPattern = '/report';
 export const getReportPattern = generatePath(reportPattern);
 
-export const allReportPattern = `${reportPattern}/allreport`;
-export const getAllReportPattern = generatePath(allReportPattern);
+export const allReportPattern = `${reportPattern}/allReport`;
+export const getAllReportPattern = () => generatePath(allReportPattern);
 
-export const reportTimeActivityPattern = `${reportPattern}/timeactivity`;
+export const reportTimeActivityPattern = `${reportPattern}/timeActivity`;
 export const getReportTimeActivityPattern = () => generatePath(reportTimeActivityPattern);
 
-export const reportWeeklyLimitPattern = `${reportPattern}/weeklylimit`;
+export const reportWeeklyLimitPattern = `${reportPattern}/weeklyLimit`;
 export const getReportWeeklyLimitPattern = () => generatePath(reportWeeklyLimitPattern);
 
 export const holidayPattern = '/holiday';
@@ -70,6 +79,9 @@ export const getOrganisationSignupPattern = () => generatePath(organisationSignu
 
 export const rolePattern = `/role`;
 export const getRolePattern = () => generatePath(rolePattern);
+
+export const roleDetailsPattern = `/role/:id`;
+export const getRoleDetailsPattern = (id) => generatePath(roleDetailsPattern, { id });
 
 export const noticePattern = `/notice`;
 export const getNoticePattern = () => generatePath(noticePattern);

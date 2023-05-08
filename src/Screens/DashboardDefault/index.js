@@ -13,16 +13,16 @@ import {
 } from '@mui/icons-material';
 import { useOutletContext } from 'react-router';
 import {
-  getAttendancePattern,
   getEmployeeListPattern,
   getExpensePattern,
   getLeavePattern,
   getSupportTicketPattern
 } from 'Routes/routeConfig';
 import DashboardCard from 'Components/CardLayouts/StaticCard';
+import { CheckPermission } from '../../Helpers/Global';
 
 const DashboardDefault = () => {
-  const { role, DashboardData } = useOutletContext();
+  const { DashboardData, permission } = useOutletContext();
   const [calendarEventsData, setCalendarEventsData] = useState([]);
   const [workingTime, setWorkingTime] = useState({
     todayHours: 0,
@@ -37,6 +37,8 @@ const DashboardDefault = () => {
     leaveCount: 0,
     ticketCount: 0
   });
+
+  const isAdmin = CheckPermission(permission && permission.organisation);
 
   useEffect(() => {
     if (DashboardData) {
@@ -105,7 +107,7 @@ const DashboardDefault = () => {
           lg={12}
           xl={12}
         >
-          {role === 'admin' ? null : (
+          {isAdmin ? null : (
             <>
               <Grid item xs={12} md={6} lg={3}>
                 <DashboardCard
@@ -142,7 +144,7 @@ const DashboardDefault = () => {
             </>
           )}
 
-          <Grid item xs={12} lg={role === 'admin' ? 8 : 12}>
+          <Grid item xs={12} lg={isAdmin ? 8 : 12}>
             {useMemo(
               () => (
                 <Calendar
@@ -160,7 +162,7 @@ const DashboardDefault = () => {
               [calendarEventsData]
             )}
           </Grid>
-          {role === 'admin' ? (
+          {isAdmin ? (
             <Grid container item spacing={3} xs={12} lg={4}>
               <Grid item xs={12} lg={6}>
                 <DashboardCard
@@ -171,7 +173,7 @@ const DashboardDefault = () => {
                   link={getEmployeeListPattern()}
                 />
               </Grid>
-              <Grid item xs={12} lg={6}>
+              {/* <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Today Present"
                   count={0}
@@ -188,7 +190,7 @@ const DashboardDefault = () => {
                   isPercentage={false}
                   link={getAttendancePattern()}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12} lg={6}>
                 <DashboardCard
                   title="Pending Expense"

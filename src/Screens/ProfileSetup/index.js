@@ -15,41 +15,40 @@ import Account from './component/Account';
 import Organisation from './component/Organisation';
 
 let newValues = {};
-function getSteps(role) {
-  return role === 'admin' ? ['Organisation', 'Basic', 'Address'] : ['Basic', 'Address', 'Account'];
+function getSteps(isAdmin) {
+  return isAdmin ? ['Organisation', 'Basic', 'Address'] : ['Basic', 'Address', 'Account'];
 }
 
-function getStepContent(role, stepIndex, props) {
+function getStepContent(permission, stepIndex, props) {
+  const isAdmin =
+    permission &&
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.profileSetup).some((x) => x === 1);
+
   switch (stepIndex) {
     case 0:
-      return role === 'admin' ? (
-        <Organisation role={role} props={props} />
-      ) : (
-        <Basic role={role} props={props} />
-      );
+      return isAdmin ? <Organisation props={props} /> : <Basic role={isAdmin} props={props} />;
     case 1:
-      return role === 'admin' ? (
-        <Basic role={role} props={props} />
-      ) : (
-        <Address role={role} props={props} />
-      );
+      return isAdmin ? <Basic role={isAdmin} props={props} /> : <Address props={props} />;
     case 2:
-      return role === 'admin' ? (
-        <Address role={role} props={props} />
-      ) : (
-        <Account role={role} props={props} />
-      );
+      return isAdmin ? <Address props={props} /> : <Account props={props} />;
     default:
       return null;
   }
 }
 
 const ProfileSetup = () => {
-  const { role, GetProfileSetup, DashboardData, Loading } = useOutletContext();
+  const { GetProfileSetup, DashboardData, Loading, permission } = useOutletContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
-  const steps = getSteps(role);
+  const isAdmin =
+    permission &&
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.profileSetup).some((x) => x === 1);
+  const steps = getSteps(isAdmin);
   const { bankInfo, organisation, profile, ...rest } = DashboardData.user;
 
   const initialValues = {
@@ -62,7 +61,7 @@ const ProfileSetup = () => {
     permanentAddress: '',
     presentAddress: '',
     gender: 'male',
-    ...(role === 'admin'
+    ...(isAdmin
       ? {
           largeLogo: '',
           smallLogo: '',
@@ -163,7 +162,7 @@ const ProfileSetup = () => {
                   const { handleSubmit, isSubmitting } = props;
                   return (
                     <form onSubmit={handleSubmit}>
-                      {role && getStepContent(role, activeStep, props)}
+                      {permission && getStepContent(permission, activeStep, props)}
                       <Box mt={3} width="100%" display="flex" justifyContent="space-between">
                         {activeStep === 0 ? (
                           <Box />

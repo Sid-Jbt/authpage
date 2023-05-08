@@ -1,5 +1,6 @@
 // Get array of months
 import moment from 'moment';
+import { DeleteForeverRounded, EditOutlined, RemoveRedEye } from '@mui/icons-material';
 
 export const Months = [
   { value: 1, label: 'January' },
@@ -52,14 +53,6 @@ export const leave = [
   { value: 'earnedLeave', label: 'Earned Leave' }
 ];
 
-export const attendanceStatus = [
-  { value: 'all', label: 'All' },
-  { value: 'present', label: 'Present' },
-  { value: 'absent', label: 'Absent' },
-  { value: 'late', label: 'Late' },
-  { value: 'overtime', label: 'Overtime' }
-];
-
 export const Gender = [
   { value: 'male', label: 'Male' },
   { value: 'female', label: 'Female' }
@@ -85,48 +78,6 @@ export const Department = [
 export const EventsType = [
   { value: 'notice', label: 'Notice' },
   { value: 'event', label: 'Event' }
-];
-
-export const EmployeeRoleList = [
-  'dashboard',
-  'profilesetup',
-  'profile',
-  'privacy',
-  'expense',
-  'leave',
-  'settings',
-  'payslip',
-  'attendance',
-  'profile',
-  'supportTicket',
-  'holiday',
-  'report',
-  'allreport',
-  'timeactivity',
-  'weeklylimit'
-];
-
-export const AdminRoleList = [
-  'dashboard',
-  'profilesetup',
-  'employee',
-  'profile',
-  'privacy',
-  'employeeDetails',
-  'expense',
-  'leave',
-  'settings',
-  'payslip',
-  'attendance',
-  'profile',
-  'role',
-  'supportTicket',
-  'report',
-  'allreport',
-  'timeactivity',
-  'weeklylimit',
-  'holiday',
-  'notice'
 ];
 
 export const buildFormData = (formData, data, parentKey) => {
@@ -208,18 +159,6 @@ export const keyDownTypeNumber = [
   'E'
 ];
 
-/* export const userArray = (data) => {
-  const list = [];
-  data.map((item) => {
-    if (item.employee !== '' && item.employee !== null) {
-      list.push({ value: item.employee, label: item.employee });
-    } else {
-      list.push({ value: item.email, label: item.email });
-    }
-  });
-  return list.sort((a, b) => (a.value.toLowerCase() > b.value.toLowerCase() ? 1 : -1));
-}; */
-
 export const userArray = (data) => {
   const list = [];
   data.map(({ employee, email }) => {
@@ -235,6 +174,79 @@ export const userArray = (data) => {
   if (index !== -1) {
     const obj = list.splice(index, 1)[0];
     list.unshift(obj);
+  }
+  return list;
+};
+
+export const rolesArray = (data, isAll = false) => {
+  const list = [];
+  data.map(({ name, id }) => {
+    if (name !== 'admin') {
+      name = name.charAt(0).toUpperCase() + name.slice(1);
+      list.push({ value: name, label: name, id });
+    }
+  });
+  list.sort((a, b) => a.value.localeCompare(b.value));
+  if (isAll) {
+    list.push({ value: '', label: 'All' });
+    list.sort((a, b) => a.value.localeCompare(b.value));
+    const index = list.findIndex((obj) => obj.value === '' && obj.label === 'All');
+    if (index !== -1) {
+      const obj = list.splice(index, 1)[0];
+      list.unshift(obj);
+    }
+  }
+  return list;
+};
+
+const permissions = {
+  r: { name: 'view', title: 'View', value: 'view' },
+  d: { name: 'delete', title: 'Delete', value: 'delete' },
+  u: { name: 'edit', title: 'Edit', value: 'edit' }
+};
+
+export const userPermission = (data) => {
+  const list = [];
+  for (const [key, value] of Object.entries(data)) {
+    const permission = permissions[key];
+    if (permission && value) {
+      list.push({ ...permission });
+    }
+  }
+  return list;
+};
+
+const isViewIconPermissions = {
+  r: {
+    name: 3,
+    tooltip: 'Click to view',
+    color: 'info',
+    icon: <RemoveRedEye />,
+    value: 'view'
+  },
+  d: {
+    name: 4,
+    tooltip: 'Click to delete',
+    color: 'error',
+    icon: <DeleteForeverRounded />,
+    value: 'delete'
+  },
+  u: {
+    name: 2,
+    tooltip: 'Click to edit',
+    color: 'info',
+    icon: <EditOutlined />,
+    value: 'edit'
+  }
+};
+
+export const userIsViewIconPermissions = (data, nameArray) => {
+  const list = [];
+  for (const [key, value] of Object.entries(data)) {
+    const permission = isViewIconPermissions[key];
+    if (permission && value && nameArray.includes(permission.name)) {
+      list.push({ ...permission });
+    }
   }
   return list;
 };
@@ -272,3 +284,23 @@ export const dateInputProps = (minLimit = 50, maxLimit = 50) => ({
   min: moment().subtract(minLimit, 'Y').format('YYYY-MM-DD'),
   max: moment().add(maxLimit, 'Y').format('YYYY-MM-DD')
 });
+
+export const CheckPermission = (permission, condition = false, extra = false) =>
+  condition === '&&'
+    ? permission && Object.values(permission).some((x) => x === 1) && extra
+    : condition === '||'
+    ? (permission && Object.values(permission).some((x) => x === 1)) || extra
+    : permission && Object.values(permission).some((x) => x === 1);
+
+export const defaultModulePermissions = {
+  dashboard: { r: 1, w: 0, u: 0, d: 0, a: 0 },
+  role: { r: 0, w: 0, u: 0, d: 0, a: 0 },
+  roleDetails: { r: 0, w: 0, u: 0, d: 0, a: 0 },
+  profile: { r: 1, w: 1, u: 1, d: 1, a: 0 },
+  personal: { r: 1, w: 1, u: 1, d: 1, a: 0 },
+  organisation: { r: 0, w: 0, u: 0, d: 0, a: 0 },
+  accounts: { r: 1, w: 1, u: 1, d: 1, a: 0 },
+  profileSetup: { r: 1, w: 1, u: 1, d: 1, a: 0 }
+};
+
+export const notAuthorised = 'Not authorized to update operation!';

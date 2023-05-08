@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Icon, Grid } from '@mui/material';
-import { Add, EditOutlined, PersonOffRounded, PersonRounded } from '@mui/icons-material';
+import { Add, PersonOffRounded, PersonRounded } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import Input from 'Elements/Input';
 import FilterLayout from 'Components/FilterLayout';
 import Select from 'Elements/Select';
-import { Roles } from 'Helpers/Global';
+import { rolesArray, userIsViewIconPermissions } from 'Helpers/Global';
 import { useNavigate, useOutletContext } from 'react-router';
 import { getEmployeeDetailsPattern } from 'Routes/routeConfig';
 import DialogMenu from 'Elements/Dialog';
@@ -15,11 +15,13 @@ import { empListData } from 'StaticData/employeeListData';
 import AddEmployeeForm from './AddEmployeeForm';
 
 const EmployeeList = () => {
-  const { role, GetEmployeeAdd, GetEmployeeList, GetEmployeeDisable, Loading } = useOutletContext();
+  const { GetEmployeeAdd, GetEmployeeList, GetEmployeeDisable, Loading, permission, GetRoleList } =
+    useOutletContext();
   const { columns: prCols } = empListData;
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [allEmployee, setAllEmployee] = useState([]);
+  const [allRoles, setAllRoles] = useState([]);
   const [employeeCount, setEmployeeCount] = useState(0);
   const [sort, setSort] = useState({ key: 'email', order: 'asc' });
   const [page, setPage] = useState(0);
@@ -27,12 +29,17 @@ const EmployeeList = () => {
   const [filter, setFilter] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [isActiveDialogOpen, setIsActiveDialogOpen] = useState(false);
+  const isAdmin =
+    (permission &&
+      permission.organisation &&
+      Object.values(permission.organisation).some((x) => x === 1)) ||
+    (permission.employee && permission.employee.w === 1);
 
   const [filterData, setFilterData] = useState({
     startDate: '',
     endDate: '',
     search: '',
-    selectedRole: Roles[0]
+    selectedRole: ''
   });
 
   const isValues = !(
@@ -42,6 +49,29 @@ const EmployeeList = () => {
     filterData.endDate === ''
   );
 
+  const isViewIconPermissions = userIsViewIconPermissions(
+    permission !== null && permission.hasOwnProperty('employee') && permission.employee,
+    [2]
+  );
+
+  const permissionsEmployee = [
+    ...isViewIconPermissions,
+    {
+      name: 1,
+      tooltip: 'Click to enable',
+      color: 'error',
+      icon: <PersonOffRounded />,
+      value: 'deactivate'
+    },
+    {
+      name: 0,
+      tooltip: 'Click to disable',
+      color: 'success',
+      icon: <PersonRounded />,
+      value: 'activate'
+    }
+  ];
+
   useEffect(() => {
     if (!isDialogOpen || !isActiveDialogOpen) {
       GetEmployeeList(
@@ -50,7 +80,7 @@ const EmployeeList = () => {
           startDate: filterData.startDate,
           endDate: filterData.endDate,
           search: filterData.search,
-          role: filterData.selectedRole.value,
+          role: filterData.selectedRole.id,
           page,
           sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
           sortOrder: sort.order
@@ -66,12 +96,28 @@ const EmployeeList = () => {
     return () => {};
   }, [isDialogOpen, isActiveDialogOpen, filter, page, sort, limit]);
 
+  useEffect(() => {
+    GetRoleList(
+      {
+        limit: 0
+      },
+      (res) => {
+        if (res && res.data && res.data.data) {
+          setAllRoles(rolesArray(res.data.data.rows, true));
+          setFilterData({ ...filterData, selectedRole: rolesArray(res.data.data.rows, true)[0] });
+        }
+      }
+    );
+
+    return () => {};
+  }, []);
+
   const handleClear = () => {
     setFilterData({
       startDate: '',
       endDate: '',
       search: '',
-      selectedRole: Roles[0]
+      selectedRole: allRoles.length > 0 ? allRoles[0] : ''
     });
     setFilter(!filter);
   };
@@ -79,7 +125,7 @@ const EmployeeList = () => {
   return (
     <>
       <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        {role === 'admin' ? (
+        {isAdmin && (
           <Grid item xs="auto">
             <Button
               color="white"
@@ -93,7 +139,7 @@ const EmployeeList = () => {
               Add
             </Button>
           </Grid>
-        ) : null}
+        )}
       </Grid>
       <Card
         sx={{
@@ -106,7 +152,7 @@ const EmployeeList = () => {
           search={filterData.search}
           handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
           handleClear={() => isValues && handleClear()}
-          isDisable={!isValues && allEmployee.length <= 0}
+          isDisable={!isValues && employeeCount && employeeCount.length <= 0}
           onClickSearch={() => isValues && setFilter(!filter)}
         >
           <Grid item xs={6} md={4} lg={3}>
@@ -138,17 +184,19 @@ const EmployeeList = () => {
               onChange={(e) => setFilterData({ ...filterData, endDate: e.target.value })}
             />
           </Grid>
-          <Grid item xs={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Role</FormLabel>
-              <Select
-                size="small"
-                value={filterData.selectedRole}
-                options={Roles}
-                onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
-              />
-            </FormControl>
-          </Grid>
+          {allRoles.length > 0 && (
+            <Grid item xs={12} md={4} lg={3}>
+              <FormControl sx={{ width: '100%' }}>
+                <FormLabel>Select Role</FormLabel>
+                <Select
+                  size="small"
+                  value={filterData.selectedRole}
+                  options={allRoles}
+                  onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
+                />
+              </FormControl>
+            </Grid>
+          )}
         </FilterLayout>
         <Table
           columns={prCols}
@@ -166,29 +214,7 @@ const EmployeeList = () => {
               navigate(getEmployeeDetailsPattern(value.slug), { state: { slug: value.slug } });
             }
           }}
-          isView={[
-            {
-              name: 3,
-              tooltip: 'Edit',
-              color: 'info',
-              icon: <EditOutlined />,
-              value: 'edit'
-            },
-            {
-              name: 1,
-              tooltip: 'Click to enable',
-              color: 'error',
-              icon: <PersonOffRounded />,
-              value: 'deactivate'
-            },
-            {
-              name: 0,
-              tooltip: 'Click to disable',
-              color: 'success',
-              icon: <PersonRounded />,
-              value: 'activate'
-            }
-          ]}
+          isView={permissionsEmployee}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={isNaN(limit) ? employeeCount : limit}
@@ -197,12 +223,15 @@ const EmployeeList = () => {
           sortOrder={sort.order}
           handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}
         />
-        <AddEmployeeForm
-          GetEmployeeAdd={GetEmployeeAdd}
-          isDialogOpen={isDialogOpen}
-          handleDialog={() => setIsDialogOpen(false)}
-          Loading={Loading}
-        />
+        {allRoles && isDialogOpen && (
+          <AddEmployeeForm
+            GetEmployeeAdd={GetEmployeeAdd}
+            isDialogOpen={isDialogOpen}
+            handleDialog={() => setIsDialogOpen(false)}
+            Loading={Loading}
+            GetRoleList={GetRoleList}
+          />
+        )}
 
         {isActiveDialogOpen && (
           <DialogMenu
