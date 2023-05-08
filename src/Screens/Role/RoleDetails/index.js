@@ -50,7 +50,7 @@ const AddRole = () => {
       GetModuleList({}, (res) => {
         if (res && res.data && res.data.data) {
           arr = res.data.data
-            .map((v) => ({ ...v, permission: { r: 0, w: 0, u: 0, d: 0 } }))
+            .map((v) => ({ ...v, permission: { r: 0, w: 0, u: 0, d: 0, a: 0 } }))
             .sort((a, b) => (a.name > b.name ? 1 : -1));
           const arrayToObject = () => {
             const newList = {};
@@ -134,10 +134,10 @@ const AddRole = () => {
       <Grid
         container
         spacing={2}
-        sx={{
+        /* sx={{
           display: 'flex',
           flexDirection: 'column'
-        }}
+        }} */
       >
         <Grid item xs={12}>
           <Formik
@@ -180,14 +180,13 @@ const AddRole = () => {
                         disabled={collapseName !== 'addRole'}
                       />
                     </Grid>
-
                     {modules !== null &&
                       Object.keys(modules).map(
                         (key) =>
                           excludePermission.indexOf(key) < 0 && (
-                            <Grid item sx={12} md={6} lg={4} xl={3}>
+                            <Grid item sx={12} md={6} lg={4} xl={3} key={key}>
                               <Card>
-                                <Grid container key={key} p={2}>
+                                <Grid container p={2}>
                                   <Grid item xs={12}>
                                     <Typography
                                       variant="subtitle2"
@@ -245,7 +244,8 @@ const AddRole = () => {
                                               ...modules,
                                               [key]: {
                                                 ...modules[key],
-                                                w: modules[key].w === 1 ? 0 : 1
+                                                w: modules[key].w === 1 ? 0 : 1,
+                                                r: modules[key].w === 1 ? 0 : 1
                                               }
                                             });
                                           }}
@@ -278,7 +278,9 @@ const AddRole = () => {
                                               ...modules,
                                               [key]: {
                                                 ...modules[key],
-                                                u: modules[key].u === 1 ? 0 : 1
+                                                u: modules[key].u === 1 ? 0 : 1,
+                                                r: modules[key].u === 1 ? 0 : 1,
+                                                w: modules[key].u === 1 ? 0 : 1
                                               }
                                             });
                                           }}
@@ -311,7 +313,10 @@ const AddRole = () => {
                                               ...modules,
                                               [key]: {
                                                 ...modules[key],
-                                                d: modules[key].d === 1 ? 0 : 1
+                                                d: modules[key].d === 1 ? 0 : 1,
+                                                r: modules[key].d === 1 ? 0 : 1,
+                                                w: modules[key].d === 1 ? 0 : 1,
+                                                u: modules[key].d === 1 ? 0 : 1
                                               }
                                             });
                                           }}
@@ -344,7 +349,11 @@ const AddRole = () => {
                                               ...modules,
                                               [key]: {
                                                 ...modules[key],
-                                                a: modules[key].a === 1 ? 0 : 1
+                                                a: modules[key].a === 1 ? 0 : 1,
+                                                r: modules[key].a === 1 ? 0 : 1,
+                                                w: modules[key].a === 1 ? 0 : 1,
+                                                u: modules[key].a === 1 ? 0 : 1,
+                                                d: modules[key].a === 1 ? 0 : 1
                                               }
                                             });
                                           }}
