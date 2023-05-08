@@ -146,7 +146,7 @@ const Organisation = (props) => {
           </Grid>
           <Grid item xs={12} md={10} lg={8}>
             <FormControl sx={{ width: '100%' }}>
-              <FormLabel> Select Working Hours </FormLabel>
+              <FormLabel> Select Day Working Hours </FormLabel>
               <Select
                 name="workingHours"
                 value={workingHours}
