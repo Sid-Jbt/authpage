@@ -7,7 +7,7 @@ import { FormLabel, Grid, CircularProgress } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import Dropzone from 'Elements/Dropzone';
-import { keyDownTypeNumber, keyDownValidation } from 'Helpers/Global';
+import { keyDownTypeNumber, keyDownValidation, notAuthorised } from 'Helpers/Global';
 
 const initialValues = {
   itemName: '',
@@ -38,8 +38,11 @@ const AddExpenseForm = ({
           }
         }
         GetExpenseAddUpdate(values, (res) => {
-          const { status } = res.data;
+          const { status, message } = res.data;
           if (status) {
+            handleDialog();
+          }
+          if (message === notAuthorised) {
             handleDialog();
           }
         });

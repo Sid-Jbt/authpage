@@ -28,7 +28,8 @@ export default function componentStyleOverrides(theme) {
           scrollBehavior: 'smooth'
         },
         '*::-webkit-scrollbar': {
-          width: '0.2em'
+          width: '0.2em',
+          height: '0.2em'
         },
         '*::-webkit-scrollbar-track': {
           WebkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'

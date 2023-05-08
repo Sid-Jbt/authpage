@@ -1,15 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
-import { CircularProgress, Grid, IconButton, InputAdornment } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { CircularProgress, FormControl, FormLabel, Grid } from '@mui/material';
 import SideDrawer from 'Elements/SideDrawer';
 import { addEmployeeSchema } from 'Helpers/ValidationSchema';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import moment from 'moment';
+import Select from 'Elements/Select';
+import { rolesArray } from '../../Helpers/Global';
 
-const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading }) => {
-  const [showPassword, setShowPassword] = useState(false);
+const AddEmployeeDialog = ({
+  GetEmployeeAdd,
+  isDialogOpen,
+  handleDialog,
+  Loading,
+  GetRoleList
+}) => {
+  const [allRoles, setAllRoles] = useState([]);
+  const [selectedRole, setSelectedRole] = useState(null);
+
+  useEffect(() => {
+    GetRoleList(
+      {
+        limit: 0
+      },
+      (res) => {
+        if (res && res.data && res.data.data) {
+          const roles = rolesArray(res.data.data.rows);
+          setAllRoles(rolesArray(res.data.data.rows));
+          setSelectedRole(roles[roles.findIndex((x) => x.value.toLowerCase() === 'employee')]);
+        }
+      }
+    );
+  }, []);
 
   return (
     <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title="ADD NEW EMPLOYEE">
@@ -19,10 +42,18 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
           employeeCode: '',
           email: '',
           password: '',
-          dateOfJoin: moment().format('YYYY-MM-DD')
+          dateOfJoin: moment().format('YYYY-MM-DD'),
+          roleId: selectedRole
         }}
         onSubmit={(values, action) => {
-          GetEmployeeAdd(values, (res) => {
+          const formData = {
+            employeeCode: values.employeeCode,
+            email: values.email,
+            password: values.password,
+            dateOfJoin: values.dateOfJoin,
+            roleId: values.roleId.id
+          };
+          GetEmployeeAdd(formData, (res) => {
             const { status } = res.data;
             if (status) {
               handleDialog();
@@ -33,7 +64,8 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
         validationSchema={addEmployeeSchema}
       >
         {(props) => {
-          const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+          const { values, touched, errors, handleChange, handleBlur, handleSubmit, setFieldValue } =
+            props;
           return (
             <form onSubmit={handleSubmit}>
               <Grid container justifyContent="space-between" columnSpacing={2}>
@@ -71,6 +103,22 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
                     success={!errors.dateOfJoin && touched.dateOfJoin}
                   />
                 </Grid>
+                {allRoles.length > 0 && (
+                  <Grid item xs={12}>
+                    <FormControl sx={{ width: '100%' }}>
+                      <FormLabel>Select Role</FormLabel>
+                      <Select
+                        value={selectedRole}
+                        options={allRoles}
+                        onChange={(value) => {
+                          setSelectedRole(value);
+                          setFieldValue('roleId', value);
+                        }}
+                      />
+                    </FormControl>
+                  </Grid>
+                )}
+
                 <Grid item xs={12}>
                   <Input
                     type="email"
@@ -101,18 +149,7 @@ const AddEmployeeDialog = ({ GetEmployeeAdd, isDialogOpen, handleDialog, Loading
                     errorText={errors.password && touched.password && errors.password}
                     error={errors.password && touched.password}
                     success={!errors.password && touched.password}
-                    type={showPassword ? 'text' : 'password'}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={() => setShowPassword((show) => !show)}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
+                    type="password"
                   />
                 </Grid>
                 <Grid item sm={12} md={4} lg={6} pt={2}>

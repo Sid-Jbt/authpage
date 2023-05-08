@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
-import {
-  Add,
-  DeleteForeverRounded,
-  EditOutlined,
-  Pending,
-  RemoveRedEye,
-  SummarizeRounded,
-  ThumbDown,
-  ThumbUp
-} from '@mui/icons-material';
+import { Add, Pending, SummarizeRounded, ThumbDown, ThumbUp } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import Input from 'Elements/Input';
 import Select from 'Elements/Select';
 import FilterLayout from 'Components/FilterLayout';
-import { Priority, actionStatus } from 'Helpers/Global';
+import { Priority, actionStatus, userPermission, userIsViewIconPermissions } from 'Helpers/Global';
 import { DialogAction, DialogContent } from 'Components/Dialog';
 import DialogMenu from 'Elements/Dialog';
 import TicketCard from 'Components/CardLayouts/StaticCard';
@@ -28,13 +19,13 @@ import SupportTicketDetails from './SupportTicketDetails';
 const SupportTicket = () => {
   const { columns: prCols, adminColumns: adminPrCol } = supportTicketData;
   const {
-    role,
     GetSupportAddUpdate,
     GetSupportList,
     GetSupportById,
     GetSupportDelete,
     GetSupportReason,
-    Loading
+    Loading,
+    permission
   } = useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -50,8 +41,30 @@ const SupportTicket = () => {
   const [filter, setFilter] = useState(false);
   const [approveRejectReason, setApproveRejectReason] = useState('');
 
+  const isAdmin =
+    permission &&
+    permission.organisation &&
+    Object.values(permission.organisation).some((x) => x === 1) &&
+    Object.values(permission.supportTicket).some((x) => x === 1);
+
+  const userPermissions = userPermission(
+    permission !== null && permission.hasOwnProperty('supportTicket') && permission.supportTicket
+  );
+
+  const isViewIconPermissions = userIsViewIconPermissions(
+    permission !== null && permission.hasOwnProperty('supportTicket') && permission.supportTicket,
+    [2, 3, 4]
+  );
+
+  const uiPermission = permission && permission.supportTicket;
+
+  const isAuthorised = !!(
+    permission &&
+    permission.supportTicket &&
+    permission.supportTicket.a === 1
+  );
+
   const [filterData, setFilterData] = useState({
-    startDate: '',
     priority: '',
     search: '',
     status: ''
@@ -130,26 +143,29 @@ const SupportTicket = () => {
           />
         </Grid>
       </Grid>
-      <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
-        <Grid item xs="auto">
-          <Button
-            sx={({ breakpoints, palette: { dark } }) => ({
-              [breakpoints.down('xl' && 'lg')]: {
-                color: dark.main,
-                borderColor: dark.main
-              }
-            })}
-            variant="outlined"
-            size="small"
-            onClick={() => setIsDialogOpen(!isDialogOpen)}
-          >
-            <Icon sx={{ mr: 1 }}>
-              <Add />
-            </Icon>
-            Add
-          </Button>
+      {uiPermission.w && (
+        <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
+          <Grid item xs="auto">
+            <Button
+              sx={({ breakpoints, palette: { dark } }) => ({
+                [breakpoints.down('xl' && 'lg')]: {
+                  color: dark.main,
+                  borderColor: dark.main
+                }
+              })}
+              variant="outlined"
+              size="small"
+              onClick={() => setIsDialogOpen(!isDialogOpen)}
+            >
+              <Icon sx={{ mr: 1 }}>
+                <Add />
+              </Icon>
+              Add
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
+
       <Card
         sx={{
           background: ({ palette: { grey } }) => grey[100],
@@ -205,7 +221,7 @@ const SupportTicket = () => {
         </FilterLayout>
 
         <Table
-          columns={role === 'admin' ? adminPrCol : prCols}
+          columns={isAdmin || isAuthorised ? adminPrCol : prCols}
           rows={allSpTicketList}
           badge={['status', 'priority']}
           onClickAction={(value, { id }) => {
@@ -237,37 +253,9 @@ const SupportTicket = () => {
               });
             }
           }}
-          isAction={role !== 'admin'}
-          options={[
-            { name: 'edit', title: 'Edit', value: 'edit' },
-            { name: 'delete', title: 'Delete', value: 'delete' },
-            { name: 'view', title: 'View', value: 'view' }
-          ]}
-          isView={
-            role === 'admin' && [
-              {
-                name: 2,
-                tooltip: 'Click to view',
-                color: 'info',
-                icon: <RemoveRedEye />,
-                value: 'view'
-              },
-              {
-                name: 3,
-                tooltip: 'Edit',
-                color: 'info',
-                icon: <EditOutlined />,
-                value: 'edit'
-              },
-              {
-                name: 4,
-                tooltip: 'Delete',
-                color: 'error',
-                icon: <DeleteForeverRounded />,
-                value: 'delete'
-              }
-            ]
-          }
+          isAction={!isAdmin}
+          options={userPermissions}
+          isView={isAdmin && isViewIconPermissions}
           rowsCount={spTicketListCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
@@ -329,14 +317,15 @@ const SupportTicket = () => {
               customContent={
                 <SupportTicketDetails
                   data={selectedData}
-                  role={role}
+                  isAdmin={isAdmin}
+                  isAuthorised={isAuthorised}
                   approveRejectReason={(value) => setApproveRejectReason(value)}
                 />
               }
             />
           }
           dialogAction={
-            role === 'admin' &&
+            (isAdmin || isAuthorised) &&
             selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"

@@ -2,14 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Icon, Grid, FormControl, FormLabel } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
-import {
-  Add,
-  DirectionsRun,
-  Vaccines,
-  CalendarMonth,
-  Celebration,
-  RemoveRedEye
-} from '@mui/icons-material';
+import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
 import LeaveCard from 'Components/CardLayouts/StaticCard';
 import FilterLayout from 'Components/FilterLayout';
 import DialogMenu from 'Elements/Dialog';
@@ -17,21 +10,29 @@ import { DialogAction, DialogContent } from 'Components/Dialog';
 import { useOutletContext } from 'react-router';
 import { leaveListData } from 'StaticData/leaveListData';
 import Select from 'Elements/Select';
-import { actionStatus, Months, userArray, Years } from 'Helpers/Global';
+import {
+  actionStatus,
+  Months,
+  userArray,
+  Years,
+  userPermission,
+  CheckPermission,
+  userIsViewIconPermissions
+} from 'Helpers/Global';
 import AddLeaveForm from './AddLeaveForm';
 import LeaveDetails from './LeaveDetails';
 
 const LeaveList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = leaveListData;
   const {
-    role,
     Loading,
     GetLeaveAddUpdate,
     GetLeaveList,
     GetLeaveDelete,
     GetLeaveReason,
     GetLeaveById,
-    GetEmployeeList
+    GetEmployeeList,
+    permission
   } = useOutletContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -47,6 +48,16 @@ const LeaveList = () => {
   const [approveRejectReason, setApproveRejectReason] = useState('');
   const [userList, setUserList] = useState([]);
 
+  const isAdmin = CheckPermission(
+    permission && permission.organisation,
+    '&&',
+    permission.leave && permission.leave.w === 0
+  );
+
+  const isAuthorised = !!(permission && permission.leave && permission.leave.a === 1);
+
+  const uiPermission = permission && permission.leave;
+
   const [filterData, setFilterData] = useState({
     search: '',
     status: '',
@@ -54,6 +65,13 @@ const LeaveList = () => {
     year: '',
     user: ''
   });
+
+  const userPermissions = userPermission(permission.hasOwnProperty('leave') && permission.leave);
+
+  const isViewIconPermissions = userIsViewIconPermissions(
+    permission.hasOwnProperty('leave') && permission.leave,
+    [3]
+  );
 
   const isValues = !(
     filterData.search === '' &&
@@ -64,7 +82,7 @@ const LeaveList = () => {
   );
 
   useEffect(() => {
-    if (role === 'admin') {
+    if (isAdmin) {
       GetEmployeeList({ limit: 0 }, (res) => {
         if (res && res.data && res.data.data) {
           setUserList(userArray(res.data.data.rows));
@@ -114,7 +132,7 @@ const LeaveList = () => {
   return (
     <>
       <Grid container spacing={3} mb={3}>
-        {role === 'admin' ? (
+        {isAdmin ? (
           <>
             <Grid item xs={12} md={6} lg={4}>
               <LeaveCard
@@ -178,7 +196,7 @@ const LeaveList = () => {
           </>
         )}
       </Grid>
-      {role !== 'admin' && (
+      {uiPermission.w && (
         <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
           <Grid item xs="auto">
             <Button
@@ -215,35 +233,7 @@ const LeaveList = () => {
           isDisable={leaveCount && leaveCount.TotalLeaveRequest <= 0}
           onClickSearch={() => isValues && setFilter(!filter)}
         >
-          {/* <Grid item xs={6} md={4} lg={3}>
-            <Input
-              type="date"
-              label="From Date"
-              size="small"
-              fullWidth
-              id="fromDate"
-              name="fromDate"
-              inputProps={dateInputProps()}
-              errorFalse
-              value={filterData.startDate}
-              onChange={(e) => setFilterData({ ...filterData, startDate: e.target.value })}
-            />
-          </Grid>
-          <Grid item xs={6} md={4} lg={3}>
-            <Input
-              type="date"
-              label="To Date"
-              size="small"
-              fullWidth
-              id="toDate"
-              name="toDate"
-              errorFalse
-              value={filterData.endDate}
-              onChange={(e) => setFilterData({ ...filterData, endDate: e.target.value })}
-              inputProps={dateInputProps()}
-            />
-          </Grid> */}
-          {role === 'admin' && (
+          {isAdmin && (
             <Grid item sm={12} md={4} lg={3}>
               <FormControl sx={{ width: '100%' }}>
                 <FormLabel>Select User</FormLabel>
@@ -294,7 +284,7 @@ const LeaveList = () => {
         </FilterLayout>
 
         <Table
-          columns={role === 'admin' ? adminPrCol : prCols}
+          columns={isAdmin ? adminPrCol : prCols}
           rows={allLeave}
           badge={['status']}
           onClickAction={(value, { id }) => {
@@ -328,23 +318,9 @@ const LeaveList = () => {
               });
             }
           }}
-          isAction={role !== 'admin'}
-          options={[
-            { name: 'edit', title: 'Edit', value: 'edit' },
-            { name: 'delete', title: 'Delete', value: 'delete' },
-            { name: 'view', title: 'View', value: 'view' }
-          ]}
-          isView={
-            role === 'admin' && [
-              {
-                name: 2,
-                tooltip: 'Click to view',
-                color: 'info',
-                icon: <RemoveRedEye />,
-                value: 'view'
-              }
-            ]
-          }
+          isAction={!isAdmin}
+          options={userPermissions}
+          isView={isAdmin && isViewIconPermissions}
           rowsCount={leaveCount && leaveCount.total}
           initialPage={page}
           onChangePage={(value) => setPage(value)}
@@ -409,14 +385,15 @@ const LeaveList = () => {
               customContent={
                 <LeaveDetails
                   data={selectedData}
-                  role={role}
+                  isAdmin={isAdmin}
+                  isAuthorised={isAuthorised}
                   approveRejectReason={(value) => setApproveRejectReason(value)}
                 />
               }
             />
           }
           dialogAction={
-            role === 'admin' &&
+            (isAdmin || isAuthorised) &&
             selectedData.status === 'pending' && (
               <DialogAction
                 approveColor="success"

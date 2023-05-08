@@ -1,7 +1,8 @@
 import Box from 'Elements/Box';
 
-const DataTableBodyCell = ({ noBorder, align, children }) => (
+const DataTableBodyCell = ({ noBorder, align, children, ...rest }) => (
   <Box
+    {...rest}
     component="td"
     textAlign={align}
     py={1.5}

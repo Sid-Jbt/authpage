@@ -53,7 +53,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
             onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
           />
         </Grid>
-        {role !== 'admin' && (
+        {!role && (
           <Grid item xs={12} md={6} lg={4}>
             <Input
               type="text"
@@ -87,23 +87,8 @@ const PersonalDetails = ({ isEdit, role, props }) => {
             errorFalse
           />
         </Grid>
-        {role !== 'admin' && (
+        {!role && (
           <>
-            {/* <Grid item xs={12} md={6} lg={4}>
-              <Box>
-                <Input
-                  type="text"
-                  placeholder="eg. Development"
-                  size="large"
-                  fullWidth
-                  id="department"
-                  name="department"
-                  label="Department"
-                  value={values.department}
-                  disabled
-                />
-              </Box>
-            </Grid> */}
             <Grid item xs={12} md={6} lg={4}>
               <Input
                 type="text"
@@ -161,7 +146,7 @@ const PersonalDetails = ({ isEdit, role, props }) => {
           />
         </Grid>
         <>
-          {role !== 'admin' && (
+          {!role && (
             <Grid item xs={12} md={6} lg={4}>
               <Input
                 type="text"
