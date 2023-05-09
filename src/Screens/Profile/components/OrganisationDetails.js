@@ -13,9 +13,11 @@ import CropperImage from 'Components/ImageCrop';
 import DialogMenu from 'Elements/Dialog';
 import smallFile from 'Assets/Images/logo.jpeg';
 import largeFile from 'Assets/Images/jbt-full-logo.svg';
+import TagInput from 'Elements/TagInput';
 
 const Organisation = ({ isEdit, props }) => {
   const { values, handleChange, handleBlur, setFieldValue } = props;
+  const [skills, setSkills] = useState(['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun']);
   const smallLogoInputFile = useRef(null);
   const largeLogoInputFile = useRef(null);
   const [smallLogo, setSmallLogo] = useState('');
@@ -170,6 +172,14 @@ const Organisation = ({ isEdit, props }) => {
               onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
             />
           </Grid>
+        </Grid>
+        <Grid>
+          <TagInput
+            tags={skills}
+            placeholder="Select Working Days"
+            onChange={(newSkill) => setSkills(newSkill)}
+            removeOnBackspace
+          />
         </Grid>
         <Grid item xs={12} md={8}>
           <Input
