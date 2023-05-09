@@ -17,7 +17,6 @@ import TagInput from 'Elements/TagInput';
 
 const Organisation = ({ isEdit, props }) => {
   const { values, handleChange, handleBlur, setFieldValue } = props;
-  const [skills, setSkills] = useState(['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun']);
   const smallLogoInputFile = useRef(null);
   const largeLogoInputFile = useRef(null);
   const [smallLogo, setSmallLogo] = useState('');
@@ -41,6 +40,23 @@ const Organisation = ({ isEdit, props }) => {
     };
     reader.readAsDataURL(e.target.files[0]);
   };
+
+  /*  const handleDelete = (i) => {
+    setWeekDays(weekDays.filter((weekDay, index) => index !== i));
+  };
+  const handleAddition = (weekDay) => {
+    setWeekDays([...weekDays, weekDay]);
+  };
+  const handleDrag = (weekDay, currPos, newPos) => {
+    const newWeekDays = weekDays.slice();
+    newWeekDays.splice(currPos, 1);
+    newWeekDays.splice(newPos, 0, weekDay);
+    // re-render
+    setWeekDays(newWeekDays);
+  };
+  const handleTagClick = (index) => {
+    console.log(`The tag at index ${index} was clicked`);
+  }; */
 
   return (
     <Card sx={{ overflow: 'visible' }}>
@@ -173,13 +189,57 @@ const Organisation = ({ isEdit, props }) => {
             />
           </Grid>
         </Grid>
+        <Grid item container spacing={2} xs={12} md={8}>
+          <Grid item xs={12} md={6}>
+            <Input
+              type="time"
+              placeholder="Login Time"
+              size="medium"
+              fullWidth
+              errorFalse
+              id="breakStart"
+              name="breakStart"
+              label="Break Start"
+              value={values.breakStart}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              disabled={!isEdit}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Input
+              type="time"
+              placeholder="Logout Time"
+              size="medium"
+              fullWidth
+              errorFalse
+              id="breakEnd"
+              name="breakEnd"
+              label="Break End"
+              value={values.breakEnd}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              disabled={!isEdit}
+              onKeyDown={(evt) => keyDownValidation.includes(evt.key) && evt.preventDefault()}
+            />
+          </Grid>
+        </Grid>
+
         <Grid item xs={12} md={8}>
           <TagInput
             label="Working Days"
-            tags={skills}
-            placeholder=""
-            onChange={(newSkill) => setSkills(newSkill)}
+            suggestions={values.weekDays}
+            tags={values.weekDays}
+            onChange={(newWeekDays) => setFieldValue('weekDays', newWeekDays)}
+            // handleDelete={handleDelete}
+            // handleAddition={handleAddition}
+            // handleDrag={handleDrag}
+            // handleTagClick={handleTagClick}
             removeOnBackspace
+            autocomplete
+            allowUnique
+            editable={!isEdit}
           />
         </Grid>
         <Grid item xs={12} md={8}>

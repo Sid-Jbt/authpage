@@ -13,6 +13,7 @@ import {
   getOrganisationProfilePattern,
   getPersonalProfilePattern
 } from 'Routes/routeConfig';
+import { WeekDays } from 'Helpers/Global';
 import BankInfo from './components/BankInfo';
 import PersonalDetails from './components/PersonalDetails';
 import Header from './components/Header';
@@ -75,6 +76,9 @@ const Profile = ({ GetDashboard }) => {
           smallLogo: '',
           punchIn: '',
           punchOut: '',
+          breakStart: '',
+          breakEnd: '',
+          weekDays: WeekDays,
           organisationName: '',
           location: ''
         }
@@ -140,7 +144,10 @@ const Profile = ({ GetDashboard }) => {
       <Card sx={{ marginTop: 2, overflow: 'visible' }}>
         <Formik
           enableReinitialize
-          initialValues={{ ...bankInfo, ...organisation, ...profile, ...rest } || initialValues}
+          initialValues={
+            { ...bankInfo, ...organisation, weekDays: WeekDays, ...profile, ...rest } ||
+            initialValues
+          }
           onSubmit={onSubmit}
         >
           {(props) => {

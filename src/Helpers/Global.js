@@ -304,3 +304,5 @@ export const defaultModulePermissions = {
 };
 
 export const notAuthorised = 'Not authorized to update operation!';
+
+export const WeekDays = ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun'];
