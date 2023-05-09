@@ -1,5 +1,5 @@
-import { styled } from '@mui/material';
-import { forwardRef } from 'react';
+import { FormControl, FormLabel, styled } from '@mui/material';
+import React, { forwardRef } from 'react';
 import ReactTagInput from '@pathofdev/react-tag-input';
 import '@pathofdev/react-tag-input/build/index.css';
 
@@ -113,10 +113,13 @@ const RootTagInput = styled('div')(({ theme, ownerState }) => {
   };
 });
 
-const TagInput = forwardRef(({ size, error, success, ...rest }, ref) => (
-  <RootTagInput ownerState={{ size, error, success }}>
-    <ReactTagInput {...rest} ref={ref} />
-  </RootTagInput>
+const TagInput = forwardRef(({ label, size, error, success, ...rest }, ref) => (
+  <FormControl sx={{ width: '100%' }}>
+    <FormLabel>{label}</FormLabel>
+    <RootTagInput ownerState={{ size, error, success }}>
+      <ReactTagInput {...rest} ref={ref} />
+    </RootTagInput>
+  </FormControl>
 ));
 
 TagInput.defaultProps = {
