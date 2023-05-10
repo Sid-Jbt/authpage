@@ -10,6 +10,7 @@ import AttendanceCard from 'Components/CardLayouts/StaticCard';
 import { useOutletContext } from 'react-router';
 import { attendanceColumn } from 'StaticData/attendanceData';
 import Input from 'Elements/Input';
+import moment from 'moment/moment';
 
 const AttendanceList = () => {
   const { columns: prCols, adminColumns: adminPrCol } = attendanceColumn;
@@ -171,6 +172,9 @@ const AttendanceList = () => {
               fullWidth
               id="fromDate"
               name="fromDate"
+              inputProps={{
+                min: moment().subtract(50, 'Y').format('YYYY-MM-DD')
+              }}
               errorFalse
               value={filterData.startDate}
               onChange={(e) => setFilterData({ ...filterData, startDate: e.target.value })}
