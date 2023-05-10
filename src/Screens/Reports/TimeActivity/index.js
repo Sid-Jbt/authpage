@@ -5,7 +5,7 @@ import DefaultLineChart from 'Elements/Charts/LineCharts/DefaultLineChart';
 import FilterLayout from 'Components/FilterLayout';
 import Input from 'Elements/Input';
 import Table from 'Elements/Tables/Table';
-import { GraphicEqOutlined, RemoveRedEye } from '@mui/icons-material';
+import { RemoveRedEye } from '@mui/icons-material';
 import { timeActivityListData } from 'StaticData/timeActivityListData';
 import { defaultLineChartData } from 'StaticData/defaultLineChartData';
 import { useOutletContext } from 'react-router';
@@ -107,9 +107,9 @@ const TimeActivity = () => {
       <Grid item xs={12} md={4}>
         <StaticCard title="Avg. Activity" count="41%" icon={false} isPercentage={false} />
       </Grid>
-      <Grid item xs={12} md={4}>
+      {/* <Grid item xs={12} md={4}>
         <StaticCard title="Graph" count={false} icon={<GraphicEqOutlined />} isPercentage={false} />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <DefaultLineChart title="Line chart" chart={defaultLineChartData} />
       </Grid>
