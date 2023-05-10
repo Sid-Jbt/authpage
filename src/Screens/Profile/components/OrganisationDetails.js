@@ -13,7 +13,7 @@ import CropperImage from 'Components/ImageCrop';
 import DialogMenu from 'Elements/Dialog';
 import smallFile from 'Assets/Images/logo.jpeg';
 import largeFile from 'Assets/Images/jbt-full-logo.svg';
-import TagInput from 'Elements/TagInput';
+import Select from 'Elements/Select';
 
 const Organisation = ({ isEdit, props }) => {
   const { values, handleChange, handleBlur, setFieldValue } = props;
@@ -40,23 +40,6 @@ const Organisation = ({ isEdit, props }) => {
     };
     reader.readAsDataURL(e.target.files[0]);
   };
-
-  /*  const handleDelete = (i) => {
-    setWeekDays(weekDays.filter((weekDay, index) => index !== i));
-  };
-  const handleAddition = (weekDay) => {
-    setWeekDays([...weekDays, weekDay]);
-  };
-  const handleDrag = (weekDay, currPos, newPos) => {
-    const newWeekDays = weekDays.slice();
-    newWeekDays.splice(currPos, 1);
-    newWeekDays.splice(newPos, 0, weekDay);
-    // re-render
-    setWeekDays(newWeekDays);
-  };
-  const handleTagClick = (index) => {
-    console.log(`The tag at index ${index} was clicked`);
-  }; */
 
   return (
     <Card sx={{ overflow: 'visible' }}>
@@ -227,19 +210,20 @@ const Organisation = ({ isEdit, props }) => {
         </Grid>
 
         <Grid item xs={12} md={8}>
-          <TagInput
+          <Select
             label="Working Days"
-            suggestions={values.weekDays}
-            tags={values.weekDays}
-            onChange={(newWeekDays) => setFieldValue('weekDays', newWeekDays)}
-            // handleDelete={handleDelete}
-            // handleAddition={handleAddition}
-            // handleDrag={handleDrag}
-            // handleTagClick={handleTagClick}
-            removeOnBackspace
-            autocomplete
-            allowUnique
-            editable={!isEdit}
+            defaultValue={[
+              { value: 'mon', label: 'Monday' },
+              { value: 'tue', label: 'Tuesday' }
+            ]}
+            options={[
+              { value: 'mon', label: 'Monday' },
+              { value: 'tue', label: 'Tuesday' },
+              { value: 'choice 3', label: 'Choice 3' },
+              { value: 'choice 4', label: 'Choice 4' },
+              { value: 'label one', label: 'Label One', isDisabled: true }
+            ]}
+            isMulti
           />
         </Grid>
         <Grid item xs={12} md={8}>

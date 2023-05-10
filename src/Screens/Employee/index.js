@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, FormControl, FormLabel, Icon, Grid } from '@mui/material';
+import { Card, Icon, Grid } from '@mui/material';
 import { Add, PersonOffRounded, PersonRounded } from '@mui/icons-material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
@@ -186,15 +186,13 @@ const EmployeeList = () => {
           </Grid>
           {allRoles.length > 0 && (
             <Grid item xs={12} md={4} lg={3}>
-              <FormControl sx={{ width: '100%' }}>
-                <FormLabel>Select Role</FormLabel>
-                <Select
-                  size="small"
-                  value={filterData.selectedRole}
-                  options={allRoles}
-                  onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
-                />
-              </FormControl>
+              <Select
+                label="Select Role"
+                size="small"
+                value={filterData.selectedRole}
+                options={allRoles}
+                onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
+              />
             </Grid>
           )}
         </FilterLayout>
