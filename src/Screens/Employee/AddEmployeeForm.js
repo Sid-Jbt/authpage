@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
-import { CircularProgress, FormControl, FormLabel, Grid } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
 import SideDrawer from 'Elements/SideDrawer';
 import { addEmployeeSchema } from 'Helpers/ValidationSchema';
 import Input from 'Elements/Input';
@@ -105,17 +105,15 @@ const AddEmployeeDialog = ({
                 </Grid>
                 {allRoles.length > 0 && (
                   <Grid item xs={12}>
-                    <FormControl sx={{ width: '100%' }}>
-                      <FormLabel>Select Role</FormLabel>
-                      <Select
-                        value={selectedRole}
-                        options={allRoles}
-                        onChange={(value) => {
-                          setSelectedRole(value);
-                          setFieldValue('roleId', value);
-                        }}
-                      />
-                    </FormControl>
+                    <Select
+                      label="Select Role"
+                      value={selectedRole}
+                      options={allRoles}
+                      onChange={(value) => {
+                        setSelectedRole(value);
+                        setFieldValue('roleId', value);
+                      }}
+                    />
                   </Grid>
                 )}
 

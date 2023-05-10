@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Card,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Grid,
-  Radio,
-  RadioGroup,
-  useTheme
-} from '@mui/material';
+import { Card, FormControlLabel, Grid, Radio, RadioGroup, useTheme } from '@mui/material';
 import StaticCard from 'Components/CardLayouts/StaticCard';
 import DefaultLineChart from 'Elements/Charts/LineCharts/DefaultLineChart';
 import FilterLayout from 'Components/FilterLayout';
@@ -211,28 +202,24 @@ const TimeActivity = () => {
             {isAdmin && (
               <>
                 <Grid item sm={12} md={4} lg={3}>
-                  <FormControl sx={{ width: '100%' }}>
-                    <FormLabel>Select User</FormLabel>
-                    <Select
-                      size="small"
-                      renderValue={filterData.user !== '' ? undefined : () => 'Select...'}
-                      value={filterData.user}
-                      options={userList}
-                      onChange={(value) => setFilterData({ ...filterData, user: value })}
-                    />
-                  </FormControl>
+                  <Select
+                    label="Select User"
+                    size="small"
+                    renderValue={filterData.user !== '' ? undefined : () => 'Select...'}
+                    value={filterData.user}
+                    options={userList}
+                    onChange={(value) => setFilterData({ ...filterData, user: value })}
+                  />
                 </Grid>
                 {allRoles.length > 0 && (
                   <Grid item xs={12} md={4} lg={3}>
-                    <FormControl sx={{ width: '100%' }}>
-                      <FormLabel>Select Role</FormLabel>
-                      <Select
-                        size="small"
-                        value={filterData.selectedRole}
-                        options={allRoles}
-                        onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
-                      />
-                    </FormControl>
+                    <Select
+                      label="Select Role"
+                      size="small"
+                      value={filterData.selectedRole}
+                      options={allRoles}
+                      onChange={(value) => setFilterData({ ...filterData, selectedRole: value })}
+                    />
                   </Grid>
                 )}
               </>

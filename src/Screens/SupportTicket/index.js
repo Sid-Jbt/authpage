@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
+import { Card, Grid, Icon } from '@mui/material';
 import { Add, Pending, SummarizeRounded, ThumbDown, ThumbUp } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
@@ -197,26 +197,22 @@ const SupportTicket = () => {
             />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Priority</FormLabel>
-              <Select
-                size="small"
-                value={filterData.priority}
-                options={Priority}
-                onChange={(value) => setFilterData({ ...filterData, priority: value })}
-              />
-            </FormControl>
+            <Select
+              label="Select Priority"
+              size="small"
+              value={filterData.priority}
+              options={Priority}
+              onChange={(value) => setFilterData({ ...filterData, priority: value })}
+            />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Status</FormLabel>
-              <Select
-                size="small"
-                value={filterData.status}
-                options={actionStatus}
-                onChange={(value) => setFilterData({ ...filterData, status: value })}
-              />
-            </FormControl>
+            <Select
+              label="Select Status"
+              size="small"
+              value={filterData.status}
+              options={actionStatus}
+              onChange={(value) => setFilterData({ ...filterData, status: value })}
+            />
           </Grid>
         </FilterLayout>
 

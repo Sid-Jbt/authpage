@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
-import { FormControl, FormLabel, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import moment from 'moment/moment';
 import SideDrawer from 'Elements/SideDrawer';
 import { noticeEventSchema } from 'Helpers/ValidationSchema';
@@ -181,14 +181,12 @@ const AddCalendarEventDialog = ({
                     </Grid>
                   </Grid>
                   <Grid item xs={12}>
-                    <FormControl sx={{ width: '100%' }}>
-                      <FormLabel>Select Event Type</FormLabel>
-                      <Select
-                        value={eventType}
-                        options={EventsType}
-                        onChange={(value) => handleChangeEventType(value)}
-                      />
-                    </FormControl>
+                    <Select
+                      label="Select Event Type"
+                      value={eventType}
+                      options={EventsType}
+                      onChange={(value) => handleChangeEventType(value)}
+                    />
                   </Grid>
                   <Grid item sm={12} md={4} lg={6} mt={1}>
                     <Button type="submit" color="info" variant="contained" size="medium">
