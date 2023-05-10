@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import moment from 'moment';
 import { leaveFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
-import { CircularProgress, FormControl, FormLabel, Grid } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
 import Input from 'Elements/Input';
 import Button from 'Elements/Button';
 import Select from 'Elements/Select';
@@ -74,38 +74,34 @@ const AddLeaveForm = ({
             <form onSubmit={handleSubmit}>
               <Grid container spacing={1} justifyContent="space-between">
                 <Grid item xs={12} md={6}>
-                  <FormControl sx={{ width: '100%' }}>
-                    <FormLabel>Select Leave</FormLabel>
-                    <Select
-                      value={
-                        selectedData === null
-                          ? values.leaveType
-                          : leave.find((o) => o.value === values.leaveType)
-                      }
-                      options={leave}
-                      onChange={(value) => {
-                        setLeaveType(value);
-                        setFieldValue('leaveType', value);
-                      }}
-                    />
-                  </FormControl>
+                  <Select
+                    label="Select Leave"
+                    value={
+                      selectedData === null
+                        ? values.leaveType
+                        : leave.find((o) => o.value === values.leaveType)
+                    }
+                    options={leave}
+                    onChange={(value) => {
+                      setLeaveType(value);
+                      setFieldValue('leaveType', value);
+                    }}
+                  />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <FormControl sx={{ width: '100%' }}>
-                    <FormLabel>Select Type</FormLabel>
-                    <Select
-                      value={
-                        selectedData === null
-                          ? values.selectType
-                          : leaveDayType.find((o) => o.value === values.selectType)
-                      }
-                      options={leaveDayType}
-                      onChange={(value) => {
-                        setDayType(value);
-                        setFieldValue('selectType', value);
-                      }}
-                    />
-                  </FormControl>
+                  <Select
+                    label="Select Type"
+                    value={
+                      selectedData === null
+                        ? values.selectType
+                        : leaveDayType.find((o) => o.value === values.selectType)
+                    }
+                    options={leaveDayType}
+                    onChange={(value) => {
+                      setDayType(value);
+                      setFieldValue('selectType', value);
+                    }}
+                  />
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Input
