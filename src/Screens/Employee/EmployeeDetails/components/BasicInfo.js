@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from 'Elements/Box';
-import { Card, FormControl, FormLabel, Grid } from '@mui/material';
+import { Card, Grid } from '@mui/material';
 import { Formik } from 'formik';
 import Typography from 'Elements/Typography';
 import Button from 'Elements/Button';
@@ -109,21 +109,19 @@ const BasicInfo = ({ data, allRoles }) => {
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
-                  <FormControl sx={{ width: '100%' }}>
-                    <FormLabel>Gender</FormLabel>
-                    <Select
-                      value={
-                        values.gender === ''
-                          ? Gender[0]
-                          : Gender.find((o) => o.value === values.gender)
-                      }
-                      options={Gender}
-                      errorFalse
-                      onChange={(value) => {
-                        setFieldValue('gender', value.value);
-                      }}
-                    />
-                  </FormControl>
+                  <Select
+                    label="Gender"
+                    value={
+                      values.gender === ''
+                        ? Gender[0]
+                        : Gender.find((o) => o.value === values.gender)
+                    }
+                    options={Gender}
+                    errorFalse
+                    onChange={(value) => {
+                      setFieldValue('gender', value.value);
+                    }}
+                  />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <Input
@@ -228,17 +226,15 @@ const BasicInfo = ({ data, allRoles }) => {
                 </Grid>
                 {allRoles.length > 0 && (
                   <Grid item xs={12} md={6} lg={6}>
-                    <FormControl sx={{ width: '100%' }}>
-                      <FormLabel>Select Role</FormLabel>
-                      <Select
-                        value={selectedRole}
-                        options={allRoles}
-                        onChange={(value) => {
-                          setSelectedRole(value);
-                          setFieldValue('roleId', value);
-                        }}
-                      />
-                    </FormControl>
+                    <Select
+                      label="Select Role"
+                      value={selectedRole}
+                      options={allRoles}
+                      onChange={(value) => {
+                        setSelectedRole(value);
+                        setFieldValue('roleId', value);
+                      }}
+                    />
                   </Grid>
                 )}
                 <Grid item xs={12} md={6} lg={4} textAlign="end">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, FormControl, FormLabel, Grid, Icon } from '@mui/material';
+import { Card, Grid, Icon } from '@mui/material';
 import { Add, PendingTwoTone, SummarizeRounded, ThumbDown, ThumbUpAlt } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
@@ -169,15 +169,13 @@ const ExpenseList = () => {
           onClickSearch={() => !isValues && setFilter(!filter)}
         >
           <Grid item xs={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Status</FormLabel>
-              <Select
-                size="small"
-                options={actionStatus}
-                value={filterData.status}
-                onChange={(value) => setFilterData({ ...filterData, status: value })}
-              />
-            </FormControl>
+            <Select
+              label="Select Status"
+              size="small"
+              options={actionStatus}
+              value={filterData.status}
+              onChange={(value) => setFilterData({ ...filterData, status: value })}
+            />
           </Grid>
         </FilterLayout>
 

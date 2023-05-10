@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { FormControl, FormLabel, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import Input from 'Elements/Input';
 import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
@@ -145,18 +145,16 @@ const Organisation = (props) => {
             </Box>
           </Grid>
           <Grid item xs={12} md={10} lg={8}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel> Select Day Working Hours </FormLabel>
-              <Select
-                name="workingHours"
-                value={workingHours}
-                options={WorkingHours}
-                onChange={(selectedHour) => {
-                  setWorkingHours(selectedHour);
-                  setFieldValue('workingHours', selectedHour.value);
-                }}
-              />
-            </FormControl>
+            <Select
+              label="Select Day Worling Hours"
+              name="workingHours"
+              value={workingHours}
+              options={WorkingHours}
+              onChange={(selectedHour) => {
+                setWorkingHours(selectedHour);
+                setFieldValue('workingHours', selectedHour.value);
+              }}
+            />
           </Grid>
           <Grid item xs={12} md={10} lg={8}>
             <Box>

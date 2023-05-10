@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { supportTicketFormSchema } from 'Helpers/ValidationSchema';
 import SideDrawer from 'Elements/SideDrawer';
-import { CircularProgress, FormControl, FormLabel, Grid } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
 import Select from 'Elements/Select';
 import Input from 'Elements/Input';
 import Editor from 'Elements/Editor';
@@ -87,38 +87,34 @@ const AddSupportTicketDialog = ({
               </Grid>
               <Grid container spacing={1} justifyContent="space-between">
                 <Grid item xs={12} md={6}>
-                  <FormControl sx={{ width: '100%' }}>
-                    <FormLabel> DEPARTMENT </FormLabel>
-                    <Select
-                      value={
-                        selectedData === null
-                          ? values.department
-                          : Department.find((o) => o.value === values.department)
-                      }
-                      options={Department}
-                      onChange={(value) => {
-                        setDepartment(value);
-                        setFieldValue('department', value);
-                      }}
-                    />
-                  </FormControl>
+                  <Select
+                    label="DEPARTMENT"
+                    value={
+                      selectedData === null
+                        ? values.department
+                        : Department.find((o) => o.value === values.department)
+                    }
+                    options={Department}
+                    onChange={(value) => {
+                      setDepartment(value);
+                      setFieldValue('department', value);
+                    }}
+                  />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <FormControl sx={{ width: '100%' }}>
-                    <FormLabel> Priority </FormLabel>
-                    <Select
-                      value={
-                        selectedData === null
-                          ? values.priority
-                          : Priority.find((o) => o.value === values.priority)
-                      }
-                      options={Priority}
-                      onChange={(value) => {
-                        setPriority(value);
-                        setFieldValue('priority', value);
-                      }}
-                    />
-                  </FormControl>
+                  <Select
+                    label="Priority"
+                    value={
+                      selectedData === null
+                        ? values.priority
+                        : Priority.find((o) => o.value === values.priority)
+                    }
+                    options={Priority}
+                    onChange={(value) => {
+                      setPriority(value);
+                      setFieldValue('priority', value);
+                    }}
+                  />
                 </Grid>
 
                 <Grid item xs={12}>

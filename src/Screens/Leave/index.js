@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Icon, Grid, FormControl, FormLabel } from '@mui/material';
+import { Card, Icon, Grid } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
 import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
@@ -235,51 +235,43 @@ const LeaveList = () => {
         >
           {isAdmin && (
             <Grid item sm={12} md={4} lg={3}>
-              <FormControl sx={{ width: '100%' }}>
-                <FormLabel>Select User</FormLabel>
-                <Select
-                  size="small"
-                  options={userList}
-                  value={filterData.user}
-                  onChange={(value) => setFilterData({ ...filterData, user: value })}
-                  renderValue={filterData.user !== '' ? undefined : () => 'Select...'}
-                />
-              </FormControl>
+              <Select
+                label="Select User"
+                size="small"
+                options={userList}
+                value={filterData.user}
+                onChange={(value) => setFilterData({ ...filterData, user: value })}
+                renderValue={filterData.user !== '' ? undefined : () => 'Select...'}
+              />
             </Grid>
           )}
 
           <Grid item xs={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Month</FormLabel>
-              <Select
-                size="small"
-                options={Months}
-                value={filterData.month}
-                onChange={(value) => setFilterData({ ...filterData, month: value })}
-              />
-            </FormControl>
+            <Select
+              label="Select Month"
+              size="small"
+              options={Months}
+              value={filterData.month}
+              onChange={(value) => setFilterData({ ...filterData, month: value })}
+            />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Year</FormLabel>
-              <Select
-                size="small"
-                options={Years}
-                value={filterData.year}
-                onChange={(value) => setFilterData({ ...filterData, year: value })}
-              />
-            </FormControl>
+            <Select
+              label="Select Year"
+              size="small"
+              options={Years}
+              value={filterData.year}
+              onChange={(value) => setFilterData({ ...filterData, year: value })}
+            />
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
-            <FormControl sx={{ width: '100%' }}>
-              <FormLabel>Select Status</FormLabel>
-              <Select
-                size="small"
-                value={filterData.status}
-                options={actionStatus}
-                onChange={(value) => setFilterData({ ...filterData, status: value })}
-              />
-            </FormControl>
+            <Select
+              label="Select Status"
+              size="small"
+              value={filterData.status}
+              options={actionStatus}
+              onChange={(value) => setFilterData({ ...filterData, status: value })}
+            />
           </Grid>
         </FilterLayout>
 
