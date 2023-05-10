@@ -7,7 +7,7 @@ import Avatar from 'Elements/Avatar';
 import Button from 'Elements/Button';
 import Icon from '@mui/material/Icon';
 import { Edit } from '@mui/icons-material';
-import { keyDownValidation } from 'Helpers/Global';
+import { keyDownValidation, WeekDays } from 'Helpers/Global';
 import { DialogContent } from 'Components/Dialog';
 import CropperImage from 'Components/ImageCrop';
 import DialogMenu from 'Elements/Dialog';
@@ -24,6 +24,15 @@ const Organisation = ({ isEdit, props }) => {
   const [logoType, setLogoType] = useState('');
   const [cropperImage, setCropperImage] = useState('');
   const [cropClose, setCropClose] = useState(false);
+  const data = {
+    mon: 0,
+    tue: 0,
+    wed: 0,
+    thr: 0,
+    fri: 0,
+    sat: 0,
+    sun: 0
+  };
 
   const onClickLogoUpload = (e, type) => {
     e.preventDefault();
@@ -176,7 +185,7 @@ const Organisation = ({ isEdit, props }) => {
           <Grid item xs={12} md={6}>
             <Input
               type="time"
-              placeholder="Login Time"
+              placeholder="Break Start"
               size="medium"
               fullWidth
               errorFalse
@@ -193,7 +202,7 @@ const Organisation = ({ isEdit, props }) => {
           <Grid item xs={12} md={6}>
             <Input
               type="time"
-              placeholder="Logout Time"
+              placeholder="Break End"
               size="medium"
               fullWidth
               errorFalse
@@ -212,18 +221,26 @@ const Organisation = ({ isEdit, props }) => {
         <Grid item xs={12} md={8}>
           <Select
             label="Working Days"
-            defaultValue={[
-              { value: 'mon', label: 'Monday' },
-              { value: 'tue', label: 'Tuesday' }
-            ]}
-            options={[
-              { value: 'mon', label: 'Monday' },
-              { value: 'tue', label: 'Tuesday' },
-              { value: 'choice 3', label: 'Choice 3' },
-              { value: 'choice 4', label: 'Choice 4' },
-              { value: 'label one', label: 'Label One', isDisabled: true }
-            ]}
+            defaultValue={
+              WeekDays.filter((e) => values.weekDays.indexOf(e.value) > -1) || [
+                { value: 'mon', label: 'Monday' },
+                { value: 'tue', label: 'Tuesday' },
+                { value: 'wed', label: 'Wednesday' },
+                { value: 'thr', label: 'Thursday' },
+                { value: 'fri', label: 'Friday' }
+              ]
+            }
+            options={WeekDays}
+            onChange={(value) => {
+              value.map((item) => {
+                if (data.hasOwnProperty(item.value)) {
+                  data[item.value] = 1;
+                }
+              });
+              setFieldValue('weekDays', JSON.stringify(data));
+            }}
             isMulti
+            isDisabled={!isEdit}
           />
         </Grid>
         <Grid item xs={12} md={8}>

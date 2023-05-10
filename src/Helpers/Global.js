@@ -305,4 +305,13 @@ export const defaultModulePermissions = {
 
 export const notAuthorised = 'Not authorized to update operation!';
 
-export const WeekDays = ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun'];
+export const WeekDays = [
+  { value: 'mon', label: 'Monday' },
+  { value: 'tue', label: 'Tuesday' },
+  { value: 'wed', label: 'Wednesday' },
+  { value: 'thr', label: 'Thursday' },
+  { value: 'fri', label: 'Friday' },
+  { value: 'sat', label: 'Saturday' },
+  { value: 'sun', label: 'Sunday' }
+  // { value: 'sun', label: 'Sunday', isDisabled: true }
+];

@@ -144,10 +144,7 @@ const Profile = ({ GetDashboard }) => {
       <Card sx={{ marginTop: 2, overflow: 'visible' }}>
         <Formik
           enableReinitialize
-          initialValues={
-            { ...bankInfo, ...organisation, weekDays: WeekDays, ...profile, ...rest } ||
-            initialValues
-          }
+          initialValues={{ ...bankInfo, ...organisation, ...profile, ...rest } || initialValues}
           onSubmit={onSubmit}
         >
           {(props) => {
