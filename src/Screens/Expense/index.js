@@ -184,33 +184,30 @@ const ExpenseList = () => {
           rows={allExpense}
           badge={['status']}
           onClickAction={(value, { id }) => {
-            if (value === 'delete') {
-              setSelectedData(id);
-              setIsDeleteDialogOpen(true);
-            } else {
-              GetExpenseById(id, (res) => {
-                if (res && res.data && res.data.data) {
-                  const { data } = res.data;
-                  const setViewData = {
-                    id: data.id,
-                    itemName: data.itemName,
-                    purchaseFrom: data.purchaseFrom,
-                    purchaseDate: data.purchaseDate,
-                    amount: data.amount,
-                    ...(value === 'view' && { status: data.status }),
-                    document: data.document,
-                    comment: data.comment
-                  };
-                  setSelectedData(setViewData);
-                  if (value === 'edit') {
-                    setIsEdit(true);
-                    setIsDialogOpen(true);
-                  } else if (value === 'view') {
-                    setIsViewExpenseDialogOpen(true);
-                  }
+            GetExpenseById(id, (res) => {
+              if (res && res.data && res.data.data) {
+                const { data } = res.data;
+                const setViewData = {
+                  id: data.id,
+                  itemName: data.itemName,
+                  purchaseFrom: data.purchaseFrom,
+                  purchaseDate: data.purchaseDate,
+                  amount: data.amount,
+                  ...(value === 'view' && { status: data.status }),
+                  document: data.document,
+                  comment: data.comment
+                };
+                setSelectedData(setViewData);
+                if (value === 'delete') {
+                  setIsDeleteDialogOpen(true);
+                } else if (value === 'edit') {
+                  setIsEdit(true);
+                  setIsDialogOpen(true);
+                } else if (value === 'view') {
+                  setIsViewExpenseDialogOpen(true);
                 }
-              });
-            }
+              }
+            });
           }}
           isAction={!isAdmin}
           options={userPermissions}
@@ -245,8 +242,11 @@ const ExpenseList = () => {
         {isDeleteDialogOpen && (
           <DialogMenu
             isOpen={isDeleteDialogOpen}
-            onClose={() => setIsDeleteDialogOpen(false)}
-            dialogTitle="Delete Expense"
+            onClose={() => {
+              setSelectedData(null);
+              setIsDeleteDialogOpen(false);
+            }}
+            dialogTitle={`Delete ${(selectedData && selectedData.itemName).slice(0, 10)}...`}
             dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
               <DialogAction
@@ -256,7 +256,7 @@ const ExpenseList = () => {
                 rejectColor="info"
                 handleReject={() => setIsDeleteDialogOpen(false)}
                 handleApprove={() =>
-                  GetExpenseDelete(selectedData, () => {
+                  GetExpenseDelete(selectedData.id, () => {
                     setIsDeleteDialogOpen(false);
                     setIsEdit(false);
                   })
