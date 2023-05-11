@@ -280,35 +280,32 @@ const LeaveList = () => {
           rows={allLeave}
           badge={['status']}
           onClickAction={(value, { id }) => {
-            if (value === 'delete') {
-              setSelectedData(id);
-              setIsDeleteDialogOpen(true);
-            } else {
-              GetLeaveById(id, (res) => {
-                if (res && res.data && res.data.data) {
-                  const { data } = res.data;
-                  const setViewData = {
-                    id: data.id,
-                    leaveType: data.leaveType,
-                    selectType: data.selectType,
-                    fromDate: data.fromDate,
-                    toDate: data.toDate,
-                    noOfDays: data.noOfDays,
-                    approvedBy: data.approvedBy,
-                    reason: data.reason.replace(/(<([^>]+)>)/gi, ''),
-                    ...(value === 'view' && { status: data.status }),
-                    comment: data.comment
-                  };
-                  setSelectedData(setViewData);
-                  if (value === 'edit') {
-                    setIsEdit(true);
-                    setIsDialogOpen(true);
-                  } else if (value === 'view') {
-                    setIsViewLeaveDialogOpen(true);
-                  }
+            GetLeaveById(id, (res) => {
+              if (res && res.data && res.data.data) {
+                const { data } = res.data;
+                const setViewData = {
+                  id: data.id,
+                  leaveType: data.leaveType,
+                  selectType: data.selectType,
+                  fromDate: data.fromDate,
+                  toDate: data.toDate,
+                  noOfDays: data.noOfDays,
+                  approvedBy: data.approvedBy,
+                  reason: data.reason.replace(/(<([^>]+)>)/gi, ''),
+                  ...(value === 'view' && { status: data.status }),
+                  comment: data.comment
+                };
+                setSelectedData(setViewData);
+                if (value === 'delete') {
+                  setIsDeleteDialogOpen(true);
+                } else if (value === 'edit') {
+                  setIsEdit(true);
+                  setIsDialogOpen(true);
+                } else if (value === 'view') {
+                  setIsViewLeaveDialogOpen(true);
                 }
-              });
-            }
+              }
+            });
           }}
           isAction={!isAdmin}
           options={userPermissions}
@@ -342,8 +339,13 @@ const LeaveList = () => {
         {isDeleteDialogOpen && (
           <DialogMenu
             isOpen={isDeleteDialogOpen}
-            onClose={() => setIsDeleteDialogOpen(false)}
-            dialogTitle="Delete Leave"
+            onClose={() => {
+              setSelectedData(null);
+              setIsDeleteDialogOpen(false);
+            }}
+            dialogTitle={`Delete ${
+              selectedData && selectedData.leaveType.replace(/([A-Z])/g, ' $1').trim()
+            }`}
             dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
               <DialogAction
@@ -352,7 +354,7 @@ const LeaveList = () => {
                 approveTitle="Delete"
                 rejectTitle="Cancel"
                 handleApprove={() =>
-                  GetLeaveDelete(selectedData, () => {
+                  GetLeaveDelete(selectedData.id, () => {
                     setIsDeleteDialogOpen(false);
                     setIsEdit(false);
                   })
