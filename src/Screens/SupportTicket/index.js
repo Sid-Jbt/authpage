@@ -282,8 +282,8 @@ const SupportTicket = () => {
               setSelectedData(null);
               setIsDeleteDialogOpen(false);
             }}
-            dialogTitle={`Delete ${(selectedData && selectedData.subject).slice(0, 10)}...`}
-            dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
+            dialogTitle={`Delete ${(selectedData && selectedData.subject).slice(0, 35)}...`}
+            dialogContent={<DialogContent content="Are you sure you want to delete this?" />}
             dialogAction={
               <DialogAction
                 rejectTitle="Cancel"

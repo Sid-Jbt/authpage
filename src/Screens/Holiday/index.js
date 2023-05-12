@@ -166,7 +166,11 @@ const Holiday = () => {
             setSelectedData(null);
             setIsDialogOpen(false);
           }}
-          dialogTitle={isEdit ? `Delete ${selectedData && selectedData.title}` : 'Import Files'}
+          dialogTitle={
+            isEdit
+              ? `Delete ${(selectedData && selectedData.title).slice(0, 35)}...`
+              : 'Import Files'
+          }
           dialogContent={<DialogContent content="Are you sure you want to delete this?" />}
           dialogAction={
             isEdit && (

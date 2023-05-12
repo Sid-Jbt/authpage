@@ -343,10 +343,10 @@ const LeaveList = () => {
               setSelectedData(null);
               setIsDeleteDialogOpen(false);
             }}
-            dialogTitle={`Delete ${
+            dialogTitle={`Delete ${(
               selectedData && selectedData.leaveType.replace(/([A-Z])/g, ' $1').trim()
-            }`}
-            dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
+            ).slice(0, 35)}...`}
+            dialogContent={<DialogContent content="Are you sure you want to delete this?" />}
             dialogAction={
               <DialogAction
                 approveColor="error"

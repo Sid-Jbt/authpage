@@ -12,7 +12,7 @@ import Select from 'Elements/Select';
 import { WorkingHours } from 'Helpers/Global';
 import CropperImage from 'Components/ImageCrop';
 import DialogMenu from 'Elements/Dialog';
-import { DialogContent } from '../../../../Components/Dialog';
+import { DialogContent } from 'Components/Dialog';
 
 const Organisation = (props) => {
   const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props.props;
