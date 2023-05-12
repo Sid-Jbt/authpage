@@ -42,5 +42,7 @@ export const API_URL = {
   ROLE_ADD_URL: '/admin/uac/create',
   ROLE_BY_SLUG_URL: '/admin/uac/role',
   ROLE_UPDATE_URL: '/admin/uac/permission',
-  MODULE_LIST_URL: '/uac/modules'
+  MODULE_LIST_URL: '/uac/modules',
+  TIME_ACTIVITY_REPORT_LIST_URL: '/report/timeActivity',
+  TIME_ACTIVITY_BY_ID_URL: '/report/timeActivity'
 };

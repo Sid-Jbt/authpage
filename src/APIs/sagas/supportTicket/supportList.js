@@ -1,10 +1,10 @@
 import { put, takeLatest, call } from 'redux-saga/effects';
 import { GET_SUPPORT_LIST } from '../../constants';
 import {
-  getEmployeeListSuccess,
+  getSupportListSuccess,
   setLoaderComplete,
   setLoaderStart,
-  getEmployeeListError
+  getSupportListError
 } from '../../actions';
 import { API_URL, BASE_URL } from '../../api.config';
 import { instance } from '../../index';
@@ -24,15 +24,15 @@ function* getSupportListAction(action) {
     const response = yield call(getSupportListApi, payload);
     yield put(setLoaderComplete());
     if (response.status === 200) {
-      yield put(getEmployeeListSuccess(response.data.data));
+      yield put(getSupportListSuccess(response.data.data));
       if (resolve) resolve(response);
     } else {
-      yield put(getEmployeeListError(response));
+      yield put(getSupportListError(response));
       if (reject) reject(response);
     }
   } catch (e) {
     yield put(setLoaderComplete());
-    yield put(getEmployeeListError(e));
+    yield put(getSupportListError(e));
     if (reject) reject(e);
   }
 }

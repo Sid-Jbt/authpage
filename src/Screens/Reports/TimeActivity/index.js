@@ -12,16 +12,30 @@ import { useOutletContext } from 'react-router';
 import { rolesArray, userArray } from 'Helpers/Global';
 import Select from 'Elements/Select';
 import moment from 'moment';
+import DialogMenu from 'Elements/Dialog';
+import { DialogContent } from 'Components/Dialog';
+import TimeActivityDetails from './TimeActivityDetails';
 
 const TimeActivity = () => {
   const { columns: prCols, adminColumns: adminPrCol } = timeActivityListData;
   const theme = useTheme();
-  const { GetEmployeeList, GetRoleList, permission } = useOutletContext();
+  const {
+    GetEmployeeList,
+    GetRoleList,
+    permission,
+    GetTimeActivityReportList,
+    GetTimeActivityById
+  } = useOutletContext();
   const [userList, setUserList] = useState([]);
   const [filter, setFilter] = useState(false);
-  const [sort, setSort] = useState({ key: 'email', order: 'asc' });
+  const [sort, setSort] = useState({ key: 'dateTime', order: 'asc' });
   const [page, setPage] = useState(0);
   const [allRoles, setAllRoles] = useState([]);
+  const [allTimeActivityList, setAllTimeActivityList] = useState([]);
+  const [timeActivityListCount, setTimeActivityListCount] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [selectedData, setSelectedData] = useState(null);
+  const [isViewTimeActivityDialogOpen, setIsViewTimeActivityDialogOpen] = useState(false);
 
   const isAdmin =
     permission &&
@@ -37,6 +51,15 @@ const TimeActivity = () => {
     selectedRole: '',
     radioDate: 'custom'
   });
+
+  const isValues = !(
+    filterData.search === '' &&
+    filterData.startDate === '' &&
+    filterData.endDate === '' &&
+    filterData.user === '' &&
+    filterData.selectedRole.value === '' &&
+    filterData.radioDate === 'custom'
+  );
 
   useEffect(() => {
     if (isAdmin) {
@@ -54,6 +77,27 @@ const TimeActivity = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    GetTimeActivityReportList(
+      {
+        limit: isNaN(limit) ? 0 : limit,
+        startDate: filterData.startDate,
+        endDate: filterData.endDate,
+        search: filterData.search,
+        role: filterData.selectedRole.id,
+        page,
+        sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
+        sortOrder: sort.order
+      },
+      (res) => {
+        if (res && res.data && res.data.data) {
+          setAllTimeActivityList(res.data.data.rows);
+          setTimeActivityListCount(res.data.data.count);
+        }
+      }
+    );
+  }, [filter, page, sort, limit]);
 
   const setDateOnRadioPress = () => {
     const date = new Date();
@@ -124,10 +168,9 @@ const TimeActivity = () => {
           <FilterLayout
             search={filterData.search}
             handleSearch={(e) => setFilterData({ ...filterData, search: e.target.value })}
-            handleClear={() => handleClear()}
-            isDisable
-            // TODO: Once data fetch in state after that disable is dynamic
-            onClickSearch={() => setFilter(!filter)}
+            handleClear={() => isValues && handleClear()}
+            isDisable={!isValues && timeActivityListCount && timeActivityListCount.length <= 0}
+            onClickSearch={() => isValues && setFilter(!filter)}
           >
             <Grid item xs={6} md={4} lg={3}>
               <Input
@@ -227,9 +270,27 @@ const TimeActivity = () => {
           </FilterLayout>
           <Table
             columns={isAdmin ? adminPrCol : prCols}
-            rows={[]}
-            rowsCount={0}
-            rowsPerPage={10}
+            rows={allTimeActivityList}
+            rowsCount={timeActivityListCount}
+            onClickAction={(value, { id }) => {
+              GetTimeActivityById(id, (res) => {
+                if (res && res.data && res.data.data) {
+                  const { data } = res.data;
+                  const setViewData = {
+                    id: data.id,
+                    mouseClick: data.mouseClick,
+                    pressCount: data.pressCount,
+                    score: data.score,
+                    dateTime: data.dateTime,
+                    screenShotUrl: data.screenShotUrl
+                  };
+                  setSelectedData(setViewData);
+                  if (value === 'view') {
+                    setIsViewTimeActivityDialogOpen(true);
+                  }
+                }
+              });
+            }}
             isAction={!isAdmin}
             options={[{ name: 'view', title: 'View', value: 'view' }]}
             isView={
@@ -245,15 +306,28 @@ const TimeActivity = () => {
             }
             initialPage={page}
             onChangePage={(value) => setPage(value)}
-            // rowsPerPage={isNaN(limit) ? employeeCount : limit}
-            // onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
-            onRowsPerPageChange={10}
+            rowsPerPage={isNaN(limit) ? timeActivityListCount : limit}
+            onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
             sortKey={sort.key}
             sortOrder={sort.order}
             handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}
           />
         </Card>
       </Grid>
+
+      {isViewTimeActivityDialogOpen && selectedData && (
+        <DialogMenu
+          isOpen={isViewTimeActivityDialogOpen}
+          onClose={() => {
+            setIsViewTimeActivityDialogOpen(false);
+            setSelectedData(null);
+          }}
+          dialogTitle={selectedData.dateTime}
+          dialogContent={
+            <DialogContent customContent={<TimeActivityDetails data={selectedData} />} />
+          }
+        />
+      )}
     </Grid>
   );
 };

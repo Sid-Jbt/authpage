@@ -41,7 +41,9 @@ import {
   getRoleAdd,
   getRoleUpdate,
   getRoleById,
-  getModuleList
+  getModuleList,
+  getTimeActivityReportList,
+  getTimeActivityById
 } from 'APIs/actions';
 import { connect } from 'react-redux';
 
@@ -93,7 +95,11 @@ const mapDispatchToProps = (dispatch) => ({
   GetRoleAdd: (data, resolve, reject) => dispatch(getRoleAdd(data, resolve, reject)),
   GetRoleUpdate: (data, resolve, reject) => dispatch(getRoleUpdate(data, resolve, reject)),
   GetRoleById: (data, resolve, reject) => dispatch(getRoleById(data, resolve, reject)),
-  GetModuleList: (data, resolve, reject) => dispatch(getModuleList(data, resolve, reject))
+  GetModuleList: (data, resolve, reject) => dispatch(getModuleList(data, resolve, reject)),
+  GetTimeActivityReportList: (data, resolve, reject) =>
+    dispatch(getTimeActivityReportList(data, resolve, reject)),
+  GetTimeActivityById: (data, resolve, reject) =>
+    dispatch(getTimeActivityById(data, resolve, reject))
 });
 
 const mapDispatchToPropsAuth = (dispatch) => ({
