@@ -129,27 +129,24 @@ const Holiday = () => {
           columns={prCols}
           rows={allHolidayList}
           onClickAction={(value, { id }) => {
-            if (value === 'delete') {
-              setIsEdit(true);
-              setSelectedData(id);
-              setIsDialogOpen(true);
-            } else {
-              GetHolidayById(id, (res) => {
-                if (res && res.data && res.data.data) {
-                  const { data } = res.data;
-                  const setViewData = {
-                    title: data.title,
-                    holidayDate: data.holidayDate,
-                    id: data.id
-                  };
-                  setSelectedData(setViewData);
-                  if (value === 'edit') {
-                    setIsEdit(true);
-                    setIsDrawerOpen(true);
-                  }
+            GetHolidayById(id, (res) => {
+              if (res && res.data && res.data.data) {
+                const { data } = res.data;
+                const setViewData = {
+                  title: data.title,
+                  holidayDate: data.holidayDate,
+                  id: data.id
+                };
+                setSelectedData(setViewData);
+                if (value === 'delete') {
+                  setIsEdit(true);
+                  setIsDialogOpen(true);
+                } else if (value === 'edit') {
+                  setIsEdit(true);
+                  setIsDrawerOpen(true);
                 }
-              });
-            }
+              }
+            });
           }}
           isView={isViewIconPermissions.length > 0 && isViewIconPermissions}
           rowsCount={holidayListCount}
@@ -165,8 +162,11 @@ const Holiday = () => {
         />
         <DialogMenu
           isOpen={isDialogOpen}
-          onClose={() => setIsDialogOpen(false)}
-          dialogTitle={isEdit ? 'Delete Holiday' : 'Import Files'}
+          onClose={() => {
+            setSelectedData(null);
+            setIsDialogOpen(false);
+          }}
+          dialogTitle={isEdit ? `Delete ${selectedData && selectedData.title}` : 'Import Files'}
           dialogContent={<DialogContent content="Are you sure you want to delete this?" />}
           dialogAction={
             isEdit && (
@@ -175,7 +175,7 @@ const Holiday = () => {
                 approveTitle="Delete"
                 handleReject={() => setIsDialogOpen(false)}
                 handleApprove={() =>
-                  GetHolidayDelete(selectedData, () => {
+                  GetHolidayDelete(selectedData.id, () => {
                     setIsDialogOpen(false);
                     setIsEdit(false);
                   })

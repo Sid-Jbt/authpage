@@ -125,7 +125,9 @@ const DashboardDefault = () => {
                 <DashboardCard
                   title="Current week"
                   count={
-                    workingTime.currentWeekHours === 0 ? '00:00:00' : workingTime.currentWeekHours
+                    workingTime.currentWeekHours === null || workingTime.currentWeekHours === 0
+                      ? '00:00:00'
+                      : workingTime.currentWeekHours
                   }
                   icon={{ color: 'secondary', component: <WatchRounded /> }}
                   isPercentage={false}
