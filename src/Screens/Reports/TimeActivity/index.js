@@ -86,6 +86,7 @@ const TimeActivity = () => {
         endDate: filterData.endDate,
         search: filterData.search,
         role: filterData.selectedRole.id,
+        user: filterData.user.value,
         page,
         sortKey: sort.key === 'employee' ? 'firstName' : sort.key,
         sortOrder: sort.order
