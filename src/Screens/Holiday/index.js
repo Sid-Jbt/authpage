@@ -153,9 +153,7 @@ const Holiday = () => {
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={limit}
-          onRowsPerPageChange={(rowsPerPage) => {
-            setLimit(rowsPerPage);
-          }}
+          onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
           sortKey={sort.key}
           sortOrder={sort.order}
           handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}

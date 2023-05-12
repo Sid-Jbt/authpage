@@ -314,9 +314,7 @@ const LeaveList = () => {
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={isNaN(limit) ? leaveCount.total : limit}
-          onRowsPerPageChange={(rowsPerPage) => {
-            setLimit(rowsPerPage);
-          }}
+          onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
           sortKey={sort.key}
           sortOrder={sort.order}
           handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}
