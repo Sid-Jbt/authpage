@@ -110,15 +110,15 @@ const SupportTicket = () => {
   return (
     <>
       <Grid container spacing={3} mb={3}>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={6} md={6} lg={3}>
           <TicketCard
-            title="Total Tickets"
+            title="Total"
             count={spTicketListCount && spTicketListCount.totalSupportTicket}
             icon={{ color: 'success', component: <SummarizeRounded /> }}
             isPercentage={false}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={6} md={6} lg={3}>
           <TicketCard
             title="Approved"
             count={spTicketListCount && spTicketListCount.approved}
@@ -126,7 +126,7 @@ const SupportTicket = () => {
             isPercentage={false}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={6} md={6} lg={3}>
           <TicketCard
             title="Declined"
             count={spTicketListCount && spTicketListCount.rejected}
@@ -134,7 +134,7 @@ const SupportTicket = () => {
             isPercentage={false}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={6} md={6} lg={3}>
           <TicketCard
             title="Pending"
             count={spTicketListCount && spTicketListCount.pending}
