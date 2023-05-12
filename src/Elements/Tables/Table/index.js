@@ -102,10 +102,12 @@ const Table = ({
             window.innerWidth < breakpoints.values.xl
               ? mobileHeader.toUpperCase() !== 'ACTION' &&
                 mobileHeader.toUpperCase() !== 'ID' &&
-                mobileHeader.toUpperCase() !== 'IMAGE'
+                mobileHeader.toUpperCase() !== 'IMAGE' &&
+                mobileHeader.toUpperCase() !== 'TIME'
               : headerName.toUpperCase() !== 'ACTION' &&
                 headerName.toUpperCase() !== 'ID' &&
-                headerName.toUpperCase() !== 'IMAGE'
+                headerName.toUpperCase() !== 'IMAGE' &&
+                headerName.toUpperCase() !== 'TIME'
           }
           direction={sortKey.toLowerCase() === name.toLowerCase() ? sortOrder : 'asc'}
           onClick={(e) => handleRequestSort(e, name, sortOrder === 'asc' ? 'desc' : 'asc')}
@@ -113,10 +115,12 @@ const Table = ({
             window.innerWidth < breakpoints.values.xl
               ? mobileHeader.toUpperCase() === 'ACTION' &&
                 mobileHeader.toUpperCase() === 'ID' &&
-                mobileHeader.toUpperCase() !== 'IMAGE'
+                mobileHeader.toUpperCase() !== 'IMAGE' &&
+                mobileHeader.toUpperCase() !== 'TIME'
               : headerName.toUpperCase() === 'ACTION' &&
                 headerName.toUpperCase() === 'ID' &&
-                headerName.toUpperCase() !== 'IMAGE'
+                headerName.toUpperCase() !== 'IMAGE' &&
+                headerName.toUpperCase() !== 'TIME'
           }
         >
           {window.innerWidth < breakpoints.values.xl

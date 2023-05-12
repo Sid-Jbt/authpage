@@ -42,3 +42,5 @@ export * from './uac/roleAdd';
 export * from './uac/roleUpdate';
 export * from './uac/roleById';
 export * from './uac/moduleList';
+export * from './reports/timeActivityList';
+export * from './reports/timeActivityById';

@@ -30,7 +30,14 @@ export const timeActivityListData = {
       headerName: 'Employee',
       mobileHeader: 'Employee'
     },
-    { id: 'role', name: 'role', align: 'center', headerName: 'Role', mobileHeader: 'Role' },
+    { id: 'roleName', name: 'roleName', align: 'center', headerName: 'Role', mobileHeader: 'Role' },
+    {
+      id: 'date',
+      name: 'date',
+      align: 'center',
+      headerName: 'Date',
+      mobileHeader: 'Date'
+    },
     {
       id: 'time',
       name: 'time',
