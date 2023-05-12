@@ -221,33 +221,30 @@ const SupportTicket = () => {
           rows={allSpTicketList}
           badge={['status', 'priority']}
           onClickAction={(value, { id }) => {
-            if (value === 'delete') {
-              setSelectedData(id);
-              setIsDeleteDialogOpen(true);
-            } else {
-              GetSupportById({ id }, (res) => {
-                if (res && res.data && res.data.data) {
-                  const { data } = res.data;
-                  const setViewData = {
-                    id: data.id,
-                    subject: data.subject,
-                    date: data.ticketDate,
-                    department: data.department,
-                    priority: data.priority,
-                    message: data.message.replace(/(<([^>]+)>)/gi, ''),
-                    ...(value === 'view' && { status: data.status }),
-                    reason: data.reason
-                  };
-                  setSelectedData(setViewData);
-                  if (value === 'edit') {
-                    setIsEdit(true);
-                    setIsDialogOpen(!isDialogOpen);
-                  } else if (value === 'view') {
-                    setIsViewSupportTicketDialogOpen(true);
-                  }
+            GetSupportById({ id }, (res) => {
+              if (res && res.data && res.data.data) {
+                const { data } = res.data;
+                const setViewData = {
+                  id: data.id,
+                  subject: data.subject,
+                  date: data.ticketDate,
+                  department: data.department,
+                  priority: data.priority,
+                  message: data.message.replace(/(<([^>]+)>)/gi, ''),
+                  ...(value === 'view' && { status: data.status }),
+                  reason: data.reason
+                };
+                setSelectedData(setViewData);
+                if (value === 'delete') {
+                  setIsDeleteDialogOpen(true);
+                } else if (value === 'edit') {
+                  setIsEdit(true);
+                  setIsDialogOpen(!isDialogOpen);
+                } else if (value === 'view') {
+                  setIsViewSupportTicketDialogOpen(true);
                 }
-              });
-            }
+              }
+            });
           }}
           isAction={!isAdmin}
           options={userPermissions}
@@ -281,8 +278,11 @@ const SupportTicket = () => {
         {isDeleteDialogOpen && (
           <DialogMenu
             isOpen={isDeleteDialogOpen}
-            onClose={() => setIsDeleteDialogOpen(false)}
-            dialogTitle="Delete Support Ticket"
+            onClose={() => {
+              setSelectedData(null);
+              setIsDeleteDialogOpen(false);
+            }}
+            dialogTitle={`Delete ${(selectedData && selectedData.subject).slice(0, 10)}...`}
             dialogContent={<DialogContent content="Are you sure you want to delete this ?" />}
             dialogAction={
               <DialogAction
@@ -290,7 +290,7 @@ const SupportTicket = () => {
                 approveTitle="Delete"
                 handleReject={() => setIsDeleteDialogOpen(false)}
                 handleApprove={() =>
-                  GetSupportDelete(selectedData, () => {
+                  GetSupportDelete(selectedData.id, () => {
                     setIsDeleteDialogOpen(false);
                     setIsEdit(false);
                   })
