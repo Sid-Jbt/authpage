@@ -36,7 +36,7 @@ const TimeActivityDetails = ({ data }) => {
               alt="profile-image"
               height="150px"
               width="150px"
-              sx={{ display: 'block', ml: 'auto', borderRadius: 2, cursor: 'pointer' }}
+              sx={{ display: 'block', ml: 'auto', borderRadius: 2 }}
             />
           </Grid>
         )}
