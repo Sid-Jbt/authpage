@@ -134,25 +134,25 @@ const LeaveList = () => {
       <Grid container spacing={3} mb={3}>
         {isAdmin ? (
           <>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={6} md={6} lg={4}>
               <LeaveCard
-                title="Total Leave Request"
+                title="Total Request"
                 count={leaveCount && leaveCount.TotalLeaveRequest}
                 icon={{ color: 'info', component: <CalendarMonth /> }}
                 isPercentage={false}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={6} md={6} lg={4}>
               <LeaveCard
-                title="Total Leave Approved"
+                title="Total Approved"
                 count={leaveCount && leaveCount.TotalLeaveApproved}
                 icon={{ color: 'warning', component: <Vaccines /> }}
                 isPercentage={false}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={6} md={6} lg={4}>
               <LeaveCard
-                title="Total Leave Declined"
+                title="Total Declined"
                 count={leaveCount && leaveCount.TotalLeaveDeclined}
                 icon={{ color: 'primary', component: <Celebration /> }}
                 isPercentage={false}
@@ -161,23 +161,23 @@ const LeaveList = () => {
           </>
         ) : (
           <>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={6} md={6} lg={3}>
               <LeaveCard
-                title="Total Leave"
+                title="Total"
                 count={leaveCount && leaveCount.totalLeave}
                 icon={{ color: 'info', component: <CalendarMonth /> }}
                 isPercentage={false}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={6} md={6} lg={3}>
               <LeaveCard
-                title="Medical Leave"
+                title="Medical"
                 count={leaveCount && leaveCount.medicalLeave}
                 icon={{ color: 'warning', component: <Vaccines /> }}
                 isPercentage={false}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={6} md={6} lg={3}>
               <LeaveCard
                 title="Other Leave"
                 count={leaveCount && leaveCount.otherLeave}
@@ -185,9 +185,9 @@ const LeaveList = () => {
                 isPercentage={false}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={6} md={6} lg={3}>
               <LeaveCard
-                title="Remaining Leave"
+                title="Remaining"
                 count={leaveCount && leaveCount.remainingLeave <= 0 ? 0 : leaveCount.remainingLeave}
                 icon={{ color: 'success', component: <DirectionsRun /> }}
                 isPercentage={false}
@@ -314,9 +314,7 @@ const LeaveList = () => {
           initialPage={page}
           onChangePage={(value) => setPage(value)}
           rowsPerPage={isNaN(limit) ? leaveCount.total : limit}
-          onRowsPerPageChange={(rowsPerPage) => {
-            setLimit(rowsPerPage);
-          }}
+          onRowsPerPageChange={(rowsPerPage) => setLimit(rowsPerPage)}
           sortKey={sort.key}
           sortOrder={sort.order}
           handleRequestSort={(event, key, order) => key !== 'action' && setSort({ order, key })}

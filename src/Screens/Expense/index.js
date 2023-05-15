@@ -95,15 +95,15 @@ const ExpenseList = () => {
   return (
     <>
       <Grid container spacing={3} mb={3}>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={6} md={6} lg={3}>
           <ExpenseCard
-            title="Total Expense"
+            title="Total"
             count={expenseCount && expenseCount.totalExpense}
             icon={{ color: 'success', component: <SummarizeRounded /> }}
             isPercentage={false}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={6} md={6} lg={3}>
           <ExpenseCard
             title="Approved"
             count={expenseCount && expenseCount.approved}
@@ -111,7 +111,7 @@ const ExpenseList = () => {
             isPercentage={false}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={6} md={6} lg={3}>
           <ExpenseCard
             title="Declined"
             count={expenseCount && expenseCount.rejected}
@@ -119,7 +119,7 @@ const ExpenseList = () => {
             isPercentage={false}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={6} md={6} lg={3}>
           <ExpenseCard
             title="Pending"
             count={expenseCount && expenseCount.pending}
