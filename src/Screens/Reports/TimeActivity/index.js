@@ -12,9 +12,7 @@ import { useOutletContext } from 'react-router';
 import { rolesArray, userArray } from 'Helpers/Global';
 import Select from 'Elements/Select';
 import moment from 'moment';
-import DialogMenu from 'Elements/Dialog';
-import { DialogContent } from 'Components/Dialog';
-import TimeActivityDetails from './TimeActivityDetails';
+import ViewDetailedReport from './ViewDetailedReport';
 
 const TimeActivity = () => {
   const { columns: prCols, adminColumns: adminPrCol } = timeActivityListData;
@@ -24,7 +22,8 @@ const TimeActivity = () => {
     GetRoleList,
     permission,
     GetTimeActivityReportList,
-    GetTimeActivityById
+    GetTimeActivityById,
+    Loading
   } = useOutletContext();
   const [userList, setUserList] = useState([]);
   const [filter, setFilter] = useState(false);
@@ -35,7 +34,8 @@ const TimeActivity = () => {
   const [timeActivityListCount, setTimeActivityListCount] = useState(0);
   const [limit, setLimit] = useState(10);
   const [selectedData, setSelectedData] = useState(null);
-  const [isViewTimeActivityDialogOpen, setIsViewTimeActivityDialogOpen] = useState(false);
+  // const [isViewTimeActivityDialogOpen, setIsViewTimeActivityDialogOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const isAdmin =
     permission &&
@@ -287,7 +287,8 @@ const TimeActivity = () => {
                   };
                   setSelectedData(setViewData);
                   if (value === 'view') {
-                    setIsViewTimeActivityDialogOpen(true);
+                    // setIsViewTimeActivityDialogOpen(true);
+                    setIsDialogOpen(true);
                   }
                 }
               });
@@ -316,7 +317,16 @@ const TimeActivity = () => {
         </Card>
       </Grid>
 
-      {isViewTimeActivityDialogOpen && selectedData && (
+      {isDialogOpen && selectedData && (
+        <ViewDetailedReport
+          isDialogOpen={isDialogOpen}
+          handleDialog={() => setIsDialogOpen(false)}
+          Loading={Loading}
+          dataReport={selectedData}
+        />
+      )}
+
+      {/* {isViewTimeActivityDialogOpen && selectedData && (
         <DialogMenu
           isOpen={isViewTimeActivityDialogOpen}
           onClose={() => {
@@ -328,7 +338,7 @@ const TimeActivity = () => {
             <DialogContent customContent={<TimeActivityDetails data={selectedData} />} />
           }
         />
-      )}
+      )} */}
     </Grid>
   );
 };
