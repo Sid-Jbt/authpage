@@ -10,10 +10,7 @@ const ViewDetailedReport = ({ isDialogOpen, handleDialog, dataReport }) => (
   <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title="Detailed Reports">
     <Grid container justifyContent="space-between" columnSpacing={2}>
       <Grid item xs={12}>
-        <DefaultDoughnutChart
-          // title="Referrals"
-          chart={defaultDoughnutChartData}
-        />
+        <DefaultDoughnutChart title="Referrals" chart={defaultDoughnutChartData} />
       </Grid>
       {dataReport && dataReport.screenShotUrl !== '' && (
         <Grid item xs={12} md={5} textAlign="center">
@@ -23,13 +20,20 @@ const ViewDetailedReport = ({ isDialogOpen, handleDialog, dataReport }) => (
             alt="profile-image"
             height="150px"
             width="150px"
-            sx={{ display: 'block', ml: 'auto', borderRadius: 2, cursor: 'pointer' }}
+            sx={{ display: 'block', ml: 'auto', borderRadius: 2, paddingTop: '15px' }}
           />
         </Grid>
       )}
-      <Grid item sm={12} md={4} lg={6} pt={2}>
-        <Button type="submit" color="info" variant="contained" size="medium" onClick={handleDialog}>
-          Okay
+      <Grid item sm={12} md={4} lg={6} pt={14}>
+        <Button
+          type="submit"
+          color="info"
+          variant="contained"
+          size="medium"
+          onClick={handleDialog}
+          sx={{ display: 'block', ml: 'auto' }}
+        >
+          OK
         </Button>
       </Grid>
     </Grid>
