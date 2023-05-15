@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import SideDrawer from 'Elements/SideDrawer';
-import Button from 'Elements/Button';
 import Box from 'Elements/Box';
 import DefaultDoughnutChart from 'Elements/Charts/DoughnutCharts/DefaultDoughnutChart';
 import { defaultDoughnutChartData } from 'StaticData/defaultDoughnutChartData';
+import Typography from 'Elements/Typography';
 
 const ViewDetailedReport = ({ isDialogOpen, handleDialog, dataReport }) => (
   <SideDrawer open={Boolean(isDialogOpen)} onClose={handleDialog} title="Detailed Reports">
@@ -13,7 +13,7 @@ const ViewDetailedReport = ({ isDialogOpen, handleDialog, dataReport }) => (
         <DefaultDoughnutChart title="Referrals" chart={defaultDoughnutChartData} />
       </Grid>
       {dataReport && dataReport.screenShotUrl !== '' && (
-        <Grid item xs={12} md={5} textAlign="center">
+        <Grid item xs={12} md={4}>
           <Box
             component="img"
             src={dataReport.screenShotUrl}
@@ -24,17 +24,19 @@ const ViewDetailedReport = ({ isDialogOpen, handleDialog, dataReport }) => (
           />
         </Grid>
       )}
-      <Grid item sm={12} md={4} lg={6} pt={14}>
-        <Button
-          type="submit"
-          color="info"
-          variant="contained"
-          size="medium"
-          onClick={handleDialog}
-          sx={{ display: 'block', ml: 'auto' }}
-        >
-          OK
-        </Button>
+      <Grid item sm={12} md={5} lg={6} pt={2} pl={0}>
+        <Typography variant="body2" textAlign="left" fontWeight="regular" color="dark">
+          Date: {dataReport.date}
+        </Typography>
+        <Typography variant="body2" textAlign="left" fontWeight="regular" color="dark">
+          Time: {dataReport.time}
+        </Typography>
+        <Typography variant="body2" textAlign="left" fontWeight="regular" color="dark">
+          Score: {dataReport.score}
+        </Typography>
+        <Typography variant="body2" textAlign="left" fontWeight="regular" color="dark">
+          Avg. Activity: {!dataReport.avgActivity ? 0 : dataReport.avgActivity}
+        </Typography>
       </Grid>
     </Grid>
   </SideDrawer>

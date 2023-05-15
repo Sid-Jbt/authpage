@@ -282,7 +282,8 @@ const TimeActivity = () => {
                     mouseClick: data.mouseClick,
                     pressCount: data.pressCount,
                     score: data.score,
-                    dateTime: data.dateTime,
+                    date: data.date,
+                    time: data.time,
                     screenShotUrl: data.screenShotUrl
                   };
                   setSelectedData(setViewData);
