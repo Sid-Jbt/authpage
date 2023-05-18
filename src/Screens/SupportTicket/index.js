@@ -109,37 +109,49 @@ const SupportTicket = () => {
 
   return (
     <>
-      <Grid container spacing={3} mb={3}>
+      <Grid container spacing={2} mb={3}>
         <Grid item xs={6} md={6} lg={3}>
           <TicketCard
             title="Total"
-            count={spTicketListCount && spTicketListCount.totalSupportTicket}
-            icon={{ color: 'success', component: <SummarizeRounded /> }}
-            isPercentage={false}
+            percentage={{
+              color: 'primary',
+              count: spTicketListCount && spTicketListCount.totalSupportTicket,
+              text: ' '
+            }}
+            icon={{ color: 'primary', component: <SummarizeRounded /> }}
           />
         </Grid>
         <Grid item xs={6} md={6} lg={3}>
           <TicketCard
             title="Approved"
-            count={spTicketListCount && spTicketListCount.approved}
+            percentage={{
+              color: 'primary',
+              count: spTicketListCount && spTicketListCount.approved,
+              text: ' '
+            }}
             icon={{ color: 'success', component: <ThumbUp /> }}
-            isPercentage={false}
           />
         </Grid>
         <Grid item xs={6} md={6} lg={3}>
           <TicketCard
             title="Declined"
-            count={spTicketListCount && spTicketListCount.rejected}
+            percentage={{
+              color: 'error',
+              count: spTicketListCount && spTicketListCount.rejected,
+              text: ' '
+            }}
             icon={{ color: 'error', component: <ThumbDown /> }}
-            isPercentage={false}
           />
         </Grid>
         <Grid item xs={6} md={6} lg={3}>
           <TicketCard
             title="Pending"
-            count={spTicketListCount && spTicketListCount.pending}
-            icon={{ color: 'info', component: <Pending /> }}
-            isPercentage={false}
+            percentage={{
+              color: 'warning',
+              count: spTicketListCount && spTicketListCount.pending,
+              text: ' '
+            }}
+            icon={{ color: 'warning', component: <Pending /> }}
           />
         </Grid>
       </Grid>
