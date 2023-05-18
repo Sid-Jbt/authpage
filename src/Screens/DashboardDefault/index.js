@@ -110,35 +110,44 @@ const DashboardDefault = () => {
             <Grid item xs={12} md={6} lg={3}>
               <DashboardCard
                 title="Today"
-                count={
-                  workingTime.todayHours === 0 || workingTime.todayHours === undefined
-                    ? '00:00:00'
-                    : workingTime.todayHours
-                }
+                percentage={{
+                  color: 'success',
+                  count:
+                    workingTime.todayHours === 0 || workingTime.todayHours === undefined
+                      ? '00:00:00'
+                      : workingTime.todayHours,
+                  text: ' '
+                }}
                 icon={{ color: 'success', component: <Watch /> }}
-                isPercentage={false}
               />
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
               <DashboardCard
                 title="Current week"
-                count={
-                  workingTime.currentWeekHours === null || workingTime.currentWeekHours === 0
-                    ? '00:00:00'
-                    : workingTime.currentWeekHours
-                }
-                icon={{ color: 'secondary', component: <WatchRounded /> }}
-                isPercentage={false}
+                percentage={{
+                  color: 'warning',
+                  count:
+                    workingTime.currentWeekHours === null || workingTime.currentWeekHours === 0
+                      ? '00:00:00'
+                      : workingTime.currentWeekHours,
+                  text: ' '
+                }}
+                icon={{ color: 'warning', component: <WatchRounded /> }}
               />
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
               <DashboardCard
                 title="Current month"
-                count={
-                  workingTime.currentMonthHours === 0 ? '00:00:00' : workingTime.currentMonthHours
-                }
-                icon={{ color: 'info', component: <WatchLater /> }}
-                isPercentage={false}
+                percentage={{
+                  color: 'primary',
+                  count:
+                    workingTime.currentMonthHours === 0 ||
+                    workingTime.currentMonthHours === undefined
+                      ? '00:00:00'
+                      : workingTime.currentMonthHours,
+                  text: ' '
+                }}
+                icon={{ color: 'primary', component: <WatchLater /> }}
               />
             </Grid>
           </>
@@ -170,7 +179,7 @@ const DashboardDefault = () => {
                 percentage={{
                   color: 'success',
                   count: count && count.employeeCount,
-                  text: ''
+                  text: ' '
                 }}
                 icon={{ color: 'success', component: <PeopleRounded /> }}
                 link={getEmployeeListPattern()}
@@ -182,7 +191,7 @@ const DashboardDefault = () => {
                 percentage={{
                   color: 'warning',
                   count: count && count.expenseCount,
-                  text: ''
+                  text: ' '
                 }}
                 icon={{ color: 'warning', component: <CurrencyRupeeRounded /> }}
                 link={getExpensePattern()}
@@ -194,7 +203,7 @@ const DashboardDefault = () => {
                 percentage={{
                   color: 'warning',
                   count: count && count.leaveCount,
-                  text: ''
+                  text: ' '
                 }}
                 icon={{ color: 'warning', component: <TimeToLeaveRounded /> }}
                 link={getLeavePattern()}
@@ -206,7 +215,7 @@ const DashboardDefault = () => {
                 percentage={{
                   color: 'warning',
                   count: count && count.ticketCount,
-                  text: ''
+                  text: ' '
                 }}
                 icon={{ color: 'warning', component: <SupportRounded /> }}
                 link={getSupportTicketPattern()}

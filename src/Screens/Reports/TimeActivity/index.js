@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Card, FormControlLabel, Grid, Radio, RadioGroup, useTheme } from '@mui/material';
-import StaticCard from 'Components/CardLayouts/StaticCard';
+import TimeActivityCard from 'Components/CardLayouts/StaticCard';
 import DefaultLineChart from 'Elements/Charts/LineCharts/DefaultLineChart';
 import FilterLayout from 'Components/FilterLayout';
 import Input from 'Elements/Input';
 import Table from 'Elements/Tables/Table';
-import { RemoveRedEye } from '@mui/icons-material';
+import { LocalActivityRounded, RemoveRedEye, ScheduleRounded } from '@mui/icons-material';
 import { timeActivityListData } from 'StaticData/timeActivityListData';
 import { defaultLineChartData } from 'StaticData/defaultLineChartData';
 import { useOutletContext } from 'react-router';
@@ -147,13 +147,29 @@ const TimeActivity = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={4}>
-        <StaticCard title="Time" count="01:00:00" icon={false} isPercentage={false} />
+        <TimeActivityCard
+          title="Time"
+          percentage={{
+            color: 'primary',
+            count: '01:00:00',
+            text: ' '
+          }}
+          icon={{ color: 'primary', component: <ScheduleRounded /> }}
+        />
       </Grid>
       <Grid item xs={12} md={4}>
-        <StaticCard title="Avg. Activity" count="41%" icon={false} isPercentage={false} />
+        <TimeActivityCard
+          title="Avg. Activity"
+          percentage={{
+            color: 'primary',
+            count: '41%',
+            text: ' '
+          }}
+          icon={{ color: 'primary', component: <LocalActivityRounded /> }}
+        />
       </Grid>
       {/* <Grid item xs={12} md={4}>
-        <StaticCard title="Graph" count={false} icon={<GraphicEqOutlined />} isPercentage={false} />
+        <TimeActivityCard title="Graph" count={false} icon={<GraphicEqOutlined />} isPercentage={false} />
       </Grid> */}
       <Grid item xs={12}>
         <DefaultLineChart title="Line chart" chart={defaultLineChartData} />

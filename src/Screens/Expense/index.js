@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Grid, Icon } from '@mui/material';
-import { Add, PendingTwoTone, SummarizeRounded, ThumbDown, ThumbUpAlt } from '@mui/icons-material';
+import { Add, CurrencyRupeeRounded, SummarizeRounded, ThumbUpAlt } from '@mui/icons-material';
 import Button from 'Elements/Button';
 import Table from 'Elements/Tables/Table';
 import DialogMenu from 'Elements/Dialog';
@@ -9,8 +9,8 @@ import { useOutletContext } from 'react-router';
 import { actionStatus, userIsViewIconPermissions, userPermission } from 'Helpers/Global';
 import Select from 'Elements/Select';
 import { expenseListData } from 'StaticData/expenseListData';
-import FilterLayout from '../../Components/FilterLayout';
-import ExpenseCard from '../../Components/CardLayouts/StaticCard';
+import FilterLayout from 'Components/FilterLayout';
+import ExpenseCard from 'Components/CardLayouts/StaticCard';
 import ExpenseDetails from './ExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
 
@@ -94,37 +94,49 @@ const ExpenseList = () => {
 
   return (
     <>
-      <Grid container spacing={3} mb={3}>
+      <Grid container spacing={2} mb={3}>
         <Grid item xs={6} md={6} lg={3}>
           <ExpenseCard
             title="Total"
-            count={expenseCount && expenseCount.totalExpense}
-            icon={{ color: 'success', component: <SummarizeRounded /> }}
-            isPercentage={false}
+            percentage={{
+              color: 'primary',
+              count: expenseCount && expenseCount.totalExpense,
+              text: ' '
+            }}
+            icon={{ color: 'primary', component: <SummarizeRounded /> }}
           />
         </Grid>
         <Grid item xs={6} md={6} lg={3}>
           <ExpenseCard
             title="Approved"
-            count={expenseCount && expenseCount.approved}
+            percentage={{
+              color: 'success',
+              count: expenseCount && expenseCount.approved,
+              text: ' '
+            }}
             icon={{ color: 'success', component: <ThumbUpAlt /> }}
-            isPercentage={false}
           />
         </Grid>
         <Grid item xs={6} md={6} lg={3}>
           <ExpenseCard
             title="Declined"
-            count={expenseCount && expenseCount.rejected}
-            icon={{ color: 'error', component: <ThumbDown /> }}
-            isPercentage={false}
+            percentage={{
+              color: 'error',
+              count: expenseCount && expenseCount.rejected,
+              text: ' '
+            }}
+            icon={{ color: 'error', component: <ThumbUpAlt /> }}
           />
         </Grid>
         <Grid item xs={6} md={6} lg={3}>
           <ExpenseCard
             title="Pending"
-            count={expenseCount && expenseCount.pending}
-            icon={{ color: 'info', component: <PendingTwoTone /> }}
-            isPercentage={false}
+            percentage={{
+              color: 'warning',
+              count: expenseCount && expenseCount.pending,
+              text: ' '
+            }}
+            icon={{ color: 'warning', component: <CurrencyRupeeRounded /> }}
           />
         </Grid>
       </Grid>
