@@ -102,25 +102,34 @@ const AttendanceList = () => {
             <Grid item xs={12} md={6} lg={4}>
               <AttendanceCard
                 title="Total Late Coming"
-                count={attendanceListCount && attendanceListCount.lateComingRes}
+                percentage={{
+                  color: 'error',
+                  count: attendanceListCount && attendanceListCount.lateComingRes,
+                  text: ' '
+                }}
                 icon={{ color: 'error', component: <WatchOff /> }}
-                isPercentage={false}
               />
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
               <AttendanceCard
                 title="Total Early Leaving"
-                count={attendanceListCount && attendanceListCount.earlyLeavingRes}
-                icon={{ color: 'info', component: <DirectionsRun /> }}
-                isPercentage={false}
+                percentage={{
+                  color: 'warning',
+                  count: attendanceListCount && attendanceListCount.earlyLeavingRes,
+                  text: ' '
+                }}
+                icon={{ color: 'warning', component: <DirectionsRun /> }}
               />
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
               <AttendanceCard
                 title="Total Overtime"
-                count={attendanceListCount && attendanceListCount.overTimeRes}
-                icon={{ color: 'warning', component: <MoreTime /> }}
-                isPercentage={false}
+                percentage={{
+                  color: 'primary',
+                  count: attendanceListCount && attendanceListCount.overTimeRes,
+                  text: ' '
+                }}
+                icon={{ color: 'primary', component: <MoreTime /> }}
               />
             </Grid>
           </Grid>

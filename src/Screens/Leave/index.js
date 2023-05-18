@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Card, Icon, Grid } from '@mui/material';
 import Table from 'Elements/Tables/Table';
 import Button from 'Elements/Button';
-import { Add, DirectionsRun, Vaccines, CalendarMonth, Celebration } from '@mui/icons-material';
+import {
+  Add,
+  DirectionsRun,
+  Vaccines,
+  CalendarMonth,
+  Celebration,
+  TimeToLeaveRounded
+} from '@mui/icons-material';
 import LeaveCard from 'Components/CardLayouts/StaticCard';
 import FilterLayout from 'Components/FilterLayout';
 import DialogMenu from 'Elements/Dialog';
@@ -56,7 +63,7 @@ const LeaveList = () => {
 
   const isAuthorised = !!(permission && permission.leave && permission.leave.a === 1);
 
-  const uiPermission = permission && permission.leave;
+  const uiPermission = !!(permission && permission.leave && permission.leave.w === 1);
 
   const [filterData, setFilterData] = useState({
     search: '',
@@ -131,31 +138,40 @@ const LeaveList = () => {
 
   return (
     <>
-      <Grid container spacing={3} mb={3}>
+      <Grid container spacing={2} mb={3}>
         {isAdmin ? (
           <>
             <Grid item xs={6} md={6} lg={4}>
               <LeaveCard
                 title="Total Request"
-                count={leaveCount && leaveCount.TotalLeaveRequest}
-                icon={{ color: 'info', component: <CalendarMonth /> }}
-                isPercentage={false}
+                percentage={{
+                  color: 'primary',
+                  count: leaveCount && leaveCount.TotalLeaveRequest,
+                  text: ' '
+                }}
+                icon={{ color: 'primary', component: <CalendarMonth /> }}
               />
             </Grid>
             <Grid item xs={6} md={6} lg={4}>
               <LeaveCard
                 title="Total Approved"
-                count={leaveCount && leaveCount.TotalLeaveApproved}
-                icon={{ color: 'warning', component: <Vaccines /> }}
-                isPercentage={false}
+                percentage={{
+                  color: 'success',
+                  count: leaveCount && leaveCount.TotalLeaveApproved,
+                  text: ' '
+                }}
+                icon={{ color: 'success', component: <TimeToLeaveRounded /> }}
               />
             </Grid>
             <Grid item xs={6} md={6} lg={4}>
               <LeaveCard
                 title="Total Declined"
-                count={leaveCount && leaveCount.TotalLeaveDeclined}
-                icon={{ color: 'primary', component: <Celebration /> }}
-                isPercentage={false}
+                percentage={{
+                  color: 'error',
+                  count: leaveCount && leaveCount.TotalLeaveDeclined,
+                  text: ' '
+                }}
+                icon={{ color: 'error', component: <Celebration /> }}
               />
             </Grid>
           </>
@@ -164,33 +180,49 @@ const LeaveList = () => {
             <Grid item xs={6} md={6} lg={3}>
               <LeaveCard
                 title="Total"
-                count={leaveCount && leaveCount.totalLeave}
-                icon={{ color: 'info', component: <CalendarMonth /> }}
-                isPercentage={false}
+                percentage={{
+                  color: 'primary',
+                  count: leaveCount && leaveCount.totalLeave,
+                  text: ' '
+                }}
+                icon={{ color: 'primary', component: <CalendarMonth /> }}
               />
             </Grid>
             <Grid item xs={6} md={6} lg={3}>
               <LeaveCard
                 title="Medical"
-                count={leaveCount && leaveCount.medicalLeave}
-                icon={{ color: 'warning', component: <Vaccines /> }}
-                isPercentage={false}
+                percentage={{
+                  color: 'success',
+                  count: leaveCount && leaveCount.medicalLeave,
+                  text: ' '
+                }}
+                icon={{ color: 'success', component: <Vaccines /> }}
               />
             </Grid>
             <Grid item xs={6} md={6} lg={3}>
               <LeaveCard
                 title="Other Leave"
-                count={leaveCount && leaveCount.otherLeave}
-                icon={{ color: 'primary', component: <Celebration /> }}
-                isPercentage={false}
+                percentage={{
+                  color: 'success',
+                  count: leaveCount && leaveCount.otherLeave,
+                  text: ' '
+                }}
+                icon={{ color: 'success', component: <Celebration /> }}
               />
             </Grid>
             <Grid item xs={6} md={6} lg={3}>
               <LeaveCard
                 title="Remaining"
-                count={leaveCount && leaveCount.remainingLeave <= 0 ? 0 : leaveCount.remainingLeave}
-                icon={{ color: 'success', component: <DirectionsRun /> }}
-                isPercentage={false}
+                percentage={{
+                  color: `${leaveCount && leaveCount.remainingLeave <= 0 ? 'warning' : 'success'}`,
+                  count:
+                    leaveCount && leaveCount.remainingLeave <= 0 ? 0 : leaveCount.remainingLeave,
+                  text: ' '
+                }}
+                icon={{
+                  color: `${leaveCount && leaveCount.remainingLeave <= 0 ? 'warning' : 'success'}`,
+                  component: <DirectionsRun />
+                }}
               />
             </Grid>
           </>
