@@ -42,7 +42,7 @@ const BasicInfo = ({ data, allRoles }) => {
   };
 
   return (
-    <Card id="basic-info">
+    <Card id="basic-info" style={{ overflow: 'visible' }}>
       <Box p={2} pb={0}>
         <Typography variant="h5">Basic Info</Typography>
       </Box>
@@ -232,7 +232,7 @@ const BasicInfo = ({ data, allRoles }) => {
                       options={allRoles}
                       onChange={(value) => {
                         setSelectedRole(value);
-                        setFieldValue('roleId', value);
+                        setFieldValue('roleId', value.id);
                       }}
                     />
                   </Grid>

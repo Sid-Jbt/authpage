@@ -1,7 +1,12 @@
 import Box from 'Elements/Box';
 import { useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router';
-import { getDashboardPattern, getProfilePattern, getProfileSetupPattern } from 'Routes/routeConfig';
+import {
+  getDashboardPattern,
+  getOrganisationProfilePattern,
+  getPersonalProfilePattern,
+  getProfileSetupPattern
+} from 'Routes/routeConfig';
 import Images from 'Assets/Images/team-4-800x800.jpg';
 import { withStateDispatch } from 'Helpers/withStateDispatch';
 import { useEffect } from 'react';
@@ -51,7 +56,8 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
         left={0}
         zIndex={-1}
         sx={
-          pathname === getProfilePattern() && {
+          (pathname === getPersonalProfilePattern() ||
+            pathname === getOrganisationProfilePattern()) && {
             backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
               `${linearGradient(
                 rgba(gradients.info.main, 1),
@@ -100,7 +106,7 @@ const DashboardLayout = ({ GetDashboard, DashboardData, ...rest }) => {
         />
         <Box
           sx={({ breakpoints }) => ({
-            mt: 3,
+            mt: 2,
             [breakpoints.down('md')]: { p: 1, pt: 0 },
             [breakpoints.up('md')]: { p: 3, pt: 0 }
           })}

@@ -13,6 +13,7 @@ export default styled(Drawer)(({ theme, ownerState }) => {
 
   const drawerOpenStyles = () => ({
     transform: 'translateX(0)',
+    height: 'calc(100vh - 1rem)',
     transition: transitions.create('transform', {
       easing: transitions.easing.sharp,
       duration: transitions.duration.shorter
@@ -22,12 +23,13 @@ export default styled(Drawer)(({ theme, ownerState }) => {
     marginBottom: darkSidenav ? 0 : 'inherit',
     left: '0',
     [breakpoints.down('sm')]: {
-      height: 'calc(100vh - 6rem)'
+      height: 'calc(100vh - 6rem)',
+      margin: pxToRem(8)
     },
     [breakpoints.up('xs')]: {
       top: 65,
       transform: 'translateX(0)',
-      width: 'calc(100vw - 2rem)',
+      width: 'calc(100vw - 1rem)',
       transition: transitions.create(['width', 'background-color'], {
         easing: transitions.easing.sharp,
         duration: transitions.duration.enteringScreen
@@ -64,6 +66,7 @@ export default styled(Drawer)(({ theme, ownerState }) => {
 
   const drawerCloseStyles = () => ({
     transform: `translateX(${pxToRem(-320)})`,
+    height: 'calc(100vh - 2rem)',
     transition: transitions.create('transform', {
       easing: transitions.easing.sharp,
       duration: transitions.duration.shorter
@@ -98,7 +101,6 @@ export default styled(Drawer)(({ theme, ownerState }) => {
     '& .MuiDrawer-paper': {
       boxShadow: xxl,
       border: 'none',
-      height: 'calc(100vh - 2rem)',
       margin: pxToRem(20),
       borderRadius: pxToRem(8),
       backgroundColor: transparent.main,

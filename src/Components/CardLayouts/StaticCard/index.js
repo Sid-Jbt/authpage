@@ -3,37 +3,52 @@ import Box from 'Elements/Box';
 import Typography from 'Elements/Typography';
 import { Link } from 'react-router-dom';
 
-const StaticCard = ({
-  bgColor,
-  title,
-  count,
-  isPercentage = true,
-  percentage,
-  icon,
-  direction,
-  link
-}) => (
+const StaticCard = ({ bgColor, title, count, percentage, icon, direction, link }) => (
   <Card component={link && Link} to={link}>
     <Box bgColor={bgColor} variant="gradient" p={2}>
       <Grid container>
         <Grid item xs={8}>
           <Box ml={direction === 'left' ? 2 : 0} lineHeight={1}>
-            <Typography
-              variant="button"
-              color={bgColor === 'white' ? 'text' : 'white'}
-              textTransform="uppercase"
-              fontWeight="medium"
-            >
-              {title}
-            </Typography>
-            <Typography
-              variant="h5"
-              fontWeight="bold"
-              color={bgColor === 'white' ? 'dark' : 'white'}
-              mb={1}
-            >
-              {count}
-            </Typography>
+            {title && (
+              <Typography
+                variant="button"
+                color={bgColor === 'white' ? 'text' : 'white'}
+                textTransform="uppercase"
+                fontWeight="medium"
+              >
+                {title}
+              </Typography>
+            )}
+            {count && (
+              <Typography
+                variant="h5"
+                fontWeight="bold"
+                color={bgColor === 'white' ? 'dark' : 'white'}
+                mb={1}
+              >
+                {count}
+              </Typography>
+            )}
+            {(percentage.text || percentage.count) && (
+              <Typography
+                display="flex"
+                alignItems="center"
+                variant="button"
+                fontWeight="bold"
+                color={percentage.color}
+              >
+                {percentage.count}
+                <Typography
+                  variant="body2"
+                  fontWeight="regular"
+                  color={bgColor === 'white' ? 'text' : 'white'}
+                  ml={0.5}
+                  mt={-0.125}
+                >
+                  {percentage.text}
+                </Typography>
+              </Typography>
+            )}
           </Box>
         </Grid>
 
@@ -62,26 +77,6 @@ const StaticCard = ({
           </Box>
         </Grid>
       </Grid>
-      {isPercentage && (
-        <Typography
-          display="flex"
-          alignItems="center"
-          variant="button"
-          fontWeight="bold"
-          color={percentage.color}
-        >
-          {percentage.count}
-          <Typography
-            variant="body2"
-            fontWeight="regular"
-            color={bgColor === 'white' ? 'text' : 'white'}
-            ml={0.5}
-            mt={-0.125}
-          >
-            {percentage.text}
-          </Typography>
-        </Typography>
-      )}
     </Box>
   </Card>
 );
@@ -90,7 +85,7 @@ StaticCard.defaultProps = {
   bgColor: 'white',
   percentage: {
     color: 'success',
-    count: 0,
+    count: '',
     text: ''
   },
   direction: 'right'

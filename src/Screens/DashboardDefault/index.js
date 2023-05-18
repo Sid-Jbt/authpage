@@ -1,12 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import Box from 'Elements/Box';
 import { Grid } from '@mui/material';
 import Calendar from 'Components/Calendar';
 import {
-  HolidayVillage,
-  PendingActionsRounded,
-  PendingTwoTone,
+  CurrencyRupeeRounded,
   PeopleRounded,
+  SupportRounded,
+  TimeToLeaveRounded,
   Watch,
   WatchLater,
   WatchRounded
@@ -95,136 +94,128 @@ const DashboardDefault = () => {
   }, [DashboardData]);
 
   return (
-    <Box mb={3}>
-      <Grid container spacing={3}>
-        <Grid
-          container
-          order={{ xs: 1, lg: 0 }}
-          alignItems="flex-start"
-          spacing={3}
-          item
-          xs={12}
-          lg={12}
-          xl={12}
-        >
-          {isAdmin ? null : (
-            <>
-              <Grid item xs={12} md={6} lg={3}>
-                <DashboardCard
-                  title="Today"
-                  count={
-                    workingTime.todayHours === 0 || workingTime.todayHours === undefined
-                      ? '00:00:00'
-                      : workingTime.todayHours
-                  }
-                  icon={{ color: 'success', component: <Watch /> }}
-                  isPercentage={false}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} lg={3}>
-                <DashboardCard
-                  title="Current week"
-                  count={
-                    workingTime.currentWeekHours === null || workingTime.currentWeekHours === 0
-                      ? '00:00:00'
-                      : workingTime.currentWeekHours
-                  }
-                  icon={{ color: 'secondary', component: <WatchRounded /> }}
-                  isPercentage={false}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} lg={3}>
-                <DashboardCard
-                  title="Current month"
-                  count={
-                    workingTime.currentMonthHours === 0 ? '00:00:00' : workingTime.currentMonthHours
-                  }
-                  icon={{ color: 'info', component: <WatchLater /> }}
-                  isPercentage={false}
-                />
-              </Grid>
-            </>
-          )}
-
-          <Grid item xs={12} lg={isAdmin ? 8 : 12}>
-            {useMemo(
-              () => (
-                <Calendar
-                  header={{ title: 'Current Month Updates' }}
-                  headerToolbar={{
-                    left: 'prev,next today',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay',
-                    center: 'title'
-                  }}
-                  initialView="dayGridMonth"
-                  events={calendarEventsData}
-                  selectable
-                />
-              ),
-              [calendarEventsData]
-            )}
-          </Grid>
-          {isAdmin ? (
-            <Grid container item spacing={3} xs={12} lg={4}>
-              <Grid item xs={12} lg={6}>
-                <DashboardCard
-                  title="Total Employee"
-                  count={count && count.employeeCount}
-                  icon={{ color: 'info', component: <PeopleRounded /> }}
-                  isPercentage={false}
-                  link={getEmployeeListPattern()}
-                />
-              </Grid>
-              {/* <Grid item xs={12} lg={6}>
-                <DashboardCard
-                  title="Today Present"
-                  count={0}
-                  icon={{ color: 'success', component: <PeopleRounded /> }}
-                  isPercentage={false}
-                  link={getAttendancePattern()}
-                />
-              </Grid>
-              <Grid item xs={12} lg={6}>
-                <DashboardCard
-                  title="Today Absent"
-                  count={0}
-                  icon={{ color: 'error', component: <PeopleRounded /> }}
-                  isPercentage={false}
-                  link={getAttendancePattern()}
-                />
-              </Grid> */}
-              <Grid item xs={12} lg={6}>
-                <DashboardCard
-                  title="Pending Expense"
-                  count={count && count.expenseCount}
-                  icon={{ color: 'warning', component: <PendingTwoTone /> }}
-                  isPercentage={false}
-                  link={getExpensePattern()}
-                />
-              </Grid>
-              <Grid item xs={12} lg={6}>
-                <DashboardCard
-                  title="Pending Leave Approval"
-                  count={count && count.leaveCount}
-                  icon={{ color: 'secondary', component: <HolidayVillage /> }}
-                  isPercentage={false}
-                  link={getLeavePattern()}
-                />
-              </Grid>
-              <Grid item xs={12} lg={6}>
-                <DashboardCard
-                  title="Pending Support Tickets"
-                  count={count && count.ticketCount}
-                  icon={{ color: 'secondary', component: <PendingActionsRounded /> }}
-                  isPercentage={false}
-                  link={getSupportTicketPattern()}
-                />
-              </Grid>
+    <Grid container spacing={2}>
+      <Grid
+        container
+        order={{ xs: 1, lg: 0 }}
+        alignItems="flex-start"
+        spacing={2}
+        item
+        xs={12}
+        lg={12}
+        xl={12}
+      >
+        {isAdmin ? null : (
+          <>
+            <Grid item xs={12} md={6} lg={3}>
+              <DashboardCard
+                title="Today"
+                count={
+                  workingTime.todayHours === 0 || workingTime.todayHours === undefined
+                    ? '00:00:00'
+                    : workingTime.todayHours
+                }
+                icon={{ color: 'success', component: <Watch /> }}
+                isPercentage={false}
+              />
             </Grid>
-          ) : null}
+            <Grid item xs={12} md={6} lg={3}>
+              <DashboardCard
+                title="Current week"
+                count={
+                  workingTime.currentWeekHours === null || workingTime.currentWeekHours === 0
+                    ? '00:00:00'
+                    : workingTime.currentWeekHours
+                }
+                icon={{ color: 'secondary', component: <WatchRounded /> }}
+                isPercentage={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <DashboardCard
+                title="Current month"
+                count={
+                  workingTime.currentMonthHours === 0 ? '00:00:00' : workingTime.currentMonthHours
+                }
+                icon={{ color: 'info', component: <WatchLater /> }}
+                isPercentage={false}
+              />
+            </Grid>
+          </>
+        )}
+
+        <Grid item xs={12} lg={isAdmin ? 8 : 12}>
+          {useMemo(
+            () => (
+              <Calendar
+                header={{ title: 'Current Month Updates' }}
+                headerToolbar={{
+                  left: 'prev,next today',
+                  right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                  center: 'title'
+                }}
+                initialView="dayGridMonth"
+                events={calendarEventsData}
+                selectable
+              />
+            ),
+            [calendarEventsData]
+          )}
         </Grid>
+        {isAdmin ? (
+          <Grid container item spacing={2} xs={12} lg={4}>
+            <Grid item xs={12} lg={6}>
+              <DashboardCard
+                title="Employee"
+                percentage={{
+                  color: 'success',
+                  count: count && count.employeeCount,
+                  text: ''
+                }}
+                icon={{ color: 'success', component: <PeopleRounded /> }}
+                link={getEmployeeListPattern()}
+              />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <DashboardCard
+                title="Pending"
+                percentage={{
+                  color: 'warning',
+                  count: count && count.expenseCount,
+                  text: ''
+                }}
+                icon={{ color: 'warning', component: <CurrencyRupeeRounded /> }}
+                link={getExpensePattern()}
+              />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <DashboardCard
+                title="Leaves"
+                percentage={{
+                  color: 'warning',
+                  count: count && count.leaveCount,
+                  text: ''
+                }}
+                icon={{ color: 'warning', component: <TimeToLeaveRounded /> }}
+                link={getLeavePattern()}
+              />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <DashboardCard
+                title="Support"
+                percentage={{
+                  color: 'warning',
+                  count: count && count.ticketCount,
+                  text: ''
+                }}
+                icon={{ color: 'warning', component: <SupportRounded /> }}
+                link={getSupportTicketPattern()}
+              />
+            </Grid>
+          </Grid>
+        ) : null}
       </Grid>
-    </Box>
+    </Grid>
   );
 };
 
