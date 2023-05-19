@@ -131,14 +131,7 @@ const AddRole = () => {
         boxShadow: ({ boxShadows: { sm } }) => sm
       }}
     >
-      <Grid
-        container
-        spacing={2}
-        /* sx={{
-          display: 'flex',
-          flexDirection: 'column'
-        }} */
-      >
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <Formik
             enableReinitialize
@@ -184,7 +177,7 @@ const AddRole = () => {
                       Object.keys(modules).map(
                         (key) =>
                           excludePermission.indexOf(key) < 0 && (
-                            <Grid item sx={12} md={6} lg={4} xl={3} key={key}>
+                            <Grid item xs={12} md={6} lg={4} xl={3} key={key}>
                               <Card>
                                 <Grid container p={2}>
                                   <Grid item xs={12}>
