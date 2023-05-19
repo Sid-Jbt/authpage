@@ -228,7 +228,7 @@ const LeaveList = () => {
           </>
         )}
       </Grid>
-      {uiPermission.w && (
+      {uiPermission && (
         <Grid container spacing={2} alignItems="center" justifyContent="flex-end" mb={2}>
           <Grid item xs="auto">
             <Button
