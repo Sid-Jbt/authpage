@@ -23,7 +23,6 @@ const ResetPassword = () => {
       <Formik
         initialValues={{ password: '', resetPassword: '' }}
         onSubmit={(values, actions) => {
-          // token to be added TODO
           GetForgotPassword({ token: values.token, password: values.password }, (res) => {
             if (res.data.status) {
               navigate(getDefaultPattern());
