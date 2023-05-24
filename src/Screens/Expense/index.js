@@ -11,6 +11,7 @@ import Select from 'Elements/Select';
 import { expenseListData } from 'StaticData/expenseListData';
 import FilterLayout from 'Components/FilterLayout';
 import ExpenseCard from 'Components/CardLayouts/StaticCard';
+import WithAttachedFunction from 'Elements/SweetAlert/Components/WithAttachedFunction';
 import ExpenseDetails from './ExpenseDetails';
 import AddExpenseForm from './AddExpenseForm';
 
@@ -28,7 +29,6 @@ const ExpenseList = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [isViewExpenseDialogOpen, setIsViewExpenseDialogOpen] = useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -62,7 +62,7 @@ const ExpenseList = () => {
   );
 
   useEffect(() => {
-    if (!isDialogOpen || !isDeleteDialogOpen || isViewExpenseDialogOpen) {
+    if (!isDialogOpen || isViewExpenseDialogOpen) {
       GetExpenseList(
         {
           limit: isNaN(limit) ? 0 : limit,
@@ -82,7 +82,11 @@ const ExpenseList = () => {
       );
     }
     return () => {};
-  }, [isDialogOpen, filter, page, sort, isDeleteDialogOpen, isViewExpenseDialogOpen, limit]);
+  }, [isDialogOpen, filter, page, sort, isViewExpenseDialogOpen, limit, Loading]);
+
+  const handleDelete = (id) => {
+    GetExpenseDelete(id);
+  };
 
   const handleClear = () => {
     setFilterData({
@@ -211,7 +215,17 @@ const ExpenseList = () => {
                 };
                 setSelectedData(setViewData);
                 if (value === 'delete') {
-                  setIsDeleteDialogOpen(true);
+                  WithAttachedFunction(
+                    'Are you sure?',
+                    `You want to delete this ${data.itemName}`,
+                    'Deleted!',
+                    'Cancled!',
+                    `${data.itemName} has been deleted.`,
+                    `${data.itemName} has been cancled.`,
+                    data.id,
+                    handleDelete
+                  );
+                  setSelectedData(null);
                 } else if (value === 'edit') {
                   setIsEdit(true);
                   setIsDialogOpen(true);
@@ -248,33 +262,6 @@ const ExpenseList = () => {
             isEdit={isEdit}
             GetExpenseAddUpdate={GetExpenseAddUpdate}
             Loading={Loading}
-          />
-        )}
-
-        {isDeleteDialogOpen && (
-          <DialogMenu
-            isOpen={isDeleteDialogOpen}
-            onClose={() => {
-              setSelectedData(null);
-              setIsDeleteDialogOpen(false);
-            }}
-            dialogTitle={`Delete ${(selectedData && selectedData.itemName).slice(0, 35)}...`}
-            dialogContent={<DialogContent content="Are you sure you want to delete this?" />}
-            dialogAction={
-              <DialogAction
-                approveTitle="Delete"
-                rejectTitle="Cancel"
-                approveColor="error"
-                rejectColor="info"
-                handleReject={() => setIsDeleteDialogOpen(false)}
-                handleApprove={() =>
-                  GetExpenseDelete(selectedData.id, () => {
-                    setIsDeleteDialogOpen(false);
-                    setIsEdit(false);
-                  })
-                }
-              />
-            }
           />
         )}
       </Card>
